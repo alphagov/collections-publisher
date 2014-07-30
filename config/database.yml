@@ -1,0 +1,16 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  username: collections_publisher
+  password: collections_publisher
+
+development:
+  <<: *default
+  database: collections_publisher_development
+
+test: &test
+  <<: *default
+  database: collections_publisher_test
+
+cucumber:
+  <<: *test
