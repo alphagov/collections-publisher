@@ -26,5 +26,8 @@ module CollectionsPublisher
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    config.action_view.default_form_builder = GenericFormBuilder
+    config.action_view.field_error_proc = proc {|html_tag, _| html_tag }
   end
 end

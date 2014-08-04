@@ -1,0 +1,7 @@
+<h1>Specialist sub-sectors</h1>
+
+<ul>
+  <% subsectors.each do |subsector| %>
+    <li><%= link_to subsector.title, sector_lists_path(subsector.slug) %></li>
+  <% end %>
+</ul>

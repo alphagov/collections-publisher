@@ -1,0 +1,36 @@
+<h1>Curated lists for specialist sector <%= sector.title %></h1>
+
+<% lists.each do |list| %>
+  <section aria-labelledby='list-<%= list.id %>-header' id='list-<%= list.id %>-section'>
+    <h2 id='list-<%= list.id %>-header'><%= list.name %></h2>
+
+    <ul>
+      <% list.contents.order(:index).each do |content| %>
+        <li><%= content.api_url %></li>
+      <% end %>
+    </ul>
+
+    <%= form_for([sector, list, Content.new]) do |f| %>
+      <%= f.text_field :api_url, label: 'API URL' %>
+      <%= f.number_field :index %>
+
+      <button>Add</button>
+    <% end %>
+  </section>
+<% end %>
+
+<section aria-labelledby='list-uncategorized-header' id='list-uncategorized-section'>
+  <h2 id='list-uncategorized-header'>Uncategorized (A to Z)</h2>
+
+  <ul>
+    <% uncategorized_content_api_urls.each do |api_url| %>
+      <li><%= api_url %></li>
+    <% end %>
+  </ul>
+</section>
+
+<%= form_for([sector, List.new], html: {id: 'new-list'}) do |f| %>
+  <%= f.text_field :name %>
+
+  <button>Create</button>
+<% end %>
