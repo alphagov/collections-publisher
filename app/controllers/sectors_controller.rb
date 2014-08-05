@@ -4,7 +4,7 @@ class SectorsController < ApplicationController
 private
 
   def subsectors
-    @subsectors ||= Sector.all_having_parents
+    @subsectors ||= Sector.all_children
   end
   helper_method :subsectors
 end

@@ -3,11 +3,11 @@ class Sector < SimpleDelegator
   include ActiveModel::Conversion
 
   def self.find(slug)
-    all_having_parents.find {|s| s.slug == slug }
+    all_children.find {|s| s.slug == slug }
   end
 
-  def self.all_having_parents
-    @all_having_parents ||= CollectionsPublisher.services(:content_api)
+  def self.all_children
+    @all_children ||= CollectionsPublisher.services(:content_api)
       .tags('specialist_sector', draft: true)
       .select(&:parent)
       .map {|tag| self.new(tag) }
