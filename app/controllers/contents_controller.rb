@@ -15,6 +15,18 @@ class ContentsController < ApplicationController
     redirect_to sector_lists_path(sector)
   end
 
+  def destroy
+    content.destroy
+
+    if content.destroyed?
+      flash[:notice] = "Content removed from list"
+    else
+      flash[:alert] = "Could not remove the content from this list"
+    end
+
+    redirect_to sector_lists_path(sector)
+  end
+
 private
 
   def content_params

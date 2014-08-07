@@ -17,6 +17,18 @@ class ListsController < ApplicationController
     redirect_to sector_lists_path(sector)
   end
 
+  def destroy
+    list.destroy
+
+    if list.destroyed?
+      flash[:notice] = "List deleted"
+    else
+      flash[:alert] = "Could not delete the list"
+    end
+
+    redirect_to sector_lists_path(sector)
+  end
+
 private
 
   def list_params

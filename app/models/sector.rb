@@ -8,7 +8,7 @@ class Sector < SimpleDelegator
 
   def self.all_children
     @all_children ||= CollectionsPublisher.services(:content_api)
-      .tags('specialist_sector', draft: true)
+      .tags('specialist_sector', draft: true, sort: 'alphabetical')
       .select(&:parent)
       .map {|tag| self.new(tag) }
   end
@@ -25,5 +25,9 @@ class Sector < SimpleDelegator
 
   def to_param
     slug
+  end
+
+  def draft?
+    state == 'draft'
   end
 end

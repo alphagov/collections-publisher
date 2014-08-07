@@ -1,14 +1,26 @@
-<h1>Curated lists for specialist sector <%= sector.title %></h1>
+<h1>Curated lists for "<%= sector.title %>"<%= " (draft)" if sector.draft? %></h1>
 
 <% lists.each do |list| %>
   <section aria-labelledby='list-<%= list.id %>-header' id='list-<%= list.id %>-section'>
     <h2 id='list-<%= list.id %>-header'><%= list.name %></h2>
-
     <ul>
-      <% list.contents.order(:index).each do |content| %>
-        <li><%= content.api_url %></li>
-      <% end %>
+      <li><%= link_to 'Edit name', '#' %></li>
+      <li><%= button_to 'Delete list', sector_list_path(sector, list), method: :delete %></li>
     </ul>
+
+    <table>
+      <tr>
+        <th>Index</th>
+        <th colspan='2'>API URL</th>
+      </tr>
+      <% list.contents.order(:index).each do |content| %>
+        <tr>
+          <td><%= content.index %></td>
+          <td><%= content.api_url %></td>
+          <td><%= button_to 'Remove', sector_list_content_path(sector, list, content), method: :delete %></td>
+        </tr>
+      <% end %>
+    </table>
 
     <%= form_for([sector, list, Content.new]) do |f| %>
       <%= f.text_field :api_url, label: 'API URL' %>
@@ -17,6 +29,13 @@
       <button>Add</button>
     <% end %>
   </section>
+<% end %>
+
+<%= form_for([sector, List.new], html: {id: 'new-list'}) do |f| %>
+  <h2>New list</h2>
+  <%= f.text_field :name %>
+
+  <button>Create</button>
 <% end %>
 
 <section aria-labelledby='list-uncategorized-header' id='list-uncategorized-section'>
@@ -28,9 +47,3 @@
     <% end %>
   </ul>
 </section>
-
-<%= form_for([sector, List.new], html: {id: 'new-list'}) do |f| %>
-  <%= f.text_field :name %>
-
-  <button>Create</button>
-<% end %>
