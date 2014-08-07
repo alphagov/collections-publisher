@@ -6,4 +6,6 @@ Rails.application.routes.draw do
       resources :contents, only: [:create, :update, :destroy]
     end
   end
+
+  mount GovukAdminTemplate::Engine, at: "/style-guide"
 end
