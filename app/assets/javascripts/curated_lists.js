@@ -5,12 +5,12 @@
 
   GOVUK.curatedLists = {
     init: function() {
-      var $curatedLists = $('.curated-list');
+      var $lists = $('.curated-list');
 
       GOVUK.curatedLists.hideContentForms();
-      GOVUK.curatedLists.hideRedundantColumns($curatedLists);
+      GOVUK.curatedLists.hideRedundantColumns($lists);
 
-      $curatedLists.each(function(_, list) {
+      $lists.each(function(_, list) {
         var $list = $(list);
 
         if ($list.children().length > 1) {

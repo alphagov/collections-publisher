@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root to: redirect('/sectors', status: 302)
 
   resources :sectors, only: [:index] do
-    resources :lists, only: [:index, :create, :destroy] do
+    resources :lists, only: [:index, :create, :update, :destroy] do
       resources :contents, only: [:create, :update, :destroy]
     end
   end

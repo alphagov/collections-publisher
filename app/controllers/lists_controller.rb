@@ -7,6 +7,7 @@ class ListsController < ApplicationController
 
   def create
     list.sector_id = sector.slug
+    list.index = sector.lists.maximum(:index) + 1
 
     if list.save
       flash[:notice] = 'List created'
@@ -29,10 +30,22 @@ class ListsController < ApplicationController
     redirect_to sector_lists_path(sector)
   end
 
+  def update
+    respond_to do |format|
+      format.js {
+        if list.save
+          render json: {errors: []}
+        else
+          render json: {errors: list.errors.to_json}, status: 422
+        end
+      }
+    end
+  end
+
 private
 
   def list_params
-    params.require(:list).permit(:name)
+    params.require(:list).permit(:name, :index)
   end
 
   def uncategorized_content_api_urls
