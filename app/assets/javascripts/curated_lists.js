@@ -21,7 +21,7 @@
           connectWith: '.curated-list',
           dropOnEmpty: true,
           stop: function(event, draggable) {
-            if (!draggable.sender && !$(event.target).closest('section').is('#list-uncategorized-section')) {
+            if (!$(event.target).closest('section').is('#list-uncategorized-section')) {
               GOVUK.curatedLists.postSort(event, draggable);
             }
           },
@@ -39,24 +39,44 @@
       var $droppedRow = draggable.item;
       var $targetList = $(event.target);
       var $sourceList = draggable.sender;
+      var internalMove = ($droppedRow.data('list-id') === $targetList.data('list-id'));
 
       $targetList.children('.empty-list').hide();
 
       if ($targetList.closest('section').is('#list-uncategorized-section')) {
         GOVUK.curatedLists.deleteRow($droppedRow);
       } else {
-        GOVUK.curatedLists.reindex($targetList);
+        var $allRows = $targetList.children(':not(.empty-list)');
+
+        var startIndex = $droppedRow.data('index');
+        var stopIndex = $allRows.index($droppedRow);
+
+        var indexToUpdateFrom;
+        if ($sourceList) { // Reindexing destination list
+          $droppedRow.data('list-id', $targetList.data('list-id'));
+          indexToUpdateFrom = stopIndex;
+        } else if (internalMove) { // Move was within same list
+          indexToUpdateFrom = Math.min(startIndex, stopIndex);
+        } else { // Reindexing source list
+          indexToUpdateFrom = startIndex;
+        }
+
+        var $rowsToUpdate = $allRows.slice(indexToUpdateFrom);
+
+        GOVUK.curatedLists.reindex($rowsToUpdate, indexToUpdateFrom);
       }
     },
-    reindex: function($list, $sourceList) {
-      var $listChildren = $list.children('tr').not('.empty-list');
+    reindex: function($rows, offset) {
+      if ($rows.length > 0) {
+        $rows.first().closest('section').css('opacity', '0.5');
+        var $list = $rows.first().closest('.curated-list');
 
-      if ($listChildren.length > 0) {
-        $list.closest('section').css('opacity', '0.5');
-
-        $listChildren.each(function(index, row) {
+        $rows.each(function(domIndex, row) {
           var $row = $(row);
           var updateURL = $row.data('update-url');
+          var index = offset + domIndex;
+
+          $row.data('index', index);
 
           if (updateURL) {
             GOVUK.curatedLists.updateRow(updateURL, $list, $row, index);
