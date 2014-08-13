@@ -7,7 +7,7 @@ class ListsController < ApplicationController
 
   def create
     list.sector_id = sector.slug
-    list.index = sector.lists.maximum(:index) + 1
+    list.index = (sector.lists.maximum(:index) || 0) + 1
 
     if list.save
       flash[:notice] = 'List created'
