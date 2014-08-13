@@ -8,21 +8,27 @@
       <li><%= button_to 'Delete list', sector_list_path(sector, list), method: :delete %></li>
     </ul>
 
-    <table>
-      <tr>
-        <th>Index</th>
-        <th colspan='2'>API URL</th>
-      </tr>
-      <% list.contents.order(:index).each do |content| %>
+    <table class='table table-hover'>
+      <thead>
         <tr>
-          <td><%= content.index %></td>
-          <td><%= content.api_url %></td>
-          <td><%= button_to 'Remove', sector_list_content_path(sector, list, content), method: :delete %></td>
+          <th class='index'>Index</th>
+          <th class='api-url' colspan='2'>API URL</th>
         </tr>
-      <% end %>
+      </thead>
+
+      <tbody class='curated-list' data-list-id='<%= list.id %>'>
+        <tr class='empty-list'><td>Empty</td></tr>
+        <% list.contents.order(:index).each do |content| %>
+          <tr data-update-url='<%= sector_list_content_path(sector, list, content) %>'>
+            <td class='index'><%= content.index %></td>
+            <td class='api-url'><%= content.api_url %></td>
+            <td class='remove'><%= button_to 'Remove', sector_list_content_path(sector, list, content), method: :delete %></td>
+          </tr>
+        <% end %>
+      </tbody>
     </table>
 
-    <%= form_for([sector, list, Content.new]) do |f| %>
+    <%= form_for([sector, list, Content.new], html: {id: nil}) do |f| %>
       <%= f.text_field :api_url, label: 'API URL' %>
       <%= f.number_field :index %>
 
@@ -41,9 +47,21 @@
 <section aria-labelledby='list-uncategorized-header' id='list-uncategorized-section'>
   <h2 id='list-uncategorized-header'>Uncategorized (A to Z)</h2>
 
-  <ul>
-    <% uncategorized_content_api_urls.each do |api_url| %>
-      <li><%= api_url %></li>
-    <% end %>
-  </ul>
+  <table class='table table-hover'>
+    <thead>
+      <tr>
+        <th class='index'>Index</th>
+        <th class='api-url'>API URL</th>
+      </tr>
+    </thead>
+
+    <tbody class='curated-list'>
+      <tr class='empty-list'><td>Empty</td></tr>
+      <% uncategorized_content_api_urls.each do |api_url| %>
+        <tr>
+          <td class='api-url'><%= api_url %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </section>
