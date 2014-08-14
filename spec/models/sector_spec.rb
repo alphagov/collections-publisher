@@ -5,7 +5,7 @@ describe Sector do
   include GdsApi::TestHelpers::ContentApi
 
   before do
-    content_api_has_tags('specialist_sector', [
+    content_api_has_sorted_tags('specialist_sector', 'alphabetical', [
       'parent-tag',
       {
         title: 'Example sector 1',
@@ -18,6 +18,12 @@ describe Sector do
         parent: 'parent-tag'
       }
     ])
+
+    content_api_has_artefacts_with_a_tag('specialist_sector', 'example-sector-1', [
+      'example-content-1',
+      'example-content-2'
+    ])
+    content_api_has_artefacts_with_a_tag('specialist_sector', 'example-sector-2', [])
   end
 
   describe '.find(slug)' do
@@ -58,23 +64,24 @@ describe Sector do
     end
   end
 
-  describe '#all_content_api_urls' do
-    it "returns the API URLs for all content tagged to the sector, if any" do
-      content_api_has_artefacts_with_a_tag('specialist_sector', 'example-sector-1', [
-        'example-content-1',
-        'example-content-2'
-      ])
-      content_api_has_artefacts_with_a_tag('specialist_sector', 'example-sector-2', [])
-
+  describe '#contents_from_api' do
+    it "returns the Content instances for all content tagged to the sector, if any" do
       sector1 = Sector.find('example-sector-1')
-      expect(sector1.all_content_api_urls).to eq([
+      sector1.contents_from_api.each do |content|
+        expect(content).to be_a(Content)
+      end
+
+      expect(sector1.contents_from_api.map(&:api_url)).to eq([
         "#{Plek.new.find('contentapi')}/example-content-1.json",
         "#{Plek.new.find('contentapi')}/example-content-2.json"
       ])
+      expect(sector1.contents_from_api.map(&:title)).to eq([
+        "Example content 1",
+        "Example content 2"
+      ])
 
       sector2 = Sector.find('example-sector-2')
-      expect(sector2.all_content_api_urls).to eq([])
-
+      expect(sector2.contents_from_api).to eq([])
     end
   end
 

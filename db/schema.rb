@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140813105806) do
+ActiveRecord::Schema.define(version: 20140813150037) do
 
   create_table "contents", force: true do |t|
     t.string   "api_url"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20140813105806) do
     t.integer  "list_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "title"
   end
 
   create_table "lists", force: true do |t|

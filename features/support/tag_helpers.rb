@@ -9,7 +9,7 @@ module TagHelpers
       sectors.unshift(parent)
     end
 
-    content_api_has_tags('specialist_sector', sectors)
+    content_api_has_sorted_tags('specialist_sector', 'alphabetical', sectors)
 
     content.each do |tag_slug, artefact_slugs|
       content_api_has_artefacts_with_a_tag('specialist_sector', tag_slug, artefact_slugs)

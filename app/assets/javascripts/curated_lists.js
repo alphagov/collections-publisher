@@ -33,7 +33,7 @@
       $('form').filter('.new_content').hide();
     },
     hideRedundantColumns: function($lists) {
-      $lists.closest('table').find('.index, .remove').hide();
+      $lists.closest('table').find('.api-url, .index, .remove').hide();
     },
     postSort: function(event, draggable) {
       var $droppedRow = draggable.item;
@@ -115,6 +115,7 @@
         data: JSON.stringify({
           content: {
             index: index,
+            title: $row.find('.title').text(),
             api_url: $row.find('.api-url').text()
           }
         }),

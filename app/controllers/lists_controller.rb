@@ -47,12 +47,4 @@ private
   def list_params
     params.require(:list).permit(:name, :index)
   end
-
-  def uncategorized_content_api_urls
-    @uncategorized_content_api_urls ||= begin
-      categorized_api_urls = lists.map(&:contents).flatten.map(&:api_url)
-      sector.all_content_api_urls - categorized_api_urls
-    end
-  end
-  helper_method :uncategorized_content_api_urls
 end

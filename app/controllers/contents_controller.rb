@@ -71,6 +71,6 @@ class ContentsController < ApplicationController
 private
 
   def content_params
-    params.require(:content).permit(:api_url, :index)
+    params.require(:content).permit(:title, :api_url, :index)
   end
 end

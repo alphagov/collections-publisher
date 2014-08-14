@@ -17,10 +17,21 @@ class Sector < SimpleDelegator
     List.where(sector_id: slug)
   end
 
-  def all_content_api_urls
-    @all_content_api_urls ||= CollectionsPublisher.services(:content_api)
+  def contents_from_api
+    @contents_from_api ||= CollectionsPublisher.services(:content_api)
       .with_tag(slug, 'specialist_sector')
-      .map(&:id)
+      .map { |content_blob|
+        Content.new(title: content_blob.title, api_url: content_blob.id)
+      }
+  end
+
+  def contents
+    lists.map(&:contents).flatten
+  end
+
+  def uncategorized_contents
+    api_urls = contents.map(&:api_url)
+    contents_from_api.reject {|content| api_urls.include?(content.api_url) }
   end
 
   def to_param

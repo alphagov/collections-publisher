@@ -18,6 +18,7 @@
         <thead>
           <tr>
             <th class='index'>Index</th>
+            <th class='title'>Title</th>
             <th class='api-url' colspan='2'>API URL</th>
           </tr>
         </thead>
@@ -31,6 +32,7 @@
               data-list-id='<%= list.id %>'
             >
               <td class='index'><%= content.index %></td>
+              <td class='title'><%= content.title %></td>
               <td class='api-url'><%= content.api_url %></td>
               <td class='remove'><%= button_to 'Remove', sector_list_content_path(sector, list, content), method: :delete %></td>
             </tr>
@@ -61,15 +63,17 @@
   <table class='table table-hover'>
     <thead>
       <tr>
+        <td class='title'>Title</th>
         <th class='api-url'>API URL</th>
       </tr>
     </thead>
 
     <tbody class='curated-list'>
-      <tr class='empty-list'><td>Empty</td></tr>
-      <% uncategorized_content_api_urls.each do |api_url| %>
+      <tr class='empty-list'><td colspan='2'>Empty</td></tr>
+      <% sector.uncategorized_contents.each do |content| %>
         <tr>
-          <td class='api-url'><%= api_url %></td>
+          <td class='title'><%= content.title %></td>
+          <td class='api-url'><%= content.api_url %></td>
         </tr>
       <% end %>
     </tbody>

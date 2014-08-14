@@ -29,7 +29,10 @@ module ListHelpers
       expect(page).to have_content(list_name)
 
       content.each_with_index do |content_slug, index|
-        expect(page).to have_css("li:nth-child(#{index+1})", text: "#{Plek.new.find('contentapi')}/#{content_slug}.json")
+        expect(page).to have_css(
+          "tbody tr:nth-child(#{index+2}) .api-url",
+          text: "#{Plek.new.find('contentapi')}/#{content_slug}.json"
+        )
       end
     end
   end
