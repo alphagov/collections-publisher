@@ -5,23 +5,29 @@
 
   GOVUK.orderedLists = {
     init: function() {
-      $('.curated-lists').sortable({
-        stop: function(event, draggable) {
-          var $droppedList = draggable.item;
-          var $lists = $('.curated-lists').children();
+      var $listContainer = $('.curated-lists');
 
+      $listContainer.sortable({
+        stop: function(event, draggable) {
+          var $lists = $listContainer.children();
+          var $droppedList = draggable.item;
           var startIndex = $droppedList.data('index');
           var stopIndex = $lists.index($droppedList);
 
           $droppedList.data('index', stopIndex);
 
           var indexToUpdateFrom = Math.min(startIndex, stopIndex);
-
           var $listsToUpdate = $lists.slice(indexToUpdateFrom);
 
           GOVUK.orderedLists.reindex($listsToUpdate, indexToUpdateFrom);
         }
       });
+
+      var $lists = $listContainer.children();
+      $lists.hover(
+        function() { $(this).addClass('js-hover'); },
+        function() { $lists.removeClass('js-hover'); }
+      );
     },
     reindex: function($lists, offset) {
       $lists.each(function(index, list) {
