@@ -5,6 +5,8 @@ class ListsController < ApplicationController
 
   def index; end
 
+  def edit; end
+
   def create
     list.sector_id = sector.slug
     list.index = (sector.lists.maximum(:index) || 0) + 1
@@ -32,6 +34,15 @@ class ListsController < ApplicationController
 
   def update
     respond_to do |format|
+      format.html {
+        if list.save
+          flash[:notice] = 'List updated'
+        else
+          flash[:error] = 'Could not save your list'
+        end
+
+        redirect_to sector_lists_path(sector)
+      }
       format.js {
         if list.save
           render json: {errors: []}

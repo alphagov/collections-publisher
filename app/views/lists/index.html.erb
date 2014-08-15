@@ -10,7 +10,7 @@
     >
       <h2 id='list-<%= list.id %>-header'><%= list.name %></h2>
       <ul>
-        <li><%= link_to 'Edit name', '#' %></li>
+        <li><%= link_to 'Edit name', edit_sector_list_path(sector, list) %></li>
         <li><%= button_to 'Delete list', sector_list_path(sector, list), method: :delete, class: 'js-confirm' %></li>
       </ul>
 
