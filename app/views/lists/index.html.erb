@@ -1,5 +1,31 @@
 <h1>Curated lists for "<%= sector.title %>"<%= " (draft)" if sector.draft? %></h1>
 
+<% if sector.untagged_contents.any? %>
+  <div class='untagged-contents subtle-highlight'>
+    <p>
+      <strong>Warning</strong>: this content has been curated but is not tagged to this sector.
+      Please either remove it or re-tag it to the sector.
+    </p>
+
+    <table class='table table-hover'>
+      <thead>
+        <tr>
+          <th class='title'>Title</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% sector.untagged_contents.each do |content| %>
+          <tr>
+            <td class='title'><%= content.title %></td>
+            <td class='remove'><%= button_to 'Remove', sector_list_content_path(sector, content.list, content), method: :delete %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
 <%= form_for([sector, List.new], html: {id: 'new-list'}) do |f| %>
   <h2>New list</h2>
   <%= f.text_field :name %>
@@ -32,7 +58,7 @@
 
         <tbody class='curated-list' data-list-id='<%= list.id %>'>
           <tr class='empty-list'><td>Empty</td></tr>
-          <% list.contents.order(:index).each do |content| %>
+          <% list.tagged_contents.each do |content| %>
             <tr
               data-update-url='<%= sector_list_content_path(sector, list, content) %>'
               data-index='<%= content.index %>'

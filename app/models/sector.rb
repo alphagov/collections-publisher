@@ -7,7 +7,7 @@ class Sector < SimpleDelegator
   end
 
   def self.all_children
-    @all_children ||= CollectionsPublisher.services(:content_api)
+    CollectionsPublisher.services(:content_api)
       .tags('specialist_sector', draft: true, sort: 'alphabetical')
       .select(&:parent)
       .map {|tag| self.new(tag) }
@@ -32,6 +32,10 @@ class Sector < SimpleDelegator
   def uncategorized_contents
     api_urls = contents.map(&:api_url)
     contents_from_api.reject {|content| api_urls.include?(content.api_url) }
+  end
+
+  def untagged_contents
+    @untagged_contents ||= lists.map(&:untagged_contents).flatten
   end
 
   def to_param

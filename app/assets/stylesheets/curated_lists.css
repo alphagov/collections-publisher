@@ -1,3 +1,10 @@
 .curated-list .ui-sortable-handle {
   cursor: move;
 }
+
+.untagged-contents {
+  padding: 20px;
+}
+.untagged-contents table {
+  margin-bottom: 0;
+}

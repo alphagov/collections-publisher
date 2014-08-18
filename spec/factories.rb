@@ -4,4 +4,6 @@ FactoryGirl.define do
   end
 
   factory :list
+
+  factory :content
 end

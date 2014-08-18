@@ -7,3 +7,8 @@ Feature: Curated lists
     Given a number of content items tagged to a specialist sector
     When I arrange the content of that specialist sector into lists
     Then the content should be in the correct lists in the correct order
+
+  Scenario: Highlighting untagged content
+    Given there is curated content which has been untagged
+    Then the untagged content should be excluded from the curated lists
+    And the untagged content should be highlighted as such
