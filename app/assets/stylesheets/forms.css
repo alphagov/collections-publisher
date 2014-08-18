@@ -1,0 +1,11 @@
+#new-list {
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+}
+
+input[type=text] {
+  width: 20em;
+}

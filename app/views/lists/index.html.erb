@@ -1,0 +1,81 @@
+<h1>Curated lists for "<%= sector.title %>"<%= " (draft)" if sector.draft? %></h1>
+
+<%= form_for([sector, List.new], html: {id: 'new-list'}) do |f| %>
+  <h2>New list</h2>
+  <%= f.text_field :name %>
+
+  <button class='btn btn-primary'>Create</button>
+<% end %>
+
+<div class="curated-lists">
+  <% lists.order(:index).each do |list| %>
+    <section
+      aria-labelledby='list-<%= list.id %>-header'
+      id='list-<%= list.id %>-section'
+      data-index='<%= list.index %>'
+      data-update-url='<%= sector_list_path(sector, list) %>'
+    >
+      <h2 id='list-<%= list.id %>-header'><%= list.name %></h2>
+      <ul>
+        <li><%= link_to 'Edit name', edit_sector_list_path(sector, list) %></li>
+        <li><%= button_to 'Delete list', sector_list_path(sector, list), method: :delete, class: 'js-confirm' %></li>
+      </ul>
+
+      <table class='table table-hover'>
+        <thead>
+          <tr>
+            <th class='index'>Index</th>
+            <th class='title'>Title</th>
+            <th class='api-url' colspan='2'>API URL</th>
+          </tr>
+        </thead>
+
+        <tbody class='curated-list' data-list-id='<%= list.id %>'>
+          <tr class='empty-list'><td>Empty</td></tr>
+          <% list.contents.order(:index).each do |content| %>
+            <tr
+              data-update-url='<%= sector_list_content_path(sector, list, content) %>'
+              data-index='<%= content.index %>'
+              data-list-id='<%= list.id %>'
+            >
+              <td class='index'><%= content.index %></td>
+              <td class='title'><%= content.title %></td>
+              <td class='api-url'><%= content.api_url %></td>
+              <td class='remove'><%= button_to 'Remove', sector_list_content_path(sector, list, content), method: :delete %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <%= form_for([sector, list, Content.new], html: {id: nil}) do |f| %>
+        <%= f.text_field :api_url, label: 'API URL' %>
+        <%= f.number_field :index %>
+
+        <button class='btn btn-primary'>Add</button>
+      <% end %>
+    </section>
+  <% end %>
+</div>
+
+<section aria-labelledby='list-uncategorized-header' id='list-uncategorized-section'>
+  <h2 id='list-uncategorized-header'>Uncategorized (A to Z)</h2>
+
+  <table class='table table-hover'>
+    <thead>
+      <tr>
+        <td class='title'>Title</th>
+        <th class='api-url'>API URL</th>
+      </tr>
+    </thead>
+
+    <tbody class='curated-list'>
+      <tr class='empty-list'><td colspan='2'>Empty</td></tr>
+      <% sector.uncategorized_contents.each do |content| %>
+        <tr>
+          <td class='title'><%= content.title %></td>
+          <td class='api-url'><%= content.api_url %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>

@@ -2,11 +2,19 @@
 <html>
   <head>
     <title>Collections publisher</title>
-    <%= stylesheet_link_tag 'application', media: 'all' %>
+
+    <% content_for :head do %>
+      <%= stylesheet_link_tag 'application', media: 'all' %>
+    <% end %>
+
+    <% content_for :body_end do %>
+      <%= javascript_include_tag 'application' %>
+    <% end %>
+
     <%= csrf_meta_tags %>
   </head>
 
   <body>
-    <%= yield %>
+    <%= render template: 'layouts/govuk_admin_template' %>
   </body>
 </html>
