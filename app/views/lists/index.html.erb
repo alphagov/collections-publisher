@@ -1,5 +1,12 @@
 <h1>Curated lists for "<%= sector.title %>"<%= " (draft)" if sector.draft? %></h1>
 
+<%= form_for([sector, List.new], html: {id: 'new-list'}) do |f| %>
+  <h2>New list</h2>
+  <%= f.text_field :name %>
+
+  <button class='btn btn-primary'>Create</button>
+<% end %>
+
 <div class="curated-lists">
   <% lists.order(:index).each do |list| %>
     <section
@@ -44,18 +51,11 @@
         <%= f.text_field :api_url, label: 'API URL' %>
         <%= f.number_field :index %>
 
-        <button>Add</button>
+        <button class='btn btn-primary'>Add</button>
       <% end %>
     </section>
   <% end %>
 </div>
-
-<%= form_for([sector, List.new], html: {id: 'new-list'}) do |f| %>
-  <h2>New list</h2>
-  <%= f.text_field :name %>
-
-  <button>Create</button>
-<% end %>
 
 <section aria-labelledby='list-uncategorized-header' id='list-uncategorized-section'>
   <h2 id='list-uncategorized-header'>Uncategorized (A to Z)</h2>

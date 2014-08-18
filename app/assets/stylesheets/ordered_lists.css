@@ -1,5 +1,8 @@
+section {
+  padding: 10px;
+}
+
 section.ui-sortable-handle {
-  padding: 3px;
   margin-bottom: 5px;
 }
 section.ui-sortable-handle h2 {
@@ -24,4 +27,8 @@ section.ui-sortable-handle.js-hover {
   padding-right: 0;
   border-right: 0;
   margin-right: 0;
+}
+
+.curated-lists table {
+  margin-bottom: 0;
 }
