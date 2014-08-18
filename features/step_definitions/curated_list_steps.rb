@@ -60,3 +60,38 @@ Then(/^the content should be in the correct lists in the correct order$/) do
     ]
   )
 end
+
+Given(/^there is curated content which has been untagged$/) do
+  stub_live_specialist_sectors(
+    parent: {slug: 'oil-and-gas', title: 'Oil and Gas'},
+    sectors: [
+      {slug: 'oil-and-gas/offshore', title: 'Offshore'}
+    ],
+    content: {
+      'oil-and-gas/offshore' => [
+        'oil-rig-safety-requirements',
+        'north-sea-shipping-lanes',
+        'undersea-piping-restrictions'
+      ]
+    }
+  )
+
+  create_list(name: 'Oil rigs', sector: 'oil-and-gas/offshore', content: [
+    'oil-rig-safety-requirements',
+    'oil-rig-staffing'
+  ])
+end
+
+Then(/^the untagged content should be excluded from the curated lists$/) do
+  check_for_list_without_content(
+    sector_name: 'Offshore',
+    list_name: 'Oil rigs',
+    content: [
+      'oil-rig-staffing'
+    ]
+  )
+end
+
+Then(/^the untagged content should be highlighted as such$/) do
+  check_for_untagged_content(sector_name: 'Offshore', content: ['oil-rig-staffing'])
+end

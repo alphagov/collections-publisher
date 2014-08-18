@@ -25,8 +25,8 @@
 
       var $lists = $listContainer.children();
       $lists.hover(
-        function() { $(this).addClass('js-hover'); },
-        function() { $lists.removeClass('js-hover'); }
+        function() { $(this).addClass('subtle-highlight'); },
+        function() { $lists.removeClass('subtle-highlight'); }
       );
     },
     reindex: function($lists, offset) {
