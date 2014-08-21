@@ -52,7 +52,7 @@ RSpec.describe SectorPresenter do
           description: "Important information about offshore drilling",
           format: "specialist_sector",
           need_ids: [],
-          public_updated_at: Time.zone.now,
+          public_updated_at: Time.zone.now.iso8601,
           publishing_app: "collections-publisher",
           rendering_app: "collections", # This will soon change to `collections-frontend`.
           routes: [
