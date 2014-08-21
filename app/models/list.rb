@@ -13,6 +13,15 @@ class List < ActiveRecord::Base
     @tagged_contents ||= contents - tagged_contents
   end
 
+  def mark_as_published
+    self.dirty = false
+  end
+
+  def mark_as_published!
+    mark_as_published
+    save
+  end
+
 private
 
   def tagged_api_urls

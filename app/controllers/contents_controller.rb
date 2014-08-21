@@ -8,6 +8,8 @@ class ContentsController < ApplicationController
 
     saved = content.save
 
+    content.list.update_attribute(:dirty, true) if saved
+
     respond_to do |format|
       format.html {
         if saved
@@ -32,6 +34,8 @@ class ContentsController < ApplicationController
     content.destroy
 
     destroyed = content.destroyed?
+
+    content.list.update_attribute(:dirty, true) if destroyed
 
     respond_to do |format|
       format.html {
@@ -60,6 +64,8 @@ class ContentsController < ApplicationController
     respond_to do |format|
       format.js {
         if content.save
+          content.list.update_attribute(:dirty, true)
+
           render json: {errors: []}
         else
           render json: {errors: content.errors.to_json}, status: 422

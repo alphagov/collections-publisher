@@ -61,6 +61,37 @@ Then(/^the content should be in the correct lists in the correct order$/) do
   )
 end
 
+When(/^I publish the specialist sector$/) do
+  publish_sector('Offshore')
+end
+
+Then(/^the curated lists should have been sent to the publishing API$/) do
+  check_lists_were_sent_to_publishing_api(
+    sector_slug: 'oil-and-gas/offshore',
+    lists: [
+      {
+        name: 'Oil rigs',
+        content: [
+          'oil-rig-safety-requirements',
+          'oil-rig-staffing'
+        ]
+      },
+      {
+        name: 'Piping',
+        content: [
+          'undersea-piping-restrictions'
+        ]
+      },
+      {
+        name: 'Other',
+        content: [
+          'north-sea-shipping-lanes'
+        ]
+      }
+    ]
+  )
+end
+
 Given(/^there is curated content which has been untagged$/) do
   stub_live_specialist_sectors(
     parent: {slug: 'oil-and-gas', title: 'Oil and Gas'},

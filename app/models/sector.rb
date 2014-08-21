@@ -45,4 +45,8 @@ class Sector < SimpleDelegator
   def draft?
     state == 'draft'
   end
+
+  def dirty?
+    lists.any?(&:dirty?)
+  end
 end

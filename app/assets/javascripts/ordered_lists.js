@@ -20,6 +20,7 @@
           var $listsToUpdate = $lists.slice(indexToUpdateFrom);
 
           GOVUK.orderedLists.reindex($listsToUpdate, indexToUpdateFrom);
+          GOVUK.publishing.unlockPublishing();
         }
       });
 

@@ -26,6 +26,15 @@
   </div>
 <% end %>
 
+<p>
+  <%= button_to 'Publish', sector_publish_path(sector),
+        method: :put,
+        class: "btn btn-success publish js-confirm",
+        :'data-confirm-text' => "Are you sure you want to publish this immediately to GOV.UK?",
+        disabled: !sector.dirty?
+  %>
+</p>
+
 <%= form_for([sector, List.new], html: {id: 'new-list'}) do |f| %>
   <h2>New list</h2>
   <%= f.text_field :name %>
@@ -44,7 +53,13 @@
       <h2 id='list-<%= list.id %>-header'><%= list.name %></h2>
       <ul>
         <li><%= link_to 'Edit name', edit_sector_list_path(sector, list) %></li>
-        <li><%= button_to 'Delete list', sector_list_path(sector, list), method: :delete, class: 'js-confirm' %></li>
+        <li>
+          <%= button_to 'Delete list', sector_list_path(sector, list),
+                method: :delete,
+                class: 'js-confirm',
+                :'data-confirm-text' => 'Are you sure you want to delete this list and all its content?'
+          %>
+        </li>
       </ul>
 
       <table class='table table-hover'>
