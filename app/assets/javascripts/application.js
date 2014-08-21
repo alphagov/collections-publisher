@@ -10,9 +10,13 @@ GOVUK.curatedLists.init();
   window.GOVUK = window.GOVUK || {};
   var $ = window.jQuery;
 
-  $('.js-confirm').closest('form').submit(function(event) {
-    if (!confirm('Are you sure you want to delete this list and all its content?')) {
-      event.preventDefault();
-    }
+  $('.js-confirm').each(function(_, button) {
+    var $button = $(button);
+
+    $button.closest('form').submit(function(event) {
+      if (!confirm($button.data('confirm-text'))) {
+        event.preventDefault();
+      }
+    });
   });
 }());

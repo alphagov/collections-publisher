@@ -33,6 +33,8 @@ class ListsController < ApplicationController
   end
 
   def update
+    list.dirty = true
+
     respond_to do |format|
       format.html {
         if list.save

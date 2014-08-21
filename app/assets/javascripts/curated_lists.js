@@ -24,6 +24,8 @@
             if (!$(event.target).closest('section').is('#list-uncategorized-section')) {
               GOVUK.curatedLists.postSort(event, draggable);
             }
+
+            GOVUK.publishing.unlockPublishing();
           },
           receive: GOVUK.curatedLists.postSort
         });
@@ -85,7 +87,11 @@
           }
         });
       } else {
-        $list.children('.empty-list').show();
+        $('.curated-list').each(function(_, list) {
+          if ($(list).children().not('.empty-list').length <= 0) {
+            $(list).children('.empty-list').show();
+          }
+        });
       }
     },
     updateRow: function(updateURL, $list, $row, index) {

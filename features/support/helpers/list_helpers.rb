@@ -72,6 +72,13 @@ module ListHelpers
     end
   end
 
+  def publish_sector(name)
+    visit sectors_path
+    click_on name
+
+    click_on 'Publish'
+  end
+
 private
 
   def content_api_url(slug:)
