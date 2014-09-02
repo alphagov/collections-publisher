@@ -15,6 +15,20 @@ Given(/^a number of content items tagged to a specialist sector$/) do
   )
 end
 
+Given(/^a number of content items tagged to a draft specialist sector$/) do
+  stub_draft_specialist_sectors(
+    parent: {slug: 'oil-and-gas', title: 'Oil and Gas'},
+    sectors: [
+      {slug: 'oil-and-gas/offshore', title: 'Offshore'}
+    ],
+    content: {
+      'oil-and-gas/offshore' => [
+        'oil-rig-safety-requirements'
+      ]
+    }
+  )
+end
+
 When(/^I arrange the content of that specialist sector into lists$/) do
   curate_list(
     sector_name: 'Offshore',
@@ -125,4 +139,12 @@ end
 
 Then(/^the untagged content should be highlighted as such$/) do
   check_for_untagged_content(sector_name: 'Offshore', content: ['oil-rig-staffing'])
+end
+
+Then(/^I should be able to curate the draft sector$/) do
+  visit_sector('Offshore')
+end
+
+Then(/^I should not be able to publish the draft sector$/) do
+  check_cannot_publish
 end

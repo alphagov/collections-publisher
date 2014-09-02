@@ -15,3 +15,8 @@ Feature: Curated lists
     Given there is curated content which has been untagged
     Then the untagged content should be excluded from the curated lists
     And the untagged content should be highlighted as such
+
+  Scenario: Curating draft tags
+    Given a number of content items tagged to a draft specialist sector
+    Then I should be able to curate the draft sector
+    And I should not be able to publish the draft sector

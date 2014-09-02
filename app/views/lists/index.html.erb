@@ -26,14 +26,16 @@
   </div>
 <% end %>
 
-<p>
-  <%= button_to 'Publish', sector_publish_path(sector),
-        method: :put,
-        class: "btn btn-success publish js-confirm",
-        :'data-confirm-text' => "Are you sure you want to publish this immediately to GOV.UK?",
-        disabled: !sector.dirty?
-  %>
-</p>
+<% unless sector.draft? %>
+  <p>
+    <%= button_to 'Publish', sector_publish_path(sector),
+          method: :put,
+          class: "btn btn-success publish js-confirm",
+          :'data-confirm-text' => "Are you sure you want to publish this immediately to GOV.UK?",
+          disabled: !sector.dirty?
+    %>
+  </p>
+<% end %>
 
 <%= form_for([sector, List.new], html: {id: 'new-list'}) do |f| %>
   <h2>New list</h2>

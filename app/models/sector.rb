@@ -19,7 +19,7 @@ class Sector < SimpleDelegator
 
   def contents_from_api
     @contents_from_api ||= CollectionsPublisher.services(:content_api)
-      .with_tag(slug, 'specialist_sector')
+      .with_tag(slug, 'specialist_sector', draft: true)
       .map { |content_blob|
         Content.new(title: content_blob.title, api_url: content_blob.id)
       }
