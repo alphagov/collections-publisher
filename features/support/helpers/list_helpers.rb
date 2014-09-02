@@ -1,7 +1,11 @@
 module ListHelpers
-  def curate_list(sector_name:, list_name:, content:)
+  def visit_sector(sector_name)
     visit sectors_path
     click_on sector_name
+  end
+
+  def curate_list(sector_name:, list_name:, content:)
+    visit_sector(sector_name)
 
     within '#new-list' do
       fill_in 'Name', with: list_name
@@ -27,8 +31,7 @@ module ListHelpers
   end
 
   def check_for_list_with_content(sector_name:, list_name:, content:)
-    visit sectors_path
-    click_on sector_name
+    visit_sector(sector_name)
 
     list = List.where(name: list_name).first
     list_id = list.try(:id) || 'uncategorized'
@@ -46,8 +49,7 @@ module ListHelpers
   end
 
   def check_for_list_without_content(sector_name:, list_name:, content:)
-    visit sectors_path
-    click_on sector_name
+    visit_sector(sector_name)
 
     list = List.where(name: list_name).first
 
@@ -61,8 +63,7 @@ module ListHelpers
   end
 
   def check_for_untagged_content(sector_name:, content:)
-    visit sectors_path
-    click_on sector_name
+    visit_sector(sector_name)
 
     within ".untagged-contents" do
       content.each do |content_slug|
@@ -73,8 +74,7 @@ module ListHelpers
   end
 
   def publish_sector(name)
-    visit sectors_path
-    click_on name
+    visit_sector(name)
 
     click_on 'Publish'
   end
