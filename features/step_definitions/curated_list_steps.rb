@@ -144,3 +144,7 @@ end
 Then(/^I should be able to curate the draft sector$/) do
   visit_sector('Offshore')
 end
+
+Then(/^I should not be able to publish the draft sector$/) do
+  check_cannot_publish
+end

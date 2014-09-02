@@ -79,6 +79,12 @@ module ListHelpers
     click_on 'Publish'
   end
 
+  def check_cannot_publish
+    expect(page).not_to have_css('button', text: 'Publish')
+    expect(page).not_to have_css('input[type="submit"]', text: 'Publish')
+    expect(page).not_to have_css('input[type="submit"][value="Publish"]')
+  end
+
 private
 
   def content_api_url(slug:)
