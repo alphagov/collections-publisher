@@ -95,5 +95,17 @@ RSpec.describe SectorPresenter do
         }
       )
     end
+
+    context "with no uncategorized contents" do
+      let(:uncategorized_contents) { [] }
+
+      it "does not include the 'other' block" do
+        sector_hash = SectorPresenter.render_for_publishing_api(sector)
+
+        sector_hash[:details][:groups].each do |group|
+          expect(group[:name]).not_to eq("Other")
+        end
+      end
+    end
   end
 end
