@@ -50,11 +50,19 @@ private
   end
 
   def uncategorized_groups
-    [
-      {
-        name: "Other",
-        contents: @sector.uncategorized_contents.map(&:api_url)
-      }
-    ]
+    if uncategorized_contents.any?
+      [
+        {
+          name: "Other",
+          contents: uncategorized_contents
+        }
+      ]
+    else
+      []
+    end
+  end
+
+  def uncategorized_contents
+    @uncategorized_contents ||= @sector.uncategorized_contents.map(&:api_url)
   end
 end
