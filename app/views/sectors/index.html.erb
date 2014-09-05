@@ -1,7 +1,15 @@
 <h1>Specialist sub-sectors</h1>
 
 <ul>
-  <% subsectors.each do |subsector| %>
-    <li><%= link_to subsector.title, sector_lists_path(subsector.slug) %><%= ' (draft)' if subsector.draft? %></li>
+  <% grouped_subsectors.each do |parent, subsectors| %>
+    <li>
+      <%= parent.title %>
+
+      <ul>
+        <% subsectors.each do |subsector| %>
+          <li><%= link_to subsector.title, sector_lists_path(subsector.slug) %><%= ' (draft)' if subsector.draft? %></li>
+        <% end %>
+      </ul>
+    </li>
   <% end %>
 </ul>
