@@ -20,8 +20,12 @@ class SectorsController < ApplicationController
 
 private
 
+  def grouped_subsectors
+    subsectors.group_by(&:parent).sort_by {|parent, _| parent.title }
+  end
+  helper_method :grouped_subsectors
+
   def subsectors
     @subsectors ||= Sector.all_children
   end
-  helper_method :subsectors
 end
