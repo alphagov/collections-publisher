@@ -1,6 +1,5 @@
 class ListsController < ApplicationController
   expose(:sector)
-  expose(:lists, ancestor: :sector)
   expose(:list, attributes: :list_params)
 
   def index; end

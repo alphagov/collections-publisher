@@ -45,7 +45,7 @@
 <% end %>
 
 <div class="curated-lists">
-  <% lists.order(:index).each do |list| %>
+  <% sector.ordered_lists.each do |list| %>
     <section
       aria-labelledby='list-<%= list.id %>-header'
       id='list-<%= list.id %>-section'
