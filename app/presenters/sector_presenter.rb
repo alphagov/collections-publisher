@@ -41,7 +41,7 @@ private
   end
 
   def categorized_groups
-    @sector.lists.map do |list|
+    @sector.ordered_lists.map do |list|
       {
         name: list.name,
         contents: list.tagged_contents.map(&:api_url)

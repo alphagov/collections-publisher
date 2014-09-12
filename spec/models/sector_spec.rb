@@ -64,6 +64,16 @@ describe Sector do
     end
   end
 
+  describe '#ordered_lists' do
+    it "returns ordered lists for that sector" do
+      second_list = FactoryGirl.create(:list, index: 1, sector_id: 'example-sector-1')
+      first_list = FactoryGirl.create(:list, index: 0, sector_id: 'example-sector-1')
+
+      sector = Sector.find('example-sector-1')
+      expect(sector.ordered_lists).to eq([first_list, second_list])
+    end
+  end
+
   describe '#contents_from_api' do
     it "returns the Content instances for all content tagged to the sector, if any" do
       sector1 = Sector.find('example-sector-1')

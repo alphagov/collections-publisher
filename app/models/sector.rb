@@ -17,6 +17,10 @@ class Sector < SimpleDelegator
     List.where(sector_id: slug)
   end
 
+  def ordered_lists
+    lists.order(:index)
+  end
+
   def contents_from_api
     @contents_from_api ||= CollectionsPublisher.services(:content_api)
       .with_tag(slug, 'specialist_sector', draft: true)

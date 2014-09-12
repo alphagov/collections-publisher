@@ -7,31 +7,33 @@ RSpec.describe SectorPresenter do
       id: "http://example.com/api/oil-and-gas/offshore.json",
       web_url: "http://example.com/oil-and-gas/offshore",
       details: double(:details, description: "Important information about offshore drilling"),
-      lists: lists,
+      ordered_lists: ordered_lists,
       uncategorized_contents: uncategorized_contents
     ) }
 
-    let(:lists) {
+    let(:ordered_lists) {
       [
         FactoryGirl.build(:list,
+          name: "Piping",
+          index: 0,
+          contents: [
+            FactoryGirl.build(:content, api_url: "http://example.com/api/undersea-piping-restrictions.json")
+          ]
+        ),
+        FactoryGirl.build(:list,
           name: "Oil rigs",
+          index: 1,
           contents: [
             FactoryGirl.build(:content, api_url: "http://example.com/api/oil-rig-safety-requirements.json"),
             FactoryGirl.build(:content, api_url: "http://example.com/api/oil-rig-staffing.json"),
             FactoryGirl.build(:content, api_url: "http://example.com/api/riggs.json")
-          ]
-        ),
-        FactoryGirl.build(:list,
-          name: "Piping",
-          contents: [
-            FactoryGirl.build(:content, api_url: "http://example.com/api/undersea-piping-restrictions.json")
           ]
         )
       ]
     }
 
     before do
-      oil_rigs, piping = lists
+      piping, oil_rigs = ordered_lists
       allow(oil_rigs).to receive(:tagged_contents).and_return(oil_rigs.contents.reject {|c| c.api_url == "http://example.com/api/riggs.json"})
       allow(piping).to receive(:tagged_contents).and_return(piping.contents)
     end
@@ -64,7 +66,7 @@ RSpec.describe SectorPresenter do
       end
     end
 
-    it "provides the curated lists in the details hash" do
+    it "provides the curated lists in the details hash ordered by their index" do
       sector_hash = SectorPresenter.render_for_publishing_api(sector)
 
       expect(sector_hash).to include(
@@ -72,16 +74,16 @@ RSpec.describe SectorPresenter do
           groups: [
             # Curated content excluding untagged content
             {
+              name: "Piping",
+              contents: [
+                "http://example.com/api/undersea-piping-restrictions.json"
+              ]
+            },
+            {
               name: "Oil rigs",
               contents: [
                 "http://example.com/api/oil-rig-safety-requirements.json",
                 "http://example.com/api/oil-rig-staffing.json"
-              ]
-            },
-            {
-              name: "Piping",
-              contents: [
-                "http://example.com/api/undersea-piping-restrictions.json"
               ]
             },
             # Uncurated content
