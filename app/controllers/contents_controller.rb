@@ -13,7 +13,7 @@ class ContentsController < ApplicationController
     respond_to do |format|
       format.html {
         if saved
-          flash[:notice] = 'Content added'
+          flash[:success] = 'Content added'
         else
           flash[:error] = 'Could not add that content to your list'
         end
@@ -40,7 +40,7 @@ class ContentsController < ApplicationController
     respond_to do |format|
       format.html {
         if destroyed
-          flash[:notice] = "Content removed from list"
+          flash[:success] = "Content removed from list"
         else
           flash[:alert] = "Could not remove the content from this list"
         end
