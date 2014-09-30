@@ -1,20 +1,29 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Collections publisher</title>
+<% content_for :app_title, 'GOV.UK Collections Publisher' %>
+<% content_for :page_title, ' | GOV.UK Collections Publisher' %>
 
-    <% content_for :head do %>
-      <%= stylesheet_link_tag 'application', media: 'all' %>
-    <% end %>
+<% content_for :head do %>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+<% end %>
 
-    <% content_for :body_end do %>
-      <%= javascript_include_tag 'application' %>
-    <% end %>
+<% if user_signed_in? %>
+  <% content_for :navbar_right do %>
+    <%= link_to current_user.name, Plek.current.find('signon') %>
+    &bull; <%= link_to 'Sign out', gds_sign_out_path %>
+  <% end %>
+<% end %>
 
-    <%= csrf_meta_tags %>
-  </head>
+<% content_for :body_end do %>
+  <%= javascript_include_tag 'application' %>
+<% end %>
 
-  <body>
-    <%= render template: 'layouts/govuk_admin_template' %>
-  </body>
-</html>
+<% content_for :content do %>
+  <% flash.each do |key,message| %>
+    <div class="alert alert-<%= key == :notice || key == :alert ? 'warning' : key %>">
+      <%= message %>
+    </div>
+  <% end %>
+  <%= yield %>
+<% end %>
+
+<%= render template: 'layouts/govuk_admin_template' %>
