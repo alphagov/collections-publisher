@@ -1,15 +1,25 @@
-<h1>Specialist sub-sectors</h1>
+<%= content_for :page_title, "Topics" %>
+<h1>Topics</h1>
 
-<ul>
+<table class="topics">
+  <thead>
+    <th>Topic</th>
+    <th>Sub-topic</th>
+    <th>State</th>
+    <th></th>
+  </thead>
+  <tbody>
   <% grouped_subsectors.each do |parent, subsectors| %>
-    <li>
-      <%= parent.title %>
-
-      <ul>
-        <% subsectors.each do |subsector| %>
-          <li><%= link_to subsector.title, sector_lists_path(subsector.slug) %><%= ' (draft)' if subsector.draft? %></li>
-        <% end %>
-      </ul>
-    </li>
+    <tr class="parent-tag">
+      <th rowspan="<%= subsectors.size+1 %>"><%= parent.title %></th>
+    </tr>
+    <% subsectors.each do |subsector| %>
+      <tr>
+        <td><%= link_to subsector.title, sector_lists_path(subsector.slug) %></td>
+        <td><%= 'draft' if subsector.draft? %></td>
+        <td class="edit"><%= link_to "Edit", sector_lists_path(subsector.slug) %></td>
+      </tr>
+    <% end %>
   <% end %>
-</ul>
+  </tbody>
+</table>

@@ -5,7 +5,7 @@ class SectorsController < ApplicationController
     sector = Sector.find(params[:sector_id])
 
     if sector
-      flash[:notice] = "Sector published"
+      flash[:success] = "Sector published"
 
       PublishingAPINotifier.publish(SectorPresenter.new(sector))
       sector.lists.each(&:mark_as_published!)

@@ -11,7 +11,7 @@ class ListsController < ApplicationController
     list.index = (sector.lists.maximum(:index) || 0) + 1
 
     if list.save
-      flash[:notice] = 'List created'
+      flash[:success] = 'List created'
     else
       flash[:error] = 'Could not create your list'
     end
@@ -23,7 +23,7 @@ class ListsController < ApplicationController
     list.destroy
 
     if list.destroyed?
-      flash[:notice] = "List deleted"
+      flash[:success] = "List deleted"
     else
       flash[:alert] = "Could not delete the list"
     end
@@ -37,7 +37,7 @@ class ListsController < ApplicationController
     respond_to do |format|
       format.html {
         if list.save
-          flash[:notice] = 'List updated'
+          flash[:success] = 'List updated'
         else
           flash[:error] = 'Could not save your list'
         end
