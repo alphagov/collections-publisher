@@ -19,7 +19,7 @@
 
 <% content_for :content do %>
   <% flash.each do |key,message| %>
-    <div class="alert alert-<%= key == :notice || key == :alert ? 'warning' : key %>">
+    <div class="alert <%= alert_classes(key) %>">
       <%= message %>
     </div>
   <% end %>
