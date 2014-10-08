@@ -57,7 +57,7 @@ describe Tag do
   end
 
   describe 'slug uniqueness' do
-    
+
     it 'is invalid when there is no parent and the slug already exists' do
       create(:tag, slug: 'passports')
       tag = Tag.new(

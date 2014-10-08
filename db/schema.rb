@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141008134008) do
+ActiveRecord::Schema.define(version: 20141008141339) do
 
   create_table "contents", force: true do |t|
     t.string   "api_url"
@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 20141008134008) do
     t.datetime "updated_at"
     t.string   "content_id",  null: false
   end
+
+  add_index "tags", ["slug", "parent_id"], name: "index_tags_on_slug_and_parent_id", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string  "name"
