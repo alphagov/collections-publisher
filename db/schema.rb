@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141008125349) do
+ActiveRecord::Schema.define(version: 20141008134008) do
 
   create_table "contents", force: true do |t|
     t.string   "api_url"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20141008125349) do
     t.integer  "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "content_id",  null: false
   end
 
   create_table "users", force: true do |t|
