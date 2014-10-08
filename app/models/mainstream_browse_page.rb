@@ -1,0 +1,3 @@
+class MainstreamBrowsePage < Tag
+
+end
