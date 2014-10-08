@@ -9,5 +9,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :mainstream_browse_pages, path: 'mainstream-browse-pages',
+                                      only: [:index, :new, :create]
+
   mount GovukAdminTemplate::Engine, at: "/style-guide"
 end

@@ -1,0 +1,9 @@
+<h1>Mainstream browse pages</h1>
+
+<ul>
+  <% mainstream_browse_pages.each do |page| %>
+    <li><%= page.title %></li>
+  <% end %>
+</ul>
+
+<%= link_to 'Add a mainstream browse page', new_mainstream_browse_page_path %>
