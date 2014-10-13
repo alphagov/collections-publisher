@@ -24,6 +24,10 @@ class MainstreamBrowsePagesController < ApplicationController
 
   def update
     if mainstream_browse_page.update_attributes(mainstream_browse_page_params)
+      PanopticonNotifier.update_tag(
+        MainstreamBrowsePagePresenter.new(mainstream_browse_page)
+      )
+
       redirect_to mainstream_browse_page_path(mainstream_browse_page)
     else
       render action: :edit

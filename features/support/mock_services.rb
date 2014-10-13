@@ -3,5 +3,8 @@ Before('@mock-publishing-api') do
 end
 
 Before('@mock-panopticon') do
-  CollectionsPublisher.services(:panopticon, double(:panopticon, create_tag: nil))
+  CollectionsPublisher.services(:panopticon, double(:panopticon,
+    create_tag: nil,
+    put_tag: nil,
+  ))
 end

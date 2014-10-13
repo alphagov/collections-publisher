@@ -42,3 +42,11 @@ Then /^the page should be updated$/ do
     description: 'Voting'
   )
 end
+
+Then /^the page should have been updated in Panopticon$/ do
+  check_mainstream_browse_page_was_updated_in_panopticon(
+    tag_id: 'citizenship',
+    title: 'Citizenship in the UK',
+    description: 'Voting',
+  )
+end

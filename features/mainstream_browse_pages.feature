@@ -11,3 +11,4 @@ Feature: Mainstream browse pages
     Given a mainstream browse page exists
     When I make a change to the mainstream browse page
     Then the page should be updated
+    And the page should have been updated in Panopticon
