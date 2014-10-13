@@ -11,3 +11,11 @@ Then /^the page should be created$/ do
     title: 'Citizenship'
   )
 end
+
+Then /^the page should have been created in Panopticon$/ do
+  check_mainstream_browse_page_was_created_in_panopticon(
+    tag_id: 'citizenship',
+    title: 'Citizenship',
+    description: 'Living in the UK',
+  )
+end

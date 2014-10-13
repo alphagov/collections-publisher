@@ -8,6 +8,10 @@ class MainstreamBrowsePagesController < ApplicationController
 
   def create
     if mainstream_browse_page.save
+      PanopticonNotifier.create_tag(
+        MainstreamBrowsePagePresenter.new(mainstream_browse_page)
+      )
+
       redirect_to mainstream_browse_pages_path
     else
       render action: :new
