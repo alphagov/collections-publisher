@@ -22,3 +22,6 @@ CollectionsPublisher.services(:content_api, GdsApi::ContentApi.new(Plek.new.find
 
 require 'gds_api/publishing_api'
 CollectionsPublisher.services(:publishing_api, GdsApi::PublishingApi.new(Plek.new.find('publishing-api')))
+
+require 'gds_api/panopticon'
+CollectionsPublisher.services(:panopticon, GdsApi::Panopticon.new(Plek.new.find('panopticon'), bearer_token: 'example'))
