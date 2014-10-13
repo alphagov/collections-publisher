@@ -84,7 +84,7 @@ GEM
       railties (>= 3.0.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
-    gds-api-adapters (14.4.0)
+    gds-api-adapters (14.11.0)
       link_header
       lrucache (~> 0.1.1)
       null_logger
@@ -179,7 +179,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     raindrops (0.13.0)
     rake (10.3.2)
-    rdoc (4.1.1)
+    rdoc (4.1.2)
       json (~> 1.4)
     rest-client (1.6.8)
       mime-types (~> 1.16)
@@ -250,7 +250,7 @@ DEPENDENCIES
   database_cleaner
   decent_exposure (= 2.3.2)
   factory_girl_rails
-  gds-api-adapters (= 14.4.0)
+  gds-api-adapters (= 14.11.0)
   gds-sso (= 9.3.0)
   generic_form_builder (= 0.9.0)
   govuk_admin_template (= 1.4.3)
