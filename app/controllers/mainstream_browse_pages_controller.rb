@@ -4,6 +4,8 @@ class MainstreamBrowsePagesController < ApplicationController
 
   def index; end
 
+  def show; end
+
   def new; end
 
   def create
@@ -15,6 +17,16 @@ class MainstreamBrowsePagesController < ApplicationController
       redirect_to mainstream_browse_pages_path
     else
       render action: :new
+    end
+  end
+
+  def edit; end
+
+  def update
+    if mainstream_browse_page.update_attributes(mainstream_browse_page_params)
+      redirect_to mainstream_browse_page_path(mainstream_browse_page)
+    else
+      render action: :edit
     end
   end
 

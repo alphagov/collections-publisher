@@ -2,7 +2,7 @@
 
 <ul>
   <% mainstream_browse_pages.each do |page| %>
-    <li><%= page.title %></li>
+    <li><%= link_to page.title, mainstream_browse_page_path(page) %></li>
   <% end %>
 </ul>
 

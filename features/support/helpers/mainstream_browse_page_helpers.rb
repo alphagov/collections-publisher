@@ -10,10 +10,27 @@ module MainstreamBrowsePageHelpers
     click_on 'Create'
   end
 
-  def check_for_mainstream_browse_page(title:)
+  def update_mainstream_browse_page(existing_title, title: '', description: '')
+    visit mainstream_browse_pages_path
+
+    click_on existing_title
+    click_on 'Edit'
+
+    fill_in 'Title', with: title
+    fill_in 'Description', with: description
+
+    click_on 'Save'
+  end
+
+  def check_for_mainstream_browse_page(title:, description: '')
     visit mainstream_browse_pages_path
 
     expect(page).to have_content(title)
+
+    click_on title
+
+    expect(page).to have_content(title)
+    expect(page).to have_content(description)
   end
 
 end

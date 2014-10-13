@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   resources :mainstream_browse_pages, path: 'mainstream-browse-pages',
-                                      only: [:index, :new, :create]
+                                      except: :destroy
 
   mount GovukAdminTemplate::Engine, at: "/style-guide"
 end

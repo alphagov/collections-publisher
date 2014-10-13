@@ -1,0 +1,11 @@
+<%= content_for :page_title, "Edit mainstream browse page" %>
+
+<%= form_for mainstream_browse_page do |f| %>
+  <h2>Edit mainstream browse page</h2>
+
+  <%= f.text_field :slug, disabled: true %>
+  <%= f.text_field :title %>
+  <%= f.text_field :description %>
+
+  <button>Save</button>
+<% end %>
