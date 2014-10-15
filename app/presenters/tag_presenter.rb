@@ -8,7 +8,8 @@ class TagPresenter
       tag_id: tag_id,
       title: tag.title,
       description: tag.description,
-      tag_type: tag_type
+      tag_type: tag_type,
+      parent_id: parent.slug,
     }
   end
 
@@ -20,7 +21,21 @@ private
     nil
   end
 
+  def parent
+    tag.parent || NullParent.new
+  end
+
   def tag_id
-    tag.parent_id.present? ? "#{tag.parent_id}/#{tag.slug}" : tag.slug
+    parent.present? ? "#{parent.slug}/#{tag.slug}" : tag.slug
+  end
+
+  class NullParent
+    def present?
+      false
+    end
+
+    def slug
+      nil
+    end
   end
 end

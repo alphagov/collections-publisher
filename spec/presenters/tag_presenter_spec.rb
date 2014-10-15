@@ -7,7 +7,7 @@ describe TagPresenter do
       slug: 'citizenship',
       title: 'Citizenship',
       description: 'Living in the UK, passports',
-      parent_id: nil,
+      parent: nil,
     }
   }
 
@@ -21,14 +21,15 @@ describe TagPresenter do
           tag_id: 'citizenship',
           title: 'Citizenship',
           tag_type: nil,
-          description: 'Living in the UK, passports'
+          description: 'Living in the UK, passports',
+          parent_id: nil,
         }
       )
     end
 
     it 'builds a tag_id containing the parent' do
       child_tag = double(:tag, attributes.merge(
-        parent_id: 'parent'
+        parent: double(:tag, slug: 'parent')
       ))
       presenter = TagPresenter.new(child_tag)
 
