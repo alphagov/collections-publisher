@@ -12,6 +12,6 @@ FactoryGirl.define do
     sequence(:slug) {|n| "browse-page-#{n}" }
     description "Example description"
 
-    factory :mainstream_browse_page
+    factory :mainstream_browse_page, class: MainstreamBrowsePage
   end
 end
