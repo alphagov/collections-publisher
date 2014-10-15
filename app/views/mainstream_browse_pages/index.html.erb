@@ -1,9 +1,22 @@
 <h1>Mainstream browse pages</h1>
 
-<ul>
-  <% mainstream_browse_pages.each do |page| %>
-    <li><%= link_to page.title, mainstream_browse_page_path(page) %></li>
-  <% end %>
-</ul>
+<table class="mainstream-browse-pages">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Children</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% mainstream_browse_pages.each do |page| %>
+      <tr>
+        <td><%= link_to page.title, mainstream_browse_page_path(page) %></td>
+        <td><%= pluralize page.children.count, 'child' %></td>
+        <td><%= link_to 'Edit', edit_mainstream_browse_page_path(page) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <%= link_to 'Add a mainstream browse page', new_mainstream_browse_page_path %>

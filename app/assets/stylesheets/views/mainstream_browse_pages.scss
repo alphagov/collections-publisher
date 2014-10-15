@@ -1,0 +1,8 @@
+/* import govuk_admin_template to get bootstrap styles */
+@import 'govuk_admin_template';
+
+table.mainstream-browse-pages {
+  @extend .table;
+  @extend .table-bordered;
+  @extend .table-striped;
+}

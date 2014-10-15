@@ -2,7 +2,9 @@ class MainstreamBrowsePagesController < ApplicationController
   expose(:mainstream_browse_pages)
   expose(:mainstream_browse_page, attributes: :mainstream_browse_page_params)
 
-  def index; end
+  def index
+    self.mainstream_browse_pages = MainstreamBrowsePage.only_parents
+  end
 
   def show; end
 

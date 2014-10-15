@@ -39,7 +39,10 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  config.before(:each, type: 'controller') do
+  config.before(:each, type: :controller) do
+    login_as_stub_user
+  end
+  config.before(:each, type: :feature) do
     login_as_stub_user
   end
 end
