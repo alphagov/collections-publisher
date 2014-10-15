@@ -56,6 +56,20 @@ describe Tag do
     expect(tag.errors).to have_key(:parent)
   end
 
+  describe '#can_have_children?' do
+    it 'returns true when parent_id is empty' do
+      tag = create(:tag, parent: nil)
+
+      expect(tag.can_have_children?).to be_true
+    end
+
+    it 'returns false when parent_id is present' do
+      tag = create(:tag, parent: parent)
+
+      expect(tag.can_have_children?).to be_false
+    end
+  end
+
   describe 'slug uniqueness' do
 
     it 'is invalid when there is no parent and the slug already exists' do

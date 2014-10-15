@@ -12,6 +12,10 @@ class Tag < ActiveRecord::Base
 
   scope :only_parents, -> { where('parent_id IS NULL') }
 
+  def can_have_children?
+    parent_id.blank?
+  end
+
 private
   def parent_is_not_a_child
     if parent.present? && parent.parent_id.present?

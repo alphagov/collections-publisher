@@ -7,4 +7,30 @@
   <dd><%= mainstream_browse_page.description %></dd>
 </dl>
 
-<%= link_to 'Edit', edit_mainstream_browse_page_path(mainstream_browse_page) %>
+<ul>
+  <li><%= link_to 'Edit', edit_mainstream_browse_page_path(mainstream_browse_page) %></li>
+  <% if mainstream_browse_page.can_have_children? %>
+    <li><%= link_to 'Add child page', new_mainstream_browse_page_path(parent_id: mainstream_browse_page) %></li>
+  <% end %>
+</ul>
+
+<% if mainstream_browse_page.can_have_children? %>
+  <h2>Children</h2>
+
+  <table class="mainstream-browse-pages">
+    <thead>
+      <tr>
+        <th scope="col">Title</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% mainstream_browse_page.children.each do |page| %>
+        <tr>
+          <td><%= link_to page.title, mainstream_browse_page_path(page) %></td>
+          <td><%= link_to 'Edit', edit_mainstream_browse_page_path(page) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

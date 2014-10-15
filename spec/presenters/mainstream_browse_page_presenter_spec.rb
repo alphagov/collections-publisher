@@ -6,7 +6,7 @@ describe MainstreamBrowsePagePresenter do
     slug: 'citizenship',
     title: 'Citizenship',
     description: 'Living in the UK, passports',
-    parent_id: nil,
+    parent: nil,
     tag_type: 'section',
   ) }
 

@@ -50,3 +50,29 @@ Then /^the page should have been updated in Panopticon$/ do
     description: 'Voting',
   )
 end
+
+When /^I fill out the details for a new child browse page$/ do
+  create_child_mainstream_browse_page(
+    parent: 'Citizenship',
+    slug: 'voting',
+    title: 'Voting',
+    description: 'Register to vote, postal voting forms',
+  )
+end
+
+Then /^the child page should be created$/ do
+  check_for_child_mainstream_browse_page(
+    parent: 'Citizenship',
+    title: 'Voting',
+    description: 'Register to vote, postal voting forms'
+  )
+end
+
+Then /^the child page should have been created in Panopticon$/ do
+  check_mainstream_browse_page_was_created_in_panopticon(
+    tag_id: 'citizenship/voting',
+    title: 'Voting',
+    description: 'Register to vote, postal voting forms',
+    parent_id: 'citizenship'
+  )
+end

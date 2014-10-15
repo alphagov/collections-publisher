@@ -38,7 +38,15 @@ class MainstreamBrowsePagesController < ApplicationController
 
 private
   def mainstream_browse_page_params
-    params.require(:mainstream_browse_page).permit(:slug, :title, :description)
+    params.require(:mainstream_browse_page).permit(:slug, :title, :description, :parent_id)
   end
 
+  def parent
+    @parent ||= MainstreamBrowsePage.only_parents.find_by_id(parent_id)
+  end
+  helper_method :parent
+
+  def parent_id
+    params[:parent_id] || params.fetch(:mainstream_browse_page, {})[:parent_id]
+  end
 end
