@@ -64,6 +64,15 @@ module MainstreamBrowsePageHelpers
     expect(page).to have_content(description)
   end
 
+  def check_state_of_mainstream_browse_page(title:, state:)
+    visit mainstream_browse_pages_path
+    click_on title
+
+    within '.attributes' do
+      expect(page).to have_content(state)
+    end
+  end
+
 end
 
 World(MainstreamBrowsePageHelpers)

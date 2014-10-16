@@ -21,6 +21,13 @@ Then /^the page should have been created in Panopticon$/ do
   )
 end
 
+Then /^the page should be in the "(.*)" state$/ do |state|
+  check_state_of_mainstream_browse_page(
+    title: 'Citizenship',
+    state: state
+  )
+end
+
 Given /^a mainstream browse page exists$/ do
   create_mainstream_browse_page(
     slug: 'citizenship',

@@ -6,3 +6,61 @@ table.mainstream-browse-pages {
   @extend .table-bordered;
   @extend .table-striped;
 }
+
+.mainstream-browse-page {
+  position: relative;
+
+  .actions {
+    @extend .btn-group;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    a {
+      @extend .btn;
+      @extend .btn-default;
+
+      &.new .icon {
+        @extend .glyphicon;
+        @extend .glyphicon-plus;
+      }
+    }
+  }
+
+  h1 {
+    margin: 0;
+
+    .type {
+      font-size: 22px;
+      display: block;
+      font-weight: normal;
+      color: #888;
+      padding-bottom: 5px;
+    }
+  }
+}
+
+.attributes {
+  @extend .panel;
+  @extend .panel-default;
+
+  font-size: 16px;
+  margin-top: 25px;
+
+  dl {
+    @extend .panel-body;
+    margin-bottom: 0;
+
+    dt, dd {
+      line-height: 1.5;
+    }
+
+    dd {
+      margin-bottom: 16px;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

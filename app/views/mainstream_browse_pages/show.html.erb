@@ -1,36 +1,45 @@
-<%= content_for :page_title, mainstream_browse_page.title %>
+<section class="mainstream-browse-page">
+  <%= content_for :page_title, mainstream_browse_page.title %>
 
-<h1><%= mainstream_browse_page.title %></h1>
+  <h1>
+    <span class="type">Mainstream browse page</span>
+    <%= mainstream_browse_page.title %>
+  </h1>
 
-<dl>
-  <dt>Description</dt>
-  <dd><%= mainstream_browse_page.description %></dd>
-</dl>
+  <section class="actions">
+    <%= link_to 'Edit', edit_mainstream_browse_page_path(mainstream_browse_page) %>
+    <%= link_to new_mainstream_browse_page_path(parent_id: mainstream_browse_page), class: 'new' do %>
+      <span class="icon"></span> Add child page
+    <% end %>
+  </section>
 
-<ul>
-  <li><%= link_to 'Edit', edit_mainstream_browse_page_path(mainstream_browse_page) %></li>
+  <section class="attributes">
+    <dl>
+      <dt>Description</dt>
+      <dd><%= mainstream_browse_page.description %></dd>
+      <dt>State</dt>
+      <dd><%= mainstream_browse_page.state %></dd>
+    </dl>
+  </section>
+
   <% if mainstream_browse_page.can_have_children? %>
-    <li><%= link_to 'Add child page', new_mainstream_browse_page_path(parent_id: mainstream_browse_page) %></li>
-  <% end %>
-</ul>
+    <h2>Children</h2>
 
-<% if mainstream_browse_page.can_have_children? %>
-  <h2>Children</h2>
-
-  <table class="mainstream-browse-pages">
-    <thead>
-      <tr>
-        <th scope="col">Title</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% mainstream_browse_page.children.each do |page| %>
+    <table class="mainstream-browse-pages">
+      <thead>
         <tr>
-          <td><%= link_to page.title, mainstream_browse_page_path(page) %></td>
-          <td><%= link_to 'Edit', edit_mainstream_browse_page_path(page) %></td>
+          <th scope="col">Title</th>
+          <th></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+      </thead>
+      <tbody>
+        <% mainstream_browse_page.children.each do |page| %>
+          <tr>
+            <td><%= link_to page.title, mainstream_browse_page_path(page) %></td>
+            <td><%= link_to 'Edit', edit_mainstream_browse_page_path(page) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</section>

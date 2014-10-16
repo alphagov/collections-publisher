@@ -12,7 +12,10 @@
     <% mainstream_browse_pages.each do |page| %>
       <tr>
         <td><%= link_to page.title, mainstream_browse_page_path(page) %></td>
-        <td><%= pluralize page.children.count, 'child' %></td>
+        <td>
+          <%= pluralize page.children.count, 'child' %>
+          (<%= page.draft_children.count %> in draft)
+        </td>
         <td><%= link_to 'Edit', edit_mainstream_browse_page_path(page) %></td>
       </tr>
     <% end %>
