@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     PriorityQueue (0.1.2)
+    aasm (3.4.0)
     actionmailer (4.1.8)
       actionpack (= 4.1.8)
       actionview (= 4.1.8)
@@ -243,6 +244,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm (= 3.4.0)
   airbrake (= 4.0.0)
   byebug
   capistrano-rails

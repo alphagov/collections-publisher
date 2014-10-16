@@ -1,6 +1,8 @@
 require 'securerandom'
 
 class Tag < ActiveRecord::Base
+  include AASM
+
   belongs_to :parent, class_name: 'Tag'
   has_many :children, class_name: 'Tag', foreign_key: :parent_id
 
@@ -12,11 +14,27 @@ class Tag < ActiveRecord::Base
 
   scope :only_parents, -> { where('parent_id IS NULL') }
 
+  aasm column: :state do
+    state :draft, initial: true
+    state :published
+
+    event :publish do
+      transitions from: :draft, to: :published
+    end
+  end
+
   def can_have_children?
     parent_id.blank?
   end
 
 private
+  # The state for a Tag can only be set using the event methods declared in the
+  # `aasm` block above. As we don't want to allow the state to be set using the
+  # ActiveRecord-provided setter method, override it here to make it private.
+  def state=(*args)
+    super(*args)
+  end
+
   def parent_is_not_a_child
     if parent.present? && parent.parent_id.present?
       errors.add(:parent, 'is a child tag')

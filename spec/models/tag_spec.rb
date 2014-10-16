@@ -56,6 +56,34 @@ describe Tag do
     expect(tag.errors).to have_key(:parent)
   end
 
+  describe 'state' do
+    let(:tag) { create(:tag) }
+
+    it 'is created in a draft state' do
+      expect(tag.state).to eq('draft')
+      expect(tag).to be_draft
+    end
+
+    it 'can be published' do
+      expect(tag.publish).to be_true
+
+      expect(tag.state).to eq('published')
+      expect(tag).to be_published
+    end
+
+    it "can't be published twice" do
+      tag.publish
+
+      expect { tag.publish }.to raise_error(AASM::InvalidTransition)
+    end
+
+    it 'raises exception when a value is assigned to state' do
+      expect {
+        tag.state = 'draft'
+      }.to raise_error(NoMethodError, /private method/)
+    end
+  end
+
   describe '#can_have_children?' do
     it 'returns true when parent_id is empty' do
       tag = create(:tag, parent: nil)
