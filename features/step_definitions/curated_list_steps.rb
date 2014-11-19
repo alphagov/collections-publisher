@@ -95,12 +95,6 @@ Then(/^the curated lists should have been sent to the publishing API$/) do
         content: [
           'undersea-piping-restrictions'
         ]
-      },
-      {
-        name: 'Other',
-        content: [
-          'north-sea-shipping-lanes'
-        ]
       }
     ]
   )

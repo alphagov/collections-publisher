@@ -85,29 +85,10 @@ RSpec.describe SectorPresenter do
                 "http://example.com/api/oil-rig-safety-requirements.json",
                 "http://example.com/api/oil-rig-staffing.json"
               ]
-            },
-            # Uncurated content
-            {
-              name: "Other",
-              contents: [
-                "http://example.com/api/north-sea-shipping-lanes.json"
-              ]
             }
           ]
         }
       )
-    end
-
-    context "with no uncategorized contents" do
-      let(:uncategorized_contents) { [] }
-
-      it "does not include the 'other' block" do
-        sector_hash = SectorPresenter.render_for_publishing_api(sector)
-
-        sector_hash[:details][:groups].each do |group|
-          expect(group[:name]).not_to eq("Other")
-        end
-      end
     end
   end
 end
