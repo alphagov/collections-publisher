@@ -25,7 +25,7 @@ class SectorPresenter
       redirects: [],
       update_type: "major", # All changes in this app are de facto major for now.
       details: {
-        groups: categorized_groups + uncategorized_groups
+        groups: categorized_groups
       }
     }
   end
@@ -46,19 +46,6 @@ private
         name: list.name,
         contents: list.tagged_contents.map(&:api_url)
       }
-    end
-  end
-
-  def uncategorized_groups
-    if uncategorized_contents.any?
-      [
-        {
-          name: "Other",
-          contents: uncategorized_contents
-        }
-      ]
-    else
-      []
     end
   end
 
