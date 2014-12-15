@@ -6,9 +6,10 @@ describe 'creating child tags' do
     parent_browse_page = create(:mainstream_browse_page)
     visit new_mainstream_browse_page_path(parent_id: parent_browse_page.id)
 
+    parent_label_field = page.find('#parent-name')
     parent_id_field = page.find('#mainstream_browse_page_parent_id')
 
-    expect(page).to have_content("Parent: #{parent_browse_page.title}")
+    expect(parent_label_field.value).to match(parent_browse_page.title)
     expect(parent_id_field.value).to eq(parent_browse_page.id.to_s)
   end
 
@@ -18,9 +19,10 @@ describe 'creating child tags' do
     visit new_mainstream_browse_page_path(parent_id: parent_browse_page.id)
     click_on 'Create' # submits the form with errors
 
+    parent_label_field = page.find('#parent-name')
     parent_id_field = page.find('#mainstream_browse_page_parent_id')
 
-    expect(page).to have_content("Parent: #{parent_browse_page.title}")
+    expect(parent_label_field.value).to match(parent_browse_page.title)
     expect(parent_id_field.value).to eq(parent_browse_page.id.to_s)
   end
 

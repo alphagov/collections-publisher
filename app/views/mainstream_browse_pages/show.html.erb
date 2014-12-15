@@ -1,35 +1,63 @@
-<section class="mainstream-browse-page">
-  <%= content_for :page_title, mainstream_browse_page.title %>
+<%= content_for :page_title, mainstream_browse_page.title %>
 
+<header class="heading-with-actions">
   <h1>
     <span class="type">Mainstream browse page</span>
+    <% if mainstream_browse_page.has_parent? %>
+      <%= link_to "#{mainstream_browse_page.parent.title}:", mainstream_browse_page_path(mainstream_browse_page.parent) %>
+    <% end %>
     <%= mainstream_browse_page.title %>
   </h1>
 
-  <section class="actions">
+  <nav class="actions">
     <%= link_to 'Edit', edit_mainstream_browse_page_path(mainstream_browse_page) %>
-    <%= link_to 'Publish browse page', publish_mainstream_browse_page_path(mainstream_browse_page), method: :post %>
-    <%= link_to new_mainstream_browse_page_path(parent_id: mainstream_browse_page), class: 'new' do %>
-      <span class="icon"></span> Add child page
+    <% if mainstream_browse_page.may_publish? %>
+      <%= link_to 'Publish browse page', publish_mainstream_browse_page_path(mainstream_browse_page), method: :post %>
     <% end %>
-  </section>
+  </nav>
+</header>
 
-  <section class="attributes">
-    <dl>
-      <dt>Description</dt>
-      <dd><%= mainstream_browse_page.description %></dd>
-      <dt>State</dt>
-      <dd><%= mainstream_browse_page.state %></dd>
-    </dl>
-  </section>
+<section class="attributes">
+  <dl>
+    <dt>URL</dt>
+    <dd><%= mainstream_browse_page.base_path %></dd>
 
-  <% if mainstream_browse_page.can_have_children? %>
-    <h2>Children</h2>
+    <% if mainstream_browse_page.has_parent? %>
+      <dt>Parent</dt>
+      <dd><%= link_to mainstream_browse_page.parent.title, mainstream_browse_page_path(mainstream_browse_page.parent) %></dd>
+    <% end %>
+
+    <dt>Description</dt>
+    <dd>
+      <% if mainstream_browse_page.description.present? %>
+        <%= mainstream_browse_page.description %>
+      <% else %>
+        <em>Empty</em>
+      <% end %>
+    </dd>
+
+    <dt>State</dt>
+    <dd><%= mainstream_browse_page.state %></dd>
+  </dl>
+</section>
+
+<% if mainstream_browse_page.can_have_children? %>
+  <section class="children">
+    <header class="heading-with-actions">
+      <h2>Children</h2>
+
+      <nav class="actions">
+        <%= link_to new_mainstream_browse_page_path(parent_id: mainstream_browse_page), class: 'new' do %>
+        <span class="icon"></span> Add child page
+        <% end %>
+      </nav>
+    </header>
 
     <table class="mainstream-browse-pages">
       <thead>
         <tr>
           <th scope="col">Title</th>
+          <th scope="col">State</th>
           <th></th>
         </tr>
       </thead>
@@ -37,10 +65,16 @@
         <% mainstream_browse_page.children.each do |page| %>
           <tr>
             <td><%= link_to page.title, mainstream_browse_page_path(page) %></td>
-            <td><%= link_to 'Edit', edit_mainstream_browse_page_path(page) %></td>
+            <td><%= page.state %></td>
+            <td>
+              <ul class="child-actions">
+                <li><%= link_to 'View', mainstream_browse_page_path(page), rel: 'view' %></li>
+                <li><%= link_to 'Edit', edit_mainstream_browse_page_path(page) %></li>
+              </ul>
+            </td>
           </tr>
         <% end %>
       </tbody>
     </table>
-  <% end %>
-</section>
+  </section>
+<% end %>

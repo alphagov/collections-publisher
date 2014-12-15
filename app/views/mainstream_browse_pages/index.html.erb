@@ -1,4 +1,12 @@
-<h1>Mainstream browse pages</h1>
+<header class="heading-with-actions">
+  <h1>Mainstream browse pages</h1>
+
+  <nav class="actions">
+    <%= link_to new_mainstream_browse_page_path, class: 'new' do %>
+      <span class="icon"></span> Add a mainstream browse page
+    <% end %>
+  </nav>
+</header>
 
 <table class="mainstream-browse-pages">
   <thead>
@@ -16,10 +24,13 @@
           <%= pluralize page.children.count, 'child' %>
           (<%= page.draft_children.count %> in draft)
         </td>
-        <td><%= link_to 'Edit', edit_mainstream_browse_page_path(page) %></td>
+        <td>
+          <ul class="child-actions">
+            <li><%= link_to 'View', mainstream_browse_page_path(page), rel: 'view' %></li>
+            <li><%= link_to 'Edit', edit_mainstream_browse_page_path(page) %></li>
+          </ul>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<%= link_to 'Add a mainstream browse page', new_mainstream_browse_page_path %>

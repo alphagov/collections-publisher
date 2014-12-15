@@ -47,6 +47,7 @@
 <div class="curated-lists">
   <% sector.ordered_lists.each do |list| %>
     <section
+      class="list"
       aria-labelledby='list-<%= list.id %>-header'
       id='list-<%= list.id %>-section'
       data-index='<%= list.index %>'
@@ -100,7 +101,7 @@
   <% end %>
 </div>
 
-<section aria-labelledby='list-uncategorized-header' id='list-uncategorized-section'>
+<section class="list" aria-labelledby='list-uncategorized-header' id='list-uncategorized-section'>
   <h2 id='list-uncategorized-header'>Uncategorized (A to Z)</h2>
   <p><b>Note:</b> These will not be displayed to users</p>
 

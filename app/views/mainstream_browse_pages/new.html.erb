@@ -1,15 +1,23 @@
 <%= content_for :page_title, "New mainstream browse page" %>
 
-<%= form_for mainstream_browse_page do |f| %>
-  <h2>New mainstream browse page</h2>
+<h1>
+  New mainstream browse page
+</h1>
 
+<%= form_for mainstream_browse_page, html: { class: 'resource' } do |f| %>
   <% if parent.present? %>
-    <p>Parent: <%= parent.title %></p>
-    <%= f.hidden_field :parent_id, value: parent.id %>
+    <p>
+      <label for="parent-name">Parent:</label>
+      <%= text_field_tag 'parent-name', "#{parent.title} (#{parent.base_path})", disabled: true %>
+      <%= f.hidden_field :parent_id, value: parent.id %>
+    </p>
   <% end %>
+
   <%= f.text_field :slug %>
   <%= f.text_field :title %>
   <%= f.text_field :description %>
 
-  <button>Create</button>
+  <div class="form-actions">
+    <button type="submit">Create</button>
+  </div>
 <% end %>

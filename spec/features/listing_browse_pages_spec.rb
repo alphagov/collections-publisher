@@ -20,4 +20,21 @@ describe 'listing browse pages' do
     end
   end
 
+  context 'link to add a child page' do
+    let(:parent_browse_page) { create(:mainstream_browse_page) }
+    let(:child_browse_page) { create(:mainstream_browse_page, parent: parent_browse_page) }
+
+    it 'shows the link given a top-level parent' do
+      visit mainstream_browse_page_path(parent_browse_page)
+
+      expect(page).to have_link('Add child page')
+    end
+
+    it 'does not show the link given a child page' do
+      visit mainstream_browse_page_path(child_browse_page)
+
+      expect(page).to_not have_link('Add child page')
+    end
+  end
+
 end

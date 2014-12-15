@@ -5,37 +5,61 @@ table.mainstream-browse-pages {
   @extend .table;
   @extend .table-bordered;
   @extend .table-striped;
-}
 
-.mainstream-browse-page {
-  position: relative;
+  ul.child-actions {
+    padding: 0;
+    margin: 0;
+    float: right;
 
-  .actions {
-    @extend .btn-group;
-    position: absolute;
-    right: 0;
-    top: 0;
+    li {
+      display: inline-block;
 
-    a {
-      @extend .btn;
-      @extend .btn-default;
+      a {
+        @extend .btn;
+        @extend .btn-default;
+        @extend .btn-xs;
 
-      &.new .icon {
-        @extend .glyphicon;
-        @extend .glyphicon-plus;
+        &[rel='view'] {
+          @extend .btn-primary;
+        }
       }
     }
   }
+}
 
-  h1 {
+.heading-with-actions {
+  margin: 10px 0 20px;
+  overflow: hidden;
+
+  h1, h2 {
+    float: left;
+    line-height: 1.4;
     margin: 0;
+  }
 
-    .type {
-      font-size: 22px;
-      display: block;
-      font-weight: normal;
-      color: #888;
-      padding-bottom: 5px;
+  .actions {
+    float: right;
+  }
+}
+
+h1 .type {
+  font-size: 22px;
+  display: block;
+  font-weight: normal;
+  color: #888;
+  line-height: 1.4;
+}
+
+.actions {
+  @extend .btn-group;
+
+  a {
+    @extend .btn;
+    @extend .btn-default;
+
+    &.new .icon {
+      @extend .glyphicon;
+      @extend .glyphicon-plus;
     }
   }
 }
@@ -63,4 +87,10 @@ table.mainstream-browse-pages {
       }
     }
   }
+}
+
+.children {
+  border-top: 1px solid #eee;
+  padding: 10px 0 0;
+  position: relative;
 }

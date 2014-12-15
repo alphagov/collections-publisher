@@ -1,11 +1,22 @@
 <%= content_for :page_title, "Edit mainstream browse page" %>
 
-<%= form_for mainstream_browse_page do |f| %>
-  <h2>Edit mainstream browse page</h2>
+<h1>
+  <span class="type">Mainstream browse page</span>
 
+  Editing
+  <% if mainstream_browse_page.has_parent? %>
+    <%= mainstream_browse_page.parent.title %>:
+  <% end %>
+    <%= mainstream_browse_page.title %>
+</h1>
+
+<%= form_for mainstream_browse_page, html: { class: 'resource' } do |f| %>
   <%= f.text_field :slug, disabled: true %>
   <%= f.text_field :title %>
   <%= f.text_field :description %>
 
-  <button>Save</button>
+  <div class="form-actions">
+    <button type="submit">Save</button>
+    <%= link_to 'cancel', mainstream_browse_page_path(mainstream_browse_page), class: 'cancel' %>
+  </div>
 <% end %>
