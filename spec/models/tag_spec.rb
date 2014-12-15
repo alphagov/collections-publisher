@@ -152,4 +152,18 @@ describe Tag do
 
   end
 
+  describe '#base_path' do
+    it 'returns the slug for a parent tag' do
+      tag = create(:tag, slug: 'example')
+
+      expect(tag.base_path).to eq('/example')
+    end
+
+    it 'joins the parent slug for a child tag' do
+      tag = create(:tag, slug: 'example', parent: parent)
+
+      expect(tag.base_path).to eq("/#{parent.slug}/example")
+    end
+  end
+
 end

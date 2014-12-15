@@ -14,4 +14,11 @@ describe MainstreamBrowsePage do
     expect(tag).to be_persisted
   end
 
+  describe '#base_path' do
+    it 'prepends /browse to the base_path' do
+      tag = create(:mainstream_browse_page)
+      expect(tag.base_path).to eq("/browse/#{tag.slug}")
+    end
+  end
+
 end
