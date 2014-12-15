@@ -11,6 +11,12 @@ class PanopticonNotifier
     panopticon.put_tag(tag_hash[:tag_type], tag_hash[:tag_id], tag_hash)
   end
 
+  def self.publish_tag(tag_presenter)
+    tag_hash = tag_presenter.render_for_panopticon
+
+    panopticon.publish_tag(tag_hash[:tag_type], tag_hash[:tag_id])
+  end
+
 private
   def self.panopticon
     CollectionsPublisher.services(:panopticon)

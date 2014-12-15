@@ -28,7 +28,7 @@ Then /^the page should be in the "(.*)" state$/ do |state|
   )
 end
 
-Given /^a mainstream browse page exists$/ do
+Given /^a draft mainstream browse page exists$/ do
   create_mainstream_browse_page(
     slug: 'citizenship',
     title: 'Citizenship',
@@ -81,5 +81,15 @@ Then /^the child page should have been created in Panopticon$/ do
     title: 'Voting',
     description: 'Register to vote, postal voting forms',
     parent_id: 'citizenship'
+  )
+end
+
+When /^I publish the browse page$/ do
+  publish_mainstream_browse_page('Citizenship')
+end
+
+Then /^the page should have been published in Panopticon$/ do
+  check_mainstream_browse_page_was_published_in_panopticon(
+    tag_id: 'citizenship'
   )
 end

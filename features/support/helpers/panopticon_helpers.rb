@@ -19,6 +19,11 @@ module PanopticonHelpers
         description: description,
       ))
   end
+
+  def check_mainstream_browse_page_was_published_in_panopticon(tag_id:)
+    expect(CollectionsPublisher.services(:panopticon)).to have_received(:publish_tag)
+      .with('section', tag_id)
+  end
 end
 
 World(PanopticonHelpers)

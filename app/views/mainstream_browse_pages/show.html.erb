@@ -8,6 +8,7 @@
 
   <section class="actions">
     <%= link_to 'Edit', edit_mainstream_browse_page_path(mainstream_browse_page) %>
+    <%= link_to 'Publish browse page', publish_mainstream_browse_page_path(mainstream_browse_page), method: :post %>
     <%= link_to new_mainstream_browse_page_path(parent_id: mainstream_browse_page), class: 'new' do %>
       <span class="icon"></span> Add child page
     <% end %>

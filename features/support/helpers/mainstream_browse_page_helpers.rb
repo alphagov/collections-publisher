@@ -43,6 +43,13 @@ module MainstreamBrowsePageHelpers
     click_on 'Save'
   end
 
+  def publish_mainstream_browse_page(existing_title)
+    visit mainstream_browse_pages_path
+
+    click_on existing_title
+    click_on 'Publish browse page'
+  end
+
   def check_for_mainstream_browse_page(title:, description: '')
     visit mainstream_browse_pages_path
 

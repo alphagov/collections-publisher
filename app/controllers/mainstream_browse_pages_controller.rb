@@ -1,6 +1,6 @@
 class MainstreamBrowsePagesController < ApplicationController
   expose(:mainstream_browse_pages)
-  expose(:mainstream_browse_page, attributes: :mainstream_browse_page_params)
+  expose(:mainstream_browse_page)
 
   def index
     self.mainstream_browse_pages = MainstreamBrowsePage.only_parents
@@ -11,6 +11,15 @@ class MainstreamBrowsePagesController < ApplicationController
   def new; end
 
   def create
+    # Assigning the attributes directly, rather than using the 'attributes' key
+    # in the `expose` method above, means that we can use the `mainstream_browse_page`
+    # helper in other member actions.
+    #
+    # This is described in greater detail in this GitHub issue:
+    # https://github.com/hashrocket/decent_exposure/issues/99#issuecomment-32115500
+    #
+    mainstream_browse_page.attributes = mainstream_browse_page_params
+
     if mainstream_browse_page.save
       PanopticonNotifier.create_tag(
         MainstreamBrowsePagePresenter.new(mainstream_browse_page)
@@ -34,6 +43,15 @@ class MainstreamBrowsePagesController < ApplicationController
     else
       render action: :edit
     end
+  end
+
+  def publish
+    mainstream_browse_page.publish!
+    PanopticonNotifier.publish_tag(
+      MainstreamBrowsePagePresenter.new(mainstream_browse_page)
+    )
+
+    redirect_to mainstream_browse_page_path(mainstream_browse_page)
   end
 
 private

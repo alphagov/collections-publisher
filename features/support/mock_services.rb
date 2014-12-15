@@ -6,5 +6,6 @@ Before('@mock-panopticon') do
   CollectionsPublisher.services(:panopticon, double(:panopticon,
     create_tag: nil,
     put_tag: nil,
+    publish_tag: nil,
   ))
 end
