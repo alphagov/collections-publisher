@@ -1,11 +1,5 @@
-<%= content_for :page_title, "New mainstream browse page" %>
-
-<h1>
-  New mainstream browse page
-</h1>
-
-<%= form_for mainstream_browse_page, html: { class: 'resource' } do |f| %>
-  <% if parent.present? %>
+<%= form_for resource, html: { class: 'resource' } do |f| %>
+  <% if local_assigns[:parent].present? %>
     <p>
       <label for="parent-name">Parent:</label>
       <%= text_field_tag 'parent-name', "#{parent.title} (#{parent.base_path})", disabled: true %>
@@ -18,6 +12,8 @@
   <%= f.text_field :description %>
 
   <div class="form-actions">
-    <button type="submit">Create</button>
+    <button type="submit">
+      <%= resource.new_record? ? 'Create' : 'Save' %>
+    </button>
   </div>
 <% end %>

@@ -8,7 +8,7 @@ describe 'listing browse pages' do
 
     visit mainstream_browse_pages_path
 
-    within '.mainstream-browse-pages' do
+    within '.tags-list' do
       parent_browse_pages.each do |parent_browse_page|
         expect(page).to have_link(parent_browse_page.title,
                                   href: mainstream_browse_page_path(parent_browse_page))

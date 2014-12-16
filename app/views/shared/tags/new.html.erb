@@ -1,0 +1,12 @@
+<%= content_for :page_title, "New #{tag_type_label.downcase}" %>
+
+<h1>
+  New <%= tag_type_label.downcase %>
+</h1>
+
+<%=
+  render partial: 'shared/tags/form', locals: {
+    resource: resource,
+    parent: parent,
+  }
+%>

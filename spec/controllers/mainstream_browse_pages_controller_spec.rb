@@ -32,16 +32,15 @@ describe MainstreamBrowsePagesController do
 
   describe 'POST create' do
     before do
-      allow(controller).to receive(:mainstream_browse_page)
+      allow(controller).to receive(:resource)
         .and_return(mainstream_browse_page) # defined in `describe` blocks below
       allow(MainstreamBrowsePagePresenter).to receive(:new)
         .with(mainstream_browse_page).and_return(presenter)
     end
 
-    let(:mainstream_browse_page) { double(:mainstream_browse_page,
-      :attributes= => true, # stub assignment from decent_exposure
-      :save => true
-    )}
+    let(:mainstream_browse_page) {
+      MainstreamBrowsePage.new
+    }
 
     it 'notifies panopticon' do
       expect(PanopticonNotifier).to receive(:create_tag).with(presenter)
@@ -52,14 +51,14 @@ describe MainstreamBrowsePagesController do
 
   describe 'PUT update' do
     before do
-      allow(controller).to receive(:mainstream_browse_page)
+      allow(controller).to receive(:resource)
         .and_return(mainstream_browse_page) # defined in `describe` blocks below
       allow(MainstreamBrowsePagePresenter).to receive(:new)
         .with(mainstream_browse_page).and_return(presenter)
     end
 
     let(:mainstream_browse_page) {
-      double(:mainstream_browse_page, update_attributes: true)
+      create(:mainstream_browse_page)
     }
 
     it 'notifies panopticon' do

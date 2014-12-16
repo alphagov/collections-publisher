@@ -1,0 +1,17 @@
+<%= content_for :page_title, "#{tag_type_label.pluralize}" %>
+
+<header class="heading-with-actions">
+  <h1><%= tag_type_label.pluralize %></h1>
+
+  <nav class="actions">
+    <%= link_to new_polymorphic_path(resource), class: 'new' do %>
+      <span class="icon"></span> Add a <%= tag_type_label.downcase %>
+    <% end %>
+  </nav>
+</header>
+
+<%=
+  render partial: 'shared/tags/table', locals: {
+    resources: parent_tags
+  }
+%>

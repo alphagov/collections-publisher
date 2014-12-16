@@ -1,7 +1,7 @@
 /* import govuk_admin_template to get bootstrap styles */
 @import 'govuk_admin_template';
 
-table.mainstream-browse-pages {
+table.tags-list {
   @extend .table;
   @extend .table-bordered;
   @extend .table-striped;

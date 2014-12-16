@@ -47,7 +47,7 @@ module MainstreamBrowsePageHelpers
     visit mainstream_browse_pages_path
 
     click_on existing_title
-    click_on 'Publish browse page'
+    click_on 'Publish mainstream browse page'
   end
 
   def check_for_mainstream_browse_page(title:, description: '')

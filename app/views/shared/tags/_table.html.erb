@@ -1,0 +1,34 @@
+<table class="tags-list">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">URL</th>
+      <th scope="col">State</th>
+      <% unless local_assigns[:include_children_column] == false %>
+        <th scope="col">Children</th>
+      <% end %>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% resources.each do |resource| %>
+    <tr>
+      <td><%= link_to resource.title, polymorphic_path(resource) %></td>
+      <td><%= resource.base_path %></td>
+      <td><%= resource.state %></td>
+      <% unless local_assigns[:include_children_column] == false %>
+        <td>
+          <%= pluralize resource.children.count, 'child' %>
+          (<%= resource.draft_children.count %> in draft)
+        </td>
+      <% end %>
+      <td>
+        <ul class="child-actions">
+          <li><%= link_to 'View', polymorphic_path(resource), rel: 'view' %></li>
+          <li><%= link_to 'Edit', edit_polymorphic_path(resource) %></li>
+        </ul>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
