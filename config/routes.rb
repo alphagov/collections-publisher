@@ -16,5 +16,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :topics, except: :destroy do
+    member do
+      post :publish
+    end
+  end
+
   mount GovukAdminTemplate::Engine, at: "/style-guide"
 end
