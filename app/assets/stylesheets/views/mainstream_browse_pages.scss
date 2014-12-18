@@ -25,6 +25,11 @@ table.tags-list {
       }
     }
   }
+
+  td.no-entries {
+    text-align: center;
+    padding: 20px 0;
+  }
 }
 
 .heading-with-actions {

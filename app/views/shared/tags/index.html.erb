@@ -12,6 +12,8 @@
 
 <%=
   render partial: 'shared/tags/table', locals: {
-    resources: parent_tags
+    resources: parent_tags,
+    empty_message: "No #{tag_type_label.downcase.pluralize} exist yet.
+      #{link_to('Add one', new_polymorphic_path(resource))}".html_safe
   }
 %>
