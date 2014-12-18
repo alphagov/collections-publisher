@@ -8,7 +8,8 @@ module TagCreateUpdatePublish
   module ClassMethods
     def tag_create_update_publish_for(klass)
       @tag_model = klass
-      expose(:resource, model: symbolized_tag_model_name)
+      expose(:resource, model: symbolized_tag_model_name,
+                        finder: :find_by_content_id)
     end
 
     def tag_model

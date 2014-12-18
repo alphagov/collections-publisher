@@ -41,6 +41,10 @@ class Tag < ActiveRecord::Base
     "#{base}/#{slug}"
   end
 
+  def to_param
+    content_id
+  end
+
 private
   # The state for a Tag can only be set using the event methods declared in the
   # `aasm` block above. As we don't want to allow the state to be set using the
