@@ -58,7 +58,7 @@ RSpec.describe SectorPresenter do
           publishing_app: "collections-publisher",
           rendering_app: "collections", # This will soon change to `collections-frontend`.
           routes: [
-            {path: "/oil-and-gas/offshore", type: "exact"}
+            {path: "/oil-and-gas/offshore", type: "prefix"}
           ],
           redirects: [],
           update_type: "major" # All changes in this app are de facto major for now.
