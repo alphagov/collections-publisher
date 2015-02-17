@@ -50,7 +50,6 @@ RSpec.describe SectorPresenter do
 
         expect(sector_hash).to include(
           title: "Offshore",
-          base_path: "/oil-and-gas/offshore",
           description: "Important information about offshore drilling",
           format: "specialist_sector",
           need_ids: [],

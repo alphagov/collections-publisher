@@ -10,11 +10,7 @@ RSpec.describe PublishingAPINotifier do
   describe "#publish(sector_presenter)" do
     let(:sector_hash) { double(:sector_hash) }
     let(:base_path) { double(:base_path) }
-    let(:presenter) { double(:sector_presenter, render_for_publishing_api: sector_hash) }
-
-    before do
-      allow(sector_hash).to receive(:[]).with(:base_path).and_return(base_path)
-    end
+    let(:presenter) { double(:sector_presenter, base_path: base_path, render_for_publishing_api: sector_hash) }
 
     it "sends a formatted version of the sector groupings to the publishing API" do
       PublishingAPINotifier.publish(presenter)
