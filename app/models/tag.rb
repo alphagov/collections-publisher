@@ -2,6 +2,7 @@ require 'securerandom'
 
 class Tag < ActiveRecord::Base
   include AASM
+  include ActiveModel::Dirty
 
   belongs_to :parent, class_name: 'Tag'
   has_many :children, class_name: 'Tag', foreign_key: :parent_id
@@ -9,6 +10,7 @@ class Tag < ActiveRecord::Base
   validates :slug, :title, :content_id, presence: true
   validates :slug, uniqueness: { scope: ["parent_id", "type"] }
   validate :parent_is_not_a_child
+  validate :slug_change_once_published
 
   before_validation :generate_content_id, on: :create
 
@@ -61,5 +63,11 @@ private
 
   def generate_content_id
     self.content_id ||= SecureRandom.uuid
+  end
+
+  def slug_change_once_published
+    if slug_changed? && state == 'published'
+      errors.add(:slug, 'cannot change a slug once published')
+    end
   end
 end

@@ -166,4 +166,12 @@ describe Tag do
     end
   end
 
+  it 'does not allow changing the slug for a published tag' do
+    tag = create(:tag, slug: 'example')
+    tag.publish
+    tag.slug = 'a-different-slug'
+
+    expect(tag).not_to be_valid
+    expect(tag.errors).to have_key(:slug)
+  end
 end
