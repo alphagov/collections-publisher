@@ -12,7 +12,6 @@ class SectorPresenter
   def render_for_publishing_api
     {
       title: @sector.title,
-      base_path: base_path,
       description: @sector.details.description,
       format: "specialist_sector",
       need_ids: [],
@@ -30,11 +29,11 @@ class SectorPresenter
     }
   end
 
-private
-
   def base_path
     web_url.path
   end
+
+private
 
   def web_url
     @web_url ||= URI.parse(@sector.web_url)
