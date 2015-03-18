@@ -36,7 +36,7 @@ github_status "$REPO_NAME" pending "is running on Jenkins"
 git merge --no-commit origin/master || git merge --abort
 
 bundle install --path "${HOME}/bundles/${JOB_NAME}" --deployment --without development
-RAILS_ENV=test bundle exec cucumber && bundle exec rspec spec/
+RAILS_ENV=test bundle exec rake
 
 export EXIT_STATUS=$?
 

@@ -21,13 +21,13 @@ gem 'capistrano-rails', group: :development
 
 gem 'byebug', group: [:development, :test]
 
-group :test do
+group :test, :development do
   gem 'rspec-rails'
   gem 'rspec-core', '2.14.8'
   gem 'cucumber-rails', require: false
   gem 'launchy'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
-  gem 'webmock'
+  gem 'webmock', require: false
   gem 'timecop'
 end
