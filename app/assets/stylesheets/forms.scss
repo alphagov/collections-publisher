@@ -1,0 +1,42 @@
+/* import govuk_admin_template to get bootstrap styles */
+@import 'govuk_admin_template';
+
+#new-list {
+  margin-bottom: 20px;
+}
+
+form.resource {
+  margin: 30px 0;
+}
+
+form label {
+  display: block;
+
+  .error {
+    color: $state-danger-text;
+  }
+}
+
+input[type='text'] {
+  @extend .form-control;
+}
+.errors input {
+  border-color: $state-danger-border;
+}
+
+button {
+  @extend .btn;
+  @extend .btn-default;
+
+  &[type='submit'] {
+    @extend .btn-primary;
+  }
+}
+
+.form-actions {
+  margin: 25px 0;
+
+  .cancel {
+    padding-left: 10px;
+  }
+}

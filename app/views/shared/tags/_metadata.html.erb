@@ -1,0 +1,23 @@
+<section class="attributes">
+  <dl>
+    <dt>URL</dt>
+    <dd><%= resource.base_path %></dd>
+
+    <% if resource.has_parent? %>
+    <dt>Parent</dt>
+    <dd><%= link_to resource.parent.title, polymorphic_path(resource.parent) %></dd>
+    <% end %>
+
+    <dt>Description</dt>
+    <dd>
+      <% if resource.description.present? %>
+      <%= resource.description %>
+      <% else %>
+      <em>Empty</em>
+      <% end %>
+    </dd>
+
+    <dt>State</dt>
+    <dd><%= resource.state %></dd>
+  </dl>
+</section>

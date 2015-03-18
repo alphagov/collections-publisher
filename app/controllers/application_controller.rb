@@ -9,4 +9,8 @@ class ApplicationController < ActionController::Base
   decent_configuration do
     strategy DecentExposure::StrongParametersStrategy
   end
+
+  def require_gds_editor_permissions!
+    authorise_user!("GDS Editor")
+  end
 end

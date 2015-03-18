@@ -1,0 +1,17 @@
+<%= content_for :page_title, "Edit #{tag_type_label.downcase}" %>
+
+<h1>
+  <span class="type"><%= tag_type_label %></span>
+
+  Editing
+  <% if resource.has_parent? %>
+    <%= resource.parent.title %>:
+  <% end %>
+    <%= resource.title %>
+</h1>
+
+<%=
+render partial: 'shared/tags/form', locals: {
+  resource: resource
+}
+%>

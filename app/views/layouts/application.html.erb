@@ -1,9 +1,16 @@
-<% content_for :app_title, 'GOV.UK Collections Publisher' %>
+<% content_for :app_title, 'Collections Publisher' %>
 <% content_for :page_title, ' | GOV.UK Collections Publisher' %>
 
 <% content_for :head do %>
   <%= csrf_meta_tags %>
   <%= stylesheet_link_tag 'application', media: 'all' %>
+<% end %>
+
+<% content_for :navbar_items do %>
+  <% if current_user.has_permission? "GDS Editor" %>
+  <li><%= link_to 'Mainstream browse pages', mainstream_browse_pages_path %></li>
+  <li><%= link_to 'Topics', topics_path %></li>
+  <% end %>
 <% end %>
 
 <% if user_signed_in? %>

@@ -1,0 +1,22 @@
+<% if resource.can_have_children? %>
+  <section class="children">
+    <header class="heading-with-actions">
+      <h2>Children</h2>
+
+      <nav class="actions">
+        <%= link_to new_polymorphic_path(resource, parent_id: resource.id), class: 'new' do %>
+        <span class="icon"></span> Add child page
+        <% end %>
+      </nav>
+    </header>
+
+    <%=
+      render partial: 'shared/tags/table', locals: {
+        resources: resource.children,
+        include_children_column: false,
+        empty_message: "No children exist yet.
+          #{link_to('Add one', new_polymorphic_path(resource, parent_id: resource.id))}".html_safe
+      }
+    %>
+  </section>
+<% end %>
