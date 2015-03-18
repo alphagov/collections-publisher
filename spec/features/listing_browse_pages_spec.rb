@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe 'listing browse pages' do
+  before do
+    stub_user.permissions << "GDS Editor"
+  end
 
   it 'only shows parent browse pages' do
     parent_browse_pages = create_list(:mainstream_browse_page, 5)

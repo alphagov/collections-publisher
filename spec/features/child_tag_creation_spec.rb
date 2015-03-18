@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe 'creating child tags' do
+  before do
+    stub_user.permissions << "GDS Editor"
+  end
 
   it 'populates the parent_id input field given a parent_id parameter' do
     parent_browse_page = create(:mainstream_browse_page)

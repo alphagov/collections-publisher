@@ -1,4 +1,6 @@
 Feature: Mainstream browse pages
+  Background:
+    Given I am logged in as GDS Editor
 
   @mock-panopticon
   Scenario: Creating a page

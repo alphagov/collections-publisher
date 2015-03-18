@@ -5,6 +5,10 @@ describe MainstreamBrowsePagesController do
   let(:attributes) { attributes_for(:mainstream_browse_page) }
   let(:presenter) { double(:presenter, render_for_panopticon: nil) }
 
+  before do
+    stub_user.permissions << "GDS Editor"
+  end
+
   describe 'GET new' do
     let(:parent_browse_page) { create(:mainstream_browse_page) }
 
@@ -27,6 +31,14 @@ describe MainstreamBrowsePagesController do
       parent = controller.send(:parent)
 
       expect(parent).to eq(parent_browse_page)
+    end
+
+    it 'does not allow users without GDS Editor permissions access' do
+      stub_user.permissions = ["signin"]
+
+      get :new, parent_id: parent_browse_page.id
+
+      expect(response.status).to eq(403)
     end
   end
 
