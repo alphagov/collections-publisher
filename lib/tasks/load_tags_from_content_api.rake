@@ -43,6 +43,16 @@ task :load_tags_from_content_api => :environment do
     end
   end
 
+  puts "Publishing all 'live' tags"
+  tags.each do |api_tag|
+    existing_tag = Tag.where(slug: api_tag.slug).first
+
+    if api_tag.state == "live"
+      existing_tag.publish
+      existing_tag.save!
+    end
+  end
+
   puts "There are now #{Tag.count} tags in the database"
   puts "Finished loading tags"
 end
