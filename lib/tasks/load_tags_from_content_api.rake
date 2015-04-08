@@ -47,7 +47,7 @@ task :load_tags_from_content_api => :environment do
   tags.each do |api_tag|
     existing_tag = Tag.where(slug: api_tag.slug).first
 
-    if api_tag.state == "live"
+    if api_tag.state == "live" && !existing_tag.published?
       existing_tag.publish
       existing_tag.save!
     end
