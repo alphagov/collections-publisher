@@ -10,6 +10,10 @@
 #  updated_at :datetime
 #  title      :string(255)
 #
+# Indexes
+#
+#  index_list_items_on_list_id_and_index  (list_id,index)
+#
 
 class ListItem < ActiveRecord::Base
   belongs_to :list
