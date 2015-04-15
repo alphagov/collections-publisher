@@ -31,4 +31,5 @@ group :test, :development do
   gem 'factory_girl_rails'
   gem 'webmock', require: false
   gem 'timecop'
+  gem 'annotate', '~> 2.6.8'
 end
