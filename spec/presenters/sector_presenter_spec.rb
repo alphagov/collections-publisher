@@ -8,7 +8,7 @@ RSpec.describe SectorPresenter do
       web_url: "http://example.com/oil-and-gas/offshore",
       details: double(:details, description: "Important information about offshore drilling"),
       ordered_lists: ordered_lists,
-      uncategorized_contents: uncategorized_contents
+      uncategorized_list_items: uncategorized_list_items
     ) }
 
     let(:ordered_lists) {
@@ -16,17 +16,17 @@ RSpec.describe SectorPresenter do
         FactoryGirl.build(:list,
           name: "Piping",
           index: 0,
-          contents: [
-            FactoryGirl.build(:content, api_url: "http://example.com/api/undersea-piping-restrictions.json")
+          list_items: [
+            FactoryGirl.build(:list_item, api_url: "http://example.com/api/undersea-piping-restrictions.json")
           ]
         ),
         FactoryGirl.build(:list,
           name: "Oil rigs",
           index: 1,
-          contents: [
-            FactoryGirl.build(:content, api_url: "http://example.com/api/oil-rig-safety-requirements.json"),
-            FactoryGirl.build(:content, api_url: "http://example.com/api/oil-rig-staffing.json"),
-            FactoryGirl.build(:content, api_url: "http://example.com/api/riggs.json")
+          list_items: [
+            FactoryGirl.build(:list_item, api_url: "http://example.com/api/oil-rig-safety-requirements.json"),
+            FactoryGirl.build(:list_item, api_url: "http://example.com/api/oil-rig-staffing.json"),
+            FactoryGirl.build(:list_item, api_url: "http://example.com/api/riggs.json")
           ]
         )
       ]
@@ -34,13 +34,13 @@ RSpec.describe SectorPresenter do
 
     before do
       piping, oil_rigs = ordered_lists
-      allow(oil_rigs).to receive(:tagged_contents).and_return(oil_rigs.contents.reject {|c| c.api_url == "http://example.com/api/riggs.json"})
-      allow(piping).to receive(:tagged_contents).and_return(piping.contents)
+      allow(oil_rigs).to receive(:tagged_list_items).and_return(oil_rigs.list_items.reject {|c| c.api_url == "http://example.com/api/riggs.json"})
+      allow(piping).to receive(:tagged_list_items).and_return(piping.list_items)
     end
 
-    let(:uncategorized_contents) {
+    let(:uncategorized_list_items) {
       [
-        FactoryGirl.build(:content, api_url: "http://example.com/api/north-sea-shipping-lanes.json")
+        FactoryGirl.build(:list_item, api_url: "http://example.com/api/north-sea-shipping-lanes.json")
       ]
     }
 

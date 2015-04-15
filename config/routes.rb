@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     put :publish
 
     resources :lists, only: [:index, :edit, :create, :update, :destroy] do
-      resources :contents, only: [:create, :update, :destroy]
+      resources :list_items, only: [:create, :update, :destroy]
     end
   end
 

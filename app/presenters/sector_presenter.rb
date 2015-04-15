@@ -43,12 +43,12 @@ private
     @sector.ordered_lists.map do |list|
       {
         name: list.name,
-        contents: list.tagged_contents.map(&:api_url)
+        contents: list.tagged_list_items.map(&:api_url)
       }
     end
   end
 
-  def uncategorized_contents
-    @uncategorized_contents ||= @sector.uncategorized_contents.map(&:api_url)
+  def uncategorized_list_items
+    @uncategorized_list_items ||= @sector.uncategorized_list_items.map(&:api_url)
   end
 end

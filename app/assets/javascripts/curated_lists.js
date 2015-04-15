@@ -32,7 +32,7 @@
       });
     },
     hideContentForms: function() {
-      $('form').filter('.new_content').hide();
+      $('form').filter('.new_list_item').hide();
     },
     hideRedundantColumns: function($lists) {
       $lists.closest('table').find('.api-url, .index, .remove').hide();
@@ -113,13 +113,13 @@
     createRow: function($list, $row, index) {
       $row.addClass('working');
 
-      var $form = $list.closest('section').find('.new_content');
+      var $form = $list.closest('section').find('.new_list_item');
       var createURL = $form.attr('action');
 
       $.ajax(createURL, {
         type: 'POST',
         data: JSON.stringify({
-          content: {
+          list_item: {
             index: index,
             title: $row.find('.title').text(),
             api_url: $row.find('.api-url').text()

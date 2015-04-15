@@ -21,25 +21,25 @@ class Sector < SimpleDelegator
     lists.order(:index)
   end
 
-  def contents_from_api
-    @contents_from_api ||= CollectionsPublisher.services(:content_api)
+  def list_items_from_api
+    @list_items_from_api ||= CollectionsPublisher.services(:content_api)
       .with_tag(slug, 'specialist_sector', draft: true)
       .map { |content_blob|
-        Content.new(title: content_blob.title, api_url: content_blob.id)
+        ListItem.new(title: content_blob.title, api_url: content_blob.id)
       }
   end
 
-  def contents
-    lists.map(&:contents).flatten
+  def list_items
+    lists.map(&:list_items).flatten
   end
 
-  def uncategorized_contents
-    api_urls = contents.map(&:api_url)
-    contents_from_api.reject {|content| api_urls.include?(content.api_url) }
+  def uncategorized_list_items
+    api_urls = list_items.map(&:api_url)
+    list_items_from_api.reject {|list_item| api_urls.include?(list_item.api_url) }
   end
 
-  def untagged_contents
-    @untagged_contents ||= lists.map(&:untagged_contents).flatten
+  def untagged_list_items
+    @untagged_list_items ||= lists.map(&:untagged_list_items).flatten
   end
 
   def to_param

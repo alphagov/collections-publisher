@@ -1,7 +1,7 @@
 <h1>Curated lists for "<%= sector.title %>"<%= " (draft)" if sector.draft? %></h1>
 
-<% if sector.untagged_contents.any? %>
-  <div class='untagged-contents subtle-highlight'>
+<% if sector.untagged_list_items.any? %>
+  <div class='untagged-list-items subtle-highlight'>
     <p>
       <strong>Warning</strong>: this content has been curated but is not tagged to this sector.
       Please either remove it or re-tag it to the sector.
@@ -15,10 +15,10 @@
       </thead>
 
       <tbody>
-        <% sector.untagged_contents.each do |content| %>
+        <% sector.untagged_list_items.each do |list_item| %>
           <tr>
-            <td class='title'><%= content.title %></td>
-            <td class='remove'><%= button_to 'Remove', sector_list_content_path(sector, content.list, content), method: :delete %></td>
+            <td class='title'><%= list_item.title %></td>
+            <td class='remove'><%= button_to 'Remove', sector_list_list_item_path(sector, list_item.list, list_item), method: :delete %></td>
           </tr>
         <% end %>
       </tbody>
@@ -76,22 +76,22 @@
 
         <tbody class='curated-list' data-list-id='<%= list.id %>'>
           <tr class='empty-list'><td>Empty</td></tr>
-          <% list.tagged_contents.each do |content| %>
+          <% list.tagged_list_items.each do |list_item| %>
             <tr
-              data-update-url='<%= sector_list_content_path(sector, list, content) %>'
-              data-index='<%= content.index %>'
+              data-update-url='<%= sector_list_list_item_path(sector, list, list_item) %>'
+              data-index='<%= list_item.index %>'
               data-list-id='<%= list.id %>'
             >
-              <td class='index'><%= content.index %></td>
-              <td class='title'><%= content.title %></td>
-              <td class='api-url'><%= content.api_url %></td>
-              <td class='remove'><%= button_to 'Remove', sector_list_content_path(sector, list, content), method: :delete %></td>
+              <td class='index'><%= list_item.index %></td>
+              <td class='title'><%= list_item.title %></td>
+              <td class='api-url'><%= list_item.api_url %></td>
+              <td class='remove'><%= button_to 'Remove', sector_list_list_item_path(sector, list, list_item), method: :delete %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
 
-      <%= form_for([sector, list, Content.new], html: {id: nil}) do |f| %>
+      <%= form_for([sector, list, ListItem.new], html: {id: nil}) do |f| %>
         <%= f.text_field :api_url, label: 'API URL' %>
         <%= f.number_field :index %>
 
@@ -115,10 +115,10 @@
 
     <tbody class='curated-list'>
       <tr class='empty-list'><td colspan='2'>Empty</td></tr>
-      <% sector.uncategorized_contents.each do |content| %>
+      <% sector.uncategorized_list_items.each do |list_item| %>
         <tr>
-          <td class='title'><%= content.title %></td>
-          <td class='api-url'><%= content.api_url %></td>
+          <td class='title'><%= list_item.title %></td>
+          <td class='api-url'><%= list_item.api_url %></td>
         </tr>
       <% end %>
     </tbody>
