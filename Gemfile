@@ -24,6 +24,7 @@ gem 'byebug', group: [:development, :test]
 
 group :test, :development do
   gem 'rspec-rails', '~> 2.14.2'
+  gem 'capybara', '~> 2.4.1'
   gem 'cucumber-rails', '~> 1.4.1', require: false
   gem 'launchy'
   gem 'database_cleaner', '~> 1.3.0'
