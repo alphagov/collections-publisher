@@ -6,7 +6,7 @@ RSpec.describe PanopticonNotifier do
   }
 
   before do
-    CollectionsPublisher.services(:panopticon, panopticon)
+    allow(CollectionsPublisher).to receive(:services).with(:panopticon).and_return(panopticon)
   end
 
   let(:tag_hash) { double(:tag_hash) }
