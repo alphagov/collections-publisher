@@ -26,5 +26,14 @@ module AuthenticationFeatureHelpers
   end
 end
 
-RSpec.configuration.include AuthenticationControllerHelpers, :type => :controller
-RSpec.configuration.include AuthenticationFeatureHelpers, :type => :feature
+RSpec.configure do |config|
+  config.include AuthenticationControllerHelpers, :type => :controller
+  config.before(:each, type: :controller) do
+    login_as_stub_user
+  end
+
+  config.include AuthenticationFeatureHelpers, :type => :feature
+  config.before(:each, type: :feature) do
+    login_as_stub_user
+  end
+end
