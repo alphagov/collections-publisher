@@ -75,23 +75,23 @@ describe Sector do
   end
 
   describe '#contents_from_api' do
-    it "returns the Content instances for all content tagged to the sector, if any" do
+    it "returns the ListItem instances for all content tagged to the sector, if any" do
       sector1 = Sector.find('example-sector-1')
-      sector1.contents_from_api.each do |content|
-        expect(content).to be_a(Content)
+      sector1.list_items_from_api.each do |content|
+        expect(content).to be_a(ListItem)
       end
 
-      expect(sector1.contents_from_api.map(&:api_url)).to eq([
+      expect(sector1.list_items_from_api.map(&:api_url)).to eq([
         "#{Plek.new.find('contentapi')}/example-content-1.json",
         "#{Plek.new.find('contentapi')}/example-content-2.json"
       ])
-      expect(sector1.contents_from_api.map(&:title)).to eq([
+      expect(sector1.list_items_from_api.map(&:title)).to eq([
         "Example content 1",
         "Example content 2"
       ])
 
       sector2 = Sector.find('example-sector-2')
-      expect(sector2.contents_from_api).to eq([])
+      expect(sector2.list_items_from_api).to eq([])
     end
   end
 

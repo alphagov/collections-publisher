@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141016134949) do
+ActiveRecord::Schema.define(version: 20150415145646) do
 
-  create_table "contents", force: true do |t|
+  create_table "list_items", force: true do |t|
     t.string   "api_url"
     t.integer  "index",      default: 0, null: false
     t.integer  "list_id"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20141016134949) do
     t.datetime "updated_at"
     t.string   "title"
   end
+
+  add_index "list_items", ["list_id", "index"], name: "index_list_items_on_list_id_and_index", using: :btree
 
   create_table "lists", force: true do |t|
     t.string  "name"

@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: contents
+# Table name: list_items
 #
 #  id         :integer          not null, primary key
 #  api_url    :string(255)
@@ -10,8 +10,12 @@
 #  updated_at :datetime
 #  title      :string(255)
 #
+# Indexes
+#
+#  index_list_items_on_list_id_and_index  (list_id,index)
+#
 
-class Content < ActiveRecord::Base
+class ListItem < ActiveRecord::Base
   belongs_to :list
 
   validates :index, numericality: {greater_than_or_equal_to: 0}

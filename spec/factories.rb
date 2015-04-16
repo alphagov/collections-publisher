@@ -5,7 +5,7 @@ FactoryGirl.define do
 
   factory :list
 
-  factory :content
+  factory :list_item
 
   factory :tag do
     sequence(:title) {|n| "Browse page #{n}" }

@@ -26,7 +26,7 @@ module ListHelpers
     list = FactoryGirl.create(:list, name: name, sector_id: sector)
 
     content.each do |content_slug|
-      FactoryGirl.create(:content, api_url: content_api_url(slug: content_slug), list: list)
+      FactoryGirl.create(:list_item, api_url: content_api_url(slug: content_slug), list: list)
     end
   end
 
@@ -65,10 +65,10 @@ module ListHelpers
   def check_for_untagged_content(sector_name:, content:)
     visit_sector(sector_name)
 
-    within ".untagged-contents" do
+    within ".untagged-list-items" do
       content.each do |content_slug|
-        content_item = Content.where(api_url: content_api_url(slug: content_slug)).first
-        expect(page).to have_content(content_item.title)
+        list_item = ListItem.where(api_url: content_api_url(slug: content_slug)).first
+        expect(page).to have_content(list_item.title)
       end
     end
   end

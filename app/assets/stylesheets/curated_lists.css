@@ -2,9 +2,9 @@
   cursor: move;
 }
 
-.untagged-contents {
+.untagged-list-items {
   padding: 20px;
 }
-.untagged-contents table {
+.untagged-list-items table {
   margin-bottom: 0;
 }

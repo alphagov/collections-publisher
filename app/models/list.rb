@@ -14,18 +14,18 @@
 #
 
 class List < ActiveRecord::Base
-  has_many :contents, dependent: :destroy
+  has_many :list_items, dependent: :destroy
 
   def sector
     @sector ||= Sector.find(sector_id)
   end
 
-  def tagged_contents
-    @tagged_contents ||= contents.order(:index).select {|c| tagged_api_urls.include?(c.api_url) }
+  def tagged_list_items
+    @tagged_list_items ||= list_items.order(:index).select {|c| tagged_api_urls.include?(c.api_url) }
   end
 
-  def untagged_contents
-    @tagged_contents ||= contents - tagged_contents
+  def untagged_list_items
+    @tagged_list_items ||= list_items - tagged_list_items
   end
 
   def mark_as_published
@@ -40,6 +40,6 @@ class List < ActiveRecord::Base
 private
 
   def tagged_api_urls
-    @tagged_api_urls ||= sector.contents_from_api.map(&:api_url)
+    @tagged_api_urls ||= sector.list_items_from_api.map(&:api_url)
   end
 end
