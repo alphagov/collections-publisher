@@ -19,5 +19,5 @@
 #
 
 class Topic < Tag
-
+  has_many :mainstream_browse_pages, through: :reverse_tag_associations, source: :from_tag
 end

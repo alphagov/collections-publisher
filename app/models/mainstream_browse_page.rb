@@ -19,6 +19,8 @@
 #
 
 class MainstreamBrowsePage < Tag
+  has_many :topics, through: :tag_associations, source: :to_tag
+
   def base_path
     "/browse#{super}"
   end

@@ -33,6 +33,16 @@ ActiveRecord::Schema.define(version: 20150420123054) do
 
   add_index "lists", ["sector_id"], name: "index_lists_on_sector_id", using: :btree
 
+  create_table "tag_associations", force: true do |t|
+    t.integer  "from_tag_id", null: false
+    t.integer  "to_tag_id",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tag_associations", ["from_tag_id", "to_tag_id"], name: "index_tag_associations_on_from_tag_id_and_to_tag_id", unique: true, using: :btree
+  add_index "tag_associations", ["to_tag_id"], name: "index_tag_associations_on_to_tag_id", using: :btree
+
   create_table "tags", force: true do |t|
     t.string   "type"
     t.string   "slug",        null: false
