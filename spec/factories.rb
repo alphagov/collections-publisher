@@ -22,6 +22,7 @@ FactoryGirl.define do
       end
     end
 
+    factory :topic, class: Topic
     factory :mainstream_browse_page, class: MainstreamBrowsePage
   end
 end
