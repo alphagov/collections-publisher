@@ -76,7 +76,7 @@ describe MainstreamBrowsePagesController do
     it 'notifies panopticon' do
       expect(PanopticonNotifier).to receive(:update_tag).with(presenter)
 
-      put :update, id: 'abc', mainstream_browse_page: attributes
+      put :update, id: mainstream_browse_page.content_id, mainstream_browse_page: attributes
     end
   end
 

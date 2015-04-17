@@ -2,6 +2,8 @@ module TagCreateUpdatePublish
   extend ActiveSupport::Concern
 
   included do
+    before_filter :find_resource, only: [:edit, :publish, :show, :update]
+
     helper_method :parent, :parent_tags, :tag_type_label
   end
 
@@ -36,12 +38,10 @@ module TagCreateUpdatePublish
   end
 
   def show
-    @resource = resource
     render 'shared/tags/show'
   end
 
   def edit
-    @resource = resource
     render 'shared/tags/edit'
   end
 
@@ -61,7 +61,6 @@ module TagCreateUpdatePublish
   end
 
   def update
-    @resource = resource
     if @resource.update_attributes(tag_params)
       PanopticonNotifier.update_tag(
         presenter_klass.new(@resource)
@@ -74,7 +73,6 @@ module TagCreateUpdatePublish
   end
 
   def publish
-    @resource = resource
     @resource.publish!
     PanopticonNotifier.publish_tag(
       presenter_klass.new(@resource)
@@ -106,4 +104,7 @@ private
     params[:parent_id] || params.fetch(self.class.symbolized_tag_model_name, {})[:parent_id]
   end
 
+  def find_resource
+    @resource = self.class.tag_model.find_by_content_id(params[:id])
+  end
 end
