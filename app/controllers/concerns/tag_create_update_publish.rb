@@ -3,6 +3,7 @@ module TagCreateUpdatePublish
 
   included do
     before_filter :find_resource, only: [:edit, :publish, :show, :update]
+    before_filter :new_resource, only: [:create, :index, :new]
 
     helper_method :parent, :parent_tags, :tag_type_label
   end
@@ -10,8 +11,6 @@ module TagCreateUpdatePublish
   module ClassMethods
     def tag_create_update_publish_for(klass)
       @tag_model = klass
-      expose(:resource, model: symbolized_tag_model_name,
-                        finder: :find_by_content_id)
     end
 
     def tag_model
@@ -28,12 +27,10 @@ module TagCreateUpdatePublish
   end
 
   def index
-    @resource = resource
     render 'shared/tags/index'
   end
 
   def new
-    @resource = resource
     render 'shared/tags/new'
   end
 
@@ -46,7 +43,6 @@ module TagCreateUpdatePublish
   end
 
   def create
-    @resource = resource
     @resource.attributes = tag_params
 
     if @resource.save
@@ -106,5 +102,9 @@ private
 
   def find_resource
     @resource = self.class.tag_model.find_by_content_id(params[:id])
+  end
+
+  def new_resource
+    @resource = self.class.tag_model.new
   end
 end
