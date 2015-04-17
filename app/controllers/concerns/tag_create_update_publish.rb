@@ -26,61 +26,61 @@ module TagCreateUpdatePublish
   end
 
   def index
+    @resource = resource
     render 'shared/tags/index'
   end
 
   def new
+    @resource = resource
     render 'shared/tags/new'
   end
 
   def show
+    @resource = resource
     render 'shared/tags/show'
   end
 
   def edit
+    @resource = resource
     render 'shared/tags/edit'
   end
 
   def create
-    # Assigning the attributes directly, rather than using the 'attributes' key
-    # in the `expose` method above, means that we can use the `mainstream_browse_page`
-    # helper in other member actions.
-    #
-    # This is described in greater detail in this GitHub issue:
-    # https://github.com/hashrocket/decent_exposure/issues/99#issuecomment-32115500
-    #
-    resource.attributes = tag_params
+    @resource = resource
+    @resource.attributes = tag_params
 
-    if resource.save
+    if @resource.save
       PanopticonNotifier.create_tag(
-        presenter_klass.new(resource)
+        presenter_klass.new(@resource)
       )
 
-      redirect_to polymorphic_path(resource)
+      redirect_to polymorphic_path(@resource)
     else
       render 'shared/tags/new'
     end
   end
 
   def update
-    if resource.update_attributes(tag_params)
+    @resource = resource
+    if @resource.update_attributes(tag_params)
       PanopticonNotifier.update_tag(
-        presenter_klass.new(resource)
+        presenter_klass.new(@resource)
       )
 
-      redirect_to polymorphic_path(resource)
+      redirect_to polymorphic_path(@resource)
     else
       render 'shared/tags/edit'
     end
   end
 
   def publish
-    resource.publish!
+    @resource = resource
+    @resource.publish!
     PanopticonNotifier.publish_tag(
-      presenter_klass.new(resource)
+      presenter_klass.new(@resource)
     )
 
-    redirect_to polymorphic_path(resource)
+    redirect_to polymorphic_path(@resource)
   end
 
 private

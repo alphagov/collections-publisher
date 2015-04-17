@@ -1,30 +1,30 @@
-<%= content_for :page_title, resource.title %>
+<%= content_for :page_title, @resource.title %>
 
 <header class="heading-with-actions">
   <h1>
     <span class="type"><%= tag_type_label %></span>
-    <% if resource.has_parent? %>
-      <%= link_to "#{resource.parent.title}:", polymorphic_path(resource.parent) %>
+    <% if @resource.has_parent? %>
+      <%= link_to "#{@resource.parent.title}:", polymorphic_path(@resource.parent) %>
     <% end %>
-    <%= resource.title %>
+    <%= @resource.title %>
   </h1>
 
   <nav class="actions">
-    <%= link_to 'Edit', edit_polymorphic_path(resource) %>
-    <% if resource.may_publish? %>
-      <%= link_to "Publish #{tag_type_label.downcase}", polymorphic_path(resource, action: 'publish'), method: :post %>
+    <%= link_to 'Edit', edit_polymorphic_path(@resource) %>
+    <% if @resource.may_publish? %>
+      <%= link_to "Publish #{tag_type_label.downcase}", polymorphic_path(@resource, action: 'publish'), method: :post %>
     <% end %>
   </nav>
 </header>
 
 <%=
   render partial: 'shared/tags/metadata', locals: {
-    resource: resource
+    resource: @resource
   }
 %>
 
 <%=
   render partial: 'shared/tags/children', locals: {
-    resource: resource
+    resource: @resource
   }
 %>
