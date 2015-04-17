@@ -3,7 +3,7 @@ module TagCreateUpdatePublish
 
   included do
     before_filter :find_resource, only: [:edit, :publish, :show, :update]
-    before_filter :new_resource, only: [:create, :index, :new]
+    before_filter :new_resource, only: [:create, :new]
 
     helper_method :parent, :parent_tags, :tag_type_label
   end
@@ -27,6 +27,7 @@ module TagCreateUpdatePublish
   end
 
   def index
+    @model_class = self.class.tag_model
     render 'shared/tags/index'
   end
 

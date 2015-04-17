@@ -4,7 +4,7 @@
   <h1><%= tag_type_label.pluralize %></h1>
 
   <nav class="actions">
-    <%= link_to new_polymorphic_path(@resource), class: 'new' do %>
+    <%= link_to new_polymorphic_path(@model_class), class: 'new' do %>
       <span class="icon"></span> Add a <%= tag_type_label.downcase %>
     <% end %>
   </nav>
@@ -14,6 +14,6 @@
   render partial: 'shared/tags/table', locals: {
     resources: parent_tags,
     empty_message: "No #{tag_type_label.downcase.pluralize} exist yet.
-      #{link_to('Add one', new_polymorphic_path(@resource))}".html_safe
+      #{link_to('Add one', new_polymorphic_path(@model_class))}".html_safe
   }
 %>
