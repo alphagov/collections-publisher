@@ -4,7 +4,7 @@ RSpec.describe PublishingAPINotifier do
   let(:publishing_api) { double(:publishing_api, put_content_item: nil) }
 
   before do
-    CollectionsPublisher.services(:publishing_api, publishing_api)
+    allow(CollectionsPublisher).to receive(:services).with(:publishing_api).and_return(publishing_api)
   end
 
   describe "#publish(sector_presenter)" do
