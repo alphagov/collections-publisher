@@ -4,14 +4,14 @@
   <span class="type"><%= tag_type_label %></span>
 
   Editing
-  <% if resource.has_parent? %>
-    <%= resource.parent.title %>:
+  <% if @resource.has_parent? %>
+    <%= @resource.parent.title %>:
   <% end %>
-    <%= resource.title %>
+    <%= @resource.title %>
 </h1>
 
 <%=
 render partial: 'shared/tags/form', locals: {
-  resource: resource
+  resource: @resource
 }
 %>

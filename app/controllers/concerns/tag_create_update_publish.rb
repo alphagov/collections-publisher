@@ -2,14 +2,15 @@ module TagCreateUpdatePublish
   extend ActiveSupport::Concern
 
   included do
+    before_filter :find_resource, only: [:edit, :publish, :show, :update]
+    before_filter :new_resource, only: [:create, :new]
+
     helper_method :parent, :parent_tags, :tag_type_label
   end
 
   module ClassMethods
     def tag_create_update_publish_for(klass)
       @tag_model = klass
-      expose(:resource, model: symbolized_tag_model_name,
-                        finder: :find_by_content_id)
     end
 
     def tag_model
@@ -26,6 +27,7 @@ module TagCreateUpdatePublish
   end
 
   def index
+    @model_class = self.class.tag_model
     render 'shared/tags/index'
   end
 
@@ -42,45 +44,38 @@ module TagCreateUpdatePublish
   end
 
   def create
-    # Assigning the attributes directly, rather than using the 'attributes' key
-    # in the `expose` method above, means that we can use the `mainstream_browse_page`
-    # helper in other member actions.
-    #
-    # This is described in greater detail in this GitHub issue:
-    # https://github.com/hashrocket/decent_exposure/issues/99#issuecomment-32115500
-    #
-    resource.attributes = tag_params
+    @resource.attributes = tag_params
 
-    if resource.save
+    if @resource.save
       PanopticonNotifier.create_tag(
-        presenter_klass.new(resource)
+        presenter_klass.new(@resource)
       )
 
-      redirect_to polymorphic_path(resource)
+      redirect_to polymorphic_path(@resource)
     else
       render 'shared/tags/new'
     end
   end
 
   def update
-    if resource.update_attributes(tag_params)
+    if @resource.update_attributes(tag_params)
       PanopticonNotifier.update_tag(
-        presenter_klass.new(resource)
+        presenter_klass.new(@resource)
       )
 
-      redirect_to polymorphic_path(resource)
+      redirect_to polymorphic_path(@resource)
     else
       render 'shared/tags/edit'
     end
   end
 
   def publish
-    resource.publish!
+    @resource.publish!
     PanopticonNotifier.publish_tag(
-      presenter_klass.new(resource)
+      presenter_klass.new(@resource)
     )
 
-    redirect_to polymorphic_path(resource)
+    redirect_to polymorphic_path(@resource)
   end
 
 private
@@ -106,4 +101,11 @@ private
     params[:parent_id] || params.fetch(self.class.symbolized_tag_model_name, {})[:parent_id]
   end
 
+  def find_resource
+    @resource = self.class.tag_model.find_by_content_id(params[:id])
+  end
+
+  def new_resource
+    @resource = self.class.tag_model.new
+  end
 end
