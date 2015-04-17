@@ -16,6 +16,13 @@ FactoryGirl.define do
       state 'draft'
     end
 
+    trait :published do
+      after :create do |tag|
+        tag.publish!
+      end
+    end
+
+    factory :topic, class: Topic
     factory :mainstream_browse_page, class: MainstreamBrowsePage
   end
 end
