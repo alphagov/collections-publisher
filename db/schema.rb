@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150415145646) do
+ActiveRecord::Schema.define(version: 20150420123054) do
 
   create_table "list_items", force: true do |t|
     t.string   "api_url"
@@ -50,10 +50,13 @@ ActiveRecord::Schema.define(version: 20150415145646) do
   create_table "users", force: true do |t|
     t.string  "name"
     t.string  "email"
-    t.string  "uid"
+    t.string  "uid",                                 null: false
     t.string  "organisation_slug"
     t.string  "permissions"
     t.boolean "remotely_signed_out", default: false
+    t.boolean "disabled",            default: false
   end
+
+  add_index "users", ["uid"], name: "index_users_on_uid", unique: true, using: :btree
 
 end

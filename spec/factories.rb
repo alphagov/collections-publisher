@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :user do
+    uid { SecureRandom.hex }
     permissions { ["signin"] }
   end
 
