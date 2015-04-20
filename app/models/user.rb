@@ -11,6 +11,10 @@
 #  remotely_signed_out :boolean          default(FALSE)
 #  disabled            :boolean          default(FALSE)
 #
+# Indexes
+#
+#  index_users_on_uid  (uid) UNIQUE
+#
 
 class User < ActiveRecord::Base
   include GDS::SSO::User
