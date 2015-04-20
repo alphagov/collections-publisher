@@ -12,8 +12,10 @@
 #  disabled            :boolean          default(FALSE)
 #
 
-class User < ActiveRecord::Base
-  include GDS::SSO::User
+require 'spec_helper'
 
-  serialize :permissions, Array
+require 'gds-sso/lint/user_spec'
+
+RSpec.describe User do
+  it_behaves_like "a gds-sso user class"
 end
