@@ -9,6 +9,9 @@ RSpec.describe "Curating the contents of topics" do
 
   it "Curating the content for a topic" do
     #Given a number of content items tagged to a specialist sector
+    oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
+    create(:topic, :published, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
+
     content_api_has_draft_and_live_tags(
       :type => 'specialist_sector', :sort_order => 'alphabetical',
       :live => [
@@ -99,6 +102,9 @@ RSpec.describe "Curating the contents of topics" do
 
   it "highlights untagged content" do
     #Given there is curated content which has been untagged
+    oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
+    create(:topic, :published, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
+
     content_api_has_draft_and_live_tags(
       :type => 'specialist_sector', :sort_order => 'alphabetical',
       :live => [
@@ -137,6 +143,9 @@ RSpec.describe "Curating the contents of topics" do
   #Scenario: Curating draft tags
   it "curating draft tags" do
     #Given a number of content items tagged to a draft specialist sector
+    oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
+    create(:topic, :draft, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
+
     content_api_has_draft_and_live_tags(
       :type => 'specialist_sector', :sort_order => 'alphabetical',
       :live => [

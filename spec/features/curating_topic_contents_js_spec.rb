@@ -9,6 +9,9 @@ RSpec.describe "Curating the contents of topics with javascript UI", :js => true
 
   it "Curating the content for a topic" do
     #Given a number of content items tagged to a specialist sector
+    oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
+    create(:topic, :published, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
+
     content_api_has_draft_and_live_tags(
       :type => 'specialist_sector', :sort_order => 'alphabetical',
       :live => [

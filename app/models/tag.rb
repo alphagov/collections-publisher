@@ -40,6 +40,7 @@ class Tag < ActiveRecord::Base
   before_validation :generate_content_id, on: :create
 
   scope :only_parents, -> { where('parent_id IS NULL') }
+  scope :only_children, -> { where('parent_id IS NOT NULL') }
   scope :in_alphabetical_order, -> { order('title ASC') }
 
   aasm column: :state do
