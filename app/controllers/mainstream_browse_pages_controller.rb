@@ -4,6 +4,8 @@ class MainstreamBrowsePagesController < ApplicationController
 
   before_filter :require_gds_editor_permissions!
 
+  def show; end
+
 private
   def presenter_klass
     MainstreamBrowsePagePresenter
