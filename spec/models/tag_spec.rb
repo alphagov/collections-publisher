@@ -180,6 +180,9 @@ describe Tag do
     end
 
     it 'joins the parent slug for a child tag' do
+      pending("not applicable until tag slugs are remodeled")
+      # FIXME: This is how we should be moddeling tag slugs
+
       tag = create(:tag, slug: 'example', parent: parent)
 
       expect(tag.base_path).to eq("/#{parent.slug}/example")
