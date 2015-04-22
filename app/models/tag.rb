@@ -28,7 +28,7 @@ class Tag < ActiveRecord::Base
   has_many :children, class_name: 'Tag', foreign_key: :parent_id
 
   validates :slug, :title, :content_id, presence: true
-  validates :slug, uniqueness: { scope: ["parent_id", "type"] }
+  validates :slug, uniqueness: { scope: ["parent_id"] }, format: { with: /\A[a-z0-9-]*\z/ }
   validate :parent_is_not_a_child
   validate :slug_change_once_published
 

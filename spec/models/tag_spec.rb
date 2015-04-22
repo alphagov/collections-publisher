@@ -46,6 +46,19 @@ describe Tag do
         expect(tag.errors).to have_key(:slug)
       end
 
+      it "must be a valid slug" do
+        [
+          'foo/bar',
+          'under_score',
+          'space space',
+          'MixEd-Case',
+        ].each do |slug|
+          tag.slug = slug
+          expect(tag).not_to be_valid
+          expect(tag.errors).to have_key(:slug)
+        end
+      end
+
       describe 'uniqueness' do
         it 'is invalid when there is no parent and the slug already exists' do
           parent # instansiate the parent
