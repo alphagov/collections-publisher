@@ -16,6 +16,7 @@ gem 'aasm', '3.4.0'
 
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
+gem 'select2-rails', '~> 3.5.9'
 
 gem 'unicorn', '4.8.3'
 
