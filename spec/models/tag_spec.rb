@@ -22,22 +22,83 @@ require 'spec_helper'
 
 describe Tag do
 
-  let(:parent) { create(:tag) }
-  let(:valid_atts) { attributes_for(:tag) }
+  describe "validations" do
+    let(:tag) { build(:tag) }
+    let(:parent) { create(:tag, :slug => 'parent') }
 
-  it 'is created with valid attributes' do
-    tag = Tag.new(
-      slug: 'housing',
-      title: 'Housing',
-      description: 'All about housing'
-    )
+    it 'is created with valid attributes' do
+      expect(tag).to be_valid
+      expect(tag.save).to be_true
+      expect(tag).to be_persisted
+    end
 
-    expect(tag).to be_valid
-    expect(tag.save).to be_true
-    expect(tag).to be_persisted
+    it "requires a title" do
+      tag.title = ''
+
+      expect(tag).not_to be_valid
+      expect(tag.errors).to have_key(:title)
+    end
+
+    describe "on slug" do
+      it "is required" do
+        tag.slug = ''
+        expect(tag).not_to be_valid
+        expect(tag.errors).to have_key(:slug)
+      end
+
+      it "must be a valid slug" do
+        [
+          'foo/bar',
+          'under_score',
+          'space space',
+          'MixEd-Case',
+        ].each do |slug|
+          tag.slug = slug
+          expect(tag).not_to be_valid
+          expect(tag.errors).to have_key(:slug)
+        end
+      end
+
+      describe 'uniqueness' do
+        it 'is invalid when there is no parent and the slug already exists' do
+          parent # instansiate the parent
+          tag.slug = 'parent'
+
+          expect(tag).not_to be_valid
+          expect(tag.errors).to have_key(:slug)
+        end
+
+        it 'is valid when the slug has been taken by a tag with a different parent' do
+          different_parent = create(:tag)
+          create(:tag, :slug => 'passports', :parent => different_parent)
+
+          tag.parent = parent
+          tag.slug = 'passports'
+          expect(tag).to be_valid
+        end
+
+        it 'is invalid when the slug has been taken by a tag with the same parent' do
+          create(:tag, slug: 'passports', :parent => parent)
+
+          tag.parent = parent
+          tag.slug = 'passports'
+          expect(tag).not_to be_valid
+          expect(tag.errors).to have_key(:slug)
+        end
+      end
+    end
+
+    it 'is invalid when its parent has a parent' do
+      first_child = create(:tag, parent: parent)
+      tag.parent = first_child
+
+      expect(tag).not_to be_valid
+      expect(tag.errors).to have_key(:parent)
+    end
   end
 
   it 'can be created with a parent' do
+    parent = create(:tag)
     tag = Tag.create!(
       slug: 'child',
       parent: parent,
@@ -48,33 +109,6 @@ describe Tag do
     expect(tag.parent_id).to eq(parent.id)
   end
 
-  it 'is invalid without a slug' do
-    tag = Tag.new(
-      valid_atts.merge(slug: nil)
-    )
-
-    expect(tag).not_to be_valid
-    expect(tag.errors).to have_key(:slug)
-  end
-
-  it 'is invalid without a title' do
-    tag = Tag.new(
-      valid_atts.merge(title: nil)
-    )
-
-    expect(tag).not_to be_valid
-    expect(tag.errors).to have_key(:title)
-  end
-
-  it 'is invalid when its parent has a parent' do
-    first_child = create(:tag, parent: parent)
-    tag = Tag.new(
-      valid_atts.merge(parent: first_child)
-    )
-
-    expect(tag).not_to be_valid
-    expect(tag.errors).to have_key(:parent)
-  end
 
   describe 'state' do
     let(:tag) { create(:tag) }
@@ -112,43 +146,10 @@ describe Tag do
     end
 
     it 'returns false when parent_id is present' do
+      parent = create(:tag)
       tag = create(:tag, parent: parent)
 
       expect(tag.can_have_children?).to be_false
-    end
-  end
-
-  describe 'slug uniqueness' do
-
-    it 'is invalid when there is no parent and the slug already exists' do
-      create(:tag, slug: 'passports')
-      tag = Tag.new(
-        valid_atts.merge(slug: 'passports')
-      )
-
-      expect(tag).not_to be_valid
-      expect(tag.errors).to have_key(:slug)
-    end
-
-    it 'is valid when the slug has been taken by a tag with a different parent' do
-      create(:tag, slug: 'passports', parent: parent)
-      different_parent = create(:tag)
-
-      tag = Tag.new(
-        valid_atts.merge(slug: 'passports', parent: different_parent)
-      )
-
-      expect(tag).to be_valid
-    end
-
-    it 'is invalid when the slug has been taken by a tag with the same parent' do
-      create(:tag, slug: 'passports', parent: parent)
-
-      tag = Tag.new(
-        valid_atts.merge(slug: 'passports', parent: parent)
-      )
-      expect(tag).not_to be_valid
-      expect(tag.errors).to have_key(:slug)
     end
   end
 
@@ -162,9 +163,7 @@ describe Tag do
     end
 
     it 'is invalid without a content ID' do
-      tag = Tag.new(
-        valid_atts.merge(content_id: '')
-      )
+      tag = build(:tag, content_id: '')
 
       expect(tag).not_to be_valid
       expect(tag.errors).to have_key(:content_id)
@@ -174,16 +173,14 @@ describe Tag do
 
   describe '#base_path' do
     it 'returns the slug for a parent tag' do
-      tag = create(:tag, slug: 'example')
+      tag = build(:tag, slug: 'example')
 
       expect(tag.base_path).to eq('/example')
     end
 
     it 'joins the parent slug for a child tag' do
-      pending("not applicable until tag slugs are remodeled")
-      # FIXME: This is how we should be moddeling tag slugs
-
-      tag = create(:tag, slug: 'example', parent: parent)
+      parent = create(:tag)
+      tag = build(:tag, slug: 'example', parent: parent)
 
       expect(tag.base_path).to eq("/#{parent.slug}/example")
     end
