@@ -19,6 +19,8 @@ class List < ActiveRecord::Base
   has_many :list_items, dependent: :destroy
   belongs_to :topic
 
+  scope :ordered, -> { order(:index) }
+
   def sector
     @sector ||= Sector.find(sector_id)
   end

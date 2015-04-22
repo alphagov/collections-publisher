@@ -26,4 +26,8 @@ class Topic < Tag
   def panopticon_slug
     self.base_path[1..-1]
   end
+
+  def dirty?
+    lists.any?(&:dirty?)
+  end
 end

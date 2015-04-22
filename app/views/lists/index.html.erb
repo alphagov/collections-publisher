@@ -1,4 +1,4 @@
-<h1>Curated lists for "<%= sector.title %>"<%= " (draft)" if sector.draft? %></h1>
+<h1>Curated lists for "<%= @topic.title %>"<%= " (draft)" if @topic.draft? %></h1>
 
 <% if sector.untagged_list_items.any? %>
   <div class='untagged-list-items subtle-highlight'>
@@ -26,18 +26,18 @@
   </div>
 <% end %>
 
-<% unless sector.draft? %>
+<% unless @topic.draft? %>
   <p>
-    <%= button_to 'Publish', sector_publish_path(sector),
+    <%= button_to 'Publish', sector_publish_path(@topic.panopticon_slug),
           method: :put,
           class: "btn btn-success publish js-confirm",
           :'data-confirm-text' => "Are you sure you want to publish this immediately to GOV.UK?",
-          disabled: !sector.dirty?
+          disabled: !@topic.dirty?
     %>
   </p>
 <% end %>
 
-<%= form_for([sector, List.new], html: {id: 'new-list'}) do |f| %>
+<%= form_for(List.new, url: sector_lists_path(@topic.panopticon_slug), html: {id: 'new-list'}) do |f| %>
   <h2>New list</h2>
   <%= f.text_field :name %>
 
@@ -45,19 +45,19 @@
 <% end %>
 
 <div class="curated-lists">
-  <% sector.ordered_lists.each do |list| %>
+  <% @lists.each do |list| %>
     <section
       class="list"
       aria-labelledby='list-<%= list.id %>-header'
       id='list-<%= list.id %>-section'
       data-index='<%= list.index %>'
-      data-update-url='<%= sector_list_path(sector, list) %>'
+      data-update-url='<%= sector_list_path(@topic.panopticon_slug, list) %>'
     >
       <h2 id='list-<%= list.id %>-header'><%= list.name %></h2>
       <ul>
-        <li><%= link_to 'Edit name', edit_sector_list_path(sector, list) %></li>
+        <li><%= link_to 'Edit name', edit_sector_list_path(@topic.panopticon_slug, list) %></li>
         <li>
-          <%= button_to 'Delete list', sector_list_path(sector, list),
+          <%= button_to 'Delete list', sector_list_path(@topic.panopticon_slug, list),
                 method: :delete,
                 class: 'js-confirm',
                 :'data-confirm-text' => 'Are you sure you want to delete this list and all its content?'
@@ -78,20 +78,20 @@
           <tr class='empty-list'><td>Empty</td></tr>
           <% list.tagged_list_items.each do |list_item| %>
             <tr
-              data-update-url='<%= sector_list_list_item_path(sector, list, list_item) %>'
+              data-update-url='<%= sector_list_list_item_path(@topic.panopticon_slug, list, list_item) %>'
               data-index='<%= list_item.index %>'
               data-list-id='<%= list.id %>'
             >
               <td class='index'><%= list_item.index %></td>
               <td class='title'><%= list_item.title %></td>
               <td class='api-url'><%= list_item.api_url %></td>
-              <td class='remove'><%= button_to 'Remove', sector_list_list_item_path(sector, list, list_item), method: :delete %></td>
+              <td class='remove'><%= button_to 'Remove', sector_list_list_item_path(@topic.panopticon_slug, list, list_item), method: :delete %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
 
-      <%= form_for([sector, list, ListItem.new], html: {id: nil}) do |f| %>
+      <%= form_for(ListItem.new, url: sector_list_list_items_path(@topic.panopticon_slug, list), html: {id: nil}) do |f| %>
         <%= f.text_field :api_url, label: 'API URL' %>
         <%= f.number_field :index %>
 
