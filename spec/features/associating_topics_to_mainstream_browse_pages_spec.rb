@@ -9,11 +9,7 @@ describe "associating topics to mainstream browse pages" do
   context "existing mainstream browse pages" do
     let!(:mainstream_browse_page) { create(:mainstream_browse_page) }
     let!(:topic)                  { create(:topic) }
-
-    before do
-      mainstream_browse_page.save
-      topic.save
-    end
+    let!(:topic_two)              { create(:topic) }
 
     it "should show any topics that are associated" do
       mainstream_browse_page.topics << topic
@@ -25,7 +21,7 @@ describe "associating topics to mainstream browse pages" do
       expect(page).to have_content(topic.title)
     end
 
-    it "should allow associating topics" do
+    it "should allow associating a topic" do
       visit edit_mainstream_browse_page_path(mainstream_browse_page)
 
       within "form.resource" do
@@ -33,7 +29,6 @@ describe "associating topics to mainstream browse pages" do
         click_on "Save"
       end
 
-      mainstream_browse_page.reload
       expect(page.status_code).to eq(200)
       expect(page).to have_content(topic.title)
     end
@@ -53,6 +48,20 @@ describe "associating topics to mainstream browse pages" do
 
       expect(page.status_code).to eq(200)
       expect(page).to_not have_content(topic.title)
+    end
+
+    it "should allow associating multiple topics" do
+      visit edit_mainstream_browse_page_path(mainstream_browse_page)
+
+      within "form.resource" do
+        select topic.title, :from => "mainstream_browse_page_topics"
+        select topic_two.title, :from => "mainstream_browse_page_topics"
+        click_on "Save"
+      end
+
+      expect(page.status_code).to eq(200)
+      expect(page).to have_content(topic.title)
+      expect(page).to have_content(topic_two.title)
     end
   end
 end
