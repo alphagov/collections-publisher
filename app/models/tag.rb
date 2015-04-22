@@ -59,8 +59,8 @@ class Tag < ActiveRecord::Base
   end
 
   def base_path
-    # a child tag's slug field includes the parent slug
-    "/#{slug}"
+    base = has_parent? ? "/#{parent.slug}" : ''
+    "#{base}/#{slug}"
   end
 
   def to_param
