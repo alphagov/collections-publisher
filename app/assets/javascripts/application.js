@@ -2,6 +2,8 @@
 //= require_tree .
 //= require_self
 
+//= require select2
+
 GOVUK.orderedLists.init();
 GOVUK.curatedLists.init();
 
