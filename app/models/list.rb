@@ -7,14 +7,17 @@
 #  sector_id :string(255)
 #  index     :integer          default(0), not null
 #  dirty     :boolean          default(TRUE), not null
+#  topic_id  :integer
 #
 # Indexes
 #
 #  index_lists_on_sector_id  (sector_id)
+#  index_lists_on_topic_id   (topic_id)
 #
 
 class List < ActiveRecord::Base
   has_many :list_items, dependent: :destroy
+  belongs_to :topic
 
   def sector
     @sector ||= Sector.find(sector_id)

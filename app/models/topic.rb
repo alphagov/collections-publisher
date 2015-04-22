@@ -20,6 +20,7 @@
 
 class Topic < Tag
   has_many :mainstream_browse_pages, through: :reverse_tag_associations, source: :from_tag
+  has_many :lists, :dependent => :destroy
 
   # FIXME: remove this once we're using content_id's in URLs everywhere.
   def panopticon_slug

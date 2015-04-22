@@ -7,10 +7,12 @@
 #  sector_id :string(255)
 #  index     :integer          default(0), not null
 #  dirty     :boolean          default(TRUE), not null
+#  topic_id  :integer
 #
 # Indexes
 #
 #  index_lists_on_sector_id  (sector_id)
+#  index_lists_on_topic_id   (topic_id)
 #
 
 require "spec_helper"
