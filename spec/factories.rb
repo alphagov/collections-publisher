@@ -4,7 +4,9 @@ FactoryGirl.define do
     permissions { ["signin"] }
   end
 
-  factory :list
+  factory :list do
+    association :topic
+  end
 
   factory :list_item
 
