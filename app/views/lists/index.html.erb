@@ -1,10 +1,10 @@
 <h1>Curated lists for "<%= @topic.title %>"<%= " (draft)" if @topic.draft? %></h1>
 
-<% if sector.untagged_list_items.any? %>
+<% if @topic.untagged_list_items.any? %>
   <div class='untagged-list-items subtle-highlight'>
     <p>
-      <strong>Warning</strong>: this content has been curated but is not tagged to this sector.
-      Please either remove it or re-tag it to the sector.
+      <strong>Warning</strong>: this content has been curated but is not tagged to this topic.
+      Please either remove it or re-tag it to the topic.
     </p>
 
     <table class='table table-hover'>
@@ -15,10 +15,10 @@
       </thead>
 
       <tbody>
-        <% sector.untagged_list_items.each do |list_item| %>
+        <% @topic.untagged_list_items.each do |list_item| %>
           <tr>
             <td class='title'><%= list_item.title %></td>
-            <td class='remove'><%= button_to 'Remove', sector_list_list_item_path(sector, list_item.list, list_item), method: :delete %></td>
+            <td class='remove'><%= button_to 'Remove', sector_list_list_item_path(@topic.panopticon_slug, list_item.list, list_item), method: :delete %></td>
           </tr>
         <% end %>
       </tbody>
@@ -115,7 +115,7 @@
 
     <tbody class='curated-list'>
       <tr class='empty-list'><td colspan='2'>Empty</td></tr>
-      <% sector.uncategorized_list_items.each do |list_item| %>
+      <% @topic.uncategorized_list_items.each do |list_item| %>
         <tr>
           <td class='title'><%= list_item.title %></td>
           <td class='api-url'><%= list_item.api_url %></td>

@@ -45,6 +45,6 @@ class List < ActiveRecord::Base
 private
 
   def tagged_api_urls
-    @tagged_api_urls ||= sector.list_items_from_api.map(&:api_url)
+    @tagged_api_urls ||= topic.list_items_from_contentapi.map(&:api_url)
   end
 end
