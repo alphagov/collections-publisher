@@ -5,12 +5,6 @@ RSpec.describe SectorsController do
   describe "#publish" do
     let(:topic) { create(:topic) }
     let(:subtopic) { create(:topic, :parent => topic) }
-    let!(:lists) {
-      [
-        FactoryGirl.create(:list, topic: subtopic, dirty: true),
-        FactoryGirl.create(:list, topic: subtopic, dirty: false)
-      ]
-    }
     let(:presenter) { double(:presenter, render_for_publishing_api: nil) }
 
     before do
@@ -27,12 +21,8 @@ RSpec.describe SectorsController do
     it "marks the sector as published" do
       put :publish, sector_id: subtopic.panopticon_slug
 
-      # We currently use lists for persistence of sector publish state.
-      # This will change when we move tags over from Panopticon.
-      lists.each do |list|
-        list.reload
-        expect(list).not_to be_dirty
-      end
+      subtopic.reload
+      expect(subtopic).not_to be_dirty
     end
   end
 end

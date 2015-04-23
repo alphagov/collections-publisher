@@ -12,6 +12,7 @@
 #  updated_at  :datetime
 #  content_id  :string(255)      not null
 #  state       :string(255)      not null
+#  dirty       :boolean          default(FALSE), not null
 #
 # Indexes
 #
@@ -194,5 +195,52 @@ describe Tag do
 
     expect(tag).not_to be_valid
     expect(tag.errors).to have_key(:slug)
+  end
+
+  describe "dirty tracking" do
+    describe "mark_as_dirty!" do
+      let(:tag) { create(:tag, :title => "Title") }
+
+      it "sets the dirty flag" do
+        tag.mark_as_dirty!
+
+        tag.reload
+        expect(tag).to be_dirty
+      end
+
+      it "doesn't save any other changes to the topic" do
+        tag.title = "Changed title"
+        tag.mark_as_dirty!
+
+        tag.reload
+        expect(tag).to be_dirty
+        expect(tag.title).to eq("Title")
+      end
+    end
+
+    describe "clearing the dirty flag" do
+      let(:tag) { create(:tag, :draft, :dirty => true) }
+
+      it "clears the dirty flag when the tag is published" do
+        tag.publish!
+
+        tag.reload
+        expect(tag).to be_published
+        expect(tag).not_to be_dirty
+      end
+
+      it "mark_as_clean sets dirty to false" do
+        tag.mark_as_clean
+        expect(tag).not_to be_dirty
+        tag.reload
+        expect(tag).to be_dirty
+      end
+
+      it "mark_as_clean! sets dirty to false and saves" do
+        tag.mark_as_clean!
+        tag.reload
+        expect(tag).not_to be_dirty
+      end
+    end
   end
 end

@@ -12,6 +12,7 @@
 #  updated_at  :datetime
 #  content_id  :string(255)      not null
 #  state       :string(255)      not null
+#  dirty       :boolean          default(FALSE), not null
 #
 # Indexes
 #
@@ -45,7 +46,7 @@ class Tag < ActiveRecord::Base
 
   aasm column: :state do
     state :draft, initial: true
-    state :published
+    state :published, before_enter: :mark_as_clean
 
     event :publish do
       transitions from: :draft, to: :published
@@ -71,6 +72,18 @@ class Tag < ActiveRecord::Base
 
   def to_param
     content_id
+  end
+
+  def mark_as_dirty!
+    update_columns(:dirty => true)
+  end
+
+  def mark_as_clean
+    self.dirty = false
+  end
+
+  def mark_as_clean!
+    update_columns(:dirty => false)
   end
 
 private
