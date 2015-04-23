@@ -1,18 +1,18 @@
 require 'uri'
 
 class SectorPresenter
-  def self.render_for_publishing_api(sector)
-    new(sector).render_for_publishing_api
+  def self.render_for_publishing_api(topic)
+    new(topic).render_for_publishing_api
   end
 
-  def initialize(sector)
-    @sector = sector
+  def initialize(topic)
+    @topic = topic
   end
 
   def render_for_publishing_api
     {
-      title: @sector.title,
-      description: @sector.details.description,
+      title: @topic.title,
+      description: @topic.description,
       format: "specialist_sector",
       need_ids: [],
       public_updated_at: Time.zone.now.iso8601,
@@ -30,25 +30,17 @@ class SectorPresenter
   end
 
   def base_path
-    web_url.path
+    @topic.base_path
   end
 
 private
 
-  def web_url
-    @web_url ||= URI.parse(@sector.web_url)
-  end
-
   def categorized_groups
-    @sector.ordered_lists.map do |list|
+    @topic.lists.ordered.map do |list|
       {
         name: list.name,
         contents: list.tagged_list_items.map(&:api_url)
       }
     end
-  end
-
-  def uncategorized_list_items
-    @uncategorized_list_items ||= @sector.uncategorized_list_items.map(&:api_url)
   end
 end

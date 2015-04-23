@@ -13,14 +13,6 @@ RSpec.describe "Curating the contents of topics" do
       oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
       create(:topic, :published, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
 
-      content_api_has_draft_and_live_tags(
-        :type => 'specialist_sector', :sort_order => 'alphabetical',
-        :live => [
-          {:slug => 'oil-and-gas', :title => 'Oil and Gas'},
-          {:slug => 'oil-and-gas/offshore', :title => 'Offshore', :parent => {:slug => 'oil-and-gas', :title => 'Oil and Gas'}},
-        ],
-        :draft => [],
-      )
       content_api_has_artefacts_with_a_tag(
         'specialist_sector', 'oil-and-gas/offshore',
         [
@@ -101,9 +93,7 @@ RSpec.describe "Curating the contents of topics" do
 
       #Then the curated lists should have been sent to the publishing API
       assert_publishing_api_put_item(
-        # The /browse here is incorrect, but is due to how the contentapi test stubs work.
-        # This will be fixed when we deprecate the Sector model.
-        "/browse/oil-and-gas/offshore",
+        "/oil-and-gas/offshore",
         {
           "details" => {
             "groups" => [
@@ -172,9 +162,7 @@ RSpec.describe "Curating the contents of topics" do
 
       #Then the curated lists should have been sent to the publishing API
       assert_publishing_api_put_item(
-        # The /browse here is incorrect, but is due to how the contentapi test stubs work.
-        # This will be fixed when we deprecate the Sector model.
-        "/browse/oil-and-gas/offshore",
+        "/oil-and-gas/offshore",
         {
           "details" => {
             "groups" => [
@@ -194,21 +182,11 @@ RSpec.describe "Curating the contents of topics" do
     end
   end
 
-  #Scenario: Curating draft tags
   it "curating draft tags" do
     #Given a number of content items tagged to a draft specialist sector
     oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
     create(:topic, :draft, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
 
-    content_api_has_draft_and_live_tags(
-      :type => 'specialist_sector', :sort_order => 'alphabetical',
-      :live => [
-        {:slug => 'oil-and-gas', :title => 'Oil and Gas'},
-      ],
-      :draft => [
-        {:slug => 'oil-and-gas/offshore', :title => 'Offshore', :parent => {:slug => 'oil-and-gas', :title => 'Oil and Gas'}},
-      ],
-    )
     content_api_has_artefacts_with_a_draft_tag(
       'specialist_sector', 'oil-and-gas/offshore',
       [ 'oil-rig-safety-requirements' ]
@@ -229,14 +207,6 @@ RSpec.describe "Curating the contents of topics" do
       oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
       offshore = create(:topic, :published, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
 
-      content_api_has_draft_and_live_tags(
-        :type => 'specialist_sector', :sort_order => 'alphabetical',
-        :live => [
-          {:slug => 'oil-and-gas', :title => 'Oil and Gas'},
-          {:slug => 'oil-and-gas/offshore', :title => 'Offshore', :parent => {:slug => 'oil-and-gas', :title => 'Oil and Gas'}},
-        ],
-        :draft => [],
-      )
       content_api_has_artefacts_with_a_tag(
         'specialist_sector', 'oil-and-gas/offshore',
         [
