@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422123347) do
+ActiveRecord::Schema.define(version: 20150423132818) do
 
   create_table "list_items", force: true do |t|
     t.string   "api_url"
@@ -26,13 +26,11 @@ ActiveRecord::Schema.define(version: 20150422123347) do
 
   create_table "lists", force: true do |t|
     t.string  "name"
-    t.string  "sector_id"
-    t.integer "index",     default: 0,    null: false
-    t.boolean "dirty",     default: true, null: false
+    t.integer "index",    default: 0,    null: false
+    t.boolean "dirty",    default: true, null: false
     t.integer "topic_id"
   end
 
-  add_index "lists", ["sector_id"], name: "index_lists_on_sector_id", using: :btree
   add_index "lists", ["topic_id"], name: "index_lists_on_topic_id", using: :btree
 
   create_table "tag_associations", force: true do |t|

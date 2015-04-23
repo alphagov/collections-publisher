@@ -11,7 +11,6 @@ class ListsController < ApplicationController
 
   def create
     list = @topic.lists.build(list_params)
-    list.sector_id = @topic.panopticon_slug
     list.index = (@topic.lists.maximum(:index) || 0) + 1
 
     if list.save
