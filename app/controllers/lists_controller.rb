@@ -1,19 +1,18 @@
 class ListsController < ApplicationController
-  before_filter :find_topic
-
-  expose(:sector)
-  expose(:list, attributes: :list_params)
+  before_filter :find_topic_for_sector_id
 
   def index
     @lists = @topic.lists.ordered
   end
 
-  def edit; end
+  def edit
+    @list = @topic.lists.find(params[:id])
+  end
 
   def create
-    list.topic = @topic
-    list.sector_id = sector.slug
-    list.index = (sector.lists.maximum(:index) || 0) + 1
+    list = @topic.lists.build(list_params)
+    list.sector_id = @topic.panopticon_slug
+    list.index = (@topic.lists.maximum(:index) || 0) + 1
 
     if list.save
       flash[:success] = 'List created'
@@ -21,10 +20,11 @@ class ListsController < ApplicationController
       flash[:error] = 'Could not create your list'
     end
 
-    redirect_to sector_lists_path(sector)
+    redirect_to sector_lists_path(@topic.panopticon_slug)
   end
 
   def destroy
+    list = @topic.lists.find(params[:id])
     list.destroy
 
     if list.destroyed?
@@ -33,24 +33,26 @@ class ListsController < ApplicationController
       flash[:alert] = "Could not delete the list"
     end
 
-    redirect_to sector_lists_path(sector)
+    redirect_to sector_lists_path(@topic.panopticon_slug)
   end
 
   def update
+    list = @topic.lists.find(params[:id])
     list.dirty = true
+    saved = list.update_attributes(list_params)
 
     respond_to do |format|
       format.html {
-        if list.save
+        if saved
           flash[:success] = 'List updated'
         else
           flash[:error] = 'Could not save your list'
         end
 
-        redirect_to sector_lists_path(sector)
+        redirect_to sector_lists_path(@topic.panopticon_slug)
       }
       format.js {
-        if list.save
+        if saved
           render json: {errors: []}
         else
           render json: {errors: list.errors.to_json}, status: 422
@@ -60,17 +62,6 @@ class ListsController < ApplicationController
   end
 
 private
-
-  # FIXME: clean this up when we're using content_ids in the URL.
-  def find_topic
-    if params[:sector_id].include?('/')
-      parent_slug, child_slug = params[:sector_id].split('/', 2)
-      parent = Topic.find_by!(:slug => parent_slug)
-      @topic = parent.children.find_by!(:slug => child_slug)
-    else
-      @topic = Topic.only_parents.find_by!(:slug => params[:sector_id])
-    end
-  end
 
   def list_params
     params.require(:list).permit(:name, :index)
