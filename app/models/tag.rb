@@ -27,6 +27,11 @@ class Tag < ActiveRecord::Base
   belongs_to :parent, class_name: 'Tag'
   has_many :children, class_name: 'Tag', foreign_key: :parent_id
 
+  has_many :tag_associations, foreign_key: :from_tag_id,
+           dependent: :destroy
+  has_many :reverse_tag_associations, foreign_key: :to_tag_id,
+           class_name: "TagAssociation", dependent: :destroy
+
   validates :slug, :title, :content_id, presence: true
   validates :slug, uniqueness: { scope: ["parent_id"] }, format: { with: /\A[a-z0-9-]*\z/ }
   validate :parent_is_not_a_child

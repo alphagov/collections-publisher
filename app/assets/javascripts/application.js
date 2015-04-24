@@ -2,6 +2,8 @@
 //= require_tree .
 //= require_self
 
+//= require select2
+
 GOVUK.orderedLists.init();
 GOVUK.curatedLists.init();
 
@@ -18,5 +20,9 @@ GOVUK.curatedLists.init();
         event.preventDefault();
       }
     });
+  });
+
+  $(document).ready(function() {
+    $(".select2").select2();
   });
 }());
