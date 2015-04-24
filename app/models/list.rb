@@ -2,23 +2,24 @@
 #
 # Table name: lists
 #
-#  id        :integer          not null, primary key
-#  name      :string(255)
-#  sector_id :string(255)
-#  index     :integer          default(0), not null
-#  dirty     :boolean          default(TRUE), not null
+#  id       :integer          not null, primary key
+#  name     :string(255)
+#  index    :integer          default(0), not null
+#  dirty    :boolean          default(TRUE), not null
+#  topic_id :integer          not null
 #
 # Indexes
 #
-#  index_lists_on_sector_id  (sector_id)
+#  index_lists_on_topic_id  (topic_id)
 #
 
 class List < ActiveRecord::Base
   has_many :list_items, dependent: :destroy
+  belongs_to :topic
 
-  def sector
-    @sector ||= Sector.find(sector_id)
-  end
+  scope :ordered, -> { order(:index) }
+
+  validates :topic, :presence => true
 
   def tagged_list_items
     @tagged_list_items ||= list_items.order(:index).select {|c| tagged_api_urls.include?(c.api_url) }
@@ -40,6 +41,6 @@ class List < ActiveRecord::Base
 private
 
   def tagged_api_urls
-    @tagged_api_urls ||= sector.list_items_from_api.map(&:api_url)
+    @tagged_api_urls ||= topic.list_items_from_contentapi.map(&:api_url)
   end
 end

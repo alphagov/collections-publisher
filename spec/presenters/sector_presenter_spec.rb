@@ -1,54 +1,38 @@
 require "spec_helper"
 
 RSpec.describe SectorPresenter do
-  describe "#render_for_publishing_api(sector)" do
-    let(:sector) { double(:sector,
-      title: "Offshore",
-      id: "http://example.com/api/oil-and-gas/offshore.json",
-      web_url: "http://example.com/oil-and-gas/offshore",
-      details: double(:details, description: "Important information about offshore drilling"),
-      ordered_lists: ordered_lists,
-      uncategorized_list_items: uncategorized_list_items
-    ) }
+  include ContentApiHelpers
 
-    let(:ordered_lists) {
-      [
-        FactoryGirl.build(:list,
-          name: "Piping",
-          index: 0,
-          list_items: [
-            FactoryGirl.build(:list_item, api_url: "http://example.com/api/undersea-piping-restrictions.json")
-          ]
-        ),
-        FactoryGirl.build(:list,
-          name: "Oil rigs",
-          index: 1,
-          list_items: [
-            FactoryGirl.build(:list_item, api_url: "http://example.com/api/oil-rig-safety-requirements.json"),
-            FactoryGirl.build(:list_item, api_url: "http://example.com/api/oil-rig-staffing.json"),
-            FactoryGirl.build(:list_item, api_url: "http://example.com/api/riggs.json")
-          ]
-        )
-      ]
+  describe "#render_for_publishing_api(sector)" do
+    let(:oil_and_gas) { create(:topic, :slug => 'oil-and-gas') }
+    let(:offshore) {
+      create(:topic,
+             :parent => oil_and_gas,
+             :slug => 'offshore', :title => 'Offshore',
+             :description => 'Important information about offshore drilling',
+            )
     }
 
-    before do
-      piping, oil_rigs = ordered_lists
-      allow(oil_rigs).to receive(:tagged_list_items).and_return(oil_rigs.list_items.reject {|c| c.api_url == "http://example.com/api/riggs.json"})
-      allow(piping).to receive(:tagged_list_items).and_return(piping.list_items)
+    before :each do
+      oil_rigs = create(:list, :topic => offshore, :index => 1, :name => 'Oil rigs')
+      create(:list_item, :list => oil_rigs, :index => 1, :api_url => contentapi_url_for_slug('oil-rig-staffing'))
+      create(:list_item, :list => oil_rigs, :index => 0, :api_url => contentapi_url_for_slug('oil-rig-safety-requirements'))
+      create(:list_item, :list => oil_rigs, :index => 2, :api_url => contentapi_url_for_slug('riggs'))
+      piping = create(:list, :topic => offshore, :index => 0, :name => 'Piping')
+      create(:list_item, :list => piping, :index => 0, :api_url => contentapi_url_for_slug('undersea-piping-restrictions'))
+
+      content_api_has_artefacts_with_a_tag('specialist_sector', 'oil-and-gas/offshore', [
+        'oil-rig-safety-requirements',
+        'oil-rig-staffing',
+        'undersea-piping-restrictions',
+      ])
     end
 
-    let(:uncategorized_list_items) {
-      [
-        FactoryGirl.build(:list_item, api_url: "http://example.com/api/north-sea-shipping-lanes.json")
-      ]
-    }
-
-    it "provides information about the sector" do
+    it "provides information about the topic" do
       Timecop.freeze do
-        sector_hash = SectorPresenter.render_for_publishing_api(sector)
+        content_hash = SectorPresenter.render_for_publishing_api(offshore)
 
-        expect(sector_hash).to include(
+        expect(content_hash).to include(
           title: "Offshore",
           description: "Important information about offshore drilling",
           format: "specialist_sector",
@@ -66,23 +50,23 @@ RSpec.describe SectorPresenter do
     end
 
     it "provides the curated lists in the details hash ordered by their index" do
-      sector_hash = SectorPresenter.render_for_publishing_api(sector)
+      content_hash = SectorPresenter.render_for_publishing_api(offshore)
 
-      expect(sector_hash).to include(
+      expect(content_hash).to include(
         details: {
           groups: [
             # Curated content excluding untagged content
             {
               name: "Piping",
               contents: [
-                "http://example.com/api/undersea-piping-restrictions.json"
+                contentapi_url_for_slug('undersea-piping-restrictions'),
               ]
             },
             {
               name: "Oil rigs",
               contents: [
-                "http://example.com/api/oil-rig-safety-requirements.json",
-                "http://example.com/api/oil-rig-staffing.json"
+                contentapi_url_for_slug('oil-rig-safety-requirements'),
+                contentapi_url_for_slug('oil-rig-staffing'),
               ]
             }
           ]

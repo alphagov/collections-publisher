@@ -1,14 +1,17 @@
 class ListsController < ApplicationController
-  expose(:sector)
-  expose(:list, attributes: :list_params)
+  before_filter :find_topic_for_sector_id
 
-  def index; end
+  def index
+    @lists = @topic.lists.ordered
+  end
 
-  def edit; end
+  def edit
+    @list = @topic.lists.find(params[:id])
+  end
 
   def create
-    list.sector_id = sector.slug
-    list.index = (sector.lists.maximum(:index) || 0) + 1
+    list = @topic.lists.build(list_params)
+    list.index = (@topic.lists.maximum(:index) || 0) + 1
 
     if list.save
       flash[:success] = 'List created'
@@ -16,10 +19,11 @@ class ListsController < ApplicationController
       flash[:error] = 'Could not create your list'
     end
 
-    redirect_to sector_lists_path(sector)
+    redirect_to sector_lists_path(@topic.panopticon_slug)
   end
 
   def destroy
+    list = @topic.lists.find(params[:id])
     list.destroy
 
     if list.destroyed?
@@ -28,24 +32,26 @@ class ListsController < ApplicationController
       flash[:alert] = "Could not delete the list"
     end
 
-    redirect_to sector_lists_path(sector)
+    redirect_to sector_lists_path(@topic.panopticon_slug)
   end
 
   def update
+    list = @topic.lists.find(params[:id])
     list.dirty = true
+    saved = list.update_attributes(list_params)
 
     respond_to do |format|
       format.html {
-        if list.save
+        if saved
           flash[:success] = 'List updated'
         else
           flash[:error] = 'Could not save your list'
         end
 
-        redirect_to sector_lists_path(sector)
+        redirect_to sector_lists_path(@topic.panopticon_slug)
       }
       format.js {
-        if list.save
+        if saved
           render json: {errors: []}
         else
           render json: {errors: list.errors.to_json}, status: 422
