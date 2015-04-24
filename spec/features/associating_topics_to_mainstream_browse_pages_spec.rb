@@ -13,7 +13,7 @@ describe "associating topics to mainstream browse pages" do
 
     it "should show any topics that are associated" do
       mainstream_browse_page.topics = [topic, topic_two]
-      expect(mainstream_browse_page.save).to be_true
+      expect(mainstream_browse_page.save).to eql true
 
       visit mainstream_browse_page_path(mainstream_browse_page)
 
@@ -38,7 +38,7 @@ describe "associating topics to mainstream browse pages" do
 
     it "should allow removing associated topics" do
       mainstream_browse_page.topics = [topic, topic_two]
-      expect(mainstream_browse_page.save).to be_true
+      expect(mainstream_browse_page.save).to eql true
 
       visit edit_mainstream_browse_page_path(mainstream_browse_page)
 
@@ -57,7 +57,7 @@ describe "associating topics to mainstream browse pages" do
 
     it "should show the already assigned topics when editing" do
       mainstream_browse_page.topics = [topic, topic_two]
-      expect(mainstream_browse_page.save).to be_true
+      expect(mainstream_browse_page.save).to eql true
 
       visit edit_mainstream_browse_page_path(mainstream_browse_page)
 

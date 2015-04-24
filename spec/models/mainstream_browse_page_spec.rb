@@ -30,7 +30,7 @@ describe MainstreamBrowsePage do
     )
 
     expect(tag).to be_valid
-    expect(tag.save).to be_true
+    expect(tag.save).to eql true
     expect(tag).to be_persisted
   end
 

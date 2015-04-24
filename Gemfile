@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.8'
+gem 'rails', '4.2.1'
 
 gem 'mysql2', '0.3.16'
 gem 'plek', '1.8.1'
@@ -23,7 +23,7 @@ gem 'unicorn', '4.8.3'
 gem 'byebug', group: [:development, :test]
 
 group :test, :development do
-  gem 'rspec-rails', '~> 2.14.2'
+  gem 'rspec-rails', '~> 3.2.1'
   gem 'capybara', '~> 2.4.1'
   gem 'poltergeist', '~> 1.6.0'
   gem 'database_cleaner', '~> 1.3.0'
