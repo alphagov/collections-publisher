@@ -54,5 +54,15 @@ describe "associating topics to mainstream browse pages" do
       expect(page).to_not have_content(topic.title)
       expect(page).to_not have_content(topic_two.title)
     end
+
+    it "should show the already assigned topics when editing" do
+      mainstream_browse_page.topics = [topic, topic_two]
+      expect(mainstream_browse_page.save).to be_true
+
+      visit edit_mainstream_browse_page_path(mainstream_browse_page)
+
+      expect(page.status_code).to eq(200)
+      expect(page).to have_select("mainstream_browse_page_topics", selected: [topic.title, topic_two.title])
+    end
   end
 end

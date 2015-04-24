@@ -12,7 +12,7 @@
   <%= f.text_field :description %>
 
   <%= f.select :topics,
-      options_from_collection_for_select(@topics, "id", "title", @resource.topics),
+      options_from_collection_for_select(@topics, :id, :title, @resource.topics.map { |t| t.id }),
       {},
       { multiple: true,
         class: "select2",
