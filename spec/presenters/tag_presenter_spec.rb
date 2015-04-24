@@ -2,16 +2,30 @@ require 'spec_helper'
 
 describe TagPresenter do
 
-  let(:attributes) {
-    {
+  describe 'returning presenter for different tag types' do
+    it "should return a TopicPresenter for a Topic" do
+      expect(TagPresenter.presenter_for(Topic.new)).to be_a(TopicPresenter)
+    end
+
+    it "should return a MainstreamBrowsePagePresenter for a MainstreamBrowsePage" do
+      expect(TagPresenter.presenter_for(MainstreamBrowsePage.new)).to be_a(MainstreamBrowsePagePresenter)
+    end
+
+    it "should raise an error for an unknown type" do
+      expect {
+        TagPresenter.presenter_for(Object.new)
+      }.to raise_error(ArgumentError)
+    end
+  end
+
+  describe '#render_for_panopticon' do
+    let(:attributes) {{
       slug: 'citizenship',
       title: 'Citizenship',
       description: 'Living in the UK, passports',
       parent: nil,
-    }
-  }
+    }}
 
-  describe '#render_for_panopticon' do
     it 'returns a hash of tag attributes' do
       tag = double(:tag, attributes)
       presenter = TagPresenter.new(tag)

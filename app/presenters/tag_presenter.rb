@@ -1,4 +1,15 @@
 class TagPresenter
+  def self.presenter_for(tag)
+    case tag
+    when MainstreamBrowsePage
+      MainstreamBrowsePagePresenter.new(tag)
+    when Topic
+      TopicPresenter.new(tag)
+    else
+      raise ArgumentError, "Unexpected tag type #{tag.class}"
+    end
+  end
+
   def initialize(tag)
     @tag = tag
   end
