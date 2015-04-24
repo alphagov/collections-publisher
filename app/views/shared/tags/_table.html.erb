@@ -15,7 +15,7 @@
       <% resources.each do |resource| %>
       <tr>
         <td><%= link_to resource.title, polymorphic_path(resource) %></td>
-        <td><%= resource.base_path %></td>
+        <td><%= link_to resource.base_path, Plek.new.website_root + resource.base_path %></td>
         <td><%= resource.state %></td>
         <% unless local_assigns[:include_children_column] == false %>
           <td>
