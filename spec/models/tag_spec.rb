@@ -136,7 +136,7 @@ describe Tag do
     it 'raises exception when a value is assigned to state' do
       expect {
         tag.state = 'draft'
-      }.to raise_error(NoMethodError, /private method/)
+      }.to raise_error(AASM::NoDirectAssignmentError)
     end
   end
 

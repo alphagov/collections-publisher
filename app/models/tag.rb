@@ -44,7 +44,7 @@ class Tag < ActiveRecord::Base
   scope :only_children, -> { where('parent_id IS NOT NULL') }
   scope :in_alphabetical_order, -> { order('title ASC') }
 
-  aasm column: :state do
+  aasm column: :state, no_direct_assignment: true do
     state :draft, initial: true
     state :published, before_enter: :mark_as_clean
 
@@ -87,12 +87,6 @@ class Tag < ActiveRecord::Base
   end
 
 private
-  # The state for a Tag can only be set using the event methods declared in the
-  # `aasm` block above. As we don't want to allow the state to be set using the
-  # ActiveRecord-provided setter method, override it here to make it private.
-  def state=(*args)
-    super(*args)
-  end
 
   def parent_is_not_a_child
     if parent.present? && parent.parent_id.present?
