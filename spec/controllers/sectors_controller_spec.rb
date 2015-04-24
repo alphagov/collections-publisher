@@ -3,22 +3,20 @@ require "spec_helper"
 RSpec.describe SectorsController do
 
   describe "#publish" do
-    let(:topic) { create(:topic) }
-    let(:subtopic) { create(:topic, :parent => topic) }
-    let(:presenter) { double(:presenter, render_for_publishing_api: nil) }
+    let(:topic) { create(:topic, :published) }
+    let(:subtopic) { create(:topic, :published, :parent => topic) }
 
     before do
-      allow(SectorPresenter).to receive(:new).with(subtopic).and_return(presenter)
-      allow(PublishingAPINotifier).to receive(:publish).with(presenter).and_return(true)
+      allow(PublishingAPINotifier).to receive(:send_to_publishing_api)
     end
 
     it "notifies the publishing API" do
-      expect(PublishingAPINotifier).to receive(:publish).with(presenter)
+      expect(PublishingAPINotifier).to receive(:send_to_publishing_api).with(subtopic)
 
       put :publish, sector_id: subtopic.panopticon_slug
     end
 
-    it "marks the sector as published" do
+    it "marks the sector as clean" do
       put :publish, sector_id: subtopic.panopticon_slug
 
       subtopic.reload
