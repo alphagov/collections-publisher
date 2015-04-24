@@ -1,7 +1,7 @@
 <section class="attributes">
   <dl>
     <dt>URL</dt>
-    <dd><%= resource.base_path %></dd>
+    <dd><%= link_to resource.base_path, Plek.new.website_root + resource.base_path %></dd>
 
     <% if resource.has_parent? %>
     <dt>Parent</dt>
