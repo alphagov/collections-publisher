@@ -28,7 +28,7 @@ describe Tag do
 
     it 'is created with valid attributes' do
       expect(tag).to be_valid
-      expect(tag.save).to be_true
+      expect(tag.save).to eql true
       expect(tag).to be_persisted
     end
 
@@ -119,7 +119,7 @@ describe Tag do
     end
 
     it 'can be published' do
-      expect(tag.publish).to be_true
+      expect(tag.publish).to eql true
 
       expect(tag.state).to eq('published')
       expect(tag).to be_published
@@ -142,14 +142,14 @@ describe Tag do
     it 'returns true when parent_id is empty' do
       tag = create(:tag, parent: nil)
 
-      expect(tag.can_have_children?).to be_true
+      expect(tag.can_have_children?).to eql true
     end
 
     it 'returns false when parent_id is present' do
       parent = create(:tag)
       tag = create(:tag, parent: parent)
 
-      expect(tag.can_have_children?).to be_false
+      expect(tag.can_have_children?).to eql false
     end
   end
 
