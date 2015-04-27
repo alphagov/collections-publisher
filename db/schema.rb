@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150427094415) do
+ActiveRecord::Schema.define(version: 20150427095118) do
 
   create_table "list_items", force: :cascade do |t|
     t.string   "api_url",    limit: 255
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20150427094415) do
     t.string   "state",       limit: 255, null: false
   end
 
+  add_index "tags", ["parent_id"], name: "tags_parent_id_fk", using: :btree
   add_index "tags", ["slug", "parent_id"], name: "index_tags_on_slug_and_parent_id", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
@@ -71,4 +72,7 @@ ActiveRecord::Schema.define(version: 20150427094415) do
 
   add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
   add_foreign_key "lists", "tags", column: "topic_id", name: "lists_topic_id_fk", on_delete: :cascade
+  add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
+  add_foreign_key "tag_associations", "tags", column: "to_tag_id", name: "tag_associations_to_tag_id_fk", on_delete: :cascade
+  add_foreign_key "tags", "tags", column: "parent_id", name: "tags_parent_id_fk"
 end
