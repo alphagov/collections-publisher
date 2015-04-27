@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150423134118) do
+ActiveRecord::Schema.define(version: 20150427094415) do
 
   create_table "list_items", force: :cascade do |t|
     t.string   "api_url",    limit: 255
@@ -69,4 +69,6 @@ ActiveRecord::Schema.define(version: 20150423134118) do
 
   add_index "users", ["uid"], name: "index_users_on_uid", unique: true, using: :btree
 
+  add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
+  add_foreign_key "lists", "tags", column: "topic_id", name: "lists_topic_id_fk", on_delete: :cascade
 end

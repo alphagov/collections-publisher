@@ -50,5 +50,16 @@ RSpec.describe List do
         expect(list).not_to be_dirty
       end
     end
+
+    describe "#delete" do
+      it "deletes list items" do
+        list = create(:list)
+        item = create(:list_item, list: list)
+
+        list.delete
+
+        expect { item.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end
