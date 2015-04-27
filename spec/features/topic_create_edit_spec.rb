@@ -7,6 +7,22 @@ RSpec.describe "creating and editing topics" do
     stub_all_panopticon_tag_calls
   end
 
+  it "viewing the topic index" do
+    # Given some parent topics with various number of children
+    create(:topic, :published, :title => "Oil and Gas")
+    create(:topic, :published, :title => "Business Tax")
+
+    # When I visit the topics index
+    visit topics_path
+
+    # Then I should see the top-level topics in alphabetical order
+    titles = page.all('.tags-list tbody td:first-child').map(&:text)
+    expect(titles).to eq([
+      'Business Tax',
+      'Oil and Gas',
+    ])
+  end
+
   it "Creating a topic" do
     # When I fill out the details for a topic
     visit new_topic_path

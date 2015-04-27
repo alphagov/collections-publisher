@@ -5,7 +5,7 @@ module TagCreateUpdatePublish
     before_filter :find_resource, only: [:edit, :publish, :show, :update]
     before_filter :new_resource, only: [:create, :new]
 
-    helper_method :parent, :parent_tags, :tag_type_label
+    helper_method :parent, :tag_type_label
   end
 
   module ClassMethods
@@ -27,6 +27,7 @@ module TagCreateUpdatePublish
   end
 
   def index
+    @tags = self.class.tag_model.only_parents.order(:title)
     @model_class = self.class.tag_model
     render 'shared/tags/index'
   end
@@ -86,10 +87,6 @@ private
   def tag_params
     params.require(self.class.symbolized_tag_model_name)
             .permit(:slug, :title, :description, :parent_id)
-  end
-
-  def parent_tags
-    self.class.tag_model.only_parents
   end
 
   def tag_type_label

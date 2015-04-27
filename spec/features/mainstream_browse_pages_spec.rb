@@ -7,6 +7,22 @@ RSpec.describe "managing mainstream browse pages" do
     stub_all_panopticon_tag_calls
   end
 
+  it "viewing the browse page index" do
+    # Given some parent topics with various number of children
+    create(:mainstream_browse_page, :published, :title => "Money and Tax")
+    create(:mainstream_browse_page, :published, :title => "Citizenship")
+
+    # When I visit the topics index
+    visit mainstream_browse_pages_path
+
+    # Then I should see the top-level topics in alphabetical order
+    titles = page.all('.tags-list tbody td:first-child').map(&:text)
+    expect(titles).to eq([
+      'Citizenship',
+      'Money and Tax',
+    ])
+  end
+
   it "Creating a page" do
     # When I fill out the details for a new mainstream browse page
     visit new_mainstream_browse_page_path
