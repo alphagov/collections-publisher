@@ -10,7 +10,10 @@ RSpec.describe "managing mainstream browse pages" do
   it "viewing the browse page index" do
     # Given some parent topics with various number of children
     create(:mainstream_browse_page, :published, :title => "Money and Tax")
-    create(:mainstream_browse_page, :published, :title => "Citizenship")
+    citizenship = create(:mainstream_browse_page, :published, :title => "Citizenship")
+    create(:mainstream_browse_page, :parent => citizenship, :title => "Voting")
+    create(:mainstream_browse_page, :parent => citizenship, :title => "British citizenship")
+
 
     # When I visit the topics index
     visit mainstream_browse_pages_path
@@ -21,6 +24,17 @@ RSpec.describe "managing mainstream browse pages" do
       'Citizenship',
       'Money and Tax',
     ])
+
+    # When I visit a browse page page
+    click_on "Citizenship"
+
+    # Then I should see the child topics in alphabetical order
+    child_titles = page.all('.children .tags-list tbody td:first-child').map(&:text)
+    expect(child_titles).to eq([
+      'British citizenship',
+      'Voting',
+    ])
+
   end
 
   it "Creating a page" do

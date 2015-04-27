@@ -12,7 +12,7 @@
 
     <%=
       render partial: 'shared/tags/table', locals: {
-        resources: resource.children,
+        resources: resource.children.order(:title),
         include_children_column: false,
         empty_message: "No children exist yet.
           #{link_to('Add one', new_polymorphic_path(resource, parent_id: resource.id))}".html_safe

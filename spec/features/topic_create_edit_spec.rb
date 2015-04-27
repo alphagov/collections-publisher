@@ -10,7 +10,9 @@ RSpec.describe "creating and editing topics" do
   it "viewing the topic index" do
     # Given some parent topics with various number of children
     create(:topic, :published, :title => "Oil and Gas")
-    create(:topic, :published, :title => "Business Tax")
+    business_tax = create(:topic, :published, :title => "Business Tax")
+    create(:topic, :parent => business_tax, :title => "VAT")
+    create(:topic, :parent => business_tax, :title => "PAYE")
 
     # When I visit the topics index
     visit topics_path
@@ -20,6 +22,16 @@ RSpec.describe "creating and editing topics" do
     expect(titles).to eq([
       'Business Tax',
       'Oil and Gas',
+    ])
+
+    # When I visit a topic page
+    click_on "Business Tax"
+
+    # Then I should see the child topics in alphabetical order
+    child_titles = page.all('.children .tags-list tbody td:first-child').map(&:text)
+    expect(child_titles).to eq([
+      'PAYE',
+      'VAT',
     ])
   end
 
