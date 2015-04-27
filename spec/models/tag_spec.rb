@@ -16,6 +16,7 @@
 #
 # Indexes
 #
+#  index_tags_on_content_id          (content_id) UNIQUE
 #  index_tags_on_slug_and_parent_id  (slug,parent_id) UNIQUE
 #  tags_parent_id_fk                 (parent_id)
 #
@@ -32,6 +33,15 @@ describe Tag do
       expect(tag).to be_valid
       expect(tag.save).to eql true
       expect(tag).to be_persisted
+    end
+
+    it 'requires a unique content_id at db level' do
+      duplicate = create(:tag)
+      tag.content_id = duplicate.content_id
+
+      expect {
+        tag.save :validate => false
+      }.to raise_error(ActiveRecord::RecordNotUnique)
     end
 
     it "requires a title" do

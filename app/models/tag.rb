@@ -16,6 +16,7 @@
 #
 # Indexes
 #
+#  index_tags_on_content_id          (content_id) UNIQUE
 #  index_tags_on_slug_and_parent_id  (slug,parent_id) UNIQUE
 #  tags_parent_id_fk                 (parent_id)
 #
