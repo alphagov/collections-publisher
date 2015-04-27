@@ -97,12 +97,12 @@ RSpec.describe "creating and editing topics" do
     visit topics_path
     expect(page).to have_content('Working on the ocean')
 
-    # And a live item should have been sent to publishing-api (pending)
-    #assert_publishing_api_put_item('/working-at-sea', {
-      #"title" => 'Working on the ocean',
-      #"description" => "I woke up one morning, The sea was still there.",
-      #"format" => "topic",
-    #})
+    # And a live item should have been sent to publishing-api
+    assert_publishing_api_put_item('/working-at-sea', {
+      "title" => 'Working on the ocean',
+      "description" => "I woke up one morning, The sea was still there.",
+      "format" => "topic",
+    })
 
     # And the topic should have been updated in Panopticon
     assert_tag_updated_in_panopticon(
@@ -167,11 +167,11 @@ RSpec.describe "creating and editing topics" do
       expect(page).to have_content('published')
     end
 
-    # And a live item should have been sent to publishing-api (pending)
-    #assert_publishing_api_put_item('/working-at-sea', {
-      #"title" => "Working at sea",
-      #"format" => "topic",
-    #})
+    # And a live item should have been sent to publishing-api
+    assert_publishing_api_put_item('/working-at-sea', {
+      "title" => "Working at sea",
+      "format" => "topic",
+    })
 
     # And the topic should have been published in Panopticon
     assert_tag_published_in_panopticon(:tag_type => 'specialist_sector', :tag_id => 'working-at-sea')

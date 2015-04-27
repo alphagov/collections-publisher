@@ -97,11 +97,11 @@ RSpec.describe "managing mainstream browse pages" do
     visit mainstream_browse_pages_path
     expect(page).to have_content('Citizenship in the UK')
 
-    # And a live item should have been sent to publishing-api (pending)
-    #assert_publishing_api_put_item('/browse/citizenship', {
-      #"title" => "Citizenship in the UK",
-      #"format" => "mainstream_browse_page",
-    #})
+    # And a live item should have been sent to publishing-api
+    assert_publishing_api_put_item('/browse/citizenship', {
+      "title" => "Citizenship in the UK",
+      "format" => "mainstream_browse_page",
+    })
 
     # And the page should have been updated in Panopticon
     assert_tag_updated_in_panopticon(
@@ -166,12 +166,11 @@ RSpec.describe "managing mainstream browse pages" do
       expect(page).to have_content('published')
     end
 
-    # And a live item should have been sent to publishing-api (pending)
-    #assert_publishing_api_put_item('/browse/citizenship', {
-      #"title" => "Citizenship",
-      #"description" => "Living in the UK",
-      #"format" => "mainstream_browse_page",
-    #})
+    # And a live item should have been sent to publishing-api
+    assert_publishing_api_put_item('/browse/citizenship', {
+      "title" => "Citizenship",
+      "format" => "mainstream_browse_page",
+    })
 
     # And the page should have been published in Panopticon
     assert_tag_published_in_panopticon(:tag_type => 'section', :tag_id => 'citizenship')

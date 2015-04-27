@@ -62,6 +62,9 @@ module TagCreateUpdatePublish
       PanopticonNotifier.update_tag(
         presenter_klass.new(@resource)
       )
+      if @resource.published?
+        PublishingAPINotifier.send_to_publishing_api(@resource)
+      end
 
       redirect_to polymorphic_path(@resource)
     else
@@ -74,6 +77,7 @@ module TagCreateUpdatePublish
     PanopticonNotifier.publish_tag(
       presenter_klass.new(@resource)
     )
+    PublishingAPINotifier.send_to_publishing_api(@resource)
 
     redirect_to polymorphic_path(@resource)
   end
