@@ -11,12 +11,14 @@
   <%= f.text_field :title %>
   <%= f.text_field :description %>
 
+  <% if !@resource.parent.blank? %>
   <%= f.select :topics,
       options_from_collection_for_select(@topics, :id, :title, @resource.topics.map { |t| t.id }),
       {},
       { multiple: true,
         class: "select2",
         data: {placeholder: "Choose additional topics..."}} %>
+  <% end %>
 
   <div class="form-actions">
     <button type="submit">
