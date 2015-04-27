@@ -46,7 +46,7 @@ class Tag < ActiveRecord::Base
 
   aasm column: :state, no_direct_assignment: true do
     state :draft, initial: true
-    state :published, before_enter: :mark_as_clean
+    state :published
 
     event :publish do
       transitions from: :draft, to: :published
@@ -76,10 +76,6 @@ class Tag < ActiveRecord::Base
 
   def mark_as_dirty!
     update_columns(:dirty => true)
-  end
-
-  def mark_as_clean
-    self.dirty = false
   end
 
   def mark_as_clean!

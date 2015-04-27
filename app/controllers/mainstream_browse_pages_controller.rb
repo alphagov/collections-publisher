@@ -26,9 +26,7 @@ class MainstreamBrowsePagesController < ApplicationController
       PanopticonNotifier.update_tag(
         presenter_klass.new(@resource)
       )
-      if @resource.published?
-        PublishingAPINotifier.send_to_publishing_api(@resource)
-      end
+      PublishingAPINotifier.send_to_publishing_api(@resource)
 
       redirect_to mainstream_browse_page_path(@resource)
     else

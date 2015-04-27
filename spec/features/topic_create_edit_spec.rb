@@ -4,8 +4,6 @@ RSpec.describe "creating and editing topics" do
 
   before :each do
     stub_user.permissions << "GDS Editor"
-    stub_default_publishing_api_put
-    stub_default_publishing_api_put_draft
     stub_all_panopticon_tag_calls
   end
 
@@ -29,12 +27,12 @@ RSpec.describe "creating and editing topics" do
       expect(page).to have_content('draft')
     end
 
-    # And a draft should have been sent to publishing-api (pending)
-    #assert_publishing_api_put_draft_item('/working-at-sea', {
-      #"title" => "Working at sea",
-      #"description" => 'The sea, the sky, the sea, the sky...',
-      #"format" => "topic",
-    #})
+    # And a draft should have been sent to publishing-api
+    assert_publishing_api_put_draft_item('/working-at-sea', {
+      "title" => "Working at sea",
+      "description" => 'The sea, the sky, the sea, the sky...',
+      "format" => "topic",
+    })
 
     # And the topic should have been created in Panopticon
     assert_tag_created_in_panopticon(
@@ -64,12 +62,12 @@ RSpec.describe "creating and editing topics" do
     click_on('Working on the ocean')
     expect(page).to have_content('I woke up one morning, The sea was still there.')
 
-    # And a draft should have been sent to publishing-api (pending)
-    #assert_publishing_api_put_draft_item('/working-at-sea', {
-      #"title" => "Working on the ocean",
-      #"description" => "I woke up one morning, The sea was still there.",
-      #"format" => "topic",
-    #})
+    # And a draft should have been sent to publishing-api
+    assert_publishing_api_put_draft_item('/working-at-sea', {
+      "title" => "Working on the ocean",
+      "description" => "I woke up one morning, The sea was still there.",
+      "format" => "topic",
+    })
 
     # And the topic should have been updated in Panopticon
     assert_tag_updated_in_panopticon(
@@ -134,12 +132,12 @@ RSpec.describe "creating and editing topics" do
     click_on 'Desert Islands'
     expect(page).to have_content('Remember your cheese...')
 
-    # And a draft should have been sent to publishing-api (pending)
-    #assert_publishing_api_put_draft_item('/working-at-sea/desert-islands', {
-      #"title" => 'Desert Islands',
-      #"description" => 'Remember your cheese...',
-      #"format" => 'topic',
-    #})
+    # And a draft should have been sent to publishing-api
+    assert_publishing_api_put_draft_item('/working-at-sea/desert-islands', {
+      "title" => 'Desert Islands',
+      "description" => 'Remember your cheese...',
+      "format" => 'topic',
+    })
 
     # And the child topic should have been created in Panopticon
     assert_tag_created_in_panopticon(

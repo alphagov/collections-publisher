@@ -4,8 +4,6 @@ RSpec.describe "managing mainstream browse pages" do
 
   before :each do
     stub_user.permissions << "GDS Editor"
-    stub_default_publishing_api_put
-    stub_default_publishing_api_put_draft
     stub_all_panopticon_tag_calls
   end
 
@@ -29,12 +27,12 @@ RSpec.describe "managing mainstream browse pages" do
       expect(page).to have_content('draft')
     end
 
-    # And a draft should have been sent to publishing-api (pending)
-    #assert_publishing_api_put_draft_item('/browse/citizenship', {
-      #"title" => "Citizenship",
-      #"description" => "Living in the UK",
-      #"format" => "mainstream_browse_page",
-    #})
+    # And a draft should have been sent to publishing-api
+    assert_publishing_api_put_draft_item('/browse/citizenship', {
+      "title" => "Citizenship",
+      "description" => "Living in the UK",
+      "format" => "mainstream_browse_page",
+    })
 
     # And the page should have been created in Panopticon
     assert_tag_created_in_panopticon(
@@ -64,12 +62,12 @@ RSpec.describe "managing mainstream browse pages" do
     click_on('Citizenship in the UK')
     expect(page).to have_content('Voting')
 
-    # And a draft should have been sent to publishing-api (pending)
-    #assert_publishing_api_put_draft_item('/browse/citizenship', {
-      #"title" => "Citizenship in the UK",
-      #"description" => "Voting",
-      #"format" => "mainstream_browse_page",
-    #})
+    # And a draft should have been sent to publishing-api
+    assert_publishing_api_put_draft_item('/browse/citizenship', {
+      "title" => "Citizenship in the UK",
+      "description" => "Voting",
+      "format" => "mainstream_browse_page",
+    })
 
     # And the page should have been updated in Panopticon
     assert_tag_updated_in_panopticon(
@@ -133,12 +131,12 @@ RSpec.describe "managing mainstream browse pages" do
     click_on 'Voting'
     expect(page).to have_content('Register to vote, postal voting forms')
 
-    # And a draft should have been sent to publishing-api (pending)
-    #assert_publishing_api_put_draft_item('/browse/citizenship/voting', {
-      #"title" => "Voting",
-      #"description" => "Register to vote, postal voting forms",
-      #"format" => "mainstream_browse_page",
-    #})
+    # And a draft should have been sent to publishing-api
+    assert_publishing_api_put_draft_item('/browse/citizenship/voting', {
+      "title" => "Voting",
+      "description" => "Register to vote, postal voting forms",
+      "format" => "mainstream_browse_page",
+    })
 
     # And the child page should have been created in Panopticon
     assert_tag_created_in_panopticon(
