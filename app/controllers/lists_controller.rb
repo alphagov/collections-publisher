@@ -14,6 +14,7 @@ class ListsController < ApplicationController
     list.index = (@topic.lists.maximum(:index) || 0) + 1
 
     if list.save
+      @topic.mark_as_dirty!
       flash[:success] = 'List created'
     else
       flash[:error] = 'Could not create your list'
@@ -27,6 +28,7 @@ class ListsController < ApplicationController
     list.destroy
 
     if list.destroyed?
+      @topic.mark_as_dirty!
       flash[:success] = "List deleted"
     else
       flash[:alert] = "Could not delete the list"
@@ -37,8 +39,9 @@ class ListsController < ApplicationController
 
   def update
     list = @topic.lists.find(params[:id])
-    list.dirty = true
     saved = list.update_attributes(list_params)
+
+    @topic.mark_as_dirty! if saved
 
     respond_to do |format|
       format.html {

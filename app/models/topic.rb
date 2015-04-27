@@ -12,6 +12,7 @@
 #  updated_at  :datetime
 #  content_id  :string(255)      not null
 #  state       :string(255)      not null
+#  dirty       :boolean          default(FALSE), not null
 #
 # Indexes
 #
@@ -47,9 +48,5 @@ class Topic < Tag
   # FIXME: remove this once we're using content_id's in URLs everywhere.
   def panopticon_slug
     self.base_path[1..-1]
-  end
-
-  def dirty?
-    lists.any?(&:dirty?)
   end
 end

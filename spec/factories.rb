@@ -16,7 +16,7 @@ FactoryGirl.define do
     description "Example description"
 
     trait :draft do
-      state 'draft'
+      # no-op because initial state is draft
     end
 
     trait :published do

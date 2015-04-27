@@ -5,7 +5,6 @@
 #  id       :integer          not null, primary key
 #  name     :string(255)
 #  index    :integer          default(0), not null
-#  dirty    :boolean          default(TRUE), not null
 #  topic_id :integer          not null
 #
 # Indexes
@@ -27,15 +26,6 @@ class List < ActiveRecord::Base
 
   def untagged_list_items
     @tagged_list_items ||= list_items - tagged_list_items
-  end
-
-  def mark_as_published
-    self.dirty = false
-  end
-
-  def mark_as_published!
-    mark_as_published
-    save
   end
 
 private

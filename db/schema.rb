@@ -26,9 +26,8 @@ ActiveRecord::Schema.define(version: 20150427095118) do
 
   create_table "lists", force: :cascade do |t|
     t.string  "name",     limit: 255
-    t.integer "index",    limit: 4,   default: 0,    null: false
-    t.boolean "dirty",    limit: 1,   default: true, null: false
-    t.integer "topic_id", limit: 4,                  null: false
+    t.integer "index",    limit: 4,   default: 0, null: false
+    t.integer "topic_id", limit: 4,               null: false
   end
 
   add_index "lists", ["topic_id"], name: "index_lists_on_topic_id", using: :btree
@@ -45,14 +44,15 @@ ActiveRecord::Schema.define(version: 20150427095118) do
 
   create_table "tags", force: :cascade do |t|
     t.string   "type",        limit: 255
-    t.string   "slug",        limit: 255, null: false
-    t.string   "title",       limit: 255, null: false
+    t.string   "slug",        limit: 255,                 null: false
+    t.string   "title",       limit: 255,                 null: false
     t.string   "description", limit: 255
     t.integer  "parent_id",   limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "content_id",  limit: 255, null: false
-    t.string   "state",       limit: 255, null: false
+    t.string   "content_id",  limit: 255,                 null: false
+    t.string   "state",       limit: 255,                 null: false
+    t.boolean  "dirty",       limit: 1,   default: false, null: false
   end
 
   add_index "tags", ["parent_id"], name: "tags_parent_id_fk", using: :btree

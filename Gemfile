@@ -12,7 +12,7 @@ gem 'gds-api-adapters', '18.3.1'
 gem 'govuk_admin_template', '1.4.3'
 gem 'generic_form_builder', '0.9.0'
 gem 'decent_exposure', '2.3.2'
-gem 'aasm', '3.4.0'
+gem 'aasm', '4.1.0'
 
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'

@@ -1,6 +1,39 @@
 class TagPresenter
+  def self.presenter_for(tag)
+    case tag
+    when MainstreamBrowsePage
+      MainstreamBrowsePagePresenter.new(tag)
+    when Topic
+      TopicPresenter.new(tag)
+    else
+      raise ArgumentError, "Unexpected tag type #{tag.class}"
+    end
+  end
+
   def initialize(tag)
     @tag = tag
+  end
+
+  def base_path
+    @tag.base_path
+  end
+
+  def render_for_publishing_api
+    {
+      content_id: @tag.content_id,
+      format: format,
+      title: @tag.title,
+      description: @tag.description,
+      need_ids: [],
+      public_updated_at: @tag.updated_at,
+      publishing_app: "collections-publisher",
+      rendering_app: "collections",
+      routes: routes,
+      redirects: [],
+      update_type: "major",
+      details: details,
+      links: links,
+    }
   end
 
   def render_for_panopticon
@@ -14,6 +47,25 @@ class TagPresenter
   end
 
 private
+
+  def format
+    raise "Need to subclass"
+  end
+
+  # potentially extended in subclasses
+  def routes
+    [ {path: base_path, type: "exact"} ]
+  end
+
+  # potentially extended in subclasses
+  def details
+    {}
+  end
+
+  # potentially extended in subclasses
+  def links
+    {}
+  end
 
   attr_reader :tag
 

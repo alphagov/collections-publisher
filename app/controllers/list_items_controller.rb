@@ -6,7 +6,7 @@ class ListItemsController < ApplicationController
     list_item = @list.list_items.build(list_item_params)
     saved = list_item.save
 
-    list_item.list.update_attribute(:dirty, true) if saved
+    @topic.mark_as_dirty! if saved
 
     respond_to do |format|
       format.html {
@@ -34,7 +34,7 @@ class ListItemsController < ApplicationController
 
     destroyed = list_item.destroyed?
 
-    list_item.list.update_attribute(:dirty, true) if destroyed
+    @topic.mark_as_dirty! if destroyed
 
     respond_to do |format|
       format.html {
@@ -64,7 +64,7 @@ class ListItemsController < ApplicationController
     respond_to do |format|
       format.js {
         if list_item.save
-          list_item.list.update_attribute(:dirty, true)
+          @topic.mark_as_dirty!
 
           render json: {errors: []}
         else

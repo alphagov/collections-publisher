@@ -12,6 +12,7 @@
 #  updated_at  :datetime
 #  content_id  :string(255)      not null
 #  state       :string(255)      not null
+#  dirty       :boolean          default(FALSE), not null
 #
 # Indexes
 #

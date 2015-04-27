@@ -7,8 +7,7 @@ class SectorsController < ApplicationController
   end
 
   def publish
-    PublishingAPINotifier.publish(SectorPresenter.new(@topic))
-    @topic.lists.each(&:mark_as_published!)
+    PublishingAPINotifier.send_to_publishing_api(@topic)
 
     flash[:success] = "Topic published"
     redirect_to sector_lists_path(@topic.panopticon_slug)

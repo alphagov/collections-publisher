@@ -46,6 +46,7 @@ describe MainstreamBrowsePagesController do
     before do
       allow(MainstreamBrowsePagePresenter).to receive(:new)
         .and_return(presenter)
+      allow(PublishingAPINotifier).to receive(:send_to_publishing_api)
     end
 
     it 'notifies panopticon' do
@@ -59,6 +60,7 @@ describe MainstreamBrowsePagesController do
     before do
       allow(MainstreamBrowsePagePresenter).to receive(:new)
         .with(mainstream_browse_page).and_return(presenter)
+      allow(PublishingAPINotifier).to receive(:send_to_publishing_api)
     end
 
     let(:mainstream_browse_page) {

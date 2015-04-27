@@ -12,6 +12,7 @@
 #  updated_at  :datetime
 #  content_id  :string(255)      not null
 #  state       :string(255)      not null
+#  dirty       :boolean          default(FALSE), not null
 #
 # Indexes
 #
@@ -135,7 +136,7 @@ describe Tag do
     it 'raises exception when a value is assigned to state' do
       expect {
         tag.state = 'draft'
-      }.to raise_error(NoMethodError, /private method/)
+      }.to raise_error(AASM::NoDirectAssignmentError)
     end
   end
 
@@ -194,5 +195,46 @@ describe Tag do
 
     expect(tag).not_to be_valid
     expect(tag.errors).to have_key(:slug)
+  end
+
+  describe "dirty tracking" do
+    describe "mark_as_dirty!" do
+      let(:tag) { create(:tag, :title => "Title") }
+
+      it "sets the dirty flag" do
+        tag.mark_as_dirty!
+
+        tag.reload
+        expect(tag).to be_dirty
+      end
+
+      it "doesn't save any other changes to the topic" do
+        tag.title = "Changed title"
+        tag.mark_as_dirty!
+
+        tag.reload
+        expect(tag).to be_dirty
+        expect(tag.title).to eq("Title")
+      end
+    end
+
+    describe "clearing the dirty flag" do
+      let(:tag) { create(:tag, :draft, :title => "Title", :dirty => true) }
+
+      it "mark_as_clean! sets dirty to false and saves" do
+        tag.mark_as_clean!
+        tag.reload
+        expect(tag).not_to be_dirty
+      end
+
+      it "doesn't save any other changes to the topic" do
+        tag.title = "Changed title"
+        tag.mark_as_clean!
+
+        tag.reload
+        expect(tag).not_to be_dirty
+        expect(tag.title).to eq("Title")
+      end
+    end
   end
 end

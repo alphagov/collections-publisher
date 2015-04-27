@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     PriorityQueue (0.1.2)
-    aasm (3.4.0)
+    aasm (4.1.0)
     actionmailer (4.2.1)
       actionpack (= 4.2.1)
       actionview (= 4.2.1)
@@ -259,7 +259,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aasm (= 3.4.0)
+  aasm (= 4.1.0)
   airbrake (= 4.0.0)
   annotate (~> 2.6.8)
   byebug
