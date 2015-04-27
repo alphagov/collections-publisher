@@ -21,9 +21,9 @@
 #  tags_parent_id_fk                 (parent_id)
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
-describe MainstreamBrowsePage do
+RSpec.describe MainstreamBrowsePage do
 
   it 'is created with valid attributes' do
     tag = MainstreamBrowsePage.new(

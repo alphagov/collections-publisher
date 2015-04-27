@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe 'creating child tags' do
+RSpec.describe 'creating child tags' do
   before do
     stub_user.permissions << "GDS Editor"
   end

@@ -16,7 +16,7 @@
 #  index_users_on_uid  (uid) UNIQUE
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 require 'gds-sso/lint/user_spec'
 
