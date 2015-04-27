@@ -17,8 +17,19 @@
 require 'spec_helper'
 
 describe TagAssociation do
-  let!(:mainstream_browse_page) { create(:mainstream_browse_page) }
-  let!(:topic)                  { create(:topic) }
+  let!(:mainstream_browse_page_parent) { create(:mainstream_browse_page) }
+  let!(:mainstream_browse_page)        { create(:mainstream_browse_page) }
+  let!(:topic)                         { create(:topic) }
+
+  before do
+    mainstream_browse_page_parent.children << mainstream_browse_page
+    expect(mainstream_browse_page_parent.save).to eql true
+  end
+
+  it "should not allow associating topics on parent mainstream browse pages" do
+    mainstream_browse_page_parent.topics << topic
+    expect(mainstream_browse_page_parent.valid?).to eql false
+  end
 
   it "is created by associating mainstream browse pages and topics" do
     expect(TagAssociation.where(from_tag: mainstream_browse_page,

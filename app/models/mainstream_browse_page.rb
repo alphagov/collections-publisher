@@ -23,7 +23,16 @@
 class MainstreamBrowsePage < Tag
   has_many :topics, through: :tag_associations, source: :to_tag
 
+  validate :parents_cannot_have_topics_associated
+
   def base_path
     "/browse#{super}"
+  end
+
+private
+  def parents_cannot_have_topics_associated
+    if !parent.present? and topics.any?
+      errors.add(:topics, "top-level mainstream browse pages cannot have topics assigned to them")
+    end
   end
 end

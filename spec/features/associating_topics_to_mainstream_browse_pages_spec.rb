@@ -7,9 +7,15 @@ describe "associating topics to mainstream browse pages" do
   end
 
   context "existing mainstream browse pages" do
-    let!(:mainstream_browse_page) { create(:mainstream_browse_page) }
-    let!(:topic)                  { create(:topic) }
-    let!(:topic_two)              { create(:topic) }
+    let!(:mainstream_browse_page_parent) { create(:mainstream_browse_page) }
+    let!(:mainstream_browse_page)        { create(:mainstream_browse_page) }
+    let!(:topic)                         { create(:topic) }
+    let!(:topic_two)                     { create(:topic) }
+
+    before do
+      mainstream_browse_page_parent.children << mainstream_browse_page
+      expect(mainstream_browse_page_parent.save).to eql true
+    end
 
     it "should show any topics that are associated" do
       mainstream_browse_page.topics = [topic, topic_two]
