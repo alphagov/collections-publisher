@@ -22,6 +22,10 @@ gem 'unicorn', '4.8.3'
 
 gem 'byebug', group: [:development, :test]
 
+group :development do
+  gem 'quiet_assets', '~> 1.1.0'
+end
+
 group :test, :development do
   gem 'rspec-rails', '~> 3.2.1'
   gem 'capybara', '~> 2.4.1'
