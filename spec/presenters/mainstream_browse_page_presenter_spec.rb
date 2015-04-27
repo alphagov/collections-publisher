@@ -67,8 +67,12 @@ describe MainstreamBrowsePagePresenter do
     end
 
     context "linking to related topics" do
+      let!(:parent_browse_page) { create(:mainstream_browse_page) }
+
       before :each do
         browse_page.save!
+        parent_browse_page.children << browse_page
+        parent_browse_page.save!
       end
 
       it "sends empty array without any" do

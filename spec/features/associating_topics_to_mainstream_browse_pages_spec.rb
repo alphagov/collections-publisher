@@ -6,10 +6,28 @@ describe "associating topics to mainstream browse pages" do
     stub_all_panopticon_tag_calls
   end
 
-  context "existing mainstream browse pages" do
+  context "parent mainstream browse pages" do
     let!(:mainstream_browse_page) { create(:mainstream_browse_page) }
-    let!(:topic)                  { create(:topic) }
-    let!(:topic_two)              { create(:topic) }
+
+    it "should not allow adding any topics" do
+      visit edit_mainstream_browse_page_path(mainstream_browse_page)
+
+      within "form.resource" do
+        expect(page).to_not have_selector("#mainstream_browse_page_topics")
+      end
+    end
+  end
+
+  context "existing mainstream browse pages" do
+    let!(:mainstream_browse_page_parent) { create(:mainstream_browse_page) }
+    let!(:mainstream_browse_page)        { create(:mainstream_browse_page) }
+    let!(:topic)                         { create(:topic) }
+    let!(:topic_two)                     { create(:topic) }
+
+    before do
+      mainstream_browse_page_parent.children << mainstream_browse_page
+      expect(mainstream_browse_page_parent.save).to eql true
+    end
 
     it "should show any topics that are associated" do
       mainstream_browse_page.topics = [topic, topic_two]
