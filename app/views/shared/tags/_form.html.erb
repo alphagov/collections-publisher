@@ -11,6 +11,13 @@
   <%= f.text_field :title %>
   <%= f.text_field :description %>
 
+  <% if f.object.published? && f.object.dirty? %>
+    <div class="callout callout-warning">
+      <span class="callout-title">Warning</span>
+      This <%= tag_type_label %> has unpublished changes to the curated lists.  Saving will publish these changes.
+    </div>
+  <% end %>
+
   <div class="form-actions">
     <button type="submit">
       <%= resource.new_record? ? 'Create' : 'Save' %>
