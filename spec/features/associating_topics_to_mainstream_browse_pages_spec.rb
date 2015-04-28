@@ -1,6 +1,6 @@
-require "spec_helper"
+require "rails_helper"
 
-describe "associating topics to mainstream browse pages" do
+RSpec.describe "associating topics to mainstream browse pages" do
   before do
     stub_user.permissions << "GDS Editor"
     stub_all_panopticon_tag_calls

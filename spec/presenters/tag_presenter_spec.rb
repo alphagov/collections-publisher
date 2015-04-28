@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe TagPresenter do
+RSpec.describe TagPresenter do
 
   describe 'returning presenter for different tag types' do
     it "should return a TopicPresenter for a Topic" do

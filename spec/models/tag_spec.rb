@@ -21,9 +21,9 @@
 #  tags_parent_id_fk                 (parent_id)
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
-describe Tag do
+RSpec.describe Tag do
 
   describe "validations" do
     let(:tag) { build(:tag) }

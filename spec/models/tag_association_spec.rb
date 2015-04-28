@@ -14,9 +14,9 @@
 #  index_tag_associations_on_to_tag_id                  (to_tag_id)
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
-describe TagAssociation do
+RSpec.describe TagAssociation do
   let!(:mainstream_browse_page_parent) { create(:mainstream_browse_page) }
   let!(:mainstream_browse_page)        { create(:mainstream_browse_page) }
   let!(:topic)                         { create(:topic) }

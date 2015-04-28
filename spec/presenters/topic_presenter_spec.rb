@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe TopicPresenter do
+RSpec.describe TopicPresenter do
   describe "rendering for publishing-api" do
     let(:parent) { build(:topic, :slug => 'oil-and-gas') }
     let(:topic) {

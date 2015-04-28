@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe MainstreamBrowsePagePresenter do
+RSpec.describe MainstreamBrowsePagePresenter do
 
   describe "rendering for panopticon" do
     let(:mainstream_browse_page) { double(:mainstream_browse_page,

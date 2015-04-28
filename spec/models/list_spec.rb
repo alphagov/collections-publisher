@@ -12,7 +12,7 @@
 #  index_lists_on_topic_id  (topic_id)
 #
 
-require "spec_helper"
+require "rails_helper"
 
 RSpec.describe List do
 

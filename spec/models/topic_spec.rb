@@ -21,7 +21,7 @@
 #  tags_parent_id_fk                 (parent_id)
 #
 
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Topic do
   include ContentApiHelpers

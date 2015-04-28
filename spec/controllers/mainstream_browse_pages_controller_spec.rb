@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe MainstreamBrowsePagesController do
+RSpec.describe MainstreamBrowsePagesController do
 
   let(:attributes) { attributes_for(:mainstream_browse_page) }
   let(:presenter) { double(:presenter, render_for_panopticon: nil) }

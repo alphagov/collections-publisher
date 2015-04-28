@@ -1,6 +1,6 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe 'listing browse pages' do
+RSpec.describe 'listing browse pages' do
   before do
     stub_user.permissions << "GDS Editor"
   end
