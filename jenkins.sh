@@ -22,7 +22,7 @@ function error_handler {
   else
     echo "Error on or near line ${parent_lineno}; exiting with status ${code}"
   fi
-  github_status "$REPO_NAME" failure "failed on Jenkins"
+  github_status "$REPO_NAME" error "errored on Jenkins"
   exit "${code}"
 }
 
