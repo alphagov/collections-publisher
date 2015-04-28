@@ -18,13 +18,8 @@ require 'rails_helper'
 
 RSpec.describe TagAssociation do
   let!(:mainstream_browse_page_parent) { create(:mainstream_browse_page) }
-  let!(:mainstream_browse_page)        { create(:mainstream_browse_page) }
+  let!(:mainstream_browse_page)        { create(:mainstream_browse_page, parent: mainstream_browse_page_parent) }
   let!(:topic)                         { create(:topic) }
-
-  before do
-    mainstream_browse_page_parent.children << mainstream_browse_page
-    expect(mainstream_browse_page_parent.save).to eql true
-  end
 
   it "should not allow associating topics on parent mainstream browse pages" do
     mainstream_browse_page_parent.topics << topic
