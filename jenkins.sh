@@ -29,6 +29,9 @@ function error_handler {
 trap "error_handler ${LINENO}" ERR
 github_status "$REPO_NAME" pending "is running on Jenkins"
 
+# Cleanup anything left from previous test runs
+git clean -fdx
+
 # Try to merge master into the current branch, and abort if it doesn't exit
 # cleanly (ie there are conflicts). This will be a noop if the current branch
 # is master.
