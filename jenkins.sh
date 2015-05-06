@@ -2,14 +2,17 @@
 set -x
 export GOVUK_APP_DOMAIN=test.gov.uk
 export GOVUK_ASSET_ROOT=http://static.test.gov.uk
-export REPO_NAME="alphagov/collections-publisher"
+
+REPO_NAME=${REPO_NAME:-"alphagov/collections-publisher"}
+CONTEXT_MESSAGE=${CONTEXT_MESSAGE:-"default"}
+GH_STATUS_GIT_COMMIT=${SCHEMA_GIT_COMMIT:-${GIT_COMMIT}}
 env
 
 function github_status {
   REPO_NAME="$1"
   STATUS="$2"
   MESSAGE="$3"
-  gh-status "$REPO_NAME" "$GIT_COMMIT" "$STATUS" -d "Build #${BUILD_NUMBER} ${MESSAGE}" -u "$BUILD_URL" >/dev/null
+  gh-status "$REPO_NAME" "$GH_STATUS_GIT_COMMIT" "$STATUS" -d "Build #${BUILD_NUMBER} ${MESSAGE}" -u "$BUILD_URL" -c "$CONTEXT_MESSAGE" >/dev/null
 }
 
 function error_handler {
@@ -26,7 +29,7 @@ function error_handler {
   exit "${code}"
 }
 
-trap "error_handler ${LINENO}" ERR
+trap 'error_handler ${LINENO}' ERR
 github_status "$REPO_NAME" pending "is running on Jenkins"
 
 # Cleanup anything left from previous test runs
@@ -37,11 +40,20 @@ git clean -fdx
 # is master.
 git merge --no-commit origin/master || git merge --abort
 
+# Clone govuk-content-schemas depedency for contract tests
+rm -rf tmp/govuk-content-schemas
+git clone git@github.com:alphagov/govuk-content-schemas.git tmp/govuk-content-schemas
+(
+  cd tmp/govuk-content-schemas
+  git checkout ${SCHEMA_GIT_COMMIT:-"master"}
+)
+export GOVUK_CONTENT_SCHEMAS_PATH=tmp/govuk-content-schemas
+
 bundle install --path "${HOME}/bundles/${JOB_NAME}" --deployment --without development
 RAILS_ENV=test bundle exec rake db:drop db:create db:schema:load
-RAILS_ENV=test bundle exec rake
+RAILS_ENV=test bundle exec rake ${TEST_TASK:-"default"}
 
-export EXIT_STATUS=$?
+EXIT_STATUS=$?
 
 if [ "$EXIT_STATUS" == "0" ]; then
   github_status "$REPO_NAME" success "succeeded on Jenkins"

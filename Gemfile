@@ -34,4 +34,5 @@ group :test, :development do
   gem 'webmock', '~> 1.18.0', require: false
   gem 'timecop', '0.7.1'
   gem 'annotate', '~> 2.6.8'
+  gem 'govuk-content-schema-test-helpers', '~> 1.3'
 end
