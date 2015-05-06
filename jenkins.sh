@@ -29,7 +29,7 @@ function error_handler {
   exit "${code}"
 }
 
-trap "error_handler ${LINENO}" ERR
+trap 'error_handler ${LINENO}' ERR
 github_status "$REPO_NAME" pending "is running on Jenkins"
 
 # Try to merge master into the current branch, and abort if it doesn't exit
