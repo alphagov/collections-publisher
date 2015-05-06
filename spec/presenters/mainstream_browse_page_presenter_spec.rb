@@ -22,13 +22,11 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
   describe "rendering for publishing-api" do
     let(:browse_page) {
-      page = build(:mainstream_browse_page, {
+      create(:mainstream_browse_page, {
         :slug => 'benefits',
         :title => 'Benefits',
         :description => 'All about benefits',
       })
-      page.valid? # Cause before_validation hooks to run
-      page
     }
     let(:presenter) { MainstreamBrowsePagePresenter.new(browse_page) }
     let(:presented_data) { presenter.render_for_publishing_api }
@@ -43,6 +41,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         :format => 'mainstream_browse_page',
         :title => 'Benefits',
         :description => 'All about benefits',
+        :locale => 'en',
         :need_ids => [],
         :publishing_app => 'collections-publisher',
         :rendering_app => 'collections',
@@ -57,7 +56,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         browse_page.save!
       end
 
-      expect(presented_data[:public_updated_at]).to eq(browse_page.updated_at)
+      expect(presented_data[:public_updated_at]).to eq(browse_page.updated_at.iso8601)
     end
 
     it "includes the necessary routes" do
@@ -66,13 +65,15 @@ RSpec.describe MainstreamBrowsePagePresenter do
       ])
     end
 
-    context "linking to related topics" do
+    it "is valid against the schema", :schema_test => true do
+      expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+    end
+
+    describe "linking to related topics" do
       let!(:parent_browse_page) { create(:mainstream_browse_page) }
 
       before :each do
-        browse_page.save!
-        parent_browse_page.children << browse_page
-        parent_browse_page.save!
+        browse_page.update_attributes!(:parent => parent_browse_page)
       end
 
       it "sends empty array without any" do
@@ -81,15 +82,24 @@ RSpec.describe MainstreamBrowsePagePresenter do
         })
       end
 
-      it "includes the content_ids of linked topics sorted by title" do
-        bravo = create(:topic, :title => "Bravo")
-        alpha = create(:topic, :title => "Alpha")
-        browse_page.topics = [bravo, alpha]
-        browse_page.save!
+      context "with some linked topics" do
+        let(:alpha) { create(:topic, :title => "Alpha") }
+        let(:bravo) { create(:topic, :title => "Bravo") }
 
-        expect(presented_data[:links]).to eq({
-          "related_topics" => [alpha.content_id, bravo.content_id],
-        })
+        before :each do
+          browse_page.topics = [bravo, alpha]
+          browse_page.save!
+        end
+
+        it "includes the content_ids of linked topics sorted by title" do
+          expect(presented_data[:links]).to eq({
+            "related_topics" => [alpha.content_id, bravo.content_id],
+          })
+        end
+
+        it "is valid against the schema", :schema_test => true do
+          expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+        end
       end
     end
   end
