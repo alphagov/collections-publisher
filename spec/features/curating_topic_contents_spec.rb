@@ -29,11 +29,19 @@ RSpec.describe "Curating the contents of topics" do
       visit sectors_path
       click_on 'Offshore'
 
+      within '#list-uncategorized-section' do
+        expect(page).not_to have_content('These will not be displayed to users')
+      end
+
       within '#new-list' do
         fill_in 'Name', :with => 'Oil rigs'
         click_on 'Create'
       end
       expect(page).to have_selector('.list h2', :text => 'Oil rigs')
+
+      within '#list-uncategorized-section' do
+        expect(page).to have_content('These will not be displayed to users')
+      end
 
       target = page.find(:xpath, "//section[contains(@class, 'list')][.//h2 = 'Oil rigs']//tbody[contains(@class, 'curated-list')]")
       within '#list-uncategorized-section' do
@@ -117,10 +125,19 @@ RSpec.describe "Curating the contents of topics" do
       visit sectors_path
       click_on 'Offshore'
 
+      within '#list-uncategorized-section' do
+        expect(page).not_to have_content('These will not be displayed to users')
+      end
+
       within '#new-list' do
         fill_in 'Name', :with => 'Oil rigs'
         click_on 'Create'
       end
+
+      within '#list-uncategorized-section' do
+        expect(page).to have_content('These will not be displayed to users')
+      end
+
       within :xpath, "//section[@class='list'][.//h2 = 'Oil rigs']" do
         fill_in 'API URL', :with => contentapi_url_for_slug('oil-rig-safety-requirements')
         fill_in 'Index', :with => 0

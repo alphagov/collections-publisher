@@ -103,7 +103,9 @@
 
 <section class="list" aria-labelledby='list-uncategorized-header' id='list-uncategorized-section'>
   <h2 id='list-uncategorized-header'>Uncategorized (A to Z)</h2>
-  <p><b>Note:</b> These will not be displayed to users</p>
+  <%- if @lists.any? -%>
+    <p><b>Note:</b> These will not be displayed to users</p>
+  <%- end -%>
 
   <table class='table table-hover'>
     <thead>
