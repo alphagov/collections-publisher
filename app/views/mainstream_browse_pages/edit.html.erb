@@ -13,7 +13,7 @@
 
   <% if !@resource.parent.blank? %>
   <%= f.select :topics,
-      options_from_collection_for_select(@topics, :id, :title, @resource.topics.map { |t| t.id }),
+      options_from_collection_for_select(@topics_for_select, :id, :title_including_parent, @resource.topics.map(&:id)),
       {},
       { multiple: true,
         class: "select2",

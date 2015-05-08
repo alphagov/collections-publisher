@@ -66,6 +66,14 @@ class Tag < ActiveRecord::Base
     parent.present?
   end
 
+  def title_including_parent
+    if has_parent?
+      "#{parent.title}: #{title}"
+    else
+      title
+    end
+  end
+
   def base_path
     base = has_parent? ? "/#{parent.slug}" : ''
     "#{base}/#{slug}"

@@ -5,7 +5,7 @@ class MainstreamBrowsePagesController < ApplicationController
   before_filter :require_gds_editor_permissions!
 
   def edit
-    @topics = Topic.all
+    set_topics_for_select
   end
 
   def show; end
@@ -30,7 +30,7 @@ class MainstreamBrowsePagesController < ApplicationController
 
       redirect_to mainstream_browse_page_path(@resource)
     else
-      @topics = Topic.all
+      set_topics_for_select
       render :edit
     end
   end
@@ -38,5 +38,9 @@ class MainstreamBrowsePagesController < ApplicationController
 private
   def presenter_klass
     MainstreamBrowsePagePresenter
+  end
+
+  def set_topics_for_select
+    @topics_for_select = Topic.includes(:parent).sort_by(&:title_including_parent)
   end
 end

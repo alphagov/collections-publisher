@@ -21,8 +21,8 @@ RSpec.describe "associating topics to mainstream browse pages" do
   context "existing mainstream browse pages" do
     let!(:mainstream_browse_page_parent) { create(:mainstream_browse_page) }
     let!(:mainstream_browse_page)        { create(:mainstream_browse_page, parent: mainstream_browse_page_parent) }
-    let!(:topic)                         { create(:topic) }
-    let!(:topic_two)                     { create(:topic) }
+    let!(:topic)                         { create(:topic, title: "Bravo") }
+    let!(:topic_two)                     { create(:topic, title: "Alpha") }
 
     it "should show any topics that are associated" do
       mainstream_browse_page.topics = [topic, topic_two]
@@ -33,6 +33,27 @@ RSpec.describe "associating topics to mainstream browse pages" do
       expect(page.status_code).to eq(200)
       expect(page).to have_content(topic.title)
       expect(page).to have_content(topic_two.title)
+    end
+
+    it "should sort topic dropdown and include parent topic title" do
+      create(:topic, parent: topic, title: "Bravo")
+      create(:topic, parent: topic, title: "Alpha")
+      create(:topic, parent: topic, title: "Charlie")
+      create(:topic, parent: topic_two, title: "Bravo")
+      create(:topic, parent: topic_two, title: "Alpha")
+
+      visit edit_mainstream_browse_page_path(mainstream_browse_page)
+
+      topic_titles = page.all(:css, "#mainstream_browse_page_topics option").map(&:text)
+      expect(topic_titles).to eq([
+        "Alpha",
+        "Alpha: Alpha",
+        "Alpha: Bravo",
+        "Bravo",
+        "Bravo: Alpha",
+        "Bravo: Bravo",
+        "Bravo: Charlie",
+      ])
     end
 
     it "should allow associating topics" do
