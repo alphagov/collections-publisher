@@ -19,10 +19,6 @@ RSpec.describe 'listing browse pages' do
         expect(page).to have_link(parent_browse_page.title,
                                   href: mainstream_browse_page_path(parent_browse_page))
       end
-
-      child_browse_pages.each do |child_browse_page|
-        expect(page).not_to have_content(child_browse_page.title)
-      end
     end
   end
 
