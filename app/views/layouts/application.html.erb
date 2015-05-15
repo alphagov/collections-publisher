@@ -8,8 +8,13 @@
 
 <% content_for :navbar_items do %>
   <% if current_user.has_permission? "GDS Editor" %>
-  <li><%= link_to 'Mainstream browse pages', mainstream_browse_pages_path %></li>
-  <li><%= link_to 'Topics', topics_path %></li>
+    <li class='<%= controller_name == 'mainstream_browse_pages' ? 'active' : nil %>'>
+      <%= link_to 'Mainstream browse pages', mainstream_browse_pages_path %>
+    </li>
+
+    <li class='<%= controller_name == 'topics' ? 'active' : nil %>'>
+      <%= link_to 'Topics', topics_path %>
+    </li>
   <% end %>
 <% end %>
 
