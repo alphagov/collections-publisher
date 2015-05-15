@@ -12,14 +12,7 @@ class ApplicationController < ActionController::Base
     authorise_user!("GDS Editor")
   end
 
-  # FIXME: clean this up when we're using content_ids in the URL.
-  def find_topic_for_sector_id
-    if params[:sector_id].include?('/')
-      parent_slug, child_slug = params[:sector_id].split('/', 2)
-      parent = Topic.find_by!(:slug => parent_slug)
-      @topic = parent.children.find_by!(:slug => child_slug)
-    else
-      @topic = Topic.only_parents.find_by!(:slug => params[:sector_id])
-    end
+  def find_topic
+    @topic = Topic.find_by!(content_id: params[:sector_id])
   end
 end
