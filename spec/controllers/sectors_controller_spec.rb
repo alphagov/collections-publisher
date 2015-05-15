@@ -13,11 +13,11 @@ RSpec.describe SectorsController do
     it "notifies the publishing API" do
       expect(PublishingAPINotifier).to receive(:send_to_publishing_api).with(subtopic)
 
-      put :publish, sector_id: subtopic.panopticon_slug
+      put :publish, sector_id: subtopic
     end
 
     it "marks the sector as clean" do
-      put :publish, sector_id: subtopic.panopticon_slug
+      put :publish, sector_id: subtopic
 
       subtopic.reload
       expect(subtopic).not_to be_dirty

@@ -10,6 +10,6 @@ class SectorsController < ApplicationController
     PublishingAPINotifier.send_to_publishing_api(@topic)
 
     flash[:success] = "Topic published"
-    redirect_to sector_lists_path(@topic.panopticon_slug)
+    redirect_to sector_lists_path(@topic)
   end
 end

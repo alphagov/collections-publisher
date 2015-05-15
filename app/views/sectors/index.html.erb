@@ -15,9 +15,9 @@
     </tr>
     <% subtopics.each do |subtopic| %>
       <tr>
-        <td><%= link_to subtopic.title, sector_lists_path(subtopic.panopticon_slug) %></td>
+        <td><%= link_to subtopic.title, sector_lists_path(subtopic) %></td>
         <td><%= 'draft' if subtopic.draft? %></td>
-        <td class="edit"><%= link_to "Edit", sector_lists_path(subtopic.panopticon_slug) %></td>
+        <td class="edit"><%= link_to "Edit", sector_lists_path(subtopic) %></td>
       </tr>
     <% end %>
   <% end %>
