@@ -1,5 +1,5 @@
 class SectorsController < ApplicationController
-  before_filter :find_topic_for_sector_id, :only => [:publish]
+  before_filter :find_topic, :only => [:publish]
 
   def index
     subtopics = Topic.only_children.includes(:parent).order(:title)

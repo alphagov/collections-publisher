@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     authorise_user!("GDS Editor")
   end
 
-  def find_topic_for_sector_id
+  def find_topic
     @topic = Topic.find_by!(content_id: params[:sector_id])
   end
 end

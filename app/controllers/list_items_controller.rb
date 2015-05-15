@@ -1,5 +1,5 @@
 class ListItemsController < ApplicationController
-  before_filter :find_topic_for_sector_id
+  before_filter :find_topic
   before_filter :find_list
 
   def create

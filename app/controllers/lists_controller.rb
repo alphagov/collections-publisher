@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-  before_filter :find_topic_for_sector_id
+  before_filter :find_topic
 
   def index
     @lists = @topic.lists.ordered
