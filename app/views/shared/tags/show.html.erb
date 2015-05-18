@@ -10,7 +10,14 @@
   </h1>
 
   <nav class="actions">
-    <%= link_to 'Edit', edit_polymorphic_path(@resource) %>
+    <% if gds_editor? %>
+      <%= link_to 'Edit', edit_polymorphic_path(@resource) %>
+    <% end %>
+
+    <% if @resource.is_a?(Topic) && @resource.has_parent? %>
+      <%= link_to 'Edit list', topic_lists_path(@resource) %>
+    <% end %>
+
     <% if @resource.may_publish? %>
       <%= link_to "Publish #{tag_type_label.downcase}", polymorphic_path(@resource, action: 'publish'), method: :post %>
     <% end %>

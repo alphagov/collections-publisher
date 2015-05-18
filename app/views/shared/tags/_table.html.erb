@@ -16,18 +16,26 @@
       <tr>
         <td><%= link_to resource.title, polymorphic_path(resource) %></td>
         <td><%= link_to resource.base_path, Plek.new.website_root + resource.base_path %></td>
-        <td><%= resource.state %></td>
+        <td><%= status(resource.state, resource.state) %></td>
+
         <% unless local_assigns[:include_children_column] == false %>
-          <td>
-            <%= pluralize resource.children.count, 'child' %>
-            (<%= resource.draft_children.count %> in draft)
+          <td class='children'>
+            <ul>
+            <% resource.sorted_children.each do |child_tag| %>
+              <li>
+                <%= link_to child_tag.title, polymorphic_path(child_tag) %>
+                <%= status('draft', :draft) if child_tag.draft? %>
+              </li>
+            <% end %>
+            </ul>
           </td>
         <% end %>
         <td>
-          <ul class="child-actions">
-            <li><%= link_to 'View', polymorphic_path(resource), rel: 'view' %></li>
-            <li><%= link_to 'Edit', edit_polymorphic_path(resource) %></li>
-          </ul>
+          <% if gds_editor? %>
+            <ul class="child-actions">
+              <li><%= link_to 'Edit', edit_polymorphic_path(resource) %></li>
+            </ul>
+          <% end %>
         </td>
       </tr>
       <% end %>

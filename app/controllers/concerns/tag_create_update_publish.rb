@@ -27,7 +27,7 @@ module TagCreateUpdatePublish
   end
 
   def index
-    @tags = self.class.tag_model.only_parents.order(:title)
+    @tags = self.class.tag_model.only_parents.includes(:children).order(:title)
     @model_class = self.class.tag_model
     render 'shared/tags/index'
   end
@@ -74,9 +74,11 @@ module TagCreateUpdatePublish
 
   def publish
     @resource.publish!
+
     PanopticonNotifier.publish_tag(
       presenter_klass.new(@resource)
     )
+
     PublishingAPINotifier.send_to_publishing_api(@resource)
 
     redirect_to polymorphic_path(@resource)

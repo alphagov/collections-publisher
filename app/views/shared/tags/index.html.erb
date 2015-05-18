@@ -3,11 +3,13 @@
 <header class="heading-with-actions">
   <h1><%= tag_type_label.pluralize %></h1>
 
-  <nav class="actions">
-    <%= link_to new_polymorphic_path(@model_class), class: 'new' do %>
-      <span class="icon"></span> Add a <%= tag_type_label.downcase %>
-    <% end %>
-  </nav>
+  <% if gds_editor? %>
+    <nav class="actions">
+      <%= link_to new_polymorphic_path(@model_class), class: 'new' do %>
+        <span class="icon"></span> Add a <%= tag_type_label.downcase %>
+      <% end %>
+    </nav>
+  <% end %>
 </header>
 
 <%=

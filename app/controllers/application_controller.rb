@@ -6,13 +6,19 @@ class ApplicationController < ActionController::Base
   include GDS::SSO::ControllerMethods
   before_filter :require_signin_permission!
 
-  private
+private
+
+  helper_method :gds_editor?
+
+  def gds_editor?
+    current_user.has_permission? "GDS Editor"
+  end
 
   def require_gds_editor_permissions!
     authorise_user!("GDS Editor")
   end
 
   def find_topic
-    @topic = Topic.find_by!(content_id: params[:sector_id])
+    @topic = Topic.find_by!(content_id: params[:topic_id])
   end
 end

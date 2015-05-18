@@ -7,10 +7,15 @@
 <% end %>
 
 <% content_for :navbar_items do %>
-  <% if current_user.has_permission? "GDS Editor" %>
-  <li><%= link_to 'Mainstream browse pages', mainstream_browse_pages_path %></li>
-  <li><%= link_to 'Topics', topics_path %></li>
+  <% if gds_editor? %>
+    <li class='<%= controller_name == 'mainstream_browse_pages' ? 'active' : nil %>'>
+      <%= link_to 'Mainstream browse pages', mainstream_browse_pages_path %>
+    </li>
   <% end %>
+
+  <li class='<%= controller_name.in?(%w[topics lists]) ? 'active' : nil %>'>
+    <%= link_to 'Topics', topics_path %>
+  </li>
 <% end %>
 
 <% if user_signed_in? %>
