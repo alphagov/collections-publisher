@@ -74,9 +74,11 @@ module TagCreateUpdatePublish
 
   def publish
     @resource.publish!
+
     PanopticonNotifier.publish_tag(
       presenter_klass.new(@resource)
     )
+
     PublishingAPINotifier.send_to_publishing_api(@resource)
 
     redirect_to polymorphic_path(@resource)

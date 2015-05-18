@@ -20,7 +20,7 @@ class ListsController < ApplicationController
       flash[:error] = 'Could not create your list'
     end
 
-    redirect_to sector_lists_path(@topic)
+    redirect_to topic_lists_path(@topic)
   end
 
   def destroy
@@ -34,7 +34,7 @@ class ListsController < ApplicationController
       flash[:alert] = "Could not delete the list"
     end
 
-    redirect_to sector_lists_path(@topic)
+    redirect_to topic_lists_path(@topic)
   end
 
   def update
@@ -51,7 +51,7 @@ class ListsController < ApplicationController
           flash[:error] = 'Could not save your list'
         end
 
-        redirect_to sector_lists_path(@topic)
+        redirect_to topic_lists_path(@topic)
       }
       format.js {
         if saved

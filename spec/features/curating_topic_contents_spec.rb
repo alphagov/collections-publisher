@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Curating the contents of topics" do
-
   before :each do
     stub_default_publishing_api_put
     stub_default_publishing_api_put_draft
@@ -9,7 +8,7 @@ RSpec.describe "Curating the contents of topics" do
 
   describe "Curating the content for a topic" do
     before :each do
-      # Given a number of content items tagged to a specialist sector
+      # Given a number of content items tagged to a topic
       oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
       create(:topic, :published, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
 
@@ -96,7 +95,7 @@ RSpec.describe "Curating the contents of topics" do
       end
 
       # When I publish the topic
-      click_on('Publish')
+      click_on('Publish changes to GOV.UK')
 
       #Then the curated lists should have been sent to the publishing API
       assert_publishing_api_put_item(
@@ -120,7 +119,7 @@ RSpec.describe "Curating the contents of topics" do
     end
 
     it "without javascript" do
-      # When I arrange the content of that specialist sector into lists
+      # When I arrange the content of that topic into lists
       visit_topic_list_curation_page
 
       within '#list-uncategorized-section' do
@@ -171,8 +170,8 @@ RSpec.describe "Curating the contents of topics" do
         ])
       end
 
-      #When I publish the specialist sector
-      click_on('Publish')
+      # When I publish the topic
+      click_on('Publish changes to GOV.UK')
 
       #Then the curated lists should have been sent to the publishing API
       assert_publishing_api_put_item(
@@ -197,7 +196,7 @@ RSpec.describe "Curating the contents of topics" do
   end
 
   it "curating draft tags" do
-    #Given a number of content items tagged to a draft specialist sector
+    # Given a number of content items tagged to a draft topic
     oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
     create(:topic, :draft, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
 
@@ -206,10 +205,10 @@ RSpec.describe "Curating the contents of topics" do
       [ 'oil-rig-safety-requirements' ]
     )
 
-    # Then I should be able to curate the draft sector
+    # Then I should be able to curate the draft topic
     visit_topic_list_curation_page
 
-    #And I should not be able to publish the draft sector
+    # And I should not be able to publish the draft topic
     expect(page).not_to have_selector('button', :text => 'Publish')
     expect(page).not_to have_selector('input[type="submit"]', :text => "Publish")
     expect(page).not_to have_selector('input[type="submit"][value="Publish"]')
@@ -343,7 +342,8 @@ RSpec.describe "Curating the contents of topics" do
   end
 
   def visit_topic_list_curation_page
-    visit sectors_path
+    visit topics_path
     click_on 'Offshore'
+    click_on 'Edit list'
   end
 end

@@ -19,9 +19,9 @@
         <td><%= status(resource.state, resource.state) %></td>
 
         <% unless local_assigns[:include_children_column] == false %>
-          <td>
+          <td class='children'>
             <ul>
-            <% resource.children.each do |child_tag| %>
+            <% resource.sorted_children.each do |child_tag| %>
               <li>
                 <%= link_to child_tag.title, polymorphic_path(child_tag) %>
                 <%= status('draft', :draft) if child_tag.draft? %>
@@ -31,9 +31,11 @@
           </td>
         <% end %>
         <td>
-          <ul class="child-actions">
-            <li><%= link_to 'Edit', edit_polymorphic_path(resource) %></li>
-          </ul>
+          <% if gds_editor? %>
+            <ul class="child-actions">
+              <li><%= link_to 'Edit', edit_polymorphic_path(resource) %></li>
+            </ul>
+          <% end %>
         </td>
       </tr>
       <% end %>

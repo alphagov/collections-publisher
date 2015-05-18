@@ -16,11 +16,11 @@ class ListItemsController < ApplicationController
           flash[:error] = 'Could not add that list item to your list'
         end
 
-        redirect_to sector_lists_path(@topic)
+        redirect_to topic_lists_path(@topic)
       }
       format.js {
         if saved
-          render json: {errors: [], updateURL: sector_list_list_item_path(@topic, @list, list_item)}
+          render json: {errors: [], updateURL: topic_list_list_item_path(@topic, @list, list_item)}
         else
           render json: {errors: list_item.errors.to_json}, status: 422
         end
@@ -44,7 +44,7 @@ class ListItemsController < ApplicationController
           flash[:alert] = "Could not remove the list item from this list"
         end
 
-        redirect_to sector_lists_path(@topic)
+        redirect_to topic_lists_path(@topic)
       }
       format.js {
         if destroyed

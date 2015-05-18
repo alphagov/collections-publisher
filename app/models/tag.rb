@@ -66,6 +66,10 @@ class Tag < ActiveRecord::Base
     parent.present?
   end
 
+  def sorted_children
+    children.sort_by(&:title)
+  end
+
   def title_including_parent
     if has_parent?
       "#{parent.title}: #{title}"

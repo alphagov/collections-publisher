@@ -1,11 +1,19 @@
 require 'rails_helper'
 
-RSpec.describe 'listing browse pages' do
-  before do
+RSpec.describe 'listing mainstream browse pages' do
+  before :each do
     stub_user.permissions << "GDS Editor"
   end
 
-  it 'only shows parent browse pages' do
+  it "doesn't show anything for non-editors" do
+    stub_user.permissions = ['signin']
+
+    visit mainstream_browse_pages_path
+
+    expect(page.status_code).to eql 403
+  end
+
+  it 'shows parent and child browse pages' do
     # Given there are browse pages with children
     parent_browse_pages = create_list(:mainstream_browse_page, 5)
     child_browse_pages = create_list(:mainstream_browse_page, 5, parent: parent_browse_pages.first )
@@ -42,5 +50,4 @@ RSpec.describe 'listing browse pages' do
       expect(page).to_not have_link('Add child page')
     end
   end
-
 end
