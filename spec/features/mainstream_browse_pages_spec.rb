@@ -140,6 +140,24 @@ RSpec.describe "managing mainstream browse pages" do
     )
   end
 
+  it "updating a published page with invalid info" do
+    # Given a published mainstream browse page exists
+    create(:mainstream_browse_page, :published, :slug => 'citizenship', :title => 'Citizenship')
+
+    # When I make a change to the mainstream browse page
+    visit mainstream_browse_pages_path
+    click_on 'Citizenship'
+    click_on 'Edit'
+
+    fill_in 'Title', with: ''
+    fill_in 'Description', :with => 'A changed description'
+    click_on 'Save'
+
+    # Then I should see a proper error
+    expect(page).to have_content("Title can't be blank")
+    expect(find('#mainstream_browse_page_description').value).to eql "A changed description"
+  end
+
   it "creating a child browse page" do
     # Given a draft mainstream browse page exists
     create(:mainstream_browse_page, :draft, :slug => 'citizenship', :title => 'Citizenship')

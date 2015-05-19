@@ -1,0 +1,16 @@
+<%= content_for :page_title, "Mainstream browse page" %>
+
+<header class="heading-with-actions">
+  <h1>Mainstream browse page</h1>
+
+  <nav class="actions">
+    <%= link_to new_mainstream_browse_page_path, class: 'new' do %>
+      <span class="icon"></span> Add a mainstream browse page
+    <% end %>
+  </nav>
+</header>
+
+<%= render 'shared/tags/table',
+      resources: @browse_pages,
+      empty_message: "No mainstream browse pages exist yet.
+        #{link_to('Add one', new_mainstream_browse_page_path)}".html_safe %>

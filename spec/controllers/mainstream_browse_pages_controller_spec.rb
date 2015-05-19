@@ -10,33 +10,12 @@ RSpec.describe MainstreamBrowsePagesController do
   end
 
   describe 'GET new' do
-    let(:parent_browse_page) { create(:mainstream_browse_page) }
-
-    it 'finds a parent tag given the parent_id parameter' do
-      get :new, parent_id: parent_browse_page.id
-
-      # parent is a private method exposed to the view through the helper_method
-      # behaviour. we can't call `controller.parent` direcly here, so we have
-      # to use the `send` method.
-      #
-      parent = controller.send(:parent)
-
-      expect(parent).to eq(parent_browse_page)
-    end
-
-    it 'finds a parent tag given the mainstream_browse_page[parent_id] parameter' do
-      get :new, mainstream_browse_page: { parent_id: parent_browse_page.id }
-
-      # see note in previous test around use of `send` here
-      parent = controller.send(:parent)
-
-      expect(parent).to eq(parent_browse_page)
-    end
+    let(:browse_page) { create(:mainstream_browse_page) }
 
     it 'does not allow users without GDS Editor permissions access' do
       stub_user.permissions = ["signin"]
 
-      get :new, parent_id: parent_browse_page.id
+      get :new, parent_id: browse_page.id
 
       expect(response.status).to eq(403)
     end

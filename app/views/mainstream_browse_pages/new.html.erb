@@ -1,0 +1,17 @@
+<%= content_for :page_title, 'New mainstream browse page' %>
+
+<h1>New mainstream browse page</h1>
+
+<%= form_for @browse_page do |f| %>
+  <%= f.select :parent_id,
+      MainstreamBrowsePage.sorted_parents.map { |topic| [topic.title, topic.id] },
+      { include_blank: true },
+      { class: 'select2',
+        data: { placeholder: "Choose a parent page (optional)" } } %>
+
+  <%= f.text_field :slug %>
+  <%= f.text_field :title %>
+  <%= f.text_field :description %>
+
+  <%= f.submit 'Create' %>
+<% end %>

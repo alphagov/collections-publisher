@@ -1,46 +1,39 @@
-<%= content_for :page_title, @resource.title %>
+<%= content_for :page_title, @browse_page.title %>
 
 <header class="heading-with-actions">
   <h1>
-    <span class="type"><%= tag_type_label %></span>
-    <% if @resource.has_parent? %>
-      <%= link_to "#{@resource.parent.title}:", polymorphic_path(@resource.parent) %>
+    <span class="type">Mainstream browse page</span>
+
+    <% if @browse_page.has_parent? %>
+      <%= link_to "#{@browse_page.parent.title}:", @browse_page.parent %>
     <% end %>
-    <%= @resource.title %>
+
+    <%= @browse_page.title %>
   </h1>
 
   <nav class="actions">
-    <%= link_to 'Edit', edit_polymorphic_path(@resource) %>
-    <% if @resource.may_publish? %>
-      <%= link_to "Publish #{tag_type_label.downcase}", polymorphic_path(@resource, action: 'publish'), method: :post %>
+    <%= link_to 'Edit', edit_mainstream_browse_page_path(@browse_page) %>
+
+    <% if @browse_page.may_publish? %>
+      <%= link_to "Publish mainstream browse page",
+                  publish_mainstream_browse_page_path(@browse_page),
+                  method: :post %>
     <% end %>
   </nav>
 </header>
 
-<%=
-  render partial: 'shared/tags/metadata', locals: {
-    resource: @resource
-  }
-%>
+<%= render 'shared/tags/metadata', resource: @browse_page %>
+<%= render 'shared/tags/children', resource: @browse_page %>
 
-<%=
-  render partial: 'shared/tags/children', locals: {
-    resource: @resource
-  }
-%>
-
-<% if @resource.topics.any? %>
+<% if @browse_page.topics.any? %>
   <section class="children">
     <header class="heading-with-actions">
       <h2>Topics</h2>
     </header>
 
-    <%=
-      render partial: 'shared/tags/table', locals: {
-        resources: @resource.topics,
-        include_children_column: false,
-        empty_message: "No topics exist yet."
-      }
-    %>
+    <%= render 'shared/tags/table',
+          resources: @browse_page.topics,
+          include_children_column: false,
+          empty_message: "No topics exist yet." %>
   </section>
 <% end %>
