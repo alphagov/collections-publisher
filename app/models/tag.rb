@@ -66,6 +66,12 @@ class Tag < ActiveRecord::Base
     parent.present?
   end
 
+  alias child? has_parent?
+
+  def self.sorted_parents
+    only_parents.includes(:children).order(:title)
+  end
+
   def sorted_children
     children.sort_by(&:title)
   end

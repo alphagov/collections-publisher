@@ -1,0 +1,21 @@
+<%= form_for topic, html: { class: 'topic' } do |f| %>
+
+  <%= f.select :parent_id,
+      Topic.sorted_parents.map { |topic| [topic.title, topic.id] },
+      { include_blank: true },
+      { class: 'select2',
+        data: { placeholder: "Choose a parent topic (optional)" } } %>
+
+  <%= f.text_field :slug %>
+  <%= f.text_field :title %>
+  <%= f.text_field :description %>
+
+  <% if topic.published? && topic.dirty? %>
+    <div class="callout callout-warning">
+      <span class="callout-title">Warning</span>
+      This item has unpublished changes to the curated lists. Saving will publish these changes.
+    </div>
+  <% end %>
+
+  <%= f.submit topic.new_record? ? 'Create' : 'Save' %>
+<% end %>

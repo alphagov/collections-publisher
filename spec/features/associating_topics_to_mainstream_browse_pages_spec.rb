@@ -12,7 +12,7 @@ RSpec.describe "associating topics to mainstream browse pages" do
     it "should not allow adding any topics" do
       visit edit_mainstream_browse_page_path(mainstream_browse_page)
 
-      within "form.resource" do
+      within "form" do
         expect(page).to_not have_selector("#mainstream_browse_page_topics")
       end
     end
@@ -59,7 +59,7 @@ RSpec.describe "associating topics to mainstream browse pages" do
     it "should allow associating topics" do
       visit edit_mainstream_browse_page_path(mainstream_browse_page)
 
-      within "form.resource" do
+      within "form" do
         select topic.title, :from => "mainstream_browse_page_topics"
         select topic_two.title, :from => "mainstream_browse_page_topics"
         click_on "Save"
@@ -76,7 +76,7 @@ RSpec.describe "associating topics to mainstream browse pages" do
 
       visit edit_mainstream_browse_page_path(mainstream_browse_page)
 
-      within "form.resource" do
+      within "form" do
         unselect topic.title, :from => "mainstream_browse_page_topics"
         unselect topic_two.title, :from => "mainstream_browse_page_topics"
         click_on "Save"

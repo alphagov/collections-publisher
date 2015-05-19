@@ -1,0 +1,13 @@
+<%= content_for :page_title, "Edit topic" %>
+
+<h1>
+  <span class="type">Topic</span>
+
+  Editing
+  <% if @topic.has_parent? %>
+    <%= @topic.parent.title %>:
+  <% end %>
+    <%= @topic.title %>
+</h1>
+
+<%= render 'form', topic: @topic %>

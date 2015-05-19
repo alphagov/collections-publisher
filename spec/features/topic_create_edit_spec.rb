@@ -42,6 +42,18 @@ RSpec.describe "creating and editing topics" do
     )
   end
 
+  it "Creating an invalid topic" do
+    # When I visit the new topic path
+    visit new_topic_path
+
+    # And I fill in invalid info
+    fill_in 'Slug', with: ''
+    click_on 'Create'
+
+    # Then I should see a validation error
+    expect(page).to have_content("Slug can't be blank")
+  end
+
   it "updating a draft page" do
     # Given a draft topic exists
     create(:topic, :draft, :slug => 'working-at-sea', :title => 'Working at sea')
@@ -108,6 +120,21 @@ RSpec.describe "creating and editing topics" do
       :title => 'Working on the ocean',
       :description => 'I woke up one morning, The sea was still there.',
     )
+  end
+
+  it "updating a published topic with invalid info" do
+    # Given a published topic exists
+    create(:topic, :published, :slug => 'working-at-sea', :title => 'Working at sea')
+
+    # When I make a change to the topic
+    visit topics_path
+    click_on 'Working at sea'
+    click_on 'Edit'
+
+    fill_in 'Slug', with: ''
+    click_on 'Save'
+
+    expect(page).to have_content("Slug can't be blank")
   end
 
   it "creating a child topic" do
