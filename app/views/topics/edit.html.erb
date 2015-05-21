@@ -10,4 +10,17 @@
     <%= @topic.title %>
 </h1>
 
-<%= render 'form', topic: @topic %>
+<%= form_for @topic, html: { class: 'topic' } do |f| %>
+  <%= f.text_field :slug %>
+  <%= f.text_field :title %>
+  <%= f.text_field :description %>
+
+  <% if @topic.published? && @topic.dirty? %>
+    <div class="callout callout-warning">
+      <span class="callout-title">Warning</span>
+      This item has unpublished changes to the curated lists. Saving will publish these changes.
+    </div>
+  <% end %>
+
+  <%= f.submit 'Save' %>
+<% end %>
