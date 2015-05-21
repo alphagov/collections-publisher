@@ -2,4 +2,16 @@
 
 <h1>New topic</h1>
 
-<%= render 'form', topic: @topic %>
+<%= form_for @topic, html: { class: 'topic' } do |f| %>
+  <%= f.select :parent_id,
+      Topic.sorted_parents.map { |topic| [topic.title, topic.id] },
+      { include_blank: true },
+      { class: 'select2',
+        data: { placeholder: "Choose a parent topic (optional)" } } %>
+
+  <%= f.text_field :slug %>
+  <%= f.text_field :title %>
+  <%= f.text_field :description %>
+
+  <%= f.submit 'Create' %>
+<% end %>
