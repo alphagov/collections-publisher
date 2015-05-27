@@ -18,7 +18,10 @@
         <% @topic.untagged_list_items.each do |list_item| %>
           <tr>
             <td class='title'><%= list_item.title %></td>
-            <td class='remove'><%= button_to 'Remove', topic_list_list_item_path(@topic, list_item.list, list_item), method: :delete %></td>
+            <td class='remove'>
+              <%= button_to 'Remove', topic_list_list_item_path(@topic, list_item.list, list_item),
+                method: :delete, class: 'btn btn-sm btn-danger' %>
+            </td>
           </tr>
         <% end %>
       </tbody>
@@ -41,7 +44,7 @@
   <h2>New list</h2>
   <%= f.text_field :name %>
 
-  <button class='btn btn-primary'>Create</button>
+  <button class='btn-submit'>Create</button>
 <% end %>
 
 <div class="curated-lists">
@@ -58,7 +61,7 @@
         <li>
           <%= button_to 'Delete list', topic_list_path(@topic, list),
                 method: :delete,
-                class: 'js-confirm',
+                class: 'js-confirm btn btn-sm btn-danger',
                 :'data-confirm-text' => 'Are you sure you want to delete this list and all its content?'
           %>
         </li>
