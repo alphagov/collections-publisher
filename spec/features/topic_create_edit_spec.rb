@@ -106,6 +106,7 @@ RSpec.describe "creating and editing topics" do
     # Then the topic should be updated
     visit topics_path
     expect(page).to have_content('Working on the ocean')
+    expect(page).to have_content('In Beta')
 
     # And a live item should have been sent to publishing-api
     assert_publishing_api_put_item('/working-at-sea', {

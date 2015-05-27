@@ -7,7 +7,7 @@
   <% if @topic.has_parent? %>
     <%= @topic.parent.title %>:
   <% end %>
-    <%= @topic.title %>
+    <%= @topic.title %> <%= beta_tag if @topic.beta? %>
 </h1>
 
 <%= form_for @topic, html: { class: 'topic' } do |f| %>
