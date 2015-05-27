@@ -100,6 +100,7 @@ RSpec.describe "creating and editing topics" do
 
     fill_in 'Title', :with => 'Working on the ocean'
     fill_in 'Description', :with => 'I woke up one morning, The sea was still there.'
+    check 'Beta'
     click_on 'Save'
 
     # Then the topic should be updated
@@ -111,6 +112,10 @@ RSpec.describe "creating and editing topics" do
       "title" => 'Working on the ocean',
       "description" => "I woke up one morning, The sea was still there.",
       "format" => "topic",
+      "details" => {
+        "groups" => [],
+        "beta" => true,
+      }
     })
 
     # And the topic should have been updated in Panopticon

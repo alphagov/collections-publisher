@@ -18,6 +18,7 @@ private
   def details
     super.merge({
       :groups => categorized_groups,
+      :beta => @tag.beta,
     })
   end
 
