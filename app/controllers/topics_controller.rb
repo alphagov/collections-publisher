@@ -63,7 +63,7 @@ class TopicsController < ApplicationController
 private
 
   def topic_params
-    params.require(:topic).permit(:slug, :title, :description, :parent_id)
+    params.require(:topic).permit(:slug, :title, :description, :parent_id, :beta)
   end
 
   def find_topic

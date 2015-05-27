@@ -54,6 +54,7 @@ RSpec.describe TopicPresenter do
       it "should contain an empty groups array with no curated lists" do
         expect(presented_data[:details]).to eq({
           :groups => [],
+          :beta => false,
         })
       end
 
@@ -88,7 +89,8 @@ RSpec.describe TopicPresenter do
                   "http://api.example.com/oil-rig-staffing",
                 ]
               }
-            ]
+            ],
+            :beta => false,
           })
         end
 

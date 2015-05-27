@@ -7,4 +7,8 @@ module StatusHelper
 
     content_tag :span, text, class: "label label-#{class_name}"
   end
+
+  def beta_tag
+    status 'In Beta', :warning
+  end
 end

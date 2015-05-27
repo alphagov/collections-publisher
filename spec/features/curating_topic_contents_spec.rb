@@ -113,6 +113,7 @@ RSpec.describe "Curating the contents of topics" do
                   contentapi_url_for_slug('undersea-piping-restrictions'),
               ]},
             ],
+            "beta" => false,
           }
         },
       )
@@ -189,6 +190,7 @@ RSpec.describe "Curating the contents of topics" do
                   contentapi_url_for_slug('undersea-piping-restrictions'),
               ]},
             ],
+            "beta" => false,
           }
         },
       )

@@ -100,17 +100,23 @@ RSpec.describe "creating and editing topics" do
 
     fill_in 'Title', :with => 'Working on the ocean'
     fill_in 'Description', :with => 'I woke up one morning, The sea was still there.'
+    check 'Beta'
     click_on 'Save'
 
     # Then the topic should be updated
     visit topics_path
     expect(page).to have_content('Working on the ocean')
+    expect(page).to have_content('In Beta')
 
     # And a live item should have been sent to publishing-api
     assert_publishing_api_put_item('/working-at-sea', {
       "title" => 'Working on the ocean',
       "description" => "I woke up one morning, The sea was still there.",
       "format" => "topic",
+      "details" => {
+        "groups" => [],
+        "beta" => true,
+      }
     })
 
     # And the topic should have been updated in Panopticon

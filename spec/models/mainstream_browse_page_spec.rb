@@ -13,6 +13,7 @@
 #  content_id  :string(255)      not null
 #  state       :string(255)      not null
 #  dirty       :boolean          default(FALSE), not null
+#  beta        :boolean          default(FALSE)
 #
 # Indexes
 #

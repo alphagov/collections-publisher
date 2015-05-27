@@ -7,13 +7,14 @@
   <% if @topic.has_parent? %>
     <%= @topic.parent.title %>:
   <% end %>
-    <%= @topic.title %>
+    <%= @topic.title %> <%= beta_tag if @topic.beta? %>
 </h1>
 
 <%= form_for @topic, html: { class: 'topic' } do |f| %>
   <%= f.text_field :slug %>
   <%= f.text_field :title %>
   <%= f.text_field :description %>
+  <%= f.check_box :beta %>
 
   <% if @topic.published? && @topic.dirty? %>
     <div class="callout callout-warning">

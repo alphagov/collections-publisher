@@ -8,7 +8,7 @@
       <%= link_to "#{@topic.parent.title}:", @topic.parent %>
     <% end %>
 
-    <%= @topic.title %>
+    <%= @topic.title %> <%= beta_tag if @topic.beta? %>
   </h1>
 
   <nav class="actions">
