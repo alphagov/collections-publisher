@@ -5,7 +5,7 @@
   margin-bottom: 20px;
 }
 
-input[type=submit] {
+.btn-submit {
   @extend .btn;
   @extend .btn-lg;
   @extend .btn-success;
