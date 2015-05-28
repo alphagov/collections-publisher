@@ -1,17 +1,3 @@
-# == Schema Information
-#
-# Table name: lists
-#
-#  id       :integer          not null, primary key
-#  name     :string(255)
-#  index    :integer          default(0), not null
-#  topic_id :integer          not null
-#
-# Indexes
-#
-#  index_lists_on_topic_id  (topic_id)
-#
-
 require "rails_helper"
 
 RSpec.describe List do
