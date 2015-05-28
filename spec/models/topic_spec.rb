@@ -139,5 +139,11 @@ RSpec.describe Topic do
 
       expect(subtopic.list_items_from_contentapi).to eq([])
     end
+
+    it "returns empty array when no topic exists in content api" do
+      stub_request(:get, %r[.]).to_return(status: 404)
+
+      expect(subtopic.list_items_from_contentapi).to eq([])
+    end
   end
 end
