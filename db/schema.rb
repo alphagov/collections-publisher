@@ -25,12 +25,12 @@ ActiveRecord::Schema.define(version: 20150527125401) do
   add_index "list_items", ["list_id", "index"], name: "index_list_items_on_list_id_and_index", using: :btree
 
   create_table "lists", force: :cascade do |t|
-    t.string  "name",     limit: 255
-    t.integer "index",    limit: 4,   default: 0, null: false
-    t.integer "topic_id", limit: 4,               null: false
+    t.string  "name",   limit: 255
+    t.integer "index",  limit: 4,   default: 0, null: false
+    t.integer "tag_id", limit: 4,               null: false
   end
 
-  add_index "lists", ["topic_id"], name: "index_lists_on_topic_id", using: :btree
+  add_index "lists", ["tag_id"], name: "index_lists_on_tag_id", using: :btree
 
   create_table "tag_associations", force: :cascade do |t|
     t.integer  "from_tag_id", limit: 4, null: false
@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(version: 20150527125401) do
   add_index "users", ["uid"], name: "index_users_on_uid", unique: true, using: :btree
 
   add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
-  add_foreign_key "lists", "tags", column: "topic_id", name: "lists_topic_id_fk", on_delete: :cascade
+  add_foreign_key "lists", "tags", name: "lists_tag_id_fk", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "to_tag_id", name: "tag_associations_to_tag_id_fk", on_delete: :cascade
   add_foreign_key "tags", "tags", column: "parent_id", name: "tags_parent_id_fk"

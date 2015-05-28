@@ -5,7 +5,7 @@ FactoryGirl.define do
   end
 
   factory :list do
-    association :topic
+    tag
   end
 
   factory :list_item

@@ -5,8 +5,8 @@ RSpec.describe List do
   describe "validations" do
     let(:list) { FactoryGirl.build(:list) }
 
-    it "requires a topic" do
-      list.topic = nil
+    it "requires a tag" do
+      list.tag = nil
       expect(list).not_to be_valid
     end
   end

@@ -59,8 +59,8 @@ RSpec.describe TopicPresenter do
       end
 
       context "with some curated lists" do
-        let(:oil_rigs) { create(:list, :topic => topic, :index => 1, :name => 'Oil rigs') }
-        let(:piping) { create(:list, :topic => topic, :index => 0, :name => 'Piping') }
+        let(:oil_rigs) { create(:list, :tag => topic, :index => 1, :name => 'Oil rigs') }
+        let(:piping) { create(:list, :tag => topic, :index => 0, :name => 'Piping') }
 
         before :each do
           allow(oil_rigs).to receive(:tagged_list_items).and_return([
