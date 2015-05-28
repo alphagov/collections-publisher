@@ -40,11 +40,15 @@ class Topic < Tag
   end
 
   def list_items_from_contentapi
-    @_list_items_from_contentapi ||= CollectionsPublisher.services(:content_api)
-      .with_tag(panopticon_slug, 'specialist_sector', draft: true)
-      .map { |content_blob|
-        ListItem.new(title: content_blob.title, api_url: content_blob.id)
-      }
+    @_list_items_from_contentapi ||= begin
+      CollectionsPublisher.services(:content_api)
+        .with_tag(panopticon_slug, 'specialist_sector', draft: true)
+        .map { |content_blob|
+          ListItem.new(title: content_blob.title, api_url: content_blob.id)
+        }
+    rescue GdsApi::HTTPNotFound
+      []
+    end
   end
 
   # FIXME: remove this once we're using content_id's in URLs everywhere.
