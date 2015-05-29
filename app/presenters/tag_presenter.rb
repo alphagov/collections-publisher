@@ -60,7 +60,18 @@ private
 
   # potentially extended in subclasses
   def details
-    {}
+    {
+      :groups => categorized_groups,
+    }
+  end
+
+  def categorized_groups
+    @tag.lists.ordered.map do |list|
+      {
+        name: list.name,
+        contents: list.tagged_list_items.map(&:api_url)
+      }
+    end
   end
 
   # potentially extended in subclasses

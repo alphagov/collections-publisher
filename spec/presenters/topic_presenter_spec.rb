@@ -50,56 +50,6 @@ RSpec.describe TopicPresenter do
       expect(presented_data[:public_updated_at]).to eq(topic.updated_at.iso8601)
     end
 
-    describe "details hash" do
-      it "should contain an empty groups array with no curated lists" do
-        expect(presented_data[:details]).to eq({
-          :groups => [],
-          :beta => false,
-        })
-      end
-
-      context "with some curated lists" do
-        let(:oil_rigs) { create(:list, :tag => topic, :index => 1, :name => 'Oil rigs') }
-        let(:piping) { create(:list, :tag => topic, :index => 0, :name => 'Piping') }
-
-        before :each do
-          allow(oil_rigs).to receive(:tagged_list_items).and_return([
-            OpenStruct.new(:api_url => "http://api.example.com/oil-rig-safety-requirements"),
-            OpenStruct.new(:api_url => "http://api.example.com/oil-rig-staffing"),
-          ])
-          allow(piping).to receive(:tagged_list_items).and_return([
-            OpenStruct.new(:api_url => "http://api.example.com/undersea-piping-restrictions"),
-          ])
-          allow(topic).to receive(:lists).and_return(double(:ordered => [piping, oil_rigs]))
-        end
-
-        it "provides the curated lists ordered by their index" do
-          expect(presented_data[:details]).to eq({
-            :groups => [
-              {
-                :name => "Piping",
-                :contents => [
-                  "http://api.example.com/undersea-piping-restrictions",
-                ]
-              },
-              {
-                :name => "Oil rigs",
-                :contents => [
-                  "http://api.example.com/oil-rig-safety-requirements",
-                  "http://api.example.com/oil-rig-staffing",
-                ]
-              }
-            ],
-            :beta => false,
-          })
-        end
-
-        it "is valid against the schema", :schema_test => true do
-          expect(presented_data).to be_valid_against_schema('topic')
-        end
-      end
-    end
-
     describe "routing" do
       it "includes routes for latest, and email_signups in addition to base route" do
         expect(presented_data[:routes]).to eq([

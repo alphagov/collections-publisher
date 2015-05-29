@@ -47,7 +47,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         :rendering_app => 'collections',
         :redirects => [],
         :update_type => "major",
-        :details => {},
+        :details => { :groups=>[] },
       })
     end
 
