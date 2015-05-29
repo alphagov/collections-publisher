@@ -1,0 +1,26 @@
+<div class='untagged-list-items subtle-highlight'>
+  <p>
+    <strong>Warning</strong>: this content has been curated but is not tagged to this topic.
+    Please either remove it or re-tag it to the topic.
+  </p>
+
+  <table class='table table-hover'>
+    <thead>
+      <tr>
+        <th class='title'>Title</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% topic.untagged_list_items.each do |list_item| %>
+        <tr>
+          <td class='title'><%= list_item.title %></td>
+          <td class='remove'>
+            <%= button_to 'Remove', topic_list_list_item_path(topic, list_item.list, list_item),
+              method: :delete, class: 'btn btn-sm btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

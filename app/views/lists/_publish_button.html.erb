@@ -1,0 +1,8 @@
+<p>
+  <%= button_to 'Publish changes to GOV.UK', republish_topic_path(topic),
+        method: :post,
+        class: "btn btn-success publish btn-lg js-confirm",
+        :'data-confirm-text' => "Are you sure you want to publish this immediately to GOV.UK?",
+        disabled: !topic.dirty?
+  %>
+</p>
