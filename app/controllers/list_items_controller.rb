@@ -1,6 +1,8 @@
 class ListItemsController < ApplicationController
   before_filter :find_tag
   before_filter :find_list
+  before_filter :require_gds_editor_permissions!,
+    if: :editing_lists_for_mainstream_browse_page?
 
   def create
     list_item = @list.list_items.build(list_item_params)
@@ -82,5 +84,9 @@ private
 
   def list_item_params
     params.require(:list_item).permit(:title, :api_url, :index)
+  end
+
+  def editing_lists_for_mainstream_browse_page?
+    @tag.is_a?(MainstreamBrowsePage)
   end
 end
