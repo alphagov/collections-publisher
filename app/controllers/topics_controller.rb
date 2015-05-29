@@ -57,7 +57,7 @@ class TopicsController < ApplicationController
     topic = find_topic
 
     PublishingAPINotifier.send_to_publishing_api(topic)
-    redirect_to topic_lists_path(topic)
+    redirect_to tag_lists_path(topic)
   end
 
 private

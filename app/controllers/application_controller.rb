@@ -18,7 +18,7 @@ private
     authorise_user!("GDS Editor")
   end
 
-  def find_topic
-    @topic = Topic.find_by!(content_id: params[:topic_id])
+  def find_tag
+    @tag = Tag.find_by!(content_id: params[:tag_id])
   end
 end

@@ -1,13 +1,13 @@
-<h1>Curated lists for "<%= @topic.title %>"<%= " (draft)" if @topic.draft? %></h1>
+<h1>Curated lists for "<%= @tag.title %>"<%= " (draft)" if @tag.draft? %></h1>
 
-<% if @topic.untagged_list_items.any? %>
-  <%= render 'untagged_list_items', topic: @topic %>
+<% if @tag.untagged_list_items.any? %>
+  <%= render 'untagged_list_items', tag: @tag %>
 <% end %>
 
-<% unless @topic.draft? %>
-  <%= render 'publish_button', topic: @topic %>
+<% unless @tag.draft? %>
+  <%= render 'publish_button', tag: @tag %>
 <% end %>
 
-<%= render 'new_list', topic: @topic %>
-<%= render 'list_editor', lists: @lists, topic: @topic %>
-<%= render 'uncategorized_list_items', lists: @lists, topic: @topic %>
+<%= render 'new_list', tag: @tag %>
+<%= render 'list_editor', lists: @lists, tag: @tag %>
+<%= render 'uncategorized_list_items', lists: @lists, tag: @tag %>

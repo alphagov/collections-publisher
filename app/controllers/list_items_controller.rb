@@ -1,12 +1,12 @@
 class ListItemsController < ApplicationController
-  before_filter :find_topic
+  before_filter :find_tag
   before_filter :find_list
 
   def create
     list_item = @list.list_items.build(list_item_params)
     saved = list_item.save
 
-    @topic.mark_as_dirty! if saved
+    @tag.mark_as_dirty! if saved
 
     respond_to do |format|
       format.html {
@@ -16,11 +16,11 @@ class ListItemsController < ApplicationController
           flash[:error] = 'Could not add that list item to your list'
         end
 
-        redirect_to topic_lists_path(@topic)
+        redirect_to tag_lists_path(@tag)
       }
       format.js {
         if saved
-          render json: {errors: [], updateURL: topic_list_list_item_path(@topic, @list, list_item)}
+          render json: {errors: [], updateURL: tag_list_list_item_path(@tag, @list, list_item)}
         else
           render json: {errors: list_item.errors.to_json}, status: 422
         end
@@ -34,7 +34,7 @@ class ListItemsController < ApplicationController
 
     destroyed = list_item.destroyed?
 
-    @topic.mark_as_dirty! if destroyed
+    @tag.mark_as_dirty! if destroyed
 
     respond_to do |format|
       format.html {
@@ -44,7 +44,7 @@ class ListItemsController < ApplicationController
           flash[:alert] = "Could not remove the list item from this list"
         end
 
-        redirect_to topic_lists_path(@topic)
+        redirect_to tag_lists_path(@tag)
       }
       format.js {
         if destroyed
@@ -64,7 +64,7 @@ class ListItemsController < ApplicationController
     respond_to do |format|
       format.js {
         if list_item.save
-          @topic.mark_as_dirty!
+          @tag.mark_as_dirty!
 
           render json: {errors: []}
         else
@@ -77,7 +77,7 @@ class ListItemsController < ApplicationController
 private
 
   def find_list
-    @list = @topic.lists.find(params[:list_id])
+    @list = @tag.lists.find(params[:list_id])
   end
 
   def list_item_params
