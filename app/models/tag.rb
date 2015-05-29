@@ -35,6 +35,9 @@ class Tag < ActiveRecord::Base
   has_many :reverse_tag_associations, foreign_key: :to_tag_id,
            class_name: "TagAssociation"
 
+  has_many :lists
+  has_many :list_items, through: :lists
+
   validates :slug, :title, :content_id, presence: true
   validates :slug, uniqueness: { scope: ["parent_id"] }, format: { with: /\A[a-z0-9-]*\z/ }
   validate :parent_is_not_a_child
@@ -100,6 +103,35 @@ class Tag < ActiveRecord::Base
 
   def mark_as_clean!
     update_columns(:dirty => false)
+  end
+
+  # returns unsaved ListItems for content tagged to this tag, but not in a
+  # list.
+  def uncategorized_list_items
+    curated_api_urls = list_items.map(&:api_url)
+    list_items_from_contentapi.reject {|li| curated_api_urls.include?(li.api_url) }
+  end
+
+  # returns ListItems for content that's no longer tagged to this tag.
+  def untagged_list_items
+    @_untagged_list_items ||= lists.map(&:untagged_list_items).flatten
+  end
+
+  def list_items_from_contentapi
+    @_list_items_from_contentapi ||= begin
+      CollectionsPublisher.services(:content_api)
+        .with_tag(panopticon_slug, 'specialist_sector', draft: true)
+        .map { |content_blob|
+          ListItem.new(title: content_blob.title, api_url: content_blob.id)
+        }
+    rescue GdsApi::HTTPNotFound
+      []
+    end
+  end
+
+  # FIXME: remove this once we're using content_id's in URLs everywhere.
+  def panopticon_slug
+    self.base_path[1..-1]
   end
 
 private

@@ -231,8 +231,8 @@ RSpec.describe "Curating the contents of topics" do
         ]
       )
 
-      oil_rigs = create(:list, :topic => offshore, :name => 'Oil rigs', :index => 0)
-      piping = create(:list, :topic => offshore, :name => 'Piping', :index => 1)
+      oil_rigs = create(:list, :tag => offshore, :name => 'Oil rigs', :index => 0)
+      piping = create(:list, :tag => offshore, :name => 'Piping', :index => 1)
 
       create(:list_item, :list => oil_rigs, :index => 0, :title => 'Oil rig safety requirements', :api_url => contentapi_url_for_slug('oil-rig-safety-requirements'))
       create(:list_item, :list => oil_rigs, :index => 1, :title => 'Oil rig staffing', :api_url => contentapi_url_for_slug('oil-rig-staffing'))

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Tag do
+  include ContentApiHelpers
 
   describe "validations" do
     let(:tag) { build(:tag) }
@@ -222,6 +223,126 @@ RSpec.describe Tag do
         expect(tag).not_to be_dirty
         expect(tag.title).to eq("Title")
       end
+    end
+  end
+
+  describe "lists association" do
+    let(:tag) { create(:tag) }
+    let!(:list1) { create(:list, :tag => tag) }
+    let!(:list2) { create(:list, :tag => tag) }
+    let!(:list3) { create(:list) }
+
+    it "returns all lists for the tag" do
+      expect(tag.lists).to match_array([list1, list2])
+    end
+
+    it "should efficiently traverse the relationships" do
+      # Ensures that memoised values on the tag model are efficiently used.
+
+      dereferenced_tag = tag.lists.first.tag
+      expect(dereferenced_tag.object_id).to eq(tag.object_id)
+    end
+
+    it "deletes lists when the tag is deleted" do
+      tag.destroy
+
+      expect(List.find_by_id(list1.id)).not_to be
+      expect(List.find_by_id(list2.id)).not_to be
+      expect(List.find_by_id(list3.id)).to be
+    end
+  end
+
+  describe '#uncategorized_list_items' do
+    let(:tag) { create(:tag, :slug => 'tag') }
+    let(:subtag) { create(:tag, :parent => tag, :slug => 'subtag') }
+
+    it "returns ListItems for all content that's been tagged to the tag, but isn't in a list" do
+      list1 = create(:list, :tag => subtag)
+      create(:list_item, :list => list1, :api_url => contentapi_url_for_slug('content-1'))
+      list2 = create(:list, :tag => subtag)
+      create(:list_item, :list => list2, :api_url => contentapi_url_for_slug('content-3'))
+
+      content_api_has_artefacts_with_a_tag('specialist_sector', 'tag/subtag', [
+        'content-1',
+        'content-2',
+        'content-3',
+        'content-4',
+      ])
+
+      expect(subtag.uncategorized_list_items.map(&:api_url)).to match_array([
+        contentapi_url_for_slug('content-2'),
+        contentapi_url_for_slug('content-4'),
+      ])
+    end
+  end
+
+  describe '#untagged_list_items' do
+    let(:tag) { create(:tag, :slug => 'tag') }
+    let(:subtag) { create(:tag, :parent => tag, :slug => 'subtag') }
+
+    before :each do
+      list1 = create(:list, :tag => subtag)
+      create(:list_item, :list => list1, :api_url => contentapi_url_for_slug('content-1'))
+      create(:list_item, :list => list1, :api_url => contentapi_url_for_slug('content-2'))
+      list2 = create(:list, :tag => subtag)
+      create(:list_item, :list => list2, :api_url => contentapi_url_for_slug('content-3'))
+    end
+
+    it "returns all list items for content that's no longer tagged to the tag" do
+      content_api_has_artefacts_with_a_tag('specialist_sector', 'tag/subtag', [
+        'content-1',
+        'content-3',
+      ])
+
+      expect(subtag.untagged_list_items.map(&:api_url)).to eq([
+        contentapi_url_for_slug('content-2'),
+      ])
+    end
+
+    it "returns empty array if all list items' content is tagged to the tag" do
+      content_api_has_artefacts_with_a_tag('specialist_sector', 'tag/subtag', [
+        'content-1',
+        'content-2',
+        'content-3',
+      ])
+
+      expect(subtag.untagged_list_items.map(&:api_url)).to eq([])
+    end
+  end
+
+  describe '#list_items_from_contentapi' do
+    let(:tag) { create(:tag, :slug => 'tag') }
+    let(:subtag) { create(:tag, :parent => tag, :slug => 'subtag') }
+
+    it "returns the ListItem instances for all content tagged to the tag" do
+      content_api_has_artefacts_with_a_tag('specialist_sector', 'tag/subtag', [
+        'example-content-1',
+        'example-content-2'
+      ])
+
+      items = subtag.list_items_from_contentapi
+
+      expect(items.map(&:api_url)).to eq([
+        contentapi_url_for_slug('example-content-1'),
+        contentapi_url_for_slug('example-content-2'),
+      ])
+      expect(items.map(&:title)).to eq([
+        "Example content 1",
+        "Example content 2"
+      ])
+      expect(items.first).to be_a(ListItem)
+    end
+
+    it "returns empty array when no items are tagged to the tag" do
+      content_api_has_artefacts_with_a_tag('specialist_sector', 'tag/subtag', [])
+
+      expect(subtag.list_items_from_contentapi).to eq([])
+    end
+
+    it "returns empty array when no topic exists in content api" do
+      stub_request(:get, %r[.]).to_return(status: 404)
+
+      expect(subtag.list_items_from_contentapi).to eq([])
     end
   end
 end
