@@ -11,11 +11,12 @@ Rails.application.routes.draw do
   resources :topics, except: :destroy do
     member do
       post :publish
-      post :republish
     end
   end
 
   resources :tags, only: [] do
+    post :republish
+
     resources :lists, only: [:index, :edit, :create, :update, :destroy] do
       resources :list_items, only: [:create, :update, :destroy]
     end

@@ -53,13 +53,6 @@ class TopicsController < ApplicationController
     redirect_to topic
   end
 
-  def republish
-    topic = find_topic
-
-    PublishingAPINotifier.send_to_publishing_api(topic)
-    redirect_to tag_lists_path(topic)
-  end
-
 private
 
   def topic_params
