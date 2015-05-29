@@ -262,7 +262,7 @@ RSpec.describe Tag do
       list2 = create(:list, :tag => subtag)
       create(:list_item, :list => list2, :api_url => contentapi_url_for_slug('content-3'))
 
-      content_api_has_artefacts_with_a_tag('specialist_sector', 'tag/subtag', [
+      content_api_has_artefacts_with_a_tag('tag', 'tag/subtag', [
         'content-1',
         'content-2',
         'content-3',
@@ -289,7 +289,7 @@ RSpec.describe Tag do
     end
 
     it "returns all list items for content that's no longer tagged to the tag" do
-      content_api_has_artefacts_with_a_tag('specialist_sector', 'tag/subtag', [
+      content_api_has_artefacts_with_a_tag('tag', 'tag/subtag', [
         'content-1',
         'content-3',
       ])
@@ -300,7 +300,7 @@ RSpec.describe Tag do
     end
 
     it "returns empty array if all list items' content is tagged to the tag" do
-      content_api_has_artefacts_with_a_tag('specialist_sector', 'tag/subtag', [
+      content_api_has_artefacts_with_a_tag('tag', 'tag/subtag', [
         'content-1',
         'content-2',
         'content-3',
@@ -315,7 +315,7 @@ RSpec.describe Tag do
     let(:subtag) { create(:tag, :parent => tag, :slug => 'subtag') }
 
     it "returns the ListItem instances for all content tagged to the tag" do
-      content_api_has_artefacts_with_a_tag('specialist_sector', 'tag/subtag', [
+      content_api_has_artefacts_with_a_tag('tag', 'tag/subtag', [
         'example-content-1',
         'example-content-2'
       ])
@@ -334,7 +334,7 @@ RSpec.describe Tag do
     end
 
     it "returns empty array when no items are tagged to the tag" do
-      content_api_has_artefacts_with_a_tag('specialist_sector', 'tag/subtag', [])
+      content_api_has_artefacts_with_a_tag('tag', 'tag/subtag', [])
 
       expect(subtag.list_items_from_contentapi).to eq([])
     end
@@ -343,6 +343,22 @@ RSpec.describe Tag do
       stub_request(:get, %r[.]).to_return(status: 404)
 
       expect(subtag.list_items_from_contentapi).to eq([])
+    end
+
+    it "returns the correct info for a browse page" do
+      parent = create(:mainstream_browse_page, slug: 'benefits')
+      browse_page = create(:mainstream_browse_page, parent: parent, slug: 'entitlement')
+      content_api_has_artefacts_with_a_tag('section', 'benefits/entitlement', [
+        'example-content-1',
+        'example-content-2'
+      ])
+
+      items = browse_page.list_items_from_contentapi
+
+      expect(items.map(&:title)).to eq([
+        "Example content 1",
+        "Example content 2"
+      ])
     end
   end
 end

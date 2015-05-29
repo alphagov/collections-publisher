@@ -11,8 +11,4 @@ private
       "related_topics" => @tag.topics.order(:title).map(&:content_id),
     )
   end
-
-  def tag_type
-    'section'
-  end
 end

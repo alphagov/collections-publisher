@@ -70,9 +70,7 @@ private
 
   attr_reader :tag
 
-  def tag_type
-    nil
-  end
+  delegate :tag_type, to: :tag
 
   def parent
     tag.parent || NullParent.new

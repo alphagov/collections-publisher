@@ -31,8 +31,4 @@ private
     end
   end
 
-  def tag_type
-    'specialist_sector'
-  end
-
 end
