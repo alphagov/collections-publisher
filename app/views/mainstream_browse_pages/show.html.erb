@@ -19,6 +19,10 @@
                   publish_mainstream_browse_page_path(@browse_page),
                   method: :post %>
     <% end %>
+
+    <% if @browse_page.has_parent? %>
+      <%= link_to 'Edit list', tag_lists_path(@browse_page) %>
+    <% end %>
   </nav>
 </header>
 
