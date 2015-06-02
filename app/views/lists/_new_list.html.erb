@@ -1,0 +1,6 @@
+<%= form_for List.new, url: tag_lists_path(tag), html: { id: 'new-list' } do |f| %>
+  <h2>New list</h2>
+  <%= f.text_field :name %>
+
+  <button class='btn-submit'>Create</button>
+<% end %>

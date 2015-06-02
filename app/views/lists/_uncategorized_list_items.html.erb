@@ -1,0 +1,25 @@
+<section class="list" aria-labelledby='list-uncategorized-header' id='list-uncategorized-section'>
+  <h2 id='list-uncategorized-header'>Uncategorized (A to Z)</h2>
+  <% if lists.any? %>
+    <p><b>Note:</b> These will not be displayed to users</p>
+  <% end %>
+
+  <table class='table table-hover'>
+    <thead>
+      <tr>
+        <td class='title'>Title</th>
+        <th class='api-url'>API URL</th>
+      </tr>
+    </thead>
+
+    <tbody class='curated-list'>
+      <tr class='empty-list'><td colspan='2'>Empty</td></tr>
+      <% tag.uncategorized_list_items.each do |list_item| %>
+        <tr>
+          <td class='title'><%= list_item.title %></td>
+          <td class='api-url'><%= list_item.api_url %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>

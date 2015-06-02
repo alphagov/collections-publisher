@@ -31,7 +31,12 @@ class MainstreamBrowsePage < Tag
     "/browse#{super}"
   end
 
+  def legacy_tag_type
+    'section'
+  end
+
 private
+
   def parents_cannot_have_topics_associated
     if !parent.present? and topics.any?
       errors.add(:topics, "top-level mainstream browse pages cannot have topics assigned to them")

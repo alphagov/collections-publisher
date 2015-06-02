@@ -1,4 +1,6 @@
 class TagPresenter
+  delegate :legacy_tag_type, to: :tag
+
   def self.presenter_for(tag)
     case tag
     when MainstreamBrowsePage
@@ -42,7 +44,7 @@ class TagPresenter
       tag_id: tag_id,
       title: tag.title,
       description: tag.description,
-      tag_type: tag_type,
+      tag_type: legacy_tag_type,
       parent_id: parent.slug,
     }
   end
@@ -60,7 +62,18 @@ private
 
   # potentially extended in subclasses
   def details
-    {}
+    {
+      :groups => categorized_groups,
+    }
+  end
+
+  def categorized_groups
+    @tag.lists.ordered.map do |list|
+      {
+        name: list.name,
+        contents: list.tagged_list_items.map(&:api_url)
+      }
+    end
   end
 
   # potentially extended in subclasses
@@ -69,10 +82,6 @@ private
   end
 
   attr_reader :tag
-
-  def tag_type
-    nil
-  end
 
   def parent
     tag.parent || NullParent.new

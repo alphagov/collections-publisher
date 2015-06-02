@@ -120,7 +120,7 @@ class Tag < ActiveRecord::Base
   def list_items_from_contentapi
     @_list_items_from_contentapi ||= begin
       CollectionsPublisher.services(:content_api)
-        .with_tag(panopticon_slug, 'specialist_sector', draft: true)
+        .with_tag(panopticon_slug, legacy_tag_type, draft: true)
         .map { |content_blob|
           ListItem.new(title: content_blob.title, api_url: content_blob.id)
         }
@@ -131,7 +131,11 @@ class Tag < ActiveRecord::Base
 
   # FIXME: remove this once we're using content_id's in URLs everywhere.
   def panopticon_slug
-    self.base_path[1..-1]
+    self.base_path.gsub('/browse', '')[1..-1]
+  end
+
+  def legacy_tag_type
+    nil
   end
 
 private

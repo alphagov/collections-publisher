@@ -17,22 +17,7 @@ private
 
   def details
     super.merge({
-      :groups => categorized_groups,
       :beta => @tag.beta,
     })
   end
-
-  def categorized_groups
-    @tag.lists.ordered.map do |list|
-      {
-        name: list.name,
-        contents: list.tagged_list_items.map(&:api_url)
-      }
-    end
-  end
-
-  def tag_type
-    'specialist_sector'
-  end
-
 end
