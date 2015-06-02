@@ -25,7 +25,7 @@
 class Topic < Tag
   has_many :mainstream_browse_pages, through: :reverse_tag_associations, source: :from_tag
 
-  def tag_type
+  def legacy_tag_type
     'specialist_sector'
   end
 end

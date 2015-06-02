@@ -24,7 +24,7 @@ RSpec.describe TagPresenter do
       title: 'Citizenship',
       description: 'Living in the UK, passports',
       parent: nil,
-      tag_type: nil,
+      legacy_tag_type: nil,
     }}
 
     it 'returns a hash of tag attributes' do

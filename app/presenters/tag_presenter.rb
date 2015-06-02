@@ -1,4 +1,6 @@
 class TagPresenter
+  delegate :legacy_tag_type, to: :tag
+
   def self.presenter_for(tag)
     case tag
     when MainstreamBrowsePage
@@ -42,7 +44,7 @@ class TagPresenter
       tag_id: tag_id,
       title: tag.title,
       description: tag.description,
-      tag_type: tag_type,
+      tag_type: legacy_tag_type,
       parent_id: parent.slug,
     }
   end
@@ -80,8 +82,6 @@ private
   end
 
   attr_reader :tag
-
-  delegate :tag_type, to: :tag
 
   def parent
     tag.parent || NullParent.new

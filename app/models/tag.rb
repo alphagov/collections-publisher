@@ -120,7 +120,7 @@ class Tag < ActiveRecord::Base
   def list_items_from_contentapi
     @_list_items_from_contentapi ||= begin
       CollectionsPublisher.services(:content_api)
-        .with_tag(panopticon_slug, tag_type, draft: true)
+        .with_tag(panopticon_slug, legacy_tag_type, draft: true)
         .map { |content_blob|
           ListItem.new(title: content_blob.title, api_url: content_blob.id)
         }
@@ -134,7 +134,7 @@ class Tag < ActiveRecord::Base
     self.base_path.gsub('/browse', '')[1..-1]
   end
 
-  def tag_type
+  def legacy_tag_type
     nil
   end
 

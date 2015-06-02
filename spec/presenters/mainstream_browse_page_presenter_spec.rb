@@ -8,7 +8,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
       title: 'Citizenship',
       description: 'Living in the UK, passports',
       parent: nil,
-      tag_type: 'section',
+      legacy_tag_type: 'section',
     ) }
 
     let(:presenter) { MainstreamBrowsePagePresenter.new(mainstream_browse_page) }

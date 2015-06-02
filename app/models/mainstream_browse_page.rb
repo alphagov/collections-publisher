@@ -31,7 +31,7 @@ class MainstreamBrowsePage < Tag
     "/browse#{super}"
   end
 
-  def tag_type
+  def legacy_tag_type
     'section'
   end
 
