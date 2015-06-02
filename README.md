@@ -48,4 +48,4 @@ To run just the schema tests: `bundle exec rake spec:schema`.
 
 ## Licence
 
-[MIT License](LICENSE)
+[MIT License](LICENSE.txt)
