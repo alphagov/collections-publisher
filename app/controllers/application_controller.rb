@@ -18,6 +18,10 @@ private
     authorise_user!("GDS Editor")
   end
 
+  def require_gds_editor_permissions_to_edit_browse_pages!
+    require_gds_editor_permissions! if @tag.is_a?(MainstreamBrowsePage)
+  end
+
   def find_tag
     @tag = Tag.find_by!(content_id: params[:tag_id])
   end

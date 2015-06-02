@@ -1,8 +1,9 @@
 class TagsController < ApplicationController
+  before_filter :find_tag
+  before_filter :require_gds_editor_permissions_to_edit_browse_pages!
+
   def republish
-    tag = Tag.find_by!(content_id: params[:tag_id])
-    authorise_user!("GDS Editor") if tag.is_a?(MainstreamBrowsePage)
-    PublishingAPINotifier.send_to_publishing_api(tag)
+    PublishingAPINotifier.send_to_publishing_api(@tag)
     redirect_to :back
   end
 end

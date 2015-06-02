@@ -1,7 +1,6 @@
 class ListsController < ApplicationController
   before_filter :find_tag
-  before_filter :require_gds_editor_permissions!,
-    if: :editing_lists_for_mainstream_browse_page?
+  before_filter :require_gds_editor_permissions_to_edit_browse_pages!
 
   def index
     @lists = @tag.lists.ordered
@@ -71,7 +70,4 @@ private
     params.require(:list).permit(:name, :index)
   end
 
-  def editing_lists_for_mainstream_browse_page?
-    @tag.is_a?(MainstreamBrowsePage)
-  end
 end
