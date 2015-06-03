@@ -137,10 +137,10 @@ RSpec.describe "creating and editing topics" do
     click_on 'Working at sea'
     click_on 'Edit'
 
-    fill_in 'Slug', with: ''
+    fill_in 'Title', with: ''
     click_on 'Save'
 
-    expect(page).to have_content("Slug can't be blank")
+    expect(page).to have_content("Title can't be blank")
   end
 
   it "creating a child topic" do
