@@ -41,7 +41,7 @@ class Tag < ActiveRecord::Base
   validates :slug, :title, :content_id, presence: true
   validates :slug, uniqueness: { scope: ["parent_id"] }, format: { with: /\A[a-z0-9-]*\z/ }
   validate :parent_is_not_a_child
-  validate :slug_change_once_published
+  validate :cannot_change_slug
 
   before_validation :generate_content_id, on: :create
 
@@ -150,9 +150,9 @@ private
     self.content_id ||= SecureRandom.uuid
   end
 
-  def slug_change_once_published
-    if slug_changed? && state == 'published'
-      errors.add(:slug, 'cannot change a slug once published')
+  def cannot_change_slug
+    if slug_changed? && !new_record?
+      errors.add(:slug, 'cannot change a slug once saved')
     end
   end
 end
