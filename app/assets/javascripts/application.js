@@ -1,4 +1,4 @@
-//= require_tree ./lib
+//= require jquery-ui.sortable.min
 //= require_tree .
 //= require_self
 
