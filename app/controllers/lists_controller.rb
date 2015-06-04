@@ -70,4 +70,7 @@ private
     params.require(:list).permit(:name, :index)
   end
 
+  def active_navigation_item
+    @tag.is_a?(MainstreamBrowsePage) ? 'mainstream_browse_pages' : 'topics'
+  end
 end

@@ -8,10 +8,15 @@ class ApplicationController < ActionController::Base
 
 private
 
-  helper_method :gds_editor?
+  helper_method :gds_editor?, :active_navigation_item
 
   def gds_editor?
     current_user.has_permission? "GDS Editor"
+  end
+
+  # Can be overridden to allow controllers to choose the active menu item.
+  def active_navigation_item
+    controller_name
   end
 
   def require_gds_editor_permissions!
