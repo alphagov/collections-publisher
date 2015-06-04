@@ -8,12 +8,12 @@
 
 <% content_for :navbar_items do %>
   <% if gds_editor? %>
-    <li class='<%= controller_name == 'mainstream_browse_pages' ? 'active' : nil %>'>
+    <li class='<%= active_navigation_item == 'mainstream_browse_pages' ? 'active' : nil %>'>
       <%= link_to 'Mainstream browse pages', mainstream_browse_pages_path %>
     </li>
   <% end %>
 
-  <li class='<%= controller_name.in?(%w[topics lists]) ? 'active' : nil %>'>
+  <li class='<%= active_navigation_item == 'topics' ? 'active' : nil %>'>
     <%= link_to 'Topics', topics_path %>
   </li>
 <% end %>
