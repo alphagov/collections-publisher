@@ -1,13 +1,18 @@
-# Collections publisher
+# Collections Publisher
 
-The `collections-publisher` publishes certain collection and tag formats requiring
-complicated UIs.  Its initial use will be "curated lists" for browse topics.
+The Collections Publisher publishes browse pages and topic pages.
+
+The content created is served by the [Collections app](https://github.com/alphagov/collections).
+
+![Screenshot of Collections Publisher](docs/screenshot.jpg)
+
+## Nomenclature
+
+See the [README of collections frontend](https://github.com/alphagov/collections).
 
 ## Technical documentation
 
-This is a Ruby on Rails application for internal use, with no public facing
-aspect. It retrieves topic information from the Content API and publishes
-Curated lists to the Content store.
+This is a Ruby on Rails application for internal use, with no public facing aspect. It retrieves topic information from the Content API and publishes Curated lists to the Content store.
 
 ### Dependencies
 
@@ -17,22 +22,15 @@ Curated lists to the Content store.
   (write request only) to store information about the topic
   groupings for Collections API and other apps to use.
 
+
 ### Running the application
 
-Run `bundle exec rails server`. Ensure the dependencies are satisfied before
-running. If you are using the development VM, run the app using `bowl
-collections-publisher` from within the `govuk/development` dir.
+    bundle exec rails server
 
-If you are running locally, ensure that the dependencies are available at
-`http://content-store.dev.gov.uk` and `http://content-api.dev.gov.uk`.
+Ensure the dependencies are satisfied before
+running. If you are using the development VM, run the app using bowler:
 
-#### Creating the mysql user for development
-
-The database.yml for this project is checked into source control so
-you'll need a local user with credentials that match those in
-database.yml.
-
-`mysql> grant all on `collections_publisher\_%`.* to collections_pub@localhost identified by 'collections_publisher';`
+    cd /var/govuk/development && bundle exec bowl collections-publisher
 
 ### Running the test suite
 
@@ -42,9 +40,13 @@ you will need a copy of this repo on your file system. By default this should
 be in a sibling directory to your project. Alternatively, you can specify their
 location with the `GOVUK_CONTENT_SCHEMAS_PATH` environment variable.
 
-To run the full test suite: `bundle exec rake`.
+To run the full test suite:
 
-To run just the schema tests: `bundle exec rake spec:schema`.
+    bundle exec rake
+
+To run just the schema tests:
+
+    bundle exec rake spec:schema
 
 ## Licence
 
