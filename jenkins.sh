@@ -49,16 +49,13 @@ git clone git@github.com:alphagov/govuk-content-schemas.git tmp/govuk-content-sc
 )
 export GOVUK_CONTENT_SCHEMAS_PATH=tmp/govuk-content-schemas
 
+export RAILS_ENV=test
 bundle install --path "${HOME}/bundles/${JOB_NAME}" --deployment --without development
-RAILS_ENV=test bundle exec rake db:drop db:create db:schema:load
-RAILS_ENV=test bundle exec rake ${TEST_TASK:-"default"}
+bundle exec rake db:drop db:create db:schema:load
 
-EXIT_STATUS=$?
-
-if [ "$EXIT_STATUS" == "0" ]; then
+if bundle exec rake ${TEST_TASK:-"default"}; then
   github_status "$REPO_NAME" success "succeeded on Jenkins"
 else
   github_status "$REPO_NAME" failure "failed on Jenkins"
+  exit 1
 fi
-
-exit $EXIT_STATUS
