@@ -12,7 +12,7 @@ See the [README of collections frontend](https://github.com/alphagov/collections
 
 ## Technical documentation
 
-This is a Ruby on Rails application for internal use, with no public facing aspect. It retrieves topic information from the Content API and publishes Curated lists to the Content store.
+This is a Ruby on Rails application for internal use, with no public facing aspect. It retrieves information about which content is tagged to a topic or browse page from the Content API and publishes Curated lists to the Content store.
 
 ### Dependencies
 
