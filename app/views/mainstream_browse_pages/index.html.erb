@@ -1,14 +1,8 @@
-<%= content_for :page_title, "Mainstream browse page" %>
-
-<header class="heading-with-actions">
-  <h1>Mainstream browse page</h1>
-
-  <nav class="actions">
-    <%= link_to new_mainstream_browse_page_path, class: 'new' do %>
-      <span class="icon"></span> Add a mainstream browse page
-    <% end %>
-  </nav>
-</header>
+<%= header "Mainstream browse pages", breadcrumbs: ["Mainstream browse pages"] do %>
+  <%= link_to new_mainstream_browse_page_path, class: 'new' do %>
+    <span class="icon"></span> Add a mainstream browse page
+  <% end %>
+<% end %>
 
 <%= render 'shared/tags/table',
       resources: @browse_pages,

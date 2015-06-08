@@ -47,12 +47,12 @@ RSpec.describe "associating topics to mainstream browse pages" do
       topic_titles = page.all(:css, "#mainstream_browse_page_topics option").map(&:text)
       expect(topic_titles).to eq([
         "Alpha",
-        "Alpha: Alpha",
-        "Alpha: Bravo",
+        "Alpha / Alpha",
+        "Alpha / Bravo",
         "Bravo",
-        "Bravo: Alpha",
-        "Bravo: Bravo",
-        "Bravo: Charlie",
+        "Bravo / Alpha",
+        "Bravo / Bravo",
+        "Bravo / Charlie",
       ])
     end
 

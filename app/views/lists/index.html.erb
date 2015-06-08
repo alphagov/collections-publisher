@@ -1,4 +1,4 @@
-<h1>Curated lists for "<%= @tag.title %>"<%= " (draft)" if @tag.draft? %></h1>
+<%= tag_header @tag, 'Lists' %>
 
 <% if @tag.untagged_list_items.any? %>
   <%= render 'untagged_list_items', tag: @tag %>

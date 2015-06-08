@@ -1,0 +1,19 @@
+<%= content_for :page_title, page_title %>
+
+<header class="heading-with-actions">
+  <ol class="breadcrumb">
+    <% breadcrumbs.each do |crumb| %>
+      <li><%= auto_link crumb %></li>
+    <% end %>
+
+    <li class="active"><%= active_item %></li>
+  </ol>
+
+  <h1><%= raw title %></h1>
+
+  <% if block_given? %>
+    <nav class="actions">
+      <%= yield %>
+    </nav>
+  <% end %>
+</header>

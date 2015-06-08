@@ -1,14 +1,4 @@
-<%= content_for :page_title, "Edit topic" %>
-
-<h1>
-  <span class="type">Topic</span>
-
-  Editing
-  <% if @topic.has_parent? %>
-    <%= @topic.parent.title %>:
-  <% end %>
-    <%= @topic.title %> <%= beta_tag if @topic.beta? %>
-</h1>
+<%= tag_header @topic, 'Edit' %>
 
 <%= form_for @topic, html: { class: 'topic' } do |f| %>
   <%= f.text_field :slug, :disabled => true %>

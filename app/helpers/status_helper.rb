@@ -11,4 +11,8 @@ module StatusHelper
   def beta_tag
     status 'In Beta', :warning
   end
+
+  def draft_tag
+    status 'draft', :draft
+  end
 end

@@ -36,6 +36,9 @@ RSpec.describe "Curating the contents of topics" do
         click_on 'Create'
       end
 
+      # We need to scroll down first to see all the lists.
+      page.driver.scroll_to 0, 100
+
       expect(page).to have_selector('.list h2', :text => 'Oil rigs')
 
       within '#list-uncategorized-section' do
@@ -71,6 +74,7 @@ RSpec.describe "Curating the contents of topics" do
         page.find(:xpath, ".//*[contains(@class,'ui-sortable-handle')][.//td[@class='title'] = 'Undersea piping restrictions']")
           .drag_to(target)
       end
+
       within :xpath, "//section[contains(@class, 'list')][.//h2 = 'Piping']" do
         expect(page).to have_content('Undersea piping restrictions')
         expect(page).not_to have_selector(".working") # Wait until the AJAX call has completed
@@ -87,6 +91,7 @@ RSpec.describe "Curating the contents of topics" do
           'Oil rig safety requirements',
         ])
       end
+
       within :xpath, "//section[contains(@class,'list')][.//h2 = 'Piping']" do
         titles = page.all('td.title').map(&:text)
         expect(titles).to eq([

@@ -1,6 +1,5 @@
-<%= content_for :page_title, 'New topic' %>
-
-<h1>New topic</h1>
+<%= header "New topic",
+  breadcrumbs: [:topics, @topic.parent, "New"] %>
 
 <%= form_for @topic, html: { class: 'topic' } do |f| %>
   <%= f.select :parent_id,
