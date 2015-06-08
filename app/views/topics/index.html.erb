@@ -1,16 +1,10 @@
-<%= content_for :page_title, "Topics" %>
-
-<header class="heading-with-actions">
-  <h1>Topics</h1>
-
+<%= header 'Topics', breadcrumbs: ['Topics'] do %>
   <% if gds_editor? %>
-    <nav class="actions">
-      <%= link_to new_topic_path, class: 'new' do %>
-        <span class="icon"></span> Add a topic
-      <% end %>
-    </nav>
+    <%= link_to new_topic_path, class: 'new' do %>
+      <span class="icon"></span> Add a topic
+    <% end %>
   <% end %>
-</header>
+<% end %>
 
 <%= render 'shared/tags/table',
       resources: @topics,

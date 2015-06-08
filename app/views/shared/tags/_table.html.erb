@@ -24,7 +24,7 @@
             <% resource.sorted_children.each do |child_tag| %>
               <li>
                 <%= link_to child_tag.title, polymorphic_path(child_tag) %>
-                <%= status('draft', :draft) if child_tag.draft? %>
+                <%= draft_tag if child_tag.draft? %>
                 <%= beta_tag if child_tag.beta? %>
               </li>
             <% end %>

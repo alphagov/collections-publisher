@@ -1,6 +1,5 @@
-<%= content_for :page_title, 'New mainstream browse page' %>
-
-<h1>New mainstream browse page</h1>
+<%= header "New mainstream browse page",
+  breadcrumbs: [:mainstream_browse_pages, @browse_page.parent, "New"] %>
 
 <%= form_for @browse_page do |f| %>
   <%= f.select :parent_id,

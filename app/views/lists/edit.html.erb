@@ -1,6 +1,8 @@
-<%= form_for @list, :url => tag_list_path(@tag, @list) do |f| %>
-  <h2>Edit list</h2>
-  <%= f.text_field :name %>
+<%= header "Edit '#{@list.name}'",
+  breadcrumbs: [active_navigation_item, @tag.parent, @tag,
+    link_to('Links', tag_lists_path(@tag)), @list.name] %>
 
+<%= form_for @list, :url => tag_list_path(@tag, @list) do |f| %>
+  <%= f.text_field :name %>
   <%= f.submit 'Save', class: 'btn-submit' %>
 <% end %>

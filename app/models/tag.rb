@@ -82,7 +82,7 @@ class Tag < ActiveRecord::Base
 
   def title_including_parent
     if has_parent?
-      "#{parent.title}: #{title}"
+      "#{parent.title} / #{title}"
     else
       title
     end

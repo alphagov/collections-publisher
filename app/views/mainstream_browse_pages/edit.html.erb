@@ -1,14 +1,4 @@
-<%= content_for :page_title, "Edit mainstream browse page" %>
-
-<h1>
-  <span class="type">Mainstream browse page</span>
-
-  Editing
-  <% if @browse_page.has_parent? %>
-    <%= @browse_page.parent.title %>:
-  <% end %>
-  <%= @browse_page.title %>
-</h1>
+<%= tag_header @browse_page, 'Edit' %>
 
 <%= form_for @browse_page do |f| %>
   <%= f.text_field :slug, :disabled => true %>
