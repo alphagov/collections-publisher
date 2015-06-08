@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150608131815) do
+ActiveRecord::Schema.define(version: 20150608145958) do
 
   create_table "list_items", force: :cascade do |t|
     t.string   "api_url",    limit: 255
