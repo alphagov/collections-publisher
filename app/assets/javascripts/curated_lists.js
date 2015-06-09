@@ -7,9 +7,6 @@
     init: function() {
       var $lists = $('.curated-list');
 
-      GOVUK.curatedLists.hideContentForms();
-      GOVUK.curatedLists.hideRedundantColumns($lists);
-
       $lists.each(function(_, list) {
         var $list = $(list);
 
@@ -30,12 +27,12 @@
           receive: GOVUK.curatedLists.postSort
         });
       });
-    },
-    hideContentForms: function() {
-      $('form').filter('.new_list_item').hide();
-    },
-    hideRedundantColumns: function($lists) {
-      $lists.closest('table').find('.api-url, .index, .remove').hide();
+
+      $('tr.untagged .remove').tooltip({
+        title: "This item is no longer tagged with this tag, so it is no " +
+        "longer visible to the user. You can safely remove it."
+      })
+
     },
     postSort: function(event, draggable) {
       var $droppedRow = draggable.item;

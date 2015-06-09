@@ -112,11 +112,6 @@ class Tag < ActiveRecord::Base
     list_items_from_contentapi.reject {|li| curated_api_urls.include?(li.api_url) }
   end
 
-  # returns ListItems for content that's no longer tagged to this tag.
-  def untagged_list_items
-    @_untagged_list_items ||= lists.map(&:untagged_list_items).flatten
-  end
-
   def list_items_from_contentapi
     @_list_items_from_contentapi ||= begin
       CollectionsPublisher.services(:content_api)

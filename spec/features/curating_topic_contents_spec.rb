@@ -268,6 +268,7 @@ RSpec.describe "Curating the contents of topics" do
           titles = page.all('td.title').map(&:text)
           expect(titles).to eq([
             'Undersea piping restrictions',
+            'Non-existent',
           ])
         end
       end
@@ -277,14 +278,6 @@ RSpec.describe "Curating the contents of topics" do
         titles = page.all('tbody td.title').map(&:text)
         expect(titles).to eq([
           'North sea shipping lanes',
-        ])
-      end
-
-      # And I should see a warning for no longer existing content items
-      within '.untagged-list-items' do
-        titles = page.all('td.title').map(&:text)
-        expect(titles).to eq([
-          'Non-existent',
         ])
       end
     end

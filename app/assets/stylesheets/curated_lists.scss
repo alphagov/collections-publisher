@@ -1,0 +1,26 @@
+.curated-list .ui-sortable-handle {
+  cursor: move;
+}
+
+html.js .new_list_item {
+  display: none;
+}
+
+html.js tr {
+  .api-url, .index, .remove {
+    display: none;
+  }
+
+  // only show the remove button when untagged.
+  &.untagged .remove {
+    display: block;
+  }
+}
+
+tr.untagged {
+  background-color: #FAFAA0;
+}
+
+.remove {
+  float: right;
+}
