@@ -19,26 +19,22 @@
       </ul>
 
       <table class='table table-hover'>
-        <thead>
-          <tr>
-            <th class='index'>Index</th>
-            <th class='title'>Title</th>
-            <th class='api-url' colspan='2'>API URL</th>
-          </tr>
-        </thead>
-
         <tbody class='curated-list' data-list-id='<%= list.id %>'>
           <tr class='empty-list'><td>Empty</td></tr>
-          <% list.tagged_list_items.each do |list_item| %>
+          <% list.list_items_with_tagging_status.each do |list_item| %>
             <tr
               data-update-url='<%= tag_list_list_item_path(tag, list, list_item) %>'
               data-index='<%= list_item.index %>'
               data-list-id='<%= list.id %>'
+              class='<%= list_item.tagged? ? nil : 'untagged' %>'
             >
               <td class='index'><%= list_item.index %></td>
               <td class='title'><%= list_item.title %></td>
               <td class='api-url'><%= list_item.api_url %></td>
-              <td class='remove'><%= button_to 'Remove', tag_list_list_item_path(tag, list, list_item), method: :delete %></td>
+              <td class='removal-button'>
+                <%= button_to 'Remove', tag_list_list_item_path(tag, list, list_item),
+                  method: :delete, class: 'remove btn btn-sm btn-info' %>
+              </td>
             </tr>
           <% end %>
         </tbody>

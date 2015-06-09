@@ -27,6 +27,12 @@
           receive: GOVUK.curatedLists.postSort
         });
       });
+
+      $('tr.untagged .remove').tooltip({
+        title: "This item is no longer tagged with this tag, so it is no " +
+        "longer visible to the user. You can safely remove it."
+      })
+
     },
     postSort: function(event, draggable) {
       var $droppedRow = draggable.item;

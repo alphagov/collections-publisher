@@ -275,40 +275,6 @@ RSpec.describe Tag do
     end
   end
 
-  describe '#untagged_list_items' do
-    let(:tag) { create(:tag, :slug => 'tag') }
-    let(:subtag) { create(:tag, :parent => tag, :slug => 'subtag') }
-
-    before :each do
-      list1 = create(:list, :tag => subtag)
-      create(:list_item, :list => list1, :api_url => contentapi_url_for_slug('content-1'))
-      create(:list_item, :list => list1, :api_url => contentapi_url_for_slug('content-2'))
-      list2 = create(:list, :tag => subtag)
-      create(:list_item, :list => list2, :api_url => contentapi_url_for_slug('content-3'))
-    end
-
-    it "returns all list items for content that's no longer tagged to the tag" do
-      content_api_has_artefacts_with_a_tag('tag', 'tag/subtag', [
-        'content-1',
-        'content-3',
-      ])
-
-      expect(subtag.untagged_list_items.map(&:api_url)).to eq([
-        contentapi_url_for_slug('content-2'),
-      ])
-    end
-
-    it "returns empty array if all list items' content is tagged to the tag" do
-      content_api_has_artefacts_with_a_tag('tag', 'tag/subtag', [
-        'content-1',
-        'content-2',
-        'content-3',
-      ])
-
-      expect(subtag.untagged_list_items.map(&:api_url)).to eq([])
-    end
-  end
-
   describe '#list_items_from_contentapi' do
     let(:tag) { create(:tag, :slug => 'tag') }
     let(:subtag) { create(:tag, :parent => tag, :slug => 'subtag') }

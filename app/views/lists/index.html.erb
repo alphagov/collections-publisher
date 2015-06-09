@@ -1,9 +1,5 @@
 <%= tag_header @tag, 'Lists' %>
 
-<% if @tag.untagged_list_items.any? %>
-  <%= render 'untagged_list_items', tag: @tag %>
-<% end %>
-
 <% unless @tag.draft? %>
   <%= render 'publish_button', tag: @tag %>
 <% end %>

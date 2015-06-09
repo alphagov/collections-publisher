@@ -2,13 +2,6 @@
   cursor: move;
 }
 
-.untagged-list-items {
-  padding: 20px;
-}
-.untagged-list-items table {
-  margin-bottom: 0;
-}
-
 html.js .new_list_item {
   display: none;
 }
@@ -17,4 +10,17 @@ html.js tr {
   .api-url, .index, .remove {
     display: none;
   }
+
+  // only show the remove button when untagged.
+  &.untagged .remove {
+    display: block;
+  }
+}
+
+tr.untagged {
+  background-color: #FAFAA0;
+}
+
+.remove {
+  float: right;
 }

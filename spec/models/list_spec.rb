@@ -21,4 +21,29 @@ RSpec.describe List do
       expect { item.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
+
+  describe "#list_items_with_tagging_status" do
+    include ContentApiHelpers
+
+    it "returns the list items with tagged set to true if they're tagged" do
+      list = create(:list, tag: create(:tag, slug: 'subtag'))
+      tagged = create(:list_item, list: list, api_url: 'https://contentapi.production.alphagov.co.uk/tagged-item.json')
+      not_tagged = create(:list_item, list: list, api_url: 'https://contentapi.production.alphagov.co.uk/untagged-item.json')
+      content_api_has_artefacts_with_a_tag('tag', 'subtag', ['tagged-item'])
+
+      list_item = list.list_items_with_tagging_status.first
+
+      expect(list_item.tagged?).to eql(true)
+    end
+
+    it "returns the list items with tagged set to false if they're not tagged" do
+      list = create(:list, tag: create(:tag, slug: 'subtag'))
+      not_tagged = create(:list_item, list: list, api_url: 'https://contentapi.production.alphagov.co.uk/untagged-item.json')
+      content_api_has_artefacts_with_a_tag('tag', 'subtag', [])
+
+      list_item = list.list_items_with_tagging_status.first
+
+      expect(list_item.tagged?).to eql(false)
+    end
+  end
 end
