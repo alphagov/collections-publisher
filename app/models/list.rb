@@ -21,7 +21,7 @@ class List < ActiveRecord::Base
   validates :tag, :presence => true
 
   def tagged_list_items
-    @tagged_list_items ||= list_items.order(:index).select {|c| tagged_api_urls.include?(c.api_url) }
+    @tagged_list_items ||= list_items.order(:index).select {|c| tagged_api_paths.include?(c.api_path) }
   end
 
   def untagged_list_items
@@ -30,7 +30,7 @@ class List < ActiveRecord::Base
 
 private
 
-  def tagged_api_urls
-    @tagged_api_urls ||= tag.list_items_from_contentapi.map(&:api_url)
+  def tagged_api_paths
+    @tagged_api_paths ||= tag.list_items_from_contentapi.map(&:api_path)
   end
 end
