@@ -7,9 +7,6 @@
     init: function() {
       var $lists = $('.curated-list');
 
-      GOVUK.curatedLists.hideContentForms();
-      GOVUK.curatedLists.hideRedundantColumns($lists);
-
       $lists.each(function(_, list) {
         var $list = $(list);
 
@@ -30,12 +27,6 @@
           receive: GOVUK.curatedLists.postSort
         });
       });
-    },
-    hideContentForms: function() {
-      $('form').filter('.new_list_item').hide();
-    },
-    hideRedundantColumns: function($lists) {
-      $lists.closest('table').find('.api-url, .index, .remove').hide();
     },
     postSort: function(event, draggable) {
       var $droppedRow = draggable.item;

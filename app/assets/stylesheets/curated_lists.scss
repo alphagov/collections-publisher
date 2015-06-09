@@ -8,3 +8,13 @@
 .untagged-list-items table {
   margin-bottom: 0;
 }
+
+html.js .new_list_item {
+  display: none;
+}
+
+html.js tr {
+  .api-url, .index, .remove {
+    display: none;
+  }
+}
