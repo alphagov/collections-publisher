@@ -1,0 +1,5 @@
+<% if tag.display_curated_links? %>
+  <%= render 'shared/tags/curated_links_preview', tag: tag %>
+<% else %>
+  <%= render 'shared/tags/uncurated_links_preview', tag: tag %>
+<% end %>

@@ -20,7 +20,7 @@ module HeaderHelper
   def tag_header(tag, mode = nil)
     breadcrumbs = [active_navigation_item, tag.parent, tag, mode]
 
-    title = tag.title_including_parent
+    title = "#{icon tag.sort_mode} #{tag.title_including_parent}"
     title = "#{title}: #{mode}" if mode
     title = "#{title} #{beta_tag}" if tag.beta?
     title = "#{title} #{draft_tag}" if tag.draft?

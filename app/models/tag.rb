@@ -73,7 +73,7 @@ class Tag < ActiveRecord::Base
   alias child? has_parent?
 
   def self.sorted_parents
-    only_parents.includes(:children).order(:title)
+    only_parents.includes(children: [:lists]).order(:title)
   end
 
   def sorted_children
@@ -131,6 +131,19 @@ class Tag < ActiveRecord::Base
 
   def legacy_tag_type
     nil
+  end
+
+  def sort_mode
+    return nil unless parent_id
+    display_curated_links? ? :curated : :a_to_z
+  end
+
+  def display_curated_links?
+    if @_display_curated_links.nil?
+      @_display_curated_links = lists.any?
+    else
+      @_display_curated_links
+    end
   end
 
 private

@@ -4,6 +4,10 @@ RSpec.describe "associating topics to mainstream browse pages" do
   before do
     stub_user.permissions << "GDS Editor"
     stub_all_panopticon_tag_calls
+
+    # Stub the content-api with empty because the `show` pages are trying to
+    # fetch the links to show as preview. 
+    stub_content_api(grouped_results: [])
   end
 
   context "parent mainstream browse pages" do
