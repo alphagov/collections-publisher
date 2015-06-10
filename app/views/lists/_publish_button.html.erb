@@ -1,8 +1,8 @@
 <p>
   <%= button_to 'Publish changes to GOV.UK', tag_republish_path(tag),
         method: :post,
-        class: "btn btn-success publish btn-lg js-confirm",
-        :'data-confirm-text' => "Are you sure you want to publish this immediately to GOV.UK?",
+        class: "btn btn-success publish btn-lg",
+        data: { confirm: "Are you sure you want to publish this immediately to GOV.UK?" },
         disabled: !tag.dirty?
   %>
 </p>
