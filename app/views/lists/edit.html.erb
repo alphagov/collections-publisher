@@ -4,5 +4,5 @@
 
 <%= form_for @list, :url => tag_list_path(@tag, @list) do |f| %>
   <%= f.text_field :name %>
-  <%= f.submit 'Save', class: 'btn-submit' %>
+  <%= f.submit 'Update list', class: 'btn-submit' %>
 <% end %>

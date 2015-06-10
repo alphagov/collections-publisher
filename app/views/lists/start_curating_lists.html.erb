@@ -1,0 +1,14 @@
+<h2>Start curating links for '<%= @tag.title %>'</h2>
+
+<div class='row'>
+  <div class='col-md-6'>
+    <div class="lead">
+      Items tagged with '<%= @tag.title %>' are
+      <%= link_to 'currently displayed in alphabetical order',
+      @tag.web_url, target: '_blank' %> ("A-to-Z"). By creating the first list
+      you can start organizing the items into many different lists.
+    </div>
+
+    <%= render 'new_list', tag: @tag %>
+  </div>
+</div>

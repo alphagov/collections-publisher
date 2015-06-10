@@ -4,6 +4,15 @@
   <%= render 'publish_button', tag: @tag %>
 <% end %>
 
-<%= render 'new_list', tag: @tag %>
-<%= render 'list_editor', lists: @lists, tag: @tag %>
-<%= render 'uncategorized_list_items', lists: @lists, tag: @tag %>
+<div class='row'>
+  <div class='col-md-6'>
+    <%= render 'all_list_items', lists: @lists, tag: @tag %>
+  </div>
+
+  <div class='col-md-6'>
+    <%= render 'list_editor', lists: @lists, tag: @tag %>
+
+    <h4>New list</h4>
+    <%= render 'new_list', tag: @tag %>
+  </div>
+</div>

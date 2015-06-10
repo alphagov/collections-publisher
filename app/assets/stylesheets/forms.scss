@@ -33,8 +33,4 @@ input[type='text'] {
 button {
   @extend .btn;
   @extend .btn-default;
-
-  &[type='submit'] {
-    @extend .btn-primary;
-  }
 }

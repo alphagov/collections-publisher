@@ -21,14 +21,10 @@
 
           GOVUK.orderedLists.reindex($listsToUpdate, indexToUpdateFrom);
           GOVUK.publishing.unlockPublishing();
-        }
+        },
+        placeholder: 'sortable-placeholder',
+        forcePlaceholderSize: true
       });
-
-      var $lists = $listContainer.children();
-      $lists.hover(
-        function() { $(this).addClass('subtle-highlight'); },
-        function() { $lists.removeClass('subtle-highlight'); }
-      );
     },
     reindex: function($lists, offset) {
       $lists.each(function(index, list) {

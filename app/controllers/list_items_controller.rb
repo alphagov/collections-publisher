@@ -58,7 +58,7 @@ class ListItemsController < ApplicationController
   end
 
   def update
-    list_item = @list.list_items.find(params[:id])
+    list_item = ListItem.find(params[:id])
     list_item.list = List.find(params[:new_list_id])
     list_item.index = params[:index]
 

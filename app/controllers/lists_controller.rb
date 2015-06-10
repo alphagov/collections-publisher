@@ -4,6 +4,7 @@ class ListsController < ApplicationController
 
   def index
     @lists = @tag.lists.ordered
+    render 'start_curating_lists' unless @lists.any?
   end
 
   def edit
