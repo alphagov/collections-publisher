@@ -61,11 +61,6 @@ h1 .type {
   a {
     @extend .btn;
     @extend .btn-default;
-
-    &.new .icon {
-      @extend .glyphicon;
-      @extend .glyphicon-plus;
-    }
   }
 }
 
