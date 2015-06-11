@@ -82,6 +82,20 @@ html.js {
   cursor: move;
 }
 
+.list-drag-in-progress {
+  .curated-list {
+    display: none;
+  }
+
+  .links-table {
+    margin-bottom: 10px;
+  }
+
+  .sortable-placeholder {
+    height: 30px !important;
+  }
+}
+
 .curated-list {
   tr.untagged {
     background-color: #ffff99;

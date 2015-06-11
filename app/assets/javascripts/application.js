@@ -1,4 +1,5 @@
 //= require jquery-ui.sortable.min
+//= require jquery.clicktoggle
 //= require_tree .
 //= require_self
 
