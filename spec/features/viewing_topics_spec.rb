@@ -19,9 +19,10 @@ RSpec.describe "Viewing topics" do
     ])
 
     child_titles = page.all('td.children li').map(&:text)
-    expect(child_titles).to eq([
-      'PAYE draft',
-      'VAT draft',
+    first_words_of_titles = child_titles.map(&:split).map(&:first)
+    expect(first_words_of_titles).to eq([
+      'PAYE',
+      'VAT',
     ])
 
     # When I visit a topic page

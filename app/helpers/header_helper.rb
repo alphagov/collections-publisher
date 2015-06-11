@@ -22,8 +22,7 @@ module HeaderHelper
 
     title = tag.title_including_parent
     title = "#{title}: #{mode}" if mode
-    title = "#{title} #{beta_tag}" if tag.beta?
-    title = "#{title} #{draft_tag}" if tag.draft?
+    title = title + ' ' + labels_for_tag(tag)
 
     header title, breadcrumbs: breadcrumbs, page_title: tag.title_including_parent do
       yield if block_given?
