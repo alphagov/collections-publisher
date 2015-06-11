@@ -43,6 +43,10 @@ RSpec.describe 'listing mainstream browse pages' do
     end
 
     it 'does not show the link given a child page' do
+      # Stub the content-api with empty because the `show` pages are trying to
+      # fetch the links to show as preview.
+      stub_content_api(grouped_results: [])
+
       # When I visit a child browse page
       visit mainstream_browse_page_path(child_browse_page)
 

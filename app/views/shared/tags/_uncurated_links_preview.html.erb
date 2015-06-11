@@ -1,0 +1,13 @@
+<%= link_to 'Start curating links', tag_lists_path(tag),
+      class: 'btn btn-md btn-default pull-right',
+      id: 'edit-list' %>
+
+<h2>Links</h2>
+
+<p>Links for this tag have not been curated into lists.</p>
+
+<ul>
+<% tag.list_items_from_contentapi.each do |link| %>
+  <li><%= link.title %></li>
+<% end %>
+</ul>

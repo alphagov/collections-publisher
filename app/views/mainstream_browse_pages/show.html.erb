@@ -1,14 +1,11 @@
 <%= tag_header @browse_page do %>
-  <%= link_to 'Edit', edit_mainstream_browse_page_path(@browse_page) %>
+  <%= link_to "Edit page",
+    edit_mainstream_browse_page_path(@browse_page) %>
 
   <% if @browse_page.may_publish? %>
     <%= link_to "Publish mainstream browse page",
                publish_mainstream_browse_page_path(@browse_page),
                method: :post %>
-  <% end %>
-
-  <% if @browse_page.has_parent? %>
-    <%= link_to 'Edit list', tag_lists_path(@browse_page) %>
   <% end %>
 <% end %>
 
@@ -26,4 +23,8 @@
           include_children_column: false,
           empty_message: "No topics exist yet." %>
   </section>
+<% end %>
+
+<% if @browse_page.child? %>
+  <%= render 'shared/tags/lists_of_links_preview', tag: @browse_page %>
 <% end %>

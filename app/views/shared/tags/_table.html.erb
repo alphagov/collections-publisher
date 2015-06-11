@@ -14,7 +14,10 @@
     <% if resources.any? %>
       <% resources.each do |resource| %>
       <tr>
-        <td><%= link_to resource.title, polymorphic_path(resource) %></td>
+        <td>
+          <small><%= icon resource.sort_mode %></small>
+          <%= link_to resource.title, polymorphic_path(resource) %>
+        </td>
         <td><%= link_to resource.base_path, Plek.new.website_root + resource.base_path %></td>
         <td>
           <%= status(resource.state, resource.state) %>
@@ -27,6 +30,7 @@
             <ul>
             <% resource.sorted_children.each do |child_tag| %>
               <li>
+                <small><%= icon child_tag.sort_mode %></small>
                 <%= link_to child_tag.title, polymorphic_path(child_tag) %>
                 <%= labels_for_tag(child_tag) %>
               </li>

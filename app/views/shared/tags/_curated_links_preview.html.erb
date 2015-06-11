@@ -1,0 +1,26 @@
+<%= link_to 'Edit list', tag_lists_path(tag),
+      class: 'btn btn-md btn-default pull-right',
+      id: 'edit-list' %>
+
+<h2>Links</h2>
+
+<p>Links for this tag have been curated into lists.</p>
+
+<% tag.lists.each do |list| %>
+  <h4><%= list.name %></h4>
+  <% if list.list_items.empty? %>
+    <em>No items in list</em>
+  <% end %>
+  <ul>
+  <% list.list_items.each do |item| %>
+    <li><%= item.title %></li>
+  <% end %>
+  </ul>
+<% end %>
+
+<h4>Uncurated items <em>(not shown to user)</em></h4>
+<ul>
+<% tag.uncategorized_list_items.each do |item| %>
+  <li><%= item.title %></li>
+<% end %>
+</ul>

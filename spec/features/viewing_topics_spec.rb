@@ -5,7 +5,7 @@ RSpec.describe "Viewing topics" do
     # Given some parent topics with various number of children
     create(:topic, :published, :title => "Oil and Gas")
     business_tax = create(:topic, :published, :title => "Business Tax")
-    create(:topic, :parent => business_tax, :title => "VAT")
+    vat_topic = create(:topic, :parent => business_tax, :title => "VAT")
     create(:topic, :parent => business_tax, :title => "PAYE")
 
     # When I visit the topics index
@@ -34,5 +34,34 @@ RSpec.describe "Viewing topics" do
       'PAYE',
       'VAT',
     ])
+
+    # Given the subtopic pages have links
+    stub_content_api(grouped_results: [
+      { title: 'A link that only exists in the Content API'}
+    ])
+
+    # When I visit a subtopic page that has no lists
+    click_on 'PAYE'
+
+    # Then I should see the items are not curated
+    expect(page).to have_content 'Links for this tag have not been curated into lists'
+
+    # And I should see the link
+    expect(page).to have_content 'A link that only exists in the Content API'
+
+    # When I go back a level
+    within '.breadcrumb' do
+      click_on 'Business Tax'
+    end
+
+    # And I visit the subtopic page that does have lists
+    vat_topic.lists.create!
+    click_on 'VAT'
+
+    # Then I should see the items are curated
+    expect(page).to have_content 'Links for this tag have been curated into lists'
+
+    # And I should see the link
+    expect(page).to have_content 'A link that only exists in the Content API'
   end
 end

@@ -1,16 +1,17 @@
 <%= tag_header @topic do %>
   <% if gds_editor? %>
-    <%= link_to 'Edit', edit_topic_path(@topic) %>
+    <%= link_to 'Edit topic', 
+      edit_topic_path(@topic) %>
 
     <% if @topic.may_publish? %>
       <%= link_to 'Publish topic', publish_topic_path(@topic), method: :post %>
     <% end %>
   <% end %>
-
-  <% if @topic.has_parent? %>
-    <%= link_to 'Edit list', tag_lists_path(@topic) %>
-  <% end %>
 <% end %>
 
 <%= render 'shared/tags/metadata', resource: @topic %>
 <%= render 'shared/tags/children', resource: @topic %>
+
+<% if @topic.child? %>
+  <%= render 'shared/tags/lists_of_links_preview', tag: @topic %>
+<% end %>

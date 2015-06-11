@@ -98,4 +98,17 @@ h1 .type {
   border-top: 1px solid #eee;
   padding: 10px 0 0;
   position: relative;
+
+  small i {
+    color: #2A2A2A;
+    margin-right: 3px;
+  }
+
+  ul {
+    padding-left: 0;
+
+    li {
+      list-style: none;
+    }
+  }
 }
