@@ -17,8 +17,12 @@
           </td>
 
           <td class='removal-button'>
-            <%= button_to '#', method: :delete, class: 'remove-button btn btn-xs btn-info' do %>
-              <i class="glyphicon glyphicon-trash"></i>
+            <%= button_to '#',
+              method: :delete,
+              data: { toggle: 'tooltip' },
+              title: 'Remove item from list',
+              class: 'remove-button btn btn-xs btn-default' do %>
+              <i class="glyphicon glyphicon-remove"></i>
             <% end %>
           </td>
         </tr>
