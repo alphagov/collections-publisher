@@ -25,11 +25,6 @@
           GOVUK.curatedLists.reindexList($targetList);
         }
       });
-
-      $('tr.untagged .button_to').tooltip({
-        title: "This item is no longer tagged with this tag, so it is no " +
-        "longer visible to the user. You can safely remove it."
-      })
     },
     reindexList: function($list) {
       var $rows = $list.children(':not(.empty-list)');

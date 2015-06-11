@@ -250,7 +250,7 @@ RSpec.describe "Curating the contents of topics" do
           titles = page.all('td.title').map(&:text)
           expect(titles).to eq([
             'Undersea piping restrictions',
-            'Non-existent',
+            'Tag was removed Non-existent',
           ])
         end
       end

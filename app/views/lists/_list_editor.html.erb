@@ -43,7 +43,13 @@
                 data-api-url='<%= list_item.api_url %>'>
 
               <td class='title'>
-                <%= raw list_item.title || "<em>Unknown title (#{list_item.api_path})</em>" %>
+                <% unless list_item.tagged? %>
+                  <p class='label label-warning'>Tag was removed</p>
+                <% end %>
+
+                <span>
+                  <%= raw list_item.title || "<em>Unknown title (#{list_item.api_path})</em>" %>
+                </span>
               </td>
 
               <td class='api-url'>

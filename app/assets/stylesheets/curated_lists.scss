@@ -97,8 +97,8 @@ html.js {
 }
 
 .curated-list {
-  tr.untagged {
-    background-color: #ffff99;
+  tr.untagged .title span {
+    text-decoration: line-through;
   }
 
   tr.working {
