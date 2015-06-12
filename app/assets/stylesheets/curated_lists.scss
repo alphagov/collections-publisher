@@ -1,26 +1,122 @@
-.curated-list .ui-sortable-handle {
-  cursor: move;
-}
-
-html.js .new_list_item {
-  display: none;
-}
-
-html.js tr {
-  .api-url, .index, .remove {
+// Hide the new item form.
+html.js {
+  .new_list_item {
     display: none;
   }
 
-  // only show the remove button when untagged.
-  &.untagged .remove {
-    display: block;
+  .api-url {
+    display: none;
   }
 }
 
-tr.untagged {
-  background-color: #FAFAA0;
+#all-list-items {
+  // Remove-buttons have no use in the uncategorized section, but we would like
+  // to have them appear when dragged to a list.
+  .removal-button form {
+    display: none;
+  }
+
+  .is-curated {
+    font-weight: bold;
+  }
 }
 
-.remove {
-  float: right;
+.links-table {
+  width: 100%;
+  margin-bottom: 30px;
+
+  .remove-button {
+    float: right;
+  }
+
+  td, th {
+    padding: 3px 0;
+  }
+
+  td {
+    border-bottom: 1px solid #f1f1f1;
+  }
+
+  tr.item:hover {
+    cursor: move;
+    background-color: #f1f1f1;
+  }
+
+  // Placeholders are created when a user drags a row to another place,
+  // but hasn't dropped the item yet.
+  tr.droppable-placeholder {
+    width: 100%;
+    margin-top: 40px;
+
+    td {
+      border-top: 1px dashed #333;
+      border-bottom: 1px dashed #333;
+    }
+  }
+
+  tr.ui-sortable-helper {
+    width: 300px;
+
+    td {
+      max-height: 30px;
+    }
+
+    .removal-button form {
+      display: none;
+    }
+  }
+
+  // Prevent the row from schrinking when it is being dragged.
+  .ui-draggable {
+    min-width: 560px;
+  }
+}
+
+.droppable-placeholder,
+.sortable-placeholder {
+  background-color: #FFF;
+  border: 1px dashed #333;
+}
+
+.list {
+  cursor: move;
+}
+
+.list-drag-in-progress {
+  .curated-list {
+    display: none;
+  }
+
+  .links-table {
+    margin-bottom: 10px;
+  }
+
+  .sortable-placeholder {
+    height: 30px !important;
+  }
+}
+
+.curated-list {
+  tr.untagged .title span {
+    text-decoration: line-through;
+  }
+
+  tr.working {
+    background-color: #ffff99;
+
+    .remove-button {
+      visibility: none;
+    }
+  }
+
+  tr.empty-list {
+    font-style: italic;
+    color: #ccc;
+    text-align: center;
+    display: none;
+
+    td {
+      border: none;
+    }
+  }
 }

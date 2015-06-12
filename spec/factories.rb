@@ -8,7 +8,9 @@ FactoryGirl.define do
     tag
   end
 
-  factory :list_item
+  factory :list_item do
+    title 'A list item title'
+  end
 
   factory :tag do
     sequence(:title) {|n| "Browse page #{n}" }

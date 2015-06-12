@@ -105,6 +105,10 @@ class Tag < ActiveRecord::Base
     update_columns(:dirty => false)
   end
 
+  def web_url
+    Plek.new.website_root + base_path
+  end
+
   # returns unsaved ListItems for content tagged to this tag, but not in a
   # list.
   def uncategorized_list_items

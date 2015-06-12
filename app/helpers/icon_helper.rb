@@ -2,6 +2,7 @@ module IconHelper
   ALIASES = {
     curated: 'list-alt',
     a_to_z: 'sort-by-alphabet',
+    add: 'plus',
   }
 
   def icon(name)

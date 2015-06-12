@@ -5,8 +5,18 @@
 
   GOVUK.orderedLists = {
     init: function() {
-      var $listContainer = $('.curated-lists');
+      $('#switch-to-list-sorting').clickToggle(
+        function () {
+          $('body').addClass('list-drag-in-progress');
+          $(this).text('Done');
+        },
+        function () {
+          $('body').removeClass('list-drag-in-progress');
+          $(this).text('Sort lists')
+        }
+      );
 
+      var $listContainer = $('.curated-lists');
       $listContainer.sortable({
         stop: function(event, draggable) {
           var $lists = $listContainer.children();
@@ -21,14 +31,9 @@
 
           GOVUK.orderedLists.reindex($listsToUpdate, indexToUpdateFrom);
           GOVUK.publishing.unlockPublishing();
-        }
+        },
+        placeholder: 'sortable-placeholder'
       });
-
-      var $lists = $listContainer.children();
-      $lists.hover(
-        function() { $(this).addClass('subtle-highlight'); },
-        function() { $lists.removeClass('subtle-highlight'); }
-      );
     },
     reindex: function($lists, offset) {
       $lists.each(function(index, list) {

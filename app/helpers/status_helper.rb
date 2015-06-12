@@ -13,7 +13,7 @@ module StatusHelper
     labels << draft_tag if tag.draft?
     labels << beta_tag if tag.beta?
     labels << dirty_tag if tag.dirty?
-    labels.join(' ')
+    raw labels.join(' ')
   end
 
   def beta_tag

@@ -1,0 +1,32 @@
+<section class="list" aria-labelledby='all-list-items-header' id='all-list-items'>
+  <h4 id='all-list-items-header'>Items with tag "<%= tag.title %>"</h4>
+
+  <table class='links-table'>
+    <tbody>
+      <% tag.list_items_from_contentapi.each do |list_item| %>
+        <tr class='item'
+            data-title='<%= list_item.title %>'
+            data-api-url='<%= list_item.api_url %>'>
+
+          <td class='title'>
+            <%= raw list_item.title %>
+          </td>
+
+          <td class='api-url'>
+            <%= raw list_item.api_url %>
+          </td>
+
+          <td class='removal-button'>
+            <%= button_to '#',
+              method: :delete,
+              data: { toggle: 'tooltip' },
+              title: 'Remove item from list',
+              class: 'remove-button btn btn-xs btn-default' do %>
+              <%= icon :remove %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>

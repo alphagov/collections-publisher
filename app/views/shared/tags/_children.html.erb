@@ -6,7 +6,7 @@
       <nav class="actions">
         <% if gds_editor? %>
           <%= link_to new_polymorphic_path(resource, parent_id: resource.id), class: 'new' do %>
-            <span class="icon"></span> Add child page
+            <%= icon :add %> Add child page
           <% end %>
         <% end %>
       </nav>

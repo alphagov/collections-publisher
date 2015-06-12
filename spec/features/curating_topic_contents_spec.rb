@@ -27,10 +27,6 @@ RSpec.describe "Curating the contents of topics" do
       # When I arrange the content of that topic into lists
       visit_topic_list_curation_page
 
-      within '#list-uncategorized-section' do
-        expect(page).not_to have_content('These will not be displayed to users')
-      end
-
       within '#new-list' do
         fill_in 'Name', :with => 'Oil rigs'
         click_on 'Create'
@@ -39,26 +35,13 @@ RSpec.describe "Curating the contents of topics" do
       # We need to scroll down first to see all the lists.
       page.driver.scroll_to 0, 100
 
-      expect(page).to have_selector('.list h2', :text => 'Oil rigs')
+      expect(page).to have_selector('h4', :text => 'Oil rigs')
 
-      within '#list-uncategorized-section' do
-        expect(page).to have_content('These will not be displayed to users')
-      end
+      link_with_title('Oil rig staffing').drag_to droptarget_for_list('Oil rigs')
+      link_with_title('Oil rig safety requirements').drag_to droptarget_for_list('Oil rigs')
 
-      target = page.find(:xpath, "//section[contains(@class, 'list')][.//h2 = 'Oil rigs']//tbody[contains(@class, 'curated-list')]")
-      within '#list-uncategorized-section' do
-        page.find(:xpath, ".//*[contains(@class,'ui-sortable-handle')][.//td[@class='title'] = 'Oil rig safety requirements']")
-          .drag_to(target)
-      end
-      within :xpath, "//section[contains(@class, 'list')][.//h2 = 'Oil rigs']" do
+      within :xpath, xpath_section_for('Oil rigs') do
         expect(page).to have_content('Oil rig safety requirements')
-        expect(page).not_to have_css(".working") # Wait until the AJAX call has completed
-      end
-      within '#list-uncategorized-section' do
-        page.find(:xpath, ".//*[contains(@class,'ui-sortable-handle')][.//td[@class='title'] = 'Oil rig staffing']")
-          .drag_to(target)
-      end
-      within :xpath, "//section[contains(@class, 'list')][.//h2 = 'Oil rigs']" do
         expect(page).to have_content('Oil rig staffing')
         expect(page).not_to have_css(".working") # Wait until the AJAX call has completed
       end
@@ -67,32 +50,30 @@ RSpec.describe "Curating the contents of topics" do
         fill_in 'Name', :with => 'Piping'
         click_on 'Create'
       end
-      expect(page).to have_selector('.list h2', :text => 'Piping')
 
-      target = page.find(:xpath, "//section[contains(@class, 'list')][.//h2 = 'Piping']//tbody[contains(@class, 'curated-list')]")
-      within '#list-uncategorized-section' do
-        page.find(:xpath, ".//*[contains(@class,'ui-sortable-handle')][.//td[@class='title'] = 'Undersea piping restrictions']")
-          .drag_to(target)
-      end
+      expect(page).to have_selector('.list h4', :text => 'Piping')
 
-      within :xpath, "//section[contains(@class, 'list')][.//h2 = 'Piping']" do
+      link_with_title('Undersea piping restrictions').drag_to droptarget_for_list('Piping')
+
+      within :xpath, xpath_section_for('Piping') do
         expect(page).to have_content('Undersea piping restrictions')
         expect(page).not_to have_selector(".working") # Wait until the AJAX call has completed
       end
 
-      #Then the content should be in the correct lists in the correct order
+      # Then the content should be in the correct lists in the correct order
       visit_topic_list_curation_page
 
-      within :xpath, "//section[contains(@class,'list')][.//h2 = 'Oil rigs']" do
+      within :xpath, xpath_section_for('Oil rigs') do
         titles = page.all('td.title').map(&:text)
         # Note: order reversed because we dragged the items to the top of the list above.
         expect(titles).to eq([
+          'Oil rig staffing',
           'Oil rig staffing',
           'Oil rig safety requirements',
         ])
       end
 
-      within :xpath, "//section[contains(@class,'list')][.//h2 = 'Piping']" do
+      within :xpath, xpath_section_for('Piping') do
         titles = page.all('td.title').map(&:text)
         expect(titles).to eq([
           'Undersea piping restrictions',
@@ -111,6 +92,7 @@ RSpec.describe "Curating the contents of topics" do
               { "name" => 'Oil rigs',
                 "contents" => [
                   contentapi_url_for_slug('oil-rig-staffing'),
+                  contentapi_url_for_slug('oil-rig-staffing'),
                   contentapi_url_for_slug('oil-rig-safety-requirements'),
               ]},
               { "name" => 'Piping',
@@ -128,32 +110,29 @@ RSpec.describe "Curating the contents of topics" do
       # When I arrange the content of that topic into lists
       visit_topic_list_curation_page
 
-      within '#list-uncategorized-section' do
-        expect(page).not_to have_content('These will not be displayed to users')
-      end
+      expect(page).to have_content('currently displayed in alphabetical order')
 
       within '#new-list' do
         fill_in 'Name', :with => 'Oil rigs'
         click_on 'Create'
       end
 
-      within '#list-uncategorized-section' do
-        expect(page).to have_content('These will not be displayed to users')
-      end
-
-      within :xpath, "//section[@class='list'][.//h2 = 'Oil rigs']" do
+      within :xpath, xpath_section_for('Oil rigs') do
         fill_in 'API URL', :with => contentapi_url_for_slug('oil-rig-safety-requirements')
         fill_in 'Index', :with => 0
         click_on 'Add'
+
         fill_in 'API URL', :with => contentapi_url_for_slug('oil-rig-staffing')
         fill_in 'Index', :with => 1
         click_on 'Add'
       end
+
       within '#new-list' do
         fill_in 'Name', :with => 'Piping'
         click_on 'Create'
       end
-      within :xpath, "//section[@class='list'][.//h2 = 'Piping']" do
+
+      within :xpath, xpath_section_for('Piping') do
         fill_in 'API URL', :with => contentapi_url_for_slug('undersea-piping-restrictions')
         fill_in 'Index', :with => 0
         click_on 'Add'
@@ -162,15 +141,18 @@ RSpec.describe "Curating the contents of topics" do
       # Then the content should be in the correct lists in the correct order
       visit_topic_list_curation_page
 
-      within :xpath, "//section[@class='list'][.//h2 = 'Oil rigs']" do
-        api_urls = page.all('td.api-url').map(&:text)
+      within :xpath, xpath_section_for('Oil rigs') do
+        api_urls = page.all('tr').map { |tr| tr['data-api-url'] }.compact
+
         expect(api_urls).to eq([
           contentapi_url_for_slug('oil-rig-safety-requirements'),
           contentapi_url_for_slug('oil-rig-staffing'),
         ])
       end
-      within :xpath, "//section[@class='list'][.//h2 = 'Piping']" do
-        api_urls = page.all('td.api-url').map(&:text)
+
+      within :xpath, xpath_section_for('Piping') do
+        api_urls = page.all('tr').map { |tr| tr['data-api-url'] }.compact
+
         expect(api_urls).to eq([
           contentapi_url_for_slug('undersea-piping-restrictions'),
         ])
@@ -251,34 +233,26 @@ RSpec.describe "Curating the contents of topics" do
 
       # Then I should see the curated topic groups
       within '.curated-lists' do
-        list_titles = page.all('.list h2').map(&:text)
-        expect(list_titles).to eq([
+        expect(list_titles_on_page).to eq([
           'Oil rigs',
           'Piping',
         ])
 
-        within :xpath, ".//section[@class='list'][.//h2 = 'Oil rigs']" do
+        within :xpath, xpath_section_for('Oil rigs') do
           titles = page.all('td.title').map(&:text)
           expect(titles).to eq([
             'Oil rig safety requirements',
             'Oil rig staffing',
           ])
         end
-        within :xpath, ".//section[@class='list'][.//h2 = 'Piping']" do
+
+        within :xpath, xpath_section_for('Piping') do
           titles = page.all('td.title').map(&:text)
           expect(titles).to eq([
             'Undersea piping restrictions',
-            'Non-existent',
+            'Tag was removed Non-existent',
           ])
         end
-      end
-
-      # And I should see the content that hasn't been added to groups
-      within '#list-uncategorized-section' do
-        titles = page.all('tbody td.title').map(&:text)
-        expect(titles).to eq([
-          'North sea shipping lanes',
-        ])
       end
     end
 
@@ -287,23 +261,23 @@ RSpec.describe "Curating the contents of topics" do
       visit_topic_list_curation_page
 
       # And I change the name of a list
-      within :xpath, ".//section[@class='list'][.//h2 = 'Oil rigs']" do
+      within :xpath, xpath_section_for('Oil rigs') do
         click_on "Edit name"
       end
+
       fill_in "Name", :with => 'Oil platforms'
-      click_on "Save"
+      click_on "Update list"
 
       # Then I should see the updated list name
       within '.curated-lists' do
-        list_titles = page.all('.list h2').map(&:text)
-        expect(list_titles).to eq([
+        expect(list_titles_on_page).to eq([
           'Oil platforms',
           'Piping',
         ])
       end
 
       # And it should retain its content
-      within :xpath, ".//section[@class='list'][.//h2 = 'Oil platforms']" do
+      within :xpath, xpath_section_for('Oil platforms') do
         titles = page.all('td.title').map(&:text)
         expect(titles).to eq([
           'Oil rig safety requirements',
@@ -317,25 +291,25 @@ RSpec.describe "Curating the contents of topics" do
       visit_topic_list_curation_page
 
       # And I delete a list
-      within :xpath, ".//section[@class='list'][.//h2 = 'Oil rigs']" do
-        click_on "Delete list"
+      within :xpath, xpath_section_for('Oil rigs') do
+        find(".delete-list").click
       end
 
       # Then the list should be deleted
       within '.curated-lists' do
-        list_titles = page.all('.list h2').map(&:text)
-        expect(list_titles).to eq([
-          'Piping',
+        expect(list_titles_on_page).to eq([
+          'Piping'
         ])
       end
 
       # And the content from the list should appear in the uncategorized section
-      within '#list-uncategorized-section' do
+      within '#all-list-items' do
         titles = page.all('tbody td.title').map(&:text)
         expect(titles).to eq([
           'Oil rig safety requirements',
           'Oil rig staffing',
           'North sea shipping lanes',
+          'Undersea piping restrictions',
         ])
       end
     end
@@ -345,5 +319,21 @@ RSpec.describe "Curating the contents of topics" do
     visit topics_path
     click_on 'Offshore'
     find('#edit-list').click
+  end
+
+  def xpath_section_for(list_name)
+    "//section[contains(@class, 'list')][contains(., '#{list_name}')]"
+  end
+
+  def droptarget_for_list(list_name)
+    page.find(:xpath, xpath_section_for(list_name)).find('tbody')
+  end
+
+  def link_with_title(title)
+    page.find(:xpath, ".//tr[.//td[@class='title'][contains(., '#{title}')]]")
+  end
+
+  def list_titles_on_page
+    page.all('.list h4').map { |e| e.text.gsub(' Edit name', '') }
   end
 end

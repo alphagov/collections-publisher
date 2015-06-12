@@ -1,7 +1,7 @@
 <%= header 'Topics', breadcrumbs: ['Topics'] do %>
   <% if gds_editor? %>
     <%= link_to new_topic_path, class: 'new' do %>
-      <span class="icon"></span> Add a topic
+      <%= icon :add %> Add a topic
     <% end %>
   <% end %>
 <% end %>
