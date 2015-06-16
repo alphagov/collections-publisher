@@ -21,7 +21,7 @@ private
     if @tag.has_parent?
       [@tag.parent.content_id]
     else
-      []
+      [@tag.content_id]
     end
   end
 
