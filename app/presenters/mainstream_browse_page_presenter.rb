@@ -9,7 +9,7 @@ private
   def links
     super.merge(
       "related_topics" => @tag.topics.order(:title).map(&:content_id),
-      "active_top_level_browse_page" => top_level_browse_page_id,
+      "active_top_level_browse_page" => active_top_level_browse_page_id,
       "top_level_browse_pages" => @tag.class.sorted_parents.map(&:content_id),
       "second_level_browse_pages" => second_level_browse_pages,
     )
@@ -17,7 +17,7 @@ private
 
 private
 
-  def top_level_browse_page_id
+  def active_top_level_browse_page_id
     if @tag.has_parent?
       [@tag.parent.content_id]
     else
