@@ -120,9 +120,9 @@ RSpec.describe MainstreamBrowsePagePresenter do
         let(:presenter) { MainstreamBrowsePagePresenter.new(top_level_page_1) }
         let(:presented_data) { presenter.render_for_publishing_api }
 
-        it "it does not have a parent browse pages" do
+        it "it has self as active browse page" do
           expect(presented_data[:links]["active_top_level_browse_page"]).to eq(
-            []
+            [top_level_page_1.content_id]
           )
         end
 
