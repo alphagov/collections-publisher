@@ -106,8 +106,9 @@ RSpec.describe TopicPresenter do
         ])
       end
 
-      it "has no links" do
-        expect(presented_data[:links]).to eq({})
+      it "includes a link to its parent" do
+        expect(presented_data[:links]).to have_key("parent")
+        expect(presented_data[:links]["parent"]).to eq([parent.content_id])
       end
     end
   end
