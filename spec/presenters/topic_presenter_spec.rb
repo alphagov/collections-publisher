@@ -37,10 +37,11 @@ RSpec.describe TopicPresenter do
       end
 
       it "sets public_updated_at based on the topic update time" do
-        Timecop.travel 3.hours.ago do
-          topic.save!
+        the_past = 3.hours.ago
+        Timecop.freeze the_past do
+          topic.touch
         end
-        expect(presented_data[:public_updated_at]).to eq(topic.updated_at.iso8601)
+        expect(presented_data[:public_updated_at]).to eq(the_past.iso8601)
       end
 
       it "includes the base route" do
@@ -91,10 +92,11 @@ RSpec.describe TopicPresenter do
       end
 
       it "sets public_updated_at based on the topic update time" do
-        Timecop.travel 3.hours.ago do
-          topic.save!
+        the_past = 3.hours.ago
+        Timecop.freeze the_past do
+          topic.touch
         end
-        expect(presented_data[:public_updated_at]).to eq(topic.updated_at.iso8601)
+        expect(presented_data[:public_updated_at]).to eq(the_past.iso8601)
       end
 
       it "includes routes for latest, and email_signups in addition to base route" do
