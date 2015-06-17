@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe RootBrowsePagePresenter do
 
   describe "#render_for_publishing_api" do
-    it "is valid against the schema without browse pages", :schema_test => true do
-      rendered = RootBrowsePagePresenter.new.render_for_publishing_api
-
-      expect(rendered).to be_valid_against_schema('mainstream_browse_page')
+    it "raises a RunTimeError if top-level browse pages are not present" do
+      expect {
+        RootBrowsePagePresenter.new.render_for_publishing_api
+      }.to raise_error(RuntimeError)
     end
 
     context "with top level browse pages" do
