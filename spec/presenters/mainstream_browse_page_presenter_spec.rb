@@ -53,7 +53,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
     it "sets public_updated_at based on the browse page update time" do
       Timecop.travel 3.hours.ago do
-        browse_page.save!
+        browse_page.touch
       end
 
       expect(presented_data[:public_updated_at]).to eq(browse_page.updated_at.iso8601)
