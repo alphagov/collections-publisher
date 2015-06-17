@@ -26,6 +26,20 @@ RSpec.describe RootBrowsePagePresenter do
           top_level_page_2.content_id,
         ])
       end
+
+      context "top_level_page_1 updated before top_level_page_2" do
+        setup do
+          Timecop.travel 3.hours.ago do
+            top_level_page_1.save!
+          end
+          top_level_page_2.save!
+        end
+        it "#public_updated_at should equal most recent #updated_time" do
+          expect(rendered[:public_updated_at]).to eq(
+            top_level_page_2.updated_at.iso8601
+          )
+        end
+      end
     end
   end
 end
