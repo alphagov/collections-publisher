@@ -11,8 +11,14 @@ RSpec.describe RootBrowsePagePresenter do
 
     context "with top level browse pages" do
 
-      let!(:top_level_page_1) { create(:mainstream_browse_page)}
-      let!(:top_level_page_2) { create(:mainstream_browse_page)}
+      let!(:top_level_page_1) { create(
+        :mainstream_browse_page,
+        :title => "Top-Level Page 1",
+      )}
+      let!(:top_level_page_2) { create(
+        :mainstream_browse_page,
+        :title => "Top-Level Page 2",
+      )}
 
       let(:rendered) { RootBrowsePagePresenter.new.render_for_publishing_api}
 
