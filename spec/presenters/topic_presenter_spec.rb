@@ -104,7 +104,6 @@ RSpec.describe TopicPresenter do
           {:path => "/oil-and-gas/offshore", :type => "exact"},
           {:path => "/oil-and-gas/offshore/latest", :type => "exact"},
           {:path => "/oil-and-gas/offshore/email-signup", :type => "exact"},
-          {:path => "/oil-and-gas/offshore/email-signups", :type => "exact"},
         ])
       end
 
