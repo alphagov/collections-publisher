@@ -11,7 +11,6 @@ private
     super + [
       {path: "#{base_path}/latest", type: "exact"},
       {path: "#{base_path}/email-signup", type: "exact"},
-      {path: "#{base_path}/email-signups", type: "exact"},
     ]
   end
 
