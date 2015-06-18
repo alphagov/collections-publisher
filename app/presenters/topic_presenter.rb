@@ -20,4 +20,12 @@ private
       :beta => @tag.beta,
     })
   end
+
+  def links
+    return super unless @tag.has_parent?
+
+    super.merge({
+      "parent" => [@tag.parent.content_id],
+    })
+  end
 end
