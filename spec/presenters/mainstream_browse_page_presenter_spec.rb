@@ -53,7 +53,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
     it "sets public_updated_at based on the browse page update time" do
       Timecop.travel 3.hours.ago do
-        browse_page.save!
+        browse_page.touch
       end
 
       expect(presented_data[:public_updated_at]).to eq(browse_page.updated_at.iso8601)
@@ -108,12 +108,30 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
     describe "linking to related pages" do
 
-      let!(:top_level_page_1) { create(:mainstream_browse_page) }
-      let!(:top_level_page_2) { create(:mainstream_browse_page) }
+      let!(:top_level_page_1) { create(
+        :mainstream_browse_page,
+        :title => "Top-level page 1",
+      )}
+      let!(:top_level_page_2) { create(
+        :mainstream_browse_page,
+        :title => "Top-level page 2",
+      )}
 
-      let!(:second_level_page_1) { create(:mainstream_browse_page, :parent => top_level_page_1) }
-      let!(:second_level_page_2) { create(:mainstream_browse_page, :parent => top_level_page_1) }
-      let!(:second_level_page_3) { create(:mainstream_browse_page, :parent => top_level_page_2) }
+      let!(:second_level_page_1) { create(
+        :mainstream_browse_page,
+        :title => "Second-level page 1",
+        :parent => top_level_page_1,
+      )}
+      let!(:second_level_page_2) { create(
+        :mainstream_browse_page,
+        :title => "Second-level page 2",
+        :parent => top_level_page_1,
+      )}
+      let!(:second_level_page_3) { create(
+        :mainstream_browse_page,
+        :title => "Second-level page 3",
+        :parent => top_level_page_2,
+      )}
 
       context "for a top-level browse page" do
 
