@@ -86,3 +86,7 @@ RSpec.configure do |config|
     request.env["HTTP_REFERER"] = ''
   end
 end
+
+require 'sidekiq'
+require 'sidekiq/testing'
+Sidekiq::Testing.inline!

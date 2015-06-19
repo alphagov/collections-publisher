@@ -1,4 +1,14 @@
+require 'sidekiq'
+
 class PublishingAPINotifier
+  def self.batch_send_to_publishing_api(tag)
+    if tag.child?
+      parent_with_children(tag).each { |item| queue_publishing_change(item.id) }
+    else
+      full_hierarchy.each { |item| queue_publishing_change(item.id) }
+    end
+  end
+
   def self.send_to_publishing_api(tag)
     new(tag).send_to_publishing_api
   end
@@ -35,5 +45,25 @@ private
 
   def publishing_api
     @publishing_api ||= CollectionsPublisher.services(:publishing_api)
+  end
+
+  class QueueWorker
+    include Sidekiq::Worker
+    def perform(task)
+      t = Tag.find(task.to_i)
+      PublishingAPINotifier.send_to_publishing_api(t)
+    end
+  end
+
+  def self.queue_publishing_change(thing)
+    QueueWorker.perform_async(thing)
+  end
+
+  def self.full_hierarchy
+    MainstreamBrowsePage.only_parents.map(&:children).flatten + MainstreamBrowsePage.only_parents
+  end
+
+  def self.parent_with_children(thing)
+    thing.parent.children + [thing.parent]
   end
 end
