@@ -21,10 +21,14 @@ private
   end
 
   def links
-    return super unless @tag.has_parent?
-
-    super.merge({
-      "parent" => [@tag.parent.content_id],
-    })
+    if @tag.has_parent?
+      super.merge({
+        "parent" => [@tag.parent.content_id],
+      })
+    else
+      super.merge({
+        "children" => @tag.children.order(:title).map(&:content_id),
+      })
+    end
   end
 end
