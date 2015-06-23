@@ -17,6 +17,10 @@ module CollectionsPublisher
   class ServiceNotRegisteredException < Exception; end
 end
 
+# Only used by rake task `populate_published_groups` 
+require 'gds_api/content_store'
+CollectionsPublisher.services(:content_store, GdsApi::ContentStore.new(Plek.new.find('content-store')))
+
 require 'gds_api/content_api'
 CollectionsPublisher.services(:content_api, GdsApi::ContentApi.new(Plek.new.find('content_api')))
 
