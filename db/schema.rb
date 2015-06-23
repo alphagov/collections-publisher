@@ -44,17 +44,17 @@ ActiveRecord::Schema.define(version: 20150623122832) do
 
   create_table "tags", force: :cascade do |t|
     t.string   "type",             limit: 255
-    t.string   "slug",             limit: 255,                   null: false
-    t.string   "title",            limit: 255,                   null: false
+    t.string   "slug",             limit: 255,                      null: false
+    t.string   "title",            limit: 255,                      null: false
     t.string   "description",      limit: 255
     t.integer  "parent_id",        limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "content_id",       limit: 255,                   null: false
-    t.string   "state",            limit: 255,                   null: false
-    t.boolean  "dirty",            limit: 1,     default: false, null: false
-    t.boolean  "beta",             limit: 1,     default: false
-    t.text     "published_groups", limit: 65535
+    t.string   "content_id",       limit: 255,                      null: false
+    t.string   "state",            limit: 255,                      null: false
+    t.boolean  "dirty",            limit: 1,        default: false, null: false
+    t.boolean  "beta",             limit: 1,        default: false
+    t.text     "published_groups", limit: 16777215
   end
 
   add_index "tags", ["content_id"], name: "index_tags_on_content_id", unique: true, using: :btree

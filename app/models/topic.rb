@@ -14,7 +14,7 @@
 #  state            :string(255)      not null
 #  dirty            :boolean          default(FALSE), not null
 #  beta             :boolean          default(FALSE)
-#  published_groups :text(65535)
+#  published_groups :text(16777215)
 #
 # Indexes
 #
