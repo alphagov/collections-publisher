@@ -1,5 +1,5 @@
 class TopicsController < ApplicationController
-  before_filter :require_gds_editor_permissions!, except: %i[index show republish]
+  before_filter :require_gds_editor_permissions!, except: %i[index show]
 
   def index
     @topics = Topic.sorted_parents
@@ -44,6 +44,7 @@ class TopicsController < ApplicationController
     end
   end
 
+  # Change the topic from draft to published state
   def publish
     topic = find_topic
 
