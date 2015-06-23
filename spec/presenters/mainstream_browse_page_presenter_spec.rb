@@ -62,6 +62,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
     it "includes the necessary routes" do
       expect(presented_data[:routes]).to eq([
         {:path => "/browse/benefits", :type => "exact"},
+        {:path => "/browse/benefits.json", :type => "exact"},
       ])
     end
 
