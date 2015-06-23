@@ -2,9 +2,6 @@ namespace :publishing_api do
 
   desc "Send all tags to the publishing-api, skipping any marked as dirty"
   task :republish_all_tags => :environment do
-
-    CollectionsPublisher.services(:publishing_api).put_content_item("/browse", RootBrowsePagePresenter.new.render_for_publishing_api)
-
     puts "Sending #{Tag.count} tags to the publishing-api"
     done = 0
     Tag.find_each do |tag|
@@ -19,6 +16,11 @@ namespace :publishing_api do
         puts "#{done} completed..."
       end
     end
-    puts "All done, #{done} tags sent to publishing-api."
+    puts "Done: #{done} tags sent to publishing-api."
+
+    puts "Sending root browse page to publishing-api"
+    CollectionsPublisher.services(:publishing_api).put_content_item("/browse", RootBrowsePagePresenter.new.render_for_publishing_api)
+
+    puts "All done"
   end
 end
