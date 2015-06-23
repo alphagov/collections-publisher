@@ -2,18 +2,19 @@
 #
 # Table name: tags
 #
-#  id          :integer          not null, primary key
-#  type        :string(255)
-#  slug        :string(255)      not null
-#  title       :string(255)      not null
-#  description :string(255)
-#  parent_id   :integer
-#  created_at  :datetime
-#  updated_at  :datetime
-#  content_id  :string(255)      not null
-#  state       :string(255)      not null
-#  dirty       :boolean          default(FALSE), not null
-#  beta        :boolean          default(FALSE)
+#  id               :integer          not null, primary key
+#  type             :string(255)
+#  slug             :string(255)      not null
+#  title            :string(255)      not null
+#  description      :string(255)
+#  parent_id        :integer
+#  created_at       :datetime
+#  updated_at       :datetime
+#  content_id       :string(255)      not null
+#  state            :string(255)      not null
+#  dirty            :boolean          default(FALSE), not null
+#  beta             :boolean          default(FALSE)
+#  published_groups :text(65535)
 #
 # Indexes
 #
@@ -48,6 +49,9 @@ class Tag < ActiveRecord::Base
   scope :only_parents, -> { where('parent_id IS NULL') }
   scope :only_children, -> { where('parent_id IS NOT NULL') }
   scope :in_alphabetical_order, -> { order('title ASC') }
+
+  # The links last sent to the content-store.
+  serialize :published_groups, JSON
 
   aasm column: :state, no_direct_assignment: true do
     state :draft, initial: true

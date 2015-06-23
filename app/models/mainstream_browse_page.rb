@@ -2,18 +2,19 @@
 #
 # Table name: tags
 #
-#  id          :integer          not null, primary key
-#  type        :string(255)
-#  slug        :string(255)      not null
-#  title       :string(255)      not null
-#  description :string(255)
-#  parent_id   :integer
-#  created_at  :datetime
-#  updated_at  :datetime
-#  content_id  :string(255)      not null
-#  state       :string(255)      not null
-#  dirty       :boolean          default(FALSE), not null
-#  beta        :boolean          default(FALSE)
+#  id               :integer          not null, primary key
+#  type             :string(255)
+#  slug             :string(255)      not null
+#  title            :string(255)      not null
+#  description      :string(255)
+#  parent_id        :integer
+#  created_at       :datetime
+#  updated_at       :datetime
+#  content_id       :string(255)      not null
+#  state            :string(255)      not null
+#  dirty            :boolean          default(FALSE), not null
+#  beta             :boolean          default(FALSE)
+#  published_groups :text(65535)
 #
 # Indexes
 #
