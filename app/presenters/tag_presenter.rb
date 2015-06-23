@@ -80,7 +80,7 @@ private
   # hash from the tags instead. This allows us to independently update the
   # item, without having to publish these groups.
   def categorized_groups
-    tag.published_groups || build_groups
+    tag.published_groups
   end
 
   # potentially extended in subclasses

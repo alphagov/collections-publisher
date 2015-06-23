@@ -53,6 +53,10 @@ class Tag < ActiveRecord::Base
   # The links last sent to the content-store.
   serialize :published_groups, JSON
 
+  after_initialize do
+    self.published_groups ||= []
+  end
+
   aasm column: :state, no_direct_assignment: true do
     state :draft, initial: true
     state :published

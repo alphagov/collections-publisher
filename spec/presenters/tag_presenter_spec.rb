@@ -52,7 +52,7 @@ RSpec.describe TagPresenter do
     end
   end
 
-  describe "details hash" do
+  describe "#build_groups" do
     let(:tag) do
       create(:tag, {
         :parent => create(:tag, :slug => 'oil-and-gas'),
@@ -62,22 +62,15 @@ RSpec.describe TagPresenter do
       })
     end
 
-    let(:presented_data) do
-      TopicPresenter.new(tag).render_for_publishing_api
-    end
-
-    it "should contain an empty groups array with no curated lists" do
-      expect(presented_data[:details]).to eq({
-        :groups => [],
-        :beta => false,
-      })
+    it "contains an empty groups array with no curated lists" do
+      expect(TopicPresenter.new(tag).build_groups).to eq([])
     end
 
     context "with some curated lists" do
       let(:oil_rigs) { create(:list, :tag => tag, :index => 1, :name => 'Oil rigs') }
       let(:piping) { create(:list, :tag => tag, :index => 0, :name => 'Piping') }
 
-      before :each do
+      it "provides the curated lists ordered by their index" do
         allow(oil_rigs).to receive(:tagged_list_items).and_return([
           OpenStruct.new(:api_url => "http://api.example.com/oil-rig-safety-requirements"),
           OpenStruct.new(:api_url => "http://api.example.com/oil-rig-staffing"),
@@ -88,11 +81,9 @@ RSpec.describe TagPresenter do
         ])
 
         allow(tag).to receive(:lists).and_return(double(:ordered => [piping, oil_rigs]))
-      end
 
-      it "provides the curated lists ordered by their index" do
-        expect(presented_data[:details]).to eq({
-          :groups => [
+        expect(TopicPresenter.new(tag).build_groups).to eq(
+        [
             {
               :name => "Piping",
               :contents => [
@@ -107,16 +98,36 @@ RSpec.describe TagPresenter do
               ]
             }
           ],
-          :beta => false,
-        })
+        )
+      end
+    end
+
+    describe '#render_for_publishing_api' do
+      it "is valid against the schema without lists", :schema_test => true do
+        presented_data = TopicPresenter.new(tag).render_for_publishing_api
+
+        expect(presented_data).to be_valid_against_schema('topic')
       end
 
-      it "is valid against the schema", :schema_test => true do
+      it "is valid against the schema with lists", :schema_test => true do
+        list_a = create(:list, tag: tag, name: "List A")
+        list_b = create(:list, tag: tag, name: "List B")
+
+        # We need to "publish" these lists.
+        allow_any_instance_of(List).to receive(:tagged_list_items).and_return(
+          [OpenStruct.new(:api_url => "http://api.example.com/oil-rig-safety-requirements")]
+        )
+        tag.update!(published_groups: TopicPresenter.new(tag).build_groups, dirty: false)
+
+        presented_data = TopicPresenter.new(tag).render_for_publishing_api
+
         expect(presented_data).to be_valid_against_schema('topic')
       end
 
       it "uses the published groups if it's set" do
         tag.update! published_groups: { foo: 'bar' }
+
+        presented_data = TopicPresenter.new(tag).render_for_publishing_api
 
         expect(presented_data[:details][:groups]).to eql({ 'foo' => 'bar' })
       end

@@ -210,4 +210,24 @@ RSpec.describe "creating and editing topics" do
     # And the topic should have been published in Panopticon
     assert_tag_published_in_panopticon(:tag_type => 'specialist_sector', :tag_id => 'working-at-sea')
   end
+
+  it "updating a topic that has unpublished lists" do
+    # Given there is a topic with unpublished lists that never has been published
+    topic = create(:topic, :published, dirty: true, slug: 'working-at-sea', title: 'Working at sea')
+    create(:list, name: 'Some Superlist', tag: topic)
+
+    # When I make a change to the topic
+    visit edit_topic_path(topic)
+
+    fill_in 'Title', :with => 'Working on the ocean'
+    click_on 'Save'
+
+    # And a live item should have been sent to publishing-api
+    assert_publishing_api_put_item('/working-at-sea', {
+      "details" => {
+        "groups" => [],
+        "beta" => false,
+      }
+    })
+  end
 end
