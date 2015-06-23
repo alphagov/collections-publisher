@@ -17,6 +17,12 @@ private
 
 private
 
+  def routes
+    super + [
+      {path: "#{base_path}.json", type: "exact"},
+    ]
+  end
+
   def active_top_level_browse_page_id
     if @tag.has_parent?
       [@tag.parent.content_id]
