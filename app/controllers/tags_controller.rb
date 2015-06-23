@@ -3,7 +3,7 @@ class TagsController < ApplicationController
   before_filter :require_gds_editor_permissions_to_edit_browse_pages!
 
   def publish_lists
-    PublishingAPINotifier.send_to_publishing_api(@tag)
+    ListPublisher.new(@tag).perform
     redirect_to :back
   end
 end

@@ -114,6 +114,12 @@ RSpec.describe TagPresenter do
       it "is valid against the schema", :schema_test => true do
         expect(presented_data).to be_valid_against_schema('topic')
       end
+
+      it "uses the published groups if it's set" do
+        tag.update! published_groups: { foo: 'bar' }
+
+        expect(presented_data[:details][:groups]).to eql({ 'foo' => 'bar' })
+      end
     end
   end
 end

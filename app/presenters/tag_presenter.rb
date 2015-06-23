@@ -49,6 +49,15 @@ class TagPresenter
     }
   end
 
+  def build_groups
+    @tag.lists.ordered.map do |list|
+      {
+        name: list.name,
+        contents: list.tagged_list_items.map(&:api_url)
+      }
+    end
+  end
+
 private
 
   def format
@@ -67,13 +76,11 @@ private
     }
   end
 
+  # Groups aren't calculated each time we publish the item, we use a rendered
+  # hash from the tags instead. This allows us to independently update the
+  # item, without having to publish these groups.
   def categorized_groups
-    @tag.lists.ordered.map do |list|
-      {
-        name: list.name,
-        contents: list.tagged_list_items.map(&:api_url)
-      }
-    end
+    tag.published_groups || build_groups
   end
 
   # potentially extended in subclasses
