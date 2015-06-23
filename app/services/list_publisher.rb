@@ -6,8 +6,8 @@ class ListPublisher
   end
 
   def perform
-    details = TopicPresenter.new(tag).build_groups
-    tag.update!(published_groups: details)
+    groups = TopicPresenter.new(tag).build_groups
+    tag.update!(published_groups: groups, dirty: false)
     PublishingAPINotifier.send_to_publishing_api(tag)
   end
 end

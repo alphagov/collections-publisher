@@ -204,25 +204,6 @@ RSpec.describe Tag do
         expect(tag.title).to eq("Title")
       end
     end
-
-    describe "clearing the dirty flag" do
-      let(:tag) { create(:tag, :draft, :title => "Title", :dirty => true) }
-
-      it "mark_as_clean! sets dirty to false and saves" do
-        tag.mark_as_clean!
-        tag.reload
-        expect(tag).not_to be_dirty
-      end
-
-      it "doesn't save any other changes to the topic" do
-        tag.title = "Changed title"
-        tag.mark_as_clean!
-
-        tag.reload
-        expect(tag).not_to be_dirty
-        expect(tag.title).to eq("Title")
-      end
-    end
   end
 
   describe "lists association" do

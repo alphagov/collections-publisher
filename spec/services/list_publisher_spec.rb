@@ -20,5 +20,13 @@ RSpec.describe ListPublisher do
 
       expect(PublishingAPINotifier).to have_received(:send_to_publishing_api)
     end
+
+    it 'clears the dirty flag from tag' do
+      topic = create(:topic, dirty: true)
+
+      ListPublisher.new(topic).perform
+
+      expect(topic).not_to be_dirty
+    end
   end
 end

@@ -105,10 +105,6 @@ class Tag < ActiveRecord::Base
     update_columns(:dirty => true)
   end
 
-  def mark_as_clean!
-    update_columns(:dirty => false)
-  end
-
   def web_url
     Plek.new.website_root + base_path
   end
