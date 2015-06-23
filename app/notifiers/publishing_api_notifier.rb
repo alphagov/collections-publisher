@@ -49,8 +49,8 @@ private
 
   class QueueWorker
     include Sidekiq::Worker
-    def perform(task)
-      t = Tag.find(task.to_i)
+    def perform(tag_id)
+      t = Tag.find(tag_id)
       PublishingAPINotifier.send_to_publishing_api(t)
     end
   end
@@ -60,7 +60,7 @@ private
   end
 
   def self.full_hierarchy
-    MainstreamBrowsePage.only_parents.map(&:children).flatten + MainstreamBrowsePage.only_parents
+    MainstreamBrowsePage.all
   end
 
   def self.parent_with_children(thing)

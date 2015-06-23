@@ -5,6 +5,12 @@ RSpec.describe PublishingAPINotifier do
 
   let(:publishing_api) { instance_double("GdsApi::PublishingApi", :put_content_item => nil, :put_draft_content_item => nil) }
 
+  def browse_page(title, parent=nil)
+    create(:mainstream_browse_page,
+           title: title,
+           parent: parent)
+  end
+
   before do
     stub_content_store!
     allow(CollectionsPublisher).to receive(:services).with(:publishing_api).and_return(publishing_api)

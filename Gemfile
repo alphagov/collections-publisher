@@ -19,7 +19,7 @@ gem 'select2-rails', '~> 3.5.9'
 
 gem 'unicorn', '~> 4.9.0'
 
-gem 'sidekiq', '2.17.2'
+gem 'sidekiq', '~> 2.17.2'
 
 gem 'byebug', group: [:development, :test]
 
