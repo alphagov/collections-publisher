@@ -50,8 +50,17 @@ RSpec.describe TopicPresenter do
         ])
       end
 
-      it "has no links" do
-        expect(presented_data[:links]).to eq({})
+      describe "links" do
+        it "does not include a parent link" do
+          expect(presented_data[:links]).not_to have_key("parent")
+        end
+
+        it "includes links to all its child topics in title order" do
+          bravo = create(:topic, :parent => topic, :title => "Bravo")
+          alpha = create(:topic, :parent => topic, :title => "Alpha")
+          expect(presented_data[:links]).to have_key("children")
+          expect(presented_data[:links]["children"]).to eq([alpha, bravo].map(&:content_id))
+        end
       end
     end
 
