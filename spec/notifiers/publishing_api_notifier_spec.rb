@@ -27,14 +27,6 @@ RSpec.describe PublishingAPINotifier do
 
         PublishingAPINotifier.send_to_publishing_api(tag)
       end
-
-      it "does not clear the dirty state on the tag" do
-        tag.mark_as_dirty!
-
-        PublishingAPINotifier.send_to_publishing_api(tag)
-        tag.reload
-        expect(tag).to be_dirty
-      end
     end
 
     context "for a published tag" do
@@ -48,14 +40,6 @@ RSpec.describe PublishingAPINotifier do
       it "sends the presented details to the publishing-api" do
         expect(publishing_api).to receive(:put_content_item).with("/foo", :presented_details)
         PublishingAPINotifier.send_to_publishing_api(tag)
-      end
-
-      it "clears the dirty state on the tag" do
-        tag.mark_as_dirty!
-
-        PublishingAPINotifier.send_to_publishing_api(tag)
-        tag.reload
-        expect(tag).not_to be_dirty
       end
     end
   end

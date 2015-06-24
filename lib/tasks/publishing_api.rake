@@ -5,11 +5,6 @@ namespace :publishing_api do
     puts "Sending #{Tag.count} tags to the publishing-api"
     done = 0
     Tag.find_each do |tag|
-      if tag.dirty?
-        puts "Warning: skipping dirty #{tag.class} #{tag.base_path}"
-        next
-      end
-
       PublishingAPINotifier.send_to_publishing_api(tag)
       done += 1
       if done % 100 == 0

@@ -5,7 +5,6 @@ class PublishingAPINotifier
 
     if tag.published?
       publishing_api.put_content_item(presenter.base_path, presenter.render_for_publishing_api)
-      tag.mark_as_clean!
     else
       publishing_api.put_draft_content_item(presenter.base_path, presenter.render_for_publishing_api)
     end

@@ -1,8 +1,6 @@
 <%= tag_header @tag, 'Lists' %>
 
-<% unless @tag.draft? %>
-  <%= render 'publish_button', tag: @tag %>
-<% end %>
+<%= render 'publish_button', tag: @tag %>
 
 <div class='row'>
   <div class='col-md-6'>
