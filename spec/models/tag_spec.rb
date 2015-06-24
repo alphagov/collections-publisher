@@ -3,6 +3,14 @@ require 'rails_helper'
 RSpec.describe Tag do
   include ContentApiHelpers
 
+  describe '#published_groups' do
+    it 'has an empty array as default value' do
+      tag = Tag.new
+
+      expect(tag.published_groups).to eql([])
+    end
+  end
+
   describe "validations" do
     let(:tag) { build(:tag) }
     let(:parent) { create(:tag, :slug => 'parent') }

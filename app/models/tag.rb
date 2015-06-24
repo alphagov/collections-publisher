@@ -53,6 +53,8 @@ class Tag < ActiveRecord::Base
   # The links last sent to the content-store.
   serialize :published_groups, JSON
 
+  # after_initialize is expensive, but MySQL doesn't support default values
+  # on text columns. When we've moved to PG, move this to the database.  
   after_initialize do
     self.published_groups ||= []
   end
