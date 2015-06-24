@@ -9,10 +9,4 @@ task populate_published_groups: [:environment] do
 
     tag.update!(published_groups: item['details']['groups'])
   end
-
-  Tag.only_children.where(dirty: false).each do |tag|
-    actual_groups = GroupsPresenter.new(tag).groups.map(&:stringify_keys)
-    published_groups = tag.published_groups
-    raise "Non-dirty tag #{tag.id} is actually dirty."
-  end
 end
