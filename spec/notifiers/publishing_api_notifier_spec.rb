@@ -5,9 +5,9 @@ RSpec.describe PublishingAPINotifier do
 
   let(:publishing_api) { instance_double("GdsApi::PublishingApi", :put_content_item => nil, :put_draft_content_item => nil) }
 
-  def browse_page(title, parent=nil)
+  def browse_page_with_slug(slug, parent=nil)
     create(:mainstream_browse_page,
-           title: title,
+           slug: slug,
            parent: parent)
   end
 
@@ -16,43 +16,43 @@ RSpec.describe PublishingAPINotifier do
     allow(CollectionsPublisher).to receive(:services).with(:publishing_api).and_return(publishing_api)
   end
 
-  describe "batch_send_to_publishing_api" do
+  describe "sending multiples items to the publishing api" do
     #   a     d   - top level
     #  /
     # b           - second level
     before do
-      @a = browse_page("a")
-      @d = browse_page("d")
-      @b = browse_page("b", @a)
+      @a = browse_page_with_slug("a")
+      @d = browse_page_with_slug("d")
+      @b = browse_page_with_slug("b", @a)
     end
 
     it "sends siblings and the parent when a sibling is added" do
-      c = browse_page("c", @a)
+      c = browse_page_with_slug("c", @a)
 
-      [c, @a, @b].each do |page|
-        expect(PublishingAPINotifier).to receive(:send_to_publishing_api).with(page)
+      ['a', 'a/b', 'a/c'].each do |slug|
+        expect(publishing_api).to receive(:put_draft_content_item).with("/browse/#{slug}", anything)
       end
 
-      expect(PublishingAPINotifier).to_not receive(:send_to_publishing_api).with(@d)
+      expect(publishing_api).to_not receive(:put_draft_content_item).with('/browse/d', anything)
 
-      PublishingAPINotifier.batch_send_to_publishing_api(c)
+      PublishingAPINotifier.send_to_publishing_api(c)
     end
 
     it "sends the full hierarchy when a parent is added" do
-      e = browse_page("e")
+      e = browse_page_with_slug("e")
 
-      [@b, @a, @d, e].each do |page|
-        expect(PublishingAPINotifier).to receive(:send_to_publishing_api).with(page)
+      ['a', 'a/b', 'd', 'e'].each do |slug|
+        expect(publishing_api).to receive(:put_draft_content_item).with("/browse/#{slug}", anything)
       end
 
-      PublishingAPINotifier.batch_send_to_publishing_api(e)
+      PublishingAPINotifier.send_to_publishing_api(e)
     end
 
-    it "queues work correctly" do
+    it "queues dependent tags correctly" do
       Sidekiq::Testing.fake! do
         expect {
-          PublishingAPINotifier.batch_send_to_publishing_api(@a)
-        }.to change(PublishingAPINotifier::QueueWorker.jobs, :size).by(3)
+          PublishingAPINotifier.send_to_publishing_api(@a)
+        }.to change(PublishingAPINotifier::QueueWorker.jobs, :size).by(2)
       end
     end
   end

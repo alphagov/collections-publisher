@@ -38,7 +38,7 @@ class MainstreamBrowsePagesController < ApplicationController
 
     if browse_page.save
       PanopticonNotifier.create_tag(MainstreamBrowsePagePresenter.new(browse_page))
-      PublishingAPINotifier.batch_send_to_publishing_api(browse_page)
+      PublishingAPINotifier.send_to_publishing_api(browse_page)
       redirect_to browse_page
     else
       @browse_page = browse_page
@@ -51,7 +51,7 @@ class MainstreamBrowsePagesController < ApplicationController
 
     browse_page.publish!
     PanopticonNotifier.publish_tag(MainstreamBrowsePagePresenter.new(browse_page))
-    PublishingAPINotifier.batch_send_to_publishing_api(browse_page)
+    PublishingAPINotifier.send_to_publishing_api(browse_page)
     redirect_to browse_page
   end
 
