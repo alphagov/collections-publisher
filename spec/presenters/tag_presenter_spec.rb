@@ -101,36 +101,45 @@ RSpec.describe TagPresenter do
         )
       end
     end
+  end
 
-    describe '#render_for_publishing_api' do
-      it "is valid against the schema without lists", :schema_test => true do
-        presented_data = TopicPresenter.new(tag).render_for_publishing_api
+  describe '#render_for_publishing_api' do
+    let(:tag) do
+      create(:tag, {
+        :parent => create(:tag, :slug => 'oil-and-gas'),
+        :slug => 'offshore',
+        :title => 'Offshore',
+        :description => 'Oil rigs, pipelines etc.',
+      })
+    end
 
-        expect(presented_data).to be_valid_against_schema('topic')
-      end
+    it "is valid against the schema without lists", :schema_test => true do
+      presented_data = TopicPresenter.new(tag).render_for_publishing_api
 
-      it "is valid against the schema with lists", :schema_test => true do
-        list_a = create(:list, tag: tag, name: "List A")
-        list_b = create(:list, tag: tag, name: "List B")
+      expect(presented_data).to be_valid_against_schema('topic')
+    end
 
-        # We need to "publish" these lists.
-        allow_any_instance_of(List).to receive(:tagged_list_items).and_return(
-          [OpenStruct.new(:api_url => "http://api.example.com/oil-rig-safety-requirements")]
-        )
-        tag.update!(published_groups: TopicPresenter.new(tag).build_groups, dirty: false)
+    it "is valid against the schema with lists", :schema_test => true do
+      list_a = create(:list, tag: tag, name: "List A")
+      list_b = create(:list, tag: tag, name: "List B")
 
-        presented_data = TopicPresenter.new(tag).render_for_publishing_api
+      # We need to "publish" these lists.
+      allow_any_instance_of(List).to receive(:tagged_list_items).and_return(
+        [OpenStruct.new(:api_url => "http://api.example.com/oil-rig-safety-requirements")]
+      )
+      tag.update!(published_groups: TopicPresenter.new(tag).build_groups, dirty: false)
 
-        expect(presented_data).to be_valid_against_schema('topic')
-      end
+      presented_data = TopicPresenter.new(tag).render_for_publishing_api
 
-      it "uses the published groups if it's set" do
-        tag.update! published_groups: { foo: 'bar' }
+      expect(presented_data).to be_valid_against_schema('topic')
+    end
 
-        presented_data = TopicPresenter.new(tag).render_for_publishing_api
+    it "uses the published groups if it's set" do
+      tag.update! published_groups: { foo: 'bar' }
 
-        expect(presented_data[:details][:groups]).to eql({ 'foo' => 'bar' })
-      end
+      presented_data = TopicPresenter.new(tag).render_for_publishing_api
+
+      expect(presented_data[:details][:groups]).to eql({ 'foo' => 'bar' })
     end
   end
 end
