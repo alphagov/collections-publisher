@@ -33,7 +33,7 @@ RSpec.describe TopicPresenter do
       end
 
       it "returns the base_path for the topic" do
-        expect(presenter.base_path).to eq("/working-at-sea")
+        expect(presenter.base_path).to eq("/topic/working-at-sea")
       end
 
       it "sets public_updated_at based on the topic update time" do
@@ -46,7 +46,7 @@ RSpec.describe TopicPresenter do
 
       it "includes the base route" do
         expect(presented_data[:routes]).to eq([
-          {:path => "/working-at-sea", :type => "exact"},
+          {:path => "/topic/working-at-sea", :type => "exact"},
         ])
       end
 
@@ -78,7 +78,7 @@ RSpec.describe TopicPresenter do
       let(:presented_data) { presenter.render_for_publishing_api }
 
       it "returns the base_path for the subtopic" do
-        expect(presenter.base_path).to eq("/oil-and-gas/offshore")
+        expect(presenter.base_path).to eq("/topic/oil-and-gas/offshore")
       end
 
       it "includes the base fields" do
@@ -110,9 +110,9 @@ RSpec.describe TopicPresenter do
 
       it "includes routes for latest, and email_signups in addition to base route" do
         expect(presented_data[:routes]).to eq([
-          {:path => "/oil-and-gas/offshore", :type => "exact"},
-          {:path => "/oil-and-gas/offshore/latest", :type => "exact"},
-          {:path => "/oil-and-gas/offshore/email-signup", :type => "exact"},
+          {:path => "/topic/oil-and-gas/offshore", :type => "exact"},
+          {:path => "/topic/oil-and-gas/offshore/latest", :type => "exact"},
+          {:path => "/topic/oil-and-gas/offshore/email-signup", :type => "exact"},
         ])
       end
 

@@ -39,6 +39,8 @@ class Tag < ActiveRecord::Base
   has_many :lists
   has_many :list_items, through: :lists
 
+  has_many :redirects
+
   validates :slug, :title, :content_id, presence: true
   validates :slug, uniqueness: { scope: ["parent_id"] }, format: { with: /\A[a-z0-9-]*\z/ }
   validate :parent_is_not_a_child
@@ -98,11 +100,6 @@ class Tag < ActiveRecord::Base
     end
   end
 
-  def base_path
-    base = has_parent? ? "/#{parent.slug}" : ''
-    "#{base}/#{slug}"
-  end
-
   def to_param
     content_id
   end
@@ -125,18 +122,13 @@ class Tag < ActiveRecord::Base
   def list_items_from_contentapi
     @_list_items_from_contentapi ||= begin
       CollectionsPublisher.services(:content_api)
-        .with_tag(panopticon_slug, legacy_tag_type, draft: true)
+        .with_tag(full_slug, legacy_tag_type, draft: true)
         .map { |content_blob|
           ListItem.new(title: content_blob.title, api_url: content_blob.id)
         }
     rescue GdsApi::HTTPNotFound
       []
     end
-  end
-
-  # FIXME: remove this once we're using content_id's in URLs everywhere.
-  def panopticon_slug
-    self.base_path.gsub('/browse', '')[1..-1]
   end
 
   def legacy_tag_type
@@ -154,6 +146,10 @@ class Tag < ActiveRecord::Base
     else
       @_display_curated_links
     end
+  end
+
+  def full_slug
+    @full_slug ||= [parent.try(:slug), slug].compact.join('/')
   end
 
 private

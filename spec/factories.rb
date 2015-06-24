@@ -1,4 +1,10 @@
 FactoryGirl.define do
+  factory :redirect do
+    original_topic_base_path "/some/route"
+    from_base_path "/some/route"
+    to_base_path "/to/some/route"
+  end
+
   factory :user do
     uid { SecureRandom.hex }
     permissions { ["signin"] }

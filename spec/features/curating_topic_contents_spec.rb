@@ -85,7 +85,7 @@ RSpec.describe "Curating the contents of topics" do
 
       #Then the curated lists should have been sent to the publishing API
       assert_publishing_api_put_item(
-        "/oil-and-gas/offshore",
+        "/topic/oil-and-gas/offshore",
         {
           "details" => {
             "groups" => [
@@ -163,7 +163,7 @@ RSpec.describe "Curating the contents of topics" do
 
       #Then the curated lists should have been sent to the publishing API
       assert_publishing_api_put_item(
-        "/oil-and-gas/offshore",
+        "/topic/oil-and-gas/offshore",
         {
           "details" => {
             "groups" => [

@@ -26,7 +26,13 @@
 class Topic < Tag
   has_many :mainstream_browse_pages, through: :reverse_tag_associations, source: :from_tag
 
+  alias subtopic? has_parent?
+
   def legacy_tag_type
     'specialist_sector'
+  end
+
+  def base_path
+    "/topic/#{full_slug}"
   end
 end

@@ -169,18 +169,18 @@ RSpec.describe Tag do
 
   end
 
-  describe '#base_path' do
+  describe '#full_slug' do
     it 'returns the slug for a parent tag' do
       tag = build(:tag, slug: 'example')
 
-      expect(tag.base_path).to eq('/example')
+      expect(tag.full_slug).to eq('example')
     end
 
     it 'joins the parent slug for a child tag' do
       parent = create(:tag)
       tag = build(:tag, slug: 'example', parent: parent)
 
-      expect(tag.base_path).to eq("/#{parent.slug}/example")
+      expect(tag.full_slug).to eq("#{parent.slug}/example")
     end
   end
 

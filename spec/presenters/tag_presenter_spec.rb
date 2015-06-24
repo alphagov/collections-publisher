@@ -54,7 +54,7 @@ RSpec.describe TagPresenter do
 
   describe '#render_for_publishing_api' do
     let(:tag) do
-      create(:tag, {
+      create(:topic, {
         :parent => create(:tag, :slug => 'oil-and-gas'),
         :slug => 'offshore',
         :title => 'Offshore',
