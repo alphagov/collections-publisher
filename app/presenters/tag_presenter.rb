@@ -49,15 +49,6 @@ class TagPresenter
     }
   end
 
-  def build_groups
-    @tag.lists.ordered.map do |list|
-      {
-        name: list.name,
-        contents: list.tagged_list_items.map(&:api_url)
-      }
-    end
-  end
-
 private
 
   def format
