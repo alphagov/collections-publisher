@@ -1,10 +1,19 @@
 namespace :publishing_api do
 
   desc "Send all tags to the publishing-api, skipping any marked as dirty"
-  task :republish_all_tags => :environment do
-    puts "Sending #{Tag.count} tags to the publishing-api"
+  task :send_all_tags => :environment do
+    republish_tags(Tag.all)
+  end
+
+  desc "Send all published tags to the publishing-api, skipping any marked as dirty"
+  task :send_published_tags => :environment do
+    republish_tags(Tag.published)
+  end
+
+  def republish_tags(tags)
+    puts "Sending #{tags.count} tags to the publishing-api"
     done = 0
-    Tag.find_each do |tag|
+    tags.find_each do |tag|
       PublishingAPINotifier.send_to_publishing_api(tag)
       done += 1
       if done % 100 == 0
