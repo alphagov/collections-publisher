@@ -29,7 +29,7 @@ class MainstreamBrowsePage < Tag
   validate :parents_cannot_have_topics_associated
 
   def base_path
-    "/browse#{super}"
+    "/browse/#{full_slug}"
   end
 
   def legacy_tag_type

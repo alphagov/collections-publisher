@@ -15,3 +15,7 @@
 <% if @topic.child? %>
   <%= render 'shared/tags/lists_of_links_preview', tag: @topic %>
 <% end %>
+
+<% if @topic.redirects.any? %>
+  <%= render 'redirects', redirects: @topic.redirects %>
+<% end %>

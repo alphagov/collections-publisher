@@ -32,6 +32,17 @@ ActiveRecord::Schema.define(version: 20150623122832) do
 
   add_index "lists", ["tag_id"], name: "index_lists_on_tag_id", using: :btree
 
+  create_table "redirects", force: :cascade do |t|
+    t.integer  "tag_id",                   limit: 4
+    t.string   "original_topic_base_path", limit: 255, null: false
+    t.string   "from_base_path",           limit: 255, null: false
+    t.string   "to_base_path",             limit: 255, null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
+  add_index "redirects", ["tag_id"], name: "index_redirects_on_tag_id", using: :btree
+
   create_table "tag_associations", force: :cascade do |t|
     t.integer  "from_tag_id", limit: 4, null: false
     t.integer  "to_tag_id",   limit: 4, null: false
@@ -76,6 +87,7 @@ ActiveRecord::Schema.define(version: 20150623122832) do
 
   add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
   add_foreign_key "lists", "tags", name: "lists_tag_id_fk", on_delete: :cascade
+  add_foreign_key "redirects", "tags", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "to_tag_id", name: "tag_associations_to_tag_id_fk", on_delete: :cascade
   add_foreign_key "tags", "tags", column: "parent_id", name: "tags_parent_id_fk"

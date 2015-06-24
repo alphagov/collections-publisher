@@ -1,5 +1,5 @@
 class TagPresenter
-  delegate :legacy_tag_type, to: :tag
+  delegate :legacy_tag_type, :base_path, to: :tag
 
   def self.presenter_for(tag)
     case tag
@@ -14,10 +14,6 @@ class TagPresenter
 
   def initialize(tag)
     @tag = tag
-  end
-
-  def base_path
-    @tag.base_path
   end
 
   def render_for_publishing_api

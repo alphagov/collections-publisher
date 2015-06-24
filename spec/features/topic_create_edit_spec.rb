@@ -31,7 +31,7 @@ RSpec.describe "creating and editing topics" do
     end
 
     # And a draft should have been sent to publishing-api
-    assert_publishing_api_put_draft_item('/working-at-sea', {
+    assert_publishing_api_put_draft_item('/topic/working-at-sea', {
       "title" => "Working at sea",
       "description" => 'The sea, the sky, the sea, the sky...',
       "format" => "topic",
@@ -78,7 +78,7 @@ RSpec.describe "creating and editing topics" do
     expect(page).to have_content('I woke up one morning, The sea was still there.')
 
     # And a draft should have been sent to publishing-api
-    assert_publishing_api_put_draft_item('/working-at-sea', {
+    assert_publishing_api_put_draft_item('/topic/working-at-sea', {
       "title" => "Working on the ocean",
       "description" => "I woke up one morning, The sea was still there.",
       "format" => "topic",
@@ -113,7 +113,7 @@ RSpec.describe "creating and editing topics" do
     expect(page).to have_content('In Beta')
 
     # And a live item should have been sent to publishing-api
-    assert_publishing_api_put_item('/working-at-sea', {
+    assert_publishing_api_put_item('/topic/working-at-sea', {
       "title" => 'Working on the ocean',
       "description" => "I woke up one morning, The sea was still there.",
       "format" => "topic",
@@ -149,7 +149,8 @@ RSpec.describe "creating and editing topics" do
 
   it "creating a child topic" do
     # Given a draft topic exists
-    create(:topic, :draft, :slug => 'working-at-sea', :title => 'Working at sea')
+    topic = create(:topic, :draft, :slug => 'working-at-sea', :title => 'Working at sea')
+    create(:redirect, tag: topic)
 
     # When I fill out the details for a new child topic
     visit topics_path
@@ -169,7 +170,7 @@ RSpec.describe "creating and editing topics" do
     expect(page).to have_content('Remember your cheese...')
 
     # And a draft should have been sent to publishing-api
-    assert_publishing_api_put_draft_item('/working-at-sea/desert-islands', {
+    assert_publishing_api_put_draft_item('/topic/working-at-sea/desert-islands', {
       "title" => 'Desert Islands',
       "description" => 'Remember your cheese...',
       "format" => 'topic',
@@ -202,7 +203,7 @@ RSpec.describe "creating and editing topics" do
     end
 
     # And a live item should have been sent to publishing-api
-    assert_publishing_api_put_item('/working-at-sea', {
+    assert_publishing_api_put_item('/topic/working-at-sea', {
       "title" => "Working at sea",
       "format" => "topic",
     })
@@ -223,7 +224,7 @@ RSpec.describe "creating and editing topics" do
     click_on 'Save'
 
     # And a live item should have been sent to publishing-api
-    assert_publishing_api_put_item('/working-at-sea', {
+    assert_publishing_api_put_item('/topic/working-at-sea', {
       "details" => {
         "groups" => [],
         "beta" => false,

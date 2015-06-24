@@ -1,0 +1,14 @@
+<h3>Redirects</h3>
+
+<table class='table'>
+  <tr>
+    <th>From</th>
+    <th>To</th>
+  </tr>
+  <% redirects.each do |redirect| %>
+    <tr>
+      <td><%= link_to website_url(redirect.from_base_path) %></td>
+      <td><%= link_to website_url(redirect.to_base_path) %></td>
+    </tr>
+  <% end %>
+</table>
