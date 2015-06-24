@@ -14,7 +14,19 @@ namespace :publishing_api do
     puts "Sending #{tags.count} tags to the publishing-api"
     done = 0
     tags.find_each do |tag|
-      PublishingAPINotifier.send_to_publishing_api(tag)
+      retries = 0
+      begin
+        PublishingAPINotifier.send_to_publishing_api(tag)
+      rescue GdsApi::TimedOutException, Timeout::Error => e
+        retries += 1
+        if retries <= 3
+          puts "Timeout (tag #{tag.base_path}): retry #{retries}"
+          sleep 0.5
+          retry
+        end
+        raise
+      end
+
       done += 1
       if done % 100 == 0
         puts "#{done} completed..."
