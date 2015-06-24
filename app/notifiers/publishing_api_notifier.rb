@@ -1,9 +1,7 @@
-require 'sidekiq'
-
 class PublishingAPINotifier
   def self.send_to_publishing_api(tag)
     new(tag).send_single_tag_to_publishing_api
-    tag.dependent_tags.each { |item| queue_publishing_change(item.id) }
+    tag.dependent_tags.each { |item| QueueWorker.perform_async(item.id) }
   end
 
   attr_reader :tag
@@ -21,7 +19,7 @@ class PublishingAPINotifier
     end
   end
 
-  private
+private
 
   def add_redirects
     redirects = tag.redirects.group_by(&:original_topic_base_path)
@@ -43,12 +41,8 @@ class PublishingAPINotifier
   class QueueWorker
     include Sidekiq::Worker
     def perform(tag_id)
-      t = Tag.find(tag_id)
-      PublishingAPINotifier.new(t).send_single_tag_to_publishing_api
+      tag = Tag.find(tag_id)
+      PublishingAPINotifier.new(tag).send_single_tag_to_publishing_api
     end
-  end
-
-  def self.queue_publishing_change(thing)
-    QueueWorker.perform_async(thing)
   end
 end

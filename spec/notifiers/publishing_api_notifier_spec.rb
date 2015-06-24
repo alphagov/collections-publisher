@@ -3,8 +3,6 @@ require "rails_helper"
 RSpec.describe PublishingAPINotifier do
   include ContentStoreHelpers
 
-  let(:publishing_api) { instance_double("GdsApi::PublishingApi", :put_content_item => nil, :put_draft_content_item => nil) }
-
   def browse_page_with_slug(slug, parent=nil)
     create(:mainstream_browse_page,
            slug: slug,
@@ -13,7 +11,6 @@ RSpec.describe PublishingAPINotifier do
 
   before do
     stub_content_store!
-    allow(CollectionsPublisher).to receive(:services).with(:publishing_api).and_return(publishing_api)
   end
 
   describe "sending multiples items to the publishing api" do
@@ -30,10 +27,10 @@ RSpec.describe PublishingAPINotifier do
       c = browse_page_with_slug("c", @a)
 
       ['a', 'a/b', 'a/c'].each do |slug|
-        expect(publishing_api).to receive(:put_draft_content_item).with("/browse/#{slug}", anything)
+        expect(stubbed_content_store).to receive(:put_draft_content_item).with("/browse/#{slug}", anything)
       end
 
-      expect(publishing_api).to_not receive(:put_draft_content_item).with('/browse/d', anything)
+      expect(stubbed_content_store).to_not receive(:put_draft_content_item).with('/browse/d', anything)
 
       PublishingAPINotifier.send_to_publishing_api(c)
     end
@@ -42,7 +39,7 @@ RSpec.describe PublishingAPINotifier do
       e = browse_page_with_slug("e")
 
       ['a', 'a/b', 'd', 'e'].each do |slug|
-        expect(publishing_api).to receive(:put_draft_content_item).with("/browse/#{slug}", anything)
+        expect(stubbed_content_store).to receive(:put_draft_content_item).with("/browse/#{slug}", anything)
       end
 
       PublishingAPINotifier.send_to_publishing_api(e)
