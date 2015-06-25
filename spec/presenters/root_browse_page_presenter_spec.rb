@@ -1,50 +1,46 @@
 require 'rails_helper'
 
 RSpec.describe RootBrowsePagePresenter do
-
   describe "#render_for_publishing_api" do
-    it "raises a RunTimeError if top-level browse pages are not present" do
+    it "raises if top-level browse pages are not present" do
       expect {
         RootBrowsePagePresenter.new.render_for_publishing_api
       }.to raise_error(RuntimeError)
     end
 
-    context "with top level browse pages" do
+    it "is valid against the schema" do
+      create(:mainstream_browse_page, title: "Top-Level Page 1")
+      create(:mainstream_browse_page, title: "Top-Level Page 2")
 
-      let!(:top_level_page_1) { create(
-        :mainstream_browse_page,
-        :title => "Top-Level Page 1",
-      )}
-      let!(:top_level_page_2) { create(
-        :mainstream_browse_page,
-        :title => "Top-Level Page 2",
-      )}
+      rendered = RootBrowsePagePresenter.new.render_for_publishing_api
 
-      let(:rendered) { RootBrowsePagePresenter.new.render_for_publishing_api}
+      expect(rendered).to be_valid_against_schema('mainstream_browse_page')
+    end
 
-      it "is valid against the schema" do
-        expect(rendered).to be_valid_against_schema('mainstream_browse_page')
+    it "includes draft and published top-level browse pages" do
+      page_1 = create(:mainstream_browse_page, :published, title: "Top-Level Page 1")
+      page_2 = create(:mainstream_browse_page, :draft, title: "Top-Level Page 2")
+
+      rendered = RootBrowsePagePresenter.new.render_for_publishing_api
+
+      expect(rendered[:links]["top_level_browse_pages"]).to eq([
+        page_1.content_id,
+        page_2.content_id,
+      ])
+    end
+
+    it ":public_updated_at equals the time of last browse page update" do
+      page_1 = create(:mainstream_browse_page, title: "Top-Level Page 1")
+      page_2 = create(:mainstream_browse_page, title: "Top-Level Page 2")
+
+      Timecop.travel 3.hours.ago do
+        page_1.touch
       end
+      page_2.touch
 
-      it "includes all the top-level browse pages" do
-        expect(rendered[:links]["top_level_browse_pages"]).to eq([
-          top_level_page_1.content_id,
-          top_level_page_2.content_id,
-        ])
-      end
+      rendered = RootBrowsePagePresenter.new.render_for_publishing_api
 
-      context "top_level_page_1 updated before top_level_page_2" do
-        it "#public_updated_at should equal most recent #updated_time" do
-          Timecop.travel 3.hours.ago do
-            top_level_page_1.touch
-          end
-          top_level_page_2.touch
-
-          expect(rendered[:public_updated_at]).to eq(
-            top_level_page_2.updated_at.iso8601
-          )
-        end
-      end
+      expect(rendered[:public_updated_at]).to eq(page_2.updated_at.iso8601)
     end
   end
 end
