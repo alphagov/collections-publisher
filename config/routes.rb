@@ -31,4 +31,16 @@ Rails.application.routes.draw do
   }
 
   mount GovukAdminTemplate::Engine, at: "/style-guide"
+
+  class SidekiqAccessContraint
+    def matches?(request)
+      user = request.env['warden'].user
+      user && user.has_permission?("Sidekiq Monitoring")
+    end
+  end
+
+  require 'sidekiq/web'
+  mount Sidekiq::Web,
+    at: '/sidekiq',
+    constraints: SidekiqAccessContraint.new
 end
