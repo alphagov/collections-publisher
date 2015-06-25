@@ -26,7 +26,7 @@ class PublishingAPINotifier
 private
 
   def add_redirects
-    redirects = tag.redirects.group_by(&:original_topic_base_path)
+    redirects = tag.redirects.group_by(&:original_tag_base_path)
 
     redirects.each do |old_path, redirects|
       presenter = RedirectPresenter.new(redirects)
