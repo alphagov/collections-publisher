@@ -2,6 +2,10 @@ class PublishingAPINotifier
   def self.send_to_publishing_api(tag)
     new(tag).send_single_tag_to_publishing_api
     tag.dependent_tags.each { |item| QueueWorker.perform_async(item.id) }
+
+    if tag.top_level_mainstream_browse_page?
+      RootBrowsePageWorker.perform_async
+    end
   end
 
   attr_reader :tag
@@ -43,6 +47,13 @@ private
     def perform(tag_id)
       tag = Tag.find(tag_id)
       PublishingAPINotifier.new(tag).send_single_tag_to_publishing_api
+    end
+  end
+
+  class RootBrowsePageWorker
+    include Sidekiq::Worker
+    def perform
+      CollectionsPublisher.services(:publishing_api).put_content_item("/browse", RootBrowsePagePresenter.new.render_for_publishing_api)
     end
   end
 end

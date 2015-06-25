@@ -44,6 +44,10 @@ class MainstreamBrowsePage < Tag
     end
   end
 
+  def top_level_mainstream_browse_page?
+    !child?
+  end
+
 private
 
   def parents_cannot_have_topics_associated

@@ -156,6 +156,10 @@ class Tag < ActiveRecord::Base
     [] # should be overridden in subclasses
   end
 
+  def top_level_mainstream_browse_page?
+    false # should be overridden in subclasses
+  end
+
 private
 
   def parent_is_not_a_child
