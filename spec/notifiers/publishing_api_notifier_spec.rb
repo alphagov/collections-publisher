@@ -55,6 +55,14 @@ RSpec.describe PublishingAPINotifier do
   end
 
   describe "#send_to_publishing_api" do
+    it "sends /browse for top level mainstream browse pages" do
+      tag = create(:mainstream_browse_page, :published, slug: 'foo')
+
+      PublishingAPINotifier.send_to_publishing_api(tag)
+
+      expect(stubbed_content_store).to have_content_item_slug('/browse')
+    end
+
     context "for a draft tag" do
       it "sends the presented details to the publishing-api", schema_test: true do
         tag = create(:topic, :draft, slug: 'foo')
