@@ -88,7 +88,7 @@ RSpec.describe PublishingAPINotifier do
         tag = create(:topic, :published, slug: 'foo')
 
         create(:redirect, tag: tag,
-          original_topic_base_path: '/foo',
+          original_tag_base_path: '/foo',
           from_base_path: '/foo',
           to_base_path: '/topic/foo',
         )
