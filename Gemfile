@@ -19,6 +19,8 @@ gem 'select2-rails', '~> 3.5.9'
 
 gem 'unicorn', '~> 4.9.0'
 
+# sidekiq-web depends on sinatra
+gem 'sinatra', require: nil
 gem 'sidekiq', '~> 2.17.2'
 
 gem 'byebug', group: [:development, :test]
