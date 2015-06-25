@@ -225,4 +225,41 @@ RSpec.describe "managing mainstream browse pages" do
     # And the page should have been published in Panopticon
     assert_tag_published_in_panopticon(:tag_type => 'section', :tag_id => 'citizenship')
   end
+
+  it "sends all top level pages and their children when publishing a new top level page" do
+    citizenship = create(:mainstream_browse_page, :published, :slug => 'citizenship', :title => 'Citizenship')
+    create(:mainstream_browse_page, :published, :parent => citizenship, :slug => 'voting')
+
+    visit mainstream_browse_pages_path
+    click_on "Add a mainstream browse page"
+    fill_in 'Slug', with: 'benefits'
+    fill_in 'Title', with: 'Benefits'
+    fill_in 'Description', with: 'Benefits'
+    click_on 'Create'
+
+    assert_publishing_api_put_item('/browse/citizenship')
+    assert_publishing_api_put_item('/browse/citizenship/voting')
+    assert_publishing_api_put_draft_item('/browse/benefits')
+  end
+
+  it "sends the top level page and its children when adding publishing a new 2nd level page" do
+    unrelated_top_page = create(:mainstream_browse_page, :published, :slug => 'benefits')
+
+    citizenship = create(:mainstream_browse_page, :published, :slug => 'citizenship', :title => 'Citizenship')
+    create(:mainstream_browse_page, :published, :parent => citizenship, :slug => 'living')
+
+    visit mainstream_browse_pages_path
+    click_on 'Citizenship'
+    click_on 'Add child page'
+    fill_in 'Slug', with: 'queueing'
+    fill_in 'Title', with: 'Queueing'
+    fill_in 'Description', with: 'essential information'
+    click_on 'Create'
+
+    assert_publishing_api_put_item('/browse/citizenship')
+    assert_publishing_api_put_item('/browse/citizenship/living')
+    assert_publishing_api_put_draft_item('/browse/citizenship/queueing')
+
+    assert_not_requested :put, /benefits/
+  end
 end

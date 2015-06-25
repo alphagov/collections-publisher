@@ -152,6 +152,10 @@ class Tag < ActiveRecord::Base
     @full_slug ||= [parent.try(:slug), slug].compact.join('/')
   end
 
+  def dependent_tags
+    [] # should be overridden in subclasses
+  end
+
 private
 
   def parent_is_not_a_child

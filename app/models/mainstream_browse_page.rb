@@ -36,6 +36,14 @@ class MainstreamBrowsePage < Tag
     'section'
   end
 
+  def dependent_tags
+    if child?
+      parent.children - [self] + [parent]
+    else
+      MainstreamBrowsePage.all - [self]
+    end
+  end
+
 private
 
   def parents_cannot_have_topics_associated
