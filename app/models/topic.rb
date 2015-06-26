@@ -35,4 +35,12 @@ class Topic < Tag
   def base_path
     "/topic/#{full_slug}"
   end
+
+  def dependent_tags
+    if has_parent?
+      [parent]
+    else
+      []
+    end
+  end
 end
