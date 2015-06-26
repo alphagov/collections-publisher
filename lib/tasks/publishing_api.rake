@@ -16,7 +16,7 @@ namespace :publishing_api do
     tags.find_each do |tag|
       retries = 0
       begin
-        PublishingAPINotifier.send_to_publishing_api(tag)
+        PublishingAPINotifier.new(tag).send_single_tag_to_publishing_api
       rescue GdsApi::TimedOutException, Timeout::Error => e
         retries += 1
         if retries <= 3
