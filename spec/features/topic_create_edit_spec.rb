@@ -189,6 +189,8 @@ RSpec.describe "creating and editing topics" do
       "description" => 'Remember your cheese...',
       "format" => 'topic',
     })
+    # And its parent should have been sent to publishing-api
+    assert_publishing_api_put_draft_item('/topic/working-at-sea')
 
     # And the child topic should have been created in Panopticon
     assert_tag_created_in_panopticon(
