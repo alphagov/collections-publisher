@@ -18,6 +18,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'select2-rails', '~> 3.5.9'
 
 gem 'unicorn', '~> 4.9.0'
+gem 'logstasher', '0.6.5'
 
 # sidekiq-web depends on sinatra
 gem 'sinatra', require: nil
