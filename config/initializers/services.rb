@@ -17,7 +17,7 @@ module CollectionsPublisher
   class ServiceNotRegisteredException < Exception; end
 end
 
-# Only used by rake task `populate_published_groups`
+# Only used by rake task `populate_published_groups` 
 require 'gds_api/content_store'
 CollectionsPublisher.services(:content_store, GdsApi::ContentStore.new(Plek.new.find('content-store')))
 
@@ -32,6 +32,3 @@ CollectionsPublisher.services(
   :panopticon,
   GdsApi::Panopticon.new(Plek.new.find('panopticon'),
                          bearer_token: ENV['PANOPTICON_BEARER_TOKEN'] || 'example'))
-
-require 'gds_api/rummager'
-CollectionsPublisher.services(:rummager, GdsApi::Rummager.new(Plek.new.find('search')))

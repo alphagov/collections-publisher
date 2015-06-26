@@ -19,7 +19,6 @@ class TopicsController < ApplicationController
     if topic.update_attributes(topic_params)
       PanopticonNotifier.update_tag(TopicPresenter.new(topic))
       PublishingAPINotifier.send_to_publishing_api(topic)
-      RummagerNotifier.new(topic).notify
       redirect_to topic
     else
       @topic = topic
@@ -52,7 +51,6 @@ class TopicsController < ApplicationController
     topic.publish!
     PanopticonNotifier.publish_tag(TopicPresenter.new(topic))
     PublishingAPINotifier.send_to_publishing_api(topic)
-    RummagerNotifier.new(topic).notify
     redirect_to topic
   end
 

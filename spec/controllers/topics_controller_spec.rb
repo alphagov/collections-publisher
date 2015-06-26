@@ -15,7 +15,6 @@ RSpec.describe TopicsController do
       topic = create(:topic)
       allow(PanopticonNotifier).to receive(:publish_tag)
       allow(PublishingAPINotifier).to receive(:send_to_publishing_api)
-      allow_any_instance_of(RummagerNotifier).to receive(:notify)
 
       post :publish, id: topic.content_id
 
