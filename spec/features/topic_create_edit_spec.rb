@@ -94,6 +94,8 @@ RSpec.describe "creating and editing topics" do
   end
 
   it "updating a published page" do
+    stub_request(:post, %r[.rummager]).to_return(body: JSON.dump({}))
+
     # Given a published topic exists
     create(:topic, :published, :slug => 'working-at-sea', :title => 'Working at sea')
 
@@ -129,6 +131,18 @@ RSpec.describe "creating and editing topics" do
       :tag_id => 'working-at-sea',
       :title => 'Working on the ocean',
       :description => 'I woke up one morning, The sea was still there.',
+    )
+
+    # And rummager should have been updated
+    assert_rummager_posted_item(
+      {
+        format: "specialist_sector",
+        title: "Working on the ocean",
+        description: "I woke up one morning, The sea was still there.",
+        link: "/topic/working-at-sea",
+        "_type" => "edition",
+        "_id" => "/topic/working-at-sea",
+      }
     )
   end
 
@@ -187,6 +201,8 @@ RSpec.describe "creating and editing topics" do
   end
 
   it "publishing a topic" do
+    stub_request(:post, %r[.rummager]).to_return(body: JSON.dump({}))
+
     # Given a draft topic exists
     create(:topic, :draft, :slug => 'working-at-sea', :title => 'Working at sea')
 
@@ -210,9 +226,24 @@ RSpec.describe "creating and editing topics" do
 
     # And the topic should have been published in Panopticon
     assert_tag_published_in_panopticon(:tag_type => 'specialist_sector', :tag_id => 'working-at-sea')
+
+    # And rummager should have been updated
+    assert_rummager_posted_item(
+      {
+        format: "specialist_sector",
+        title: "Working at sea",
+        description: "Example description",
+        link: "/topic/working-at-sea",
+        "_type" => "edition",
+        "_id" => "/topic/working-at-sea",
+      }
+    )
   end
 
   it "updating a topic that has unpublished lists" do
+    # Stub the call to rummager, we don't care about that now.
+    stub_request(:post, %r[.rummager]).to_return(body: JSON.dump({}))
+
     # Given there is a topic with unpublished lists that never has been published
     topic = create(:topic, :published, dirty: true, slug: 'working-at-sea', title: 'Working at sea')
     create(:list, name: 'Some Superlist', tag: topic)
@@ -230,5 +261,16 @@ RSpec.describe "creating and editing topics" do
         "beta" => false,
       }
     })
+  end
+
+
+  def assert_rummager_posted_item(attributes)
+    url = Plek.new.find('rummager') + "/documents"
+    assert_requested(:post, url) do |req|
+      data = JSON.parse(req.body)
+      attributes.to_a.all? do |key, value|
+        data[key.to_s] == value
+      end
+    end
   end
 end
