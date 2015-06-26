@@ -1,0 +1,46 @@
+require 'rails_helper'
+
+RSpec.describe RummagerNotifier do
+  before do
+    allow(rummager).to receive(:add_document)
+  end
+
+  describe '#notify' do
+    it 'does not send draft topics to rummager' do
+      topic = create(:topic, :draft)
+
+      RummagerNotifier.new(topic).notify
+
+      expect(rummager).not_to have_received(:add_document)
+    end
+
+    it 'sends published topics to rummager' do
+      topic = create(:topic, :published)
+
+      RummagerNotifier.new(topic).notify
+
+      expect(rummager).to have_received(:add_document)
+    end
+
+    it 'sends published topics to rummager' do
+      topic = create(:topic, :published,
+        title: 'A Topic',
+        slug: 'a-test-topic',
+        description: 'A description.')
+
+      RummagerNotifier.new(topic).notify
+
+      expect(rummager).to have_received(:add_document)
+        .with("edition", "/topic/a-test-topic", {
+          format: 'specialist_sector',
+          title: 'A Topic',
+          description: 'A description.',
+          link: '/topic/a-test-topic',
+        })
+    end
+  end
+
+  def rummager
+    CollectionsPublisher.services(:rummager)
+  end
+end

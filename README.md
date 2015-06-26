@@ -21,6 +21,8 @@ This is a Ruby on Rails application for internal use, with no public facing aspe
 - [alphagov/content-store](https://github.com/alphagov/content-store) -
   (write request only) to store information about the topic
   groupings for Collections API and other apps to use.
+- [alphagov/rummager](https://github.com/alphagov/rummager) -
+  (write request only) to index topics.
 
 
 ### Running the application
