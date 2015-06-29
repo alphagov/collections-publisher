@@ -36,7 +36,24 @@ RSpec.describe RummagerNotifier do
           title: 'A Topic',
           description: 'A description.',
           link: '/topic/a-test-topic',
+          slug: 'a-test-topic',
         })
+    end
+
+    it 'sends the full slug for a subtopic' do
+      parent = create(:topic, :published, :slug => 'a-parent')
+      topic = create(:topic, :published,
+        parent: parent,
+        title: 'A Topic',
+        slug: 'a-test-topic',
+        description: 'A description.')
+
+      RummagerNotifier.new(topic).notify
+
+      expect(rummager).to have_received(:add_document)
+        .with("edition", "/topic/a-parent/a-test-topic", hash_including({
+          slug: 'a-parent/a-test-topic',
+        }))
     end
   end
 
