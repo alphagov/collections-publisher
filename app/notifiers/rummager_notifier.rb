@@ -24,6 +24,7 @@ class RummagerNotifier
       title: topic.title,
       description: topic.description,
       link: topic.base_path,
+      slug: topic.full_slug,
     }
   end
 end
