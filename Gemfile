@@ -7,7 +7,7 @@ gem 'plek', '~> 1.10.0'
 gem 'airbrake', '~> 4.2.0'
 
 gem 'gds-sso', '~> 11.0.0'
-gem 'gds-api-adapters', '~> 18.10.0'
+gem 'gds-api-adapters', '20.1.1'
 
 gem 'govuk_admin_template', '~> 2.3.1'
 gem 'generic_form_builder', '~> 0.9.0'
