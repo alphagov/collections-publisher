@@ -262,4 +262,52 @@ RSpec.describe "managing mainstream browse pages" do
 
     assert_not_requested :put, /benefits/
   end
+
+  describe "displays child pages in the specified order" do
+    # Given a parent page with 2 children
+
+    let!(:pizzas) {
+      create(:mainstream_browse_page, :published, :title => "Pizzas")
+    }
+    let!(:four_seasons) {
+      create(:mainstream_browse_page, :parent => pizzas, :title => "Four seasons")
+    }
+    let!(:pepperoni) {
+      create(:mainstream_browse_page, :parent => pizzas, :title => "Pepperoni")
+    }
+
+    it "display them in curated order" do
+      visit mainstream_browse_pages_path
+
+      click_on 'Pizzas'
+      click_on 'Manage child ordering'
+      select 'curated', :from => 'Child ordering'
+      fill_in "#{four_seasons.slug}", with: '1'
+      fill_in "#{pepperoni.slug}", with: '0'
+
+      click_on 'Save'
+
+      titles = page.all('.tags-list tbody td:first-child').map(&:text)
+      expect(titles).to eq([
+        'Pepperoni',
+        'Four seasons',
+      ])
+    end
+
+    it "display them in alphabetical order" do
+      visit mainstream_browse_pages_path
+
+      click_on 'Pizzas'
+      click_on 'Manage child ordering'
+      select 'alphabetical', :from => 'Child ordering'
+
+      click_on 'Save'
+
+      titles = page.all('.tags-list tbody td:first-child').map(&:text)
+      expect(titles).to eq([
+        'Four seasons',
+        'Pepperoni',
+      ])
+    end
+  end
 end
