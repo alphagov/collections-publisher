@@ -30,6 +30,7 @@ require 'securerandom'
 class Tag < ActiveRecord::Base
   include AASM
   include ActiveModel::Dirty
+  ORDERING_TYPES = ["alphabetical", "curated"]
 
   belongs_to :parent, class_name: 'Tag'
   has_many :children, class_name: 'Tag', foreign_key: :parent_id
@@ -45,6 +46,7 @@ class Tag < ActiveRecord::Base
 
   validates :slug, :title, :content_id, presence: true
   validates :slug, uniqueness: { scope: ["parent_id"] }, format: { with: /\A[a-z0-9-]*\z/ }
+  validates :child_ordering, inclusion: {in: ORDERING_TYPES}
   validate :parent_is_not_a_child
   validate :cannot_change_slug
 

@@ -37,6 +37,13 @@ RSpec.describe Tag do
       expect(tag.errors).to have_key(:title)
     end
 
+    it 'must have a valid ordering type' do
+      tag.child_ordering = "from-E-to-D"
+
+      expect(tag).not_to be_valid
+      expect(tag.errors).to have_key(:child_ordering)
+    end
+
     describe "on slug" do
       it "is required" do
         tag.slug = ''
