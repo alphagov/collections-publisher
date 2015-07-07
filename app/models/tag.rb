@@ -92,7 +92,11 @@ class Tag < ActiveRecord::Base
   end
 
   def sorted_children
-    children.sort_by(&:title)
+    if self.child_ordering == "alphabetical"
+      children.in_alphabetical_order
+    else
+      children.in_curated_order
+    end
   end
 
   def title_including_parent
