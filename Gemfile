@@ -27,6 +27,8 @@ gem 'sidekiq', '~> 2.17.2'
 gem 'byebug', group: [:development, :test]
 
 group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'quiet_assets', '~> 1.1.0'
 end
 
