@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150625151822) do
+ActiveRecord::Schema.define(version: 20150702143916) do
 
   create_table "list_items", force: :cascade do |t|
     t.string   "api_url",    limit: 255
@@ -55,17 +55,19 @@ ActiveRecord::Schema.define(version: 20150625151822) do
 
   create_table "tags", force: :cascade do |t|
     t.string   "type",             limit: 255
-    t.string   "slug",             limit: 255,                      null: false
-    t.string   "title",            limit: 255,                      null: false
+    t.string   "slug",             limit: 255,                               null: false
+    t.string   "title",            limit: 255,                               null: false
     t.string   "description",      limit: 255
     t.integer  "parent_id",        limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "content_id",       limit: 255,                      null: false
-    t.string   "state",            limit: 255,                      null: false
-    t.boolean  "dirty",            limit: 1,        default: false, null: false
+    t.string   "content_id",       limit: 255,                               null: false
+    t.string   "state",            limit: 255,                               null: false
+    t.boolean  "dirty",            limit: 1,        default: false,          null: false
     t.boolean  "beta",             limit: 1,        default: false
     t.text     "published_groups", limit: 16777215
+    t.string   "child_ordering",   limit: 255,      default: "alphabetical", null: false
+    t.integer  "index",            limit: 4,        default: 0,              null: false
   end
 
   add_index "tags", ["content_id"], name: "index_tags_on_content_id", unique: true, using: :btree

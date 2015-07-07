@@ -15,6 +15,8 @@
 #  dirty            :boolean          default(FALSE), not null
 #  beta             :boolean          default(FALSE)
 #  published_groups :text(16777215)
+#  child_ordering   :string(255)      default("alphabetical"), not null
+#  index            :integer          default(0), not null
 #
 # Indexes
 #
