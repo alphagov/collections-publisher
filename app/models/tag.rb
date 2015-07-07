@@ -52,7 +52,8 @@ class Tag < ActiveRecord::Base
 
   scope :only_parents, -> { where('parent_id IS NULL') }
   scope :only_children, -> { where('parent_id IS NOT NULL') }
-  scope :in_alphabetical_order, -> { order('title ASC') }
+  scope :in_alphabetical_order, -> { order(:title) }
+  scope :in_curated_order, -> { order(:index) }
 
   # The links last sent to the content-store.
   serialize :published_groups, JSON
