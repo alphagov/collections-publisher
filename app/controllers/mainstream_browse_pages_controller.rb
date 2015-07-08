@@ -55,6 +55,10 @@ class MainstreamBrowsePagesController < ApplicationController
     redirect_to browse_page
   end
 
+  def manage_child_ordering
+    @browse_page = find_browse_page
+  end
+
 private
 
   def topics_for_select
@@ -80,6 +84,6 @@ private
 
   def tag_params
     params.require(:mainstream_browse_page)
-      .permit(:slug, :title, :description, :parent_id)
+      .permit(:slug, :title, :description, :parent_id, :child_ordering, children_attributes: [:index, :id])
   end
 end

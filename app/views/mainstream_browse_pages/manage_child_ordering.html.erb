@@ -1,0 +1,9 @@
+<%= tag_header @browse_page, 'Manage child ordering' %>
+
+<%= form_for @browse_page do |f| %>
+  <%= f.select :child_ordering, ['alphabetical', 'curated'] %>
+  <%= f.fields_for :children, @browse_page.sorted_children do |c| %>
+    <%= c.text_field :index, label: c.object.slug %>
+  <% end %>
+  <%= f.submit 'Save', class: 'btn-submit' %>
+<% end %>

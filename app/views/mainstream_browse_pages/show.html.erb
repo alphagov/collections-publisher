@@ -2,6 +2,11 @@
   <%= link_to "Edit page",
     edit_mainstream_browse_page_path(@browse_page) %>
 
+  <% if @browse_page.can_have_children? %>
+    <%= link_to "Manage child ordering",
+      manage_child_ordering_mainstream_browse_page_path(@browse_page) %>
+  <% end %>
+
   <% if @browse_page.may_publish? %>
     <%= link_to "Publish mainstream browse page",
                publish_mainstream_browse_page_path(@browse_page),

@@ -30,6 +30,8 @@ class MainstreamBrowsePage < Tag
 
   validate :parents_cannot_have_topics_associated
 
+  accepts_nested_attributes_for :children
+
   def base_path
     "/browse/#{full_slug}"
   end
