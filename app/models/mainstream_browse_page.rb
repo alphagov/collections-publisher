@@ -15,6 +15,8 @@
 #  dirty            :boolean          default(FALSE), not null
 #  beta             :boolean          default(FALSE)
 #  published_groups :text(16777215)
+#  child_ordering   :string(255)      default("alphabetical"), not null
+#  index            :integer          default(0), not null
 #
 # Indexes
 #
@@ -27,6 +29,8 @@ class MainstreamBrowsePage < Tag
   has_many :topics, through: :tag_associations, source: :to_tag
 
   validate :parents_cannot_have_topics_associated
+
+  accepts_nested_attributes_for :children
 
   def base_path
     "/browse/#{full_slug}"

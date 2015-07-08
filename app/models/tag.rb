@@ -15,6 +15,8 @@
 #  dirty            :boolean          default(FALSE), not null
 #  beta             :boolean          default(FALSE)
 #  published_groups :text(16777215)
+#  child_ordering   :string(255)      default("alphabetical"), not null
+#  index            :integer          default(0), not null
 #
 # Indexes
 #
@@ -28,6 +30,7 @@ require 'securerandom'
 class Tag < ActiveRecord::Base
   include AASM
   include ActiveModel::Dirty
+  ORDERING_TYPES = ["alphabetical", "curated"]
 
   belongs_to :parent, class_name: 'Tag'
   has_many :children, class_name: 'Tag', foreign_key: :parent_id
@@ -43,6 +46,7 @@ class Tag < ActiveRecord::Base
 
   validates :slug, :title, :content_id, presence: true
   validates :slug, uniqueness: { scope: ["parent_id"] }, format: { with: /\A[a-z0-9-]*\z/ }
+  validates :child_ordering, inclusion: {in: ORDERING_TYPES}
   validate :parent_is_not_a_child
   validate :cannot_change_slug
 
@@ -50,13 +54,14 @@ class Tag < ActiveRecord::Base
 
   scope :only_parents, -> { where('parent_id IS NULL') }
   scope :only_children, -> { where('parent_id IS NOT NULL') }
-  scope :in_alphabetical_order, -> { order('title ASC') }
+  scope :in_alphabetical_order, -> { order(:title) }
+  scope :in_curated_order, -> { order(:index) }
 
   # The links last sent to the content-store.
   serialize :published_groups, JSON
 
   # after_initialize is expensive, but MySQL doesn't support default values
-  # on text columns. When we've moved to PG, move this to the database.  
+  # on text columns. When we've moved to PG, move this to the database.
   after_initialize do
     self.published_groups ||= []
   end
@@ -89,7 +94,11 @@ class Tag < ActiveRecord::Base
   end
 
   def sorted_children
-    children.sort_by(&:title)
+    if self.child_ordering == "alphabetical"
+      children.in_alphabetical_order
+    else
+      children.in_curated_order
+    end
   end
 
   def title_including_parent
