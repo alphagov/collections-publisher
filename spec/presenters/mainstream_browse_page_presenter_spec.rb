@@ -112,29 +112,39 @@ RSpec.describe MainstreamBrowsePagePresenter do
       let!(:top_level_page_1) { create(
         :mainstream_browse_page,
         :title => "Top-level page 1",
+        :child_ordering => "alphabetical",
       )}
       let!(:top_level_page_2) { create(
         :mainstream_browse_page,
         :title => "Top-level page 2",
+        :child_ordering => "curated",
       )}
 
-      let!(:second_level_page_1) { create(
+      let!(:second_level_page_B) { create(
         :mainstream_browse_page,
-        :title => "Second-level page 1",
+        :title => "Second-level page B",
         :parent => top_level_page_1,
       )}
-      let!(:second_level_page_2) { create(
+      let!(:second_level_page_A) { create(
         :mainstream_browse_page,
-        :title => "Second-level page 2",
+        :title => "Second-level page A",
         :parent => top_level_page_1,
       )}
-      let!(:second_level_page_3) { create(
+
+      let!(:second_level_page_C) { create(
         :mainstream_browse_page,
-        :title => "Second-level page 3",
+        :title => "Second-level page C",
         :parent => top_level_page_2,
+        :index => 1,
+      )}
+      let!(:second_level_page_D) { create(
+        :mainstream_browse_page,
+        :title => "Second-level page D",
+        :parent => top_level_page_2,
+        :index => 0,
       )}
 
-      context "for a top-level browse page" do
+      context "for a top-level browse page with children in alphabetical order" do
 
         let(:presenter) { MainstreamBrowsePagePresenter.new(top_level_page_1) }
         let(:presented_data) { presenter.render_for_publishing_api }
@@ -152,10 +162,10 @@ RSpec.describe MainstreamBrowsePagePresenter do
           ])
         end
 
-        it "includes all the second-level child pages" do
+        it "includes, in alphabetical order, all the second-level child pages" do
           expect(presented_data[:links]["second_level_browse_pages"]).to eq([
-            second_level_page_1.content_id,
-            second_level_page_2.content_id,
+            second_level_page_A.content_id,
+            second_level_page_B.content_id,
           ])
         end
 
@@ -164,9 +174,26 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
       end
 
-      context "for a second-level browse page" do
+      context "for a top-level browse page with children in curated order" do
 
-        let(:presenter) { MainstreamBrowsePagePresenter.new(second_level_page_1) }
+        let(:presenter) { MainstreamBrowsePagePresenter.new(top_level_page_2) }
+        let(:presented_data) { presenter.render_for_publishing_api }
+
+        it "includes, in curated order, all the second-level child pages" do
+          expect(presented_data[:links]["second_level_browse_pages"]).to eq([
+            second_level_page_D.content_id,
+            second_level_page_C.content_id,
+          ])
+        end
+
+        it "is valid against the schema", :schema_test => true do
+          expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+        end
+      end
+
+      context "for an alphabetically ordered second-level browse page" do
+
+        let(:presenter) { MainstreamBrowsePagePresenter.new(second_level_page_A) }
         let(:presented_data) { presenter.render_for_publishing_api }
 
         it "includes the parent top-level browse page" do
@@ -182,10 +209,27 @@ RSpec.describe MainstreamBrowsePagePresenter do
           ])
         end
 
-        it "includes all its sibling second-level pages" do
+        it "includes, in alphabetical order, all its sibling second-level pages" do
           expect(presented_data[:links]["second_level_browse_pages"]).to eq([
-            second_level_page_1.content_id,
-            second_level_page_2.content_id,
+            second_level_page_A.content_id,
+            second_level_page_B.content_id,
+          ])
+        end
+
+        it "is valid against the schema", :schema_test => true do
+          expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+        end
+      end
+
+      context "for an customly ordered second-level browse page" do
+
+        let(:presenter) { MainstreamBrowsePagePresenter.new(second_level_page_C) }
+        let(:presented_data) { presenter.render_for_publishing_api }
+
+        it "includes, in curated order, all its sibling second-level pages" do
+          expect(presented_data[:links]["second_level_browse_pages"]).to eq([
+            second_level_page_D.content_id,
+            second_level_page_C.content_id,
           ])
         end
 
