@@ -118,19 +118,19 @@ RSpec.describe MainstreamBrowsePagePresenter do
         :title => "Top-level page 2",
       )}
 
-      let!(:second_level_page_1) { create(
+      let!(:second_level_page_B) { create(
         :mainstream_browse_page,
-        :title => "Second-level page 1",
+        :title => "Second-level page B",
         :parent => top_level_page_1,
       )}
-      let!(:second_level_page_2) { create(
+      let!(:second_level_page_A) { create(
         :mainstream_browse_page,
-        :title => "Second-level page 2",
+        :title => "Second-level page A",
         :parent => top_level_page_1,
       )}
-      let!(:second_level_page_3) { create(
+      let!(:second_level_page_C) { create(
         :mainstream_browse_page,
-        :title => "Second-level page 3",
+        :title => "Second-level page C",
         :parent => top_level_page_2,
       )}
 
@@ -154,8 +154,8 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
         it "includes all the second-level child pages" do
           expect(presented_data[:links]["second_level_browse_pages"]).to eq([
-            second_level_page_1.content_id,
-            second_level_page_2.content_id,
+            second_level_page_A.content_id,
+            second_level_page_B.content_id,
           ])
         end
 
@@ -166,7 +166,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
       context "for a second-level browse page" do
 
-        let(:presenter) { MainstreamBrowsePagePresenter.new(second_level_page_1) }
+        let(:presenter) { MainstreamBrowsePagePresenter.new(second_level_page_A) }
         let(:presented_data) { presenter.render_for_publishing_api }
 
         it "includes the parent top-level browse page" do
@@ -184,8 +184,8 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
         it "includes all its sibling second-level pages" do
           expect(presented_data[:links]["second_level_browse_pages"]).to eq([
-            second_level_page_1.content_id,
-            second_level_page_2.content_id,
+            second_level_page_A.content_id,
+            second_level_page_B.content_id,
           ])
         end
 
