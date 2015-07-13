@@ -47,7 +47,6 @@ RSpec.describe MainstreamBrowsePagePresenter do
         :rendering_app => 'collections',
         :redirects => [],
         :update_type => "major",
-        :details => { :groups=>[] },
       })
     end
 
@@ -231,6 +230,49 @@ RSpec.describe MainstreamBrowsePagePresenter do
             second_level_page_D.content_id,
             second_level_page_C.content_id,
           ])
+        end
+
+        it "is valid against the schema", :schema_test => true do
+          expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+        end
+      end
+    end
+
+    describe "returning the order of relative second level browse pages" do
+
+      let!(:top_level_page) { create(
+        :mainstream_browse_page,
+        :title => "Top-level page",
+        :child_ordering => "curated",
+      )}
+
+      let!(:second_level_page) { create(
+        :mainstream_browse_page,
+        :title => "Second-level page",
+        :parent => top_level_page,
+      )}
+
+      context "for a top level page" do
+
+        let(:presenter) { MainstreamBrowsePagePresenter.new(top_level_page) }
+        let(:presented_data) { presenter.render_for_publishing_api }
+
+        it "returns the order in which its children are ordered" do
+          expect(presented_data[:details]["second_level_ordering"]).to eq("curated")
+        end
+
+        it "is valid against the schema", :schema_test => true do
+          expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+        end
+      end
+
+      context "for a second level page" do
+
+        let(:presenter) { MainstreamBrowsePagePresenter.new(second_level_page) }
+        let(:presented_data) { presenter.render_for_publishing_api }
+
+        it "returns the order in which self and its siblings are ordered" do
+          expect(presented_data[:details]["second_level_ordering"]).to eq("curated")
         end
 
         it "is valid against the schema", :schema_test => true do

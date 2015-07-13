@@ -15,6 +15,12 @@ private
     )
   end
 
+  def details
+    super.merge(
+      "second_level_ordering" => second_level_ordering
+    )
+  end
+
 private
 
   def routes
@@ -36,6 +42,14 @@ private
       @tag.parent.sorted_children.map(&:content_id)
     else
       @tag.sorted_children.map(&:content_id)
+    end
+  end
+
+  def second_level_ordering
+    if @tag.child?
+      @tag.parent.child_ordering
+    else
+      @tag.child_ordering
     end
   end
 
