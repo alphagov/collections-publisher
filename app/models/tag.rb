@@ -54,8 +54,6 @@ class Tag < ActiveRecord::Base
 
   scope :only_parents, -> { where('parent_id IS NULL') }
   scope :only_children, -> { where('parent_id IS NOT NULL') }
-  scope :in_alphabetical_order, -> { order(:title) }
-  scope :in_curated_order, -> { order(:index) }
 
   # The links last sent to the content-store.
   serialize :published_groups, JSON
@@ -94,10 +92,10 @@ class Tag < ActiveRecord::Base
   end
 
   def sorted_children
-    if self.child_ordering == "alphabetical"
-      children.in_alphabetical_order
+    if child_ordering == "alphabetical"
+      children.sort_by { |child| child.title.downcase }
     else
-      children.in_curated_order
+      children.sort_by(&:index)
     end
   end
 
