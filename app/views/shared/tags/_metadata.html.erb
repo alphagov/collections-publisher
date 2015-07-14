@@ -20,7 +20,9 @@
     <dt>State</dt>
     <dd><%= status resource.state, resource.state %></dd>
 
-    <dt>Child ordering</dt>
-    <dd><%= resource.child_ordering %></dd>
+    <% if resource.top_level_mainstream_browse_page? %>
+      <dt>Child ordering</dt>
+      <dd><%= resource.child_ordering %></dd>
+    <% end %>
   </dl>
 </section>
