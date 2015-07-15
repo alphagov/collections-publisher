@@ -12,7 +12,8 @@
 #
 # Indexes
 #
-#  index_redirects_on_tag_id  (tag_id)
+#  index_redirects_on_from_base_path  (from_base_path) UNIQUE
+#  index_redirects_on_tag_id          (tag_id)
 #
 
 class Redirect < ActiveRecord::Base
