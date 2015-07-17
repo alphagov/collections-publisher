@@ -1,31 +1,52 @@
 class TagRepublisher
   def republish_tags(tags)
-    puts "Sending #{tags.count} tags to the publishing-api"
+    log "Sending #{tags.count} tags to the publishing-api"
+
     done = 0
     tags.find_each do |tag|
-      retries = 0
-      begin
-        PublishingAPINotifier.new(tag).send_single_tag_to_publishing_api
-      rescue GdsApi::TimedOutException, Timeout::Error => e
-        retries += 1
-        if retries <= 3
-          puts "Timeout (tag #{tag.base_path}): retry #{retries}"
-          sleep 0.5
-          retry
-        end
-        raise
-      end
+      republish_tag(tag)
 
       done += 1
+
       if done % 100 == 0
-        puts "#{done} completed..."
+        log "#{done} completed..."
       end
     end
-    puts "Done: #{done} tags sent to publishing-api."
 
-    puts "Sending root browse page to publishing-api"
-    CollectionsPublisher.services(:publishing_api).put_content_item("/browse", RootBrowsePagePresenter.new.render_for_publishing_api)
+    log "Done: #{done} tags sent to publishing-api."
 
-    puts "All done"
+    log "Sending root browse page to publishing-api"
+    publishing_api.put_content_item(
+      "/browse",
+      RootBrowsePagePresenter.new.render_for_publishing_api
+    )
+
+    log "All done"
+  end
+
+private
+
+  def republish_tag(tag)
+    retries = 0
+
+    begin
+      PublishingAPINotifier.new(tag).send_single_tag_to_publishing_api
+    rescue GdsApi::TimedOutException, Timeout::Error => e
+      retries += 1
+      if retries <= 3
+        log "Timeout (tag #{tag.base_path}): retry #{retries}"
+        sleep 0.5
+        retry
+      end
+      raise
+    end
+  end
+
+  def publishing_api
+    CollectionsPublisher.services(:publishing_api)
+  end
+
+  def log(string)
+    Rails.logger.info(string)
   end
 end
