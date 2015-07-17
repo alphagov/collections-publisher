@@ -23,6 +23,14 @@ class TagRepublisher
       )
     end
 
+    log "Sending root topic to publishing-api"
+    with_retry do
+      publishing_api.put_content_item(
+        "/topic",
+        RootTopicPresenter.new.render_for_publishing_api
+      )
+    end
+
     log "All done"
   end
 
