@@ -93,11 +93,6 @@ RSpec.describe PublishingAPINotifier do
       end
 
       it "sends topic redirects to the publishing-api", schema_test: true do
-        # FIXME: We shouldn't have to stub this out, but otherwise test will
-        # fail because `stubbed_content_store.last_updated_item` isn't the
-        # redirect anymore but the /topic page.
-        allow(PublishingAPINotifier).to receive(:publish_root_page)
-
         tag = create(:topic, :published, slug: 'foo')
 
         create(:redirect, tag: tag,
@@ -107,10 +102,10 @@ RSpec.describe PublishingAPINotifier do
         )
 
         PublishingAPINotifier.send_to_publishing_api(tag)
+        content_item = stubbed_content_store.item_with_slug('/foo')
 
-        expect(stubbed_content_store).to have_content_item_slug('/foo')
-        expect(stubbed_content_store.last_updated_item).to be_valid_against_schema('redirect')
-        expect(stubbed_content_store.last_updated_item[:redirects]).to eql([
+        expect(content_item).to be_valid_against_schema('redirect')
+        expect(content_item[:redirects]).to eql([
           { path: "/foo", type: "exact", destination: "/topic/foo" },
         ])
       end
