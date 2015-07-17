@@ -30,16 +30,23 @@ module ContentStoreHelpers
     def initialize
       @stored_slugs = []
       @stored_draft_slugs = []
+      @stored_items = {}
     end
 
     def put_content_item(slug, item)
       @stored_slugs << slug
       @last_updated_item = item
+      @stored_items[slug] = item
     end
 
     def put_draft_content_item(slug, item)
       @stored_draft_slugs << slug
       @last_updated_item = item
+      @stored_items[slug] = item
+    end
+
+    def item_with_slug(slug)
+      @stored_items.fetch(slug)
     end
   end
 end

@@ -63,6 +63,14 @@ RSpec.describe PublishingAPINotifier do
       expect(stubbed_content_store).to have_content_item_slug('/browse')
     end
 
+    it "sends /browse for top level mainstream browse pages" do
+      tag = create(:topic, :published, slug: 'foo')
+
+      PublishingAPINotifier.send_to_publishing_api(tag)
+
+      expect(stubbed_content_store).to have_content_item_slug('/topic')
+    end
+
     context "for a draft tag" do
       it "sends the presented details to the publishing-api", schema_test: true do
         tag = create(:topic, :draft, slug: 'foo')
@@ -94,10 +102,10 @@ RSpec.describe PublishingAPINotifier do
         )
 
         PublishingAPINotifier.send_to_publishing_api(tag)
+        content_item = stubbed_content_store.item_with_slug('/foo')
 
-        expect(stubbed_content_store).to have_content_item_slug('/foo')
-        expect(stubbed_content_store.last_updated_item).to be_valid_against_schema('redirect')
-        expect(stubbed_content_store.last_updated_item[:redirects]).to eql([
+        expect(content_item).to be_valid_against_schema('redirect')
+        expect(content_item[:redirects]).to eql([
           { path: "/foo", type: "exact", destination: "/topic/foo" },
         ])
       end
