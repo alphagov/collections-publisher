@@ -63,6 +63,14 @@ RSpec.describe PublishingAPINotifier do
       expect(stubbed_content_store).to have_content_item_slug('/browse')
     end
 
+    it "sends /browse for top level mainstream browse pages" do
+      tag = create(:topic, :published, slug: 'foo')
+
+      PublishingAPINotifier.send_to_publishing_api(tag)
+
+      expect(stubbed_content_store).to have_content_item_slug('/topic')
+    end
+
     context "for a draft tag" do
       it "sends the presented details to the publishing-api", schema_test: true do
         tag = create(:topic, :draft, slug: 'foo')
@@ -85,6 +93,11 @@ RSpec.describe PublishingAPINotifier do
       end
 
       it "sends topic redirects to the publishing-api", schema_test: true do
+        # FIXME: We shouldn't have to stub this out, but otherwise test will
+        # fail because `stubbed_content_store.last_updated_item` isn't the
+        # redirect anymore but the /topic page.
+        allow(PublishingAPINotifier).to receive(:publish_root_page)
+
         tag = create(:topic, :published, slug: 'foo')
 
         create(:redirect, tag: tag,
