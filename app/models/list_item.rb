@@ -26,13 +26,9 @@ class ListItem < ActiveRecord::Base
   # FIXME: remove these once everything has been migrated to use base_path
   def api_url
     return nil if self.base_path.nil?
-    Plek.find('contentapi') + api_path
+    Plek.find('contentapi') + base_path + '.json'
   end
   def api_url=(value)
     self.base_path = URI.parse(value).path.chomp('.json')
-  end
-
-  def api_path
-    base_path + '.json'
   end
 end
