@@ -1,8 +1,8 @@
 namespace :rummager do
-  desc 'Send all topics to Rummager'
-  task index_topics: [:environment] do
-    Topic.published.find_each do |topic|
-      RummagerNotifier.new(topic).notify
+  desc 'Send all tags to Rummager'
+  task index_tags: [:environment] do
+    Tag.published.find_each do |tag|
+      RummagerNotifier.new(tag).notify
     end
   end
 end

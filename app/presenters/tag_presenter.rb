@@ -16,6 +16,16 @@ class TagPresenter
     @tag = tag
   end
 
+  def render_for_rummager
+    {
+      format: rummager_format,
+      title: tag.title,
+      description: tag.description,
+      link: tag.base_path,
+      slug: tag.full_slug,
+    }
+  end
+
   def render_for_publishing_api
     {
       content_id: @tag.content_id,

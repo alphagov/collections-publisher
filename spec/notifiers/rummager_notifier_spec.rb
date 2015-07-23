@@ -40,6 +40,24 @@ RSpec.describe RummagerNotifier do
         })
     end
 
+    it 'sends published browse pages to rummager' do
+      browse_page = create(:mainstream_browse_page, :published,
+        title: 'A Browse Page',
+        slug: 'a-browse-page',
+        description: 'A description.')
+
+      RummagerNotifier.new(browse_page).notify
+
+      expect(rummager).to have_received(:add_document)
+        .with("edition", "/browse/a-browse-page", {
+          format: 'mainstream_browse_page',
+          title: 'A Browse Page',
+          description: 'A description.',
+          link: '/browse/a-browse-page',
+          slug: 'a-browse-page',
+        })
+    end
+
     it 'sends the full slug for a subtopic' do
       parent = create(:topic, :published, :slug => 'a-parent')
       topic = create(:topic, :published,
