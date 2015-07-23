@@ -118,11 +118,11 @@ RSpec.describe "Curating the contents of topics" do
       end
 
       within :xpath, xpath_section_for('Oil rigs') do
-        fill_in 'API URL', :with => contentapi_url_for_slug('oil-rig-safety-requirements')
+        fill_in 'Base Path', :with => '/oil-rig-safety-requirements'
         fill_in 'Index', :with => 0
         click_on 'Add'
 
-        fill_in 'API URL', :with => contentapi_url_for_slug('oil-rig-staffing')
+        fill_in 'Base Path', :with => '/oil-rig-staffing'
         fill_in 'Index', :with => 1
         click_on 'Add'
       end
@@ -133,7 +133,7 @@ RSpec.describe "Curating the contents of topics" do
       end
 
       within :xpath, xpath_section_for('Piping') do
-        fill_in 'API URL', :with => contentapi_url_for_slug('undersea-piping-restrictions')
+        fill_in 'Base Path', :with => '/undersea-piping-restrictions'
         fill_in 'Index', :with => 0
         click_on 'Add'
       end
@@ -142,19 +142,19 @@ RSpec.describe "Curating the contents of topics" do
       visit_topic_list_curation_page
 
       within :xpath, xpath_section_for('Oil rigs') do
-        api_urls = page.all('tr').map { |tr| tr['data-api-url'] }.compact
+        base_paths = page.all('tr').map { |tr| tr['data-base-path'] }.compact
 
-        expect(api_urls).to eq([
-          contentapi_url_for_slug('oil-rig-safety-requirements'),
-          contentapi_url_for_slug('oil-rig-staffing'),
+        expect(base_paths).to eq([
+          '/oil-rig-safety-requirements',
+          '/oil-rig-staffing',
         ])
       end
 
       within :xpath, xpath_section_for('Piping') do
-        api_urls = page.all('tr').map { |tr| tr['data-api-url'] }.compact
+        base_paths = page.all('tr').map { |tr| tr['data-base-path'] }.compact
 
-        expect(api_urls).to eq([
-          contentapi_url_for_slug('undersea-piping-restrictions'),
+        expect(base_paths).to eq([
+          '/undersea-piping-restrictions',
         ])
       end
 

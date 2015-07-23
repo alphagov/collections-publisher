@@ -82,6 +82,6 @@ private
   end
 
   def list_item_params
-    params.require(:list_item).permit(:title, :api_url, :index)
+    params.require(:list_item).permit(:title, :base_path, :index)
   end
 end

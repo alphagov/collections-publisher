@@ -6,14 +6,14 @@
       <% tag.list_items_from_contentapi.each do |list_item| %>
         <tr class='item'
             data-title='<%= list_item.title %>'
-            data-api-url='<%= list_item.api_url %>'>
+            data-base-path='<%= list_item.base_path %>'>
 
           <td class='title'>
             <%= raw list_item.title %>
           </td>
 
-          <td class='api-url'>
-            <%= raw list_item.api_url %>
+          <td class='base-path'>
+            <%= raw list_item.base_path %>
           </td>
 
           <td class='removal-button'>

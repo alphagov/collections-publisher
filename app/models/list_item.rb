@@ -22,13 +22,4 @@ class ListItem < ActiveRecord::Base
 
   attr_accessor :tagged
   alias :tagged? :tagged
-
-  # FIXME: remove these once everything has been migrated to use base_path
-  def api_url
-    return nil if self.base_path.nil?
-    Plek.find('contentapi') + base_path + '.json'
-  end
-  def api_url=(value)
-    self.base_path = URI.parse(value).path.chomp('.json')
-  end
 end
