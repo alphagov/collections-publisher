@@ -27,7 +27,7 @@ class List < ActiveRecord::Base
   def list_items_with_tagging_status
     @list_items_with_tagging_status ||= begin
       list_items.order(:index).map do |list_item|
-        list_item.tagged = tagged_api_paths.include?(list_item.api_path)
+        list_item.tagged = tagged_base_paths.include?(list_item.base_path)
         list_item
       end
     end
@@ -35,7 +35,7 @@ class List < ActiveRecord::Base
 
 private
 
-  def tagged_api_paths
-    @tagged_api_paths ||= tag.list_items_from_contentapi.map(&:api_path)
+  def tagged_base_paths
+    @tagged_base_paths ||= tag.list_items_from_contentapi.map(&:base_path)
   end
 end

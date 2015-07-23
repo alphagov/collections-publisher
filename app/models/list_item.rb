@@ -3,7 +3,7 @@
 # Table name: list_items
 #
 #  id         :integer          not null, primary key
-#  api_url    :string(255)
+#  base_path  :string(255)
 #  index      :integer          default(0), not null
 #  list_id    :integer
 #  created_at :datetime
@@ -23,7 +23,16 @@ class ListItem < ActiveRecord::Base
   attr_accessor :tagged
   alias :tagged? :tagged
 
+  # FIXME: remove these once everything has been migrated to use base_path
+  def api_url
+    return nil if self.base_path.nil?
+    Plek.find('contentapi') + api_path
+  end
+  def api_url=(value)
+    self.base_path = URI.parse(value).path.chomp('.json')
+  end
+
   def api_path
-    URI(api_url).path
+    base_path + '.json'
   end
 end

@@ -221,10 +221,10 @@ RSpec.describe "Curating the contents of topics" do
       oil_rigs = create(:list, :tag => offshore, :name => 'Oil rigs', :index => 0)
       piping = create(:list, :tag => offshore, :name => 'Piping', :index => 1)
 
-      create(:list_item, :list => oil_rigs, :index => 0, :title => 'Oil rig safety requirements', :api_url => contentapi_url_for_slug('oil-rig-safety-requirements'))
-      create(:list_item, :list => oil_rigs, :index => 1, :title => 'Oil rig staffing', :api_url => contentapi_url_for_slug('oil-rig-staffing'))
-      create(:list_item, :list => piping, :index => 0, :title => 'Undersea piping restrictions', :api_url => contentapi_url_for_slug('undersea-piping-restrictions'))
-      create(:list_item, :list => piping, :index => 1, :title => 'Non-existent', :api_url => contentapi_url_for_slug('non-existent'))
+      create(:list_item, :list => oil_rigs, :index => 0, :title => 'Oil rig safety requirements', :base_path => '/oil-rig-safety-requirements')
+      create(:list_item, :list => oil_rigs, :index => 1, :title => 'Oil rig staffing', :base_path => '/oil-rig-staffing')
+      create(:list_item, :list => piping, :index => 0, :title => 'Undersea piping restrictions', :base_path => '/undersea-piping-restrictions')
+      create(:list_item, :list => piping, :index => 1, :title => 'Non-existent', :base_path => '/non-existent')
     end
 
     it "viewing the topic curation page" do

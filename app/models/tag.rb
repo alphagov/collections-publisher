@@ -122,8 +122,8 @@ class Tag < ActiveRecord::Base
   # returns unsaved ListItems for content tagged to this tag, but not in a
   # list.
   def uncategorized_list_items
-    curated_api_urls = list_items.map(&:api_url)
-    list_items_from_contentapi.reject {|li| curated_api_urls.include?(li.api_url) }
+    curated_base_paths = list_items.map(&:base_path)
+    list_items_from_contentapi.reject {|li| curated_base_paths.include?(li.base_path) }
   end
 
   def list_items_from_contentapi
@@ -131,7 +131,7 @@ class Tag < ActiveRecord::Base
       CollectionsPublisher.services(:content_api)
         .with_tag(full_slug, legacy_tag_type, draft: true)
         .map { |content_blob|
-          ListItem.new(title: content_blob.title, api_url: content_blob.id)
+          ListItem.new(title: content_blob.title, base_path: (content_blob.web_url ? URI.parse(content_blob.web_url).path : nil))
         }
     rescue GdsApi::HTTPNotFound
       []
