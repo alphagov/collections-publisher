@@ -3,7 +3,7 @@
 # Table name: list_items
 #
 #  id         :integer          not null, primary key
-#  api_url    :string(255)
+#  base_path  :string(255)
 #  index      :integer          default(0), not null
 #  list_id    :integer
 #  created_at :datetime
@@ -22,8 +22,4 @@ class ListItem < ActiveRecord::Base
 
   attr_accessor :tagged
   alias :tagged? :tagged
-
-  def api_path
-    URI(api_url).path
-  end
 end

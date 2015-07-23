@@ -91,13 +91,13 @@ RSpec.describe "Curating the contents of topics" do
             "groups" => [
               { "name" => 'Oil rigs',
                 "contents" => [
-                  contentapi_url_for_slug('oil-rig-staffing'),
-                  contentapi_url_for_slug('oil-rig-staffing'),
-                  contentapi_url_for_slug('oil-rig-safety-requirements'),
+                  '/oil-rig-staffing',
+                  '/oil-rig-staffing',
+                  '/oil-rig-safety-requirements',
               ]},
               { "name" => 'Piping',
                 "contents" => [
-                  contentapi_url_for_slug('undersea-piping-restrictions'),
+                  '/undersea-piping-restrictions',
               ]},
             ],
             "beta" => false,
@@ -118,11 +118,11 @@ RSpec.describe "Curating the contents of topics" do
       end
 
       within :xpath, xpath_section_for('Oil rigs') do
-        fill_in 'API URL', :with => contentapi_url_for_slug('oil-rig-safety-requirements')
+        fill_in 'Base Path', :with => '/oil-rig-safety-requirements'
         fill_in 'Index', :with => 0
         click_on 'Add'
 
-        fill_in 'API URL', :with => contentapi_url_for_slug('oil-rig-staffing')
+        fill_in 'Base Path', :with => '/oil-rig-staffing'
         fill_in 'Index', :with => 1
         click_on 'Add'
       end
@@ -133,7 +133,7 @@ RSpec.describe "Curating the contents of topics" do
       end
 
       within :xpath, xpath_section_for('Piping') do
-        fill_in 'API URL', :with => contentapi_url_for_slug('undersea-piping-restrictions')
+        fill_in 'Base Path', :with => '/undersea-piping-restrictions'
         fill_in 'Index', :with => 0
         click_on 'Add'
       end
@@ -142,19 +142,19 @@ RSpec.describe "Curating the contents of topics" do
       visit_topic_list_curation_page
 
       within :xpath, xpath_section_for('Oil rigs') do
-        api_urls = page.all('tr').map { |tr| tr['data-api-url'] }.compact
+        base_paths = page.all('tr').map { |tr| tr['data-base-path'] }.compact
 
-        expect(api_urls).to eq([
-          contentapi_url_for_slug('oil-rig-safety-requirements'),
-          contentapi_url_for_slug('oil-rig-staffing'),
+        expect(base_paths).to eq([
+          '/oil-rig-safety-requirements',
+          '/oil-rig-staffing',
         ])
       end
 
       within :xpath, xpath_section_for('Piping') do
-        api_urls = page.all('tr').map { |tr| tr['data-api-url'] }.compact
+        base_paths = page.all('tr').map { |tr| tr['data-base-path'] }.compact
 
-        expect(api_urls).to eq([
-          contentapi_url_for_slug('undersea-piping-restrictions'),
+        expect(base_paths).to eq([
+          '/undersea-piping-restrictions',
         ])
       end
 
@@ -169,12 +169,12 @@ RSpec.describe "Curating the contents of topics" do
             "groups" => [
               { "name" => 'Oil rigs',
                 "contents" => [
-                  contentapi_url_for_slug('oil-rig-safety-requirements'),
-                  contentapi_url_for_slug('oil-rig-staffing'),
+                  '/oil-rig-safety-requirements',
+                  '/oil-rig-staffing',
               ]},
               { "name" => 'Piping',
                 "contents" => [
-                  contentapi_url_for_slug('undersea-piping-restrictions'),
+                  '/undersea-piping-restrictions',
               ]},
             ],
             "beta" => false,
@@ -221,10 +221,10 @@ RSpec.describe "Curating the contents of topics" do
       oil_rigs = create(:list, :tag => offshore, :name => 'Oil rigs', :index => 0)
       piping = create(:list, :tag => offshore, :name => 'Piping', :index => 1)
 
-      create(:list_item, :list => oil_rigs, :index => 0, :title => 'Oil rig safety requirements', :api_url => contentapi_url_for_slug('oil-rig-safety-requirements'))
-      create(:list_item, :list => oil_rigs, :index => 1, :title => 'Oil rig staffing', :api_url => contentapi_url_for_slug('oil-rig-staffing'))
-      create(:list_item, :list => piping, :index => 0, :title => 'Undersea piping restrictions', :api_url => contentapi_url_for_slug('undersea-piping-restrictions'))
-      create(:list_item, :list => piping, :index => 1, :title => 'Non-existent', :api_url => contentapi_url_for_slug('non-existent'))
+      create(:list_item, :list => oil_rigs, :index => 0, :title => 'Oil rig safety requirements', :base_path => '/oil-rig-safety-requirements')
+      create(:list_item, :list => oil_rigs, :index => 1, :title => 'Oil rig staffing', :base_path => '/oil-rig-staffing')
+      create(:list_item, :list => piping, :index => 0, :title => 'Undersea piping restrictions', :base_path => '/undersea-piping-restrictions')
+      create(:list_item, :list => piping, :index => 1, :title => 'Non-existent', :base_path => '/non-existent')
     end
 
     it "viewing the topic curation page" do

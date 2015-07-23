@@ -40,7 +40,7 @@
                 data-list-id='<%= list.id %>'
                 data-update-url='<%= tag_list_list_item_path(tag, list, list_item) %>'
                 data-title='<%= list_item.title %>'
-                data-api-url='<%= list_item.api_url %>'>
+                data-base-path='<%= list_item.base_path %>'>
 
               <td class='title'>
                 <% unless list_item.tagged? %>
@@ -48,12 +48,12 @@
                 <% end %>
 
                 <span>
-                  <%= raw list_item.title || "<em>Unknown title (#{list_item.api_path})</em>" %>
+                  <%= raw list_item.title || "<em>Unknown title (#{list_item.base_path})</em>" %>
                 </span>
               </td>
 
-              <td class='api-url'>
-                <%= raw list_item.api_url %>
+              <td class='base-path'>
+                <%= raw list_item.base_path %>
               </td>
 
               <td class='removal-button'>
@@ -71,7 +71,7 @@
       </table>
 
       <%= form_for(ListItem.new, url: tag_list_list_items_path(tag, list), html: {id: nil}) do |f| %>
-        <%= f.text_field :api_url, label: 'API URL' %>
+        <%= f.text_field :base_path, label: 'Base Path' %>
         <%= f.number_field :index %>
         <button class='btn btn-primary'>Add</button>
       <% end %>

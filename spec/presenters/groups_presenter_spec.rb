@@ -21,12 +21,12 @@ RSpec.describe GroupsPresenter do
 
       it "provides the curated lists ordered by their index" do
         allow(oil_rigs).to receive(:tagged_list_items).and_return([
-          OpenStruct.new(:api_url => "http://api.example.com/oil-rig-safety-requirements"),
-          OpenStruct.new(:api_url => "http://api.example.com/oil-rig-staffing"),
+          OpenStruct.new(:base_path => "/oil-rig-safety-requirements"),
+          OpenStruct.new(:base_path => "/oil-rig-staffing"),
         ])
 
         allow(piping).to receive(:tagged_list_items).and_return([
-          OpenStruct.new(:api_url => "http://api.example.com/undersea-piping-restrictions"),
+          OpenStruct.new(:base_path => "/undersea-piping-restrictions"),
         ])
 
         allow(tag).to receive(:lists).and_return(double(:ordered => [piping, oil_rigs]))
@@ -36,14 +36,14 @@ RSpec.describe GroupsPresenter do
             {
               :name => "Piping",
               :contents => [
-                "http://api.example.com/undersea-piping-restrictions",
+                "/undersea-piping-restrictions",
               ]
             },
             {
               :name => "Oil rigs",
               :contents => [
-                "http://api.example.com/oil-rig-safety-requirements",
-                "http://api.example.com/oil-rig-staffing",
+                "/oil-rig-safety-requirements",
+                "/oil-rig-staffing",
               ]
             }
           ],

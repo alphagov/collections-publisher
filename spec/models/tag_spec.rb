@@ -253,9 +253,9 @@ RSpec.describe Tag do
 
     it "returns ListItems for all content that's been tagged to the tag, but isn't in a list" do
       list1 = create(:list, :tag => subtag)
-      create(:list_item, :list => list1, :api_url => contentapi_url_for_slug('content-1'))
+      create(:list_item, :list => list1, :base_path => '/content-1')
       list2 = create(:list, :tag => subtag)
-      create(:list_item, :list => list2, :api_url => contentapi_url_for_slug('content-3'))
+      create(:list_item, :list => list2, :base_path => '/content-3')
 
       content_api_has_artefacts_with_a_tag('tag', 'tag/subtag', [
         'content-1',
@@ -264,9 +264,9 @@ RSpec.describe Tag do
         'content-4',
       ])
 
-      expect(subtag.uncategorized_list_items.map(&:api_url)).to match_array([
-        contentapi_url_for_slug('content-2'),
-        contentapi_url_for_slug('content-4'),
+      expect(subtag.uncategorized_list_items.map(&:base_path)).to match_array([
+        '/content-2',
+        '/content-4',
       ])
     end
   end
@@ -283,9 +283,9 @@ RSpec.describe Tag do
 
       items = subtag.list_items_from_contentapi
 
-      expect(items.map(&:api_url)).to eq([
-        contentapi_url_for_slug('example-content-1'),
-        contentapi_url_for_slug('example-content-2'),
+      expect(items.map(&:base_path)).to eq([
+        '/example-content-1',
+        '/example-content-2',
       ])
       expect(items.map(&:title)).to eq([
         "Example content 1",

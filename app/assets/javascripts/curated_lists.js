@@ -76,7 +76,7 @@
           list_item: {
             index: index,
             title: $row.data('title'),
-            api_url: $row.data('api-url')
+            base_path: $row.data('base-path')
           }
         }),
         contentType: 'application/json',
@@ -130,8 +130,8 @@
     redrawUncategorizedList: function () {
       $('.is-curated').removeClass('is-curated');
       $(".drag-and-droppable tr").each(function() {
-        var url = $(this).data('api-url')
-        $("[data-api-url='" + url + "']").addClass('is-curated');
+        var path = $(this).data('base-path')
+        $("[data-base-path='" + path + "']").addClass('is-curated');
       })
     }
   };
