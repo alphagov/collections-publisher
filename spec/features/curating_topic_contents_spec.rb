@@ -91,13 +91,13 @@ RSpec.describe "Curating the contents of topics" do
             "groups" => [
               { "name" => 'Oil rigs',
                 "contents" => [
-                  contentapi_url_for_slug('oil-rig-staffing'),
-                  contentapi_url_for_slug('oil-rig-staffing'),
-                  contentapi_url_for_slug('oil-rig-safety-requirements'),
+                  '/oil-rig-staffing',
+                  '/oil-rig-staffing',
+                  '/oil-rig-safety-requirements',
               ]},
               { "name" => 'Piping',
                 "contents" => [
-                  contentapi_url_for_slug('undersea-piping-restrictions'),
+                  '/undersea-piping-restrictions',
               ]},
             ],
             "beta" => false,
@@ -169,12 +169,12 @@ RSpec.describe "Curating the contents of topics" do
             "groups" => [
               { "name" => 'Oil rigs',
                 "contents" => [
-                  contentapi_url_for_slug('oil-rig-safety-requirements'),
-                  contentapi_url_for_slug('oil-rig-staffing'),
+                  '/oil-rig-safety-requirements',
+                  '/oil-rig-staffing',
               ]},
               { "name" => 'Piping',
                 "contents" => [
-                  contentapi_url_for_slug('undersea-piping-restrictions'),
+                  '/undersea-piping-restrictions',
               ]},
             ],
             "beta" => false,

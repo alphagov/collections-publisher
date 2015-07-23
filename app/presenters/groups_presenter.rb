@@ -7,7 +7,7 @@ class GroupsPresenter
     @tag.lists.ordered.map do |list|
       {
         name: list.name,
-        contents: list.tagged_list_items.map(&:api_url)
+        contents: list.tagged_list_items.map(&:base_path)
       }
     end
   end
