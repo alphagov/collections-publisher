@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150723134305) do
+ActiveRecord::Schema.define(version: 20150723161808) do
 
   create_table "list_items", force: :cascade do |t|
     t.string   "base_path",  limit: 255
