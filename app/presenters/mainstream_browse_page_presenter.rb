@@ -2,6 +2,10 @@ class MainstreamBrowsePagePresenter < TagPresenter
 
 private
 
+  def rummager_format
+    'mainstream_browse_page'
+  end
+
   def format
     'mainstream_browse_page'
   end

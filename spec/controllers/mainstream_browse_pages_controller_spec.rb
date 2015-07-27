@@ -46,8 +46,9 @@ RSpec.describe MainstreamBrowsePagesController do
       create(:mainstream_browse_page)
     }
 
-    it 'notifies panopticon' do
+    it 'notifies panopticon and rummager' do
       expect(PanopticonNotifier).to receive(:update_tag).with(presenter)
+      expect_any_instance_of(RummagerNotifier).to receive(:notify)
 
       put :update, id: mainstream_browse_page.content_id, mainstream_browse_page: attributes.merge(:slug => mainstream_browse_page.slug)
     end

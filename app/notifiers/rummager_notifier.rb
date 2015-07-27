@@ -1,30 +1,23 @@
 class RummagerNotifier
-  attr_reader :topic
+  attr_reader :tag
 
-  def initialize(topic)
-    @topic = topic
+  def initialize(tag)
+    @tag = tag
   end
 
   def notify
-    return if topic.draft?
+    return if tag.draft?
 
-    # Will add it to mainstream index with type 'edition'.
     CollectionsPublisher.services(:rummager).add_document(
       'edition',
-      topic.base_path,
-      payload
+      presenter.base_path,
+      presenter.render_for_rummager
     )
   end
 
-  private
+private
 
-  def payload
-    {
-      format: 'specialist_sector',
-      title: topic.title,
-      description: topic.description,
-      link: topic.base_path,
-      slug: topic.full_slug,
-    }
+  def presenter
+    @presenter ||= TagPresenter.presenter_for(tag)
   end
 end
