@@ -36,6 +36,6 @@ class List < ActiveRecord::Base
 private
 
   def tagged_base_paths
-    @tagged_base_paths ||= tag.list_items_from_contentapi.map(&:base_path)
+    @tagged_base_paths ||= tag.tagged_documents.map(&:base_path)
   end
 end

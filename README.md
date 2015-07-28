@@ -16,13 +16,12 @@ This is a Ruby on Rails application for internal use, with no public facing aspe
 
 ### Dependencies
 
-- [alphagov/govukcontent-api](https://github.com/alphagov/govuk_contentapi) -
-  (read request only) to fetch information about the available topics.
 - [alphagov/content-store](https://github.com/alphagov/content-store) -
   (write request only) to store information about the topic
   groupings for Collections API and other apps to use.
 - [alphagov/rummager](https://github.com/alphagov/rummager) -
-  (write request only) to index topics.
+  to index topics and mainstream browse pages, and to fetch documents that have
+  been tagged to topics and mainstream browse pages by publisher tools.
 
 
 ### Running the application

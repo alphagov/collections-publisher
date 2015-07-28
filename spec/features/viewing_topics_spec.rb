@@ -36,8 +36,8 @@ RSpec.describe "Viewing topics" do
     ])
 
     # Given the subtopic pages have links
-    stub_content_api(grouped_results: [
-      { title: 'A link that only exists in the Content API'}
+    stub_any_call_to_rummager_with_documents([
+      { title: 'A link that only exists in Rummager.'}
     ])
 
     # When I visit a subtopic page that has no lists
@@ -47,7 +47,7 @@ RSpec.describe "Viewing topics" do
     expect(page).to have_content 'Links for this tag have not been curated into lists'
 
     # And I should see the link
-    expect(page).to have_content 'A link that only exists in the Content API'
+    expect(page).to have_content 'A link that only exists in Rummager.'
 
     # When I go back a level
     within '.breadcrumb' do
@@ -62,6 +62,6 @@ RSpec.describe "Viewing topics" do
     expect(page).to have_content 'Links for this tag have been curated into lists'
 
     # And I should see the link
-    expect(page).to have_content 'A link that only exists in the Content API'
+    expect(page).to have_content 'A link that only exists in Rummager.'
   end
 end

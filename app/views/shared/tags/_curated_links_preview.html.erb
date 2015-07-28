@@ -20,7 +20,7 @@
 
 <h4>Uncurated items <em>(not shown to user)</em></h4>
 <ul>
-<% tag.uncategorized_list_items.each do |item| %>
+<% tag.uncurated_tagged_documents.each do |item| %>
   <li><%= item.title %></li>
 <% end %>
 </ul>
