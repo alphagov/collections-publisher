@@ -6,10 +6,7 @@ RSpec.describe "managing mainstream browse pages" do
     stub_user.permissions << "GDS Editor"
     stub_all_panopticon_tag_calls
     allow_any_instance_of(RummagerNotifier).to receive(:notify)
-
-    # Stub the content-api with empty because the `show` pages are trying to
-    # fetch the links to show as preview.
-    stub_content_api(grouped_results: [])
+    stub_rummager_linked_content_call
   end
 
   it "viewing the browse page index" do

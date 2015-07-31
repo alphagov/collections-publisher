@@ -1,7 +1,5 @@
 #!/bin/bash
 set -x
-export GOVUK_APP_DOMAIN=test.gov.uk
-export GOVUK_ASSET_ROOT=http://static.test.gov.uk
 
 REPO_NAME=${REPO_NAME:-"alphagov/collections-publisher"}
 CONTEXT_MESSAGE=${CONTEXT_MESSAGE:-"default"}

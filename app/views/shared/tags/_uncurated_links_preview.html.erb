@@ -7,7 +7,7 @@
 <p>Links for this tag have not been curated into lists.</p>
 
 <ul>
-<% tag.list_items_from_contentapi.each do |link| %>
+<% tag.tagged_documents.each do |link| %>
   <li><%= link.title %></li>
 <% end %>
 </ul>

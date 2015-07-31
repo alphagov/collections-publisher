@@ -23,13 +23,11 @@ RSpec.describe List do
   end
 
   describe "#list_items_with_tagging_status" do
-    include ContentApiHelpers
-
     it "returns the list items with tagged set to true if they're tagged" do
       list = create(:list, tag: create(:tag, slug: 'subtag'))
       tagged = create(:list_item, list: list, base_path: '/tagged-item')
       not_tagged = create(:list_item, list: list, base_path: '/untagged-item')
-      content_api_has_artefacts_with_a_tag('tag', 'subtag', ['tagged-item'])
+      stub_any_call_to_rummager_with_documents([{ link: '/tagged-item' }])
 
       list_item = list.list_items_with_tagging_status.first
 
@@ -39,7 +37,7 @@ RSpec.describe List do
     it "returns the list items with tagged set to false if they're not tagged" do
       list = create(:list, tag: create(:tag, slug: 'subtag'))
       not_tagged = create(:list_item, list: list, base_path: '/untagged-item')
-      content_api_has_artefacts_with_a_tag('tag', 'subtag', [])
+      stub_any_call_to_rummager_with_documents([])
 
       list_item = list.list_items_with_tagging_status.first
 

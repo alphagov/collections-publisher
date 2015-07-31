@@ -4,10 +4,7 @@ RSpec.describe "creating and editing topics" do
   before :each do
     stub_user.permissions << "GDS Editor"
     stub_all_panopticon_tag_calls
-
-    # Stub the content-api with empty because the `show` pages are trying to
-    # fetch the links to show as preview.
-    stub_content_api(grouped_results: [])
+    stub_rummager_linked_content_call
   end
 
   it "Creating a topic" do

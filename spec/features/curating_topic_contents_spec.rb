@@ -12,15 +12,12 @@ RSpec.describe "Curating the contents of topics" do
       oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
       create(:topic, :published, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
 
-      content_api_has_artefacts_with_a_tag(
-        'specialist_sector', 'oil-and-gas/offshore',
-        [
-          'oil-rig-safety-requirements',
-          'oil-rig-staffing',
-          'north-sea-shipping-lanes',
-          'undersea-piping-restrictions'
-        ]
-      )
+      stub_any_call_to_rummager_with_documents([
+        { title: 'Oil rig safety requirements', link: '/oil-rig-safety-requirements' },
+        { title: 'Oil rig staffing', link: '/oil-rig-staffing' },
+        { title: 'North sea shipping lanes', link: '/north-sea-shipping-lanes' },
+        { title: 'Undersea piping restrictions', link: '/undersea-piping-restrictions' },
+      ])
     end
 
     it "with javascript", :js => true do
@@ -189,10 +186,9 @@ RSpec.describe "Curating the contents of topics" do
     oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
     create(:topic, :draft, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
 
-    content_api_has_artefacts_with_a_draft_tag(
-      'specialist_sector', 'oil-and-gas/offshore',
-      [ 'oil-rig-safety-requirements' ]
-    )
+    stub_any_call_to_rummager_with_documents([
+      { link: '/oil-rig-safety-requirements' },
+    ])
 
     # Then I should be able to curate the draft topic
     visit_topic_list_curation_page
@@ -208,15 +204,12 @@ RSpec.describe "Curating the contents of topics" do
       oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
       offshore = create(:topic, :published, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
 
-      content_api_has_artefacts_with_a_tag(
-        'specialist_sector', 'oil-and-gas/offshore',
-        [
-          'oil-rig-safety-requirements',
-          'oil-rig-staffing',
-          'north-sea-shipping-lanes',
-          'undersea-piping-restrictions'
-        ]
-      )
+      stub_any_call_to_rummager_with_documents([
+        { title: 'Oil rig safety requirements', link: '/oil-rig-safety-requirements' },
+        { title: 'Oil rig staffing', link: '/oil-rig-staffing' },
+        { title: 'North sea shipping lanes', link: '/north-sea-shipping-lanes' },
+        { title: 'Undersea piping restrictions', link: '/undersea-piping-restrictions' },
+      ])
 
       oil_rigs = create(:list, :tag => offshore, :name => 'Oil rigs', :index => 0)
       piping = create(:list, :tag => offshore, :name => 'Piping', :index => 1)

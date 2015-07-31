@@ -17,9 +17,6 @@ module CollectionsPublisher
   class ServiceNotRegisteredException < Exception; end
 end
 
-require 'gds_api/content_api'
-CollectionsPublisher.services(:content_api, GdsApi::ContentApi.new(Plek.new.find('content_api')))
-
 require 'gds_api/publishing_api'
 CollectionsPublisher.services(:publishing_api, GdsApi::PublishingApi.new(Plek.new.find('publishing-api')))
 
