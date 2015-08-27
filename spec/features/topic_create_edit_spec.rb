@@ -116,6 +116,7 @@ RSpec.describe "creating and editing topics" do
       "title" => 'Working on the ocean',
       "description" => "I woke up one morning, The sea was still there.",
       "format" => "topic",
+      "phase" => "beta",
       "details" => {
         "groups" => [],
         "beta" => true,
