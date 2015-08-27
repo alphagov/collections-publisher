@@ -42,7 +42,7 @@ class TagPresenter
       update_type: "major",
       details: details,
       links: links,
-    }
+    }.merge(phase_state)
   end
 
   def render_for_panopticon
@@ -56,6 +56,11 @@ class TagPresenter
   end
 
 private
+
+  def phase_state
+    return {} unless @tag.beta?
+    { phase: "beta" }
+  end
 
   def format
     raise "Need to subclass"
