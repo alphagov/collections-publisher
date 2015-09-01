@@ -3,6 +3,8 @@ namespace :comparison do
   desc "report on differences in items tagged as reported by rummager and contentapi"
   task :run => :environment do
     require 'csv'
+    require 'gds_api/content_api'
+    CollectionsPublisher.services(:content_api, GdsApi::ContentApi.new(Plek.new.find('content_api')))
 
     # Generates 2 CSV files reporting differences between the contentapi and
     # rummager views on the content items tagged to a given topic or
