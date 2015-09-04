@@ -4,11 +4,13 @@
   <tr>
     <th>From</th>
     <th>To</th>
+    <th>Added</th>
   </tr>
-  <% redirects.each do |redirect| %>
+  <% redirects.order('created_at DESC').each do |redirect| %>
     <tr>
-      <td><%= link_to website_url(redirect.from_base_path) %></td>
-      <td><%= link_to website_url(redirect.to_base_path) %></td>
+      <td><%= redirect.created_at.to_formatted_s(:long) %></td>
+      <td><%= link_to redirect.from_base_path, website_url(redirect.from_base_path), target: '_blank' %></td>
+      <td><%= link_to redirect.to_base_path, website_url(redirect.to_base_path), target: '_blank' %></td>
     </tr>
   <% end %>
 </table>
