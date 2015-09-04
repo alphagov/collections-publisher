@@ -13,6 +13,7 @@ module StatusHelper
     labels << draft_tag if tag.draft?
     labels << beta_tag if tag.beta?
     labels << dirty_tag if tag.dirty?
+    labels << archived_tag if tag.archived?
     raw labels.join(' ')
   end
 
@@ -22,6 +23,10 @@ module StatusHelper
 
   def dirty_tag
     status 'Unpublished changes', :danger
+  end
+
+  def archived_tag
+    status 'Archived', :default
   end
 
   def draft_tag

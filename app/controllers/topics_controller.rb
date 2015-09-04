@@ -7,6 +7,7 @@ class TopicsController < ApplicationController
 
   def show
     @topic = find_topic
+    render 'archived_topic' if @topic.archived?
   end
 
   def edit
