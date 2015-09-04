@@ -13,7 +13,10 @@ class PublishingAPINotifier
 
   def send_single_tag_to_publishing_api
     if tag.published?
-      publishing_api.put_content_item(presenter.base_path, presenter.render_for_publishing_api)
+      unless tag.archived?
+        publishing_api.put_content_item(presenter.base_path, presenter.render_for_publishing_api)
+      end
+
       add_redirects
     else
       publishing_api.put_draft_content_item(presenter.base_path, presenter.render_for_publishing_api)

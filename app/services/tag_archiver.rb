@@ -1,0 +1,44 @@
+# TagArchiver removes a tag from the site. It sets op a redirect for the page
+# to its successor and removes the tag from the search engine. It does not remove
+# the tag from panopticon - that has to be done manually.
+class TagArchiver
+  attr_reader :tag, :successor
+
+  def initialize(tag, successor)
+    @tag = tag
+    @successor = successor
+  end
+
+  def archive
+    return if tag.can_have_children? || tag.tagged_documents.any?
+
+    update_tag
+    setup_redirects
+    remove_from_search_index
+  end
+
+private
+
+  def update_tag
+    tag.update!(archived: true)
+  end
+
+  def setup_redirects
+    # The redirect will live at the original path of the tag, so the original
+    # item in the content store will be replaced by it. The parent topic will
+    # no longer expand the item in the `links/children` field because this
+    # item will be of the type redirect.
+    tag.redirects.create!(
+      original_tag_base_path: tag.base_path,
+      from_base_path: tag.base_path,
+      to_base_path: successor.base_path,
+    )
+  end
+
+  def remove_from_search_index
+    CollectionsPublisher.services(:rummager).delete_document(
+      'edition',
+      tag.base_path
+    )
+  end
+end
