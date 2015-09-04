@@ -67,6 +67,11 @@ class Tag < ActiveRecord::Base
   aasm column: :state, no_direct_assignment: true do
     state :draft, initial: true
     state :published
+    state :archived
+
+    event :move_to_archive do
+      transitions from: :published, to: :archived
+    end
 
     event :publish do
       transitions from: :draft, to: :published
