@@ -55,6 +55,10 @@ class TagPresenter
     }
   end
 
+  def routes
+    [{ path: base_path, type: "exact" }] + subroutes
+  end
+
 private
 
   def phase_state
@@ -64,10 +68,6 @@ private
 
   def format
     raise "Need to subclass"
-  end
-
-  def routes
-    [{ path: base_path, type: "exact" }] + subroutes
   end
 
   def subroutes
