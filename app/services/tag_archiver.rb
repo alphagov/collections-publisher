@@ -12,9 +12,11 @@ class TagArchiver
   def archive
     return if tag.can_have_children? || tag.tagged_documents.any?
 
-    update_tag
-    setup_redirects
-    remove_from_search_index
+    Tag.transaction do
+      update_tag
+      setup_redirects
+      remove_from_search_index
+    end
   end
 
 private

@@ -98,5 +98,16 @@ RSpec.describe TagArchiver do
 
       expect(CollectionsPublisher.services(:rummager)).to have_received(:delete_document)
     end
+
+    it "doesn't have side effects when a API call fails" do
+      tag = create(:topic, parent: create(:topic))
+      allow(CollectionsPublisher.services(:rummager)).to receive(:delete_document).and_raise(RuntimeError)
+
+      expect { TagArchiver.new(tag, build(:topic)).archive }.to raise_error(RuntimeError)
+      tag.reload
+
+      expect(tag.archived).to be(false)
+      expect(tag.redirects.size).to be(0)
+    end
   end
 end
