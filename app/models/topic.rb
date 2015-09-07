@@ -38,6 +38,11 @@ class Topic < Tag
     "/topic/#{full_slug}"
   end
 
+  def subroutes
+    return [] unless subtopic?
+    %w[/latest /email-signup]
+  end
+
   def dependent_tags
     if has_parent?
       [parent]

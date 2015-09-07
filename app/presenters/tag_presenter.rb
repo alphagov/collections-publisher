@@ -66,9 +66,14 @@ private
     raise "Need to subclass"
   end
 
-  # potentially extended in subclasses
   def routes
-    [ {path: base_path, type: "exact"} ]
+    [{ path: base_path, type: "exact" }] + subroutes
+  end
+
+  def subroutes
+    @tag.subroutes.map do |suffix|
+      { path: "#{base_path}#{suffix}", type: "exact" }
+    end
   end
 
   # potentially extended in subclasses
