@@ -1,5 +1,6 @@
 class MainstreamBrowsePagesController < ApplicationController
   before_filter :require_gds_editor_permissions!
+  before_filter :protect_archived_browse_pages!, only: %i[edit update publish]
 
   def index
     @browse_pages = MainstreamBrowsePage.sorted_parents
@@ -83,5 +84,13 @@ private
   def tag_params
     params.require(:mainstream_browse_page)
       .permit(:slug, :title, :description, :parent_id, :child_ordering, children_attributes: [:index, :id])
+  end
+
+  def protect_archived_browse_pages!
+    browse_page = find_browse_page
+    if browse_page.archived?
+      flash[:error] = 'You cannot modify an archived mainstream browse page.'
+      redirect_to browse_page
+    end
   end
 end

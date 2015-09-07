@@ -64,4 +64,13 @@ RSpec.describe "Viewing topics" do
     # And I should see the link
     expect(page).to have_content 'A link that only exists in Rummager.'
   end
+
+  it "disallows modification of archived topics" do
+    stub_user.permissions << "GDS Editor"
+    topic = create(:topic, :published, archived: true)
+
+    visit edit_topic_path(topic)
+
+    expect(page).to have_content 'You cannot modify an archived topic.'
+  end
 end
