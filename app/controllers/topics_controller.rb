@@ -48,11 +48,7 @@ class TopicsController < ApplicationController
   # Change the topic from draft to published state
   def publish
     topic = find_topic
-
-    topic.publish!
-    PanopticonNotifier.publish_tag(TopicPresenter.new(topic))
-    PublishingAPINotifier.send_to_publishing_api(topic)
-    RummagerNotifier.new(topic).notify
+    TagPublisher.new(topic).publish
     redirect_to topic
   end
 

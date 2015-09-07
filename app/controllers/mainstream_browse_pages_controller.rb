@@ -49,11 +49,7 @@ class MainstreamBrowsePagesController < ApplicationController
 
   def publish
     browse_page = find_browse_page
-
-    browse_page.publish!
-    PanopticonNotifier.publish_tag(MainstreamBrowsePagePresenter.new(browse_page))
-    PublishingAPINotifier.send_to_publishing_api(browse_page)
-    RummagerNotifier.new(browse_page).notify
+    TagPublisher.new(browse_page).publish
     redirect_to browse_page
   end
 
