@@ -46,10 +46,49 @@ RSpec.describe TagArchiver do
       successor = create(:topic)
 
       TagArchiver.new(tag, successor).archive
-      redirect = tag.redirects.last
+      redirect = tag.redirects.first
 
       expect(redirect.from_base_path).to eql tag.base_path
       expect(redirect.to_base_path).to eql successor.base_path
+    end
+
+    it "creates redirects for the suffixes" do
+      tag = create(:topic, slug: 'bar', parent: create(:topic, slug: 'foo'))
+      successor = create(:topic)
+
+      TagArchiver.new(tag, successor).archive
+
+      expect(tag.redirects.map(&:from_base_path)).to eql([
+        "/topic/foo/bar",
+        "/topic/foo/bar/latest",
+        "/topic/foo/bar/email-signup",
+      ])
+    end
+
+    it "redirects to the base path when the successor is a parent topic" do
+      tag = create(:topic, parent: create(:topic))
+      successor = create(:topic, slug: 'foo')
+
+      TagArchiver.new(tag, successor).archive
+
+      expect(tag.redirects.map(&:to_base_path)).to eql([
+        "/topic/foo",
+        "/topic/foo",
+        "/topic/foo",
+      ])
+    end
+
+    it "redirects to the suffixes when the successor is a child topic" do
+      tag = create(:topic, parent: create(:topic))
+      successor = create(:topic, slug: 'bar', parent: create(:topic, slug: 'foo'))
+
+      TagArchiver.new(tag, successor).archive
+
+      expect(tag.redirects.map(&:to_base_path)).to eql([
+        "/topic/foo/bar",
+        "/topic/foo/bar/latest",
+        "/topic/foo/bar/email-signup",
+      ])
     end
 
     it "removes the document from the search result" do

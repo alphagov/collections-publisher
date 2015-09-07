@@ -33,6 +33,21 @@ private
       from_base_path: tag.base_path,
       to_base_path: successor.base_path,
     )
+
+    tag.subroutes.each do |route_suffix|
+      # Only setup a redirect to the subroute when the successor also has that
+      # route (when redirectinga subtopic to a subtopic), not when redirecting
+      # to a parent topic (from /topic/foo/bar to /topic/foo).
+      to_base_path = route_suffix.in?(successor.subroutes) ?
+        "#{successor.base_path}#{route_suffix}" :
+        successor.base_path
+
+      tag.redirects.create!(
+        original_tag_base_path: tag.base_path,
+        from_base_path: [tag.base_path, route_suffix].join,
+        to_base_path: to_base_path,
+      )
+    end
   end
 
   def remove_from_search_index
