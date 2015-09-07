@@ -18,7 +18,12 @@ module CollectionsPublisher
 end
 
 require 'gds_api/publishing_api'
-CollectionsPublisher.services(:publishing_api, GdsApi::PublishingApi.new(Plek.new.find('publishing-api')))
+
+module Services
+  def self.publishing_api
+    @publishing_api ||= GdsApi::PublishingApi.new(Plek.new.find('publishing-api'))
+  end
+end
 
 require 'gds_api/panopticon'
 CollectionsPublisher.services(

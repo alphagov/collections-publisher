@@ -13,8 +13,7 @@ module ContentStoreHelpers
 
   def stub_content_store!
     @stubbed_content_store = FakeContentStore.new
-    allow(CollectionsPublisher).to receive(:services)
-      .with(:publishing_api)
+    allow(Services).to receive(:publishing_api)
       .and_return(@stubbed_content_store)
   end
 

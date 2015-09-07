@@ -59,7 +59,7 @@ private
   end
 
   def publishing_api
-    CollectionsPublisher.services(:publishing_api)
+    Services.publishing_api
   end
 
   def log(string)
