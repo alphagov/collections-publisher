@@ -91,6 +91,7 @@ class Tag < ActiveRecord::Base
   end
 
   alias child? has_parent?
+  alias parent? can_have_children?
 
   def self.sorted_parents
     only_parents.includes(children: [:lists]).order(:title)
