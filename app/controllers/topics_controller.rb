@@ -54,6 +54,23 @@ class TopicsController < ApplicationController
     redirect_to topic
   end
 
+  def propose_archive
+    @archival = ArchivalForm.new(tag: find_topic)
+  end
+
+  def archive
+    topic = find_topic
+
+    if topic.published?
+      successor = Topic.find(params[:archival_form][:successor])
+      TagArchiver.new(topic, successor).archive
+      redirect_to topic_path(topic), notice: 'The topic has been archived.'
+    else
+      DraftTagRemover.new(topic).remove
+      redirect_to topics_path, notice: 'The topic has been removed.'
+    end
+  end
+
 private
 
   def topic_params

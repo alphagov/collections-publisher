@@ -1,4 +1,6 @@
-<% if tag.display_curated_links? %>
+<% if tag.tagged_documents.empty? %>
+  <p>There are no documents tagged to this item.</p>
+<% elsif tag.display_curated_links? %>
   <%= render 'shared/tags/curated_links_preview', tag: tag %>
 <% else %>
   <%= render 'shared/tags/uncurated_links_preview', tag: tag %>

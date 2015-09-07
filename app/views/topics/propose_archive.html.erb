@@ -1,0 +1,10 @@
+<h1>Archive a topic</h1>
+
+<%= form_for @archival, url: archive_topic_path(@archival.tag) do |f| %>
+  <%= f.select :successor,
+    options_from_collection_for_select(@archival.topics, :id, :title_including_parent),
+    { label: 'Choose a topic to redirect to:' },
+    { class: "select2" } %>
+
+  <%= f.submit 'Archive', class: 'btn-submit btn-danger' %>
+<% end %>

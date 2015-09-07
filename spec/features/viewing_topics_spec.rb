@@ -73,4 +73,39 @@ RSpec.describe "Viewing topics" do
 
     expect(page).to have_content 'You cannot modify an archived topic.'
   end
+
+  it "allows users to archive published topics" do
+    stub_any_call_to_rummager_with_documents([])
+    stub_request(:delete, %r[https://rummager.test.gov.uk/*]).to_return(body: "{}")
+    stub_user.permissions << "GDS Editor"
+
+    topic = create(:topic, :published, parent: create(:topic))
+    create(:topic, :published, title: 'The Successor Topic')
+
+    visit topic_path(topic)
+
+    click_link 'Archive topic'
+
+    expect(page).to have_content 'Choose a topic to redirect to'
+
+    select 'The Successor Topic', from: "archival_form_successor"
+
+    click_button 'Archive'
+
+    expect(topic.reload.archived).to eql(true)
+  end
+
+  it "allows users to remove draft topics" do
+    stub_any_call_to_rummager_with_documents([])
+    stub_request(:delete, %r[https://rummager.test.gov.uk/*]).to_return(body: "{}")
+    stub_user.permissions << "GDS Editor"
+
+    topic = create(:topic, :draft, parent: create(:topic))
+
+    visit topic_path(topic)
+
+    click_link 'Remove topic'
+
+    expect { topic.reload }.to raise_error(ActiveRecord::RecordNotFound)
+  end
 end
