@@ -16,6 +16,7 @@ class TagArchiver
       update_tag
       setup_redirects
       remove_from_search_index
+      republish_tag
     end
   end
 
@@ -57,5 +58,9 @@ private
       'edition',
       tag.base_path
     )
+  end
+
+  def republish_tag
+    PublishingAPINotifier.new(tag).send_single_tag_to_publishing_api
   end
 end

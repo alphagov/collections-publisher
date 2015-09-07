@@ -8,10 +8,11 @@ RSpec.describe TagArchiver do
 
       # Succesful archivings will remove the result from rummager.
       allow(CollectionsPublisher.services(:rummager)).to receive(:delete_document)
+      allow(Services.publishing_api).to receive(:put_content_item)
     end
 
     it "won't archive parent tags" do
-      tag = create(:topic)
+      tag = create(:topic, :published)
 
       TagArchiver.new(tag, build(:topic)).archive
       tag.reload
@@ -20,7 +21,7 @@ RSpec.describe TagArchiver do
     end
 
     it "won't archive tags with documents tagged to it" do
-      tag = create(:topic, parent: create(:topic))
+      tag = create(:topic, :published, parent: create(:topic))
       stub_any_call_to_rummager_with_documents([
         { link: '/content-page-1' },
         { link: '/content-page-2' },
@@ -33,7 +34,7 @@ RSpec.describe TagArchiver do
     end
 
     it "archives the tag" do
-      tag = create(:topic, parent: create(:topic))
+      tag = create(:topic, :published, parent: create(:topic))
 
       TagArchiver.new(tag, build(:topic)).archive
       tag.reload
@@ -42,7 +43,7 @@ RSpec.describe TagArchiver do
     end
 
     it "creates a redirect to its successor" do
-      tag = create(:topic, parent: create(:topic))
+      tag = create(:topic, :published, parent: create(:topic))
       successor = create(:topic)
 
       TagArchiver.new(tag, successor).archive
@@ -53,7 +54,7 @@ RSpec.describe TagArchiver do
     end
 
     it "creates redirects for the suffixes" do
-      tag = create(:topic, slug: 'bar', parent: create(:topic, slug: 'foo'))
+      tag = create(:topic, :published, slug: 'bar', parent: create(:topic, slug: 'foo'))
       successor = create(:topic)
 
       TagArchiver.new(tag, successor).archive
@@ -66,7 +67,7 @@ RSpec.describe TagArchiver do
     end
 
     it "redirects to the base path when the successor is a parent topic" do
-      tag = create(:topic, parent: create(:topic))
+      tag = create(:topic, :published, parent: create(:topic))
       successor = create(:topic, slug: 'foo')
 
       TagArchiver.new(tag, successor).archive
@@ -79,7 +80,7 @@ RSpec.describe TagArchiver do
     end
 
     it "redirects to the suffixes when the successor is a child topic" do
-      tag = create(:topic, parent: create(:topic))
+      tag = create(:topic, :published, parent: create(:topic))
       successor = create(:topic, slug: 'bar', parent: create(:topic, slug: 'foo'))
 
       TagArchiver.new(tag, successor).archive
@@ -92,15 +93,23 @@ RSpec.describe TagArchiver do
     end
 
     it "removes the document from the search result" do
-      tag = create(:topic, parent: create(:topic))
+      tag = create(:topic, :published, parent: create(:topic))
 
       TagArchiver.new(tag, build(:topic)).archive
 
       expect(CollectionsPublisher.services(:rummager)).to have_received(:delete_document)
     end
 
+    it "republishes the content item" do
+      tag = create(:topic, :published, parent: create(:topic))
+
+      TagArchiver.new(tag, build(:topic)).archive
+
+      expect(Services.publishing_api).to have_received(:put_content_item)
+    end
+
     it "doesn't have side effects when a API call fails" do
-      tag = create(:topic, parent: create(:topic))
+      tag = create(:topic, :published, parent: create(:topic))
       allow(CollectionsPublisher.services(:rummager)).to receive(:delete_document).and_raise(RuntimeError)
 
       expect { TagArchiver.new(tag, build(:topic)).archive }.to raise_error(RuntimeError)
