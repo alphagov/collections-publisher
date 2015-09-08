@@ -29,18 +29,9 @@ module Services
   end
 end
 
-class GdsApi::HTTPConflict < GdsApi::HTTPClientError
-end
-
 class GdsApi::Panopticon < GdsApi::Base
   def delete_tag!(tag_type, tag_id)
     delete_json!(tag_url(tag_type, tag_id))
-  rescue GdsApi::HTTPClientError => e
-    if e.code == 409
-      raise GdsApi::HTTPConflict.new(e.code, e.message, e.error_details)
-    else
-      raise e
-    end
   end
 end
 
