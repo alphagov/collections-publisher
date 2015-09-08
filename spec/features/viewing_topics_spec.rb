@@ -67,7 +67,7 @@ RSpec.describe "Viewing topics" do
 
   it "disallows modification of archived topics" do
     stub_user.permissions << "GDS Editor"
-    topic = create(:topic, :published, archived: true)
+    topic = create(:topic, :archived)
 
     visit edit_topic_path(topic)
 
@@ -95,7 +95,7 @@ RSpec.describe "Viewing topics" do
 
     click_button 'Archive'
 
-    expect(topic.reload.archived).to eql(true)
+    expect(topic.reload.archived?).to eql(true)
     expect(rummager_deletion).to have_been_requested
     expect(panopticon_deletion).to have_been_requested
   end

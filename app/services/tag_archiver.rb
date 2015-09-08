@@ -30,7 +30,7 @@ private
   end
 
   def update_tag
-    tag.update!(archived: true)
+    tag.move_to_archive!
   end
 
   def setup_redirects

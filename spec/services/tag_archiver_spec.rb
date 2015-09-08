@@ -18,7 +18,7 @@ RSpec.describe TagArchiver do
       TagArchiver.new(tag, build(:topic)).archive
       tag.reload
 
-      expect(tag.archived).to be(false)
+      expect(tag.archived?).to be(false)
     end
 
     it "won't archive tags with documents tagged to it" do
@@ -31,7 +31,7 @@ RSpec.describe TagArchiver do
       TagArchiver.new(tag, build(:topic)).archive
       tag.reload
 
-      expect(tag.archived).to be(false)
+      expect(tag.archived?).to be(false)
     end
 
     it "archives the tag" do
@@ -40,7 +40,7 @@ RSpec.describe TagArchiver do
       TagArchiver.new(tag, build(:topic)).archive
       tag.reload
 
-      expect(tag.archived).to be(true)
+      expect(tag.archived?).to be(true)
     end
 
     it "creates a redirect to its successor" do
@@ -116,7 +116,7 @@ RSpec.describe TagArchiver do
       expect { TagArchiver.new(tag, build(:topic)).archive }.to raise_error(RuntimeError)
       tag.reload
 
-      expect(tag.archived).to be(false)
+      expect(tag.archived?).to be(false)
       expect(tag.redirects.size).to be(0)
     end
 

@@ -33,6 +33,13 @@ FactoryGirl.define do
       end
     end
 
+    trait :archived do
+      after :create do |tag|
+        tag.publish!
+        tag.move_to_archive!
+      end
+    end
+
     factory :topic, class: Topic
     factory :mainstream_browse_page, class: MainstreamBrowsePage
   end

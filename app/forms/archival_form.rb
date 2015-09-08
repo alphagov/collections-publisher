@@ -9,6 +9,6 @@ class ArchivalForm
 private
 
   def published_topics
-    Topic.includes(:parent).published.where(archived: false).sort_by(&:title_including_parent)
+    Topic.includes(:parent).published.sort_by(&:title_including_parent)
   end
 end
