@@ -2,7 +2,7 @@ class TaggedDocuments
   PAGE_SIZE_TO_GET_EVERYTHING = 10_000
 
   include Enumerable
-  delegate :each, to: :documents
+  delegate :each, :empty?, to: :documents
   attr_reader :tag
 
   def initialize(tag)

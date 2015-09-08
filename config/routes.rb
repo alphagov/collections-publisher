@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   resources :topics, except: :destroy do
     member do
       post :publish
+      get :propose_archive
+      post :archive
     end
   end
 

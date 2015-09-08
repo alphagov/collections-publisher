@@ -1,13 +1,13 @@
 module ApplicationHelper
 
   def alert_classes(key)
-    classes = "alert alert-"
+    key = {
+      'notice' => 'warning',
+      'alert' => 'warning',
+      'error' => 'danger',
+    }.fetch(key, key)
 
-    if key == :notice || key == :alert
-      key = "warning"
-    end
-
-    classes + key
+    classes = "alert alert-#{key}"
   end
 
   def website_url(base_path)

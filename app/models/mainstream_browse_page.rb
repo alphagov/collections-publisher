@@ -48,6 +48,10 @@ class MainstreamBrowsePage < Tag
     end
   end
 
+  def subroutes
+    %w[.json]
+  end
+
   def top_level_mainstream_browse_page?
     !child?
   end

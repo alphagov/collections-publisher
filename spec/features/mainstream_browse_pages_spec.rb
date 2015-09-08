@@ -308,4 +308,12 @@ RSpec.describe "managing mainstream browse pages" do
       ])
     end
   end
+
+  it "disallows modification of archived browse pages" do
+    topic = create(:mainstream_browse_page, :archived)
+
+    visit edit_mainstream_browse_page_path(topic)
+
+    expect(page).to have_content 'You cannot modify an archived mainstream browse page.'
+  end
 end

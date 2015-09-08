@@ -1,5 +1,6 @@
 class TopicsController < ApplicationController
   before_filter :require_gds_editor_permissions!, except: %i[index show]
+  before_filter :protect_archived_tags!, only: %i[edit update publish]
 
   def index
     @topics = Topic.sorted_parents
@@ -7,6 +8,7 @@ class TopicsController < ApplicationController
 
   def show
     @topic = find_topic
+    render 'archived_topic' if @topic.archived?
   end
 
   def edit
@@ -52,6 +54,26 @@ class TopicsController < ApplicationController
     redirect_to topic
   end
 
+  def propose_archive
+    @archival = ArchivalForm.new(tag: find_topic)
+  end
+
+  def archive
+    topic = find_topic
+
+    if topic.published?
+      successor = Topic.find(params[:archival_form][:successor])
+      TagArchiver.new(topic, successor).archive
+      redirect_to topic_path(topic), notice: 'The topic has been archived.'
+    else
+      DraftTagRemover.new(topic).remove
+      redirect_to topics_path, notice: 'The topic has been removed.'
+    end
+  rescue GdsApi::HTTPConflict
+    flash[:error] = "The tag could not be deleted because there are documents tagged to it"
+    redirect_to :back
+  end
+
 private
 
   def topic_params
@@ -60,5 +82,13 @@ private
 
   def find_topic
     @_topic ||= Topic.find_by!(content_id: params[:id])
+  end
+
+  def protect_archived_tags!
+    topic = find_topic
+    if topic.archived?
+      flash[:error] = 'You cannot modify an archived topic.'
+      redirect_to topic
+    end
   end
 end

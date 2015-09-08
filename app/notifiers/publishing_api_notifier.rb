@@ -15,7 +15,9 @@ class PublishingAPINotifier
     if tag.published?
       publishing_api.put_content_item(presenter.base_path, presenter.render_for_publishing_api)
       add_redirects
-    else
+    elsif tag.archived?
+      add_redirects
+    elsif tag.draft?
       publishing_api.put_draft_content_item(presenter.base_path, presenter.render_for_publishing_api)
     end
   end
@@ -36,7 +38,7 @@ private
   end
 
   def publishing_api
-    @publishing_api ||= CollectionsPublisher.services(:publishing_api)
+    Services.publishing_api
   end
 
   def self.publish_root_page(tag)
@@ -62,14 +64,14 @@ private
   class RootBrowsePageWorker
     include Sidekiq::Worker
     def perform
-      CollectionsPublisher.services(:publishing_api).put_content_item("/browse", RootBrowsePagePresenter.new.render_for_publishing_api)
+      Services.publishing_api.put_content_item("/browse", RootBrowsePagePresenter.new.render_for_publishing_api)
     end
   end
 
   class RootTopicWorker
     include Sidekiq::Worker
     def perform
-      CollectionsPublisher.services(:publishing_api).put_content_item("/topic", RootTopicPresenter.new.render_for_publishing_api)
+      Services.publishing_api.put_content_item("/topic", RootTopicPresenter.new.render_for_publishing_api)
     end
   end
 end

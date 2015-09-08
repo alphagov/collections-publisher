@@ -64,4 +64,75 @@ RSpec.describe "Viewing topics" do
     # And I should see the link
     expect(page).to have_content 'A link that only exists in Rummager.'
   end
+
+  it "disallows modification of archived topics" do
+    stub_user.permissions << "GDS Editor"
+    topic = create(:topic, :archived)
+
+    visit edit_topic_path(topic)
+
+    expect(page).to have_content 'You cannot modify an archived topic.'
+  end
+
+  it "allows users to archive published topics" do
+    stub_any_call_to_rummager_with_documents([])
+    stub_user.permissions << "GDS Editor"
+
+    rummager_deletion = stub_request(:delete, %r[https://rummager.test.gov.uk/*]).to_return(body: "{}")
+    panopticon_deletion = stub_request(:delete, "https://panopticon.test.gov.uk/tags/specialist_sector/foo/bar.json").to_return(body: "{}")
+
+    topic = create(:topic, :published, slug: 'bar', parent: create(:topic, slug: 'foo'))
+
+    create(:topic, :published, title: 'The Successor Topic')
+
+    visit topic_path(topic)
+
+    click_link 'Archive topic'
+
+    expect(page).to have_content 'Choose a topic to redirect to'
+
+    select 'The Successor Topic', from: "archival_form_successor"
+
+    click_button 'Archive'
+
+    expect(topic.reload.archived?).to eql(true)
+    expect(rummager_deletion).to have_been_requested
+    expect(panopticon_deletion).to have_been_requested
+  end
+
+  it "doesn't archive a tag when panopticon doesn't want to delete it" do
+    stub_any_call_to_rummager_with_documents([])
+    stub_user.permissions << "GDS Editor"
+
+    panopticon_deletion = stub_request(:delete, "https://panopticon.test.gov.uk/tags/specialist_sector/foo/bar.json")
+      .to_return(status: 409, body: "{}")
+
+    topic = create(:topic, :published, slug: 'bar', parent: create(:topic, slug: 'foo'))
+
+    create(:topic, :published, title: 'The Successor Topic')
+
+    visit topic_path(topic)
+
+    click_link 'Archive topic'
+    select 'The Successor Topic', from: "archival_form_successor"
+    click_button 'Archive'
+
+    expect(page).to have_content 'The tag could not be deleted because there are documents tagged to it'
+  end
+
+  it "allows users to remove draft topics" do
+    stub_any_call_to_rummager_with_documents([])
+    stub_user.permissions << "GDS Editor"
+    panopticon_deletion = stub_request(:delete, "https://panopticon.test.gov.uk/tags/specialist_sector/foo/bar.json").to_return(body: "{}")
+
+    topic = create(:topic, :draft, slug: 'bar', parent: create(:topic, slug: 'foo'))
+
+    visit topic_path(topic)
+
+    click_link 'Remove topic'
+
+    expect { topic.reload }.to raise_error(ActiveRecord::RecordNotFound)
+
+    expect(panopticon_deletion).to have_been_requested
+  end
 end
