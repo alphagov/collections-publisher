@@ -8,9 +8,11 @@ class DraftTagRemover
   def remove
     return if tag.published? || tag.parent? || tag.tagged_documents.any?
 
-    remove_tag_from_panopticon
-    add_gone_item
-    tag.destroy!
+    Tag.transaction do
+      remove_tag_from_panopticon
+      add_gone_item
+      tag.destroy!
+    end
   end
 
 private
