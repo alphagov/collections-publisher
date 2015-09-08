@@ -9,6 +9,7 @@ RSpec.describe TagArchiver do
       # Succesful archivings will remove the result from rummager.
       allow(CollectionsPublisher.services(:rummager)).to receive(:delete_document)
       allow(Services.publishing_api).to receive(:put_content_item)
+      allow(Services.panopticon).to receive(:delete_tag!)
     end
 
     it "won't archive parent tags" do
@@ -117,6 +118,14 @@ RSpec.describe TagArchiver do
 
       expect(tag.archived).to be(false)
       expect(tag.redirects.size).to be(0)
+    end
+
+    it "removes the tag from panoption" do
+      tag = create(:topic, :published, parent: create(:topic))
+
+      TagArchiver.new(tag, build(:topic)).archive
+
+      expect(Services.panopticon).to have_received(:delete_tag!)
     end
   end
 end

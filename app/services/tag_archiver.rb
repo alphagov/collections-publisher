@@ -13,6 +13,7 @@ class TagArchiver
     return if tag.can_have_children? || tag.tagged_documents.any?
 
     Tag.transaction do
+      remove_tag_from_panopticon
       update_tag
       setup_redirects
       remove_from_search_index
@@ -21,6 +22,12 @@ class TagArchiver
   end
 
 private
+
+  def remove_tag_from_panopticon
+    presenter = TagPresenter.presenter_for(tag)
+    tag_hash = presenter.render_for_panopticon
+    Services.panopticon.delete_tag!(tag_hash[:tag_type], tag_hash[:tag_id])
+  end
 
   def update_tag
     tag.update!(archived: true)

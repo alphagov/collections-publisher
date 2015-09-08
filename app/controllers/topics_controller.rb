@@ -69,6 +69,9 @@ class TopicsController < ApplicationController
       DraftTagRemover.new(topic).remove
       redirect_to topics_path, notice: 'The topic has been removed.'
     end
+  rescue GdsApi::HTTPConflict
+    flash[:error] = "The tag could not be deleted because there are documents tagged to it"
+    redirect_to :back
   end
 
 private

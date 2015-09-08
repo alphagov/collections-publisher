@@ -6,6 +6,7 @@ RSpec.describe DraftTagRemover do
   before do
     stub_content_store!
     stub_any_call_to_rummager_with_documents([])
+    allow(Services.panopticon).to receive(:delete_tag!)
   end
 
   describe "#remove" do
@@ -52,6 +53,14 @@ RSpec.describe DraftTagRemover do
 
       expect(stubbed_content_store).to have_draft_content_item_slug('/topic/foo/bar')
       expect(stubbed_content_store.last_updated_item).to be_valid_against_schema('gone')
+    end
+
+    it "removes the tag from panoption" do
+      topic = create(:topic, :draft, parent: create(:topic))
+
+      DraftTagRemover.new(topic).remove
+
+      expect(Services.panopticon).to have_received(:delete_tag!)
     end
   end
 end
