@@ -1,4 +1,4 @@
-<h1>Archive a topic</h1>
+<%= tag_header @archival.tag, 'Archive topic' %>
 
 <%= form_for @archival, url: archive_topic_path(@archival.tag) do |f| %>
   <%= f.select :successor,
