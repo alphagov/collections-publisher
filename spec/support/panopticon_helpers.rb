@@ -13,25 +13,17 @@ module PanopticonHelpers
       .to_return(:status => 200)
   end
 
-  def assert_tag_created_in_panopticon(tag_id:, tag_type:, title:, description:, parent_id: nil)
-    request = stub_panopticon_tag_creation(
-      :tag_id => tag_id,
-      :title => title,
-      :description => description,
-      :tag_type => tag_type,
-      :parent_id => parent_id,
-    )
+  def assert_tag_created_in_panopticon(payload)
+    payload[:parent_id] ||= nil
+    payload = Hash[payload.sort]
+    request = stub_panopticon_tag_creation(payload)
     expect(request).to have_been_requested
   end
 
-  def assert_tag_updated_in_panopticon(tag_id:, tag_type:, title:, description:)
-    request = stub_panopticon_tag_update(tag_type, tag_id,
-      :tag_id => tag_id,
-      :title => title,
-      :description => description,
-      :tag_type => tag_type,
-      :parent_id => nil,
-    )
+  def assert_tag_updated_in_panopticon(payload)
+    payload[:parent_id] = nil
+    payload = Hash[payload.sort]
+    request = stub_panopticon_tag_update(payload[:tag_type], payload[:tag_id], payload)
     expect(request).to have_been_requested
   end
 
