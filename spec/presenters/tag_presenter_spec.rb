@@ -21,6 +21,7 @@ RSpec.describe TagPresenter do
   describe '#render_for_panopticon' do
     it 'returns a hash of tag attributes' do
       tag = build(:topic,
+        content_id: 'A-UID',
         slug: 'citizenship',
         title: 'Citizenship',
         description: 'Living in the UK, passports',
@@ -30,6 +31,7 @@ RSpec.describe TagPresenter do
 
       expect(presenter.render_for_panopticon).to eq(
         {
+          content_id: 'A-UID',
           tag_id: 'citizenship',
           title: 'Citizenship',
           tag_type: 'specialist_sector',
