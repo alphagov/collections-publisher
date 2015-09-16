@@ -19,23 +19,20 @@ RSpec.describe TagPresenter do
   end
 
   describe '#render_for_panopticon' do
-    let(:attributes) {{
-      slug: 'citizenship',
-      title: 'Citizenship',
-      description: 'Living in the UK, passports',
-      parent: nil,
-      legacy_tag_type: nil,
-    }}
-
     it 'returns a hash of tag attributes' do
-      tag = double(:tag, attributes)
+      tag = build(:topic,
+        slug: 'citizenship',
+        title: 'Citizenship',
+        description: 'Living in the UK, passports',
+      )
+
       presenter = TagPresenter.new(tag)
 
       expect(presenter.render_for_panopticon).to eq(
         {
           tag_id: 'citizenship',
           title: 'Citizenship',
-          tag_type: nil,
+          tag_type: 'specialist_sector',
           description: 'Living in the UK, passports',
           parent_id: nil,
         }
@@ -43,9 +40,11 @@ RSpec.describe TagPresenter do
     end
 
     it 'builds a tag_id containing the parent' do
-      child_tag = double(:tag, attributes.merge(
-        parent: double(:tag, slug: 'parent')
-      ))
+      child_tag = build(:topic,
+        slug: 'citizenship',
+        parent: build(:topic, slug: 'parent')
+      )
+
       presenter = TagPresenter.new(child_tag)
 
       expect(presenter.render_for_panopticon[:tag_id]).to eq('parent/citizenship')
