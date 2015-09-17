@@ -76,6 +76,6 @@ RSpec.describe RummagerNotifier do
   end
 
   def rummager
-    CollectionsPublisher.services(:rummager)
+    Services.rummager
   end
 end

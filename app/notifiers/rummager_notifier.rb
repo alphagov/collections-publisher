@@ -8,7 +8,7 @@ class RummagerNotifier
   def notify
     return if tag.draft?
 
-    CollectionsPublisher.services(:rummager).add_document(
+    Services.rummager.add_document(
       'edition',
       presenter.base_path,
       presenter.render_for_rummager

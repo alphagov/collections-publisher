@@ -61,7 +61,7 @@ private
   end
 
   def remove_from_search_index
-    CollectionsPublisher.services(:rummager).delete_document(
+    Services.rummager.delete_document(
       'edition',
       tag.base_path
     )

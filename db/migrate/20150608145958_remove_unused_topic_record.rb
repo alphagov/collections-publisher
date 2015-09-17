@@ -13,7 +13,7 @@ class RemoveUnusedTopicRecord < ActiveRecord::Migration
   end
 
   def redirect_former_url
-    publishing_api = CollectionsPublisher.services(:publishing_api)
+    publishing_api = Services.publishing_api
     resp = publishing_api.put_content_item("/immigration-operational-guidance/european-casework-instructions", redirect_item)
     puts resp.body
   end

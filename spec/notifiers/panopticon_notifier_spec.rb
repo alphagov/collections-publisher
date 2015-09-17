@@ -1,12 +1,10 @@
 require "rails_helper"
 
 RSpec.describe PanopticonNotifier do
-  let(:panopticon) {
-    double(:panopticon, create_tag: nil, put_tag: nil, publish_tag: nil)
-  }
-
   before do
-    allow(CollectionsPublisher).to receive(:services).with(:panopticon).and_return(panopticon)
+    allow(Services.panopticon).to receive(:create_tag)
+    allow(Services.panopticon).to receive(:put_tag)
+    allow(Services.panopticon).to receive(:publish_tag)
   end
 
   let(:tag_hash) { double(:tag_hash) }
@@ -16,7 +14,7 @@ RSpec.describe PanopticonNotifier do
     it 'sends a request to Panopticon to create the tag' do
       PanopticonNotifier.create_tag(presenter)
 
-      expect(panopticon).to have_received(:create_tag).with(tag_hash)
+      expect(Services.panopticon).to have_received(:create_tag).with(tag_hash)
     end
   end
 
@@ -32,7 +30,7 @@ RSpec.describe PanopticonNotifier do
     it 'sends a request to Panopticon to update the tag' do
       PanopticonNotifier.update_tag(presenter)
 
-      expect(panopticon).to have_received(:put_tag).with(tag_type, tag_id, tag_hash)
+      expect(Services.panopticon).to have_received(:put_tag).with(tag_type, tag_id, tag_hash)
     end
   end
 
@@ -48,7 +46,7 @@ RSpec.describe PanopticonNotifier do
     it 'sends a request to Panopticon to publish the tag' do
       PanopticonNotifier.publish_tag(presenter)
 
-      expect(panopticon).to have_received(:publish_tag).with(tag_type, tag_id)
+      expect(Services.panopticon).to have_received(:publish_tag).with(tag_type, tag_id)
     end
   end
 end
