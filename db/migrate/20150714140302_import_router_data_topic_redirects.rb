@@ -150,7 +150,7 @@ class ImportRouterDataTopicRedirects < ActiveRecord::Migration
   end
 
   def register_redirects
-    publishing_api = CollectionsPublisher.services(:publishing_api)
+    publishing_api = Services.publishing_api
 
     @redirects.group_by(&:original_tag_base_path).each do |old_base_path, redirects|
       presenter = RedirectPresenter.new(redirects)

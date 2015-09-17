@@ -18,7 +18,7 @@ class TaggedDocuments
 private
 
   def search_result
-    @search_result ||= CollectionsPublisher.services(:rummager).unified_search({
+    @search_result ||= Services.rummager.unified_search({
       :start => 0,
       :count => PAGE_SIZE_TO_GET_EVERYTHING,
       filter_name => [tag.full_slug],

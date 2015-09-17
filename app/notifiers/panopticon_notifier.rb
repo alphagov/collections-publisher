@@ -19,6 +19,6 @@ class PanopticonNotifier
 
 private
   def self.panopticon
-    CollectionsPublisher.services(:panopticon)
+    Services.panopticon
   end
 end

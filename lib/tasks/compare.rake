@@ -4,7 +4,7 @@ namespace :comparison do
   task :run => :environment do
     require 'csv'
     require 'gds_api/content_api'
-    CollectionsPublisher.services(:content_api, GdsApi::ContentApi.new(Plek.new.find('content_api')))
+    Services.publishing_api(:content_api, GdsApi::ContentApi.new(Plek.new.find('content_api')))
 
     # Generates 2 CSV files reporting differences between the contentapi and
     # rummager views on the content items tagged to a given topic or
@@ -24,7 +24,7 @@ namespace :comparison do
     Tag.only_children.includes(:parent).find_each do |tag|
 
       filter_key = tag.is_a?(Topic) ? "filter_specialist_sectors" : "filter_mainstream_browse_pages"
-      rummager_data = CollectionsPublisher.services(:rummager).unified_search({
+      rummager_data = Services.rummager.unified_search({
         :start => 0,
         :count => 10_000,
         filter_key => [tag.full_slug],
@@ -32,7 +32,7 @@ namespace :comparison do
       }).results
 
       begin
-        contentapi_data = CollectionsPublisher.services(:content_api).with_tag(tag.full_slug, tag.legacy_tag_type).results
+        contentapi_data = Services.publishing_api(:content_api).with_tag(tag.full_slug, tag.legacy_tag_type).results
       rescue GdsApi::HTTPNotFound
         contentapi_data = []
       end

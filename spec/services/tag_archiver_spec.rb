@@ -7,7 +7,7 @@ RSpec.describe TagArchiver do
       stub_any_call_to_rummager_with_documents([])
 
       # Succesful archivings will remove the result from rummager.
-      allow(CollectionsPublisher.services(:rummager)).to receive(:delete_document)
+      allow(Services.rummager).to receive(:delete_document)
       allow(Services.publishing_api).to receive(:put_content_item)
       allow(Services.panopticon).to receive(:delete_tag!)
     end
@@ -98,7 +98,7 @@ RSpec.describe TagArchiver do
 
       TagArchiver.new(tag, build(:topic)).archive
 
-      expect(CollectionsPublisher.services(:rummager)).to have_received(:delete_document)
+      expect(Services.rummager).to have_received(:delete_document)
     end
 
     it "republishes the content item" do
@@ -111,7 +111,7 @@ RSpec.describe TagArchiver do
 
     it "doesn't have side effects when a API call fails" do
       tag = create(:topic, :published, parent: create(:topic))
-      allow(CollectionsPublisher.services(:rummager)).to receive(:delete_document).and_raise(RuntimeError)
+      allow(Services.rummager).to receive(:delete_document).and_raise(RuntimeError)
 
       expect { TagArchiver.new(tag, build(:topic)).archive }.to raise_error(RuntimeError)
       tag.reload
