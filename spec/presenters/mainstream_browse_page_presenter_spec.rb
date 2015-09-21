@@ -3,12 +3,11 @@ require 'rails_helper'
 RSpec.describe MainstreamBrowsePagePresenter do
 
   describe "rendering for panopticon" do
-    let(:mainstream_browse_page) { double(:mainstream_browse_page,
+    let(:mainstream_browse_page) { build(:mainstream_browse_page,
       slug: 'citizenship',
       title: 'Citizenship',
       description: 'Living in the UK, passports',
       parent: nil,
-      legacy_tag_type: 'section',
     ) }
 
     let(:presenter) { MainstreamBrowsePagePresenter.new(mainstream_browse_page) }

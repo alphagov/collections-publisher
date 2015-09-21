@@ -47,11 +47,12 @@ class TagPresenter
 
   def render_for_panopticon
     {
-      tag_id: tag_id,
-      title: tag.title,
+      content_id: tag.content_id,
       description: tag.description,
-      tag_type: legacy_tag_type,
       parent_id: parent.slug,
+      tag_id: tag_id,
+      tag_type: legacy_tag_type,
+      title: tag.title,
     }
   end
 
