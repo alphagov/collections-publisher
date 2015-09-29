@@ -9,7 +9,7 @@ gem 'airbrake', '~> 4.2.0'
 gem 'gds-sso', '~> 11.0.0'
 gem 'gds-api-adapters', '24.3.0'
 
-gem 'govuk_admin_template', '~> 2.3.1'
+gem 'govuk_admin_template', '3.0.0'
 gem 'generic_form_builder', '~> 0.9.0'
 gem 'aasm', '~> 4.1.0'
 
