@@ -20,9 +20,6 @@ Rails.application.routes.draw do
   resources :tags, only: [] do
     post :publish_lists
 
-    # FIXME: Legacy route, may have been shown to user before deploying.
-    post '/republish', action: :publish_lists
-
     resources :lists, only: [:index, :edit, :create, :update, :destroy] do
       resources :list_items, only: [:create, :update, :destroy]
     end
