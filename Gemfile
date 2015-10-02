@@ -2,7 +2,9 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.4'
 
-gem 'mysql2', '~> 0.3.16'
+# Note that mysql2 0.4.X doesn't work with Rails. 4.2.X yet.
+gem 'mysql2', '~> 0.3.20'
+
 gem 'plek', '~> 1.11.0'
 gem 'airbrake', '~> 4.3.1'
 
