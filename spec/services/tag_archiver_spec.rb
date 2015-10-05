@@ -127,5 +127,18 @@ RSpec.describe TagArchiver do
 
       expect(Services.panopticon).to have_received(:delete_tag!)
     end
+
+    it "is okay with tags that don't exist anymore in Panopticon" do
+      tag = create(:topic, :published, parent: create(:topic))
+      allow(Services.panopticon).to receive(:delete_tag!).and_raise(
+        GdsApi::HTTPNotFound.new(404)
+      )
+
+      TagArchiver.new(tag, build(:topic)).archive
+      tag.reload
+
+      expect(tag.archived?).to be(true)
+    end
+
   end
 end

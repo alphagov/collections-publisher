@@ -26,7 +26,11 @@ private
   def remove_tag_from_panopticon
     presenter = TagPresenter.presenter_for(tag)
     tag_hash = presenter.render_for_panopticon
-    Services.panopticon.delete_tag!(tag_hash[:tag_type], tag_hash[:tag_id])
+    begin
+      Services.panopticon.delete_tag!(tag_hash[:tag_type], tag_hash[:tag_id])
+    rescue GdsApi::HTTPNotFound
+      Rails.logger.info("Tag with id #{tag_hash[:tag_id]}, not found in Panopticon")
+    end
   end
 
   def update_tag
