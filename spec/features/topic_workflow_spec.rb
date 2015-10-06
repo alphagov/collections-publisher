@@ -263,6 +263,20 @@ RSpec.describe "creating and editing topics" do
     })
   end
 
+  it "archiving a topic and trying to redirect to a non valid basepath" do
+    stub_request(:delete, %r[.panopticon]).and_raise(GdsApi::HTTPServerError)
+
+    # Given a published topic exists
+    topic = create(:topic, :published, parent: create(:topic))
+
+    # When I try to archive and redirect to a non valid basepath
+    visit propose_archive_topic_path(topic)
+    fill_in "archival_form[successor_path]", with: 'not a valid basepath'
+    click_button "Archive and redirect to a page"
+
+    # I should see an error message
+    expect(page).to have_content('The tag couldn’t be deleted because you didn’t enter a valid path')
+  end
 
   def assert_rummager_posted_item(attributes)
     url = Plek.new.find('rummager') + "/documents"

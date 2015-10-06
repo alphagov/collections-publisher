@@ -93,7 +93,7 @@ RSpec.describe "Viewing topics" do
 
     select 'The Successor Topic', from: "archival_form_successor"
 
-    click_button 'Archive'
+    click_button 'Archive and redirect to a topic'
 
     expect(topic.reload.archived?).to eql(true)
     expect(rummager_deletion).to have_been_requested
@@ -115,7 +115,7 @@ RSpec.describe "Viewing topics" do
 
     click_link 'Archive topic'
     select 'The Successor Topic', from: "archival_form_successor"
-    click_button 'Archive'
+    click_button 'Archive and redirect to a topic'
 
     expect(page).to have_content 'The tag could not be deleted because there are documents tagged to it'
   end

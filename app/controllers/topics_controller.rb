@@ -61,17 +61,29 @@ class TopicsController < ApplicationController
   def archive
     topic = find_topic
 
-    if topic.published?
-      successor = Topic.find(params[:archival_form][:successor])
-      TagArchiver.new(topic, successor).archive
-      redirect_to topic_path(topic), notice: 'The topic has been archived.'
-    else
-      DraftTagRemover.new(topic).remove
-      redirect_to topics_path, notice: 'The topic has been removed.'
+    begin
+      if topic.published?
+        TagArchiver.new(topic, successor).archive
+        redirect_to topic_path(topic), notice: 'The topic has been archived.'
+      else
+        DraftTagRemover.new(topic).remove
+        redirect_to topics_path, notice: 'The topic has been removed.'
+      end
+    rescue GdsApi::HTTPConflict
+      flash[:error] = "The tag could not be deleted because there are documents tagged to it"
+      redirect_to :back
+    rescue GdsApi::HTTPServerError
+      flash[:error] = "The tag couldn’t be deleted because you didn’t enter a valid path"
+      redirect_to :back
     end
-  rescue GdsApi::HTTPConflict
-    flash[:error] = "The tag could not be deleted because there are documents tagged to it"
-    redirect_to :back
+  end
+
+  def successor
+    if params[:archival_form][:successor_path]
+      OpenStruct.new(base_path: params[:archival_form][:successor_path], subroutes: [])
+    else
+      Topic.find_by_id(params[:archival_form][:successor])
+    end
   end
 
 private

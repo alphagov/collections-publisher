@@ -1,6 +1,6 @@
 class ArchivalForm
   include ActiveModel::Model
-  attr_accessor :tag, :successor
+  attr_accessor :tag, :successor, :successor_path
 
   def topics
     published_topics - [tag]
