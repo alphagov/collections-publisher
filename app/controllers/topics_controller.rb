@@ -59,19 +59,14 @@ class TopicsController < ApplicationController
   end
 
   def archive
-    topic = find_topic
+    @archival = ArchivalForm.new(params[:archival_form])
+    @archival.tag = find_topic
 
-    if topic.published?
-      successor = Topic.find(params[:archival_form][:successor])
-      TagArchiver.new(topic, successor).archive
-      redirect_to topic_path(topic), notice: 'The topic has been archived.'
+    if @archival.archive_or_remove
+      redirect_to topics_path, notice: 'The topic has been archived or removed.'
     else
-      DraftTagRemover.new(topic).remove
-      redirect_to topics_path, notice: 'The topic has been removed.'
+      render 'propose_archive'
     end
-  rescue GdsApi::HTTPConflict
-    flash[:error] = "The tag could not be deleted because there are documents tagged to it"
-    redirect_to :back
   end
 
 private

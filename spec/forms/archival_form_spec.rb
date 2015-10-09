@@ -1,6 +1,9 @@
 require 'rails_helper'
+require 'gds_api/test_helpers/content_store'
 
 RSpec.describe ArchivalForm do
+  include GdsApi::TestHelpers::ContentStore
+
   describe '#topics' do
     it 'returns published topics that can be successors' do
       draft = create(:topic, :draft)
@@ -11,6 +14,36 @@ RSpec.describe ArchivalForm do
       topics = ArchivalForm.new(tag: topic_self).topics
 
       expect(topics).to eql([published])
+    end
+  end
+
+  describe '#successor_path' do
+    it 'is not valid if the URL returns a 404 status code' do
+      content_store_does_not_have_item('/not-here')
+
+      form = ArchivalForm.new(successor_path: "/not-here")
+
+      expect(form.valid?).to eql(false)
+    end
+
+    it 'is not valid if its not really a URL' do
+      form = ArchivalForm.new(successor_path: "/i-Am Not A URL")
+
+      expect(form.valid?).to eql(false)
+    end
+
+    it 'is not valid if it does not start with a slash' do
+      form = ArchivalForm.new(successor_path: "am-not-a-url")
+
+      expect(form.valid?).to eql(false)
+    end
+
+    it 'is valid if the URL returns 200' do
+      content_store_has_item('/existing-item')
+
+      form = ArchivalForm.new(successor_path: "/existing-item")
+
+      expect(form.valid?).to eql(true)
     end
   end
 end

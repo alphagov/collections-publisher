@@ -1,10 +1,15 @@
 require 'gds_api/publishing_api'
 require 'gds_api/panopticon'
 require 'gds_api/rummager'
+require 'gds_api/content_store'
 
 module Services
   def self.publishing_api
     @publishing_api ||= GdsApi::PublishingApi.new(Plek.new.find('publishing-api'))
+  end
+
+  def self.content_store
+    @content_store ||= GdsApi::ContentStore.new(Plek.new.find('content-store'))
   end
 
   def self.panopticon

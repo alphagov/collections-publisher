@@ -54,6 +54,17 @@ RSpec.describe TagArchiver do
       expect(redirect.to_base_path).to eql successor.base_path
     end
 
+    it "creates a redirect to its non-topic successor" do
+      tag = create(:topic, :published, parent: create(:topic))
+      successor = OpenStruct.new(base_path: "www.gov.uk/successor", subroutes: [])
+
+      TagArchiver.new(tag, successor).archive
+      redirect = tag.redirects.first
+
+      expect(redirect.from_base_path).to eql tag.base_path
+      expect(redirect.to_base_path).to eql successor.base_path
+    end
+
     it "creates redirects for the suffixes" do
       tag = create(:topic, :published, slug: 'bar', parent: create(:topic, slug: 'foo'))
       successor = create(:topic)

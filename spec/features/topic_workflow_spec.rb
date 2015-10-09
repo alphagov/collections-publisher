@@ -263,6 +263,24 @@ RSpec.describe "creating and editing topics" do
     })
   end
 
+  require 'gds_api/test_helpers/content_store'
+  include GdsApi::TestHelpers::ContentStore
+
+  it "archiving a topic and trying to redirect to a non valid basepath" do
+    content_store_does_not_have_item('/not-here')
+
+    # Given a published topic exists
+    topic = create(:topic, :published, parent: create(:topic))
+
+    # When I try to archive and redirect to a non valid basepath
+    visit propose_archive_topic_path(topic)
+    fill_in "archival_form[successor_path]", with: '/not-here'
+
+    click_button "Archive and redirect to a page"
+
+    # I should see an error message
+    expect(page).to have_content("This URL isn't a valid target for a redirect on GOV.UK.")
+  end
 
   def assert_rummager_posted_item(attributes)
     url = Plek.new.find('rummager') + "/documents"

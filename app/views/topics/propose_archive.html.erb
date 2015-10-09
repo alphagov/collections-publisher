@@ -1,10 +1,24 @@
 <%= tag_header @archival.tag, 'Archive topic' %>
 
+<% if @archival.errors[:base].any? %>
+  <div class="alert alert-danger">
+    <%= @archival.errors[:base].to_sentence %>
+  </div>
+<% end %>
+
 <%= form_for @archival, url: archive_topic_path(@archival.tag) do |f| %>
   <%= f.select :successor,
     options_from_collection_for_select(@archival.topics, :id, :title_including_parent),
     { label: 'Choose a topic to redirect to:' },
-    { class: "select2" } %>
+    { class: 'select2' } %>
 
-  <%= f.submit 'Archive', class: 'btn-submit btn-danger' %>
+  <%= f.submit 'Archive and redirect to a topic', class: 'btn-submit btn-danger' %>
+<% end %>
+
+<%= form_for @archival, url: archive_topic_path(@archival.tag) do |f| %>
+  <%= f.text_field :successor_path,
+    { label: 'Or type in a URL to redirect to a page',
+      placeholder: 'please specify it as a relative path (eg. "/government/publications/what-hmrc-does-to-prevent-tax-evasion")' } %>
+
+  <%= f.submit 'Archive and redirect to a page', class: 'btn-submit btn-danger' %>
 <% end %>
