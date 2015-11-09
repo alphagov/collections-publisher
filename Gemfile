@@ -43,6 +43,5 @@ group :test, :development do
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'webmock', '~> 1.21.0', require: false
   gem 'timecop', '~> 0.8.0'
-  gem 'annotate', '~> 2.6.8'
   gem 'govuk-content-schema-test-helpers', '~> 1.3'
 end
