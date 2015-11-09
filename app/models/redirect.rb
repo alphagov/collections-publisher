@@ -1,21 +1,3 @@
-# == Schema Information
-#
-# Table name: redirects
-#
-#  id                     :integer          not null, primary key
-#  tag_id                 :integer
-#  original_tag_base_path :string(255)      not null
-#  from_base_path         :string(255)      not null
-#  to_base_path           :string(255)      not null
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#
-# Indexes
-#
-#  index_redirects_on_from_base_path  (from_base_path) UNIQUE
-#  index_redirects_on_tag_id          (tag_id)
-#
-
 class Redirect < ActiveRecord::Base
   belongs_to :tag
 end
