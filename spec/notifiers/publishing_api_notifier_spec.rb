@@ -95,8 +95,13 @@ RSpec.describe PublishingAPINotifier do
       it "sends topic redirects to the publishing-api", schema_test: true do
         tag = create(:topic, :published, slug: 'foo')
 
-        create(:redirect, tag: tag,
+        redirect = create(:redirect,
+          tag: tag,
           original_tag_base_path: '/foo',
+        )
+
+        create(:redirect_route,
+          redirect: redirect,
           from_base_path: '/foo',
           to_base_path: '/topic/foo',
         )

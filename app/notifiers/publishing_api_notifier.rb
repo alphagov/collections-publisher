@@ -25,11 +25,13 @@ class PublishingAPINotifier
 private
 
   def add_redirects
-    redirects = tag.redirects.group_by(&:original_tag_base_path)
+    tag.redirects.each do |redirect|
+      redirect_presenter = RedirectPresenter.new(redirect)
 
-    redirects.each do |old_path, redirects|
-      presenter = RedirectPresenter.new(redirects)
-      publishing_api.put_content_item(old_path, presenter.render_for_publishing_api)
+      publishing_api.put_content_item(
+        redirect_presenter.base_path,
+        redirect_presenter.render_for_publishing_api
+      )
     end
   end
 
