@@ -48,7 +48,7 @@ RSpec.describe TagArchiver do
       successor = create(:topic)
 
       TagArchiver.new(tag, successor).archive
-      redirect = tag.redirects.first
+      redirect = tag.redirect_routes.first
 
       expect(redirect.from_base_path).to eql tag.base_path
       expect(redirect.to_base_path).to eql successor.base_path
@@ -59,7 +59,7 @@ RSpec.describe TagArchiver do
       successor = OpenStruct.new(base_path: "www.gov.uk/successor", subroutes: [])
 
       TagArchiver.new(tag, successor).archive
-      redirect = tag.redirects.first
+      redirect = tag.redirect_routes.first
 
       expect(redirect.from_base_path).to eql tag.base_path
       expect(redirect.to_base_path).to eql successor.base_path
@@ -71,7 +71,7 @@ RSpec.describe TagArchiver do
 
       TagArchiver.new(tag, successor).archive
 
-      expect(tag.redirects.map(&:from_base_path)).to eql([
+      expect(tag.redirect_routes.map(&:from_base_path)).to eql([
         "/topic/foo/bar",
         "/topic/foo/bar/latest",
         "/topic/foo/bar/email-signup",
@@ -84,7 +84,7 @@ RSpec.describe TagArchiver do
 
       TagArchiver.new(tag, successor).archive
 
-      expect(tag.redirects.map(&:to_base_path)).to eql([
+      expect(tag.redirect_routes.map(&:to_base_path)).to eql([
         "/topic/foo",
         "/topic/foo",
         "/topic/foo",
@@ -97,7 +97,7 @@ RSpec.describe TagArchiver do
 
       TagArchiver.new(tag, successor).archive
 
-      expect(tag.redirects.map(&:to_base_path)).to eql([
+      expect(tag.redirect_routes.map(&:to_base_path)).to eql([
         "/topic/foo/bar",
         "/topic/foo/bar/latest",
         "/topic/foo/bar/email-signup",

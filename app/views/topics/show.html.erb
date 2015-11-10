@@ -27,5 +27,5 @@
 <% end %>
 
 <% if @topic.redirects.any? %>
-  <%= render 'redirects', redirects: @topic.redirects %>
+  <%= render 'redirects', redirect_routes: @topic.redirect_routes %>
 <% end %>

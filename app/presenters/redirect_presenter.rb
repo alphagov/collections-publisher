@@ -1,8 +1,8 @@
 class RedirectPresenter
-  attr_reader :redirects
+  attr_reader :redirect
 
-  def initialize(redirects)
-    @redirects = redirects
+  def initialize(redirect)
+    @redirect = redirect
   end
 
   def render_for_publishing_api
@@ -14,13 +14,17 @@ class RedirectPresenter
     }
   end
 
+  def base_path
+    redirect.original_tag_base_path
+  end
+
 private
 
   def redirect_routes
-    redirects.map do |redirect|
+    redirect.redirect_routes.map do |redirect_route|
       {
-        path: redirect.from_base_path,
-        destination: redirect.to_base_path,
+        path: redirect_route.from_base_path,
+        destination: redirect_route.to_base_path,
         type: 'exact',
       }
     end
