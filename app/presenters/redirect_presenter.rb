@@ -13,7 +13,7 @@ class RedirectPresenter
       update_type: 'major',
       redirects: redirect_routes,
       links: {
-        replaced_content_item: [redirect.tag.content_id]
+        can_be_replaced_by: [redirect.tag.content_id]
       }
     }
   end
