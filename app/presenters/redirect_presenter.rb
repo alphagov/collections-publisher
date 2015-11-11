@@ -8,6 +8,7 @@ class RedirectPresenter
   def render_for_publishing_api
     {
       content_id: redirect.content_id,
+      base_path: base_path,
       format: 'redirect',
       publishing_app: 'collections-publisher',
       update_type: 'major',
