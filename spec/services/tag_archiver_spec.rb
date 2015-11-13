@@ -8,7 +8,7 @@ RSpec.describe TagArchiver do
 
       # Succesful archivings will remove the result from rummager.
       allow(Services.rummager).to receive(:delete_document)
-      allow(Services.publishing_api).to receive(:put_content_item)
+      allow(Services.publishing_api).to receive(:put_content)
       allow(Services.panopticon).to receive(:delete_tag!)
     end
 
@@ -117,7 +117,7 @@ RSpec.describe TagArchiver do
 
       TagArchiver.new(tag, build(:topic)).archive
 
-      expect(Services.publishing_api).to have_received(:put_content_item)
+      expect(Services.publishing_api).to have_received(:put_content)
     end
 
     it "doesn't have side effects when a API call fails" do

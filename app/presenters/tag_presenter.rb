@@ -16,6 +16,15 @@ class TagPresenter
     @tag = tag
   end
 
+
+  def content_id
+    tag.content_id
+  end
+
+  def update_type
+    'major'
+  end
+
   def render_for_rummager
     {
       format: rummager_format,
@@ -28,6 +37,7 @@ class TagPresenter
 
   def render_for_publishing_api
     {
+      base_path: base_path,
       content_id: @tag.content_id,
       format: format,
       title: @tag.title,
@@ -39,10 +49,16 @@ class TagPresenter
       rendering_app: "collections",
       routes: routes,
       redirects: [],
-      update_type: "major",
+      update_type: update_type,
       details: details,
-      links: links,
     }.merge(phase_state)
+  end
+
+
+  def render_links_for_publishing_api
+    {
+      links: links
+    }
   end
 
   def render_for_panopticon

@@ -50,6 +50,7 @@ class TopicsController < ApplicationController
   # Change the topic from draft to published state
   def publish
     topic = find_topic
+    
     TagPublisher.new(topic).publish
     redirect_to topic
   end

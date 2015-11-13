@@ -17,18 +17,17 @@ class TagRepublisher
 
     log "Sending root browse page to publishing-api"
     with_retry do
-      publishing_api.put_content_item(
-        "/browse",
-        RootBrowsePagePresenter.new.render_for_publishing_api
-      )
+      presenter = RootBrowsePagePresenter.new
+      publishing_api.put_content(presenter.content_id, presenter.render_for_publishing_api)
+      publishing_api.publish(presenter.content_id, presenter.update_type) 
     end
+
 
     log "Sending root topic to publishing-api"
     with_retry do
-      publishing_api.put_content_item(
-        "/topic",
-        RootTopicPresenter.new.render_for_publishing_api
-      )
+      presenter = RootTopicPresenter.new
+      publishing_api.put_content(presenter.content_id, presenter.render_for_publishing_api)
+      publishing_api.publish(presenter.content_id, presenter.update_type) 
     end
 
     log "All done"

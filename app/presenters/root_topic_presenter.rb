@@ -1,7 +1,17 @@
 class RootTopicPresenter
+
+  def content_id
+    "76e9abe7-dac8-49f0-bb5e-53e4b0d2cdba"
+  end
+
+  def update_type
+    "major"
+  end
+  
   def render_for_publishing_api
     {
-      content_id: "76e9abe7-dac8-49f0-bb5e-53e4b0d2cdba",
+      content_id: content_id,
+      base_path: '/topic',
       format: "topic",
       title: "Topics",
       locale: 'en',
@@ -9,11 +19,16 @@ class RootTopicPresenter
       publishing_app: "collections-publisher",
       rendering_app: "collections",
       routes: routes,
-      update_type: "major",
-      links: links,
+      update_type: update_type,
       details: {
         beta: true
       }
+    }
+  end
+
+  def render_links_for_publishing_api
+    {
+      links: links
     }
   end
 

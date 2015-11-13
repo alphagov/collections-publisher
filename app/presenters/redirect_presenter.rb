@@ -5,6 +5,10 @@ class RedirectPresenter
     @redirect = redirect
   end
 
+  def content_id
+    redirect.content_id
+  end
+
   def render_for_publishing_api
     {
       content_id: redirect.content_id,

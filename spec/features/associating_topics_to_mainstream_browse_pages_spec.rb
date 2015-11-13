@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "associating topics to mainstream browse pages" do
+  include PublishingApiHelpers
+
   before do
     stub_user.permissions << "GDS Editor"
     stub_all_panopticon_tag_calls
@@ -58,6 +60,7 @@ RSpec.describe "associating topics to mainstream browse pages" do
     end
 
     it "should allow associating topics" do
+      stub_put_content_links_and_publish_to_publishing_api
       visit edit_mainstream_browse_page_path(mainstream_browse_page)
 
       within "form" do
@@ -70,8 +73,9 @@ RSpec.describe "associating topics to mainstream browse pages" do
       expect(page).to have_content(topic.title)
       expect(page).to have_content(topic_two.title)
     end
-
+    
     it "should allow removing associated topics" do
+      stub_put_content_links_and_publish_to_publishing_api
       mainstream_browse_page.topics = [topic, topic_two]
       expect(mainstream_browse_page.save).to eql true
 

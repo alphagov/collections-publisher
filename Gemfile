@@ -9,7 +9,7 @@ gem 'plek', '~> 1.11.0'
 gem 'airbrake', '~> 4.3.1'
 
 gem 'gds-sso', '~> 11.0.0'
-gem 'gds-api-adapters', '~> 24.4.0'
+gem 'gds-api-adapters', '~> 25.1'
 
 gem 'govuk_admin_template', '~> 3.0.0'
 gem 'generic_form_builder', '~> 0.13.0'
@@ -44,4 +44,5 @@ group :test, :development do
   gem 'webmock', '~> 1.21.0', require: false
   gem 'timecop', '~> 0.8.0'
   gem 'govuk-content-schema-test-helpers', '~> 1.3'
+  gem 'simplecov', '~> 0.10'
 end

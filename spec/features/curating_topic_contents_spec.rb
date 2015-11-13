@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "Curating the contents of topics" do
+  include PublishingApiHelpers
+
   before :each do
-    stub_default_publishing_api_put
-    stub_default_publishing_api_put_draft
+    stub_put_content_links_and_publish_to_publishing_api
   end
 
   describe "Curating the content for a topic" do
@@ -78,11 +79,13 @@ RSpec.describe "Curating the contents of topics" do
       end
 
       # When I publish the topic
+      content_id = extract_content_id_from(current_path)
       click_on('Publish changes to GOV.UK')
+
 
       #Then the curated lists should have been sent to the publishing API
       assert_publishing_api_put_item(
-        "/topic/oil-and-gas/offshore",
+        content_id,
         {
           "details" => {
             "groups" => [
@@ -101,6 +104,10 @@ RSpec.describe "Curating the contents of topics" do
           }
         },
       )
+
+      # And have been published and links sent
+      assert_publishing_api_publish(content_id)
+      assert_publishing_api_put_links(content_id)
     end
 
     it "without javascript" do
@@ -137,6 +144,7 @@ RSpec.describe "Curating the contents of topics" do
 
       # Then the content should be in the correct lists in the correct order
       visit_topic_list_curation_page
+      content_id = extract_content_id_from(current_path)
 
       within :xpath, xpath_section_for('Oil rigs') do
         base_paths = page.all('tr').map { |tr| tr['data-base-path'] }.compact
@@ -158,9 +166,11 @@ RSpec.describe "Curating the contents of topics" do
       # When I publish the topic
       click_on('Publish changes to GOV.UK')
 
+      
+
       #Then the curated lists should have been sent to the publishing API
       assert_publishing_api_put_item(
-        "/topic/oil-and-gas/offshore",
+        content_id,
         {
           "details" => {
             "groups" => [
@@ -178,7 +188,12 @@ RSpec.describe "Curating the contents of topics" do
           }
         },
       )
+
+      # And then be published and links sent
+      assert_publishing_api_publish(content_id)
+      assert_publishing_api_put_links(content_id)
     end
+    
   end
 
   it "curating draft tags" do
