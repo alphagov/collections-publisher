@@ -26,6 +26,6 @@
   <%= render 'shared/tags/lists_of_links_preview', tag: @topic %>
 <% end %>
 
-<% if @topic.redirects.any? %>
+<% if @topic.redirect_routes.any? %>
   <%= render 'redirects', redirect_routes: @topic.redirect_routes %>
 <% end %>

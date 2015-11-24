@@ -1,3 +1,3 @@
 class RedirectRoute < ActiveRecord::Base
-  belongs_to :redirect
+  belongs_to :tag
 end

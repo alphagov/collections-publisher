@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151110220915) do
+ActiveRecord::Schema.define(version: 20151124153356) do
 
   create_table "list_items", force: :cascade do |t|
     t.string   "base_path",  limit: 255
@@ -50,10 +50,12 @@ ActiveRecord::Schema.define(version: 20151110220915) do
     t.string   "to_base_path",   limit: 255
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.integer  "tag_id",         limit: 4
   end
 
   add_index "redirect_routes", ["from_base_path"], name: "index_redirect_routes_on_from_base_path", unique: true, using: :btree
   add_index "redirect_routes", ["redirect_id"], name: "index_redirect_routes_on_redirect_id", using: :btree
+  add_index "redirect_routes", ["tag_id"], name: "index_redirect_routes_on_tag_id", using: :btree
 
   create_table "redirects", force: :cascade do |t|
     t.integer  "tag_id",                 limit: 4
@@ -114,6 +116,7 @@ ActiveRecord::Schema.define(version: 20151110220915) do
   add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
   add_foreign_key "lists", "tags", name: "lists_tag_id_fk", on_delete: :cascade
   add_foreign_key "newest_redirects", "tags"
+  add_foreign_key "redirect_routes", "tags"
   add_foreign_key "redirects", "tags", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "to_tag_id", name: "tag_associations_to_tag_id_fk", on_delete: :cascade

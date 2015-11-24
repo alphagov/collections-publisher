@@ -1,8 +1,4 @@
 FactoryGirl.define do
-  factory :redirect do
-    original_tag_base_path "/some/route"
-  end
-
   factory :redirect_route do
     from_base_path "/some/route"
     to_base_path "/to/some/route"

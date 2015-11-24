@@ -6,7 +6,12 @@ class TagPresenter
     when MainstreamBrowsePage
       MainstreamBrowsePagePresenter.new(tag)
     when Topic
-      TopicPresenter.new(tag)
+      case tag.state
+      when 'published', 'draft'
+        TopicPresenter.new(tag)
+      when 'archived'
+        ArchivedTagPresenter.new(tag)
+      end
     else
       raise ArgumentError, "Unexpected tag type #{tag.class}"
     end
@@ -38,7 +43,7 @@ class TagPresenter
       publishing_app: "collections-publisher",
       rendering_app: "collections",
       routes: routes,
-      redirects: [],
+      redirects: RedirectRoutePresenter.new(@tag).routes,
       update_type: "major",
       details: details,
       links: links,

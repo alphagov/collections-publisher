@@ -128,7 +128,7 @@ RSpec.describe TagArchiver do
       tag.reload
 
       expect(tag.archived?).to be(false)
-      expect(tag.redirects.size).to be(0)
+      expect(tag.redirect_routes.size).to be(0)
     end
 
     it "removes the tag from panoption" do

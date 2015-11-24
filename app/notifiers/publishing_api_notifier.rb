@@ -12,28 +12,14 @@ class PublishingAPINotifier
   end
 
   def send_single_tag_to_publishing_api
-    if tag.published?
-      publishing_api.put_content_item(presenter.base_path, presenter.render_for_publishing_api)
-      add_redirects
-    elsif tag.archived?
-      add_redirects
-    elsif tag.draft?
+    if tag.draft?
       publishing_api.put_draft_content_item(presenter.base_path, presenter.render_for_publishing_api)
+    else
+      publishing_api.put_content_item(presenter.base_path, presenter.render_for_publishing_api)
     end
   end
 
 private
-
-  def add_redirects
-    tag.redirects.each do |redirect|
-      redirect_presenter = RedirectPresenter.new(redirect)
-
-      publishing_api.put_content_item(
-        redirect_presenter.base_path,
-        redirect_presenter.render_for_publishing_api
-      )
-    end
-  end
 
   def presenter
     @presenter ||= TagPresenter.presenter_for(tag)

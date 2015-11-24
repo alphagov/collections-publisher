@@ -14,9 +14,7 @@ class Tag < ActiveRecord::Base
 
   has_many :lists
   has_many :list_items, through: :lists
-
-  has_many :redirects
-  has_many :redirect_routes, through: :redirects
+  has_many :redirect_routes
 
   validates :slug, :title, :content_id, presence: true
   validates :slug, uniqueness: { scope: ["parent_id"] }, format: { with: /\A[a-z0-9-]*\z/ }
