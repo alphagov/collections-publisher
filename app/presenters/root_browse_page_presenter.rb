@@ -11,6 +11,9 @@ class RootBrowsePagePresenter
       routes: routes,
       update_type: "major",
       links: links,
+      details: {
+        internal_name: "Browse index page",
+      },
     }
   end
 

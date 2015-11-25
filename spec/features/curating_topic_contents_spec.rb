@@ -98,6 +98,7 @@ RSpec.describe "Curating the contents of topics" do
               ]},
             ],
             "beta" => false,
+            "internal_name" => "Oil and Gas / Offshore"
           }
         },
       )
@@ -175,6 +176,7 @@ RSpec.describe "Curating the contents of topics" do
               ]},
             ],
             "beta" => false,
+            "internal_name" => "Oil and Gas / Offshore"
           }
         },
       )

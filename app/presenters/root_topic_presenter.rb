@@ -12,7 +12,8 @@ class RootTopicPresenter
       update_type: "major",
       links: links,
       details: {
-        beta: true
+        beta: true,
+        internal_name: "Topic index page",
       }
     }
   end
