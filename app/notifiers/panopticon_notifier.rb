@@ -17,7 +17,6 @@ class PanopticonNotifier
     panopticon.publish_tag(tag_hash[:tag_type], tag_hash[:tag_id])
   end
 
-private
   def self.panopticon
     Services.panopticon
   end
