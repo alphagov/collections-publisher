@@ -1,12 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe TagPresenter do
-
   describe 'returning presenter for different tag types' do
     context 'Topics' do
-
       let(:topic) { Topic.new }
-      
+
       it "should return a TopicPresenter for a draft Topic" do
         expect(topic).to receive(:state).and_return('draft')
         expect(TagPresenter.presenter_for(topic)).to be_a(TopicPresenter)
@@ -15,13 +13,13 @@ RSpec.describe TagPresenter do
       it 'should return a TopicPresenter for a published topic' do
         expect(topic).to receive(:state).and_return('published')
         expect(TagPresenter.presenter_for(topic)).to be_a(TopicPresenter)
-      end    
+      end
 
       it 'should return an ArchivedTagPresenter for an archived topic' do
         expect(topic).to receive(:state).and_return('archived')
         expect(TagPresenter.presenter_for(topic)).to be_a(ArchivedTagPresenter)
-      end   
-    end 
+      end
+    end
 
     it "should return a MainstreamBrowsePagePresenter for a MainstreamBrowsePage" do
       expect(TagPresenter.presenter_for(MainstreamBrowsePage.new)).to be_a(MainstreamBrowsePagePresenter)

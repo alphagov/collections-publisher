@@ -42,7 +42,7 @@ private
     # item in the content store will be replaced by it. The parent topic will
     # no longer expand the item in the `links/children` field because this
     # item will be of the type redirect.
-    
+
     tag.redirect_routes.create!(
       from_base_path: tag.base_path,
       to_base_path: successor.base_path,

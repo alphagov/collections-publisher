@@ -150,6 +150,5 @@ RSpec.describe TagArchiver do
 
       expect(tag.archived?).to be(true)
     end
-
   end
 end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ArchivedTagPresenter do
-  
+
   let(:parent)   { create :topic, slug: 'parent', title: 'Parent topic', description: 'Description of parent topic.' }
   let(:child)    { create :topic, slug: 'child-1', title: 'Child topic', description: 'Description of child topic.', parent: parent }
 
@@ -48,8 +48,4 @@ RSpec.describe ArchivedTagPresenter do
       expect(presenter.base_path).to eq child.base_path
     end
   end
-
 end
-
-
-
