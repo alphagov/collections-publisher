@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   def alert_classes(key)
     key = {
       'notice' => 'warning',

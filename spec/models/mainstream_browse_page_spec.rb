@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe MainstreamBrowsePage do
-
   it 'is created with valid attributes' do
     tag = MainstreamBrowsePage.new(
       slug: 'housing',
@@ -20,5 +19,4 @@ RSpec.describe MainstreamBrowsePage do
       expect(tag.base_path).to eq("/browse/#{tag.slug}")
     end
   end
-
 end

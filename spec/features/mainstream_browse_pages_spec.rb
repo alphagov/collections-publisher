@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "managing mainstream browse pages" do
-
   before :each do
     stub_user.permissions << "GDS Editor"
     stub_all_panopticon_tag_calls
@@ -36,7 +35,6 @@ RSpec.describe "managing mainstream browse pages" do
       'British citizenship',
       'Voting',
     ])
-
   end
 
   it "Creating a page" do

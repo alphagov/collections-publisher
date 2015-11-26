@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe List do
-
   describe "validations" do
     let(:list) { FactoryGirl.build(:list) }
 
