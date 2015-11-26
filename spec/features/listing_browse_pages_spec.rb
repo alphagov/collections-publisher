@@ -16,7 +16,7 @@ RSpec.describe 'listing mainstream browse pages' do
   it 'shows parent and child browse pages' do
     # Given there are browse pages with children
     parent_browse_pages = create_list(:mainstream_browse_page, 5)
-    child_browse_pages = create_list(:mainstream_browse_page, 5, parent: parent_browse_pages.first )
+    create_list(:mainstream_browse_page, 5, parent: parent_browse_pages.first )
 
     # When I visit the browse page
     visit mainstream_browse_pages_path

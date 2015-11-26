@@ -84,8 +84,8 @@ RSpec.describe TagPresenter do
     end
 
     it "is valid against the schema with lists", :schema_test => true do
-      list_a = create(:list, tag: tag, name: "List A")
-      list_b = create(:list, tag: tag, name: "List B")
+      create(:list, tag: tag, name: "List A")
+      create(:list, tag: tag, name: "List B")
 
       # We need to "publish" these lists.
       allow_any_instance_of(List).to receive(:tagged_list_items).and_return(

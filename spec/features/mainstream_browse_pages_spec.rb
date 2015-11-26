@@ -241,7 +241,7 @@ RSpec.describe "managing mainstream browse pages" do
   end
 
   it "sends the top level page and its children when adding publishing a new 2nd level page" do
-    unrelated_top_page = create(:mainstream_browse_page, :published, :slug => 'benefits')
+    create(:mainstream_browse_page, :published, :slug => 'benefits')
 
     citizenship = create(:mainstream_browse_page, :published, :slug => 'citizenship', :title => 'Citizenship')
     create(:mainstream_browse_page, :published, :parent => citizenship, :slug => 'living')
