@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe List do
-
   describe "validations" do
     let(:list) { FactoryGirl.build(:list) }
 
@@ -25,8 +24,8 @@ RSpec.describe List do
   describe "#list_items_with_tagging_status" do
     it "returns the list items with tagged set to true if they're tagged" do
       list = create(:list, tag: create(:tag, slug: 'subtag'))
-      tagged = create(:list_item, list: list, base_path: '/tagged-item')
-      not_tagged = create(:list_item, list: list, base_path: '/untagged-item')
+      create(:list_item, list: list, base_path: '/tagged-item')
+      create(:list_item, list: list, base_path: '/untagged-item')
       stub_any_call_to_rummager_with_documents([{ link: '/tagged-item' }])
 
       list_item = list.list_items_with_tagging_status.first
@@ -36,7 +35,7 @@ RSpec.describe List do
 
     it "returns the list items with tagged set to false if they're not tagged" do
       list = create(:list, tag: create(:tag, slug: 'subtag'))
-      not_tagged = create(:list_item, list: list, base_path: '/untagged-item')
+      create(:list_item, list: list, base_path: '/untagged-item')
       stub_any_call_to_rummager_with_documents([])
 
       list_item = list.list_items_with_tagging_status.first

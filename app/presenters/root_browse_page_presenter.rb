@@ -1,5 +1,4 @@
 class RootBrowsePagePresenter
-
   def render_for_publishing_api
     {
       content_id: "8413047e-570a-448b-b8cb-d288a12807dd",
@@ -44,5 +43,4 @@ private
       "top_level_browse_pages" => top_level_browse_pages.map(&:content_id)
     }
   end
-
 end

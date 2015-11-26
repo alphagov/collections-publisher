@@ -157,7 +157,6 @@ RSpec.describe Tag do
   end
 
   describe 'generating a content ID' do
-
     it 'generates a UUID on creation' do
       expect(SecureRandom).to receive(:uuid).and_return('a random UUID')
       tag = create(:tag)
@@ -171,7 +170,6 @@ RSpec.describe Tag do
       expect(tag).not_to be_valid
       expect(tag.errors).to have_key(:content_id)
     end
-
   end
 
   describe '#full_slug' do

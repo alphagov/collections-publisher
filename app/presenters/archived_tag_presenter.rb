@@ -1,5 +1,4 @@
 class ArchivedTagPresenter
-
   def initialize(tag)
     @tag = tag
   end
@@ -18,5 +17,4 @@ class ArchivedTagPresenter
   def base_path
     @tag.base_path
   end
- 
 end

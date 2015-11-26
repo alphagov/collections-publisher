@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe PublishingAPINotifier do
   include ContentStoreHelpers
 
-  def browse_page_with_slug(slug, parent=nil)
+  def browse_page_with_slug(slug, parent = nil)
     create(:mainstream_browse_page,
            slug: slug,
            parent: parent)
@@ -102,10 +102,9 @@ RSpec.describe PublishingAPINotifier do
         )
 
         PublishingAPINotifier.send_to_publishing_api(tag)
-        content_item = stubbed_content_store.item_with_slug('/topic/foo')        
+        content_item = stubbed_content_store.item_with_slug('/topic/foo')
         expect(content_item).to be_valid_against_schema('topic')
-        expect(content_item[:redirects]).to eq([ { path: "/foo", destination: "/topic/foo", type: "exact" } ])
-
+        expect(content_item[:redirects]).to eq([{ path: "/foo", destination: "/topic/foo", type: "exact" }])
       end
     end
   end

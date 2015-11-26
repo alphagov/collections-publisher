@@ -1,12 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe TagPresenter do
-
   describe 'returning presenter for different tag types' do
     context 'Topics' do
-
       let(:topic) { Topic.new }
-      
+
       it "should return a TopicPresenter for a draft Topic" do
         expect(topic).to receive(:state).and_return('draft')
         expect(TagPresenter.presenter_for(topic)).to be_a(TopicPresenter)
@@ -15,13 +13,13 @@ RSpec.describe TagPresenter do
       it 'should return a TopicPresenter for a published topic' do
         expect(topic).to receive(:state).and_return('published')
         expect(TagPresenter.presenter_for(topic)).to be_a(TopicPresenter)
-      end    
+      end
 
       it 'should return an ArchivedTagPresenter for an archived topic' do
         expect(topic).to receive(:state).and_return('archived')
         expect(TagPresenter.presenter_for(topic)).to be_a(ArchivedTagPresenter)
-      end   
-    end 
+      end
+    end
 
     it "should return a MainstreamBrowsePagePresenter for a MainstreamBrowsePage" do
       expect(TagPresenter.presenter_for(MainstreamBrowsePage.new)).to be_a(MainstreamBrowsePagePresenter)
@@ -86,8 +84,8 @@ RSpec.describe TagPresenter do
     end
 
     it "is valid against the schema with lists", :schema_test => true do
-      list_a = create(:list, tag: tag, name: "List A")
-      list_b = create(:list, tag: tag, name: "List B")
+      create(:list, tag: tag, name: "List A")
+      create(:list, tag: tag, name: "List B")
 
       # We need to "publish" these lists.
       allow_any_instance_of(List).to receive(:tagged_list_items).and_return(

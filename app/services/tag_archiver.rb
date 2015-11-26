@@ -42,7 +42,7 @@ private
     # item in the content store will be replaced by it. The parent topic will
     # no longer expand the item in the `links/children` field because this
     # item will be of the type redirect.
-    
+
     tag.redirect_routes.create!(
       from_base_path: tag.base_path,
       to_base_path: successor.base_path,
@@ -52,9 +52,11 @@ private
       # Only setup a redirect to the subroute when the successor also has that
       # route (when redirectinga subtopic to a subtopic), not when redirecting
       # to a parent topic (from /topic/foo/bar to /topic/foo).
-      to_base_path = route_suffix.in?(successor.subroutes) ?
-        "#{successor.base_path}#{route_suffix}" :
-        successor.base_path
+      if route_suffix.in?(successor.subroutes)
+        to_base_path = "#{successor.base_path}#{route_suffix}"
+      else
+        to_base_path = successor.base_path
+      end
 
       tag.redirect_routes.create!(
         from_base_path: [tag.base_path, route_suffix].join,

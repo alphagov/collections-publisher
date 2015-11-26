@@ -1,5 +1,4 @@
 class TopicPresenter < TagPresenter
-
 private
 
   def rummager_format

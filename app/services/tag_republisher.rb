@@ -47,7 +47,7 @@ private
 
     begin
       yield
-    rescue GdsApi::TimedOutException, Timeout::Error => e
+    rescue GdsApi::TimedOutException, Timeout::Error
       retries += 1
       if retries <= 3
         log "Timeout: retry #{retries}"
