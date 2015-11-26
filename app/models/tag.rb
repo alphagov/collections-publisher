@@ -3,7 +3,7 @@ require 'securerandom'
 class Tag < ActiveRecord::Base
   include AASM
   include ActiveModel::Dirty
-  ORDERING_TYPES = ["alphabetical", "curated"]
+  ORDERING_TYPES = %w(alphabetical curated)
 
   belongs_to :parent, class_name: 'Tag'
   has_many :children, class_name: 'Tag', foreign_key: :parent_id

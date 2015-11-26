@@ -20,20 +20,14 @@ RSpec.describe "Viewing topics" do
 
     child_titles = page.all('td.children li').map(&:text)
     first_words_of_titles = child_titles.map(&:split).map(&:first)
-    expect(first_words_of_titles).to eq([
-      'PAYE',
-      'VAT',
-    ])
+    expect(first_words_of_titles).to eq(%w(PAYE VAT))
 
     # When I visit a topic page
     click_on "Business Tax"
 
     # Then I should see the child topics in alphabetical order
     child_titles = page.all('.children .tags-list tbody td:first-child').map(&:text)
-    expect(child_titles).to eq([
-      'PAYE',
-      'VAT',
-    ])
+    expect(child_titles).to eq(%w(PAYE VAT))
 
     # Given the subtopic pages have links
     stub_any_call_to_rummager_with_documents([
