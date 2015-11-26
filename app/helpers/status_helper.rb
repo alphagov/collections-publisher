@@ -3,6 +3,7 @@ module StatusHelper
     class_name = {
       published: :success,
       draft: :info,
+      archived: :default,
     }[type.to_sym] || type
 
     content_tag :span, text, class: "label label-#{class_name}"
