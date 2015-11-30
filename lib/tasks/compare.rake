@@ -22,7 +22,6 @@ namespace :comparison do
     contentapi_csv << %w(tag_slug tag_type title format base_path)
 
     Tag.only_children.includes(:parent).find_each do |tag|
-
       filter_key = tag.is_a?(Topic) ? "filter_specialist_sectors" : "filter_mainstream_browse_pages"
       rummager_data = Services.rummager.unified_search({
         :start => 0,
@@ -51,7 +50,6 @@ namespace :comparison do
           contentapi_csv << [tag.full_slug, tag.type, r.title, r.format, r.link]
         end
       end
-
     end
 
     rummager_csv.close

@@ -1,11 +1,16 @@
 class ArchivedTagPresenter
-
-  delegate :draft?, :archived?, to: :tag
-
-  attr_reader :tag
+  
 
   def initialize(tag)
     @tag = tag
+  end
+
+  def draft?
+    @tag.draft?
+  end
+
+  def archived?
+    @tag.archived?
   end
 
   def render_for_publishing_api

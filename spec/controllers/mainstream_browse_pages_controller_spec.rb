@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe MainstreamBrowsePagesController do
-
   let(:attributes) { attributes_for(:mainstream_browse_page) }
   let(:presenter) { double(:presenter, render_for_panopticon: nil) }
 
@@ -53,5 +52,4 @@ RSpec.describe MainstreamBrowsePagesController do
       put :update, id: mainstream_browse_page.content_id, mainstream_browse_page: attributes.merge(:slug => mainstream_browse_page.slug)
     end
   end
-
 end

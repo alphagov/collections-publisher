@@ -138,6 +138,7 @@ RSpec.describe "creating and editing topics" do
       "details" => {
         "groups" => [],
         "beta" => true,
+        "internal_name" => "Working on the ocean",
       }
     })
 
@@ -300,6 +301,7 @@ RSpec.describe "creating and editing topics" do
       "details" => {
         "groups" => [],
         "beta" => false,
+        "internal_name" => "Working on the ocean",
       }
     })
 

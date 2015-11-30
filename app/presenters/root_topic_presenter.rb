@@ -33,7 +33,8 @@ class RootTopicPresenter
       routes: routes,
       update_type: update_type,
       details: {
-        beta: true
+        beta: true,
+        internal_name: "Topic index page",
       }
     }
   end

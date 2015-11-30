@@ -32,7 +32,7 @@ class MainstreamBrowsePage < Tag
 private
 
   def parents_cannot_have_topics_associated
-    if !parent.present? and topics.any?
+    if !parent.present? && topics.any?
       errors.add(:topics, "top-level mainstream browse pages cannot have topics assigned to them")
     end
   end

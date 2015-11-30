@@ -119,8 +119,7 @@ RSpec.describe PublishingAPINotifier do
         PublishingAPINotifier.send_to_publishing_api(tag)
         content_item = stubbed_content_store.item_by_content_id(tag.content_id)
         expect(content_item).to be_valid_against_schema('topic')
-        expect(content_item[:redirects]).to eq([ { path: "/foo", destination: "/topic/foo", type: "exact" } ])
-
+        expect(content_item[:redirects]).to eq([{ path: "/foo", destination: "/topic/foo", type: "exact" }])
       end
     end
   end

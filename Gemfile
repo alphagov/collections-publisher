@@ -33,7 +33,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'quiet_assets', '~> 1.1.0'
-  gem 'govuk-lint'
+  gem 'govuk-lint', '0.5.0'
 end
 
 group :test, :development do
@@ -45,5 +45,4 @@ group :test, :development do
   gem 'webmock', '~> 1.21.0', require: false
   gem 'timecop', '~> 0.8.0'
   gem 'govuk-content-schema-test-helpers', '~> 1.3'
-  gem 'simplecov', '~> 0.10'
 end

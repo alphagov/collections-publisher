@@ -106,6 +106,7 @@ private
   def details
     {
       :groups => categorized_groups,
+      :internal_name => tag.title_including_parent,
     }
   end
 

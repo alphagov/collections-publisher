@@ -71,5 +71,4 @@ private
       "top_level_browse_pages" => top_level_browse_pages.map(&:content_id)
     }
   end
-
 end

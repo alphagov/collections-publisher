@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   def alert_classes(key)
     key = {
       'notice' => 'warning',
@@ -7,7 +6,7 @@ module ApplicationHelper
       'error' => 'danger',
     }.fetch(key, key)
 
-    classes = "alert alert-#{key}"
+    "alert alert-#{key}"
   end
 
   def website_url(base_path)

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe MainstreamBrowsePagePresenter do
-
   describe "rendering for panopticon" do
     let(:mainstream_browse_page) { build(:mainstream_browse_page,
       slug: 'citizenship',
@@ -108,7 +107,6 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
 
     describe "linking to related pages" do
-
       let!(:top_level_page_1) { create(
         :mainstream_browse_page,
         :title => "Top-level page 1",
@@ -145,7 +143,6 @@ RSpec.describe MainstreamBrowsePagePresenter do
       )}
 
       context "for a top-level browse page with children in alphabetical order" do
-
         let(:presenter) { MainstreamBrowsePagePresenter.new(top_level_page_1) }
         let(:rendered_links) { presenter.render_links_for_publishing_api }
 
@@ -175,7 +172,6 @@ RSpec.describe MainstreamBrowsePagePresenter do
       end
 
       context "for a top-level browse page with children in curated order" do
-
         let(:presenter) { MainstreamBrowsePagePresenter.new(top_level_page_2) }
         let(:rendered_links) { presenter.render_links_for_publishing_api }
 
@@ -192,7 +188,6 @@ RSpec.describe MainstreamBrowsePagePresenter do
       end
 
       context "for an alphabetically ordered second-level browse page" do
-
         let(:presenter) { MainstreamBrowsePagePresenter.new(second_level_page_A) }
         let(:rendered_links) { presenter.render_links_for_publishing_api }
 
@@ -222,7 +217,6 @@ RSpec.describe MainstreamBrowsePagePresenter do
       end
 
       context "for an customly ordered second-level browse page" do
-
         let(:presenter) { MainstreamBrowsePagePresenter.new(second_level_page_C) }
         let(:rendered_links) { presenter.render_links_for_publishing_api }
         let(:presented_data) { presenter.render_for_publishing_api }
@@ -241,7 +235,6 @@ RSpec.describe MainstreamBrowsePagePresenter do
     end
 
     describe "returning the order of relative second level browse pages" do
-
       let!(:top_level_page) { create(
         :mainstream_browse_page,
         :title => "Top-level page",
@@ -255,7 +248,6 @@ RSpec.describe MainstreamBrowsePagePresenter do
       )}
 
       context "for a top level page" do
-
         let(:presenter) { MainstreamBrowsePagePresenter.new(top_level_page) }
         let(:presented_data) { presenter.render_for_publishing_api }
 
@@ -269,7 +261,6 @@ RSpec.describe MainstreamBrowsePagePresenter do
       end
 
       context "for a second level page" do
-
         let(:presenter) { MainstreamBrowsePagePresenter.new(second_level_page) }
         let(:presented_data) { presenter.render_for_publishing_api }
 

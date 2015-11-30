@@ -1,5 +1,4 @@
 class MainstreamBrowsePagePresenter < TagPresenter
-
 private
 
   def rummager_format
@@ -50,5 +49,4 @@ private
       @tag.child_ordering
     end
   end
-
 end

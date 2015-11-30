@@ -1,5 +1,4 @@
 class RedirectRoutePresenter
-
   def initialize(tag)
     @tag = tag
   end
@@ -13,6 +12,4 @@ class RedirectRoutePresenter
       }
     end
   end
-
-
 end

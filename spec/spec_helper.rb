@@ -85,7 +85,7 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 
   config.before :each, type: :controller do
-    # Set a referer header so `redirect_to :back` works in tests. 
+    # Set a referer header so `redirect_to :back` works in tests.
     request.env["HTTP_REFERER"] = ''
   end
 end
