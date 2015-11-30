@@ -1,11 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe "managing mainstream browse pages" do
+  include PublishingApiHelpers
+
   before :each do
     stub_user.permissions << "GDS Editor"
     stub_all_panopticon_tag_calls
     allow_any_instance_of(RummagerNotifier).to receive(:notify)
     stub_rummager_linked_content_call
+    stub_put_content_links_and_publish_to_publishing_api
   end
 
   it "viewing the browse page index" do
@@ -45,6 +48,7 @@ RSpec.describe "managing mainstream browse pages" do
     fill_in 'Title', :with => 'Citizenship'
     fill_in 'Description', :with => 'Living in the UK'
     click_on 'Create'
+    content_id = extract_content_id_from(current_path)
 
     # Then the page should be created
     visit mainstream_browse_pages_path
@@ -58,11 +62,17 @@ RSpec.describe "managing mainstream browse pages" do
     end
 
     # And a draft should have been sent to publishing-api
-    assert_publishing_api_put_draft_item('/browse/citizenship', {
+    assert_publishing_api_put_item(content_id, {
       "title" => "Citizenship",
       "description" => "Living in the UK",
       "format" => "mainstream_browse_page",
     })
+
+    # And the links should have been sent to publishing api
+    assert_publishing_api_put_links(content_id)
+
+    # but it should not have been published
+    assert_publishing_api_not_published(content_id)
 
     # And the page should have been created in Panopticon
     assert_tag_created_in_panopticon(
@@ -75,7 +85,7 @@ RSpec.describe "managing mainstream browse pages" do
 
   it "updating a draft page" do
     # Given a draft mainstream browse page exists
-    create(:mainstream_browse_page, :draft, :slug => 'citizenship', :title => 'Citizenship')
+    citizenship = create(:mainstream_browse_page, :draft, :slug => 'citizenship', :title => 'Citizenship')
 
     # When I make a change to the mainstream browse page
     visit mainstream_browse_pages_path
@@ -93,11 +103,17 @@ RSpec.describe "managing mainstream browse pages" do
     expect(page).to have_content('Voting')
 
     # And a draft should have been sent to publishing-api
-    assert_publishing_api_put_draft_item('/browse/citizenship', {
+    assert_publishing_api_put_item(citizenship.content_id, {
       "title" => "Citizenship in the UK",
       "description" => "Voting",
       "format" => "mainstream_browse_page",
     })
+
+    # And the links should have been sent to publishing api
+    assert_publishing_api_put_links(citizenship.content_id)
+
+    # but it should not have been published
+    assert_publishing_api_not_published(citizenship.content_id)
 
     # And the page should have been updated in Panopticon
     assert_tag_updated_in_panopticon(
@@ -110,7 +126,7 @@ RSpec.describe "managing mainstream browse pages" do
 
   it "updating a published page" do
     # Given a published mainstream browse page exists
-    create(:mainstream_browse_page, :published, :slug => 'citizenship', :title => 'Citizenship')
+    citizenship = create(:mainstream_browse_page, :published, :slug => 'citizenship', :title => 'Citizenship')
 
     # When I make a change to the mainstream browse page
     visit mainstream_browse_pages_path
@@ -126,10 +142,16 @@ RSpec.describe "managing mainstream browse pages" do
     expect(page).to have_content('Citizenship in the UK')
 
     # And a live item should have been sent to publishing-api
-    assert_publishing_api_put_item('/browse/citizenship', {
+    assert_publishing_api_put_item(citizenship.content_id, {
       "title" => "Citizenship in the UK",
       "format" => "mainstream_browse_page",
     })
+
+    # And the links should have been sent to publishing api
+    assert_publishing_api_put_links(citizenship.content_id)
+
+    # but it should have been published
+    assert_publishing_api_publish(citizenship.content_id)
 
     # And the page should have been updated in Panopticon
     assert_tag_updated_in_panopticon(
@@ -171,6 +193,7 @@ RSpec.describe "managing mainstream browse pages" do
     fill_in 'Title', :with => 'Voting'
     fill_in 'Description', :with => 'Register to vote, postal voting forms'
     click_on 'Create'
+    voting_content_id = extract_content_id_from(current_path)
 
     # Then the child page should be created
     visit mainstream_browse_pages_path
@@ -180,11 +203,17 @@ RSpec.describe "managing mainstream browse pages" do
     expect(page).to have_content('Register to vote, postal voting forms')
 
     # And a draft should have been sent to publishing-api
-    assert_publishing_api_put_draft_item('/browse/citizenship/voting', {
+    assert_publishing_api_put_item(voting_content_id, {
       "title" => "Voting",
       "description" => "Register to vote, postal voting forms",
       "format" => "mainstream_browse_page",
     })
+
+    # And not published
+    assert_publishing_api_not_published(voting_content_id)
+
+    # And links published
+    assert_publishing_api_put_links(voting_content_id)
 
     # And the child page should have been created in Panopticon
     assert_tag_created_in_panopticon(
@@ -198,7 +227,7 @@ RSpec.describe "managing mainstream browse pages" do
 
   it "publishing a page" do
     # Given a draft mainstream browse page exists
-    create(:mainstream_browse_page, :draft, :slug => 'citizenship', :title => 'Citizenship')
+    citizenship = create(:mainstream_browse_page, :draft, :slug => 'citizenship', :title => 'Citizenship')
 
     # When I publish the browse page
     visit mainstream_browse_pages_path
@@ -213,7 +242,7 @@ RSpec.describe "managing mainstream browse pages" do
     end
 
     # And a live item should have been sent to publishing-api
-    assert_publishing_api_put_item('/browse/citizenship', {
+    assert_publishing_api_put_item(citizenship.content_id, {
       "title" => "Citizenship",
       "format" => "mainstream_browse_page",
     })
@@ -224,7 +253,7 @@ RSpec.describe "managing mainstream browse pages" do
 
   it "sends all top level pages and their children when publishing a new top level page" do
     citizenship = create(:mainstream_browse_page, :published, :slug => 'citizenship', :title => 'Citizenship')
-    create(:mainstream_browse_page, :published, :parent => citizenship, :slug => 'voting')
+    voting = create(:mainstream_browse_page, :published, :parent => citizenship, :slug => 'voting')
 
     visit mainstream_browse_pages_path
     click_on "Add a mainstream browse page"
@@ -232,17 +261,18 @@ RSpec.describe "managing mainstream browse pages" do
     fill_in 'Title', with: 'Benefits'
     fill_in 'Description', with: 'Benefits'
     click_on 'Create'
+    benefits_content_id = extract_content_id_from(current_path)
 
-    assert_publishing_api_put_item('/browse/citizenship')
-    assert_publishing_api_put_item('/browse/citizenship/voting')
-    assert_publishing_api_put_draft_item('/browse/benefits')
+    assert_publishing_api_put_item(citizenship.content_id)
+    assert_publishing_api_put_item(voting.content_id)
+    assert_publishing_api_put_item(benefits_content_id)
   end
 
   it "sends the top level page and its children when adding publishing a new 2nd level page" do
     create(:mainstream_browse_page, :published, :slug => 'benefits')
 
     citizenship = create(:mainstream_browse_page, :published, :slug => 'citizenship', :title => 'Citizenship')
-    create(:mainstream_browse_page, :published, :parent => citizenship, :slug => 'living')
+    living = create(:mainstream_browse_page, :published, :parent => citizenship, :slug => 'living')
 
     visit mainstream_browse_pages_path
     click_on 'Citizenship'
@@ -251,10 +281,20 @@ RSpec.describe "managing mainstream browse pages" do
     fill_in 'Title', with: 'Queueing'
     fill_in 'Description', with: 'essential information'
     click_on 'Create'
+    queueing_content_id = extract_content_id_from(current_path)
 
-    assert_publishing_api_put_item('/browse/citizenship')
-    assert_publishing_api_put_item('/browse/citizenship/living')
-    assert_publishing_api_put_draft_item('/browse/citizenship/queueing')
+    assert_publishing_api_put_item(citizenship.content_id)
+    assert_publishing_api_put_item(living.content_id)
+    assert_publishing_api_put_item(queueing_content_id)
+
+    assert_publishing_api_put_links(citizenship.content_id)
+    assert_publishing_api_put_links(living.content_id)
+    assert_publishing_api_put_links(queueing_content_id)
+
+    assert_publishing_api_publish(citizenship.content_id)
+    assert_publishing_api_publish(living.content_id)
+
+    assert_publishing_api_not_published(queueing_content_id)
 
     assert_not_requested :put, /benefits/
   end

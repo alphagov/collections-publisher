@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Viewing topics" do
+  include PublishingApiHelpers
+
   it "viewing the topic index" do
     # Given some parent topics with various number of children
     create(:topic, :published, :title => "Oil and Gas")
@@ -71,6 +73,8 @@ RSpec.describe "Viewing topics" do
   it "allows users to archive published topics" do
     stub_any_call_to_rummager_with_documents([])
     stub_user.permissions << "GDS Editor"
+    stub_put_content_to_publishing_api
+    stub_publish_to_publishing_api
 
     rummager_deletion = stub_request(:delete, %r[https://rummager.test.gov.uk/*]).to_return(body: "{}")
     panopticon_deletion = stub_request(:delete, "https://panopticon.test.gov.uk/tags/specialist_sector/foo/bar.json").to_return(body: "{}")
@@ -116,6 +120,7 @@ RSpec.describe "Viewing topics" do
 
   it "allows users to remove draft topics" do
     stub_any_call_to_rummager_with_documents([])
+    stub_put_content_to_publishing_api
     stub_user.permissions << "GDS Editor"
     panopticon_deletion = stub_request(:delete, "https://panopticon.test.gov.uk/tags/specialist_sector/foo/bar.json").to_return(body: "{}")
 

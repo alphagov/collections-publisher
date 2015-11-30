@@ -1,14 +1,16 @@
 require "rails_helper"
 
 RSpec.describe TagArchiver do
+  include PublishingApiHelpers
   describe '#archive' do
     before do
       # By default make it so that there's nothing tagged to topics.
       stub_any_call_to_rummager_with_documents([])
+      stub_publish_to_publishing_api
 
       # Succesful archivings will remove the result from rummager.
       allow(Services.rummager).to receive(:delete_document)
-      allow(Services.publishing_api).to receive(:put_content_item)
+      allow(Services.publishing_api).to receive(:put_content)
       allow(Services.panopticon).to receive(:delete_tag!)
     end
 
@@ -117,7 +119,7 @@ RSpec.describe TagArchiver do
 
       TagArchiver.new(tag, build(:topic)).archive
 
-      expect(Services.publishing_api).to have_received(:put_content_item)
+      expect(Services.publishing_api).to have_received(:put_content)
     end
 
     it "doesn't have side effects when a API call fails" do

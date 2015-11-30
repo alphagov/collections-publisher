@@ -1,5 +1,5 @@
 class TagPresenter
-  delegate :legacy_tag_type, :base_path, to: :tag
+  delegate :legacy_tag_type, :base_path, :draft?, :archived?, to: :tag
 
   def self.presenter_for(tag)
     case tag
@@ -21,6 +21,15 @@ class TagPresenter
     @tag = tag
   end
 
+
+  def content_id
+    tag.content_id
+  end
+
+  def update_type
+    'major'
+  end
+
   def render_for_rummager
     {
       format: rummager_format,
@@ -31,8 +40,13 @@ class TagPresenter
     }
   end
 
+  def update_previous_version(gdsapi_response)
+    @previous_version = gdsapi_response.reaw_response_body['version']
+  end
+
   def render_for_publishing_api
     {
+      base_path: base_path,
       content_id: @tag.content_id,
       format: format,
       title: @tag.title,
@@ -46,8 +60,14 @@ class TagPresenter
       redirects: RedirectRoutePresenter.new(@tag).routes,
       update_type: "major",
       details: details,
-      links: links,
     }.merge(phase_state)
+  end
+
+
+  def render_links_for_publishing_api
+    {
+      links: links
+    }
   end
 
   def render_for_panopticon

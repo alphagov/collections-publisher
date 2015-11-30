@@ -4,7 +4,7 @@ RSpec.describe RootBrowsePagePresenter do
   describe "#render_for_publishing_api" do
     it "raises if top-level browse pages are not present" do
       expect {
-        RootBrowsePagePresenter.new.render_for_publishing_api
+        RootBrowsePagePresenter.new(false).render_for_publishing_api
       }.to raise_error(RuntimeError)
     end
 
@@ -12,8 +12,7 @@ RSpec.describe RootBrowsePagePresenter do
       create(:mainstream_browse_page, title: "Top-Level Page 1")
       create(:mainstream_browse_page, title: "Top-Level Page 2")
 
-      rendered = RootBrowsePagePresenter.new.render_for_publishing_api
-
+      rendered = RootBrowsePagePresenter.new(false).render_for_publishing_api
       expect(rendered).to be_valid_against_schema('mainstream_browse_page')
     end
 
@@ -21,7 +20,7 @@ RSpec.describe RootBrowsePagePresenter do
       page_1 = create(:mainstream_browse_page, :published, title: "Top-Level Page 1")
       page_2 = create(:mainstream_browse_page, :draft, title: "Top-Level Page 2")
 
-      rendered = RootBrowsePagePresenter.new.render_for_publishing_api
+      rendered = RootBrowsePagePresenter.new(false).render_for_publishing_api
 
       expect(rendered[:links]["top_level_browse_pages"]).to eq([
         page_1.content_id,
@@ -38,9 +37,22 @@ RSpec.describe RootBrowsePagePresenter do
       end
       page_2.touch
 
-      rendered = RootBrowsePagePresenter.new.render_for_publishing_api
+      rendered = RootBrowsePagePresenter.new(false).render_for_publishing_api
 
       expect(rendered[:public_updated_at]).to eq(page_2.updated_at.iso8601)
+    end
+  end
+
+
+  describe '#draft?' do
+    it 'should return false if instantiated with a parameter of true' do
+      presenter = RootBrowsePagePresenter.new(true)
+      expect(presenter.draft?).to be false
+    end
+
+    it 'should return true if instantiated with a parameter of false' do
+      presenter = RootBrowsePagePresenter.new(false)
+      expect(presenter.draft?).to be true
     end
   end
 end
