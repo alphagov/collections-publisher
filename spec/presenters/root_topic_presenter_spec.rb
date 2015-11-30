@@ -32,7 +32,7 @@ RSpec.describe RootTopicPresenter do
     end
   end
 
-  describe '#render_links_for_publishing_api' do
+  describe 'render_links_for_publishing_api' do
     it "includes draft and published top-level browse pages" do
       page_1 = create(:topic, :published, title: "Top-Level Page 1")
       page_2 = create(:topic, :draft, title: "Top-Level Page 2")
