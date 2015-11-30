@@ -41,7 +41,6 @@ module PublishingApiHelpers
     end
   end
 
-
   def assert_publishing_api_put_item(content_id, attributes_or_matcher = {}, times = 1)
     url = PUBLISHING_API_ENDPOINT + "/v2/content/" + content_id
     assert_publishing_api_put(url, attributes_or_matcher, times)
@@ -60,7 +59,6 @@ module PublishingApiHelpers
   def assert_publishing_api_put_links(content_id)
     assert_requested(:put, "#{PUBLISHING_API_ENDPOINT}/v2/links/#{content_id}")
   end
-
 
   def assert_publishing_api_put(url, attributes_or_matcher = {}, times = 1)
     if attributes_or_matcher.is_a?(Hash)

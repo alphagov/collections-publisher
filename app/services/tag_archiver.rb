@@ -71,6 +71,6 @@ private
   end
 
   def republish_tag
-    PublishingAPINotifier.new(tag).send_single_tag_to_publishing_api
+    PublishingAPINotifier.new(tag).write_content
   end
 end

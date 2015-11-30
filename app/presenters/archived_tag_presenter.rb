@@ -1,5 +1,10 @@
 class ArchivedTagPresenter
 
+  delegate :draft?, :archived?, to: :tag
+
+  attr_reader :tag
+
+
   def initialize(tag)
     @tag = tag
   end

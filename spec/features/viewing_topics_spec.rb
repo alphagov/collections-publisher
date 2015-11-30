@@ -106,10 +106,7 @@ RSpec.describe "Viewing topics" do
 
   it "doesn't archive a tag when panopticon doesn't want to delete it" do
     stub_any_call_to_rummager_with_documents([])
-
-
     stub_user.permissions << "GDS Editor"
-
     panopticon_deletion = stub_request(:delete, "https://panopticon.test.gov.uk/tags/specialist_sector/foo/bar.json")
       .to_return(status: 409, body: "{}")
 

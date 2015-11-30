@@ -1,11 +1,23 @@
 class RootBrowsePagePresenter
 
+  def initialize(to_be_published)
+    @to_be_published = to_be_published
+  end
+
   def content_id
     "8413047e-570a-448b-b8cb-d288a12807dd"
   end
 
   def update_type
     "major"
+  end
+
+  def draft?
+    !@to_be_published
+  end
+
+  def archived?
+    false
   end
 
   def render_for_publishing_api

@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe PublishingAPINotifier do
   include ContentStoreHelpers
 
-  let(:root_browse_page_content_id)       { RootBrowsePagePresenter.new.content_id }
+  let(:root_browse_page_content_id)       { RootBrowsePagePresenter.new(true).content_id }
   let(:root_topic_content_id)             { RootTopicPresenter.new.content_id }
 
   def browse_page_with_slug(slug, parent=nil)
@@ -48,8 +48,6 @@ RSpec.describe PublishingAPINotifier do
       expect(links_for_c[:links]['second_level_browse_pages']).to include(@b.content_id)
       expect(links_for_c[:links]['second_level_browse_pages']).to include(c.content_id)
     end
-
-
 
     it "sends the full hierarchy when a parent is added" do
       e = browse_page_with_slug("e")

@@ -21,10 +21,7 @@ class ArchivalForm
   rescue GdsApi::HTTPConflict
     errors.add :base, "The tag could not be deleted because there are documents tagged to it."
     false
-  rescue GdsApi::HTTPClientError => e
-    puts ">>>>>>>>>>>>>> HTTP CLIENT ERROR <<<<<<<< #{__FILE__}::#{__LINE__} <<<<<<<<<\n" 
-    puts e.message
-    
+  rescue GdsApi::HTTPClientError
     errors.add :base, "The tag could not be deleted because of an error."
     false
   end

@@ -73,7 +73,7 @@ RSpec.describe "associating topics to mainstream browse pages" do
       expect(page).to have_content(topic.title)
       expect(page).to have_content(topic_two.title)
     end
-    
+
     it "should allow removing associated topics" do
       stub_put_content_links_and_publish_to_publishing_api
       mainstream_browse_page.topics = [topic, topic_two]

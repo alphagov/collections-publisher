@@ -216,7 +216,6 @@ RSpec.describe "managing mainstream browse pages" do
     # And links published
     assert_publishing_api_put_links(voting_content_id)
 
-
     # And the child page should have been created in Panopticon
     assert_tag_created_in_panopticon(
       :tag_type => 'section',

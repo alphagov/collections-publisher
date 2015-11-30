@@ -48,7 +48,6 @@ RSpec.describe DraftTagRemover do
 
     it "pushes a gone item to the content-store" do
       topic = create(:topic, :draft, slug: 'bar', parent: create(:topic, slug: 'foo'))
-      
 
       DraftTagRemover.new(topic).remove
 

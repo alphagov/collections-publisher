@@ -1,11 +1,23 @@
 class RootTopicPresenter
 
+  def initialize(to_be_published)
+    @to_be_published = to_be_published
+  end
+
   def content_id
     "76e9abe7-dac8-49f0-bb5e-53e4b0d2cdba"
   end
 
   def update_type
     "major"
+  end
+
+  def draft?
+    !@to_be_published
+  end
+
+  def archived?
+    false
   end
   
   def render_for_publishing_api

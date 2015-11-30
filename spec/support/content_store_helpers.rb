@@ -35,20 +35,17 @@ module ContentStoreHelpers
       @stored_links = {}
     end
 
-
     def put_content(content_id, item)
       @stored_draft_slugs << item[:base_path]
       @last_updated_item = item
       @stored_items[content_id] = item
     end
 
-
     def publish(content_id, update_type)
       item = @stored_items[content_id]
       raise "Item #{content_id} not previously written to content store as draft" if item.nil?
       @stored_published_slugs << item[:base_path]
     end
-
 
     def put_links(content_id, links)
       item = @stored_items[content_id]
@@ -59,21 +56,5 @@ module ContentStoreHelpers
     def item_by_content_id(content_id)
       @stored_items.fetch(content_id)
     end
-
-    # def put_content_item(slug, item)
-    #   @stored_slugs << slug
-    #   @last_updated_item = item
-    #   @stored_items[slug] = item
-    # end
-
-    # def put_draft_content_item(slug, item)
-    #   @stored_draft_slugs << slug
-    #   @last_updated_item = item
-    #   @stored_items[slug] = item
-    # end
-
-    # def item_with_slug(slug)
-    #   @stored_items.fetch(slug)
-    # end
   end
 end

@@ -1,5 +1,5 @@
 class TagPresenter
-  delegate :legacy_tag_type, :base_path, to: :tag
+  delegate :legacy_tag_type, :base_path, :draft?, :archived?, to: :tag
 
   def self.presenter_for(tag)
     case tag

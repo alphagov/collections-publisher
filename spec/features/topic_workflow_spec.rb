@@ -141,7 +141,6 @@ RSpec.describe "creating and editing topics" do
       }
     })
 
-
     # And links should be sent and the item published
     assert_publishing_api_put_links(content_id)
     assert_publishing_api_publish(content_id)
@@ -170,7 +169,6 @@ RSpec.describe "creating and editing topics" do
   it "updating a published topic with invalid info" do
     # Given a published topic exists
     create(:topic, :published, :slug => 'working-at-sea', :title => 'Working at sea')
-
 
     # When I make a change to the topic
     visit topics_path
@@ -262,7 +260,6 @@ RSpec.describe "creating and editing topics" do
     # And links should be sent and the item published
     assert_publishing_api_put_links(content_id)
     assert_publishing_api_publish(content_id)
-
 
     # And the topic should have been published in Panopticon
     assert_tag_published_in_panopticon(:tag_type => 'specialist_sector', :tag_id => 'working-at-sea')

@@ -4,7 +4,7 @@ RSpec.describe RootTopicPresenter do
   describe "#render_for_publishing_api" do
     it "raises if top-level browse pages are not present" do
       expect {
-        RootTopicPresenter.new.render_for_publishing_api
+        RootTopicPresenter.new(true).render_for_publishing_api
       }.to raise_error(RuntimeError)
     end
 
@@ -12,7 +12,7 @@ RSpec.describe RootTopicPresenter do
       create(:topic, title: "Top-Level Topic 1")
       create(:topic, title: "Top-Level Topic 2")
 
-      rendered = RootTopicPresenter.new.render_for_publishing_api
+      rendered = RootTopicPresenter.new(true).render_for_publishing_api
 
       expect(rendered).to be_valid_against_schema('topic')
     end
@@ -26,18 +26,18 @@ RSpec.describe RootTopicPresenter do
       end
       page_2.touch
 
-      rendered = RootTopicPresenter.new.render_for_publishing_api
+      rendered = RootTopicPresenter.new(true).render_for_publishing_api
 
       expect(rendered[:public_updated_at]).to eq(page_2.updated_at.iso8601)
     end
   end
 
-  describe 'render_links_for_publishing_api' do
+  describe '#render_links_for_publishing_api' do
     it "includes draft and published top-level browse pages" do
       page_1 = create(:topic, :published, title: "Top-Level Page 1")
       page_2 = create(:topic, :draft, title: "Top-Level Page 2")
 
-      rendered = RootTopicPresenter.new.render_links_for_publishing_api
+      rendered = RootTopicPresenter.new(true).render_links_for_publishing_api
 
       expect(rendered[:links]["children"]).to eq([
         page_1.content_id,
