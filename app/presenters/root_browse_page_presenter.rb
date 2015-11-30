@@ -1,19 +1,43 @@
 class RootBrowsePagePresenter
+  def initialize(options)
+    @state = options['state']
+  end
+
+  def content_id
+    "8413047e-570a-448b-b8cb-d288a12807dd"
+  end
+
+  def update_type
+    "major"
+  end
+
+  def draft?
+    @state == 'draft'
+  end
+
+  def archived?
+    false
+  end
+
   def render_for_publishing_api
     {
-      content_id: "8413047e-570a-448b-b8cb-d288a12807dd",
+      content_id: content_id,
       format: "mainstream_browse_page",
+      base_path: '/browse',
       title: "Browse",
       locale: 'en',
       public_updated_at: public_updated_at,
       publishing_app: "collections-publisher",
       rendering_app: "collections",
       routes: routes,
-      update_type: "major",
+      update_type: update_type,
       links: links,
-      details: {
-        internal_name: "Browse index page",
-      },
+    }
+  end
+
+  def render_links_for_publishing_api
+    {
+      links: links
     }
   end
 

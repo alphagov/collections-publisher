@@ -1,7 +1,7 @@
 module ContentStoreHelpers
   RSpec::Matchers.define :have_content_item_slug do |expected_slug|
     match do |stubbed_content_store|
-      stubbed_content_store.stored_slugs.include?(expected_slug)
+      stubbed_content_store.stored_published_slugs.include?(expected_slug)
     end
   end
 
@@ -22,30 +22,38 @@ module ContentStoreHelpers
   end
 
   class FakeContentStore
-    attr_reader :stored_slugs,
-                :stored_draft_slugs,
-                :last_updated_item
+    attr_reader :stored_draft_slugs,
+                :stored_published_slugs,
+                :last_updated_item,
+                :stored_links
 
     def initialize
-      @stored_slugs = []
       @stored_draft_slugs = []
+      @stored_published_slugs = []
       @stored_items = {}
+      @stored_links = {}
     end
 
-    def put_content_item(slug, item)
-      @stored_slugs << slug
+    def put_content(content_id, item)
+      @stored_draft_slugs << item[:base_path]
       @last_updated_item = item
-      @stored_items[slug] = item
+      @stored_items[content_id] = item
     end
 
-    def put_draft_content_item(slug, item)
-      @stored_draft_slugs << slug
-      @last_updated_item = item
-      @stored_items[slug] = item
+    def publish(content_id, _update_type)
+      item = @stored_items[content_id]
+      raise "Item #{content_id} not previously written to content store as draft" if item.nil?
+      @stored_published_slugs << item[:base_path]
     end
 
-    def item_with_slug(slug)
-      @stored_items.fetch(slug)
+    def put_links(content_id, links)
+      item = @stored_items[content_id]
+      raise "Item #{content_id} not previously written to content store as draft" if item.nil?
+      @stored_links[content_id] = links
+    end
+
+    def item_by_content_id(content_id)
+      @stored_items.fetch(content_id)
     end
   end
 end
