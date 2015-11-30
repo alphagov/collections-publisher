@@ -49,6 +49,10 @@ To run just the schema tests:
 
     bundle exec rake spec:schema
 
+### Dumping and restoring the database
+
+To dump and restore a copy of the development database, there is a rake task available [here](https://gist.github.com/stephen-richards/b78f2637206cc22eacd5)
+
 ## Licence
 
 [MIT License](LICENSE.txt)

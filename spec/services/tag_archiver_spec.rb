@@ -1,10 +1,13 @@
 require "rails_helper"
 
 RSpec.describe TagArchiver do
+  include PublishingApiHelpers
   describe '#archive' do
     before do
       # By default make it so that there's nothing tagged to topics.
       stub_any_call_to_rummager_with_documents([])
+
+      stub_publish_to_publishing_api
 
       # Succesful archivings will remove the result from rummager.
       allow(Services.rummager).to receive(:delete_document)
@@ -128,7 +131,7 @@ RSpec.describe TagArchiver do
       tag.reload
 
       expect(tag.archived?).to be(false)
-      expect(tag.redirects.size).to be(0)
+      expect(tag.redirect_routes.size).to be(0)
     end
 
     it "removes the tag from panoption" do

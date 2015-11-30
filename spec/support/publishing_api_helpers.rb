@@ -9,9 +9,7 @@
 # end
 module PublishingApiHelpers
 
-
   PUBLISHING_API_ENDPOINT = Plek.current.find('publishing-api')
-
 
   def stub_put_content_to_publishing_api
     stub_request(:put, %r{\A#{PUBLISHING_API_ENDPOINT}/v2/content})
@@ -82,5 +80,4 @@ module PublishingApiHelpers
     /.*\/(?<content_id>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(\/.*)?$/ =~ current_path
     content_id || "no-content-id-found-in-#{current_path}"
   end
-
 end

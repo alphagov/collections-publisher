@@ -33,6 +33,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'quiet_assets', '~> 1.1.0'
+  gem 'govuk-lint'
 end
 
 group :test, :development do

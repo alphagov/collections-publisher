@@ -188,7 +188,7 @@ RSpec.describe "creating and editing topics" do
 
     # Given a draft topic exists
     topic = create(:topic, :draft, :slug => 'working-at-sea', :title => 'Working at sea')
-    create(:redirect, tag: topic)
+    create(:redirect_route, tag: topic)
 
     # When I fill out the details for a new child topic
     visit topics_path

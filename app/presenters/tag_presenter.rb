@@ -6,7 +6,12 @@ class TagPresenter
     when MainstreamBrowsePage
       MainstreamBrowsePagePresenter.new(tag)
     when Topic
-      TopicPresenter.new(tag)
+      case tag.state
+      when 'published', 'draft'
+        TopicPresenter.new(tag)
+      when 'archived'
+        ArchivedTagPresenter.new(tag)
+      end
     else
       raise ArgumentError, "Unexpected tag type #{tag.class}"
     end
@@ -35,8 +40,12 @@ class TagPresenter
     }
   end
 
+  def update_previous_version(gdsapi_response)
+    @previous_version = gdsapi_response.reaw_response_body['version']
+  end
+
   def render_for_publishing_api
-    {
+    payload = {
       base_path: base_path,
       content_id: @tag.content_id,
       format: format,
@@ -48,8 +57,8 @@ class TagPresenter
       publishing_app: "collections-publisher",
       rendering_app: "collections",
       routes: routes,
-      redirects: [],
-      update_type: update_type,
+      redirects: RedirectRoutePresenter.new(@tag).routes,
+      update_type: "major",
       details: details,
     }.merge(phase_state)
   end

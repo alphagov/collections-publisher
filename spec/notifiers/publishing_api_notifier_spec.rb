@@ -112,23 +112,17 @@ RSpec.describe PublishingAPINotifier do
       it "sends topic redirects to the publishing-api", schema_test: true do
         tag = create(:topic, :published, slug: 'foo')
 
-        redirect = create(:redirect,
-          tag: tag,
-          original_tag_base_path: '/foo',
-        )
-
         create(:redirect_route,
-          redirect: redirect,
           from_base_path: '/foo',
           to_base_path: '/topic/foo',
+          tag: tag,
         )
 
         PublishingAPINotifier.send_to_publishing_api(tag)
-        redirect_item = stubbed_content_store.item_by_content_id(redirect.content_id)
-        expect(redirect_item).to be_valid_against_schema('redirect')
-        expect(redirect_item[:redirects]).to eql([
-          { path: "/foo", type: "exact", destination: "/topic/foo" },
-        ])
+        content_item = stubbed_content_store.item_by_content_id(tag.content_id)
+        expect(content_item).to be_valid_against_schema('topic')
+        expect(content_item[:redirects]).to eq([ { path: "/foo", destination: "/topic/foo", type: "exact" } ])
+
       end
     end
   end

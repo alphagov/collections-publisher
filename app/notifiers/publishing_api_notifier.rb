@@ -1,14 +1,12 @@
 class PublishingAPINotifier
   def self.send_to_publishing_api(tag)
     new(tag).send_single_tag_to_publishing_api
-    tag.dependent_tags.each { |item| 
-      QueueWorker.perform_async(item.id) 
-    }
+    tag.dependent_tags.each { |item| QueueWorker.perform_async(item.id) }
     publish_root_page(tag)
   end
 
   def self.publish(tag)
-    new(tag).write_content(action: :live)
+    new(tag).write_content
     tag.dependent_tags.each { |item| 
       QueueWorker.perform_async(item.id) }
     publish_root_page(tag)
@@ -21,34 +19,17 @@ class PublishingAPINotifier
   end
 
   def send_single_tag_to_publishing_api
-    if tag.published?
-      write_content(action: :live)
-      add_redirects
-    elsif tag.archived?()
-      add_redirects
-    elsif tag.draft?
-      write_content(action: :draft)      
-    end
+    write_content
   end
 
-  def write_content(options = {action: :draft})
+  def write_content
     publishing_api.put_content(presenter.content_id, presenter.render_for_publishing_api)
-    publishing_api.publish(presenter.content_id, presenter.update_type) if options[:action] == :live
-    publishing_api.put_links(presenter.content_id, presenter.render_links_for_publishing_api)
+    publishing_api.publish(presenter.content_id, presenter.update_type) unless tag.draft?
+    publishing_api.put_links(presenter.content_id, presenter.render_links_for_publishing_api) unless tag.archived?
   end
 
 private
-  def add_redirects
-    tag.redirects.each do |redirect|
-      redirect_presenter = RedirectPresenter.new(redirect)
-
-      publishing_api.put_content(
-        redirect_presenter.content_id,
-        redirect_presenter.render_for_publishing_api
-      )
-    end
-  end
-
+  
   def presenter
     @presenter ||= TagPresenter.presenter_for(tag)
   end

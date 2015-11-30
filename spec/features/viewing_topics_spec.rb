@@ -80,6 +80,7 @@ RSpec.describe "Viewing topics" do
     stub_any_call_to_rummager_with_documents([])
     stub_user.permissions << "GDS Editor"
     stub_put_content_to_publishing_api
+    stub_publish_to_publishing_api
 
     rummager_deletion = stub_request(:delete, %r[https://rummager.test.gov.uk/*]).to_return(body: "{}")
     panopticon_deletion = stub_request(:delete, "https://panopticon.test.gov.uk/tags/specialist_sector/foo/bar.json").to_return(body: "{}")
