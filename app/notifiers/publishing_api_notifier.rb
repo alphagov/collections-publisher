@@ -7,8 +7,9 @@ class PublishingAPINotifier
 
   def self.publish(tag)
     new(tag).write_content
-    tag.dependent_tags.each { |item| 
-      QueueWorker.perform_async(item.id) }
+    tag.dependent_tags.each { |item|
+      QueueWorker.perform_async(item.id)
+    }
     publish_root_page(tag)
   end
 
@@ -23,7 +24,7 @@ class PublishingAPINotifier
   end
 
 private
-  
+
   def presenter
     @presenter ||= TagPresenter.presenter_for(tag)
   end

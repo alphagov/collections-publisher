@@ -6,7 +6,7 @@ RSpec.describe PublishingAPINotifier do
   let(:root_browse_page_content_id)       { RootBrowsePagePresenter.new(true).content_id }
   let(:root_topic_content_id)             { RootTopicPresenter.new.content_id }
 
-  def browse_page_with_slug(slug, parent=nil)
+  def browse_page_with_slug(slug, parent = nil)
     create(:mainstream_browse_page,
            slug: slug,
            parent: parent)
@@ -35,12 +35,12 @@ RSpec.describe PublishingAPINotifier do
       expect(stubbed_content_store).to_not receive(:put_content).with(@d.content_id, anything)
 
       PublishingAPINotifier.send_to_publishing_api(c)
-      expect(stubbed_content_store.stored_draft_slugs).to eq( ["/browse/a/c", "/browse/a/b", "/browse/a"] )
+      expect(stubbed_content_store.stored_draft_slugs).to eq(["/browse/a/c", "/browse/a/b", "/browse/a"])
     end
 
     it 'sends links to the publishing-api for all dependents' do
       c = browse_page_with_slug("c", @a)
-      
+
       PublishingAPINotifier.send_to_publishing_api(c)
       links_for_c = stubbed_content_store.stored_links[c.content_id]
       expect(links_for_c[:links]['top_level_browse_pages']).to include(@a.content_id)
@@ -57,7 +57,7 @@ RSpec.describe PublishingAPINotifier do
       expect(stubbed_content_store).to receive(:put_content).with(root_browse_page_content_id, anything).and_call_original
 
       PublishingAPINotifier.send_to_publishing_api(e)
-      expect(stubbed_content_store.stored_draft_slugs).to eq( ["/browse/e", "/browse/a", "/browse/d", "/browse/a/b", "/browse"] )
+      expect(stubbed_content_store.stored_draft_slugs).to eq(["/browse/e", "/browse/a", "/browse/d", "/browse/a/b", "/browse"])
     end
 
     it "queues dependent tags correctly" do

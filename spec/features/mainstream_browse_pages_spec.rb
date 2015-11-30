@@ -69,7 +69,7 @@ RSpec.describe "managing mainstream browse pages" do
     })
 
     # And the links should have been sent to publishing api
-    assert_publishing_api_put_links(content_id) 
+    assert_publishing_api_put_links(content_id)
 
     # but it should not have been published
     assert_publishing_api_not_published(content_id)
@@ -110,7 +110,7 @@ RSpec.describe "managing mainstream browse pages" do
     })
 
     # And the links should have been sent to publishing api
-    assert_publishing_api_put_links(citizenship.content_id) 
+    assert_publishing_api_put_links(citizenship.content_id)
 
     # but it should not have been published
     assert_publishing_api_not_published(citizenship.content_id)
@@ -148,7 +148,7 @@ RSpec.describe "managing mainstream browse pages" do
     })
 
     # And the links should have been sent to publishing api
-    assert_publishing_api_put_links(citizenship.content_id) 
+    assert_publishing_api_put_links(citizenship.content_id)
 
     # but it should have been published
     assert_publishing_api_publish(citizenship.content_id)
@@ -209,7 +209,7 @@ RSpec.describe "managing mainstream browse pages" do
       "format" => "mainstream_browse_page",
     })
 
-    # And not published 
+    # And not published
     assert_publishing_api_not_published(voting_content_id)
 
     # And links published

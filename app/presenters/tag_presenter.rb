@@ -45,7 +45,7 @@ class TagPresenter
   end
 
   def render_for_publishing_api
-    payload = {
+    {
       base_path: base_path,
       content_id: @tag.content_id,
       format: format,

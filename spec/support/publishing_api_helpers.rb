@@ -8,7 +8,6 @@
 # #   end
 # end
 module PublishingApiHelpers
-
   PUBLISHING_API_ENDPOINT = Plek.current.find('publishing-api')
 
   def stub_put_content_to_publishing_api

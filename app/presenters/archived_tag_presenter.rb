@@ -1,6 +1,4 @@
 class ArchivedTagPresenter
-  
-
   def initialize(tag)
     @tag = tag
   end
@@ -35,5 +33,4 @@ class ArchivedTagPresenter
   def update_type
     'major'
   end
- 
 end

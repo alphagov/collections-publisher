@@ -1,5 +1,4 @@
 class RootTopicPresenter
-
   def initialize(to_be_published)
     @to_be_published = to_be_published
   end
@@ -19,7 +18,7 @@ class RootTopicPresenter
   def archived?
     false
   end
-  
+
   def render_for_publishing_api
     {
       content_id: content_id,

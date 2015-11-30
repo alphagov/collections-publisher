@@ -167,7 +167,7 @@ RSpec.describe "Curating the contents of topics" do
       # When I publish the topic
       click_on('Publish changes to GOV.UK')
 
-      
+
 
       #Then the curated lists should have been sent to the publishing API
       assert_publishing_api_put_item(
@@ -195,7 +195,6 @@ RSpec.describe "Curating the contents of topics" do
       assert_publishing_api_publish(content_id)
       assert_publishing_api_put_links(content_id)
     end
-    
   end
 
   it "curating draft tags" do

@@ -1,5 +1,4 @@
 module ContentStoreHelpers
-
   RSpec::Matchers.define :have_content_item_slug do |expected_slug|
     match do |stubbed_content_store|
       stubbed_content_store.stored_published_slugs.include?(expected_slug)
@@ -41,7 +40,7 @@ module ContentStoreHelpers
       @stored_items[content_id] = item
     end
 
-    def publish(content_id, update_type)
+    def publish(content_id, _update_type)
       item = @stored_items[content_id]
       raise "Item #{content_id} not previously written to content store as draft" if item.nil?
       @stored_published_slugs << item[:base_path]

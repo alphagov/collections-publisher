@@ -1,5 +1,4 @@
 class RootBrowsePagePresenter
-
   def initialize(to_be_published)
     @to_be_published = to_be_published
   end
