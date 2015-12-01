@@ -17,18 +17,15 @@ class TagRepublisher
 
     log "Sending root browse page to publishing-api"
     with_retry do
-      publishing_api.put_content_item(
-        "/browse",
-        RootBrowsePagePresenter.new.render_for_publishing_api
-      )
+      presenter = RootBrowsePagePresenter.new('state' => 'published')
+      PublishingAPINotifier::PublishingApiContentWriter.write(presenter)
     end
+
 
     log "Sending root topic to publishing-api"
     with_retry do
-      publishing_api.put_content_item(
-        "/topic",
-        RootTopicPresenter.new.render_for_publishing_api
-      )
+      presenter = RootTopicPresenter.new('state' => 'published')
+      PublishingAPINotifier::PublishingApiContentWriter.write(presenter)
     end
 
     log "All done"
@@ -38,7 +35,7 @@ private
 
   def republish_tag(tag)
     with_retry do
-      PublishingAPINotifier.new(tag).send_single_tag_to_publishing_api
+      PublishingAPINotifier.new(tag).write_content
     end
   end
 

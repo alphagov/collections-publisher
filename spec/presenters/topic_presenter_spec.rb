@@ -12,6 +12,7 @@ RSpec.describe TopicPresenter do
       }
       let(:presenter) { TopicPresenter.new(topic) }
       let(:presented_data) { presenter.render_for_publishing_api }
+      let(:rendered_links) { presenter.render_links_for_publishing_api }
 
       it "includes the base fields" do
         expect(presented_data).to include({
@@ -52,14 +53,14 @@ RSpec.describe TopicPresenter do
 
       describe "links" do
         it "does not include a parent link" do
-          expect(presented_data[:links]).not_to have_key("parent")
+          expect(rendered_links[:links]).not_to have_key("parent")
         end
 
         it "includes links to all its child topics in title order" do
           bravo = create(:topic, :parent => topic, :title => "Bravo")
           alpha = create(:topic, :parent => topic, :title => "Alpha")
-          expect(presented_data[:links]).to have_key("children")
-          expect(presented_data[:links]["children"]).to eq([alpha, bravo].map(&:content_id))
+          expect(rendered_links[:links]).to have_key("children")
+          expect(rendered_links[:links]["children"]).to eq([alpha, bravo].map(&:content_id))
         end
       end
     end
@@ -76,6 +77,7 @@ RSpec.describe TopicPresenter do
       }
       let(:presenter) { TopicPresenter.new(topic) }
       let(:presented_data) { presenter.render_for_publishing_api }
+      let(:rendered_links) { presenter.render_links_for_publishing_api }
 
       it "returns the base_path for the subtopic" do
         expect(presenter.base_path).to eq("/topic/oil-and-gas/offshore")
@@ -117,8 +119,8 @@ RSpec.describe TopicPresenter do
       end
 
       it "includes a link to its parent" do
-        expect(presented_data[:links]).to have_key("parent")
-        expect(presented_data[:links]["parent"]).to eq([parent.content_id])
+        expect(rendered_links[:links]).to have_key("parent")
+        expect(rendered_links[:links]["parent"]).to eq([parent.content_id])
       end
     end
   end

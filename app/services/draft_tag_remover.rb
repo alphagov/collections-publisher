@@ -18,13 +18,18 @@ class DraftTagRemover
 private
 
   def add_gone_item
-    Services.publishing_api.put_draft_content_item(tag.base_path,
+    Services.publishing_api.put_content(tag.content_id, render_gone_item)
+  end
+
+  def render_gone_item
+    {
+      base_path: tag.base_path,
       format: 'gone',
       publishing_app: 'collections-publisher',
       update_type: 'major',
       content_id: tag.content_id,
       routes: presenter.routes
-    )
+    }
   end
 
   def remove_tag_from_panopticon
