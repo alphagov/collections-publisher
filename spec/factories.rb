@@ -1,4 +1,10 @@
 FactoryGirl.define do
+  factory :redirect_item do
+    content_id SecureRandom.uuid
+    from_base_path "/from/foo"
+    to_base_path "/to/bar"
+  end
+
   factory :redirect_route do
     from_base_path "/some/route"
     to_base_path "/to/some/route"
