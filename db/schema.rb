@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151124153356) do
+ActiveRecord::Schema.define(version: 20151204140913) do
 
   create_table "list_items", force: :cascade do |t|
     t.string   "base_path",  limit: 255
@@ -43,6 +43,18 @@ ActiveRecord::Schema.define(version: 20151124153356) do
   add_index "newest_redirects", ["content_id"], name: "index_newest_redirects_on_content_id", unique: true, using: :btree
   add_index "newest_redirects", ["original_tag_base_path"], name: "index_newest_redirects_on_original_tag_base_path", unique: true, using: :btree
   add_index "newest_redirects", ["tag_id"], name: "index_newest_redirects_on_tag_id", using: :btree
+
+  create_table "redirect_items", force: :cascade do |t|
+    t.string   "content_id",     limit: 255, null: false
+    t.string   "from_base_path", limit: 255, null: false
+    t.string   "to_base_path",   limit: 255, null: false
+    t.integer  "related_tag_id", limit: 4
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "redirect_items", ["content_id"], name: "index_redirect_items_on_content_id", unique: true, using: :btree
+  add_index "redirect_items", ["from_base_path"], name: "index_redirect_items_on_from_base_path", unique: true, using: :btree
 
   create_table "redirect_routes", force: :cascade do |t|
     t.integer  "redirect_id",    limit: 4
