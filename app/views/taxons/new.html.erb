@@ -1,0 +1,7 @@
+<%= header "Taxons", breadcrumbs: [:taxons, "New taxon"] %>
+
+<%= form_for @new_taxon, url: taxons_path do |f| %>
+  <%= f.text_field :title %>
+  <%= f.select :parent, options_for_select(@taxons_for_select), { include_blank: true }, { class: "select2" } %>
+  <%= f.submit "Save", class: "btn btn-lg btn-primary" %>
+<% end %>

@@ -1,0 +1,14 @@
+<%= header "Alpha Taxons", breadcrumbs: ["Taxons"] do %>
+  <%= link_to 'Add a taxon', new_taxon_path, class: 'btn btn-lg btn-default' %>
+<% end %>
+
+<table class="tags-list">
+<tr>
+  <th>Title</th>
+</tr>
+<% @taxons.each do |taxon| %>
+  <tr>
+    <td><%= link_to taxon['title'], edit_taxon_path(taxon['content_id']) %></td>
+  </tr>
+<% end %>
+</table>
