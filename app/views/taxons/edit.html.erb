@@ -1,0 +1,9 @@
+<%= header @taxon.title, breadcrumbs: [:taxons, @taxon] %>
+
+<%= form_for @taxon, url: taxon_path(@taxon.content_id), method: "patch" do |f| %>
+  <%= f.text_field :title %>
+  <%= f.hidden_field :content_id, value: @taxon.content_id %>
+  <%= f.hidden_field :base_path, value: @taxon.base_path %>
+  <%= f.select :parent, options_for_select(@taxons_for_select, @taxon.parent), { include_blank: true }, { class: "select2" } %>
+  <%= f.submit "Save", class: "btn btn-lg btn-primary" %>
+<% end %>
