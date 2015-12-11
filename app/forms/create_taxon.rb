@@ -13,12 +13,14 @@ class CreateTaxon
       title: title,
       content_id: content_id,
       publishing_app: 'collections-publisher',
-      rendering_app: 'collections-publisher',
+      rendering_app: 'collections',
       public_updated_at: Time.now,
       routes: [
         { path: base_path, type: "exact" },
       ]
     )
+
+    Services.publishing_api.publish(content_id, "major")
 
     Services.publishing_api.put_links(
       content_id,
