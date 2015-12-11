@@ -13,7 +13,7 @@ class CreateTaxon
       title: title,
       content_id: content_id,
       publishing_app: 'collections-publisher',
-      rendering_app: 'collections-publisher',
+      rendering_app: 'collections',
       public_updated_at: Time.now,
       routes: [
         { path: base_path, type: "exact" },
