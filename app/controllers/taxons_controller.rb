@@ -1,5 +1,5 @@
 class TaxonsController < ApplicationController
-  before_filter :require_gds_editor_permissions!
+  before_filter :require_permissions!
 
   def index
     @taxons = Taxonomy::TaxonFetcher.new.taxons
@@ -34,5 +34,11 @@ class TaxonsController < ApplicationController
     new_taxon = CreateTaxon.new(params[:create_taxon])
     new_taxon.create!
     redirect_to :back
+  end
+
+private
+
+  def require_permissions!
+    authorise_user!("Edit Taxonomy")
   end
 end
