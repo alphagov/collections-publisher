@@ -20,6 +20,8 @@ class CreateTaxon
       ]
     )
 
+    Services.publishing_api.publish(content_id, "major")
+
     Services.publishing_api.put_links(
       content_id,
       links: { parent: parent_ids }
