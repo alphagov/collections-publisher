@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.feature "Managing taxonomies" do
   before do
-    stub_user.permissions << "GDS Editor"
+    stub_user.permissions << "Edit Taxonomy"
 
     @create_item = stub_request(:put, %r[https://publishing-api.test.gov.uk/v2/content*]).
       to_return(status: 200, body: {}.to_json)

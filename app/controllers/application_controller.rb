@@ -8,10 +8,14 @@ class ApplicationController < ActionController::Base
 
 private
 
-  helper_method :gds_editor?, :active_navigation_item
+  helper_method :gds_editor?, :active_navigation_item, :can_edit_taxonomy?
 
   def gds_editor?
     current_user.has_permission? "GDS Editor"
+  end
+
+  def can_edit_taxonomy?
+    current_user.has_permission? "Edit Taxonomy"
   end
 
   # Can be overridden to allow controllers to choose the active menu item.
