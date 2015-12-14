@@ -35,7 +35,6 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
     it "includes the base fields" do
       expect(presented_data).to include({
-        :content_id => browse_page.content_id,
         :format => 'mainstream_browse_page',
         :title => 'Benefits',
         :description => 'All about benefits',
@@ -44,7 +43,6 @@ RSpec.describe MainstreamBrowsePagePresenter do
         :publishing_app => 'collections-publisher',
         :rendering_app => 'collections',
         :redirects => [],
-        :update_type => "major",
       })
     end
 

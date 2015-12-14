@@ -16,18 +16,6 @@ RSpec.describe RootBrowsePagePresenter do
       expect(rendered).to be_valid_against_schema('mainstream_browse_page')
     end
 
-    it "includes draft and published top-level browse pages" do
-      page_1 = create(:mainstream_browse_page, :published, title: "Top-Level Page 1")
-      page_2 = create(:mainstream_browse_page, :draft, title: "Top-Level Page 2")
-
-      rendered = RootBrowsePagePresenter.new('state' => 'draft').render_for_publishing_api
-
-      expect(rendered[:links]["top_level_browse_pages"]).to eq([
-        page_1.content_id,
-        page_2.content_id,
-      ])
-    end
-
     it ":public_updated_at equals the time of last browse page update" do
       page_1 = create(:mainstream_browse_page, title: "Top-Level Page 1")
       page_2 = create(:mainstream_browse_page, title: "Top-Level Page 2")
@@ -43,6 +31,25 @@ RSpec.describe RootBrowsePagePresenter do
     end
   end
 
+  describe "#render_links_for_publishing_api" do
+    it "validates against the schema" do
+      rendered = RootBrowsePagePresenter.new('state' => 'draft').render_links_for_publishing_api
+
+      expect(rendered).to be_valid_against_links_schema("mainstream_browse_page")
+    end
+
+    it "includes draft and published top-level browse pages" do
+      page_1 = create(:mainstream_browse_page, :published, title: "Top-Level Page 1")
+      page_2 = create(:mainstream_browse_page, :draft, title: "Top-Level Page 2")
+
+      rendered = RootBrowsePagePresenter.new('state' => 'draft').render_links_for_publishing_api
+
+      expect(rendered[:links]["top_level_browse_pages"]).to eq([
+        page_1.content_id,
+        page_2.content_id,
+      ])
+    end
+  end
 
   describe '#draft?' do
     it 'should return false if instantiated with a parameter of true' do

@@ -21,7 +21,6 @@ class RootBrowsePagePresenter
 
   def render_for_publishing_api
     {
-      content_id: content_id,
       format: "mainstream_browse_page",
       base_path: '/browse',
       title: "Browse",
@@ -30,8 +29,6 @@ class RootBrowsePagePresenter
       publishing_app: "collections-publisher",
       rendering_app: "collections",
       routes: routes,
-      update_type: update_type,
-      links: links,
     }
   end
 

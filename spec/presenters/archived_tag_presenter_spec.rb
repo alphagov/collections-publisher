@@ -39,6 +39,12 @@ RSpec.describe ArchivedTagPresenter do
       presenter = ArchivedTagPresenter.new(child)
       expect(presenter.render_for_publishing_api).to eq expected_child_content
     end
+
+    it "is valid against the schemas" do
+      presenter = ArchivedTagPresenter.new(child)
+
+      expect(presenter.render_for_publishing_api).to be_valid_against_schema("redirect")
+    end
   end
 
   describe '#base_path' do

@@ -21,7 +21,6 @@ class RootTopicPresenter
 
   def render_for_publishing_api
     {
-      content_id: content_id,
       base_path: '/topic',
       format: "topic",
       title: "Topics",
@@ -30,7 +29,6 @@ class RootTopicPresenter
       publishing_app: "collections-publisher",
       rendering_app: "collections",
       routes: routes,
-      update_type: update_type,
       details: {
         beta: true,
         internal_name: "Topic index page",

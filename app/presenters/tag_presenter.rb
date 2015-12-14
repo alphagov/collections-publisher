@@ -43,7 +43,6 @@ class TagPresenter
   def render_for_publishing_api
     {
       base_path: base_path,
-      content_id: @tag.content_id,
       format: format,
       title: @tag.title,
       description: @tag.description,
@@ -54,7 +53,6 @@ class TagPresenter
       rendering_app: "collections",
       routes: routes,
       redirects: RedirectRoutePresenter.new(@tag).routes,
-      update_type: "major",
       details: details,
     }.merge(phase_state)
   end
