@@ -16,7 +16,6 @@ RSpec.describe TopicPresenter do
 
       it "includes the base fields" do
         expect(presented_data).to include({
-          :content_id => topic.content_id,
           :format => 'topic',
           :title => 'Working at sea',
           :description => 'The sea, the sky, the sea, the sky...',
@@ -25,7 +24,6 @@ RSpec.describe TopicPresenter do
           :publishing_app => 'collections-publisher',
           :rendering_app => 'collections',
           :redirects => [],
-          :update_type => "major",
         })
       end
 
@@ -85,7 +83,6 @@ RSpec.describe TopicPresenter do
 
       it "includes the base fields" do
         expect(presented_data).to include({
-          :content_id => topic.content_id,
           :format => 'topic',
           :title => 'Offshore',
           :description => 'Oil rigs, pipelines etc.',
@@ -94,7 +91,6 @@ RSpec.describe TopicPresenter do
           :publishing_app => 'collections-publisher',
           :rendering_app => 'collections',
           :redirects => [],
-          :update_type => "major",
         })
       end
 
