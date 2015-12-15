@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   include GDS::SSO::ControllerMethods
   before_filter :require_signin_permission!
 
+  add_flash_types :success, :info, :warning, :danger
+
 private
 
   helper_method :gds_editor?, :active_navigation_item, :can_edit_taxonomy?

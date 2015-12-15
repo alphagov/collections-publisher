@@ -22,7 +22,7 @@ class TopicsController < ApplicationController
       PanopticonNotifier.update_tag(TopicPresenter.new(topic))
       PublishingAPINotifier.send_to_publishing_api(topic)
       RummagerNotifier.new(topic).notify
-      redirect_to topic
+      redirect_to topic, success: "Topic updated"
     else
       @topic = topic
       render 'edit'
@@ -63,7 +63,7 @@ class TopicsController < ApplicationController
     @archival.tag = find_topic
 
     if @archival.archive_or_remove
-      redirect_to topics_path, notice: 'The topic has been archived or removed.'
+      redirect_to topics_path, success: 'The topic has been archived or removed.'
     else
       render 'propose_archive'
     end
@@ -82,7 +82,7 @@ private
   def protect_archived_tags!
     topic = find_topic
     if topic.archived?
-      flash[:error] = 'You cannot modify an archived topic.'
+      flash[:danger] = 'You cannot modify an archived topic.'
       redirect_to topic
     end
   end

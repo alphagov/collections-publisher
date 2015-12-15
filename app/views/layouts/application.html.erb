@@ -1,4 +1,3 @@
-<% content_for :app_title, 'Collections Publisher' %>
 <% content_for :page_title, ' | GOV.UK Collections Publisher' %>
 
 <% content_for :head do %>
@@ -24,24 +23,11 @@
   <% end %>
 <% end %>
 
-
-<% if user_signed_in? %>
-  <% content_for :navbar_right do %>
-    <%= link_to current_user.name, Plek.current.find('signon') %>
-    &bull; <%= link_to 'Sign out', gds_sign_out_path %>
-  <% end %>
-<% end %>
-
 <% content_for :body_end do %>
   <%= javascript_include_tag 'application' %>
 <% end %>
 
 <% content_for :content do %>
-  <% flash.each do |key,message| %>
-    <div class="alert <%= alert_classes(key) %>">
-      <%= message %>
-    </div>
-  <% end %>
   <%= yield %>
 <% end %>
 
