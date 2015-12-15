@@ -14,7 +14,7 @@ class ListItemsController < ApplicationController
         if saved
           flash[:success] = 'Content added'
         else
-          flash[:error] = 'Could not add that list item to your list'
+          flash[:danger] = 'Could not add that list item to your list'
         end
 
         redirect_to tag_lists_path(@tag)
@@ -42,7 +42,7 @@ class ListItemsController < ApplicationController
         if destroyed
           flash[:success] = "Content removed from list"
         else
-          flash[:alert] = "Could not remove the list item from this list"
+          flash[:danger] = "Could not remove the list item from this list"
         end
 
         redirect_to tag_lists_path(@tag)
