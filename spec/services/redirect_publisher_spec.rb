@@ -11,7 +11,6 @@ RSpec.describe RedirectPublisher do
       RedirectPublisher.new.republish_redirects
 
       expect(stubbed_content_store).to have_content_item_slug('/foo')
-
     end
   end
 end

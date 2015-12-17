@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Curating the contents of topics" do
+RSpec.feature "Curating topic contents" do
   include PublishingApiHelpers
 
   before :each do

@@ -8,6 +8,12 @@ AllCops:
 HashSyntax:
   Enabled: false
 
+# In features we sometimes use weird method names.
+MethodName:
+  Exclude:
+    - spec/features/**/*
+    - spec/support/**/*
+
 # Following this cop sometimes makes things harder to read
 IfUnlessModifier:
   Enabled: false
