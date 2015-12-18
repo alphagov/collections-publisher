@@ -6,7 +6,7 @@ RSpec.describe TagArchiver do
     before do
       # By default make it so that there's nothing tagged to topics.
       stub_any_call_to_rummager_with_documents([])
-      stub_publish_to_publishing_api
+      stub_any_publishing_api_call
 
       # Succesful archivings will remove the result from rummager.
       allow(Services.rummager).to receive(:delete_document)

@@ -10,8 +10,7 @@ RSpec.feature "Archiving tags" do
     # Stub rummager so that topics do not have links.
     stub_any_call_to_rummager_with_documents([])
 
-    stub_put_content_to_publishing_api
-    stub_publish_to_publishing_api
+    stub_any_publishing_api_call
 
     @rummager_deletion = stub_request(:delete, %r[#{Plek.find('rummager')}/*]).to_return(body: "{}")
     @panopticon_deletion = stub_request(:delete, %r[#{Plek.find('panopticon')}/*]).to_return(body: "{}")

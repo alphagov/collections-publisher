@@ -3,7 +3,7 @@ module CommonFeatureSteps
     stub_all_panopticon_tag_calls
     allow_any_instance_of(RummagerNotifier).to receive(:notify)
     stub_rummager_linked_content_call
-    stub_put_content_links_and_publish_to_publishing_api
+    stub_any_publishing_api_call
   end
 
   def given_I_am_a_GDS_editor
