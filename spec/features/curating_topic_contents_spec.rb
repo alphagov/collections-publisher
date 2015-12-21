@@ -4,7 +4,7 @@ RSpec.feature "Curating topic contents" do
   include PublishingApiHelpers
 
   before :each do
-    stub_put_content_links_and_publish_to_publishing_api
+    stub_any_publishing_api_call
   end
 
   describe "Curating the content for a topic" do
@@ -84,7 +84,7 @@ RSpec.feature "Curating topic contents" do
 
 
       #Then the curated lists should have been sent to the publishing API
-      assert_publishing_api_put_item(
+      stub_publishing_api_put_content(
         content_id,
         {
           "details" => {
@@ -170,7 +170,7 @@ RSpec.feature "Curating topic contents" do
 
 
       #Then the curated lists should have been sent to the publishing API
-      assert_publishing_api_put_item(
+      stub_publishing_api_put_content(
         content_id,
         {
           "details" => {

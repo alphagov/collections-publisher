@@ -14,7 +14,7 @@ RSpec.describe TopicsController do
 
     it "allows only GDS Editors to publish topics" do
       stub_user.permissions << "GDS Editor"
-      stub_put_content_links_and_publish_to_publishing_api
+      stub_any_publishing_api_call
 
       topic = create(:topic)
       allow(PanopticonNotifier).to receive(:publish_tag)

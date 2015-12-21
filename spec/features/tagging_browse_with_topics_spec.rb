@@ -8,7 +8,7 @@ RSpec.feature "Tagging browse pages with topics" do
     given_I_am_a_GDS_editor
     stub_all_panopticon_tag_calls
     stub_rummager_linked_content_call
-    stub_put_content_links_and_publish_to_publishing_api
+    stub_any_publishing_api_call
   end
 
   scenario "User visits parent browse page" do

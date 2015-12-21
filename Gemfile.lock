@@ -319,7 +319,7 @@ DEPENDENCIES
   capybara (~> 2.5.0)
   database_cleaner (~> 1.5.0)
   factory_girl_rails (~> 4.5.0)
-  gds-api-adapters (~> 26.3)
+  gds-api-adapters (~> 26.6)
   gds-sso (~> 11.0.0)
   generic_form_builder (~> 0.13.0)
   govuk-content-schema-test-helpers (~> 1.4)
