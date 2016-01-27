@@ -7,11 +7,11 @@ class TaxonsController < ApplicationController
 
   def new
     @taxons_for_select = Taxonomy::TaxonFetcher.new.taxons_for_select
-    @new_taxon = CreateTaxon.new
+    @new_taxon = TaxonForm.new
   end
 
   def create
-    new_taxon = CreateTaxon.new(params[:create_taxon])
+    new_taxon = TaxonForm.new(params[:taxon_form])
     new_taxon.create!
     redirect_to taxons_path
   end
@@ -22,7 +22,7 @@ class TaxonsController < ApplicationController
     content_item = Services.publishing_api.get_content(params[:id])
     links = Services.publishing_api.get_links(params[:id]).links
 
-    @taxon = CreateTaxon.new(
+    @taxon = TaxonForm.new(
       content_id: content_item.content_id,
       title: content_item.title,
       base_path: content_item.base_path,
@@ -31,7 +31,7 @@ class TaxonsController < ApplicationController
   end
 
   def update
-    new_taxon = CreateTaxon.new(params[:create_taxon])
+    new_taxon = TaxonForm.new(params[:taxon_form])
     new_taxon.create!
     redirect_to :back
   end

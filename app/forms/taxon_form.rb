@@ -1,4 +1,4 @@
-class CreateTaxon
+class TaxonForm
   attr_accessor :title, :parent, :content_id, :base_path
   include ActiveModel::Model
 

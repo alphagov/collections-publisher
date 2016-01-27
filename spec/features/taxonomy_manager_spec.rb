@@ -56,7 +56,7 @@ RSpec.feature "Managing taxonomies" do
   end
 
   def when_I_submit_the_form_with_a_title
-    fill_in :create_taxon_title, with: "My Lovely Taxon"
+    fill_in :taxon_form_title, with: "My Lovely Taxon"
     click_on "Save"
   end
 
