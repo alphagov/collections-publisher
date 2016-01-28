@@ -1,5 +1,5 @@
 module Taxonomy
-  # Return a links of taxons from the publishing API with links included.
+  # Return a list of taxons from the publishing API with links included.
   class TaxonFetcher
     def taxons
       Services.publishing_api.get_content_items(
