@@ -62,10 +62,11 @@ RSpec.feature "Curating topic contents" do
       visit_topic_list_curation_page
 
       within :xpath, xpath_section_for('Oil rigs') do
+        expect(page).to have_selector('td.title', count: 2)
         titles = page.all('td.title').map(&:text)
+
         # Note: order reversed because we dragged the items to the top of the list above.
         expect(titles).to eq([
-          'Oil rig staffing',
           'Oil rig staffing',
           'Oil rig safety requirements',
         ])
