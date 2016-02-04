@@ -6,7 +6,7 @@ gem 'rails', '4.2.5.1'
 gem 'mysql2', '~> 0.3.20'
 
 gem 'plek', '~> 1.11.0'
-gem 'airbrake', '~> 4.3.1'
+gem 'airbrake', '~> 5.0'
 
 gem 'gds-sso', '~> 11.0.0'
 gem 'gds-api-adapters', '~> 26.6'
@@ -24,7 +24,7 @@ gem 'logstasher', '0.6.2'
 
 # sidekiq-web depends on sinatra
 gem 'sinatra', require: nil
-gem 'sidekiq', '~> 2.17.2'
+gem 'sidekiq', '~> 3.5.4'
 gem 'sidekiq-statsd', '0.1.5'
 
 gem 'byebug', group: [:development, :test]
