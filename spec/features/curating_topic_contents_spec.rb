@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.feature "Curating topic contents" do
   include PublishingApiHelpers
+  include WaitForAjax
 
   before :each do
     stub_any_publishing_api_call
@@ -36,7 +37,9 @@ RSpec.feature "Curating topic contents" do
       expect(page).to have_selector('h4', :text => 'Oil rigs')
 
       link_with_title('Oil rig staffing').drag_to droptarget_for_list('Oil rigs')
+      wait_for_ajax
       link_with_title('Oil rig safety requirements').drag_to droptarget_for_list('Oil rigs')
+      wait_for_ajax
 
       within :xpath, xpath_section_for('Oil rigs') do
         expect(page).to have_content('Oil rig safety requirements')
@@ -52,6 +55,7 @@ RSpec.feature "Curating topic contents" do
       expect(page).to have_selector('.list h4', :text => 'Piping')
 
       link_with_title('Undersea piping restrictions').drag_to droptarget_for_list('Piping')
+      wait_for_ajax
 
       within :xpath, xpath_section_for('Piping') do
         expect(page).to have_content('Undersea piping restrictions')
