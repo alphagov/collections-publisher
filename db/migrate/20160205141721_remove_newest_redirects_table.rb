@@ -4,6 +4,6 @@ class RemoveNewestRedirectsTable < ActiveRecord::Migration
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration, "newest_redirect table can't be recreated"
+    raise ActiveRecord::IrreversibleMigration, "newest_redirects table can't be recreated"
   end
 end
