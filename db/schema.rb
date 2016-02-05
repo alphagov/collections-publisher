@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151204140913) do
+ActiveRecord::Schema.define(version: 20160205141721) do
 
   create_table "list_items", force: :cascade do |t|
     t.string   "base_path",  limit: 255
@@ -31,18 +31,6 @@ ActiveRecord::Schema.define(version: 20151204140913) do
   end
 
   add_index "lists", ["tag_id"], name: "index_lists_on_tag_id", using: :btree
-
-  create_table "newest_redirects", force: :cascade do |t|
-    t.integer  "tag_id",                 limit: 4,   null: false
-    t.string   "original_tag_base_path", limit: 255
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
-    t.string   "content_id",             limit: 255, null: false
-  end
-
-  add_index "newest_redirects", ["content_id"], name: "index_newest_redirects_on_content_id", unique: true, using: :btree
-  add_index "newest_redirects", ["original_tag_base_path"], name: "index_newest_redirects_on_original_tag_base_path", unique: true, using: :btree
-  add_index "newest_redirects", ["tag_id"], name: "index_newest_redirects_on_tag_id", using: :btree
 
   create_table "redirect_items", force: :cascade do |t|
     t.string   "content_id",     limit: 255, null: false
@@ -127,7 +115,6 @@ ActiveRecord::Schema.define(version: 20151204140913) do
 
   add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
   add_foreign_key "lists", "tags", name: "lists_tag_id_fk", on_delete: :cascade
-  add_foreign_key "newest_redirects", "tags"
   add_foreign_key "redirect_routes", "tags"
   add_foreign_key "redirects", "tags", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
