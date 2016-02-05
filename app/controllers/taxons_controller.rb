@@ -16,6 +16,13 @@ class TaxonsController < ApplicationController
     redirect_to taxons_path
   end
 
+  def show
+    @taxon = TaxonForm.build(content_id: params[:id])
+    @tagged = Services.content_store.incoming_links!(
+      @taxon.base_path, {types: ["alpha_taxons"]}
+    ).alpha_taxons
+  end
+
   def edit
     @taxons_for_select = Taxonomy::TaxonFetcher.new.taxons_for_select
     @taxon = TaxonForm.build(content_id: params[:id])

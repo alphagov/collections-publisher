@@ -1,0 +1,12 @@
+<%= header @taxon.title, breadcrumbs: [:taxons, @taxon] %>
+
+<table class="tags-list">
+<tr>
+  <th>Title</th>
+</tr>
+<% @tagged.each do |content_item| %>
+  <tr>
+    <td><%= content_item["base_path"] %></td>
+  </tr>
+<% end %>
+</table>

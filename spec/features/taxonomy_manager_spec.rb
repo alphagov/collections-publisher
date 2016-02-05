@@ -31,7 +31,7 @@ RSpec.feature "Managing taxonomies" do
   end
 
   def and_I_click_on_the_edit_taxon_link
-    click_on "I Am A Taxon"
+    click_on "Edit taxon"
   end
 
   def given_there_is_a_taxon
