@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160205141721) do
+ActiveRecord::Schema.define(version: 20160205144140) do
 
   create_table "list_items", force: :cascade do |t|
     t.string   "base_path",  limit: 255
@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(version: 20160205141721) do
     t.string   "content_id",     limit: 255, null: false
     t.string   "from_base_path", limit: 255, null: false
     t.string   "to_base_path",   limit: 255, null: false
-    t.integer  "related_tag_id", limit: 4
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
   end
