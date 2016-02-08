@@ -6,7 +6,7 @@ gem 'rails', '4.2.5.1'
 gem 'mysql2', '~> 0.3.20'
 
 gem 'plek', '~> 1.11.0'
-gem 'airbrake', '~> 5.0'
+gem 'airbrake', '~> 4.3.5'
 
 gem 'gds-sso', '~> 11.0.0'
 gem 'gds-api-adapters', '~> 26.6'
