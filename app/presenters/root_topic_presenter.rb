@@ -7,10 +7,6 @@ class RootTopicPresenter
     "76e9abe7-dac8-49f0-bb5e-53e4b0d2cdba"
   end
 
-  def update_type
-    "major"
-  end
-
   def draft?
     @state == 'draft'
   end

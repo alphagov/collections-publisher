@@ -26,7 +26,6 @@ private
       base_path: tag.base_path,
       format: 'gone',
       publishing_app: 'collections-publisher',
-      update_type: 'major',
       content_id: tag.content_id,
       routes: presenter.routes
     }

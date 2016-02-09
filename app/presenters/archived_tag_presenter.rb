@@ -17,7 +17,6 @@ class ArchivedTagPresenter
       base_path: base_path,
       format: 'redirect',
       publishing_app: 'collections-publisher',
-      update_type: update_type,
       redirects: RedirectRoutePresenter.new(@tag).routes,
     }
   end
@@ -28,9 +27,5 @@ class ArchivedTagPresenter
 
   def content_id
     @tag.content_id
-  end
-
-  def update_type
-    'major'
   end
 end
