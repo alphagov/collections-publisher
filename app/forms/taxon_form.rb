@@ -36,7 +36,7 @@ class TaxonForm
       ]
     )
 
-    Services.publishing_api.publish(content_id, "major")
+    Services.publishing_api.publish(content_id, "minor")
 
     Services.publishing_api.put_links(
       content_id,

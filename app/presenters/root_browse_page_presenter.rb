@@ -7,10 +7,6 @@ class RootBrowsePagePresenter
     "8413047e-570a-448b-b8cb-d288a12807dd"
   end
 
-  def update_type
-    "major"
-  end
-
   def draft?
     @state == 'draft'
   end

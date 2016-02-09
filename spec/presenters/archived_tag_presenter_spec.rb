@@ -17,7 +17,6 @@ RSpec.describe ArchivedTagPresenter do
         base_path: "/topic/parent/child-1",
         format: "redirect",
         publishing_app: "collections-publisher",
-        update_type: "major",
         redirects: [
           {
             path: "/topic/parent/child-1",

@@ -26,10 +26,6 @@ class TagPresenter
     tag.content_id
   end
 
-  def update_type
-    'major'
-  end
-
   def render_for_rummager
     {
       format: rummager_format,

@@ -13,10 +13,6 @@ class RedirectItemPresenter
     item.from_base_path
   end
 
-  def update_type
-    'republish'
-  end
-
   def redirect_routes
     [ item ]
   end
@@ -35,7 +31,6 @@ class RedirectItemPresenter
       base_path: base_path,
       format: 'redirect',
       publishing_app: 'collections-publisher',
-      update_type: update_type,
       redirects: RedirectRoutePresenter.new(self).routes,
     }
   end
