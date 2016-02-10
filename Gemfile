@@ -9,7 +9,7 @@ gem 'plek', '~> 1.11.0'
 gem 'airbrake', '~> 4.3.5'
 
 gem 'gds-sso', '~> 11.0.0'
-gem 'gds-api-adapters', '~> 26.6'
+gem 'gds-api-adapters', '~> 28.0.1'
 
 gem 'govuk_admin_template', '~> 4.1'
 gem 'generic_form_builder', '~> 0.13.0'
@@ -26,8 +26,6 @@ gem 'logstasher', '0.6.2'
 gem 'sinatra', require: nil
 gem 'sidekiq', '~> 3.5.4'
 gem 'sidekiq-statsd', '0.1.5'
-
-gem 'http'
 
 gem 'byebug', group: [:development, :test]
 

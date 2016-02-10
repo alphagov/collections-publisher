@@ -3,10 +3,13 @@
 <table class="tags-list">
 <tr>
   <th>Title</th>
+  <th>URL</th>
 </tr>
 <% @tagged.each do |content_item| %>
   <tr>
-    <td><%= content_item["base_path"] %></td>
+    <td><%= content_item["title"] %></td>
+    <% content_item_url = Plek.new.website_root + content_item["base_path"] %>
+    <td><%= link_to content_item["base_path"], content_item_url %></td>
   </tr>
 <% end %>
 </table>
