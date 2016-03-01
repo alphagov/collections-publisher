@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.5.1'
+gem 'rails', '4.2.5.2'
 
 # Note that mysql2 0.4.X doesn't work with Rails. 4.2.X yet.
 gem 'mysql2', '~> 0.3.20'
