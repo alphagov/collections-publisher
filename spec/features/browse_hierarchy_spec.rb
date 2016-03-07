@@ -94,19 +94,19 @@ RSpec.feature "Browse hierarchy" do
 
   def and_the_newly_created_page_is_sent_to_the_publishing_api_as_draft
     stub_publishing_api_put_content(@content_id, {})
-    assert_publishing_api_put_links(@content_id)
+    assert_publishing_api_patch_links(@content_id)
     assert_publishing_api_not_published(@content_id)
   end
 
   def and_the_parent_page_is_sent_to_the_publishing_api
     stub_publishing_api_put_content(@parent.content_id, {})
-    assert_publishing_api_put_links(@parent.content_id)
+    assert_publishing_api_patch_links(@parent.content_id)
     assert_publishing_api_publish(@parent.content_id)
   end
 
   def and_the_child_page_is_sent_to_the_publishing_api
     stub_publishing_api_put_content(@child.content_id, {})
-    assert_publishing_api_put_links(@child.content_id)
+    assert_publishing_api_patch_links(@child.content_id)
     assert_publishing_api_publish(@child.content_id)
   end
 end

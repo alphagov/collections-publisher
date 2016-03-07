@@ -46,7 +46,7 @@ module ContentStoreHelpers
       @stored_published_slugs << item[:base_path]
     end
 
-    def put_links(content_id, links)
+    def patch_links(content_id, links)
       item = @stored_items[content_id]
       raise "Item #{content_id} not previously written to content store as draft" if item.nil?
       @stored_links[content_id] = links

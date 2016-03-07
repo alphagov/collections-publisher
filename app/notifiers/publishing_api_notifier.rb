@@ -45,7 +45,7 @@ private
       publishing_api = Services.publishing_api
       publishing_api.put_content(presenter.content_id, presenter.render_for_publishing_api)
       publishing_api.publish(presenter.content_id, UPDATE_TYPE) unless presenter.draft?
-      publishing_api.put_links(presenter.content_id, presenter.render_links_for_publishing_api) unless presenter.archived?
+      publishing_api.patch_links(presenter.content_id, presenter.render_links_for_publishing_api) unless presenter.archived?
     end
   end
 

@@ -113,7 +113,7 @@ RSpec.feature "Curating topic contents" do
 
       # And have been published and links sent
       assert_publishing_api_publish(content_id)
-      assert_publishing_api_put_links(content_id)
+      assert_publishing_api_patch_links(content_id)
     end
 
     it "without javascript" do
@@ -198,7 +198,7 @@ RSpec.feature "Curating topic contents" do
 
       # And then be published and links sent
       assert_publishing_api_publish(content_id)
-      assert_publishing_api_put_links(content_id)
+      assert_publishing_api_patch_links(content_id)
     end
   end
 
