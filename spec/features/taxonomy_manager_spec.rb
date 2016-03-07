@@ -37,7 +37,7 @@ RSpec.feature "Managing taxonomies" do
   def given_there_is_a_taxon
     item = { title: "I Am A Taxon", content_id: "ID-1", base_path: "/foo" }
 
-    stub_request(:get, "https://publishing-api.test.gov.uk/v2/content?content_format=taxon&fields%5B%5D=base_path&fields%5B%5D=content_id&fields%5B%5D=title").
+    stub_request(:get, "https://publishing-api.test.gov.uk/v2/linkables?document_type=taxon").
       to_return(body: [item].to_json)
 
     stub_request(:get, "https://publishing-api.test.gov.uk/v2/links/ID-1").
