@@ -2,9 +2,8 @@ module Taxonomy
   # Return a list of taxons from the publishing API with links included.
   class TaxonFetcher
     def taxons
-      Services.publishing_api.get_content_items(
-        content_format: 'taxon',
-        fields: %i[title base_path content_id]
+      Services.publishing_api.get_linkables(
+        document_type: 'taxon'
       ).sort_by { |taxon| taxon["title"] }
     end
 

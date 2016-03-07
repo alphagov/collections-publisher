@@ -126,7 +126,7 @@ RSpec.feature "Managing topics" do
       format: "topic",
     )
 
-    assert_publishing_api_put_links(@content_id)
+    assert_publishing_api_patch_links(@content_id)
 
     assert_publishing_api_not_published(@content_id)
 
@@ -145,7 +145,7 @@ RSpec.feature "Managing topics" do
       format: "topic",
     )
 
-    assert_publishing_api_put_links(@page.content_id)
+    assert_publishing_api_patch_links(@page.content_id)
 
     assert_publishing_api_publish(@page.content_id)
 
