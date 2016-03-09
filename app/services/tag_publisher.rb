@@ -8,9 +8,7 @@ class TagPublisher
   def publish
     Tag.transaction do
       tag.publish!
-      PanopticonNotifier.publish_tag(TagPresenter.presenter_for(tag))
-      PublishingAPINotifier.send_to_publishing_api(tag)
-      RummagerNotifier.new(tag).notify
+      TagPublishBroadcaster.broadcast(tag)
     end
   end
 end
