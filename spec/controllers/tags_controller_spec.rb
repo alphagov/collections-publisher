@@ -13,7 +13,7 @@ RSpec.describe TagsController do
     it "allows only GDS Editors to publish lists for mainstream browse pages" do
       stub_user.permissions << "GDS Editor"
       mainstream_browse_page = create(:mainstream_browse_page)
-      allow(PublishingAPINotifier).to receive(:send_to_publishing_api)
+      allow(PublishingAPINotifier).to receive(:notify)
 
       post :publish_lists, tag_id: mainstream_browse_page.content_id
 
@@ -22,7 +22,7 @@ RSpec.describe TagsController do
 
     it "allows non-GDS Editors to publish lists for topic pages" do
       topic = create(:topic)
-      allow(PublishingAPINotifier).to receive(:send_to_publishing_api)
+      allow(PublishingAPINotifier).to receive(:notify)
 
       post :publish_lists, tag_id: topic.content_id
 

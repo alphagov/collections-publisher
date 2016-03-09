@@ -34,14 +34,14 @@ RSpec.describe PublishingAPINotifier do
       expect(stubbed_content_store).to_not receive(:put_content).with(root_browse_page_content_id, anything)
       expect(stubbed_content_store).to_not receive(:put_content).with(@d.content_id, anything)
 
-      PublishingAPINotifier.send_to_publishing_api(c)
+      PublishingAPINotifier.notify(c)
       expect(stubbed_content_store.stored_draft_slugs).to eq(["/browse/a/c", "/browse/a/b", "/browse/a"])
     end
 
     it 'sends links to the publishing-api for all dependents' do
       c = browse_page_with_slug("c", @a)
 
-      PublishingAPINotifier.send_to_publishing_api(c)
+      PublishingAPINotifier.notify(c)
       links_for_c = stubbed_content_store.stored_links[c.content_id]
       expect(links_for_c[:links]['top_level_browse_pages']).to include(@a.content_id)
       expect(links_for_c[:links]['top_level_browse_pages']).to include(@d.content_id)
@@ -56,15 +56,15 @@ RSpec.describe PublishingAPINotifier do
       end
       expect(stubbed_content_store).to receive(:put_content).with(root_browse_page_content_id, anything).and_call_original
 
-      PublishingAPINotifier.send_to_publishing_api(e)
+      PublishingAPINotifier.notify(e)
       expect(stubbed_content_store.stored_draft_slugs).to eq(["/browse/e", "/browse/a", "/browse/d", "/browse/a/b", "/browse"])
     end
 
     it "queues dependent tags correctly" do
       Sidekiq::Testing.fake! do
         expect {
-          PublishingAPINotifier.send_to_publishing_api(@a)
-        }.to change(PublishingAPINotifier::QueueWorker.jobs, :size).by(2)
+          PublishingAPINotifier.notify(@a)
+        }.to change(DependentTagPublishWorker.jobs, :size).by(1)
       end
     end
   end
@@ -73,7 +73,7 @@ RSpec.describe PublishingAPINotifier do
     it "sends Root Browse page content_id for top level mainstream browse pages" do
       tag = create(:mainstream_browse_page, :published, slug: 'foo')
 
-      PublishingAPINotifier.send_to_publishing_api(tag)
+      PublishingAPINotifier.notify(tag)
 
       expect(stubbed_content_store).to have_content_item_slug('/browse')
     end
@@ -81,7 +81,7 @@ RSpec.describe PublishingAPINotifier do
     it "sends /browse for top level mainstream browse pages" do
       tag = create(:topic, :published, slug: 'foo')
 
-      PublishingAPINotifier.send_to_publishing_api(tag)
+      PublishingAPINotifier.notify(tag)
 
       expect(stubbed_content_store).to have_content_item_slug('/topic')
     end
@@ -90,7 +90,7 @@ RSpec.describe PublishingAPINotifier do
       it "sends the presented details to the publishing-api", schema_test: true do
         tag = create(:topic, :draft, slug: 'foo')
 
-        PublishingAPINotifier.send_to_publishing_api(tag)
+        PublishingAPINotifier.notify(tag)
 
         expect(stubbed_content_store).to have_draft_content_item_slug('/topic/foo')
         expect(stubbed_content_store.last_updated_item).to be_valid_against_schema('topic')
@@ -101,7 +101,7 @@ RSpec.describe PublishingAPINotifier do
       it "sends the presented details to the publishing-api", schema_test: true do
         tag = create(:topic, :published, slug: 'foo')
 
-        PublishingAPINotifier.send_to_publishing_api(tag)
+        PublishingAPINotifier.notify(tag)
 
         expect(stubbed_content_store).to have_content_item_slug('/topic/foo')
         expect(stubbed_content_store.last_updated_item).to be_valid_against_schema('topic')
@@ -116,7 +116,7 @@ RSpec.describe PublishingAPINotifier do
           tag: tag,
         )
 
-        PublishingAPINotifier.send_to_publishing_api(tag)
+        PublishingAPINotifier.notify(tag)
         content_item = stubbed_content_store.item_by_content_id(tag.content_id)
         expect(content_item).to be_valid_against_schema('topic')
         expect(content_item[:redirects]).to eq([{ path: "/foo", destination: "/topic/foo", type: "exact" }])

@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe ListPublisher do
   describe '#perform' do
-    before { allow(PublishingAPINotifier).to receive(:send_to_publishing_api) }
+    before { allow(PublishingAPINotifier).to receive(:notify) }
 
     it 'updates the groups-data to be sent to the content store' do
       topic = create(:topic)
@@ -18,7 +18,7 @@ RSpec.describe ListPublisher do
 
       ListPublisher.new(topic).perform
 
-      expect(PublishingAPINotifier).to have_received(:send_to_publishing_api)
+      expect(PublishingAPINotifier).to have_received(:notify)
     end
 
     it 'clears the dirty flag from tag' do

@@ -21,7 +21,6 @@ class TagRepublisher
       ContentItemPublisher.new(presenter).send_to_publishing_api
     end
 
-
     log "Sending root topic to publishing-api"
     with_retry do
       presenter = RootTopicPresenter.new('state' => 'published')
@@ -35,7 +34,8 @@ private
 
   def republish_tag(tag)
     with_retry do
-      PublishingAPINotifier.new(tag).write_content
+      presenter = TagPresenter.presenter_for(tag)
+      ContentItemPublisher.new(presenter).send_to_publishing_api
     end
   end
 
