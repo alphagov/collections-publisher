@@ -12,7 +12,7 @@ class PublishingAPINotifier
   end
 
   def write_content
-    PublishingApiContentWriter.write(presenter)
+    ContentItemPublisher.new(presenter).send_to_publishing_api
   end
 
 private
@@ -49,7 +49,7 @@ private
     include Sidekiq::Worker
     def perform(options)
       presenter = RootBrowsePagePresenter.new(options)
-      PublishingApiContentWriter.write(presenter)
+      ContentItemPublisher.new(presenter).send_to_publishing_api
     end
   end
 
@@ -57,7 +57,7 @@ private
     include Sidekiq::Worker
     def perform(options)
       presenter = RootTopicPresenter.new(options)
-      PublishingApiContentWriter.write(presenter)
+      ContentItemPublisher.new(presenter).send_to_publishing_api
     end
   end
 end
