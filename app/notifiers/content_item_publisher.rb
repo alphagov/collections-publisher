@@ -7,9 +7,9 @@ class ContentItemPublisher
   delegate :content_id, to: :presenter
   delegate :publishing_api, to: Services
 
-  def initialize(presenter, update_type: nil)
+  def initialize(presenter, update_type: DEFAULT_UPDATE_TYPE)
     @presenter = presenter
-    @update_type = update_type || DEFAULT_UPDATE_TYPE
+    @update_type = update_type
   end
 
   def send_to_publishing_api
