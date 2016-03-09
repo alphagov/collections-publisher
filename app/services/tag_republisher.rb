@@ -18,13 +18,13 @@ class TagRepublisher
     log "Sending root browse page to publishing-api"
     with_retry do
       presenter = RootBrowsePagePresenter.new('state' => 'published')
-      ContentItemPublisher.new(presenter).send_to_publishing_api
+      ContentItemPublisher.new(presenter, update_type: "republish").send_to_publishing_api
     end
 
     log "Sending root topic to publishing-api"
     with_retry do
       presenter = RootTopicPresenter.new('state' => 'published')
-      ContentItemPublisher.new(presenter).send_to_publishing_api
+      ContentItemPublisher.new(presenter, update_type: "republish").send_to_publishing_api
     end
 
     log "All done"
@@ -35,7 +35,7 @@ private
   def republish_tag(tag)
     with_retry do
       presenter = TagPresenter.presenter_for(tag)
-      ContentItemPublisher.new(presenter).send_to_publishing_api
+      ContentItemPublisher.new(presenter, update_type: "republish").send_to_publishing_api
     end
   end
 

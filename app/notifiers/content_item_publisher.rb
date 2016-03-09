@@ -1,21 +1,22 @@
 class ContentItemPublisher
   # Setting the update type to minor means we won't send email alerts for
   # changes to a topic title or description.
-  UPDATE_TYPE = 'minor'
-  attr_reader :presenter
+  DEFAULT_UPDATE_TYPE = 'minor'
+  attr_reader :presenter, :update_type
 
   delegate :content_id, to: :presenter
   delegate :publishing_api, to: Services
 
-  def initialize(presenter)
+  def initialize(presenter, update_type: nil)
     @presenter = presenter
+    @update_type = update_type || DEFAULT_UPDATE_TYPE
   end
 
   def send_to_publishing_api
     publishing_api.put_content(content_id, presenter.render_for_publishing_api)
 
     unless presenter.draft?
-      publishing_api.publish(content_id, UPDATE_TYPE)
+      publishing_api.publish(content_id, update_type)
     end
 
     unless presenter.archived?
