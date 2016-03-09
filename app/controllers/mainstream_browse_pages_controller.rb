@@ -19,9 +19,7 @@ class MainstreamBrowsePagesController < ApplicationController
     browse_page = find_browse_page
 
     if browse_page.update_attributes(browse_page_params)
-      PanopticonNotifier.update_tag(MainstreamBrowsePagePresenter.new(browse_page))
-      PublishingAPINotifier.send_to_publishing_api(browse_page)
-      RummagerNotifier.new(browse_page).notify
+      TagUpdateBroadcaster.broadcast(browse_page)
       redirect_to browse_page
     else
       @browse_page = browse_page
@@ -39,8 +37,7 @@ class MainstreamBrowsePagesController < ApplicationController
     browse_page.attributes = browse_page_params
 
     if browse_page.save
-      PanopticonNotifier.create_tag(MainstreamBrowsePagePresenter.new(browse_page))
-      PublishingAPINotifier.send_to_publishing_api(browse_page)
+      TagCreateBroadcaster.broadcast(browse_page)
       redirect_to browse_page
     else
       @browse_page = browse_page
