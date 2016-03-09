@@ -18,14 +18,14 @@ class TagRepublisher
     log "Sending root browse page to publishing-api"
     with_retry do
       presenter = RootBrowsePagePresenter.new('state' => 'published')
-      PublishingAPINotifier::PublishingApiContentWriter.write(presenter)
+      PublishingApiContentWriter.write(presenter)
     end
 
 
     log "Sending root topic to publishing-api"
     with_retry do
       presenter = RootTopicPresenter.new('state' => 'published')
-      PublishingAPINotifier::PublishingApiContentWriter.write(presenter)
+      PublishingApiContentWriter.write(presenter)
     end
 
     log "All done"
