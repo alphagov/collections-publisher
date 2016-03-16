@@ -12,7 +12,7 @@
 <% @taxons.each do |taxon| %>
   <tr>
     <td><%= taxon['title'] %></td>
-    <td><%= taxon['base_path'] %></td>
+    <td><%= link_to taxon['base_path'], "#{Plek.new.find('www') + '/api/content' + taxon['base_path']}" %></td>
     <td><%= link_to 'View tagged', taxon_path(taxon['content_id']) %></td>
     <td><%= link_to 'Edit taxon', edit_taxon_path(taxon['content_id']) %></td>
   </tr>
