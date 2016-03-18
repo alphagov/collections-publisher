@@ -7,23 +7,31 @@ module Services
   def self.publishing_api
     @publishing_api ||= GdsApi::PublishingApiV2.new(
       Plek.new.find('publishing-api'),
+      disable_cache: true,
       bearer_token: ENV['PUBLISHING_API_BEARER_TOKEN'] || 'example'
     )
   end
 
   def self.content_store
-    @content_store ||= GdsApi::ContentStore.new(Plek.new.find('content-store'))
+    @content_store ||= GdsApi::ContentStore.new(
+      Plek.new.find('content-store'),
+      disable_cache: true
+    )
   end
 
   def self.panopticon
     @panopticon ||= GdsApi::Panopticon.new(
       Plek.new.find('panopticon'),
+      disable_cache: true,
       bearer_token: ENV['PANOPTICON_BEARER_TOKEN'] || 'example'
     )
   end
 
   def self.rummager
-    @rummager ||= GdsApi::Rummager.new(Plek.new.find('rummager'))
+    @rummager ||= GdsApi::Rummager.new(
+      Plek.new.find('rummager'),
+      disable_cache: true
+    )
   end
 end
 
