@@ -32,7 +32,7 @@ class TaxonsController < ApplicationController
   def update
     new_taxon = TaxonForm.new(params[:taxon_form])
     new_taxon.create!
-    redirect_to :back
+    redirect_to taxons_path
   end
 
 private
