@@ -28,6 +28,7 @@ class TagPresenter
 
   def render_for_rummager
     {
+      content_id: tag.content_id,
       format: rummager_format,
       title: tag.title,
       description: tag.description,
