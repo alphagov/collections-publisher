@@ -1,5 +1,5 @@
 class TaggedDocuments
-  PAGE_SIZE_TO_GET_EVERYTHING = 10_000
+  PAGE_SIZE_TO_GET_EVERYTHING = 1_000
 
   include Enumerable
   delegate :each, :empty?, to: :documents
