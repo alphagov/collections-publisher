@@ -25,7 +25,7 @@ namespace :comparison do
       filter_key = tag.is_a?(Topic) ? "filter_specialist_sectors" : "filter_mainstream_browse_pages"
       rummager_data = Services.rummager.unified_search({
         :start => 0,
-        :count => 10_000,
+        :count => 1_000,
         filter_key => [tag.full_slug],
         :fields => %w(title link format),
       }).results
