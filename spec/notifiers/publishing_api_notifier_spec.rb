@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe PublishingAPINotifier do
   include ContentStoreHelpers
+  include PublishingApiHelpers
 
   let(:root_browse_page_content_id)       { RootBrowsePagePresenter.new('state' => 'published').content_id }
   let(:root_topic_content_id)             { RootTopicPresenter.new.content_id }
@@ -14,6 +15,10 @@ RSpec.describe PublishingAPINotifier do
 
   before do
     stub_content_store!
+  end
+
+  after do
+    Sidekiq::Worker.clear_all
   end
 
   describe "sending multiples items to the publishing api" do
@@ -66,6 +71,28 @@ RSpec.describe PublishingAPINotifier do
           PublishingAPINotifier.notify(@a)
         }.to change(DependentTagPublishWorker.jobs, :size).by(1)
       end
+    end
+
+    it "passes request_id through to the dependent tags worker" do
+      allow(Services).to receive(:publishing_api).and_call_original
+      stub_request(:any, /publishing-api/)
+
+      tag = create(:topic, :published)
+
+      Sidekiq::Testing.fake! do
+        GdsApi::GovukHeaders.set_header(:govuk_request_id, "12345-67890")
+        PublishingAPINotifier.notify(tag)
+
+        GdsApi::GovukHeaders.clear_headers
+        DependentTagPublishWorker.perform_one
+      end
+
+      content_id = tag.content_id
+      onward_headers = { "GOVUK-Request-Id" => "12345-67890" }
+
+      expect(a_request(:put, %r|publishing-api.*content/#{content_id}|).with(headers: onward_headers)).to have_been_made
+      expect(a_request(:patch, %r|publishing-api.*links/#{content_id}|).with(headers: onward_headers)).to have_been_made
+      expect(a_request(:post, %r|publishing-api.*content/#{content_id}/publish|).with(headers: onward_headers)).to have_been_made
     end
   end
 
