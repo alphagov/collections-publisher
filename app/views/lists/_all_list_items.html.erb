@@ -3,17 +3,17 @@
 
   <table class='links-table'>
     <tbody>
-      <% tag.tagged_documents.each do |list_item| %>
+      <% tag.tagged_documents.each do |item| %>
         <tr class='item'
-            data-title='<%= list_item.title %>'
-            data-base-path='<%= list_item.base_path %>'>
+            data-title='<%= item.title %>'
+            data-base-path='<%= item.base_path %>'>
 
           <td class='title'>
-            <%= raw list_item.title %>
+            <%= raw item.title %>
           </td>
 
           <td class='base-path'>
-            <%= raw list_item.base_path %>
+            <%= raw item.base_path %>
           </td>
 
           <td class='removal-button'>
