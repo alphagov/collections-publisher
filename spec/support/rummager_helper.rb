@@ -1,7 +1,7 @@
 module RummagerHelper
   SEARCH_ENDPOINT = Plek.find('rummager') + '/unified_search.json'
 
-  def stub_rummager_linked_content_call
+  def stub_any_call_to_rummager_with_no_documents
     stub_any_call_to_rummager_with_documents([])
   end
 

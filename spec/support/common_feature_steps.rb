@@ -2,7 +2,7 @@ module CommonFeatureSteps
   def and_external_services_are_stubbed
     stub_all_panopticon_tag_calls
     allow_any_instance_of(RummagerNotifier).to receive(:notify)
-    stub_rummager_linked_content_call
+    stub_any_call_to_rummager_with_no_documents
     stub_any_publishing_api_call
   end
 

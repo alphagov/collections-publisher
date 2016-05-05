@@ -108,6 +108,10 @@ class Tag < ActiveRecord::Base
     @_tagged_documents ||= TaggedDocuments.new(self)
   end
 
+  def tagged_document_for_base_path(base_path)
+    tagged_documents.find { |document| document.base_path == base_path }
+  end
+
   def legacy_tag_type
     nil
   end

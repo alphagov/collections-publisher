@@ -5,4 +5,8 @@ class ListItem < ActiveRecord::Base
 
   attr_accessor :tagged
   alias :tagged? :tagged
+
+  def display_title
+    list.tag.tagged_document_for_base_path(base_path).try(:title) || title
+  end
 end

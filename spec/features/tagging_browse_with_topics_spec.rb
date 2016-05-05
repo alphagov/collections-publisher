@@ -7,7 +7,7 @@ RSpec.feature "Tagging browse pages with topics" do
   before do
     given_I_am_a_GDS_editor
     stub_all_panopticon_tag_calls
-    stub_rummager_linked_content_call
+    stub_any_call_to_rummager_with_no_documents
     stub_any_publishing_api_call
   end
 
