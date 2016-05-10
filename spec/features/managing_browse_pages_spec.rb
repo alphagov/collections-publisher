@@ -123,7 +123,8 @@ RSpec.feature "Managing browse pages" do
       @content_id,
       title: "Citizenship",
       description: "Living in the UK",
-      format: "mainstream_browse_page",
+      document_type: "mainstream_browse_page",
+      schema_name: "mainstream_browse_page",
     )
 
     assert_publishing_api_patch_links(@content_id)

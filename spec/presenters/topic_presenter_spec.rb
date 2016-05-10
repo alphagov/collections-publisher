@@ -16,7 +16,8 @@ RSpec.describe TopicPresenter do
 
       it "includes the base fields" do
         expect(presented_data).to include({
-          :format => 'topic',
+          :schema_name => 'topic',
+          :document_type => 'topic',
           :title => 'Working at sea',
           :description => 'The sea, the sky, the sea, the sky...',
           :locale => 'en',
@@ -83,7 +84,8 @@ RSpec.describe TopicPresenter do
 
       it "includes the base fields" do
         expect(presented_data).to include({
-          :format => 'topic',
+          :schema_name => 'topic',
+          :document_type => 'topic',
           :title => 'Offshore',
           :description => 'Oil rigs, pipelines etc.',
           :locale => 'en',

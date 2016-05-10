@@ -40,7 +40,8 @@ class TagPresenter
   def render_for_publishing_api
     {
       base_path: base_path,
-      format: format,
+      document_type: format,
+      schema_name: format,
       title: @tag.title,
       description: @tag.description,
       locale: 'en',

@@ -18,7 +18,8 @@ class RootTopicPresenter
   def render_for_publishing_api
     {
       base_path: '/topic',
-      format: "topic",
+      schema_name: "topic",
+      document_type: "topic",
       title: "Topics",
       locale: 'en',
       public_updated_at: public_updated_at,

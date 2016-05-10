@@ -7,7 +7,8 @@ class TaxonPresenter
   def payload
     {
       base_path: base_path,
-      format: 'taxon',
+      document_type: 'taxon',
+      schema_name: 'taxon',
       title: title,
       publishing_app: 'collections-publisher',
       rendering_app: 'collections',
