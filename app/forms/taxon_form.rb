@@ -23,7 +23,6 @@ class TaxonForm
     self.base_path ||= '/alpha-taxonomy/' + title.parameterize
 
     presenter = TaxonPresenter.new(
-      content_id: content_id,
       base_path: base_path,
       title: title,
     )

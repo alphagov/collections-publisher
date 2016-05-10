@@ -5,7 +5,6 @@ RSpec.describe TaxonPresenter do
     it "generates a valid payload" do
       presenter = TaxonPresenter.new(
         title: "My Title",
-        content_id: "e8d62d8c-22d2-4890-9d5c-805da489d16f",
         base_path: "/taxons/my-taxon"
       )
 

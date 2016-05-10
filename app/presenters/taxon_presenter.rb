@@ -1,6 +1,5 @@
 class TaxonPresenter
-  def initialize(content_id:, base_path:, title:)
-    @content_id = content_id
+  def initialize(base_path:, title:)
     @base_path = base_path
     @title = title
   end
@@ -10,10 +9,10 @@ class TaxonPresenter
       base_path: base_path,
       format: 'taxon',
       title: title,
-      content_id: content_id,
       publishing_app: 'collections-publisher',
       rendering_app: 'collections',
-      public_updated_at: Time.now,
+      public_updated_at: Time.now.iso8601,
+      locale: 'en',
       routes: [
         { path: base_path, type: "exact" },
       ]
@@ -22,5 +21,5 @@ class TaxonPresenter
 
 private
 
-  attr_reader :content_id, :base_path, :title
+  attr_reader :base_path, :title
 end
