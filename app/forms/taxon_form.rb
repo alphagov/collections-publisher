@@ -22,18 +22,15 @@ class TaxonForm
     self.content_id ||= SecureRandom.uuid
     self.base_path ||= '/alpha-taxonomy/' + title.parameterize
 
+    presenter = TaxonPresenter.new(
+      content_id: content_id,
+      base_path: base_path,
+      title: title,
+    )
+
     Services.publishing_api.put_content(
       content_id,
-      base_path: base_path,
-      format: 'taxon',
-      title: title,
-      content_id: content_id,
-      publishing_app: 'collections-publisher',
-      rendering_app: 'collections',
-      public_updated_at: Time.now,
-      routes: [
-        { path: base_path, type: "exact" },
-      ]
+      presenter.payload
     )
 
     Services.publishing_api.publish(content_id, "minor")
