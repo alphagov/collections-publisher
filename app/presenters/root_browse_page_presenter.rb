@@ -17,7 +17,8 @@ class RootBrowsePagePresenter
 
   def render_for_publishing_api
     {
-      format: "mainstream_browse_page",
+      schema_name: "mainstream_browse_page",
+      document_type: "mainstream_browse_page",
       base_path: '/browse',
       title: "Browse",
       locale: 'en',

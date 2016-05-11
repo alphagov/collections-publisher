@@ -35,7 +35,8 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
     it "includes the base fields" do
       expect(presented_data).to include({
-        :format => 'mainstream_browse_page',
+        :schema_name => 'mainstream_browse_page',
+        :document_type => 'mainstream_browse_page',
         :title => 'Benefits',
         :description => 'All about benefits',
         :locale => 'en',
