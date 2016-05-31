@@ -28,7 +28,7 @@ RSpec.describe TopicPresenter do
         })
       end
 
-      it "is valid against the schema", :schema_test => true do
+      it "is valid against the schema" do
         expect(presented_data).to be_valid_against_schema('topic')
       end
 
@@ -96,7 +96,7 @@ RSpec.describe TopicPresenter do
         })
       end
 
-      it "is valid against the schema", :schema_test => true do
+      it "is valid against the schema" do
         expect(presented_data).to be_valid_against_schema('topic')
       end
 

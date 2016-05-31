@@ -77,13 +77,13 @@ RSpec.describe TagPresenter do
       })
     end
 
-    it "is valid against the schema without lists", :schema_test => true do
+    it "is valid against the schema without lists" do
       presented_data = TopicPresenter.new(tag).render_for_publishing_api
 
       expect(presented_data).to be_valid_against_schema('topic')
     end
 
-    it "is valid against the schema with lists", :schema_test => true do
+    it "is valid against the schema with lists" do
       create(:list, tag: tag, name: "List A")
       create(:list, tag: tag, name: "List B")
 

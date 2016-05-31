@@ -62,7 +62,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
       ])
     end
 
-    it "is valid against the schema", :schema_test => true do
+    it "is valid against the schema" do
       expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
     end
 
@@ -98,7 +98,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
           ])
         end
 
-        it "is valid against the schema", :schema_test => true do
+        it "is valid against the schema" do
           expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
         end
       end
@@ -165,7 +165,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
           ])
         end
 
-        it "is valid against the schema", :schema_test => true do
+        it "is valid against the schema" do
           expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
         end
       end
@@ -181,7 +181,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
           ])
         end
 
-        it "is valid against the schema", :schema_test => true do
+        it "is valid against the schema" do
           expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
         end
       end
@@ -210,7 +210,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
           ])
         end
 
-        it "is valid against the schema", :schema_test => true do
+        it "is valid against the schema" do
           expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
         end
       end
@@ -227,7 +227,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
           ])
         end
 
-        it "is valid against the schema", :schema_test => true do
+        it "is valid against the schema" do
           expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
         end
       end
@@ -254,7 +254,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
           expect(presented_data[:details]["second_level_ordering"]).to eq("curated")
         end
 
-        it "is valid against the schema", :schema_test => true do
+        it "is valid against the schema" do
           expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
         end
       end
@@ -267,7 +267,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
           expect(presented_data[:details]["second_level_ordering"]).to eq("curated")
         end
 
-        it "is valid against the schema", :schema_test => true do
+        it "is valid against the schema" do
           expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
         end
       end
