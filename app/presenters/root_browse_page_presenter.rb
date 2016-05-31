@@ -26,6 +26,7 @@ class RootBrowsePagePresenter
       publishing_app: "collections-publisher",
       rendering_app: "collections",
       routes: routes,
+      details: {},
     }
   end
 
