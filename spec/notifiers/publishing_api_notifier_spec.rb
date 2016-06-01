@@ -114,7 +114,7 @@ RSpec.describe PublishingAPINotifier do
     end
 
     context "for a draft tag" do
-      it "sends the presented details to the publishing-api", schema_test: true do
+      it "sends the presented details to the publishing-api" do
         tag = create(:topic, :draft, slug: 'foo')
 
         PublishingAPINotifier.notify(tag)
@@ -125,7 +125,7 @@ RSpec.describe PublishingAPINotifier do
     end
 
     context "for a published tag" do
-      it "sends the presented details to the publishing-api", schema_test: true do
+      it "sends the presented details to the publishing-api" do
         tag = create(:topic, :published, slug: 'foo')
 
         PublishingAPINotifier.notify(tag)
@@ -134,7 +134,7 @@ RSpec.describe PublishingAPINotifier do
         expect(stubbed_content_store.last_updated_item).to be_valid_against_schema('topic')
       end
 
-      it "sends topic redirects to the publishing-api", schema_test: true do
+      it "sends topic redirects to the publishing-api" do
         tag = create(:topic, :published, slug: 'foo')
 
         create(:redirect_route,

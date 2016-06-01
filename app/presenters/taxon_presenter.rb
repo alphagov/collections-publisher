@@ -14,6 +14,7 @@ class TaxonPresenter
       rendering_app: 'collections',
       public_updated_at: Time.now.iso8601,
       locale: 'en',
+      details: {},
       routes: [
         { path: base_path, type: "exact" },
       ]
