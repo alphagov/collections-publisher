@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   include GDS::SSO::ControllerMethods
   before_filter :require_signin_permission!
+  before_filter :set_authenticated_user_header
 
   add_flash_types :success, :info, :warning, :danger
 
@@ -35,5 +36,11 @@ private
 
   def find_tag
     @tag = Tag.find_by!(content_id: params[:tag_id])
+  end
+
+  def set_authenticated_user_header
+    if current_user && GdsApi::GovukHeaders.headers[:x_govuk_authenticated_user].nil?
+      GdsApi::GovukHeaders.set_header(:x_govuk_authenticated_user, current_user.uid)
+    end
   end
 end
