@@ -16,8 +16,7 @@ RSpec.describe WorkerBase do
       expect(WorkerBase).to receive(:client_push)
         .with("class" => MyWorker,
               "args" => [
-                "foo",
-                { request_id: "12345-67890", authenticated_user: "abcdef-09876" }
+                "foo"
               ])
 
       MyWorker.perform_async("foo")

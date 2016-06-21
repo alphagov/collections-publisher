@@ -1,11 +1,6 @@
 class WorkerBase
   include Sidekiq::Worker
 
-  def self.perform_async(*args)
-    args << govuk_headers
-    super(*args)
-  end
-
   def perform(*args)
     last_arg = args.last
 
@@ -18,12 +13,5 @@ class WorkerBase
     end
 
     call(*args)
-  end
-
-  def self.govuk_headers
-    {
-      request_id: GdsApi::GovukHeaders.headers[:govuk_request_id],
-      authenticated_user: GdsApi::GovukHeaders.headers[:x_govuk_authenticated_user],
-    }
   end
 end
