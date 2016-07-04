@@ -1,3 +1,4 @@
 require 'sidekiq'
-require 'sidekiq/testing'
+require 'govuk_sidekiq/testing'
+
 Sidekiq::Testing.inline!

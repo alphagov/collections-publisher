@@ -1,7 +1,7 @@
 class DependentTagPublishWorker
   include Sidekiq::Worker
 
-  def perform(tag_id, govuk_headers=nil)
+  def perform(tag_id)
     tag = Tag.find(tag_id)
 
     tag.dependent_tags.each do |tag|
