@@ -24,7 +24,7 @@ gem 'logstasher', '0.6.2'
 
 # sidekiq-web depends on sinatra
 gem 'sinatra', require: nil
-gem 'govuk_sidekiq', '0.0.3'
+gem 'govuk_sidekiq', '~> 0.0.4'
 
 gem 'byebug', group: [:development, :test]
 
