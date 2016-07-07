@@ -240,9 +240,15 @@ RSpec.describe MainstreamBrowsePagePresenter do
         :child_ordering => "curated",
       )}
 
-      let!(:second_level_page) { create(
+      let!(:second_level_page_1) { create(
         :mainstream_browse_page,
         :title => "Second-level page",
+        :parent => top_level_page,
+      )}
+
+      let!(:second_level_page_2) { create(
+        :mainstream_browse_page,
+        :title => "Another second-level page",
         :parent => top_level_page,
       )}
 
@@ -252,6 +258,10 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
         it "returns the order in which its children are ordered" do
           expect(presented_data[:details]["second_level_ordering"]).to eq("curated")
+          expect(presented_data[:details]["ordered_second_level_browse_pages"]).to eq([
+            second_level_page_1.content_id,
+            second_level_page_2.content_id,
+          ])
         end
 
         it "is valid against the schema" do
@@ -260,11 +270,15 @@ RSpec.describe MainstreamBrowsePagePresenter do
       end
 
       context "for a second level page" do
-        let(:presenter) { MainstreamBrowsePagePresenter.new(second_level_page) }
+        let(:presenter) { MainstreamBrowsePagePresenter.new(second_level_page_1) }
         let(:presented_data) { presenter.render_for_publishing_api }
 
         it "returns the order in which self and its siblings are ordered" do
           expect(presented_data[:details]["second_level_ordering"]).to eq("curated")
+          expect(presented_data[:details]["ordered_second_level_browse_pages"]).to eq([
+            second_level_page_1.content_id,
+            second_level_page_2.content_id,
+          ])
         end
 
         it "is valid against the schema" do

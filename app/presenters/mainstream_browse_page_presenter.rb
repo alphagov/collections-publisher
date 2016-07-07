@@ -20,7 +20,8 @@ private
 
   def details
     super.merge(
-      "second_level_ordering" => second_level_ordering
+      "second_level_ordering" => second_level_ordering,
+      "ordered_second_level_browse_pages" => second_level_browse_pages,
     )
   end
 
