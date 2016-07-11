@@ -36,13 +36,14 @@ group :development do
 end
 
 group :test, :development do
-  gem 'rspec-rails', '~> 3.3.3'
   gem 'capybara', '~> 2.5.0'
-  gem 'nokogiri', '~> 1.6.8'
-  gem 'poltergeist', '~> 1.7.0'
   gem 'database_cleaner', '~> 1.5.0'
   gem 'factory_girl_rails', '~> 4.5.0'
-  gem 'webmock', '~> 1.21.0', require: false
-  gem 'timecop', '~> 0.8.0'
   gem 'govuk-content-schema-test-helpers', '~> 1.4'
+  gem 'nokogiri', '~> 1.6.8'
+  gem 'poltergeist', '~> 1.7.0'
+  gem 'pry-byebug', '~> 3.4'
+  gem 'rspec-rails', '~> 3.3.3'
+  gem 'timecop', '~> 0.8.0'
+  gem 'webmock', '~> 1.21.0', require: false
 end

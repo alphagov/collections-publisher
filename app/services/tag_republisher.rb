@@ -35,7 +35,12 @@ private
   def republish_tag(tag)
     with_retry do
       presenter = TagPresenter.presenter_for(tag)
-      ContentItemPublisher.new(presenter, update_type: "republish").send_to_publishing_api
+      begin
+        ContentItemPublisher.new(presenter, update_type: "republish").send_to_publishing_api
+      rescue GdsApi::TimedOutException, Timeout::Error => e
+        log "#{tag.content_id} republish failed"
+        raise e
+      end
     end
   end
 
@@ -51,7 +56,6 @@ private
         sleep 0.5
         retry
       end
-      raise
     end
   end
 
