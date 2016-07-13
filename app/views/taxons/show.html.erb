@@ -1,11 +1,24 @@
-<%= header @taxon.title, breadcrumbs: [:taxons, @taxon] %>
+<%= header taxon_form.title, breadcrumbs: [:taxons, taxon_form] %>
+
+<table class="tags-list">
+<tr>
+  <th>Parent taxons</th>
+  <th>Base path</th>
+</tr>
+<% parents.each do |parent| %>
+  <tr>
+    <td><%= link_to parent['title'], taxon_path(parent['content_id']) %></td>
+    <td><%= link_to parent['base_path'], "#{Plek.new.find('www') + '/api/content' + parent['base_path']}" %></td>
+  </tr>
+<% end %>
+</table>
 
 <table class="tags-list">
 <tr>
   <th>Title</th>
   <th>URL</th>
 </tr>
-<% @tagged.each do |content_item| %>
+<% tagged.each do |content_item| %>
   <tr>
     <td><%= content_item["title"] %></td>
     <% content_item_url = Plek.new.website_root + content_item["base_path"] %>

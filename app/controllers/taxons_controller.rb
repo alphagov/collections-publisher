@@ -17,11 +17,11 @@ class TaxonsController < ApplicationController
   end
 
   def show
-    @taxon = TaxonForm.build(content_id: params[:id])
-    @tagged = Services.content_store.incoming_links!(
-      @taxon.base_path,
-      types: ["alpha_taxons"],
-    ).alpha_taxons
+    render :show, locals: {
+      taxon_form: taxon_form,
+      tagged: tagged,
+      parents: parents
+    }
   end
 
   def edit
@@ -36,6 +36,21 @@ class TaxonsController < ApplicationController
   end
 
 private
+
+  def parents
+    Taxonomy::TaxonFetcher.new.parents_for_taxon_form(taxon_form)
+  end
+
+  def taxon_form
+    TaxonForm.build(content_id: params[:id])
+  end
+
+  def tagged
+    Services.content_store.incoming_links!(
+      taxon_form.base_path,
+      types: ["alpha_taxons"],
+    ).alpha_taxons
+  end
 
   def require_permissions!
     authorise_user!("Edit Taxonomy")
