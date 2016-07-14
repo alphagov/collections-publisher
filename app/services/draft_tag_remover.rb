@@ -24,7 +24,8 @@ private
   def render_gone_item
     {
       base_path: tag.base_path,
-      format: 'gone',
+      document_type: 'gone',
+      schema_name: 'gone',
       publishing_app: 'collections-publisher',
       content_id: tag.content_id,
       routes: presenter.routes
