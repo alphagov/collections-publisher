@@ -6,8 +6,10 @@ class TaxonsController < ApplicationController
   end
 
   def new
-    @taxons_for_select = Taxonomy::TaxonFetcher.new.taxons_for_select
-    @new_taxon = TaxonForm.new
+    render :new, locals: {
+      taxon_form: TaxonForm.new,
+      taxons_for_select: taxons_for_select,
+    }
   end
 
   def create
