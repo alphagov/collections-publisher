@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.feature "Managing taxonomies" do
   before do
     stub_user.permissions << "Edit Taxonomy"
-    @item_1 = { title: "I Am A Taxon", content_id: "ID-1", base_path: "/foo" }
-    @item_2 = { title: "I Am Another Taxon", content_id: "ID-2", base_path: "/bar" }
+    @taxon_1 = { title: "I Am A Taxon", content_id: "ID-1", base_path: "/foo" }
+    @taxon_2 = { title: "I Am Another Taxon", content_id: "ID-2", base_path: "/bar" }
 
     @create_item = stub_request(:put, %r[https://publishing-api.test.gov.uk/v2/content*]).
       to_return(status: 200, body: {}.to_json)
@@ -38,16 +38,16 @@ RSpec.feature "Managing taxonomies" do
 
   def given_there_are_taxons
     stub_request(:get, "https://publishing-api.test.gov.uk/v2/linkables?document_type=taxon").
-      to_return(body: [@item_1, @item_2].to_json)
+      to_return(body: [@taxon_1, @taxon_2].to_json)
 
     stub_request(:get, "https://publishing-api.test.gov.uk/v2/links/ID-1").
       to_return(body: { links: { parent: [] } }.to_json)
 
     stub_request(:get, "https://publishing-api.test.gov.uk/v2/content/ID-1").
-      to_return(body: @item_1.to_json)
+      to_return(body: @taxon_1.to_json)
 
     stub_request(:get, "https://publishing-api.test.gov.uk/v2/content/ID-2").
-      to_return(body: @item_2.to_json)
+      to_return(body: @taxon_2.to_json)
   end
 
   def when_I_visit_the_taxonomy_page
@@ -61,11 +61,11 @@ RSpec.feature "Managing taxonomies" do
   def when_I_submit_the_form_with_a_title_and_parents
     fill_in :taxon_form_title, with: "My Lovely Taxon"
 
-    select @item_1[:title]
-    expect(find('#taxon_form_parents').value).to include(@item_1[:content_id])
+    select @taxon_1[:title]
+    expect(find('select').value).to include(@taxon_1[:content_id])
 
-    select @item_2[:title]
-    expect(find('#taxon_form_parents').value).to include(@item_2[:content_id])
+    select @taxon_2[:title]
+    expect(find('select').value).to include(@taxon_2[:content_id])
 
     click_on "Save"
   end

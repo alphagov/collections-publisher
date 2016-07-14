@@ -20,7 +20,7 @@ class TaxonsController < ApplicationController
     render :show, locals: {
       taxon_form: taxon_form,
       tagged: tagged,
-      parents: parents
+      taxon_parents: taxon_parents,
     }
   end
 
@@ -37,7 +37,7 @@ class TaxonsController < ApplicationController
 
 private
 
-  def parents
+  def taxon_parents
     Taxonomy::TaxonFetcher.new.parents_for_taxon_form(taxon_form)
   end
 

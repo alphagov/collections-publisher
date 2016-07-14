@@ -26,7 +26,7 @@ RSpec.describe TaxonForm do
     end
 
     it 'assigns the parents to the form' do
-      expect(subject.parents).to be_empty
+      expect(subject.taxon_parents).to be_empty
     end
 
     it 'assigns the content id correctly' do
@@ -53,7 +53,7 @@ RSpec.describe TaxonForm do
       end
 
       it 'assigns the parents to the form' do
-        expect(subject.parents).to eq(parents)
+        expect(subject.taxon_parents).to eq(parents)
       end
     end
   end
