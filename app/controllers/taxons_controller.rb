@@ -25,8 +25,10 @@ class TaxonsController < ApplicationController
   end
 
   def edit
-    @taxons_for_select = Taxonomy::TaxonFetcher.new.taxons_for_select
-    @taxon = TaxonForm.build(content_id: params[:id])
+    render :edit, locals: {
+      taxon_form: taxon_form,
+      taxons_for_select: taxons_for_select,
+    }
   end
 
   def update
@@ -36,6 +38,10 @@ class TaxonsController < ApplicationController
   end
 
 private
+
+  def taxons_for_select
+    Taxonomy::TaxonFetcher.new.taxons_for_select
+  end
 
   def taxon_parents
     Taxonomy::TaxonFetcher.new.parents_for_taxon_form(taxon_form)
