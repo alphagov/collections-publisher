@@ -32,7 +32,6 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'quiet_assets', '~> 1.1.0'
-  gem 'govuk-lint', '0.5.0'
 end
 
 group :test, :development do
@@ -46,4 +45,5 @@ group :test, :development do
   gem 'rspec-rails', '~> 3.3.3'
   gem 'timecop', '~> 0.8.0'
   gem 'webmock', '~> 1.21.0', require: false
+  gem 'govuk-lint'
 end
