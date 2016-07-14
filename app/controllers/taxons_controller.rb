@@ -2,7 +2,7 @@ class TaxonsController < ApplicationController
   before_filter :require_permissions!
 
   def index
-    @taxons = Taxonomy::TaxonFetcher.new.taxons
+    @taxons = taxon_fetcher.taxons
   end
 
   def new
@@ -42,11 +42,15 @@ class TaxonsController < ApplicationController
 private
 
   def taxons_for_select
-    Taxonomy::TaxonFetcher.new.taxons_for_select
+    taxon_fetcher.taxons_for_select
   end
 
   def taxon_parents
-    Taxonomy::TaxonFetcher.new.parents_for_taxon_form(taxon_form)
+    taxon_fetcher.parents_for_taxon_form(taxon_form)
+  end
+
+  def taxon_fetcher
+    @taxon_fetcher ||= Taxonomy::TaxonFetcher.new
   end
 
   def taxon_form
