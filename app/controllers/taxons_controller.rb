@@ -2,7 +2,7 @@ class TaxonsController < ApplicationController
   before_filter :require_permissions!
 
   def index
-    @taxons = taxon_fetcher.taxons
+    render :index, locals: { taxons: taxon_fetcher.taxons }
   end
 
   def new
