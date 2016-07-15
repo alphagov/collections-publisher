@@ -9,4 +9,12 @@ namespace :publishing_api do
   task :send_published_tags => :environment do
     TagRepublisher.new.republish_tags(Tag.published)
   end
+
+  desc "Populates taxon parents with the links parent"
+  task populate_taxon_parents: :environment do
+    Taxonomy::TaxonFetcher.new.taxons.each do |taxon|
+      Rails.logger.info "Populating taxon parent for #{taxon['title']}"
+      Taxonomy::PopulateTaxonParents.run(content_id: taxon['content_id'])
+    end
+  end
 end
