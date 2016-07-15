@@ -22,7 +22,7 @@ class TaxonsController < ApplicationController
     render :show, locals: {
       taxon_form: taxon_form,
       tagged: tagged,
-      taxon_parents: taxon_parents,
+      parent_taxons: parent_taxons,
     }
   end
 
@@ -45,7 +45,7 @@ private
     taxon_fetcher.taxons_for_select
   end
 
-  def taxon_parents
+  def parent_taxons
     taxon_fetcher.parents_for_taxon_form(taxon_form)
   end
 

@@ -5,10 +5,10 @@
   <th>Parent taxons</th>
   <th>Base path</th>
 </tr>
-<% taxon_parents.each do |taxon_parent| %>
+<% parent_taxons.each do |parent_taxon| %>
   <tr>
-    <td><%= link_to taxon_parent['title'], taxon_path(taxon_parent['content_id']) %></td>
-    <td><%= link_to taxon_parent['base_path'], "#{Plek.new.find('www') + '/api/content' + taxon_parent['base_path']}" %></td>
+    <td><%= link_to parent_taxon['title'], taxon_path(parent_taxon['content_id']) %></td>
+    <td><%= link_to parent_taxon['base_path'], "#{Plek.new.find('www') + '/api/content' + parent_taxon['base_path']}" %></td>
   </tr>
 <% end %>
 </table>

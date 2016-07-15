@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'gds_api/test_helpers/publishing_api_v2'
 
-RSpec.describe Taxonomy::PopulateTaxonParents do
+RSpec.describe Taxonomy::PopulateParentTaxons do
   include GdsApi::TestHelpers::PublishingApiV2
 
   describe '.run' do
@@ -27,7 +27,7 @@ RSpec.describe Taxonomy::PopulateTaxonParents do
       stub_publishing_api_patch_links(
         content_id,
         links: {
-          taxon_parents: ['CONTENT-ID-RTI']
+          parent_taxons: ['CONTENT-ID-RTI']
         }
       )
 
@@ -46,14 +46,14 @@ RSpec.describe Taxonomy::PopulateTaxonParents do
 
       it_behaves_like 'does not add taxon parents'
     end
-    
+
     context 'with existing links and taxon parents' do
       before do
         publishing_api_has_links(
           "content_id" => content_id,
           "links" => {
             parent: ['CONTENT-ID-RTI'],
-            taxon_parents: ['CONTENT-ID-RTI']
+            parent_taxons: ['CONTENT-ID-RTI']
           },
         )
       end

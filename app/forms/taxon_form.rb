@@ -1,5 +1,5 @@
 class TaxonForm
-  attr_accessor :title, :taxon_parents, :content_id, :base_path
+  attr_accessor :title, :parent_taxons, :content_id, :base_path
   include ActiveModel::Model
 
   def self.build(content_id:)
@@ -11,12 +11,12 @@ class TaxonForm
       base_path: content_item.base_path,
     )
 
-    form.taxon_parents = links.parent if links.present? && links.parent.any?
+    form.parent_taxons = links.parent_taxons if links.present? && links.parent_taxons.any?
     form
   end
 
-  def taxon_parents
-    @taxon_parents ||= []
+  def parent_taxons
+    @parent_taxons ||= []
   end
 
   def create!
@@ -37,7 +37,7 @@ class TaxonForm
 
     Services.publishing_api.patch_links(
       content_id,
-      links: { parent: taxon_parents.select(&:present?) }
+      links: { parent_taxons: parent_taxons.select(&:present?) }
     )
   end
 end

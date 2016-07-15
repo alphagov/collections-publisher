@@ -21,12 +21,12 @@ RSpec.describe TaxonForm do
         content_id: content_id,
         links: {
           topics: [],
-          parent: []
+          parent_taxons: []
       })
     end
 
     it 'assigns the parents to the form' do
-      expect(subject.taxon_parents).to be_empty
+      expect(subject.parent_taxons).to be_empty
     end
 
     it 'assigns the content id correctly' do
@@ -42,18 +42,18 @@ RSpec.describe TaxonForm do
     end
 
     context 'with existing links' do
-      let(:parents) { ["CONTENT-ID-RTI", "CONTENT-ID-VAT"] }
+      let(:parent_taxons) { ["CONTENT-ID-RTI", "CONTENT-ID-VAT"] }
       before do
         publishing_api_has_links(
           content_id: content_id,
           links: {
             topics: [],
-            parent: parents
+            parent_taxons: parent_taxons
         })
       end
 
       it 'assigns the parents to the form' do
-        expect(subject.taxon_parents).to eq(parents)
+        expect(subject.parent_taxons).to eq(parent_taxons)
       end
     end
   end

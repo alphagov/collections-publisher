@@ -14,7 +14,7 @@ module Taxonomy
 
     def parents_for_taxon_form(taxon_form)
       taxons.select do |taxon|
-        taxon_form.taxon_parents.include?(taxon['content_id'])
+        taxon_form.parent_taxons.include?(taxon['content_id'])
       end
     end
   end

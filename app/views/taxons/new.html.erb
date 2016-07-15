@@ -2,7 +2,7 @@
 
 <%= form_for taxon_form, url: taxons_path do |f| %>
   <%= f.text_field :title %>
-  <%= f.select :taxon_parents,
+  <%= f.select :parent_taxons,
     options_for_select(taxons_for_select),
     { include_blank: true },
     { class: "select2", multiple: true } %>

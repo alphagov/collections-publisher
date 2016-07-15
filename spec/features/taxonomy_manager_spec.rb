@@ -41,7 +41,7 @@ RSpec.feature "Managing taxonomies" do
       to_return(body: [@taxon_1, @taxon_2].to_json)
 
     stub_request(:get, "https://publishing-api.test.gov.uk/v2/links/ID-1").
-      to_return(body: { links: { parent: [] } }.to_json)
+      to_return(body: { links: { parent_taxons: [] } }.to_json)
 
     stub_request(:get, "https://publishing-api.test.gov.uk/v2/content/ID-1").
       to_return(body: @taxon_1.to_json)

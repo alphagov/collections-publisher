@@ -25,7 +25,7 @@ RSpec.describe Taxonomy::TaxonFetcher do
     let(:taxon_id_1) { SecureRandom.uuid }
     let(:taxon_id_2) { SecureRandom.uuid }
     let(:taxon_form) do
-      instance_double(TaxonForm, taxon_parents: [taxon_id_1, taxon_id_2])
+      instance_double(TaxonForm, parent_taxons: [taxon_id_1, taxon_id_2])
     end
     let(:link_1) do
       {"title" => "foo", "base_path" => "/foo", "content_id" => taxon_id_1 }
