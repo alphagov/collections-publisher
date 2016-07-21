@@ -16,11 +16,9 @@
     <%= link_to 'Topics', topics_path %>
   </li>
 
-  <% if can_edit_taxonomy? %>
-    <li class='<%= active_navigation_item == 'taxons' ? 'active' : nil %>'>
-      <%= link_to 'Taxons', taxons_path %>
-    </li>
-  <% end %>
+  <li>
+    <%= link_to 'Taxons', Plek.new.find('content-tagger') + '/taxons'  %>
+  </li>
 <% end %>
 
 <% content_for :body_end do %>
