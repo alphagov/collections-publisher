@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   root to: redirect('/topics', status: 302)
 
-  resources :taxons
-
   resources :mainstream_browse_pages, path: 'mainstream-browse-pages',
                                       except: :destroy do
     member do
