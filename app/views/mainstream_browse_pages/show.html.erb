@@ -12,6 +12,16 @@
                publish_mainstream_browse_page_path(@browse_page),
                method: :post %>
   <% end %>
+
+  <% if @browse_page.child? && @browse_page.tagged_documents.empty? %>
+    <% if @browse_page.published? %>
+      <%= link_to 'Archive mainstream browse page', propose_archive_mainstream_browse_page_path(@browse_page) %>
+    <% else %>
+      <%= link_to 'Remove mainstream browse page', archive_mainstream_browse_page_path(@browse_page),
+        method: 'post',
+        data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  <% end %>
 <% end %>
 
 <%= render 'shared/tags/metadata', resource: @browse_page %>

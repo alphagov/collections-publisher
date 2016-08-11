@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'gds_api/test_helpers/content_store'
 
-RSpec.describe ArchivalForm do
+RSpec.describe TopicArchivalForm do
   include GdsApi::TestHelpers::ContentStore
 
   describe '#topics' do
@@ -11,7 +11,7 @@ RSpec.describe ArchivalForm do
       published = create(:topic, :published)
       topic_self = create(:topic, :published)
 
-      topics = ArchivalForm.new(tag: topic_self).topics
+      topics = TopicArchivalForm.new(tag: topic_self).topics
 
       expect(topics).to eql([published])
     end
@@ -21,19 +21,19 @@ RSpec.describe ArchivalForm do
     it 'is not valid if the URL returns a 404 status code' do
       content_store_does_not_have_item('/not-here')
 
-      form = ArchivalForm.new(successor_path: "/not-here")
+      form = TopicArchivalForm.new(successor_path: "/not-here")
 
       expect(form.valid?).to eql(false)
     end
 
     it 'is not valid if its not really a URL' do
-      form = ArchivalForm.new(successor_path: "/i-Am Not A URL")
+      form = TopicArchivalForm.new(successor_path: "/i-Am Not A URL")
 
       expect(form.valid?).to eql(false)
     end
 
     it 'is not valid if it does not start with a slash' do
-      form = ArchivalForm.new(successor_path: "am-not-a-url")
+      form = TopicArchivalForm.new(successor_path: "am-not-a-url")
 
       expect(form.valid?).to eql(false)
     end
@@ -41,7 +41,7 @@ RSpec.describe ArchivalForm do
     it 'is valid if the URL returns 200' do
       content_store_has_item('/existing-item')
 
-      form = ArchivalForm.new(successor_path: "/existing-item")
+      form = TopicArchivalForm.new(successor_path: "/existing-item")
 
       expect(form.valid?).to eql(true)
     end

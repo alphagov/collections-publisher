@@ -52,11 +52,11 @@ class TopicsController < ApplicationController
   end
 
   def propose_archive
-    @archival = ArchivalForm.new(tag: find_topic)
+    @archival = TopicArchivalForm.new(tag: find_topic)
   end
 
   def archive
-    @archival = ArchivalForm.new(params[:archival_form])
+    @archival = TopicArchivalForm.new(params[:topic_archival_form])
     @archival.tag = find_topic
 
     if @archival.archive_or_remove

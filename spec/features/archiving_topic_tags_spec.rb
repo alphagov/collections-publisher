@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'gds_api/test_helpers/content_store'
 
-RSpec.feature "Archiving tags" do
+RSpec.feature "Archiving topic tags" do
   include PublishingApiHelpers
   include CommonFeatureSteps
   include GdsApi::TestHelpers::ContentStore
@@ -70,7 +70,7 @@ RSpec.feature "Archiving tags" do
   end
 
   def when_I_redirect_the_topic_to_a_successor_topic
-    select 'The Successor Topic', from: "archival_form_successor"
+    select 'The Successor Topic', from: "topic_archival_form_successor"
     click_button 'Archive and redirect to a topic'
   end
 
@@ -137,7 +137,7 @@ RSpec.feature "Archiving tags" do
 
   def when_I_submit_an_invalid_base_path_as_redirect
     content_store_does_not_have_item('/not-here')
-    fill_in "archival_form[successor_path]", with: '/not-here'
+    fill_in "topic_archival_form[successor_path]", with: '/not-here'
     click_button "Archive and redirect to a page"
   end
 
