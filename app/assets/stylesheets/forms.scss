@@ -34,3 +34,8 @@ button {
   @extend .btn;
   @extend .btn-default;
 }
+
+#new_mainstream_browse_page_archival_form,
+#new_topic_archival_form {
+  padding-bottom: 2em;
+}

@@ -1,4 +1,4 @@
-# TagArchiver removes a tag from the site. It sets op a redirect for the page
+# TagArchiver removes a tag from the site. It sets up a redirect for the page
 # to its successor and removes the tag from the search engine. It does not remove
 # the tag from panopticon - that has to be done manually.
 class TagArchiver

@@ -1,11 +1,11 @@
-class ArchivalForm
+class MainstreamBrowsePageArchivalForm
   include ActiveModel::Model
   attr_accessor :tag, :successor, :successor_path
 
   validates :successor_path, presence: true, valid_govuk_path: true, if: :redirecting_to_path?
 
-  def topics
-    published_topics - [tag]
+  def browse_pages
+    published_browse_pages - [tag]
   end
 
   def archive_or_remove
@@ -30,14 +30,15 @@ private
 
   def successor_object
     if redirecting_to_path?
-      OpenStruct.new(base_path: successor_path, subroutes: [])
+      Struct.new("RedirectToPath", :base_path, :subroutes)
+      Struct::RedirectToPath.new(successor_path, [])
     else
-      Topic.find_by_id(successor)
+      MainstreamBrowsePage.find_by_id(successor)
     end
   end
 
-  def published_topics
-    Topic.includes(:parent).published.sort_by(&:title_including_parent)
+  def published_browse_pages
+    MainstreamBrowsePage.includes(:parent).published.sort_by(&:title_including_parent)
   end
 
   def redirecting_to_path?

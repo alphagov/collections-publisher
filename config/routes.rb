@@ -5,6 +5,8 @@ Rails.application.routes.draw do
                                       except: :destroy do
     member do
       post :publish
+      get :propose_archive
+      post :archive
       get :"manage-child-ordering"
     end
   end

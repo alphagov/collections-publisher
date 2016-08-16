@@ -4,7 +4,12 @@ class TagPresenter
   def self.presenter_for(tag)
     case tag
     when MainstreamBrowsePage
-      MainstreamBrowsePagePresenter.new(tag)
+      case tag.state
+      when 'published', 'draft'
+        MainstreamBrowsePagePresenter.new(tag)
+      when 'archived'
+        ArchivedTagPresenter.new(tag)
+      end
     when Topic
       case tag.state
       when 'published', 'draft'

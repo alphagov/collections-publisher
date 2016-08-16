@@ -1,4 +1,4 @@
-<%= tag_header @archival.tag, 'Archive topic' %>
+<%= tag_header @archival.tag, 'Archive mainstream browse page' %>
 
 <% if @archival.errors[:base].any? %>
   <div class="alert alert-danger">
@@ -6,16 +6,16 @@
   </div>
 <% end %>
 
-<%= form_for @archival, url: archive_topic_path(@archival.tag) do |f| %>
+<%= form_for @archival, url: archive_mainstream_browse_page_path(@archival.tag) do |f| %>
   <%= f.select :successor,
-    options_from_collection_for_select(@archival.topics, :id, :title_including_parent),
-    { label: 'Choose a topic to redirect to:' },
+    options_from_collection_for_select(@archival.browse_pages, :id, :title_including_parent),
+    { label: 'Choose a mainstream browse page to redirect to:' },
     { class: 'select2' } %>
 
-  <%= f.submit 'Archive and redirect to a topic', class: 'btn-submit btn-danger' %>
+  <%= f.submit 'Archive and redirect to a mainstream browse page', class: 'btn-submit btn-danger' %>
 <% end %>
 
-<%= form_for @archival, url: archive_topic_path(@archival.tag) do |f| %>
+<%= form_for @archival, url: archive_mainstream_browse_page_path(@archival.tag) do |f| %>
   <%= f.text_field :successor_path,
     { label: 'Or type in a URL to redirect to a page:',
       placeholder: 'Please specify it as a relative path (for example "/government/publications/what-hmrc-does-to-prevent-tax-evasion")' } %>

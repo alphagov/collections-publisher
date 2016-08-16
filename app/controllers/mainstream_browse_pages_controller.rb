@@ -8,6 +8,7 @@ class MainstreamBrowsePagesController < ApplicationController
 
   def show
     @browse_page = find_browse_page
+    render 'archived_browse_page' if @browse_page.archived?
   end
 
   def edit
@@ -51,6 +52,21 @@ class MainstreamBrowsePagesController < ApplicationController
     redirect_to browse_page
   end
 
+  def propose_archive
+    @archival = MainstreamBrowsePageArchivalForm.new(tag: find_browse_page)
+  end
+
+  def archive
+    @archival = MainstreamBrowsePageArchivalForm.new(params[:mainstream_browse_page_archival_form])
+    @archival.tag = find_browse_page
+
+    if @archival.archive_or_remove
+      redirect_to mainstream_browse_pages_path, success: 'The mainstream browse page has been archived or removed.'
+    else
+      render 'propose_archive'
+    end
+  end
+
   def manage_child_ordering
     @browse_page = find_browse_page
   end
@@ -67,7 +83,7 @@ private
 
   def browse_page_params
     # Convert the String ids to Topic objects so that
-    # `update_attributes` correct updates and associates
+    # `update_attributes` correctly updates and associates
     # them with the given `MainstreamBrowsePage` object.
     if params.require(:mainstream_browse_page).key? :topics
       topic_ids = params.require(:mainstream_browse_page)[:topics]
