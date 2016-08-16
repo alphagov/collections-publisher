@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.feature "Curating topic contents" do
-  include PublishingApiHelpers
   include WaitForAjax
 
   before :each do
@@ -12,14 +11,17 @@ RSpec.feature "Curating topic contents" do
     before :each do
       # Given a number of content items tagged to a topic
       oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
-      create(:topic, :published, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
+      topic = create(:topic, :published, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
 
-      stub_any_call_to_rummager_with_documents([
-        { title: 'Oil rig safety requirements', link: '/oil-rig-safety-requirements' },
-        { title: 'Oil rig staffing', link: '/oil-rig-staffing' },
-        { title: 'North sea shipping lanes', link: '/north-sea-shipping-lanes' },
-        { title: 'Undersea piping restrictions', link: '/undersea-piping-restrictions' },
-      ])
+      publishing_api_has_linked_items(
+        topic.content_id,
+        items: [
+          { title: 'Oil rig safety requirements', base_path: '/oil-rig-safety-requirements' },
+          { title: 'Oil rig staffing', base_path: '/oil-rig-staffing' },
+          { title: 'North sea shipping lanes', base_path: '/north-sea-shipping-lanes' },
+          { title: 'Undersea piping restrictions', base_path: '/undersea-piping-restrictions' },
+        ]
+      )
     end
 
     it "with javascript", :js => true do
@@ -205,11 +207,14 @@ RSpec.feature "Curating topic contents" do
   it "curating draft tags" do
     # Given a number of content items tagged to a draft topic
     oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
-    create(:topic, :draft, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
+    topic = create(:topic, :draft, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
 
-    stub_any_call_to_rummager_with_documents([
-      { link: '/oil-rig-safety-requirements' },
-    ])
+    publishing_api_has_linked_items(
+      topic.content_id,
+      items: [
+        { base_path: '/oil-rig-safety-requirements' },
+      ]
+    )
 
     # Then I should be able to curate the draft topic
     visit_topic_list_curation_page
@@ -225,12 +230,15 @@ RSpec.feature "Curating topic contents" do
       oil_and_gas = create(:topic, :published, :slug => 'oil-and-gas', :title => 'Oil and Gas')
       offshore = create(:topic, :published, :slug => 'offshore', :title => 'Offshore', :parent => oil_and_gas)
 
-      stub_any_call_to_rummager_with_documents([
-        { title: 'Oil rig safety requirements', link: '/oil-rig-safety-requirements' },
-        { title: 'Oil rig staffing', link: '/oil-rig-staffing' },
-        { title: 'North sea shipping lanes', link: '/north-sea-shipping-lanes' },
-        { title: 'Undersea piping restrictions', link: '/undersea-piping-restrictions' },
-      ])
+      publishing_api_has_linked_items(
+        offshore.content_id,
+        items: [
+          { title: 'Oil rig safety requirements', base_path: '/oil-rig-safety-requirements' },
+          { title: 'Oil rig staffing', base_path: '/oil-rig-staffing' },
+          { title: 'North sea shipping lanes', base_path: '/north-sea-shipping-lanes' },
+          { title: 'Undersea piping restrictions', base_path: '/undersea-piping-restrictions' },
+        ]
+      )
 
       oil_rigs = create(:list, :tag => offshore, :name => 'Oil rigs', :index => 0)
       piping = create(:list, :tag => offshore, :name => 'Piping', :index => 1)

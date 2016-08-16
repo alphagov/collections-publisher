@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe TopicsController do
-  include PublishingApiHelpers
-
   describe 'POST #publish' do
     it "disallows normal users to publish topics" do
       topic = create(:topic)

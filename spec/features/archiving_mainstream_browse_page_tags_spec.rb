@@ -2,15 +2,12 @@ require 'rails_helper'
 require 'gds_api/test_helpers/content_store'
 
 RSpec.feature "Archiving mainstream browse page tags" do
-  include PublishingApiHelpers
   include CommonFeatureSteps
   include GdsApi::TestHelpers::ContentStore
 
   before do
-    # Stub rummager so that mainstream browse pages do not have links.
-    stub_any_call_to_rummager_with_documents([])
-
     stub_any_publishing_api_call
+    publishing_api_has_no_linked_items
 
     @rummager_deletion = stub_request(:delete, %r[#{Plek.find('rummager')}/*]).to_return(body: "{}")
     @panopticon_deletion = stub_request(:delete, %r[#{Plek.find('panopticon')}/*]).to_return(body: "{}")

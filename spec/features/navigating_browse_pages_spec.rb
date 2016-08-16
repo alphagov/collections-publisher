@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.feature "Managing browse pages" do
-  include PublishingApiHelpers
   include CommonFeatureSteps
   include NavigationSteps
 

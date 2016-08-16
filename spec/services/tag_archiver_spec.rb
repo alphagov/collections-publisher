@@ -1,12 +1,11 @@
 require "rails_helper"
 
 RSpec.describe TagArchiver do
-  include PublishingApiHelpers
   describe '#archive' do
     before do
-      # By default make it so that there's nothing tagged to topics.
-      stub_any_call_to_rummager_with_documents([])
       stub_any_publishing_api_call
+      # By default make it so that there's nothing tagged to topics.
+      publishing_api_has_no_linked_items
 
       # Succesful archivings will remove the result from rummager.
       allow(Services.rummager).to receive(:delete_document)
@@ -25,10 +24,13 @@ RSpec.describe TagArchiver do
 
     it "won't archive tags with documents tagged to it" do
       tag = create(:topic, :published, parent: create(:topic))
-      stub_any_call_to_rummager_with_documents([
-        { link: '/content-page-1' },
-        { link: '/content-page-2' },
-      ])
+      publishing_api_has_linked_items(
+        tag.content_id,
+        items: [
+          { link: '/content-page-1' },
+          { link: '/content-page-2' },
+        ]
+      )
 
       TagArchiver.new(tag, build(:topic)).archive
       tag.reload
