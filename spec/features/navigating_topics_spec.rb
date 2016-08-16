@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.feature "Navigating topics" do
-  include PublishingApiHelpers
-
   scenario "User navigates topic pages" do
     given_there_are_topics_with_children
     when_I_visit_the_topics_page
@@ -23,9 +21,9 @@ RSpec.feature "Navigating topics" do
 
   def given_there_are_topics_with_children
     create(:topic, :published, title: "Oil and Gas")
-    business_tax = create(:topic, :published, title: "Business Tax")
-    @vat_topic = create(:topic, parent: business_tax, title: "VAT")
-    create(:topic, parent: business_tax, title: "PAYE")
+    @business_tax = create(:topic, :published, title: "Business Tax")
+    @vat_topic = create(:topic, parent: @business_tax, title: "VAT")
+    @paye = create(:topic, parent: @business_tax, title: "PAYE")
   end
 
   def when_I_visit_the_topics_page
@@ -49,12 +47,21 @@ RSpec.feature "Navigating topics" do
   end
 
   def given_topic_page_has_links
-    stub_any_call_to_rummager_with_documents([
-      { title: 'A link that only exists in Rummager.'}
-    ])
+    publishing_api_has_linked_items(
+      @business_tax.content_id,
+      items: [
+        { title: 'A link that only exists in Publishing API.' }
+      ]
+    )
   end
 
   def when_I_visit_a_subtopic_page_without_lists
+    publishing_api_has_linked_items(
+      @paye.content_id,
+      items: [
+        { title: 'A link that only exists in Publishing API.' }
+      ]
+    )
     click_on 'PAYE'
   end
 
@@ -63,7 +70,7 @@ RSpec.feature "Navigating topics" do
   end
 
   def and_I_see_the_linked_items_of_this_page
-    expect(page).to have_content 'A link that only exists in Rummager.'
+    expect(page).to have_content 'A link that only exists in Publishing API.'
   end
 
   def when_I_go_to_the_parent_page
@@ -73,6 +80,12 @@ RSpec.feature "Navigating topics" do
   end
 
   def and_I_visit_a_subtopic_with_lists
+    publishing_api_has_linked_items(
+      @vat_topic.content_id,
+      items: [
+        { title: 'A link that only exists in Publishing API.' }
+      ]
+    )
     @vat_topic.lists.create!
     click_on 'VAT'
   end

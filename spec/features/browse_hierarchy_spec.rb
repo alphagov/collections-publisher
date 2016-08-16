@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.feature "Browse hierarchy" do
-  include PublishingApiHelpers
   include CommonFeatureSteps
   include NavigationSteps
 

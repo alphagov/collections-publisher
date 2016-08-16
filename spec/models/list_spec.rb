@@ -26,7 +26,7 @@ RSpec.describe List do
       list = create(:list, tag: create(:tag, slug: 'subtag'))
       create(:list_item, list: list, base_path: '/tagged-item')
       create(:list_item, list: list, base_path: '/untagged-item')
-      stub_any_call_to_rummager_with_documents([{ link: '/tagged-item' }])
+      publishing_api_has_linked_items(list.tag.content_id, items: [{ base_path: '/tagged-item' }])
 
       list_item = list.list_items_with_tagging_status.first
 
@@ -36,7 +36,7 @@ RSpec.describe List do
     it "returns the list items with tagged set to false if they're not tagged" do
       list = create(:list, tag: create(:tag, slug: 'subtag'))
       create(:list_item, list: list, base_path: '/untagged-item')
-      stub_any_call_to_rummager_with_documents([])
+      publishing_api_has_no_linked_items
 
       list_item = list.list_items_with_tagging_status.first
 

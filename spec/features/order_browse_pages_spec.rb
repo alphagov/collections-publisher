@@ -2,7 +2,6 @@ require "rails_helper"
 
 RSpec.feature "Order browse pages" do
   include CommonFeatureSteps
-  include PublishingApiHelpers
   include NavigationSteps
 
   before do

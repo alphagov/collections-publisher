@@ -247,18 +247,21 @@ RSpec.describe Tag do
     let(:tag) { create(:tag, :slug => 'a-tag') }
     let(:subtag) { create(:tag, :parent => tag, :slug => 'a-subtag') }
 
-    it "returns ListItems for all content that's been tagged to the tag, but isn't in a list" do
+    it "returns items for all content that's been tagged to the tag, but isn't in a list" do
       list1 = create(:list, :tag => subtag)
       create(:list_item, :list => list1, :base_path => '/content-page-1')
       list2 = create(:list, :tag => subtag)
       create(:list_item, :list => list2, :base_path => '/content-page-3')
 
-      stub_any_call_to_rummager_with_documents([
-        { link: '/content-page-1' },
-        { link: '/content-page-2' },
-        { link: '/content-page-3' },
-        { link: '/content-page-4' }
-      ])
+      publishing_api_has_linked_items(
+        subtag.content_id,
+        items: [
+          { base_path: '/content-page-1' },
+          { base_path: '/content-page-2' },
+          { base_path: '/content-page-3' },
+          { base_path: '/content-page-4' }
+        ]
+      )
 
       expect(subtag.uncurated_tagged_documents.map(&:base_path)).to match_array([
         '/content-page-2',
