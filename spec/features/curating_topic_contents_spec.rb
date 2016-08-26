@@ -16,10 +16,10 @@ RSpec.feature "Curating topic contents" do
       publishing_api_has_linked_items(
         topic.content_id,
         items: [
-          { title: 'Oil rig safety requirements', base_path: '/oil-rig-safety-requirements' },
-          { title: 'Oil rig staffing', base_path: '/oil-rig-staffing' },
-          { title: 'North sea shipping lanes', base_path: '/north-sea-shipping-lanes' },
-          { title: 'Undersea piping restrictions', base_path: '/undersea-piping-restrictions' },
+          { title: 'Oil rig safety requirements', base_path: '/oil-rig-safety-requirements', content_id: "1f825f77-a82a-4c9c-ab88-78b8a5d9f836" },
+          { title: 'Oil rig staffing', base_path: '/oil-rig-staffing', content_id: "4646c58b-8bae-4fcb-b2bf-830716cae00c" },
+          { title: 'North sea shipping lanes', base_path: '/north-sea-shipping-lanes', content_id: "977d0edf-93c8-4049-9183-3d38554df0fa" },
+          { title: 'Undersea piping restrictions', base_path: '/undersea-piping-restrictions', content_id: "6a6b2955-52a9-4e99-aadb-b4430f92bb49" },
         ]
       )
     end
@@ -174,8 +174,6 @@ RSpec.feature "Curating topic contents" do
       # When I publish the topic
       click_on('Publish changes to GOV.UK')
 
-
-
       #Then the curated lists should have been sent to the publishing API
       stub_publishing_api_put_content(
         content_id,
@@ -212,7 +210,7 @@ RSpec.feature "Curating topic contents" do
     publishing_api_has_linked_items(
       topic.content_id,
       items: [
-        { base_path: '/oil-rig-safety-requirements' },
+        { base_path: '/oil-rig-safety-requirements', content_id: "0de31f13-08e5-4793-940d-f42e7087fe48" },
       ]
     )
 
@@ -233,10 +231,10 @@ RSpec.feature "Curating topic contents" do
       publishing_api_has_linked_items(
         offshore.content_id,
         items: [
-          { title: 'Oil rig safety requirements', base_path: '/oil-rig-safety-requirements' },
-          { title: 'Oil rig staffing', base_path: '/oil-rig-staffing' },
-          { title: 'North sea shipping lanes', base_path: '/north-sea-shipping-lanes' },
-          { title: 'Undersea piping restrictions', base_path: '/undersea-piping-restrictions' },
+          { title: 'Oil rig safety requirements', base_path: '/oil-rig-safety-requirements', content_id: "d1c574f1-9f1a-4d26-9af3-abb918e25319" },
+          { title: 'Oil rig staffing', base_path: '/oil-rig-staffing', content_id: "0437055c-c626-4543-b0f4-6c3ee38fdb0d" },
+          { title: 'North sea shipping lanes', base_path: '/north-sea-shipping-lanes', content_id: "5efc2e34-0131-4f4d-9296-7aa37d8f1031" },
+          { title: 'Undersea piping restrictions', base_path: '/undersea-piping-restrictions', content_id: "e8c756dc-6b10-46a5-8110-a1bb787dd319" },
         ]
       )
 

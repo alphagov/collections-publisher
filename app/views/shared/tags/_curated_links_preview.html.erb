@@ -4,7 +4,9 @@
 
 <h2>Links</h2>
 
-<p>Links for this tag have been curated into lists.</p>
+<p>
+  Links for this tag have been curated into lists. Click on the title for editing on Content Tagger.
+</p>
 
 <% tag.lists.each do |list| %>
   <h4><%= list.name %></h4>
@@ -14,10 +16,14 @@
   <ul>
   <% list.list_items_with_tagging_status.each do |list_item| %>
     <li>
-      <% unless list_item.tagged? %>
+      <% if list_item.tagged? %>
+        <a href=<%= content_tagger_url + '/taggings/' + list_item.content_id %>>
+          <%= raw list_item.display_title || "<em>Unknown title (#{list_item.base_path})</em>" %>
+        </a>
+      <% else %>
         <p class='label label-warning'>Tag was removed</p>
+        <%= raw list_item.display_title || "<em>Unknown title (#{list_item.base_path})</em>" %>
       <% end %>
-      <%= raw list_item.display_title || "<em>Unknown title (#{list_item.base_path})</em>" %>
     </li>
   <% end %>
   </ul>
@@ -26,6 +32,10 @@
 <h4>Uncurated items <em>(not shown to user)</em></h4>
 <ul>
 <% tag.uncurated_tagged_documents.each do |item| %>
-  <li><%= item.title %></li>
+  <li class="tagged-document">
+    <a href=<%= content_tagger_url + '/taggings/lookup' + item.content_id %>>
+      <%= item.title %>
+    </a>
+  </li>
 <% end %>
 </ul>
