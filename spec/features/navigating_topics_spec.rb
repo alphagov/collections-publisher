@@ -50,7 +50,7 @@ RSpec.feature "Navigating topics" do
     publishing_api_has_linked_items(
       @business_tax.content_id,
       items: [
-        { title: 'A link that only exists in Publishing API.' }
+        { title: 'A link that only exists in Publishing API.', content_id: "7eee3968-89df-4742-8f30-6c1cb58813cd" }
       ]
     )
   end
@@ -59,7 +59,7 @@ RSpec.feature "Navigating topics" do
     publishing_api_has_linked_items(
       @paye.content_id,
       items: [
-        { title: 'A link that only exists in Publishing API.' }
+        { title: 'A link that only exists in Publishing API.', content_id: "cb2176d6-713e-42c7-8899-f856927c5eb8" }
       ]
     )
     click_on 'PAYE'
@@ -83,7 +83,7 @@ RSpec.feature "Navigating topics" do
     publishing_api_has_linked_items(
       @vat_topic.content_id,
       items: [
-        { title: 'A link that only exists in Publishing API.' }
+        { title: 'A link that only exists in Publishing API.', content_id: "29941ec1-4a41-4bfd-86a9-5c866bbd4c7a" }
       ]
     )
     @vat_topic.lists.create!

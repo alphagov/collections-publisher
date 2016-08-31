@@ -13,15 +13,27 @@ RSpec.feature "Managing browse pages" do
     given_there_are_browse_pages
     when_I_visit_the_browse_pages_index
     then_I_see_the_top_level_pages
-    when_I_click_on_a_page
+    when_I_click_on_a_browse_page
     then_I_see_the_child_pages
+    when_I_click_on_a_child_page
+    then_I_see_the_documents_tagged_to_it
   end
 
   def given_there_are_browse_pages
     create(:mainstream_browse_page, :published, title: "Money and Tax")
     citizenship = create(:mainstream_browse_page, :published, title: "Citizenship")
     create(:mainstream_browse_page, parent: citizenship, title: "Voting")
-    create(:mainstream_browse_page, parent: citizenship, title: "British citizenship")
+    british_citizenship = create(:mainstream_browse_page, parent: citizenship, title: "British citizenship")
+
+    @linked_item_content_id_1 = "6896f0f3-9b79-4ec3-9f16-892f7f35e921"
+    @linked_item_content_id_2 = "f608313e-524a-478a-ae73-03cfdc920bdd"
+    publishing_api_has_linked_items(
+      british_citizenship.content_id,
+      items: [
+        { base_path: "/naturalisation", title: "Naturalisation", content_id: @linked_item_content_id_1 },
+        { base_path: "/marriage", title: "Marriage", content_id: @linked_item_content_id_2 },
+      ]
+    )
   end
 
   def then_I_see_the_top_level_pages
@@ -32,7 +44,7 @@ RSpec.feature "Managing browse pages" do
     ])
   end
 
-  def when_I_click_on_a_page
+  def when_I_click_on_a_browse_page
     click_on "Citizenship"
   end
 
@@ -42,5 +54,19 @@ RSpec.feature "Managing browse pages" do
       'British citizenship',
       'Voting',
     ])
+  end
+
+  def when_I_click_on_a_child_page
+    click_on 'British citizenship'
+  end
+
+  def then_I_see_the_documents_tagged_to_it
+    tagged_document_titles = page.all('.tagged-document').map(&:text)
+    expect(tagged_document_titles).to eq(%w(
+      Naturalisation
+      Marriage
+    ))
+    expect(page).to have_link(nil, href: "#{Plek.new.find('content-tagger')}/taggings/#{@linked_item_content_id_1}")
+    expect(page).to have_link(nil, href: "#{Plek.new.find('content-tagger')}/taggings/#{@linked_item_content_id_2}")
   end
 end

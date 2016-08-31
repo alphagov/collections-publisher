@@ -4,10 +4,16 @@
 
 <h2>Links</h2>
 
-<p>Links for this tag have not been curated into lists.</p>
+<p>
+  Links for this tag have not been curated into lists. Click on the title for editing on Content Tagger.
+</p>
 
 <ul>
 <% tag.tagged_documents.each do |link| %>
-  <li><%= link.title %></li>
+  <li class="tagged-document">
+    <a href=<%= content_tagger_url + '/taggings/' + link.content_id %>>
+      <%= link.title %>
+    </a>
+  </li>
 <% end %>
 </ul>
