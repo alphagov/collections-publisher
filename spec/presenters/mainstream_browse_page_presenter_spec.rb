@@ -18,6 +18,21 @@ RSpec.describe MainstreamBrowsePagePresenter do
     end
   end
 
+  describe "#links" do
+    it "includes the parent in the links" do
+      browse_page = create(
+        :mainstream_browse_page,
+        parent: create(:mainstream_browse_page, content_id: "9bb05887-d741-4a98-95b2-2c45dfc31556")
+      )
+
+      presenter = MainstreamBrowsePagePresenter.new(browse_page)
+
+      expect(
+        presenter.render_links_for_publishing_api[:links]["parent"]
+      ).to eql(["9bb05887-d741-4a98-95b2-2c45dfc31556"])
+    end
+  end
+
   describe "rendering for publishing-api" do
     let(:browse_page) {
       create(:mainstream_browse_page, {

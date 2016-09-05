@@ -114,9 +114,16 @@ private
     tag.published_groups
   end
 
-  # potentially extended in subclasses
   def links
-    {}
+    if @tag.has_parent?
+      {
+        "parent" => [@tag.parent.content_id],
+      }
+    else
+      {
+        "children" => @tag.children.order(:title).map(&:content_id),
+      }
+    end
   end
 
   attr_reader :tag
