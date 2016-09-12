@@ -15,7 +15,7 @@ gem 'govuk_admin_template', '~> 4.1'
 gem 'generic_form_builder', '~> 0.13.0'
 gem 'aasm', '~> 4.3.0'
 
-gem 'sass-rails', '~> 5.0.3'
+gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'select2-rails', '~> 3.5.9'
 
