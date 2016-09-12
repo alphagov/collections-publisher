@@ -15,10 +15,6 @@
   <li class='<%= active_navigation_item == 'topics' ? 'active' : nil %>'>
     <%= link_to 'Topics', topics_path %>
   </li>
-
-  <li>
-    <%= link_to 'Taxons', Plek.new.find('content-tagger') + '/taxons'  %>
-  </li>
 <% end %>
 
 <% content_for :body_end do %>
