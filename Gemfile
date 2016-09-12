@@ -15,7 +15,7 @@ gem 'govuk_admin_template', '~> 4.1'
 gem 'generic_form_builder', '~> 0.13.0'
 gem 'aasm', '~> 4.3.0'
 
-gem 'sass-rails', '~> 5.0.3'
+gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'select2-rails', '~> 3.5.9'
 
@@ -42,7 +42,7 @@ group :test, :development do
   gem 'nokogiri', '~> 1.6.8'
   gem 'poltergeist', '~> 1.7.0'
   gem 'pry-byebug', '~> 3.4'
-  gem 'rspec-rails', '~> 3.3.3'
+  gem 'rspec-rails', '~> 3.5'
   gem 'timecop', '~> 0.8.0'
   gem 'webmock', '~> 1.21.0', require: false
   gem 'govuk-lint'
