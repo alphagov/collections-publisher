@@ -42,7 +42,7 @@ group :test, :development do
   gem 'nokogiri', '~> 1.6.8'
   gem 'poltergeist', '~> 1.7.0'
   gem 'pry-byebug', '~> 3.4'
-  gem 'rspec-rails', '~> 3.3.3'
+  gem 'rspec-rails', '~> 3.5'
   gem 'timecop', '~> 0.8.0'
   gem 'webmock', '~> 1.21.0', require: false
   gem 'govuk-lint'
