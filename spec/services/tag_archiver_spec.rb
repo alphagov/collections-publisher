@@ -4,38 +4,16 @@ RSpec.describe TagArchiver do
   describe '#archive' do
     before do
       stub_any_publishing_api_call
-      # By default make it so that there's nothing tagged to topics.
-      publishing_api_has_no_linked_items
 
       # Succesful archivings will remove the result from rummager.
       allow(Services.rummager).to receive(:delete_document)
       allow(Services.publishing_api).to receive(:put_content)
-      allow(Services.panopticon).to receive(:delete_tag!)
     end
 
     it "won't archive parent tags" do
       tag = create(:topic, :published)
 
-      TagArchiver.new(tag, build(:topic)).archive
-      tag.reload
-
-      expect(tag.archived?).to be(false)
-    end
-
-    it "won't archive tags with documents tagged to it" do
-      tag = create(:topic, :published, parent: create(:topic))
-      publishing_api_has_linked_items(
-        tag.content_id,
-        items: [
-          { link: '/content-page-1' },
-          { link: '/content-page-2' },
-        ]
-      )
-
-      TagArchiver.new(tag, build(:topic)).archive
-      tag.reload
-
-      expect(tag.archived?).to be(false)
+      expect { TagArchiver.new(tag, build(:topic)).archive }.to raise_error(RuntimeError)
     end
 
     it "archives the tag" do
@@ -133,26 +111,6 @@ RSpec.describe TagArchiver do
 
       expect(tag.archived?).to be(false)
       expect(tag.redirect_routes.size).to be(0)
-    end
-
-    it "removes the tag from panoption" do
-      tag = create(:topic, :published, parent: create(:topic))
-
-      TagArchiver.new(tag, build(:topic)).archive
-
-      expect(Services.panopticon).to have_received(:delete_tag!)
-    end
-
-    it "is okay with tags that don't exist anymore in Panopticon" do
-      tag = create(:topic, :published, parent: create(:topic))
-      allow(Services.panopticon).to receive(:delete_tag!).and_raise(
-        GdsApi::HTTPNotFound.new(404)
-      )
-
-      TagArchiver.new(tag, build(:topic)).archive
-      tag.reload
-
-      expect(tag.archived?).to be(true)
     end
   end
 end

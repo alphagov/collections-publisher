@@ -10,7 +10,6 @@ RSpec.feature "Archiving topic tags" do
     publishing_api_has_no_linked_items
 
     @rummager_deletion = stub_request(:delete, %r[#{Plek.find('rummager')}/*]).to_return(body: "{}")
-    @panopticon_deletion = stub_request(:delete, %r[#{Plek.find('panopticon')}/*]).to_return(body: "{}")
 
     # Background
     given_I_am_a_GDS_editor
@@ -31,19 +30,9 @@ RSpec.feature "Archiving topic tags" do
     when_I_redirect_the_topic_to_a_successor_topic
     then_the_tag_is_archived
     and_the_tag_is_removed_from_search
-    and_the_tag_is_removed_from_panopticon
 
     when_I_visit_the_topic_edit_page
     then_I_see_that_I_cannot_edit_the_page
-  end
-
-  scenario "User attempts to archive tag with incoming links" do
-    given_there_is_a_published_topic
-    and_the_topic_has_content_tagged_to_it
-    and_I_visit_the_topic
-    and_I_go_to_the_archive_page
-    when_I_redirect_the_topic_to_a_successor_topic
-    then_I_see_that_archiving_is_impossible_because_there_is_content_tagged
   end
 
   scenario "User archives draft tag" do
@@ -51,7 +40,6 @@ RSpec.feature "Archiving topic tags" do
     and_I_visit_the_topic
     when_I_click_the_remove_button
     then_the_tag_is_deleted
-    and_the_tag_is_removed_from_panopticon
   end
 
   scenario "User redirects to invalid basepath" do
@@ -105,19 +93,6 @@ RSpec.feature "Archiving topic tags" do
 
   def and_I_go_to_the_archive_page
     click_link 'Archive topic'
-  end
-
-  def and_the_topic_has_content_tagged_to_it
-    stub_request(:delete, "https://panopticon.test.gov.uk/tags/specialist_sector/foo/bar.json")
-      .to_return(status: 409, body: "{}")
-  end
-
-  def then_I_see_that_archiving_is_impossible_because_there_is_content_tagged
-    expect(page).to have_content 'The tag could not be deleted because there are documents tagged to it'
-  end
-
-  def and_the_tag_is_removed_from_panopticon
-    expect(@panopticon_deletion).to have_been_requested
   end
 
   def then_the_tag_is_archived

@@ -6,10 +6,10 @@ class DraftTagRemover
   end
 
   def remove
-    return if tag.published? || tag.parent? || tag.tagged_documents.any?
+    raise "Can't unpublish published tags with this class" if tag.published?
+    raise "Can't unpublish parent tags" if tag.parent?
 
     Tag.transaction do
-      remove_tag_from_panopticon
       add_gone_item
       tag.destroy!
     end
@@ -30,11 +30,6 @@ private
       content_id: tag.content_id,
       routes: presenter.routes
     }
-  end
-
-  def remove_tag_from_panopticon
-    tag_hash = presenter.render_for_panopticon
-    Services.panopticon.delete_tag!(tag_hash[:tag_type], tag_hash[:tag_id])
   end
 
   def presenter

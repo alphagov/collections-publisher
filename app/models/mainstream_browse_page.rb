@@ -9,10 +9,6 @@ class MainstreamBrowsePage < Tag
     "/browse/#{full_slug}"
   end
 
-  def legacy_tag_type
-    'section'
-  end
-
   def dependent_tags
     if child?
       parent.children - [self] + [parent]

@@ -13,7 +13,7 @@
                method: :post %>
   <% end %>
 
-  <% if @browse_page.child? && @browse_page.tagged_documents.empty? %>
+  <% if @browse_page.child? %>
     <% if @browse_page.published? %>
       <%= link_to 'Archive mainstream browse page', propose_archive_mainstream_browse_page_path(@browse_page) %>
     <% else %>

@@ -18,9 +18,6 @@ class MainstreamBrowsePageArchivalForm
     end
 
     true
-  rescue GdsApi::HTTPConflict
-    errors.add :base, "The tag could not be deleted because there are documents tagged to it."
-    false
   rescue GdsApi::HTTPClientError
     errors.add :base, "The tag could not be deleted because of an error."
     false

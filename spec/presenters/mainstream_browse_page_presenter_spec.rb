@@ -1,23 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe MainstreamBrowsePagePresenter do
-  describe "rendering for panopticon" do
-    let(:mainstream_browse_page) { build(:mainstream_browse_page,
-      slug: 'citizenship',
-      title: 'Citizenship',
-      description: 'Living in the UK, passports',
-      parent: nil,
-    ) }
-
-    let(:presenter) { MainstreamBrowsePagePresenter.new(mainstream_browse_page) }
-
-    describe '#render_for_panopticon' do
-      it 'sets the tag_type to "section"' do
-        expect(presenter.render_for_panopticon[:tag_type]).to eq('section')
-      end
-    end
-  end
-
   describe "#links" do
     it "includes the parent in the links" do
       browse_page = create(

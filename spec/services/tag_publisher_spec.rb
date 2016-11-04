@@ -4,7 +4,7 @@ RSpec.describe TagPublisher do
   describe '#publish' do
     it "doesn't save to the database when an API call fails" do
       tag = create(:topic, parent: create(:topic))
-      allow(PanopticonNotifier).to receive(:publish_tag).and_raise(RuntimeError)
+      allow(PublishingAPINotifier).to receive(:notify).and_raise(RuntimeError)
 
       expect { TagPublisher.new(tag).publish }.to raise_error(RuntimeError)
       tag.reload

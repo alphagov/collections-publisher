@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe MainstreamBrowsePagesController do
   let(:attributes) { attributes_for(:mainstream_browse_page) }
-  let(:presenter) { double(:presenter, render_for_panopticon: nil) }
+  let(:presenter) { double(:presenter) }
 
   before do
     stub_user.permissions << "GDS Editor"
@@ -20,20 +20,6 @@ RSpec.describe MainstreamBrowsePagesController do
     end
   end
 
-  describe 'POST create' do
-    before do
-      allow(MainstreamBrowsePagePresenter).to receive(:new)
-        .and_return(presenter)
-      allow(PublishingAPINotifier).to receive(:notify)
-    end
-
-    it 'notifies panopticon' do
-      expect(PanopticonNotifier).to receive(:create_tag).with(presenter)
-
-      post :create, mainstream_browse_page: attributes
-    end
-  end
-
   describe 'PUT update' do
     before do
       allow(MainstreamBrowsePagePresenter).to receive(:new)
@@ -45,8 +31,7 @@ RSpec.describe MainstreamBrowsePagesController do
       create(:mainstream_browse_page)
     }
 
-    it 'notifies panopticon and rummager' do
-      expect(PanopticonNotifier).to receive(:update_tag).with(presenter)
+    it 'notifies rummager' do
       expect_any_instance_of(RummagerNotifier).to receive(:notify)
 
       put :update, id: mainstream_browse_page.content_id, mainstream_browse_page: attributes.merge(:slug => mainstream_browse_page.slug)
