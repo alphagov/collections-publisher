@@ -112,10 +112,6 @@ class Tag < ActiveRecord::Base
     tagged_documents.find { |document| document.base_path == base_path }
   end
 
-  def legacy_tag_type
-    nil
-  end
-
   def sort_mode
     return nil unless parent_id
     display_curated_links? ? :curated : :a_to_z

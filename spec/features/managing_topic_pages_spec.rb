@@ -114,7 +114,6 @@ RSpec.feature "Managing topics" do
 
   def and_the_page_has_been_published_in_the_pipeline
     assert_publishing_api_publish(@content_id)
-    assert_tag_published_in_panopticon(tag_type: "specialist_sector", tag_id: "citizenship")
   end
 
   def and_the_draft_is_sent_to_the_publishing_pipeline
@@ -129,13 +128,6 @@ RSpec.feature "Managing topics" do
     assert_publishing_api_patch_links(@content_id)
 
     assert_publishing_api_not_published(@content_id)
-
-    assert_tag_created_in_panopticon(
-      tag_type: "specialist_sector",
-      tag_id: "citizenship",
-      title: "Citizenship",
-      description: "Living in the UK",
-    )
   end
 
   def and_the_published_data_is_sent_to_the_publishing_pipeline
@@ -149,26 +141,12 @@ RSpec.feature "Managing topics" do
     assert_publishing_api_patch_links(@page.content_id)
 
     assert_publishing_api_publish(@page.content_id)
-
-    assert_tag_updated_in_panopticon(
-      tag_type: "specialist_sector",
-      tag_id: "citizenship",
-      title: "Citizenship in the UK",
-      description: "Voting",
-    )
   end
 
   def and_the_updated_item_is_sent_to_the_publishing_pipeline
     stub_publishing_api_put_content(
       @content_id,
       description: "A new description"
-    )
-
-    assert_tag_updated_in_panopticon(
-      tag_type: "specialist_sector",
-      tag_id: "citizenship",
-      title: "Citizenship",
-      description: "A new description",
     )
   end
 

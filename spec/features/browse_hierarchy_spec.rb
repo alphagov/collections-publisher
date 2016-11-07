@@ -15,7 +15,6 @@ RSpec.feature "Browse hierarchy" do
     and_I_visit_the_browse_pages_index
     then_I_can_see_that_the_new_parent_page_is_created
     and_the_newly_created_page_is_sent_to_the_publishing_api_as_draft
-    and_the_newly_created_parent_page_is_sent_to_panopticon
     and_the_parent_page_is_sent_to_the_publishing_api
     and_the_child_page_is_sent_to_the_publishing_api
   end
@@ -26,7 +25,6 @@ RSpec.feature "Browse hierarchy" do
     and_I_visit_the_browse_pages_index
     then_I_can_see_that_the_new_child_page_is_created
     and_the_newly_created_page_is_sent_to_the_publishing_api_as_draft
-    and_the_newly_created_child_page_is_sent_to_panopticon
     and_the_parent_page_is_sent_to_the_publishing_api
     and_the_child_page_is_sent_to_the_publishing_api
   end
@@ -70,25 +68,6 @@ RSpec.feature "Browse hierarchy" do
     click_on 'Create'
 
     @content_id = extract_content_id_from(current_path)
-  end
-
-  def and_the_newly_created_child_page_is_sent_to_panopticon
-    assert_tag_created_in_panopticon(
-      tag_type: 'section',
-      tag_id: 'citizenship/benefits',
-      title: 'Benefits',
-      description: 'Benefits description.',
-      parent_id: 'citizenship',
-    )
-  end
-
-  def and_the_newly_created_parent_page_is_sent_to_panopticon
-    assert_tag_created_in_panopticon(
-      tag_type: 'section',
-      tag_id: 'benefits',
-      title: 'Benefits',
-      description: 'Benefits description.',
-    )
   end
 
   def and_the_newly_created_page_is_sent_to_the_publishing_api_as_draft

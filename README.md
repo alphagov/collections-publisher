@@ -36,10 +36,6 @@ This application uses the [sidekiq](http://sidekiq.org/) message queue for backg
 - [alphagov/rummager](https://github.com/alphagov/rummager) -
   to index topics and mainstream browse pages, and to fetch documents that have
   been tagged to topics and mainstream browse pages by publisher tools.
-- [alphagov/panopticon](https://github.com/alphagov/panopticon) -
-  This app sends the topics and browse pages (collectively "tags") to panopticon
-  so that content can be tagged to these tags. This will be removed after we've
-  migrated the tagging.
 
 ### Running the application
 

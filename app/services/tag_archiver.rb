@@ -1,6 +1,5 @@
 # TagArchiver removes a tag from the site. It sets up a redirect for the page
-# to its successor and removes the tag from the search engine. It does not remove
-# the tag from panopticon - that has to be done manually.
+# to its successor and removes the tag from the search engine.
 class TagArchiver
   attr_reader :tag, :successor
 
@@ -10,10 +9,9 @@ class TagArchiver
   end
 
   def archive
-    return if tag.can_have_children? || tag.tagged_documents.any?
+    raise "Can't archive parent tags" if tag.can_have_children?
 
     Tag.transaction do
-      remove_tag_from_panopticon
       update_tag
       setup_redirects
       remove_from_search_index
@@ -22,16 +20,6 @@ class TagArchiver
   end
 
 private
-
-  def remove_tag_from_panopticon
-    presenter = TagPresenter.presenter_for(tag)
-    tag_hash = presenter.render_for_panopticon
-    begin
-      Services.panopticon.delete_tag!(tag_hash[:tag_type], tag_hash[:tag_id])
-    rescue GdsApi::HTTPNotFound
-      Rails.logger.info("Tag with id #{tag_hash[:tag_id]}, not found in Panopticon")
-    end
-  end
 
   def update_tag
     tag.move_to_archive!
