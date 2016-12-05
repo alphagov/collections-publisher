@@ -91,14 +91,13 @@ RSpec.feature "Curating topic contents" do
 
 
       #Then the curated lists should have been sent to the publishing API
-      stub_publishing_api_put_content(
+      assert_publishing_api_put_content(
         content_id,
-        {
+        request_json_includes(
           "details" => {
             "groups" => [
               { "name" => 'Oil rigs',
                 "contents" => [
-                  '/oil-rig-staffing',
                   '/oil-rig-staffing',
                   '/oil-rig-safety-requirements',
               ]},
@@ -110,7 +109,7 @@ RSpec.feature "Curating topic contents" do
             "beta" => false,
             "internal_name" => "Oil and Gas / Offshore"
           }
-        },
+        )
       )
 
       # And have been published and links sent
@@ -175,9 +174,9 @@ RSpec.feature "Curating topic contents" do
       click_on('Publish changes to GOV.UK')
 
       #Then the curated lists should have been sent to the publishing API
-      stub_publishing_api_put_content(
+      assert_publishing_api_put_content(
         content_id,
-        {
+        request_json_includes(
           "details" => {
             "groups" => [
               { "name" => 'Oil rigs',
@@ -193,7 +192,7 @@ RSpec.feature "Curating topic contents" do
             "beta" => false,
             "internal_name" => "Oil and Gas / Offshore"
           }
-        },
+        )
       )
 
       # And then be published and links sent

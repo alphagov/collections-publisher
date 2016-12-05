@@ -117,12 +117,14 @@ RSpec.feature "Managing topics" do
   end
 
   def and_the_draft_is_sent_to_the_publishing_pipeline
-    stub_publishing_api_put_content(
+    assert_publishing_api_put_content(
       @content_id,
-      title: "Citizenship",
-      description: "Living in the UK",
-      schema_name: "topic",
-      document_type: "topic",
+      request_json_includes(
+        title: "Citizenship",
+        description: "Living in the UK",
+        schema_name: "topic",
+        document_type: "topic",
+      )
     )
 
     assert_publishing_api_patch_links(@content_id)
@@ -131,11 +133,13 @@ RSpec.feature "Managing topics" do
   end
 
   def and_the_published_data_is_sent_to_the_publishing_pipeline
-    stub_publishing_api_put_content(
+    assert_publishing_api_put_content(
       @page.content_id,
-      title: "Citizenship in the UK",
-      document_type: "topic",
-      schema_name: "topic",
+      request_json_includes(
+        title: "Citizenship in the UK",
+        document_type: "topic",
+        schema_name: "topic",
+      )
     )
 
     assert_publishing_api_patch_links(@page.content_id)
@@ -144,9 +148,11 @@ RSpec.feature "Managing topics" do
   end
 
   def and_the_updated_item_is_sent_to_the_publishing_pipeline
-    stub_publishing_api_put_content(
+    assert_publishing_api_put_content(
       @content_id,
-      description: "A new description"
+      request_json_includes(
+        description: "A new description"
+      )
     )
   end
 
