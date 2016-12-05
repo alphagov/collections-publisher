@@ -15,7 +15,8 @@ RSpec.describe ArchivedTagPresenter do
       expected_child_content = {
         content_id: child.content_id,
         base_path: "/topic/parent/child-1",
-        format: "redirect",
+        document_type: "redirect",
+        schema_name: "redirect",
         publishing_app: "collections-publisher",
         redirects: [
           {

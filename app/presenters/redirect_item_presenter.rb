@@ -29,7 +29,8 @@ class RedirectItemPresenter
     {
       content_id: content_id,
       base_path: base_path,
-      format: 'redirect',
+      document_type: 'redirect',
+      schema_name: 'redirect',
       publishing_app: 'collections-publisher',
       redirects: RedirectRoutePresenter.new(self).routes,
     }
