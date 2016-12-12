@@ -55,8 +55,8 @@ private
 
   def routes
     [
-      {path: "/browse", type: "exact"},
-      {path: "/browse.json", type: "exact"},
+      { path: "/browse", type: "exact" },
+      { path: "/browse.json", type: "exact" },
     ]
   end
 

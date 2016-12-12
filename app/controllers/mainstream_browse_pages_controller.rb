@@ -88,7 +88,7 @@ private
     if params.require(:mainstream_browse_page).key? :topics
       topic_ids = params.require(:mainstream_browse_page)[:topics]
       topics = topic_ids.reject(&:blank?).map { |t| Topic.find(t) }
-      tag_params.merge({"topics" => topics})
+      tag_params.merge("topics" => topics)
     else
       tag_params
     end

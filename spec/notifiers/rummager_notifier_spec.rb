@@ -32,14 +32,12 @@ RSpec.describe RummagerNotifier do
       RummagerNotifier.new(topic).notify
 
       expect(rummager).to have_received(:add_document)
-        .with("edition", "/topic/a-test-topic", {
-          content_id: '28ac662c-09cf-4baa-9e7c-98339a2a3bcd',
+        .with("edition", "/topic/a-test-topic", content_id: '28ac662c-09cf-4baa-9e7c-98339a2a3bcd',
           format: 'specialist_sector',
           title: 'A Topic',
           description: 'A description.',
           link: '/topic/a-test-topic',
-          slug: 'a-test-topic',
-        })
+          slug: 'a-test-topic')
     end
 
     it 'sends published browse pages to rummager' do
@@ -52,14 +50,12 @@ RSpec.describe RummagerNotifier do
       RummagerNotifier.new(browse_page).notify
 
       expect(rummager).to have_received(:add_document)
-        .with("edition", "/browse/a-browse-page", {
-          content_id: '28ac662c-09cf-4baa-9e7c-98339a2a3bcd',
+        .with("edition", "/browse/a-browse-page", content_id: '28ac662c-09cf-4baa-9e7c-98339a2a3bcd',
           format: 'mainstream_browse_page',
           title: 'A Browse Page',
           description: 'A description.',
           link: '/browse/a-browse-page',
-          slug: 'a-browse-page',
-        })
+          slug: 'a-browse-page')
     end
 
     it 'sends the full slug for a subtopic' do
@@ -73,9 +69,7 @@ RSpec.describe RummagerNotifier do
       RummagerNotifier.new(topic).notify
 
       expect(rummager).to have_received(:add_document)
-        .with("edition", "/topic/a-parent/a-test-topic", hash_including({
-          slug: 'a-parent/a-test-topic',
-        }))
+        .with("edition", "/topic/a-parent/a-test-topic", hash_including(slug: 'a-parent/a-test-topic'))
     end
   end
 

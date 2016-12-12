@@ -21,9 +21,9 @@ class ListItemsController < ApplicationController
       }
       format.js {
         if saved
-          render json: {errors: [], updateURL: tag_list_list_item_path(@tag, @list, list_item)}
+          render json: { errors: [], updateURL: tag_list_list_item_path(@tag, @list, list_item) }
         else
-          render json: {errors: list_item.errors.to_json}, status: 422
+          render json: { errors: list_item.errors.to_json }, status: 422
         end
       }
     end
@@ -49,9 +49,9 @@ class ListItemsController < ApplicationController
       }
       format.js {
         if destroyed
-          render json: {errors: []}
+          render json: { errors: [] }
         else
-          render json: {errors: list_item.errors.to_json}, status: 422
+          render json: { errors: list_item.errors.to_json }, status: 422
         end
       }
     end
@@ -67,9 +67,9 @@ class ListItemsController < ApplicationController
         if list_item.save
           @tag.mark_as_dirty!
 
-          render json: {errors: []}
+          render json: { errors: [] }
         else
-          render json: {errors: list_item.errors.to_json}, status: 422
+          render json: { errors: list_item.errors.to_json }, status: 422
         end
       }
     end

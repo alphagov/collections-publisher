@@ -17,4 +17,3 @@ def update_statement
   INNER JOIN (SELECT r.id, r.tag_id FROM newest_redirects r) AS j ON (rr.redirect_id = j.id)
   SET rr.tag_id = j.tag_id"
 end
-

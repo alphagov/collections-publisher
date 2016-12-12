@@ -18,11 +18,9 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
   describe "rendering for publishing-api" do
     let(:browse_page) {
-      create(:mainstream_browse_page, {
-        :slug => 'benefits',
+      create(:mainstream_browse_page, :slug => 'benefits',
         :title => 'Benefits',
-        :description => 'All about benefits',
-      })
+        :description => 'All about benefits')
     }
     let(:presenter) { MainstreamBrowsePagePresenter.new(browse_page) }
     let(:presented_data) { presenter.render_for_publishing_api }
@@ -32,8 +30,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
     end
 
     it "includes the base fields" do
-      expect(presented_data).to include({
-        :schema_name => 'mainstream_browse_page',
+      expect(presented_data).to include(:schema_name => 'mainstream_browse_page',
         :document_type => 'mainstream_browse_page',
         :title => 'Benefits',
         :description => 'All about benefits',
@@ -41,8 +38,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         :need_ids => [],
         :publishing_app => 'collections-publisher',
         :rendering_app => 'collections',
-        :redirects => [],
-      })
+        :redirects => [])
     end
 
     it "sets public_updated_at based on the browse page update time" do
@@ -55,8 +51,8 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
     it "includes the necessary routes" do
       expect(presented_data[:routes]).to eq([
-        {:path => "/browse/benefits", :type => "exact"},
-        {:path => "/browse/benefits.json", :type => "exact"},
+        { :path => "/browse/benefits", :type => "exact" },
+        { :path => "/browse/benefits.json", :type => "exact" },
       ])
     end
 

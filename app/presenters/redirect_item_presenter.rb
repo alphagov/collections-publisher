@@ -14,7 +14,7 @@ class RedirectItemPresenter
   end
 
   def redirect_routes
-    [ item ]
+    [item]
   end
 
   def draft?

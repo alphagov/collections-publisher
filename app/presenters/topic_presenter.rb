@@ -10,8 +10,6 @@ private
   end
 
   def details
-    super.merge({
-      :beta => @tag.beta,
-    })
+    super.merge(:beta => @tag.beta)
   end
 end

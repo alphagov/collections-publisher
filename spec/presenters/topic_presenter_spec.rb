@@ -4,19 +4,16 @@ RSpec.describe TopicPresenter do
   describe "rendering for publishing-api" do
     context "for a top-level topic" do
       let(:topic) {
-        create(:topic, {
-          :slug => 'working-at-sea',
+        create(:topic, :slug => 'working-at-sea',
           :title => 'Working at sea',
-          :description => 'The sea, the sky, the sea, the sky...',
-        })
+          :description => 'The sea, the sky, the sea, the sky...')
       }
       let(:presenter) { TopicPresenter.new(topic) }
       let(:presented_data) { presenter.render_for_publishing_api }
       let(:rendered_links) { presenter.render_links_for_publishing_api }
 
       it "includes the base fields" do
-        expect(presented_data).to include({
-          :schema_name => 'topic',
+        expect(presented_data).to include(:schema_name => 'topic',
           :document_type => 'topic',
           :title => 'Working at sea',
           :description => 'The sea, the sky, the sea, the sky...',
@@ -24,8 +21,7 @@ RSpec.describe TopicPresenter do
           :need_ids => [],
           :publishing_app => 'collections-publisher',
           :rendering_app => 'collections',
-          :redirects => [],
-        })
+          :redirects => [])
       end
 
       it "is valid against the schema" do
@@ -46,7 +42,7 @@ RSpec.describe TopicPresenter do
 
       it "includes the base route" do
         expect(presented_data[:routes]).to eq([
-          {:path => "/topic/working-at-sea", :type => "exact"},
+          { :path => "/topic/working-at-sea", :type => "exact" },
         ])
       end
 
@@ -67,12 +63,10 @@ RSpec.describe TopicPresenter do
     context "for a subtopic" do
       let(:parent) { create(:topic, :slug => 'oil-and-gas') }
       let(:topic) {
-        create(:topic, {
-          :parent => parent,
+        create(:topic, :parent => parent,
           :slug => 'offshore',
           :title => 'Offshore',
-          :description => 'Oil rigs, pipelines etc.',
-        })
+          :description => 'Oil rigs, pipelines etc.')
       }
       let(:presenter) { TopicPresenter.new(topic) }
       let(:presented_data) { presenter.render_for_publishing_api }
@@ -83,8 +77,7 @@ RSpec.describe TopicPresenter do
       end
 
       it "includes the base fields" do
-        expect(presented_data).to include({
-          :schema_name => 'topic',
+        expect(presented_data).to include(:schema_name => 'topic',
           :document_type => 'topic',
           :title => 'Offshore',
           :description => 'Oil rigs, pipelines etc.',
@@ -92,8 +85,7 @@ RSpec.describe TopicPresenter do
           :need_ids => [],
           :publishing_app => 'collections-publisher',
           :rendering_app => 'collections',
-          :redirects => [],
-        })
+          :redirects => [])
       end
 
       it "is valid against the schema" do
@@ -110,9 +102,9 @@ RSpec.describe TopicPresenter do
 
       it "includes routes for latest, and email_signups in addition to base route" do
         expect(presented_data[:routes]).to eq([
-          {:path => "/topic/oil-and-gas/offshore", :type => "exact"},
-          {:path => "/topic/oil-and-gas/offshore/latest", :type => "exact"},
-          {:path => "/topic/oil-and-gas/offshore/email-signup", :type => "exact"},
+          { :path => "/topic/oil-and-gas/offshore", :type => "exact" },
+          { :path => "/topic/oil-and-gas/offshore/latest", :type => "exact" },
+          { :path => "/topic/oil-and-gas/offshore/email-signup", :type => "exact" },
         ])
       end
 
