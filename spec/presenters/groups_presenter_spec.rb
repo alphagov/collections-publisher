@@ -3,12 +3,10 @@ require 'rails_helper'
 RSpec.describe GroupsPresenter do
   describe "#groups" do
     let(:tag) do
-      create(:tag, {
-        :parent => create(:tag, :slug => 'oil-and-gas'),
+      create(:tag, :parent => create(:tag, :slug => 'oil-and-gas'),
         :slug => 'offshore',
         :title => 'Offshore',
-        :description => 'Oil rigs, pipelines etc.',
-      })
+        :description => 'Oil rigs, pipelines etc.')
     end
 
     it "contains an empty groups array with no curated lists" do

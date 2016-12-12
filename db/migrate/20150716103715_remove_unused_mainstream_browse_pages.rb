@@ -1,9 +1,8 @@
 class RemoveUnusedMainstreamBrowsePages < ActiveRecord::Migration
-
   SLUGS = %w(
     time-off-new-child
     child-into-care
-  )
+  ).freeze
 
   def self.up
     SLUGS.each { |slug|
@@ -15,5 +14,4 @@ class RemoveUnusedMainstreamBrowsePages < ActiveRecord::Migration
   def self.down
     # Nothing to do here
   end
-
 end

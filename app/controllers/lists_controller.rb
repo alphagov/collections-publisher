@@ -57,9 +57,9 @@ class ListsController < ApplicationController
       }
       format.js {
         if saved
-          render json: {errors: []}
+          render json: { errors: [] }
         else
-          render json: {errors: list.errors.to_json}, status: 422
+          render json: { errors: list.errors.to_json }, status: 422
         end
       }
     end

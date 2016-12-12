@@ -10,7 +10,6 @@ class ImportRouterDataTopicRedirects < ActiveRecord::Migration
   end
 
   def create_redirects
-
     # /childrens-services,/topic/schools-colleges-childrens-services
     schools_colleges_childrens_services = Topic.only_parents.find_by!(:slug => 'schools-colleges-childrens-services')
     @redirects << Redirect.create!(
@@ -96,7 +95,7 @@ class ImportRouterDataTopicRedirects < ActiveRecord::Migration
     )
 
     # /paye,/topic/business-tax/paye
-    paye = Topic.joins(:parent).find_by!(:parents_tags => {:slug => 'business-tax'}, :slug => 'paye')
+    paye = Topic.joins(:parent).find_by!(:parents_tags => { :slug => 'business-tax' }, :slug => 'paye')
     [
       "/paye",
       "/paye/annual-tasks",

@@ -10,9 +10,8 @@ class ImportRouterDataBrowseRedirects < ActiveRecord::Migration
   end
 
   def create_redirects
-
     # /browse/births-deaths-marriages/registry-offices,/browse/births-deaths-marriages/register-offices
-    register_offices = MainstreamBrowsePage.joins(:parent).find_by!(:parents_tags => {:slug => "births-deaths-marriages"}, :slug => "register-offices")
+    register_offices = MainstreamBrowsePage.joins(:parent).find_by!(:parents_tags => { :slug => "births-deaths-marriages" }, :slug => "register-offices")
     @redirects << Redirect.create!(
       :tag => register_offices,
       :original_tag_base_path => "/browse/births-deaths-marriages/registry-offices",

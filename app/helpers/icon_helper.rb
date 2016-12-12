@@ -3,7 +3,7 @@ module IconHelper
     curated: 'list-alt',
     a_to_z: 'sort-by-alphabet',
     add: 'plus',
-  }
+  }.freeze
 
   def icon(name)
     return unless name

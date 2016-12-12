@@ -1,7 +1,7 @@
 class ContentItemPublisher
   # Setting the update type to minor means we won't send email alerts for
   # changes to a topic title or description.
-  DEFAULT_UPDATE_TYPE = 'minor'
+  DEFAULT_UPDATE_TYPE = 'minor'.freeze
   attr_reader :presenter, :update_type
 
   delegate :content_id, to: :presenter

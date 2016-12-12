@@ -40,11 +40,11 @@ private
       # Only setup a redirect to the subroute when the successor also has that
       # route (when redirectinga subtopic to a subtopic), not when redirecting
       # to a parent topic (from /topic/foo/bar to /topic/foo).
-      if route_suffix.in?(successor.subroutes)
-        to_base_path = "#{successor.base_path}#{route_suffix}"
-      else
-        to_base_path = successor.base_path
-      end
+      to_base_path = if route_suffix.in?(successor.subroutes)
+                       "#{successor.base_path}#{route_suffix}"
+                     else
+                       successor.base_path
+                     end
 
       tag.redirect_routes.create!(
         from_base_path: [tag.base_path, route_suffix].join,

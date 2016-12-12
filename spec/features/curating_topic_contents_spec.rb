@@ -100,11 +100,11 @@ RSpec.feature "Curating topic contents" do
                 "contents" => [
                   '/oil-rig-staffing',
                   '/oil-rig-safety-requirements',
-              ]},
+              ] },
               { "name" => 'Piping',
                 "contents" => [
                   '/undersea-piping-restrictions',
-              ]},
+              ] },
             ],
             "beta" => false,
             "internal_name" => "Oil and Gas / Offshore"
@@ -183,11 +183,11 @@ RSpec.feature "Curating topic contents" do
                 "contents" => [
                   '/oil-rig-safety-requirements',
                   '/oil-rig-staffing',
-              ]},
+              ] },
               { "name" => 'Piping',
                 "contents" => [
                   '/undersea-piping-restrictions',
-              ]},
+              ] },
             ],
             "beta" => false,
             "internal_name" => "Oil and Gas / Offshore"

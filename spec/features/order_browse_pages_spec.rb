@@ -43,8 +43,8 @@ RSpec.feature "Order browse pages" do
   end
 
   def and_I_submit_an_ordering
-    fill_in "#{@four_seasons.slug}", with: '1'
-    fill_in "#{@pepperoni.slug}", with: '0'
+    fill_in @four_seasons.slug.to_s, with: '1'
+    fill_in @pepperoni.slug.to_s, with: '0'
     click_on 'Save'
   end
 

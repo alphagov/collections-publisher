@@ -24,8 +24,8 @@ FactoryGirl.define do
   end
 
   factory :tag do
-    sequence(:title) {|n| "Browse page #{n}" }
-    sequence(:slug) {|n| "browse-page-#{n}" }
+    sequence(:title) { |n| "Browse page #{n}" }
+    sequence(:slug) { |n| "browse-page-#{n}" }
     description "Example description"
 
     trait :draft do
