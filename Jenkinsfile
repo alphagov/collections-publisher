@@ -33,17 +33,8 @@ node {
   ])
 
   try {
-    if (env.BRANCH_NAME == 'deployed-to-production') {
-      if (env.IS_SCHEMA_TEST == "true") {
-        echo "Branch is 'deployed-to-production' and this is a schema test " +
-          "build. Proceeding with build."
-      } else {
-        echo "Branch is 'deployed-to-production', but this is not marked as " +
-          "a schema test build. 'deployed-to-production' should only be " +
-          "built as part of a schema test, so this build will stop here."
-        currentBuild.result = "SUCCESS"
-        return
-      }
+    if (!govuk.isAllowedBranchBuild(env.BRANCH_NAME)) {
+      return
     }
 
     stage("Checkout") {
