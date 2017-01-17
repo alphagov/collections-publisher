@@ -26,9 +26,7 @@ class RootTopicPresenter
       publishing_app: "collections-publisher",
       rendering_app: "collections",
       routes: routes,
-      phase: 'beta',
       details: {
-        beta: true,
         internal_name: "Topic index page",
       }
     }

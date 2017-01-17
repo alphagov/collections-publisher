@@ -106,7 +106,6 @@ RSpec.feature "Curating topic contents" do
                   '/undersea-piping-restrictions',
               ] },
             ],
-            "beta" => false,
             "internal_name" => "Oil and Gas / Offshore"
           }
         )
@@ -189,7 +188,6 @@ RSpec.feature "Curating topic contents" do
                   '/undersea-piping-restrictions',
               ] },
             ],
-            "beta" => false,
             "internal_name" => "Oil and Gas / Offshore"
           }
         )

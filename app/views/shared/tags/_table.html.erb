@@ -21,7 +21,6 @@
         <td><%= link_to resource.base_path, Plek.new.website_root + resource.base_path %></td>
         <td>
           <%= status(resource.state, resource.state) %>
-          <%= beta_tag if resource.beta? %>
           <%= dirty_tag if resource.dirty? %>
         </td>
 
