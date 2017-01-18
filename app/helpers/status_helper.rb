@@ -12,14 +12,9 @@ module StatusHelper
   def labels_for_tag(tag)
     labels = []
     labels << draft_tag if tag.draft?
-    labels << beta_tag if tag.beta?
     labels << dirty_tag if tag.dirty?
     labels << archived_tag if tag.archived?
     raw labels.join(' ')
-  end
-
-  def beta_tag
-    status 'In Beta', :warning
   end
 
   def dirty_tag

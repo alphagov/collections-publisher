@@ -8,8 +8,4 @@ private
   def format
     'topic'
   end
-
-  def details
-    super.merge(:beta => @tag.beta)
-  end
 end

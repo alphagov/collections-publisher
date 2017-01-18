@@ -57,7 +57,7 @@ class TagPresenter
       routes: routes,
       redirects: RedirectRoutePresenter.new(@tag).routes,
       details: details,
-    }.merge(phase_state)
+    }
   end
 
 
@@ -72,11 +72,6 @@ class TagPresenter
   end
 
 private
-
-  def phase_state
-    return {} unless @tag.beta?
-    { phase: "beta" }
-  end
 
   def format
     raise "Need to subclass"
