@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160205144906) do
+ActiveRecord::Schema.define(version: 20170117160733) do
 
   create_table "list_items", force: :cascade do |t|
     t.string   "base_path",  limit: 255
@@ -77,7 +77,6 @@ ActiveRecord::Schema.define(version: 20160205144906) do
     t.string   "content_id",       limit: 255,                               null: false
     t.string   "state",            limit: 255,                               null: false
     t.boolean  "dirty",                             default: false,          null: false
-    t.boolean  "beta",                              default: false
     t.text     "published_groups", limit: 16777215
     t.string   "child_ordering",   limit: 255,      default: "alphabetical", null: false
     t.integer  "index",            limit: 4,        default: 0,              null: false
