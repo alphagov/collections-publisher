@@ -34,6 +34,7 @@ RSpec.describe RummagerNotifier do
       expect(rummager).to have_received(:add_document)
         .with("edition", "/topic/a-test-topic", content_id: '28ac662c-09cf-4baa-9e7c-98339a2a3bcd',
           format: 'specialist_sector',
+          content_store_document_type: "topic",
           title: 'A Topic',
           description: 'A description.',
           link: '/topic/a-test-topic',
@@ -52,6 +53,7 @@ RSpec.describe RummagerNotifier do
       expect(rummager).to have_received(:add_document)
         .with("edition", "/browse/a-browse-page", content_id: '28ac662c-09cf-4baa-9e7c-98339a2a3bcd',
           format: 'mainstream_browse_page',
+          content_store_document_type: "mainstream_browse_page",
           title: 'A Browse Page',
           description: 'A description.',
           link: '/browse/a-browse-page',
