@@ -35,6 +35,7 @@ class TagPresenter
     {
       content_id: tag.content_id,
       format: rummager_format,
+      content_store_document_type: format,
       title: tag.title,
       description: tag.description,
       link: tag.base_path,

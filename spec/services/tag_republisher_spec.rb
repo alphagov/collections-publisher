@@ -16,19 +16,25 @@ RSpec.describe TagRepublisher do
     it 'republishes given tags' do
       create(:mainstream_browse_page, :published, slug: 'a-browse-page')
 
-      TagRepublisher.new.republish_tags(Tag.all)
+      expect {
+        TagRepublisher.new.republish_tags(Tag.all)
+      }.to output.to_stdout
 
       expect(stubbed_content_store).to have_content_item_slug('/browse/a-browse-page')
     end
 
     it 'republishes the browse index page' do
-      TagRepublisher.new.republish_tags(Tag.all)
+      expect {
+        TagRepublisher.new.republish_tags(Tag.all)
+      }.to output.to_stdout
 
       expect(stubbed_content_store).to have_content_item_slug('/browse')
     end
 
     it 'republishes the topic index page' do
-      TagRepublisher.new.republish_tags(Tag.all)
+      expect {
+        TagRepublisher.new.republish_tags(Tag.all)
+      }.to output.to_stdout
 
       expect(stubbed_content_store).to have_content_item_slug('/topic')
     end
