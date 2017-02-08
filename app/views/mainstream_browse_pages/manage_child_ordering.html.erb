@@ -2,8 +2,8 @@
 
 <%= form_for @browse_page do |f| %>
   <%= f.select :child_ordering, Tag::ORDERING_TYPES %>
-  <%= f.fields_for :children, @browse_page.sorted_children do |c| %>
-    <%= c.text_field :index, label: c.object.slug %>
+  <%= f.fields_for :children, @browse_page.sorted_children_that_are_not_archived do |c| %>
+    <%= c.text_field :index, label: "#{c.object.title} (#{c.object.slug})" %>
   <% end %>
   <%= f.submit 'Save', class: 'btn-submit' %>
 <% end %>
