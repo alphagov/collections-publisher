@@ -77,6 +77,10 @@ class Tag < ActiveRecord::Base
     end
   end
 
+  def sorted_children_that_are_not_archived
+    sorted_children.reject { |child| child.state == "archived" }
+  end
+
   def title_including_parent
     if has_parent?
       "#{parent.title} / #{title}"
