@@ -27,18 +27,22 @@ RSpec.describe RummagerNotifier do
         content_id: '28ac662c-09cf-4baa-9e7c-98339a2a3bcd',
         title: 'A Topic',
         slug: 'a-test-topic',
-        description: 'A description.')
+        description: 'A description.'
+      )
 
       RummagerNotifier.new(topic).notify
 
       expect(rummager).to have_received(:add_document)
         .with("edition", "/topic/a-test-topic", content_id: '28ac662c-09cf-4baa-9e7c-98339a2a3bcd',
-          format: 'specialist_sector',
           content_store_document_type: "topic",
-          title: 'A Topic',
           description: 'A description.',
+          format: 'specialist_sector',
           link: '/topic/a-test-topic',
-          slug: 'a-test-topic')
+          publishing_app: 'collections-publisher',
+          rendering_app: 'collections',
+          slug: 'a-test-topic',
+          title: 'A Topic',
+        )
     end
 
     it 'sends published browse pages to rummager' do
@@ -46,18 +50,22 @@ RSpec.describe RummagerNotifier do
         content_id: '28ac662c-09cf-4baa-9e7c-98339a2a3bcd',
         title: 'A Browse Page',
         slug: 'a-browse-page',
-        description: 'A description.')
+        description: 'A description.'
+      )
 
       RummagerNotifier.new(browse_page).notify
 
       expect(rummager).to have_received(:add_document)
         .with("edition", "/browse/a-browse-page", content_id: '28ac662c-09cf-4baa-9e7c-98339a2a3bcd',
-          format: 'mainstream_browse_page',
           content_store_document_type: "mainstream_browse_page",
-          title: 'A Browse Page',
           description: 'A description.',
+          format: 'mainstream_browse_page',
           link: '/browse/a-browse-page',
-          slug: 'a-browse-page')
+          publishing_app: 'collections-publisher',
+          rendering_app: 'collections',
+          slug: 'a-browse-page',
+          title: 'A Browse Page',
+        )
     end
 
     it 'sends the full slug for a subtopic' do
