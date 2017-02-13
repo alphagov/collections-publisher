@@ -34,12 +34,12 @@ class TagPresenter
   def render_for_rummager
     {
       content_id: tag.content_id,
-      format: rummager_format,
       content_store_document_type: format,
-      title: tag.title,
       description: tag.description,
+      format: rummager_format,
       link: tag.base_path,
       slug: tag.full_slug,
+      title: tag.title,
     }
   end
 
