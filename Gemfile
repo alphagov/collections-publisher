@@ -31,7 +31,6 @@ gem 'byebug', group: [:development, :test]
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'quiet_assets', '~> 1.1.0'
 end
 
 group :test, :development do
