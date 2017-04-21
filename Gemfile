@@ -8,7 +8,7 @@ gem 'mysql2', '~> 0.3.20'
 gem 'plek', '~> 1.11.0'
 gem 'airbrake', '~> 4.3.5'
 
-gem 'gds-sso', '~> 11.0.0'
+gem 'gds-sso', '~> 13.0'
 gem 'gds-api-adapters', '~> 41.0'
 
 gem 'govuk_admin_template', '~> 4.1'
