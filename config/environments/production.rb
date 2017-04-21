@@ -70,6 +70,8 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.logstasher.enabled = true
+  config.logstasher.job_enabled = false
+  config.logstasher.mailer_enabled = false
   config.logstasher.logger = Logger.new(Rails.root.join("log/production.json.log"))
   config.logstasher.suppress_app_log = true
 end
