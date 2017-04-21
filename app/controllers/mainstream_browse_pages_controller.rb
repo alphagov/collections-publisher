@@ -1,6 +1,6 @@
 class MainstreamBrowsePagesController < ApplicationController
-  before_filter :require_gds_editor_permissions!
-  before_filter :protect_archived_browse_pages!, only: %i[edit update publish]
+  before_action :require_gds_editor_permissions!
+  before_action :protect_archived_browse_pages!, only: %i[edit update publish]
 
   def index
     @browse_pages = MainstreamBrowsePage.sorted_parents
@@ -57,7 +57,7 @@ class MainstreamBrowsePagesController < ApplicationController
   end
 
   def archive
-    @archival = MainstreamBrowsePageArchivalForm.new(params[:mainstream_browse_page_archival_form])
+    @archival = MainstreamBrowsePageArchivalForm.new(mainstream_browse_page_archival_form_params)
     @archival.tag = find_browse_page
 
     if @archival.archive_or_remove
@@ -92,6 +92,12 @@ private
     else
       tag_params
     end
+  end
+
+  def mainstream_browse_page_archival_form_params
+    params
+      .fetch(:mainstream_browse_page_archival_form, {})
+      .permit(:tag, :successor, :successor_path)
   end
 
   def tag_params

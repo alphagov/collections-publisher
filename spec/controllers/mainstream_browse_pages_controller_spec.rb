@@ -14,7 +14,7 @@ RSpec.describe MainstreamBrowsePagesController do
     it 'does not allow users without GDS Editor permissions access' do
       stub_user.permissions = ["signin"]
 
-      get :new, parent_id: browse_page.id
+      get :new, params: { parent_id: browse_page.id }
 
       expect(response.status).to eq(403)
     end
@@ -34,7 +34,11 @@ RSpec.describe MainstreamBrowsePagesController do
     it 'notifies rummager' do
       expect_any_instance_of(RummagerNotifier).to receive(:notify)
 
-      put :update, id: mainstream_browse_page.content_id, mainstream_browse_page: attributes.merge(:slug => mainstream_browse_page.slug)
+      put :update, params: {
+        id: mainstream_browse_page.content_id,
+        mainstream_browse_page: attributes
+                                  .merge(slug: mainstream_browse_page.slug),
+      }
     end
   end
 end

@@ -5,7 +5,7 @@ RSpec.describe TopicsController do
     it "disallows normal users to publish topics" do
       topic = create(:topic)
 
-      post :publish, id: topic.content_id
+      post :publish, params: { id: topic.content_id }
 
       expect(response.code).to eq('403')
     end
@@ -18,7 +18,7 @@ RSpec.describe TopicsController do
       allow(PublishingAPINotifier).to receive(:notify)
       allow_any_instance_of(RummagerNotifier).to receive(:notify)
 
-      post :publish, id: topic.content_id
+      post :publish, params: { id: topic.content_id }
 
       expect(response.code).to eq('302')
     end

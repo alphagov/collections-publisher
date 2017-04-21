@@ -1,6 +1,6 @@
 require 'securerandom'
 
-class Tag < ActiveRecord::Base
+class Tag < ApplicationRecord
   include AASM
   include ActiveModel::Dirty
   ORDERING_TYPES = %w(alphabetical curated).freeze

@@ -1,6 +1,6 @@
 class TopicsController < ApplicationController
-  before_filter :require_gds_editor_permissions!, except: %i[index show]
-  before_filter :protect_archived_tags!, only: %i[edit update publish]
+  before_action :require_gds_editor_permissions!, except: %i[index show]
+  before_action :protect_archived_tags!, only: %i[edit update publish]
 
   def index
     @topics = Topic.sorted_parents
@@ -56,7 +56,7 @@ class TopicsController < ApplicationController
   end
 
   def archive
-    @archival = TopicArchivalForm.new(params[:topic_archival_form])
+    @archival = TopicArchivalForm.new(topic_archival_form_params)
     @archival.tag = find_topic
 
     if @archival.archive_or_remove
@@ -70,6 +70,12 @@ private
 
   def topic_params
     params.require(:topic).permit(:slug, :title, :description, :parent_id)
+  end
+
+  def topic_archival_form_params
+    params
+      .fetch(:topic_archival_form, {})
+      .permit(:tag, :successor, :successor_path)
   end
 
   def find_topic

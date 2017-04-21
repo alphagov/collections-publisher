@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.7.1'
+gem 'rails', '~> 5.0'
 
 # Note that mysql2 0.4.X doesn't work with Rails. 4.2.X yet.
 gem 'mysql2', '~> 0.3.20'
@@ -34,7 +34,7 @@ group :development do
 end
 
 group :test, :development do
-  gem 'capybara', '~> 2.5.0'
+  gem 'capybara', '~> 2.0'
   gem 'database_cleaner', '~> 1.5.0'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'govuk-content-schema-test-helpers', '~> 1.4'

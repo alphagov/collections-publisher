@@ -1,7 +1,7 @@
 class ListItemsController < ApplicationController
-  before_filter :find_tag
-  before_filter :find_list
-  before_filter :require_gds_editor_permissions_to_edit_browse_pages!
+  before_action :find_tag
+  before_action :find_list
+  before_action :require_gds_editor_permissions_to_edit_browse_pages!
 
   def create
     list_item = @list.list_items.build(list_item_params)

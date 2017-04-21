@@ -1,6 +1,6 @@
 class ListsController < ApplicationController
-  before_filter :find_tag
-  before_filter :require_gds_editor_permissions_to_edit_browse_pages!
+  before_action :find_tag
+  before_action :require_gds_editor_permissions_to_edit_browse_pages!
 
   def index
     @lists = @tag.lists.ordered
