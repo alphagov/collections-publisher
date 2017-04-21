@@ -1,4 +1,4 @@
-class ListItem < ActiveRecord::Base
+class ListItem < ApplicationRecord
   belongs_to :list
 
   validates :index, numericality: { greater_than_or_equal_to: 0 }

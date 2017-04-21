@@ -5,7 +5,7 @@ RSpec.describe TagsController do
     it "disallows normal users to publish lists for mainstream browse pages" do
       mainstream_browse_page = create(:mainstream_browse_page)
 
-      post :publish_lists, tag_id: mainstream_browse_page.content_id
+      post :publish_lists, params: { tag_id: mainstream_browse_page.content_id }
 
       expect(response.code).to eq('403')
     end
@@ -15,7 +15,7 @@ RSpec.describe TagsController do
       mainstream_browse_page = create(:mainstream_browse_page)
       allow(PublishingAPINotifier).to receive(:notify)
 
-      post :publish_lists, tag_id: mainstream_browse_page.content_id
+      post :publish_lists, params: { tag_id: mainstream_browse_page.content_id }
 
       expect(response.code).to eq('302')
     end
@@ -24,7 +24,7 @@ RSpec.describe TagsController do
       topic = create(:topic)
       allow(PublishingAPINotifier).to receive(:notify)
 
-      post :publish_lists, tag_id: topic.content_id
+      post :publish_lists, params: { tag_id: topic.content_id }
 
       expect(response.code).to eq('302')
     end

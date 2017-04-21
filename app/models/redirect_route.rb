@@ -1,3 +1,3 @@
-class RedirectRoute < ActiveRecord::Base
+class RedirectRoute < ApplicationRecord
   belongs_to :tag
 end

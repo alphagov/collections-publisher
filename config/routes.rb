@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
   root to: redirect('/topics', status: 302)
 
   resources :mainstream_browse_pages, path: 'mainstream-browse-pages',
