@@ -28,7 +28,8 @@ class RootTopicPresenter
       routes: routes,
       details: {
         internal_name: "Topic index page",
-      }
+      },
+      update_type: 'minor',
     }
   end
 

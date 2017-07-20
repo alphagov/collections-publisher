@@ -19,6 +19,7 @@ class ArchivedTagPresenter
       schema_name: 'redirect',
       publishing_app: 'collections-publisher',
       redirects: RedirectRoutePresenter.new(@tag).routes,
+      update_type: 'minor',
     }
   end
 

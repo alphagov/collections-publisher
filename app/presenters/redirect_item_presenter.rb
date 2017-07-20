@@ -33,6 +33,7 @@ class RedirectItemPresenter
       schema_name: 'redirect',
       publishing_app: 'collections-publisher',
       redirects: RedirectRoutePresenter.new(self).routes,
+      update_type: 'minor',
     }
   end
 end

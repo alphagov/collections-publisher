@@ -62,6 +62,7 @@ class TagPresenter
       routes: routes,
       redirects: RedirectRoutePresenter.new(@tag).routes,
       details: details,
+      update_type: 'minor',
     }
   end
 
