@@ -34,7 +34,8 @@ RSpec.describe ArchivedTagPresenter do
             destination: "/topic/parent",
             type: "exact"
           },
-        ]
+        ],
+        update_type: "minor",
       }
       presenter = ArchivedTagPresenter.new(child)
       expect(presenter.render_for_publishing_api).to eq expected_child_content

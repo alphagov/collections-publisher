@@ -27,6 +27,7 @@ class RootBrowsePagePresenter
       rendering_app: "collections",
       routes: routes,
       details: {},
+      update_type: 'minor',
     }
   end
 

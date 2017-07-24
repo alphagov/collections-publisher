@@ -15,7 +15,7 @@ gem 'unicorn', '~> 5.0'
 
 # GDS managed dependencies
 gem 'gds-sso', '~> 13.0'
-gem 'gds-api-adapters', '~> 41.0'
+gem 'gds-api-adapters', '~> 47.2'
 gem 'govuk_admin_template', '~> 5.0'
 gem 'govuk_sidekiq', '~> 1.0'
 gem 'plek', '~> 2.0'
