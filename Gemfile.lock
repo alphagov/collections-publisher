@@ -42,9 +42,6 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     addressable (2.3.8)
-    airbrake (4.3.8)
-      builder
-      multi_json
     arel (7.1.4)
     ast (2.3.0)
     autoprefixer-rails (6.7.7.2)
@@ -114,8 +111,10 @@ GEM
       bootstrap-sass (= 3.3.5.1)
       jquery-rails (~> 4.1.1)
       rails (>= 3.2.0)
-    govuk_sidekiq (1.0.3)
-      airbrake (>= 3.1.0)
+    govuk_app_config (0.2.0)
+      sentry-raven (~> 2.6.3)
+      statsd-ruby (~> 1.4.0)
+    govuk_sidekiq (2.0.0)
       gds-api-adapters (>= 19.1.0)
       redis-namespace (~> 1.5.2)
       sidekiq (~> 4.2.8)
@@ -194,7 +193,7 @@ GEM
     rack (2.0.3)
     rack-cache (1.7.0)
       rack (>= 0.4)
-    rack-protection (1.5.3)
+    rack-protection (2.0.0)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -269,13 +268,15 @@ GEM
       sass (~> 3.4.20)
     select2-rails (3.5.10)
       thor (~> 0.14)
+    sentry-raven (2.6.3)
+      faraday (>= 0.7.6, < 1.0)
     sidekiq (4.2.10)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (~> 3.2, >= 3.2.1)
-    sidekiq-logging-json (0.0.16)
-      sidekiq (>= 3, < 5)
+    sidekiq-logging-json (0.0.18)
+      sidekiq (>= 3)
     sidekiq-statsd (0.1.5)
       activesupport
       sidekiq (>= 2.6)
@@ -325,7 +326,6 @@ PLATFORMS
 
 DEPENDENCIES
   aasm (~> 4.0)
-  airbrake (~> 4.3.5)
   better_errors
   binding_of_caller
   byebug
@@ -338,7 +338,8 @@ DEPENDENCIES
   govuk-content-schema-test-helpers
   govuk-lint
   govuk_admin_template (~> 5.0)
-  govuk_sidekiq (~> 1.0)
+  govuk_app_config (~> 0.2)
+  govuk_sidekiq (~> 2.0)
   logstasher (~> 1.0)
   mysql2
   nokogiri
@@ -356,4 +357,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.15.0
+   1.15.1

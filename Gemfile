@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 5.0'
+gem 'govuk_app_config', '~> 0.2'
 
 gem 'aasm', '~> 4.0'
-gem 'airbrake', '~> 4.3.5'
 gem 'generic_form_builder', '~> 0.13'
 gem 'logstasher', '~> 1.0'
 gem 'mysql2'
@@ -17,7 +17,7 @@ gem 'unicorn', '~> 5.0'
 gem 'gds-sso', '~> 13.0'
 gem 'gds-api-adapters', '~> 47.2'
 gem 'govuk_admin_template', '~> 5.0'
-gem 'govuk_sidekiq', '~> 1.0'
+gem 'govuk_sidekiq', '~> 2.0'
 gem 'plek', '~> 2.0'
 
 group :development do
