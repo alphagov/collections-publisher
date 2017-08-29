@@ -13,7 +13,6 @@ RSpec.describe ArchivedTagPresenter do
 
     it 'renders a redirect to a parent with no subroutes correctly' do
       expected_child_content = {
-        content_id: child.content_id,
         base_path: "/topic/parent/child-1",
         document_type: "redirect",
         schema_name: "redirect",
