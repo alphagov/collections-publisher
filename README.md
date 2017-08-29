@@ -58,16 +58,10 @@ you will need a copy of this repo on your file system. By default this should
 be in a sibling directory to your project. Alternatively, you can specify their
 location with the `GOVUK_CONTENT_SCHEMAS_PATH` environment variable.
 
-To run the full test suite:
+To run the test suite:
 
 ```
 bundle exec rake
-```
-
-To run just the schema tests:
-
-```
-bundle exec rake spec:schema
 ```
 
 ## Licence
