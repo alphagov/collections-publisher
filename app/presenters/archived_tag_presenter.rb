@@ -13,7 +13,6 @@ class ArchivedTagPresenter
 
   def render_for_publishing_api
     {
-      content_id: content_id,
       base_path: base_path,
       document_type: 'redirect',
       schema_name: 'redirect',
