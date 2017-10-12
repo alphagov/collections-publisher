@@ -55,5 +55,14 @@ module ContentStoreHelpers
     def item_by_content_id(content_id)
       @stored_items.fetch(content_id)
     end
+
+    def lookup_content_id(base_path:)
+      @stored_items.each_pair do |content_id, item|
+        if item[:base_path] == base_path
+          return content_id
+        end
+      end
+      nil
+    end
   end
 end

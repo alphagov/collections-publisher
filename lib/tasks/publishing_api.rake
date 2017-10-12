@@ -9,4 +9,9 @@ namespace :publishing_api do
   task :send_published_tags => :environment do
     TagRepublisher.new.republish_tags(Tag.published)
   end
+
+  desc "Send all email alert signup pages to publishing-api"
+  task :send_email_alert_signups => :environment do
+    EmailAlertSignupPublisher.new.republish_email_alert_signups
+  end
 end
