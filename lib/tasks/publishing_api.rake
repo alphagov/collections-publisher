@@ -22,7 +22,7 @@ namespace :publishing_api do
       schema_name: "generic",
       document_type: "task_list",
       title: "Learn to drive a car: step by step",
-      description: "Check what you need to do to learn to drive.",
+      description: "Learn to drive a car in the UK - get a provisional licence, take driving lessons, prepare for your theory test, book your practical test.",
       details: {},
       locale: "en",
       routes: [
