@@ -3,6 +3,7 @@ default: &default
   encoding: utf8
   username: collections_pub
   password: collections_publisher
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
 
 development:
   <<: *default
