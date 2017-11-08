@@ -7,10 +7,12 @@ default: &default
 development:
   <<: *default
   database: collections_publisher_development
+  url: <%= ENV["DATABASE_URL"]%>
 
 test: &test
   <<: *default
   database: collections_publisher_test
+  url: <%= ENV["DATABASE_URL"].try(:sub, /(development)?$/, 'test')%>
 
 cucumber:
   <<: *test
