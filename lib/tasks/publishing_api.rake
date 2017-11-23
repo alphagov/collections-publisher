@@ -63,4 +63,31 @@ namespace :publishing_api do
     Services.publishing_api.put_content(content_id, params)
     Services.publishing_api.publish(content_id)
   end
+
+  desc "Publish /get-a-divorce task list to publishing api"
+  task publish_get_a_divorce_task_list: :environment do
+    content_id = "3d1279d9-73e9-4871-8b82-7389955b4c1b"
+    params = {
+      base_path: "/get-a-divorce",
+      publishing_app: "collections-publisher",
+      rendering_app: "collections",
+      public_updated_at: Time.zone.now.iso8601,
+      update_type: "major",
+      schema_name: "generic",
+      document_type: "task_list",
+      title: "Get a divorce: step by step",
+      description: "How to file for divorce if you’re in England or Wales.",
+      details: {},
+      locale: "en",
+      routes: [
+        {
+          path: "/get-a-divorce",
+          type: "exact"
+        }
+      ]
+    }
+
+    Services.publishing_api.put_content(content_id, params)
+    Services.publishing_api.publish(content_id)
+  end
 end
