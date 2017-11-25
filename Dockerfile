@@ -1,4 +1,4 @@
-FROM ruby:2.3.0
+FROM ruby:2.4.2
 RUN apt-get update -qq && apt-get upgrade -y && apt-get install -y build-essential nodejs && apt-get clean
 
 ENV DATABASE_URL mysql2://root:root@mysql/collections_publisher_development
