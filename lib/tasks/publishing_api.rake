@@ -36,4 +36,31 @@ namespace :publishing_api do
     Services.publishing_api.put_content(content_id, params)
     Services.publishing_api.publish(content_id)
   end
+
+  desc "Publish /end-a-civil-partnership task list to publishing api"
+  task publish_end_a_civil_partnership_task_list: :environment do
+    content_id = "b6ee74ca-123c-4e89-82b5-369be9362159"
+    params = {
+      base_path: "/end-a-civil-partnership",
+      publishing_app: "collections-publisher",
+      rendering_app: "collections",
+      public_updated_at: Time.zone.now.iso8601,
+      update_type: "major",
+      schema_name: "generic",
+      document_type: "task_list",
+      title: "End a civil partnership: step by step",
+      description: "How to end your civil partnership if you’re in England or Wales.",
+      details: {},
+      locale: "en",
+      routes: [
+        {
+          path: "/end-a-civil-partnership",
+          type: "exact"
+        }
+      ]
+    }
+
+    Services.publishing_api.put_content(content_id, params)
+    Services.publishing_api.publish(content_id)
+  end
 end
