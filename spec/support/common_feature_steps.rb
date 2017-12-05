@@ -1,6 +1,5 @@
 module CommonFeatureSteps
   def and_external_services_are_stubbed
-    allow_any_instance_of(RummagerNotifier).to receive(:notify)
     stub_any_publishing_api_call
     publishing_api_has_no_linked_items
   end

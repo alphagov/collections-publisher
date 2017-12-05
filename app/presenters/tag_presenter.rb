@@ -31,22 +31,6 @@ class TagPresenter
     tag.content_id
   end
 
-  def render_for_rummager
-    publishing_api_payload = render_for_publishing_api
-
-    {
-      content_id: tag.content_id,
-      content_store_document_type: publishing_api_payload.fetch(:document_type),
-      description: tag.description,
-      format: rummager_format,
-      link: tag.base_path,
-      publishing_app: publishing_api_payload.fetch(:publishing_app),
-      rendering_app: publishing_api_payload.fetch(:rendering_app),
-      slug: tag.full_slug,
-      title: tag.title,
-    }
-  end
-
   def render_for_publishing_api
     {
       base_path: base_path,

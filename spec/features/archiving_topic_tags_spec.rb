@@ -9,8 +9,6 @@ RSpec.feature "Archiving topic tags" do
     stub_any_publishing_api_call
     publishing_api_has_no_linked_items
 
-    @rummager_deletion = stub_request(:delete, %r[#{Plek.find('rummager')}/*]).to_return(body: "{}")
-
     # Background
     given_I_am_a_GDS_editor
     and_there_is_a_topic_that_can_be_used_as_a_replacement
@@ -29,7 +27,6 @@ RSpec.feature "Archiving topic tags" do
 
     when_I_redirect_the_topic_to_a_successor_topic
     then_the_tag_is_archived
-    and_the_tag_is_removed_from_search
 
     when_I_visit_the_topic_edit_page
     then_I_see_that_I_cannot_edit_the_page
@@ -97,10 +94,6 @@ RSpec.feature "Archiving topic tags" do
 
   def then_the_tag_is_archived
     expect(@topic.reload.archived?).to eql(true)
-  end
-
-  def and_the_tag_is_removed_from_search
-    expect(@rummager_deletion).to have_been_requested
   end
 
   def then_I_see_that_I_cannot_edit_the_page
