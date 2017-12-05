@@ -19,7 +19,7 @@ class TopicsController < ApplicationController
     topic = find_topic
 
     if topic.update_attributes(topic_params)
-      TagUpdateBroadcaster.broadcast(topic)
+      TagBroadcaster.broadcast(topic)
       redirect_to topic, success: "Topic updated"
     else
       @topic = topic
@@ -36,7 +36,7 @@ class TopicsController < ApplicationController
     topic.attributes = topic_params
 
     if topic.save
-      TagCreateBroadcaster.broadcast(topic)
+      TagBroadcaster.broadcast(topic)
       redirect_to topic
     else
       @topic = topic
