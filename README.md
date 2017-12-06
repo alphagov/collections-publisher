@@ -18,24 +18,21 @@ This is a Ruby on Rails application for internal use by GDS and some departmenta
 
 It has these features:
 
-- Creating & editing topics and mainstream browse pages
+- Creating & editing topics and mainstream browse pages.
 - Curate the pages tagged to a topic or browse page into "curated lists". This means they'll be displayed in a group with a title. By default, the links are not curated and will appear with a 'A-Z' heading.
 
 ![Screenshot of curated and non-curated pages](docs/screenshot-curated-topics.png)
 
 Left, a [curated mainstream browse page](https://www.gov.uk/browse/childcare-parenting/childcare), right, an [uncurated browse page](https://www.gov.uk/browse/justice/prisons-probation).
 
-Collections publisher retrieves information about which content is tagged to a topic or browse page from [rummager](https://github.com/alphagov/rummager). It publishes the curated lists to the [publishing-api](https://github.com/alphagov/publishing-api).
-
-This application uses the [sidekiq](http://sidekiq.org/) message queue for background work (mainly publishing to the publishing-api).
+This application uses the [sidekiq](http://sidekiq.org/) message queue for background work (mainly publishing to the Publishing API).
 
 ### Dependencies
 
 - [alphagov/publishing-api](https://github.com/alphagov/publishing-api) -
-  used to write curated lists.
-- [alphagov/rummager](https://github.com/alphagov/rummager) -
-  to index topics and mainstream browse pages, and to fetch documents that have
-  been tagged to topics and mainstream browse pages by publisher tools.
+  - used for the publishing workflow of `mainstream_browse_page`s, `topic`s and curated lists.
+  - Publishing API sends data onto [Rummager](https://github.com/alphagov/rummager) for search indexing `topic` and `mainstream_browse_page` pages.
+
 
 ### Running the application
 

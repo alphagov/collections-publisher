@@ -30,15 +30,5 @@ RSpec.describe MainstreamBrowsePagesController do
     let(:mainstream_browse_page) {
       create(:mainstream_browse_page)
     }
-
-    it 'notifies rummager' do
-      expect_any_instance_of(RummagerNotifier).to receive(:notify)
-
-      put :update, params: {
-        id: mainstream_browse_page.content_id,
-        mainstream_browse_page: attributes
-                                  .merge(slug: mainstream_browse_page.slug),
-      }
-    end
   end
 end

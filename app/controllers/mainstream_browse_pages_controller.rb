@@ -20,7 +20,7 @@ class MainstreamBrowsePagesController < ApplicationController
     browse_page = find_browse_page
 
     if browse_page.update_attributes(browse_page_params)
-      TagUpdateBroadcaster.broadcast(browse_page)
+      TagBroadcaster.broadcast(browse_page)
       redirect_to browse_page
     else
       @browse_page = browse_page
@@ -38,7 +38,7 @@ class MainstreamBrowsePagesController < ApplicationController
     browse_page.attributes = browse_page_params
 
     if browse_page.save
-      TagCreateBroadcaster.broadcast(browse_page)
+      TagBroadcaster.broadcast(browse_page)
       redirect_to browse_page
     else
       @browse_page = browse_page

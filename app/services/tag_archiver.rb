@@ -1,5 +1,5 @@
 # TagArchiver removes a tag from the site. It sets up a redirect for the page
-# to its successor and removes the tag from the search engine.
+# to its successor.
 class TagArchiver
   attr_reader :tag, :successor
 
@@ -14,7 +14,6 @@ class TagArchiver
     Tag.transaction do
       update_tag
       setup_redirects
-      remove_from_search_index
       republish_tag
     end
   end
@@ -51,13 +50,6 @@ private
         to_base_path: to_base_path,
       )
     end
-  end
-
-  def remove_from_search_index
-    Services.rummager.delete_document(
-      'edition',
-      tag.base_path
-    )
   end
 
   def republish_tag

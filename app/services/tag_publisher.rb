@@ -8,7 +8,7 @@ class TagPublisher
   def publish
     Tag.transaction do
       tag.publish!
-      TagPublishBroadcaster.broadcast(tag)
+      TagBroadcaster.broadcast(tag)
     end
   end
 end
