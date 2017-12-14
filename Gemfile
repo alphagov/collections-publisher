@@ -5,13 +5,11 @@ gem 'govuk_app_config', '~> 1.1'
 
 gem 'aasm', '~> 4.0'
 gem 'generic_form_builder', '~> 0.13'
-gem 'logstasher', '~> 1.0'
 gem 'mysql2'
 gem 'sass-rails', '~> 5.0'
 gem 'select2-rails', '~> 3.5.9'
 gem 'sinatra', require: nil
 gem 'uglifier', '~> 4.0'
-gem 'unicorn', '~> 5.0'
 
 # GDS managed dependencies
 gem 'gds-sso', '~> 13.0'

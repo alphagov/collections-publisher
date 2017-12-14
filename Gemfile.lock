@@ -364,7 +364,6 @@ DEPENDENCIES
   govuk_admin_template (~> 6.4)
   govuk_app_config (~> 1.1)
   govuk_sidekiq (~> 2.0)
-  logstasher (~> 1.0)
   mysql2
   nokogiri
   plek (~> 2.0)
@@ -377,7 +376,6 @@ DEPENDENCIES
   sinatra
   timecop
   uglifier (~> 4.0)
-  unicorn (~> 5.0)
   webmock
 
 BUNDLED WITH
