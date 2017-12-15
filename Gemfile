@@ -10,7 +10,7 @@ gem 'mysql2'
 gem 'sass-rails', '~> 5.0'
 gem 'select2-rails', '~> 3.5.9'
 gem 'sinatra', require: nil
-gem 'uglifier', '~> 3.0'
+gem 'uglifier', '~> 4.0'
 gem 'unicorn', '~> 5.0'
 
 # GDS managed dependencies
