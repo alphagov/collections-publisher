@@ -49,7 +49,9 @@ namespace :publishing_api do
       schema_name: "generic",
       document_type: "task_list",
       title: "End a civil partnership: step by step",
-      description: "How to end your civil partnership if you’re in England or Wales.",
+      description: "Grounds for ending a partnership, child arrangements, "\
+        "money and property, file an application, D8 form, apply for a consent "\
+        "order and final order",
       details: {},
       locale: "en",
       routes: [
@@ -76,7 +78,9 @@ namespace :publishing_api do
       schema_name: "generic",
       document_type: "task_list",
       title: "Get a divorce: step by step",
-      description: "How to file for divorce if you’re in England or Wales.",
+      description: "Grounds for divorce, child arrangements, money and "\
+        "property, file for divorce, D8 form, apply for a decree nisi and "\
+        "decree absolute.",
       details: {},
       locale: "en",
       routes: [
