@@ -37,6 +37,12 @@ namespace :publishing_api do
     Services.publishing_api.publish(content_id)
   end
 
+  desc "Unpublish /end-a-civil-partnership task list to publishing api"
+  task unpublish_end_a_civil_partnership_task_list: :environment do
+    content_id = "b6ee74ca-123c-4e89-82b5-369be9362159"
+    Services.publishing_api.unpublish(content_id, type: "redirect", alternative_path: "/end-civil-partnership")
+  end
+
   desc "Publish /end-a-civil-partnership task list to publishing api"
   task publish_end_a_civil_partnership_task_list: :environment do
     content_id = "b6ee74ca-123c-4e89-82b5-369be9362159"
@@ -64,6 +70,12 @@ namespace :publishing_api do
 
     Services.publishing_api.put_content(content_id, params)
     Services.publishing_api.publish(content_id)
+  end
+
+  desc "Unublish /get-a-divorce task list to publishing api"
+  task unpublish_get_a_divorce_task_list: :environment do
+    content_id = "3d1279d9-73e9-4871-8b82-7389955b4c1b"
+    Services.publishing_api.unpublish(content_id, type: "redirect", alternative_path: "/divorce")
   end
 
   desc "Publish /get-a-divorce task list to publishing api"
