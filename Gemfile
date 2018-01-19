@@ -13,7 +13,7 @@ gem 'uglifier', '~> 4.1'
 
 # GDS managed dependencies
 gem 'gds-sso', '~> 13.5'
-gem 'gds-api-adapters', '~> 51.0'
+gem 'gds-api-adapters', '~> 51.1'
 gem 'govuk_admin_template', '~> 6.4'
 gem 'govuk_sidekiq', '~> 3.0'
 gem 'plek', '~> 2.0'
