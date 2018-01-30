@@ -72,7 +72,7 @@ namespace :publishing_api do
     Services.publishing_api.publish(content_id)
   end
 
-  desc "Unublish /get-a-divorce task list to publishing api"
+  desc "Unpublish /get-a-divorce task list to publishing api"
   task unpublish_get_a_divorce_task_list: :environment do
     content_id = "3d1279d9-73e9-4871-8b82-7389955b4c1b"
     Services.publishing_api.unpublish(content_id, type: "redirect", alternative_path: "/divorce")
