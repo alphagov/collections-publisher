@@ -30,33 +30,33 @@ Style/SymbolProc:
 # so we don't want them turned on for files with a lot of violations. They
 # are still active for other files.
 
-Style/BlockEndNewline:
+Layout/BlockEndNewline:
   Exclude:
     - 'spec/presenters/mainstream_browse_page_presenter_spec.rb'
 
-Style/ClosingParenthesisIndentation:
+Layout/ClosingParenthesisIndentation:
   Exclude:
     - 'app/services/draft_tag_remover.rb'
     - 'spec/notifiers/publishing_api_notifier_spec.rb'
     - 'spec/presenters/mainstream_browse_page_presenter_spec.rb'
     - 'spec/presenters/tag_presenter_spec.rb'
 
-Style/FirstParameterIndentation:
+Layout/FirstParameterIndentation:
   Exclude:
     - 'spec/presenters/groups_presenter_spec.rb'
 
-Style/MultilineBlockLayout:
+Layout/MultilineBlockLayout:
   Exclude:
     - 'spec/presenters/mainstream_browse_page_presenter_spec.rb'
 
-Style/SpaceAroundOperators:
+Layout/SpaceAroundOperators:
   Exclude:
     - 'spec/services/list_publisher_spec.rb'
 
-Style/SpaceInsideBrackets:
+Layout/SpaceInsideBrackets:
   Exclude:
     - 'spec/models/tagged_documents_spec.rb'
 
-Style/SpaceInsideParens:
+Layout/SpaceInsideParens:
   Exclude:
     - 'spec/features/listing_browse_pages_spec.rb'
