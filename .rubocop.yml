@@ -60,3 +60,7 @@ Layout/SpaceInsideBrackets:
 Layout/SpaceInsideParens:
   Exclude:
     - 'spec/features/listing_browse_pages_spec.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'lib/tasks/**/*.rake'
