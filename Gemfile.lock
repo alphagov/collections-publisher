@@ -190,7 +190,7 @@ GEM
     parallel (1.12.1)
     parser (2.4.0.2)
       ast (~> 2.3)
-    plek (2.0.0)
+    plek (2.1.0)
     poltergeist (1.17.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -369,7 +369,7 @@ DEPENDENCIES
   govuk_sidekiq (~> 3.0)
   mysql2
   nokogiri
-  plek (~> 2.0)
+  plek (~> 2.1)
   poltergeist
   pry-byebug
   rails (~> 5.0)
