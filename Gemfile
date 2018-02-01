@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 5.0'
-gem 'govuk_app_config', '~> 1.2'
+gem 'govuk_app_config', '~> 1.3'
 
 gem 'aasm', '~> 4.0'
 gem 'generic_form_builder', '~> 0.13'
