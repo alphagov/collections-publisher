@@ -66,7 +66,7 @@ RSpec.feature "Managing browse pages" do
       Naturalisation
       Marriage
     ))
-    expect(page).to have_link(nil, href: "#{Plek.new.find('content-tagger')}/taggings/#{@linked_item_content_id_1}")
-    expect(page).to have_link(nil, href: "#{Plek.new.find('content-tagger')}/taggings/#{@linked_item_content_id_2}")
+    expect(page).to have_link(nil, href: "#{Plek.new.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id_1}")
+    expect(page).to have_link(nil, href: "#{Plek.new.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id_2}")
   end
 end

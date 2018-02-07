@@ -4,6 +4,6 @@ module ApplicationHelper
   end
 
   def content_tagger_url
-    Plek.new.find('content-tagger')
+    Plek.new.external_url_for('content-tagger')
   end
 end
