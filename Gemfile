@@ -16,7 +16,7 @@ gem 'gds-sso', '~> 13.5'
 gem 'gds-api-adapters', '~> 51.0'
 gem 'govuk_admin_template', '~> 6.5'
 gem 'govuk_sidekiq', '~> 3.0'
-gem 'plek', '~> 2.0'
+gem 'plek', '~> 2.1'
 
 group :development do
   gem 'better_errors'
