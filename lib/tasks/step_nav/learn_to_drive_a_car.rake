@@ -92,6 +92,7 @@ namespace :step_nav do
             },
             {
               title: "Prepare for your theory test",
+              logic: "and",
               contents: [
                 {
                   type: "list",
