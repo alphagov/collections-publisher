@@ -15,6 +15,8 @@ namespace :step_nav do
       description: "Learn to drive a car in the UK - get a provisional licence, take driving lessons, prepare for your theory test, book your practical test.",
       details: {
         step_by_step_nav: {
+          title: "Learn to drive a car: step by step",
+          introduction: "Check what you need to do to learn to drive.",
           steps: [
             {
               title: "Check you're allowed to drive",
@@ -92,6 +94,7 @@ namespace :step_nav do
             },
             {
               title: "Prepare for your theory test",
+              logic: "and",
               contents: [
                 {
                   type: "list",
