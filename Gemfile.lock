@@ -372,7 +372,7 @@ DEPENDENCIES
   plek (~> 2.1)
   poltergeist
   pry-byebug
-  rails (~> 5.0)
+  rails (~> 5.1)
   rspec-rails
   sass-rails (~> 5.0)
   select2-rails (~> 3.5.9)
