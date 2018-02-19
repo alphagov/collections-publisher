@@ -1,4 +1,5 @@
 class StepByStepPagesController < ApplicationController
-  def index
-  end
+  before_action :require_gds_editor_permissions!
+
+  def index; end
 end
