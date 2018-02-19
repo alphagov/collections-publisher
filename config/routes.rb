@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   root to: redirect('/topics', status: 302)
 
+  get :"step-by-step-pages", to: 'step_by_step_pages#index'
+
   resources :mainstream_browse_pages, path: 'mainstream-browse-pages',
                                       except: :destroy do
     member do

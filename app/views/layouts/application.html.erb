@@ -15,6 +15,12 @@
   <li class='<%= active_navigation_item == 'topics' ? 'active' : nil %>'>
     <%= link_to 'Topics', topics_path %>
   </li>
+
+  <% if gds_editor? %>
+    <li class='<%= active_navigation_item == 'step_by_step_pages' ? 'active' : nil %>'>
+      <%= link_to 'Step by step pages', step_by_step_pages_path %>
+    </li>
+  <% end %>
 <% end %>
 
 <% content_for :body_end do %>
