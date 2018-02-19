@@ -1,4 +1,9 @@
 FactoryGirl.define do
+  factory :step_by_step_page do
+    title "How to be amazing"
+    base_path "how-to-be-the-amazing-1"
+  end
+
   factory :redirect_item do
     content_id SecureRandom.uuid
     from_base_path "/from/foo"

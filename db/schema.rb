@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170117160733) do
+ActiveRecord::Schema.define(version: 20180219165923) do
 
   create_table "list_items", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "base_path"
@@ -49,6 +49,15 @@ ActiveRecord::Schema.define(version: 20170117160733) do
     t.index ["from_base_path"], name: "index_redirect_routes_on_from_base_path", unique: true
     t.index ["redirect_id"], name: "index_redirect_routes_on_redirect_id"
     t.index ["tag_id"], name: "index_redirect_routes_on_tag_id"
+  end
+
+  create_table "step_by_step_pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "title"
+    t.string "base_path"
+    t.text "introduction"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tag_associations", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
