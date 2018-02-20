@@ -16,7 +16,12 @@ namespace :step_nav do
       details: {
         step_by_step_nav: {
           title: "Learn to drive a car: step by step",
-          introduction: "Check what you need to do to learn to drive.",
+          introduction: [
+            {
+              content_type: "text/govspeak",
+              content: "Check what you need to do to learn to drive."
+            }
+          ],
           steps: [
             {
               title: "Check you're allowed to drive",
