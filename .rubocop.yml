@@ -64,3 +64,4 @@ Layout/SpaceInsideParens:
 Metrics/BlockLength:
   Exclude:
     - 'lib/tasks/**/*.rake'
+    - 'spec/**/*_spec.rb'
