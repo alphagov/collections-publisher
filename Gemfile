@@ -34,6 +34,7 @@ group :development, :test do
   gem 'poltergeist'
   gem 'pry-byebug'
   gem 'rspec-rails'
+  gem 'shoulda-matchers', '~> 3.1'
   gem 'timecop'
   gem 'webmock', require: false
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180219165923) do
+ActiveRecord::Schema.define(version: 20180221152119) do
 
   create_table "list_items", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "base_path"
@@ -60,6 +60,20 @@ ActiveRecord::Schema.define(version: 20180219165923) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "steps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "title"
+    t.string "logic"
+    t.boolean "optional"
+    t.text "contents"
+    t.string "optional_heading"
+    t.text "optional_contents"
+    t.integer "position"
+    t.bigint "step_by_step_page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["step_by_step_page_id"], name: "index_steps_on_step_by_step_page_id"
+  end
+
   create_table "tag_associations", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "from_tag_id", null: false
     t.integer "to_tag_id", null: false
@@ -103,6 +117,7 @@ ActiveRecord::Schema.define(version: 20180219165923) do
   add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
   add_foreign_key "lists", "tags", name: "lists_tag_id_fk", on_delete: :cascade
   add_foreign_key "redirect_routes", "tags"
+  add_foreign_key "steps", "step_by_step_pages"
   add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "to_tag_id", name: "tag_associations_to_tag_id_fk", on_delete: :cascade
   add_foreign_key "tags", "tags", column: "parent_id", name: "tags_parent_id_fk"
