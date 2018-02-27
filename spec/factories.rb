@@ -2,6 +2,18 @@ FactoryGirl.define do
   factory :step_by_step_page do
     title "How to be amazing"
     base_path "how-to-be-the-amazing-1"
+
+    factory :step_by_step_page_with_steps do
+      after(:create) do |step_by_step_page|
+        create(:step, step_by_step_page: step_by_step_page)
+      end
+    end
+  end
+
+  factory :step do
+    title "Check how awesome you are"
+    logic "number"
+    step_by_step_page
   end
 
   factory :redirect_item do
