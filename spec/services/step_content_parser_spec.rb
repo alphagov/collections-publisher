@@ -33,6 +33,40 @@ RSpec.describe StepContentParser do
         }
       ])
     end
+
+    it "copes with multiple blank lines and trailing blank lines" do
+      step_text = <<~HEREDOC
+        Ladies and gentlemen:
+
+
+        Grieg's piano concerto.
+
+
+        By Grieg
+
+        Conducted by Mr Andrew Preview
+
+      HEREDOC
+
+      expect(subject.parse(step_text)).to eq([
+        {
+          "type": "paragraph",
+          "text": "Ladies and gentlemen:"
+        },
+        {
+          "type": "paragraph",
+          "text": "Grieg's piano concerto."
+        },
+        {
+          "type": "paragraph",
+          "text": "By Grieg"
+        },
+        {
+          "type": "paragraph",
+          "text": "Conducted by Mr Andrew Preview"
+        }
+      ])
+    end
   end
 
   context "list of bulleted links" do
