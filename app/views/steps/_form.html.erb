@@ -1,0 +1,116 @@
+<%
+  left_col = "col-md-7"
+  right_col = "col-md-5"
+%>
+
+<% if step.errors.any? %>
+  <% error_explanation = capture do %>
+    <h2 class="h4">There are <%= pluralize(step.errors.count, "error") %></h2>
+
+    <ul>
+    <% step.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  <% end %>
+
+  <%= render "shared/steps/form_notice",
+    status: "danger",
+    message: error_explanation
+  %>
+<% end %>
+
+<div class="form-group">
+  <div class="row">
+    <div class="<%= left_col %>">
+      <%= form.text_field :title, label: "Step title" %>
+    </div>
+  </div>
+</div>
+
+<div class="form-group">
+  <%= form.label :logic, "Step labelling", default_builder: true %>
+
+  <div class="radio">
+    <label>
+      <%= form.radio_button :logic, "number", default_builder: true %>
+      number
+    </label>
+  </div>
+
+  <div class="radio">
+    <label>
+      <%= form.radio_button :logic, "and", default_builder: true %>
+      and
+    </label>
+  </div>
+
+  <div class="radio">
+    <label>
+      <%= form.radio_button :logic, "or", default_builder: true  %>
+      or
+    </label>
+  </div>
+</div>
+
+<div class="form-group">
+  <%= form.label :optional, "Is this step optional?", default_builder: true %>
+
+  <div class="radio">
+    <label>
+      <%= form.radio_button :optional, "false", default_builder: true %>
+      essential
+    </label>
+  </div>
+
+  <div class="radio">
+    <label>
+      <%= form.radio_button :optional, "true", default_builder: true %>
+      optional
+    </label>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="row">
+    <div class="<%= left_col %>">
+      <%= form.text_area :contents, class: "form-control", label: "Content in this step", rows: 8 %>
+    </div>
+
+    <div class="<%= right_col %>">
+      <p><%= link_to "Guidance", "https://gov-uk.atlassian.net/wiki/spaces/MS/pages/268140618/Content+design+principles+for+step+by+step+navigation+Q4" %></p>
+      <%= render 'shared/steps/markdown_help' %>
+    </div>
+  </div>
+</div>
+
+<h3>"Get help completing this step" section</h3>
+
+<div class="form-group">
+  <div class="row">
+    <div class="<%= left_col %>">
+      <%= form.label :optional_heading, "Section heading", default_builder: true %>
+      <%= form.text_field :optional_heading, default_builder: true  %>
+    </div>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="row">
+    <div class="<%= left_col %>">
+      <%= form.text_area :optional_contents, class: "form-control", label: "Tasks", rows: 8 %>
+    </div>
+
+    <div class="<%= right_col %>">
+      <p><%= link_to "Guidance", "https://gov-uk.atlassian.net/wiki/spaces/MS/pages/268140618/Content+design+principles+for+step+by+step+navigation+Q4" %></p>
+      <%= render 'shared/steps/markdown_help' %>
+    </div>
+  </div>
+</div>
+
+<div class="form-group">
+  <%= form.submit "Save step", class: "btn btn-primary" %>
+</div>
+<div class="form-group">
+  <%= link_to "Cancel", @step_by_step_page %>
+</div>
