@@ -1,2 +1,46 @@
-<h1>StepByStepPages#index</h1>
-<p>Find me in app/views/step_by_step_pages/index.html.erb</p>
+<%
+  links = [
+    {
+      text: 'Step by step publisher',
+    }
+  ]
+%>
+
+<%= render 'shared/steps/step_breadcrumb', links: links %>
+
+<%= render 'shared/steps/form_notice', message: notice, status: "success" %>
+
+<h1>Step by step navigation publisher</h1>
+
+<p class="step-actions">
+  <%= link_to 'Create new', new_step_by_step_page_path, class: "btn btn-primary" %>
+</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Actions</th>
+      <th>Slug</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @step_by_step_pages.each do |step_by_step_page| %>
+      <tr>
+        <th>
+          <%= step_by_step_page.title %>
+        </th>
+        <td>
+          <ul class="list-inline">
+            <li><%= link_to 'Edit content', step_by_step_page %></li>
+            <li><%= link_to 'Delete', step_by_step_page, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+          </ul>
+        </td>
+        <td>
+          <%= step_by_step_page.base_path %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
