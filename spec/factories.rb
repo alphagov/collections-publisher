@@ -4,7 +4,7 @@ FactoryGirl.define do
     base_path "how-to-be-the-amazing-1"
     introduction "Find out the steps to become amazing"
     description "How to be amazing - find out the steps to become amazing"
-    
+
     factory :step_by_step_page_with_steps do
       after(:create) do |step_by_step_page|
         create(:step, step_by_step_page: step_by_step_page)

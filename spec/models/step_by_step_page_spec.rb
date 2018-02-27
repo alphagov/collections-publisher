@@ -35,7 +35,7 @@ RSpec.describe StepByStepPage do
       step_by_step_page.description = ''
 
       expect(step_by_step_page).not_to be_valid
-      expect(step_by_step_page.errors).to have_key(:description)      
+      expect(step_by_step_page.errors).to have_key(:description)
     end
 
     it 'must have a valid base path' do
