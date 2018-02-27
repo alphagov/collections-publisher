@@ -24,6 +24,20 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_page.errors).to have_key(:base_path)
     end
 
+    it 'requires an introduction' do
+      step_by_step_page.introduction = ''
+
+      expect(step_by_step_page).not_to be_valid
+      expect(step_by_step_page.errors).to have_key(:introduction)
+    end
+
+    it 'requires a meta description' do
+      step_by_step_page.description = ''
+
+      expect(step_by_step_page).not_to be_valid
+      expect(step_by_step_page.errors).to have_key(:description)      
+    end
+
     it 'must have a valid base path' do
       [
         "not/a/valid/path",
