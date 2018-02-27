@@ -66,4 +66,16 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_with_step.steps.length).to eql(0)
     end
   end
+
+  describe 'when it has many steps' do
+    let(:step_by_step_with_step) { create(:step_by_step_page) }
+
+    it 'should list steps in ascending order' do
+      step1 = create(:step, step_by_step_page: step_by_step_with_step)
+      step2 = create(:step, step_by_step_page: step_by_step_with_step)
+      step3 = create(:step, step_by_step_page: step_by_step_with_step)
+
+      expect(step_by_step_with_step.reload.steps).to eq([step1, step2, step3])
+    end
+  end
 end
