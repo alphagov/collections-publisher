@@ -15,7 +15,7 @@ RSpec.describe StepContentParser do
       ])
     end
 
-    it "Generates multiple paragraphs if they are separated by blank lines" do
+    it "generates multiple paragraphs if they are separated by blank lines" do
       step_text = <<~HEREDOC
         These are all the right notes
 
@@ -48,12 +48,37 @@ RSpec.describe StepContentParser do
           "style": "choice",
           "contents": [
             {
-              "href": "/apply-provisional-licence",
-              "text": "Apply for a provisional driving licence"
+              "text": "Apply for a provisional driving licence",
+              "href": "/apply-provisional-licence"
             },
             {
-              "href": "/vehicles-can-drive",
-              "text": "Check that you can drive"
+              "text": "Check that you can drive",
+              "href": "/vehicles-can-drive"
+            }
+          ]
+        }
+      ])
+    end
+
+    it "is parsed to a 'choice' list of links with optional context" do
+      step_text = <<~HEREDOC
+        * [A speed boat](/speed-boat)
+        * [Spending money](/spending-money)£5000 or so
+      HEREDOC
+
+      expect(subject.parse(step_text)).to eq([
+        {
+          "type": "list",
+          "style": "choice",
+          "contents": [
+            {
+              "text": "A speed boat",
+              "href": "/speed-boat"
+            },
+            {
+              "text": "Spending money",
+              "href": "/spending-money",
+              "context": "£5000 or so"
             }
           ]
         }
@@ -73,14 +98,105 @@ RSpec.describe StepContentParser do
           "type": "list",
           "contents": [
             {
-              "href": "/open-the-box",
-              "text": "Open the box"
+              "text": "Open the box",
+              "href": "/open-the-box"
             },
             {
-              "href": "/keep-the-money",
-              "text": "Keep the money"
+              "text": "Keep the money",
+              "href": "/keep-the-money"
             }
           ]
+        }
+      ])
+    end
+
+    it "is parsed to a standard list of links with optional context" do
+      step_text = <<~HEREDOC
+        - [A cuddly toy](/cuddly-toy)
+        - [Brucie bonus](/brucie-bonus)Mystery prize
+      HEREDOC
+
+      expect(subject.parse(step_text)).to eq([
+        {
+          "type": "list",
+          "contents": [
+            {
+              "text": "A cuddly toy",
+              "href": "/cuddly-toy"
+            },
+            {
+              "text": "Brucie bonus",
+              "href": "/brucie-bonus",
+              "context": "Mystery prize"
+            }
+          ]
+        }
+      ])
+    end
+  end
+
+  context "mixed content" do
+    it "is parsed as expected" do
+      step_text = <<~HEREDOC
+        There are several prizes on offer on today's Generation Game conveyor belt including:
+
+        - [A cuddly toy](/cuddly-toy)
+        - [Brucie bonus](/brucie-bonus)Mystery prize
+
+        If you get the mystery prize, this may be one of several things:
+
+        * [A speed boat](/speed-boat)
+        * [Spending money](/spending-money)£5000 or so
+        * [A dishwasher](http://dishwashers.org/bargain-basement)
+
+        You have to remember them all!
+      HEREDOC
+
+      expect(subject.parse(step_text)).to eq([
+        {
+          "type": "paragraph",
+          "text": "There are several prizes on offer on today's Generation Game conveyor belt including:"
+        },
+        {
+          "type": "list",
+          "contents": [
+            {
+              "text": "A cuddly toy",
+              "href": "/cuddly-toy"
+            },
+            {
+              "text": "Brucie bonus",
+              "href": "/brucie-bonus",
+              "context": "Mystery prize"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "If you get the mystery prize, this may be one of several things:"
+        },
+        {
+          "type": "list",
+          "style": "choice",
+          "contents": [
+            {
+              "text": "A speed boat",
+              "href": "/speed-boat"
+            },
+            {
+              "text": "Spending money",
+              "href": "/spending-money",
+              "context": "£5000 or so"
+            },
+            {
+              "text": "A dishwasher",
+              "href": "http://dishwashers.org/bargain-basement"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "You have to remember them all!"
         }
       ])
     end
