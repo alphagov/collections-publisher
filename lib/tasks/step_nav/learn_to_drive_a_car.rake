@@ -60,7 +60,7 @@ namespace :step_nav do
                     {
                       href: "/apply-first-provisional-driving-licence",
                       text: "Apply for your first provisional driving licence",
-                      context: "£34"
+                      context: "£34 - £43"
                     }
                   ]
                 }
