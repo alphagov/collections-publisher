@@ -1,0 +1,63 @@
+<%
+  links = [
+    {
+      text: 'Step by step publisher',
+      href: step_by_step_pages_path
+    },
+    {
+      text: 'Edit content',
+      href: step_by_step_page_path(@step_by_step_page)
+    },
+    {
+      text: 'Reorder steps'
+    }
+  ]
+%>
+
+<%= render 'shared/steps/step_breadcrumb', links: links %>
+
+<%= render 'shared/steps/form_notice', message: notice, status: "success" %>
+
+<h1><%= @step_by_step_page.title %> - reorder</h1>
+
+<div class="row">
+  <div class="col-md-7">
+    <p>Use the up/down controls on the right to reorder steps. Step numbers will be automatically updated on save.</p>
+
+    <%
+      step_number = 1
+      steps_length = @step_by_step_page.steps.length - 1
+    %>
+    <% @step_by_step_page.steps.each_with_index do |step, step_index| %>
+      <div class="panel panel-default js-reorder" data-id="<%= step.id %>">
+        <div class="panel-body">
+          <div class="row" id="step-<%= step_index %>">
+            <div class="col-md-8">
+              <strong class="h4">
+                <% if step.logic == 'number' %>
+                  <%= step_number %>
+                  <% step_number += 1 %>
+                <% else %>
+                  <%= step.logic %>
+                <% end %>
+                -
+                <%= step.title %>
+              </strong>
+            </div>
+            <div class="col-md-4 text-right js-order-controls"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <form>
+      <input type="hidden" id="step_order_save" value=""/>
+      <div class="form-group">
+        <button class="btn btn-primary">Save</button>
+      </div>
+      <div class="form-group">
+        <%= link_to 'Cancel', @step_by_step_page %>
+      </div>
+    </form>
+  </div>
+</div>

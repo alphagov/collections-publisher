@@ -12,6 +12,14 @@ class StepByStepPagesController < ApplicationController
 
   def show; end
 
+  def preview
+    @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
+  end
+
+  def reorder
+    @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
+  end
+
   def edit; end
 
   def create
