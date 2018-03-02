@@ -1,0 +1,15 @@
+<% if links.length %>
+  <ol class="breadcrumb">
+    <% links.each do |link| %>
+      <% if link[:href] %>
+        <li>
+          <%= link_to link[:text], link[:href] %>
+        </li>
+      <% else %>
+        <li class="active">
+          <%= link[:text] %>
+        </li>
+      <% end %>
+    <% end %>
+  </ol>
+<% end %>

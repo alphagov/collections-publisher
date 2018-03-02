@@ -1,0 +1,13 @@
+<%
+  message ||= false
+  status = "alert-#{status}" if ['success', 'info', 'warning', 'danger'].include? status
+%>
+<% if message %>
+  <div class="row">
+    <div class="col-md-7">
+      <div class="alert <%= status %>" role="alert">
+        <%= message %>
+      </div>
+    </div>
+  </div>
+<% end %>
