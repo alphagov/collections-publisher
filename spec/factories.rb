@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :step_by_step_page do
     title "How to be amazing"
     base_path "how-to-be-the-amazing-1"
