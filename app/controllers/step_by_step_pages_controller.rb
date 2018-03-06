@@ -33,8 +33,9 @@ class StepByStepPagesController < ApplicationController
     end
   end
 
-  # DELETE /step_by_step_pages/1
   def destroy
+    Services.publishing_api.discard_draft(@step_by_step_page.content_id)
+
     if @step_by_step_page.destroy
       redirect_to step_by_step_pages_path, notice: 'Step by step page was successfully deleted.'
     else
