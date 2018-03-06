@@ -170,6 +170,52 @@ RSpec.describe StepContentParser do
   end
 
   context "mixed content" do
+    it "handles different line endings" do
+      step_text = "Paragraphs are separated by empty lines.\r\n\r\nThis is a list of bulleted links...\r\n\r\n* [Link text](/link/href/value)\r\n* [Link text](/link/href/value)\r\n\r\nThis is a list of non-bulleted links...\r\n\r\n- [Link text](/link/href/value)\r\n- [Link text](/link/href/value)"
+
+      expect(subject.parse(step_text)).to eq([
+        {
+          "type": "paragraph",
+          "text": "Paragraphs are separated by empty lines."
+        },
+        {
+          "type": "paragraph",
+          "text": "This is a list of bulleted links..."
+        },
+        {
+          "type": "list",
+          "style": "choice",
+          "contents": [
+            {
+              "text": "Link text",
+              "href": "/link/href/value"
+            },
+            {
+              "text": "Link text",
+              "href": "/link/href/value"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "This is a list of non-bulleted links..."
+        },
+        {
+          "type": "list",
+          "contents": [
+            {
+              "text": "Link text",
+              "href": "/link/href/value"
+            },
+            {
+              "text": "Link text",
+              "href": "/link/href/value"
+            }
+          ]
+        },
+      ])
+    end
+
     it "is parsed as expected" do
       step_text = <<~HEREDOC
         There are several prizes on offer on today's Generation Game conveyor belt including:
