@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :step_by_step_pages, path: 'step-by-step-pages' do
     get :preview, to: 'step_by_step_pages#preview'
     get :reorder, to: 'step_by_step_pages#reorder'
+    get :rules, to: 'step_by_step_pages#rules'
 
     resources :steps
   end
