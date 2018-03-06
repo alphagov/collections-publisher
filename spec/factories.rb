@@ -4,6 +4,7 @@ FactoryBot.define do
     base_path "how-to-be-the-amazing-1"
     introduction "Find out the steps to become amazing"
     description "How to be amazing - find out the steps to become amazing"
+    content_id SecureRandom.uuid
 
     factory :step_by_step_page_with_steps do
       after(:create) do |step_by_step_page|
