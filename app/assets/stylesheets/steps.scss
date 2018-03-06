@@ -16,3 +16,7 @@ pre.markdown-example {
 .js-reorder:last-of-type .js-down {
   visibility: hidden;
 }
+
+pre.markdown-example {
+  white-space: pre-wrap;
+}
