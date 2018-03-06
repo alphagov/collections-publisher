@@ -76,7 +76,7 @@ RSpec.describe StepByStepPage do
   end
 
   describe 'steps association' do
-    let(:step_by_step_with_step) { create(:step_by._step_page_with_steps) }
+    let(:step_by_step_with_step) { create(:step_by_step_page_with_steps) }
 
     it 'is created with a step' do
       expect(step_by_step_with_step.steps.length).to eql(1)
