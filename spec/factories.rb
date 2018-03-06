@@ -1,7 +1,8 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :step_by_step_page do
     title "How to be amazing"
-    base_path "how-to-be-the-amazing-1"
+    slug "how-to-be-the-amazing-1"
+    content_id SecureRandom.uuid
     introduction "Find out the steps to become amazing"
     description "How to be amazing - find out the steps to become amazing"
 
@@ -15,6 +16,15 @@ FactoryGirl.define do
   factory :step do
     title "Check how awesome you are"
     logic "number"
+    contents <<~CONTENT
+      This is a great step
+
+      - Good stuff
+      - Also good stuff
+
+      * Not as great
+      * But good nonetheless
+    CONTENT
     step_by_step_page
   end
 

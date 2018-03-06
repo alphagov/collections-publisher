@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe List do
   describe "validations" do
-    let(:list) { FactoryGirl.build(:list) }
+    let(:list) { FactoryBot.build(:list) }
 
     it "requires a tag" do
       list.tag = nil

@@ -61,7 +61,7 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_see_a_validation_error
     expect(page).to have_content("Title can't be blank")
-    expect(page).to have_content("Base path can't be blank")
+    expect(page).to have_content("Slug can't be blank")
     expect(page).to have_content("Introduction can't be blank")
     expect(page).to have_content("Meta description can't be blank")
   end

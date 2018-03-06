@@ -1,1 +1,1 @@
-RSpec.configuration.include FactoryGirl::Syntax::Methods
+RSpec.configuration.include FactoryBot::Syntax::Methods

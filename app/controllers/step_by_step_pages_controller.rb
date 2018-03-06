@@ -48,6 +48,6 @@ private
   end
 
   def step_by_step_page_params
-    params.require(:step_by_step_page).permit(:title, :base_path, :introduction, :description)
+    params.require(:step_by_step_page).permit(:title, :slug, :introduction, :description)
   end
 end

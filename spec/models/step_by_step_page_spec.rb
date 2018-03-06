@@ -17,11 +17,11 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_page.errors).to have_key(:title)
     end
 
-    it 'requires a base path' do
-      step_by_step_page.base_path = ''
+    it 'requires a slug' do
+      step_by_step_page.slug = ''
 
       expect(step_by_step_page).not_to be_valid
-      expect(step_by_step_page.errors).to have_key(:base_path)
+      expect(step_by_step_page.errors).to have_key(:slug)
     end
 
     it 'requires an introduction' do
@@ -38,7 +38,7 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_page.errors).to have_key(:description)
     end
 
-    it 'must have a valid base path' do
+    it 'must have a valid slug' do
       [
         "not/a/valid/path",
         "not_a_valid_path",
@@ -46,23 +46,32 @@ RSpec.describe StepByStepPage do
         "Not-a-Valid-Path",
         "-hyphen",
         "hyphen-"
-      ].each do |base_path|
-        step_by_step_page.base_path = base_path
+      ].each do |slug|
+        step_by_step_page.slug = slug
 
         expect(step_by_step_page).not_to be_valid
-        expect(step_by_step_page.errors).to have_key(:base_path)
+        expect(step_by_step_page.errors).to have_key(:slug)
       end
     end
 
-    it 'must be a unique base path' do
-      step_by_step_page.base_path = "new-step-by-step"
+    it 'must be a unique slug' do
+      step_by_step_page.slug = "new-step-by-step"
       step_by_step_page.save
 
       duplicate = build(:step_by_step_page)
-      duplicate.base_path = step_by_step_page.base_path
+      duplicate.slug = step_by_step_page.slug
 
       expect(duplicate.save).to eql false
-      expect(duplicate.errors).to have_key(:base_path)
+      expect(duplicate.errors).to have_key(:slug)
+    end
+
+    it 'must be a unique content_id' do
+      duplicate = create(:step_by_step_page)
+      step_by_step_page.content_id = duplicate.content_id
+
+      expect {
+        step_by_step_page.save(validate: false)
+      }.to raise_error(ActiveRecord::RecordNotUnique)
     end
   end
 
@@ -91,5 +100,14 @@ RSpec.describe StepByStepPage do
 
       expect(step_by_step_with_step.reload.steps).to eq([step1, step2, step3])
     end
+  end
+
+  it 'must be a unique content_id' do
+    duplicate = create(:step_by_step_page)
+    step_by_step_page.content_id = duplicate.content_id
+
+    expect {
+      step_by_step_page.save(validate: false)
+    }.to raise_error(ActiveRecord::RecordNotUnique)
   end
 end
