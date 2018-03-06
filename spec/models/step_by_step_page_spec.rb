@@ -38,7 +38,7 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_page.errors).to have_key(:description)
     end
 
-    it 'must have a valid base path' do
+    it 'must have a valid slug' do
       [
         "not/a/valid/path",
         "not_a_valid_path",

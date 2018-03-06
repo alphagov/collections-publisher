@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180221152119) do
+ActiveRecord::Schema.define(version: 20180302165039) do
 
   create_table "list_items", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "base_path"
@@ -53,11 +53,14 @@ ActiveRecord::Schema.define(version: 20180221152119) do
 
   create_table "step_by_step_pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "title"
-    t.string "base_path"
+    t.string "slug"
     t.text "introduction"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "content_id", null: false
+    t.index ["content_id"], name: "index_step_by_step_pages_on_content_id", unique: true
+    t.index ["slug"], name: "index_step_by_step_pages_on_slug", unique: true
   end
 
   create_table "steps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

@@ -1,9 +1,9 @@
 class StepByStepPage < ApplicationRecord
   has_many :steps, -> { order(position: :asc) }, dependent: :destroy
 
-  validates :title, :base_path, :introduction, :description, presence: true
-  validates :base_path, format: { with: /\A([a-z0-9]+-)*[a-z0-9]+\z/ }
-  validates :base_path, uniqueness: true
+  validates :title, :slug, :introduction, :description, presence: true
+  validates :slug, format: { with: /\A([a-z0-9]+-)*[a-z0-9]+\z/ }
+  validates :slug, uniqueness: true
 
   before_validation :generate_content_id, on: :create
 
