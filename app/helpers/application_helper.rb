@@ -6,4 +6,8 @@ module ApplicationHelper
   def content_tagger_url
     Plek.new.external_url_for('content-tagger')
   end
+
+  def preview_url(slug)
+    "#{Plek.new.external_url_for('draft-origin')}/#{slug}"
+  end
 end
