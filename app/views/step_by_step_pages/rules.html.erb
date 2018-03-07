@@ -5,11 +5,11 @@
       href: step_by_step_pages_path
     },
     {
-      text: 'Edit content',
+      text: @step_by_step_page.title,
       href: @step_by_step_page
     },
     {
-      text: 'Choose on-page side navigation',
+      text: 'Choose navigation',
     }
   ]
 
@@ -19,7 +19,10 @@
 
 <%= render 'shared/steps/form_notice', message: notice, status: "success" %>
 
-<h1>Choose on-page side navigation</h1>
+<h1>
+  <%= @step_by_step_page.title %><br />
+  <small>Choose on-page side navigation</small>
+</h1>
 
 <form>
   <table class="table table-striped">

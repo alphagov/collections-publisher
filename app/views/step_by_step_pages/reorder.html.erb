@@ -5,7 +5,7 @@
       href: step_by_step_pages_path
     },
     {
-      text: 'Edit content',
+      text: @step_by_step_page.title,
       href: step_by_step_page_path(@step_by_step_page)
     },
     {
@@ -18,7 +18,10 @@
 
 <%= render 'shared/steps/form_notice', message: notice, status: "success" %>
 
-<h1><%= @step_by_step_page.title %> - reorder</h1>
+<h1>
+  <%= @step_by_step_page.title %><br />
+  <small>Reorder steps</small>
+</h1>
 
 <div class="row">
   <div class="col-md-7">
