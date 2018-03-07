@@ -6,7 +6,7 @@ class StepByStepPage < ApplicationRecord
   validates :slug, uniqueness: true
 
   include ActiveModel::Validations
-  validates_with SlugValidator
+  validates_with SlugValidator, on: :create
 
   before_validation :generate_content_id, on: :create
 
