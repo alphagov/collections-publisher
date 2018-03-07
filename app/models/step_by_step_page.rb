@@ -5,6 +5,9 @@ class StepByStepPage < ApplicationRecord
   validates :slug, format: { with: /\A([a-z0-9]+-)*[a-z0-9]+\z/ }
   validates :slug, uniqueness: true
 
+  include ActiveModel::Validations
+  validates_with SlugValidator, on: :create
+
   before_validation :generate_content_id, on: :create
 
 private

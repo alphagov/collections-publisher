@@ -4,7 +4,7 @@ class StepContentParser
   LINK_CAPTURE_REGEX = /\[(.+)\]\((.+)\)(.*)$/ # to capture $1 = "Link text", $2 = "url" $3 = "context" from above
 
   def parse(step_text)
-    sections = step_text.split("\n\n").map do |section|
+    sections = step_text.gsub("\r", "").split("\n\n").map do |section|
       section.lines.map(&:chomp)
     end
 

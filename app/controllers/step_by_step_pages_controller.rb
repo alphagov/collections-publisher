@@ -26,14 +26,16 @@ class StepByStepPagesController < ApplicationController
 
   def update
     if @step_by_step_page.update(step_by_step_page_params)
+      StepNavUpdater.call(@step_by_step_page.reload)
       redirect_to step_by_step_page_path, notice: 'Step by step page was successfully updated.'
     else
       render :edit
     end
   end
 
-  # DELETE /step_by_step_pages/1
   def destroy
+    Services.publishing_api.discard_draft(@step_by_step_page.content_id)
+
     if @step_by_step_page.destroy
       redirect_to step_by_step_pages_path, notice: 'Step by step page was successfully deleted.'
     else

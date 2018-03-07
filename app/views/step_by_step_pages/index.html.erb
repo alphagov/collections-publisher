@@ -34,6 +34,9 @@
         <td>
           <ul class="list-inline">
             <li><%= link_to 'Edit content', step_by_step_page %></li>
+            <li>
+              <%= link_to 'Preview', preview_url(step_by_step_page.slug) %>
+            </li>
             <li><%= link_to 'Delete', step_by_step_page, method: :delete, data: { confirm: 'Are you sure?' } %></li>
           </ul>
         </td>
