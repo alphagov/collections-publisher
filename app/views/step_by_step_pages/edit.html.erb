@@ -5,16 +5,20 @@
       href: step_by_step_pages_path
     },
     {
-      text: 'Edit content',
+      text: @step_by_step_page.title,
       href: @step_by_step_page
     },
     {
-      text: 'Edit'
+      text: 'Edit nav'
     }
   ]
 %>
+
 <%= render 'shared/steps/step_breadcrumb', links: links %>
 
-<h1>Editing Step By Step</h1>
+<%= render 'shared/steps/heading',
+  step_nav: @step_by_step_page.title,
+  action: 'Edit step by step navigation'
+%>
 
 <%= render 'form', step_by_step_page: @step_by_step_page %>
