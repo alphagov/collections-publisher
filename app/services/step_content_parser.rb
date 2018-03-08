@@ -1,7 +1,6 @@
 class StepContentParser
-  BULLETED_LIST_REGEX = /^\*\s\[.+\]\(.+\).*$/ # to match * [Link text](url)context
-  LIST_REGEX = /^\-\s\[.+\]\(.+\).*$/          # to match - [Link text](url)context
-  LINK_CAPTURE_REGEX = /\[(.+)\]\((.+)\)(.*)$/ # to capture $1 = "Link text", $2 = "url" $3 = "context" from above
+  BULLETED_LIST_REGEX = /^[\*\-]\s\[.+\]\(.+\).*$/ # to match * [Link text](url)context
+  LIST_REGEX = /^\[.+\]\(.+\).*$/                  # to match [Link text](url)context
 
   def parse(step_text)
     sections = step_text.split("\n\n").map do |section|
@@ -41,19 +40,14 @@ private
 
   def link_content(section)
     section.map do |line|
-      if line =~ LINK_CAPTURE_REGEX
-        if $3.blank?
-          {
-            "text": $1,
-            "href": $2
-          }
-        else
-          {
-            "text": $1,
-            "href": $2,
-            "context": $3
-          }
-        end
+      if /\[(?<text>(.+))\]\((?<href>(.+))\)((?<context>.*))$/ =~ line
+        payload = {
+          "text": text,
+          "href": href
+        }
+
+        payload[:context] = context unless context.blank?
+        payload
       end
     end
   end
