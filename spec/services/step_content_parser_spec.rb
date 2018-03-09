@@ -122,6 +122,24 @@ RSpec.describe StepContentParser do
     end
 
     context 'and using "-" character for bullet points' do
+      it 'parses lists without links' do
+        step_text = <<~HEREDOC
+          - Apply for a provisional driving licence
+        HEREDOC
+
+        expect(subject.parse(step_text)).to eq([
+          {
+            "type": "list",
+            "style": "choice",
+            "contents": [
+              {
+                "text": "Apply for a provisional driving licence"
+              }
+            ]
+          }
+        ])
+      end
+
       it "is parsed to a 'choice' list of links" do
         step_text = <<~HEREDOC
           - [Apply for a provisional driving licence](/apply-provisional-licence)
@@ -232,9 +250,11 @@ RSpec.describe StepContentParser do
 
         If you get the mystery prize, this may be one of several things:
 
-        * [A speed boat](/speed-boat)
+        * A speed boat
+        - [A very expensive speed boat](/i-love-speed-boats)
         * [Spending money](/spending-money)£5000 or so
         - [A dishwasher](http://dishwashers.org/bargain-basement)
+        - And I'm a healthy bullet (although I eat ice cream everyday)
 
         You have to remember them all!
       HEREDOC
@@ -267,8 +287,11 @@ RSpec.describe StepContentParser do
           "style": "choice",
           "contents": [
             {
-              "text": "A speed boat",
-              "href": "/speed-boat"
+              "text": "A speed boat"
+            },
+            {
+              "text": "A very expensive speed boat",
+              "href": "/i-love-speed-boats",
             },
             {
               "text": "Spending money",
@@ -278,6 +301,9 @@ RSpec.describe StepContentParser do
             {
               "text": "A dishwasher",
               "href": "http://dishwashers.org/bargain-basement"
+            },
+            {
+              "text": "And I'm a healthy bullet (although I eat ice cream everyday)"
             }
           ]
         },
