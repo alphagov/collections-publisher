@@ -4,22 +4,7 @@
 %>
 
 <%= form_for(@step_by_step_page) do |form| %>
-  <% if step_by_step_page.errors.any? %>
-    <% error_explanation = capture do %>
-      <h2 class="h4">There are <%= pluralize(step_by_step_page.errors.count, "error") %></h2>
-
-      <ul>
-      <% step_by_step_page.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    <% end %>
-
-    <%= render "shared/steps/form_notice",
-      status: "danger",
-      message: error_explanation
-    %>
-  <% end %>
+  <%= render "shared/steps/form_errors", resource: step_by_step_page %>
 
   <div class="form-group row">
     <div class="<%= left_col %>">

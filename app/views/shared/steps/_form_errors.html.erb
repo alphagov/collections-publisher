@@ -1,0 +1,16 @@
+<% if resource.errors.any? %>
+  <% error_explanation = capture do %>
+    <h2 class="h4">There is a problem</h2>
+
+    <ul>
+      <% resource.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= render "shared/steps/form_notice",
+    status: "danger",
+    message: error_explanation
+  %>
+<% end %>

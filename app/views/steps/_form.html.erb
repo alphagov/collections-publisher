@@ -3,22 +3,7 @@
   right_col = "col-md-5"
 %>
 
-<% if step.errors.any? %>
-  <% error_explanation = capture do %>
-    <h2 class="h4">There are <%= pluralize(step.errors.count, "error") %></h2>
-
-    <ul>
-    <% step.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-    <% end %>
-    </ul>
-  <% end %>
-
-  <%= render "shared/steps/form_notice",
-    status: "danger",
-    message: error_explanation
-  %>
-<% end %>
+<%= render "shared/steps/form_errors", resource: step %>
 
 <div class="form-group">
   <div class="row">
