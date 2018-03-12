@@ -9,6 +9,7 @@ FactoryBot.define do
     factory :step_by_step_page_with_steps do
       after(:create) do |step_by_step_page|
         create(:step, step_by_step_page: step_by_step_page)
+        create(:or_step, step_by_step_page: step_by_step_page)
       end
     end
   end
@@ -19,13 +20,19 @@ FactoryBot.define do
     contents <<~CONTENT
       This is a great step
 
-      - Good stuff
-      - Also good stuff
+      - [Good stuff](/good/stuff)
+      - [Also good stuff](/also/good/stuff)
 
-      * Not as great
-      * But good nonetheless
+      * [Not as great](/not/as/great)£25
+      * [But good nonetheless](http://example.com/good)
     CONTENT
     step_by_step_page
+
+    factory :or_step do
+      title "Dress like the Fonz"
+      optional "true"
+      logic "or"
+    end
   end
 
   factory :redirect_item do

@@ -79,7 +79,7 @@ RSpec.describe StepByStepPage do
     let(:step_by_step_with_step) { create(:step_by_step_page_with_steps) }
 
     it 'is created with a step' do
-      expect(step_by_step_with_step.steps.length).to eql(1)
+      expect(step_by_step_with_step.steps.length).to eql(2)
     end
 
     it 'deletes steps when the StepByStepPage is deleted' do

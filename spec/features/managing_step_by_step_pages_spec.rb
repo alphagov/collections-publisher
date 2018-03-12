@@ -3,13 +3,15 @@ require "rails_helper"
 RSpec.feature "Managing step by step pages" do
   include CommonFeatureSteps
   include NavigationSteps
+  include StepNavSteps
 
   before do
     given_I_am_a_GDS_editor
+    setup_publishing_api
   end
 
   scenario "User visits the index page" do
-    given_there_is_published_step_by_step_page
+    given_there_is_a_step_by_step_page
     when_I_visit_the_step_by_step_pages_index
     then_I_see_the_step_by_step_page
   end
@@ -27,12 +29,42 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_a_validation_error
   end
 
-  def given_there_is_published_step_by_step_page
+  scenario "User edits step by step information when there is a step" do
+    given_there_is_a_step_by_step_page_with_steps
+    when_I_edit_the_step_by_step_page
+    and_I_fill_in_the_form
+    then_the_content_is_sent_to_publishing_api
+    then_I_see_the_new_step_by_step_page
+  end
+
+  scenario "User deletes a step by step page", js: true do
+    given_there_is_a_step_by_step_page_with_steps
+    and_I_visit_the_index_page
+    and_I_delete_the_step_by_step_page
+    then_the_draft_is_discarded
+    and_the_page_is_deleted
+  end
+
+  def given_there_is_a_step_by_step_page
     @step_by_step_page = create(:step_by_step_page)
+  end
+
+  def given_there_is_a_step_by_step_page_with_steps
+    @step_by_step_page = create(:step_by_step_page_with_steps)
   end
 
   def and_I_visit_the_index_page
     when_I_visit_the_step_by_step_pages_index
+  end
+
+  def and_I_delete_the_step_by_step_page
+    accept_confirm do
+      click_on "Delete"
+    end
+  end
+
+  def when_I_edit_the_step_by_step_page
+    visit edit_step_by_step_page_path(@step_by_step_page)
   end
 
   def then_I_see_the_step_by_step_page
@@ -49,6 +81,10 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_see_the_new_step_by_step_page
     expect(page).to have_content("How to bake a cake")
+  end
+
+  def and_the_page_is_deleted
+    expect(page).to_not have_content("How to bake a cake")
   end
 
   def and_I_fill_in_the_form_with_invalid_data
