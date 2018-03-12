@@ -8,6 +8,7 @@ class StepNavPresenter
   end
 
 private
+
   attr_reader :step_nav
 
   def required_fields

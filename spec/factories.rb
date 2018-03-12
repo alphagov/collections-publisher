@@ -29,6 +29,7 @@ FactoryBot.define do
     step_by_step_page
 
     factory :or_step do
+      title "Dress like the Fonz"
       optional "true"
       logic "or"
     end

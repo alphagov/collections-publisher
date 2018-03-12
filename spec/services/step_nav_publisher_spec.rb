@@ -14,5 +14,4 @@ RSpec.describe StepNavPublisher do
       expect(Services.publishing_api).to have_received(:put_content)
     end
   end
-
 end

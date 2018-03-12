@@ -26,7 +26,7 @@ class StepByStepPagesController < ApplicationController
 
   def update
     if @step_by_step_page.update(step_by_step_page_params)
-      StepNavPublisher.update(@step_by_step_page) if @step_by_step_page.steps.any?
+      StepNavPublisher.update(@step_by_step_page)
 
       redirect_to step_by_step_page_path, notice: 'Step by step page was successfully updated.'
     else
