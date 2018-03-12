@@ -1,0 +1,7 @@
+<% page_title = '' %>
+
+<% links.each do |link| %>
+  <% page_title = "#{link[:text]} | #{page_title}" %>
+<% end %>
+
+<% content_for :page_title, page_title %>

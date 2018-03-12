@@ -5,7 +5,7 @@
       href: step_by_step_pages_path
     },
     {
-      text: 'Edit content',
+      text: @step_by_step_page.title,
       href: @step_by_step_page
     },
     {
@@ -13,11 +13,15 @@
     }
   ]
 %>
+
 <%= render 'shared/steps/step_breadcrumb', links: links %>
 
-<h1><%= @step_by_step_page.title %></h1>
+<%= render 'shared/steps/page_title', links: links %>
 
-<h2>Edit: <%= @step.title %></h2>
+<%= render 'shared/steps/heading',
+  step_nav: @step_by_step_page.title,
+  action: 'Edit step'
+%>
 
 <%= form_for @step, url: step_by_step_page_step_path(@step.step_by_step_page_id, @step) do |form| %>
   <%= render "form", step: @step, form: form %>

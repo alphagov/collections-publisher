@@ -5,13 +5,15 @@
       href: step_by_step_pages_path
     },
     {
-      text: 'Create'
+      text: 'Create new'
     }
   ]
 %>
 
 <%= render 'shared/steps/step_breadcrumb', links: links %>
 
-<h1>Create step by step navigation</h1>
+<%= render 'shared/steps/page_title', links: links %>
+
+<h1>Create a new step by step navigation</h1>
 
 <%= render 'form', step_by_step_page: @step_by_step_page %>

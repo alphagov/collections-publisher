@@ -3,22 +3,7 @@
   right_col = "col-md-5"
 %>
 
-<% if step.errors.any? %>
-  <% error_explanation = capture do %>
-    <h2 class="h4">There are <%= pluralize(step.errors.count, "error") %></h2>
-
-    <ul>
-    <% step.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-    <% end %>
-    </ul>
-  <% end %>
-
-  <%= render "shared/steps/form_notice",
-    status: "danger",
-    message: error_explanation
-  %>
-<% end %>
+<%= render "shared/steps/form_errors", resource: step %>
 
 <div class="form-group">
   <div class="row">
@@ -33,7 +18,7 @@
 
   <div class="radio">
     <label>
-      <%= form.radio_button :logic, "number", default_builder: true %>
+      <%= form.radio_button :logic, "number", default_builder: true, checked: true %>
       number
     </label>
   </div>
@@ -58,7 +43,7 @@
 
   <div class="radio">
     <label>
-      <%= form.radio_button :optional, "false", default_builder: true %>
+      <%= form.radio_button :optional, "false", default_builder: true, checked: true %>
       essential
     </label>
   </div>
@@ -78,35 +63,49 @@
     </div>
 
     <div class="<%= right_col %>">
-      <p><%= link_to "Guidance", "https://gov-uk.atlassian.net/wiki/spaces/MS/pages/268140618/Content+design+principles+for+step+by+step+navigation+Q4" %></p>
       <%= render 'shared/steps/markdown_help' %>
     </div>
   </div>
 </div>
 
-<h3>"Get help completing this step" section</h3>
+<% unless has_help_section?(step) %>
+  <p class="checkbox">
+    <label>
+      <input type="checkbox" data-toggle="collapse" data-target="#help-section" aria-expanded="false" aria-controls="help-section" />
+      Include help section
+    </label>
+  </p>
+<% end %>
 
-<div class="form-group">
-  <div class="row">
-    <div class="<%= left_col %>">
-      <%= form.label :optional_heading, "Section heading", default_builder: true %>
-      <%= form.text_field :optional_heading, default_builder: true  %>
+<div class="<%= 'collapse' unless has_help_section?(step) %>" id="help-section">
+  <div class="<%= 'well' unless has_help_section?(step) %>">
+
+    <h3>"Get help completing this step" section</h3>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="<%= left_col %>">
+          <%= form.label :optional_heading, "Section heading", default_builder: true %>
+          <%= form.text_field :optional_heading, default_builder: true  %>
+        </div>
+      </div>
     </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="<%= left_col %>">
+          <%= form.text_area :optional_contents, class: "form-control", label: "Tasks", rows: 8 %>
+        </div>
+
+        <div class="<%= right_col %>">
+          <%= render 'shared/steps/markdown_help' %>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<div class="form-group">
-  <div class="row">
-    <div class="<%= left_col %>">
-      <%= form.text_area :optional_contents, class: "form-control", label: "Tasks", rows: 8 %>
-    </div>
-
-    <div class="<%= right_col %>">
-      <p><%= link_to "Guidance", "https://gov-uk.atlassian.net/wiki/spaces/MS/pages/268140618/Content+design+principles+for+step+by+step+navigation+Q4" %></p>
-      <%= render 'shared/steps/markdown_help' %>
-    </div>
-  </div>
-</div>
 
 <div class="form-group">
   <%= form.submit "Save step", class: "btn btn-primary" %>

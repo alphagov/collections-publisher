@@ -4,22 +4,7 @@
 %>
 
 <%= form_for(@step_by_step_page) do |form| %>
-  <% if step_by_step_page.errors.any? %>
-    <% error_explanation = capture do %>
-      <h2 class="h4">There are <%= pluralize(step_by_step_page.errors.count, "error") %></h2>
-
-      <ul>
-      <% step_by_step_page.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    <% end %>
-
-    <%= render "shared/steps/form_notice",
-      status: "danger",
-      message: error_explanation
-    %>
-  <% end %>
+  <%= render "shared/steps/form_errors", resource: step_by_step_page %>
 
   <div class="form-group row">
     <div class="<%= left_col %>">
@@ -29,7 +14,7 @@
 
   <div class="form-group row">
     <div class="<%= left_col %>">
-      <%= form.text_field :slug, label: "Slug" %>
+      <%= form.text_field :slug, label: "Slug (no slashes)" %>
     </div>
   </div>
 
@@ -42,9 +27,6 @@
   <div class="form-group row">
     <div class="<%= left_col %>">
       <%= form.text_area :description, label: "Meta description", class: "form-control", rows: 8 %>
-    </div>
-    <div class="<%= right_col %>">
-      <p><%= link_to 'Guidance on summaries', 'https://www.gov.uk/guidance/content-design/writing-for-gov-uk#summaries' %></p>
     </div>
   </div>
 
