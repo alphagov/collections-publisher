@@ -70,61 +70,132 @@ RSpec.describe StepContentParser do
   end
 
   context "list of bulleted links" do
-    it "is parsed to a 'choice' list of links" do
-      step_text = <<~HEREDOC
-        * [Apply for a provisional driving licence](/apply-provisional-licence)
-        * [Check that you can drive](/vehicles-can-drive)
-      HEREDOC
+    context 'and using "*" character for bullet points' do
+      it "is parsed to a 'choice' list of links" do
+        step_text = <<~HEREDOC
+          * [Apply for a provisional driving licence](/apply-provisional-licence)
+          * [Check that you can drive](/vehicles-can-drive)
+        HEREDOC
 
-      expect(subject.parse(step_text)).to eq([
-        {
-          "type": "list",
-          "style": "choice",
-          "contents": [
-            {
-              "text": "Apply for a provisional driving licence",
-              "href": "/apply-provisional-licence"
-            },
-            {
-              "text": "Check that you can drive",
-              "href": "/vehicles-can-drive"
-            }
-          ]
-        }
-      ])
+        expect(subject.parse(step_text)).to eq([
+          {
+            "type": "list",
+            "style": "choice",
+            "contents": [
+              {
+                "text": "Apply for a provisional driving licence",
+                "href": "/apply-provisional-licence"
+              },
+              {
+                "text": "Check that you can drive",
+                "href": "/vehicles-can-drive"
+              }
+            ]
+          }
+        ])
+      end
+
+      it "is parsed to a 'choice' list of links with optional context" do
+        step_text = <<~HEREDOC
+          * [A speed boat](/speed-boat)
+          * [Spending money](/spending-money)£5000 or so
+        HEREDOC
+
+        expect(subject.parse(step_text)).to eq([
+          {
+            "type": "list",
+            "style": "choice",
+            "contents": [
+              {
+                "text": "A speed boat",
+                "href": "/speed-boat"
+              },
+              {
+                "text": "Spending money",
+                "href": "/spending-money",
+                "context": "£5000 or so"
+              }
+            ]
+          }
+        ])
+      end
     end
 
-    it "is parsed to a 'choice' list of links with optional context" do
-      step_text = <<~HEREDOC
-        * [A speed boat](/speed-boat)
-        * [Spending money](/spending-money)£5000 or so
-      HEREDOC
+    context 'and using "-" character for bullet points' do
+      it 'parses lists without links' do
+        step_text = <<~HEREDOC
+          - Apply for a provisional driving licence
+        HEREDOC
 
-      expect(subject.parse(step_text)).to eq([
-        {
-          "type": "list",
-          "style": "choice",
-          "contents": [
-            {
-              "text": "A speed boat",
-              "href": "/speed-boat"
-            },
-            {
-              "text": "Spending money",
-              "href": "/spending-money",
-              "context": "£5000 or so"
-            }
-          ]
-        }
-      ])
+        expect(subject.parse(step_text)).to eq([
+          {
+            "type": "list",
+            "style": "choice",
+            "contents": [
+              {
+                "text": "Apply for a provisional driving licence"
+              }
+            ]
+          }
+        ])
+      end
+
+      it "is parsed to a 'choice' list of links" do
+        step_text = <<~HEREDOC
+          - [Apply for a provisional driving licence](/apply-provisional-licence)
+          - [Check that you can drive](/vehicles-can-drive)
+        HEREDOC
+
+        expect(subject.parse(step_text)).to eq([
+          {
+            "type": "list",
+            "style": "choice",
+            "contents": [
+              {
+                "text": "Apply for a provisional driving licence",
+                "href": "/apply-provisional-licence"
+              },
+              {
+                "text": "Check that you can drive",
+                "href": "/vehicles-can-drive"
+              }
+            ]
+          }
+        ])
+      end
+
+      it "is parsed to a 'choice' list of links with optional context" do
+        step_text = <<~HEREDOC
+          - [A speed boat](/speed-boat)
+          - [Spending money](/spending-money)£5000 or so
+        HEREDOC
+
+        expect(subject.parse(step_text)).to eq([
+          {
+            "type": "list",
+            "style": "choice",
+            "contents": [
+              {
+                "text": "A speed boat",
+                "href": "/speed-boat"
+              },
+              {
+                "text": "Spending money",
+                "href": "/spending-money",
+                "context": "£5000 or so"
+              }
+            ]
+          }
+        ])
+      end
     end
   end
 
   context "list of non-bulleted links" do
     it "is parsed to a standard list of links" do
       step_text = <<~HEREDOC
-        - [Open the box](/open-the-box)
-        - [Keep the money](/keep-the-money)
+        [Open the box](/open-the-box)
+        [Keep the money](/keep-the-money)
       HEREDOC
 
       expect(subject.parse(step_text)).to eq([
@@ -146,8 +217,8 @@ RSpec.describe StepContentParser do
 
     it "is parsed to a standard list of links with optional context" do
       step_text = <<~HEREDOC
-        - [A cuddly toy](/cuddly-toy)
-        - [Brucie bonus](/brucie-bonus)Mystery prize
+        [A cuddly toy](/cuddly-toy)
+        [Brucie bonus](/brucie-bonus)Mystery prize
       HEREDOC
 
       expect(subject.parse(step_text)).to eq([
@@ -174,14 +245,16 @@ RSpec.describe StepContentParser do
       step_text = <<~HEREDOC
         There are several prizes on offer on today's Generation Game conveyor belt including:
 
-        - [A cuddly toy](/cuddly-toy)
-        - [Brucie bonus](/brucie-bonus)Mystery prize
+        [A cuddly toy](/cuddly-toy)
+        [Brucie bonus](/brucie-bonus)Mystery prize
 
         If you get the mystery prize, this may be one of several things:
 
-        * [A speed boat](/speed-boat)
+        * A speed boat
+        - [A very expensive speed boat](/i-love-speed-boats)
         * [Spending money](/spending-money)£5000 or so
-        * [A dishwasher](http://dishwashers.org/bargain-basement)
+        - [A dishwasher](http://dishwashers.org/bargain-basement)
+        - And I'm a healthy bullet (although I eat ice cream everyday)
 
         You have to remember them all!
       HEREDOC
@@ -214,8 +287,11 @@ RSpec.describe StepContentParser do
           "style": "choice",
           "contents": [
             {
-              "text": "A speed boat",
-              "href": "/speed-boat"
+              "text": "A speed boat"
+            },
+            {
+              "text": "A very expensive speed boat",
+              "href": "/i-love-speed-boats",
             },
             {
               "text": "Spending money",
@@ -225,6 +301,9 @@ RSpec.describe StepContentParser do
             {
               "text": "A dishwasher",
               "href": "http://dishwashers.org/bargain-basement"
+            },
+            {
+              "text": "And I'm a healthy bullet (although I eat ice cream everyday)"
             }
           ]
         },
