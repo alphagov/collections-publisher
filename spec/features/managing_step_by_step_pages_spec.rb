@@ -29,6 +29,14 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_a_validation_error
   end
 
+  scenario "The slug has already been taken" do
+    given_there_is_a_step_by_step_page_with_steps
+    when_I_visit_the_new_step_by_step_form
+    and_the_slug_has_been_taken
+    and_I_fill_in_the_form_with_a_taken_slug
+    then_I_see_a_slug_already_taken_error
+  end
+
   scenario "User edits step by step information when there is a step" do
     given_there_is_a_step_by_step_page_with_steps
     when_I_edit_the_step_by_step_page
@@ -76,6 +84,16 @@ RSpec.feature "Managing step by step pages" do
     fill_in "Slug", with: "how-to-bake-a-cake"
     fill_in "Introduction", with: "Learn how you can bake a cake"
     fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
+
+    click_on "Save and continue"
+  end
+
+  def and_I_fill_in_the_form_with_a_taken_slug
+    fill_in "Title", with: "How to bake a cake"
+    fill_in "Slug", with: @step_by_step_page.slug
+    fill_in "Introduction", with: "Learn how you can bake a cake"
+    fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
+
     click_on "Save and continue"
   end
 
@@ -100,5 +118,19 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_content("Slug can't be blank")
     expect(page).to have_content("Introduction can't be blank")
     expect(page).to have_content("Meta description can't be blank")
+  end
+
+  def and_the_slug_has_been_taken
+    expect(
+      Services.publishing_api
+    ).to(
+      receive(:lookup_content_id)
+      .with(base_path: "/#{@step_by_step_page.slug}", with_drafts: true)
+      .and_return("A-TAKEN-CONTENT-ID")
+    )
+  end
+
+  def then_I_see_a_slug_already_taken_error
+    expect(page).to have_content("Slug has already been taken")
   end
 end

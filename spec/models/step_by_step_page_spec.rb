@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe StepByStepPage do
+  before do
+    allow(Services.publishing_api).to receive(:lookup_content_id)
+  end
+
   let(:step_by_step_page) { build(:step_by_step_page) }
 
   describe 'validations' do
