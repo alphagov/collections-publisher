@@ -35,6 +35,11 @@ class StepContentParser
     end
   end
 
+  def base_paths(step_text)
+    step_text.scan(/\[.+\]\((.+)\)/).
+      reject { |href| href[0] =~ /https?:\/\//i if href.any? }.flatten
+  end
+
 private
 
   def standard_list?(section)

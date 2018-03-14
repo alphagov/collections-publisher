@@ -11,8 +11,18 @@ RSpec.describe StepNavPublisher do
 
   context ".update" do
     it "sends the rendered step nav to the publishing api" do
+      allow(StepNavPublisher).to receive(:lookup_content_ids).and_return('/foo' => 'a-content-id')
       StepNavPublisher.update(step_nav)
       expect(Services.publishing_api).to have_received(:put_content)
+    end
+  end
+
+  context ".lookup_content_ids" do
+    it "calls the publishing_api end point" do
+      allow(Services.publishing_api).to receive(:lookup_content_ids)
+      StepNavPublisher.lookup_content_ids(["/foo", "/bar"])
+
+      expect(Services.publishing_api).to have_received(:lookup_content_ids)
     end
   end
 end
