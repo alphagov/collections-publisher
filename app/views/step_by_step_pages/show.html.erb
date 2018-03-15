@@ -21,6 +21,7 @@
 
 <ul class="list-inline step-actions">
   <li><%= link_to 'Add a new step', new_step_by_step_page_step_path(@step_by_step_page), class: "btn btn-primary" %></li>
+  <li><%= link_to 'Preview', preview_url(@step_by_step_page.slug), class: "btn btn-primary" %></li>
   <li><%= link_to 'Edit title, intro or slug', edit_step_by_step_page_path(@step_by_step_page), class: "btn btn-default" %></li>
 </ul>
 
