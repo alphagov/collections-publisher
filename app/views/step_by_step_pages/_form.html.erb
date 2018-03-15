@@ -14,7 +14,7 @@
 
   <div class="form-group row">
     <div class="<%= left_col %>">
-      <%= form.text_field :slug, label: "Slug (no slashes)" %>
+      <%= form.text_field :slug, label: "Slug (no slashes)", disabled: @step_by_step_page.persisted? %>
     </div>
   </div>
 
