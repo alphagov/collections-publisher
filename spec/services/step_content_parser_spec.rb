@@ -241,6 +241,58 @@ RSpec.describe StepContentParser do
   end
 
   context "mixed content" do
+    it "handles different line endings" do
+      step_text = "Paragraphs are separated by empty lines.\r\n\r\nUse non-bulleted lists for tasks. Add any costs after the link:\r\n\r\n[task name](/link) £10 to £20\r\n[task name](/link)\r\n\r\nOnly use bullets to show when a task has a number of options to choose from:\r\n\r\n- [download form option 1](/link)\r\n- [download form option 2](/link)\r\n- bullet with no link"
+
+      expect(
+        subject.parse(step_text)
+      ).to eql([
+        {
+          "type": "paragraph",
+          "text": "Paragraphs are separated by empty lines."
+        },
+        {
+          "type": "paragraph",
+          "text": "Use non-bulleted lists for tasks. Add any costs after the link:"
+        },
+        {
+          "type": "list",
+          "contents": [
+            {
+              "text": "task name",
+              "href": "/link",
+              "context": "£10 to £20"
+            },
+            {
+              "text": "task name",
+              "href": "/link"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Only use bullets to show when a task has a number of options to choose from:"
+        },
+        {
+          "type": "list",
+          "style": "choice",
+          "contents": [
+            {
+              "text": "download form option 1",
+              "href": "/link",
+            },
+            {
+              "text": "download form option 2",
+              "href": "/link",
+            },
+            {
+              "text": "bullet with no link"
+            }
+          ]
+        }
+      ])
+    end
+
     it "is parsed as expected" do
       step_text = <<~HEREDOC
         There are several prizes on offer on today's Generation Game conveyor belt including:

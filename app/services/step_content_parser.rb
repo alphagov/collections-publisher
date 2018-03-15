@@ -10,7 +10,7 @@ class StepContentParser
   LIST_REGEX = /^\[.+\]\(.+\).*$/
 
   def parse(step_text)
-    sections = step_text.split("\n\n").map do |section|
+    sections = step_text.delete("\r").split("\n\n").map do |section|
       section.lines.map(&:chomp)
     end
 
@@ -55,7 +55,7 @@ private
           "href": href
         }
 
-        payload[:context] = context unless context.blank?
+        payload[:context] = context.strip unless context.blank?
         payload
       end
     end
