@@ -40,7 +40,7 @@ RSpec.feature "Managing step by step pages" do
   scenario "User edits step by step information when there is a step" do
     given_there_is_a_step_by_step_page_with_steps
     when_I_edit_the_step_by_step_page
-    and_I_fill_in_the_form
+    and_I_fill_in_the_edit_form
     then_the_content_is_sent_to_publishing_api
     then_I_see_the_new_step_by_step_page
   end
@@ -82,6 +82,14 @@ RSpec.feature "Managing step by step pages" do
   def and_I_fill_in_the_form
     fill_in "Title", with: "How to bake a cake"
     fill_in "Slug", with: "how-to-bake-a-cake"
+    fill_in "Introduction", with: "Learn how you can bake a cake"
+    fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
+
+    click_on "Save and continue"
+  end
+
+  def and_I_fill_in_the_edit_form
+    fill_in "Title", with: "How to bake a cake"
     fill_in "Introduction", with: "Learn how you can bake a cake"
     fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
 
