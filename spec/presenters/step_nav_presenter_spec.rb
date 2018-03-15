@@ -4,7 +4,12 @@ RSpec.describe StepNavPresenter do
   include GovukContentSchemaTestHelpers
 
   describe "#render_for_publishing_api" do
+    before do
+      allow(Services.publishing_api).to receive(:lookup_content_id)
+    end
+
     let(:step_nav) { create(:step_by_step_page_with_steps) }
+
     subject { described_class.new(step_nav) }
 
     it "presents a step by step page in the correct format" do
