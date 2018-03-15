@@ -10,7 +10,7 @@ class StepContentParser
   LIST_REGEX = /^\[.+\]\(.+\).*$/
 
   def parse(step_text)
-    sections = step_text.gsub("\r", "").split("\n\n").map do |section|
+    sections = step_text.delete("\r").split("\n\n").map do |section|
       section.lines.map(&:chomp)
     end
 
