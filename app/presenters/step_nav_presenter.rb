@@ -1,6 +1,7 @@
 class StepNavPresenter
   def initialize(step_nav)
     @step_nav = step_nav
+    @step_content_parser = StepContentParser.new
   end
 
   def render_for_publishing_api
@@ -9,7 +10,7 @@ class StepNavPresenter
 
 private
 
-  attr_reader :step_nav
+  attr_reader :step_nav, :step_content_parser
 
   def required_fields
     {
@@ -59,8 +60,6 @@ private
   end
 
   def steps
-    step_content_parser = StepContentParser.new
-
     step_nav.steps.map do |step|
       {
         title: step.title,
@@ -73,6 +72,16 @@ private
   end
 
   def edition_links
-    {}
+    {
+      "pages_part_of_step_nav": parsed_edition_links
+    }
+  end
+
+  def parsed_edition_links
+    StepNavPublisher.lookup_content_ids(parsed_base_paths).values
+  end
+
+  def parsed_base_paths
+    step_nav.steps.map { |step| step_content_parser.base_paths(step.contents) }.flatten.uniq
   end
 end

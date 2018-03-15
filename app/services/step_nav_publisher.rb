@@ -8,4 +8,8 @@ class StepNavPublisher
   def self.discard_draft(content_id)
     Services.publishing_api.discard_draft(content_id)
   end
+
+  def self.lookup_content_ids(base_paths)
+    Services.publishing_api.lookup_content_ids(base_paths: base_paths, with_drafts: true)
+  end
 end
