@@ -1,4 +1,5 @@
 class StepByStepPage < ApplicationRecord
+  has_many :navigation_rules, dependent: :destroy
   has_many :steps, -> { order(position: :asc) }, dependent: :destroy
 
   validates :title, :slug, :introduction, :description, presence: true
