@@ -8,6 +8,8 @@ class StepsController < ApplicationController
     @step = step_by_step_page.steps.new(step_params)
 
     if @step.save
+      StepLinksForRulesWorker.perform_async(step.id)
+
       StepNavPublisher.update(step_by_step_page.reload)
       redirect_to step_by_step_page_path(step_by_step_page.id), notice: 'Step was successfully created.'
     else
@@ -22,6 +24,7 @@ class StepsController < ApplicationController
   def update
     step_params = params.require(:step).permit!
 
+    StepLinksForRulesWorker.perform_async(step.id)
     if step.update(step_params)
       StepNavPublisher.update(step_by_step_page.reload)
       redirect_to step_by_step_page_path(step_by_step_page.id), notice: 'Step was successfully updated.'
