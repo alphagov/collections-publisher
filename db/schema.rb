@@ -29,6 +29,19 @@ ActiveRecord::Schema.define(version: 20180319152348) do
     t.index ["tag_id"], name: "index_lists_on_tag_id"
   end
 
+  create_table "navigation_rules", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "title", null: false
+    t.string "base_path", null: false
+    t.string "content_id", null: false
+    t.boolean "include_in_links", default: true, null: false
+    t.bigint "step_by_step_page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["step_by_step_page_id", "base_path"], name: "index_navigation_rules_on_step_by_step_page_id_and_base_path", unique: true
+    t.index ["step_by_step_page_id", "content_id"], name: "index_navigation_rules_on_step_by_step_page_id_and_content_id", unique: true
+    t.index ["step_by_step_page_id"], name: "index_navigation_rules_on_step_by_step_page_id"
+  end
+
   create_table "redirect_items", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "content_id", null: false
     t.string "from_base_path", null: false
@@ -117,6 +130,7 @@ ActiveRecord::Schema.define(version: 20180319152348) do
 
   add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
   add_foreign_key "lists", "tags", name: "lists_tag_id_fk", on_delete: :cascade
+  add_foreign_key "navigation_rules", "step_by_step_pages"
   add_foreign_key "redirect_routes", "tags"
   add_foreign_key "steps", "step_by_step_pages"
   add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
