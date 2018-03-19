@@ -53,14 +53,15 @@
       </div>
     <% end %>
 
-    <form>
-      <input type="hidden" id="step_order_save" value=""/>
+    <%= form_for(@step_by_step_page, url: step_by_step_page_reorder_path(@step_by_step_page), method: :post) do |form| %>
+      <input type="hidden" name="step_order_save" id="step_order_save" value="" />
+
       <div class="form-group">
-        <button class="btn btn-primary">Save</button>
+        <%= form.submit "Save", class: "btn btn-primary" %>
       </div>
       <div class="form-group">
         <%= link_to 'Cancel', @step_by_step_page %>
       </div>
-    </form>
+    <% end %>
   </div>
 </div>

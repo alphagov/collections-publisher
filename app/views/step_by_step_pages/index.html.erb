@@ -8,6 +8,8 @@
 
 <%= render 'shared/steps/step_breadcrumb', links: links %>
 
+<%= render 'shared/steps/page_title', links: links %>
+
 <%= render 'shared/steps/form_notice', message: notice, status: "success" %>
 
 <h1>Step by step navigation publisher</h1>
@@ -21,7 +23,6 @@
     <tr>
       <th>Title</th>
       <th>Actions</th>
-      <th>Status</th>
       <th>Slug</th>
     </tr>
   </thead>
@@ -34,25 +35,10 @@
         </th>
         <td>
           <ul class="list-inline">
-            <li><%= link_to 'Edit', step_by_step_page %></li>
-            <li><%= link_to 'Choose navigation', step_by_step_page_rules_path(step_by_step_page) %></li>
-            <li><%= link_to("Preview", step_by_step_page_preview_path(step_by_step_page)) %></li>
-            <li class="todo">Download JSON</li>
+            <li><%= link_to 'Edit content', step_by_step_page %></li>
+            <li><%= link_to 'Preview', preview_url(step_by_step_page.slug) %></li>
             <li><%= link_to 'Delete', step_by_step_page, method: :delete, data: { confirm: 'Are you sure?' } %></li>
           </ul>
-        </td>
-        <td class="todo">
-          <% status = [:published, :published_draft, :withdrawn, :draft].sample %>
-          <% case status %>
-          <% when :published %>
-            <span class="label label-success">Published</span>
-          <% when :published_draft %>
-            <span class="label label-warning">Published - new edition in draft</span>
-          <% when :withdrawn %>
-            <span class="label label-danger">Withdrawn</span>
-          <% when :draft %>
-            <span class="label label-default">Draft</span>
-          <% end %>
         </td>
         <td>
           <%= step_by_step_page.slug %>

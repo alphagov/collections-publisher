@@ -56,11 +56,11 @@
       var $orderVal = $('#step_order_save');
       var order = [];
 
-      $('.js-reorder').each(function() {
-        order.push($(this).data('id'));
+      $('.js-reorder').each(function(i) {
+        order.push({ id: $(this).data('id'), position: i + 1 });
       });
 
-      $orderVal.val(order);
+      $orderVal.val(JSON.stringify(order));
     }
   };
 }());

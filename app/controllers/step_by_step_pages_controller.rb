@@ -6,52 +6,27 @@ class StepByStepPagesController < ApplicationController
     @step_by_step_pages = StepByStepPage.all
   end
 
-  def rules
-    @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
-
-    # mocking data for frontend
-    @rules = [
-      {
-        title: 'Getting a divorce: 1. Getting a divorce',
-        url: '/divorce',
-        instances: [
-          {
-            title: 'Getting a divorce: step by step',
-            url: '/divorce-step-by-step'
-          }
-        ],
-        navigation: :step_by_step
-      },
-      {
-        title: 'Make child arrangements if you divorce or separate',
-        url: '/looking-after-children',
-        instances: [
-          {
-            title: 'Getting a divorce: step by step',
-            url: '/divorce-step-by-step'
-          },
-          {
-            title: 'Separate: step by step',
-            url: '/separate-step-by-step'
-          }
-        ],
-        navigation: :topics
-      }
-    ]
-  end
-
   def new
     @step_by_step_page = StepByStepPage.new
   end
 
   def show; end
 
-  def preview
-    @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
-  end
-
   def reorder
     @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
+
+    if request.post? && params.key?(:step_order_save)
+      reordered_steps = JSON.parse(params[:step_order_save])
+
+      reordered_steps.each do |step_data|
+        step = @step_by_step_page.steps.find(step_data["id"])
+        step.update_attribute(:position, step_data["position"])
+      end
+
+      StepNavPublisher.update(@step_by_step_page)
+
+      redirect_to @step_by_step_page, notice: 'Steps were successfully reordered.'
+    end
   end
 
   def edit; end

@@ -17,6 +17,7 @@ FactoryBot.define do
   factory :step do
     title "Check how awesome you are"
     logic "number"
+    position 1
     contents <<~CONTENT
       This is a great step
 
@@ -32,6 +33,7 @@ FactoryBot.define do
       title "Dress like the Fonz"
       optional "true"
       logic "or"
+      position 2
     end
   end
 

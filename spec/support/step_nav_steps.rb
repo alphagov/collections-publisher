@@ -3,7 +3,6 @@ module StepNavSteps
     allow(Services.publishing_api).to receive(:put_content)
     allow(Services.publishing_api).to receive(:discard_draft)
     allow(Services.publishing_api).to receive(:lookup_content_id)
-    allow(Services.publishing_api).to receive(:lookup_content_ids)
     allow(StepNavPublisher).to receive(:lookup_content_ids).and_return(
       '/good/stuff' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e1',
       '/also/good/stuff' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e2',
