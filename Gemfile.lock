@@ -106,7 +106,7 @@ GEM
     generic_form_builder (0.13.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
-    govuk-content-schema-test-helpers (1.6.0)
+    govuk-content-schema-test-helpers (1.6.1)
       json-schema (~> 2.8.0)
     govuk-lint (3.7.0)
       rubocop (~> 0.51.0)
