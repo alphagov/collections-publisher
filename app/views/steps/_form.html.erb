@@ -41,6 +41,8 @@
 <div class="form-group">
   <%= form.label :optional, "Is this step optional?", default_builder: true %>
 
+  <div class="help-block">You must select one of these so that user activity is tracked correctly in Google Analytics.</div>
+
   <div class="radio">
     <label>
       <%= form.radio_button :optional, "false", default_builder: true, checked: true %>
@@ -59,7 +61,7 @@
 <div class="form-group">
   <div class="row">
     <div class="<%= left_col %>">
-      <%= form.text_area :contents, class: "form-control", label: "Content in this step", rows: 8 %>
+      <%= form.text_area :contents, class: "form-control", label: "Content, tasks and links in this step", rows: 8 %>
     </div>
 
     <div class="<%= right_col %>">
