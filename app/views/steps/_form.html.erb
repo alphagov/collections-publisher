@@ -41,6 +41,8 @@
 <div class="form-group">
   <%= form.label :optional, "Is this step optional?", default_builder: true %>
 
+  <div class="help-block">You must select one of these so that user activity is tracked correctly in Google Analytics.</div>
+
   <div class="radio">
     <label>
       <%= form.radio_button :optional, "false", default_builder: true, checked: true %>
@@ -59,50 +61,12 @@
 <div class="form-group">
   <div class="row">
     <div class="<%= left_col %>">
-      <%= form.text_area :contents, class: "form-control", label: "Content in this step", rows: 8 %>
+      <%= form.text_area :contents, class: "form-control", label: "Content, tasks and links in this step", rows: 8 %>
     </div>
 
     <div class="<%= right_col %>">
       <%= render 'shared/steps/markdown_help' %>
     </div>
-  </div>
-</div>
-
-<% unless has_help_section?(step) %>
-  <p class="checkbox">
-    <label>
-      <input type="checkbox" data-toggle="collapse" data-target="#help-section" aria-expanded="false" aria-controls="help-section" />
-      Include help section
-    </label>
-  </p>
-<% end %>
-
-<div class="<%= 'collapse' unless has_help_section?(step) %>" id="help-section">
-  <div class="<%= 'well' unless has_help_section?(step) %>">
-
-    <h3>"Get help completing this step" section</h3>
-
-    <div class="form-group">
-      <div class="row">
-        <div class="<%= left_col %>">
-          <%= form.label :optional_heading, "Section heading", default_builder: true %>
-          <%= form.text_field :optional_heading, default_builder: true  %>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <div class="row">
-        <div class="<%= left_col %>">
-          <%= form.text_area :optional_contents, class: "form-control", label: "Tasks", rows: 8 %>
-        </div>
-
-        <div class="<%= right_col %>">
-          <%= render 'shared/steps/markdown_help' %>
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
 

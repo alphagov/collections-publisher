@@ -50,6 +50,6 @@ private
   end
 
   def step_params
-    params.require(:step).permit(:title, :logic, :optional, :contents, :optional_heading, :optional_contents)
+    params.require(:step).permit(:title, :logic, :optional, :contents)
   end
 end
