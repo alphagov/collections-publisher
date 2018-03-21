@@ -28,40 +28,47 @@
     <p>Use the up/down controls on the right to reorder steps. Step numbers will be automatically updated on save.</p>
 
     <%
-      step_number = 1
-      steps_length = @step_by_step_page.steps.length - 1
+        step_number = 1
+        steps_length = @step_by_step_page.steps.length - 1
     %>
-    <% @step_by_step_page.steps.each_with_index do |step, step_index| %>
-      <div class="panel panel-default js-reorder" data-id="<%= step.id %>">
-        <div class="panel-body">
-          <div class="row" id="step-<%= step_index %>">
-            <div class="col-md-8">
-              <strong class="h4">
-                <% if step.logic == 'number' %>
-                  <%= step_number %>
-                  <% step_number += 1 %>
-                <% else %>
-                  <%= step.logic %>
-                <% end %>
-                -
-                <%= step.title %>
-              </strong>
+    <% if @step_by_step_page.steps.length > 0 %>
+      <% @step_by_step_page.steps.each_with_index do |step, step_index| %>
+        <div class="panel panel-default js-reorder" data-id="<%= step.id %>">
+          <div class="panel-body">
+            <div class="row" id="step-<%= step_index %>">
+              <div class="col-md-8">
+                <strong class="h4">
+                  <% if step.logic == 'number' %>
+                    <%= step_number %>
+                    <% step_number += 1 %>
+                  <% else %>
+                    <%= step.logic %>
+                  <% end %>
+                  -
+                  <%= step.title %>
+                </strong>
+              </div>
+              <div class="col-md-4 text-right js-order-controls"></div>
             </div>
-            <div class="col-md-4 text-right js-order-controls"></div>
           </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
 
-    <%= form_for(@step_by_step_page, url: step_by_step_page_reorder_path(@step_by_step_page), method: :post) do |form| %>
-      <input type="hidden" name="step_order_save" id="step_order_save" value="" />
+      <%= form_for(@step_by_step_page, url: step_by_step_page_reorder_path(@step_by_step_page), method: :post) do |form| %>
+        <input type="hidden" name="step_order_save" id="step_order_save" value="" />
 
-      <div class="form-group">
-        <%= form.submit "Save", class: "btn btn-primary" %>
-      </div>
-      <div class="form-group">
-        <%= link_to 'Cancel', @step_by_step_page %>
-      </div>
+        <div class="form-group">
+          <%= form.submit "Save", class: "btn btn-primary" %>
+        </div>
+        <div class="form-group">
+          <%= link_to 'Cancel', @step_by_step_page %>
+        </div>
+      <% end %>
+
+    <% else %>
+      <p><strong>There are currently no steps to display.</strong></p>
+
+      <p><%= link_to 'Cancel', @step_by_step_page %></p>
     <% end %>
   </div>
 </div>

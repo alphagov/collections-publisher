@@ -11,7 +11,7 @@ RSpec.feature "Managing step by step pages" do
       setup_publishing_api
     end
 
-    context 'and I would like to create and manage step by step pages' do
+    context 'and I would like to create and manage steps on a step by step page' do
       scenario "User creates a step" do
         given_there_is_a_step_by_step_page
         when_I_visit_the_step_by_step_page
@@ -49,6 +49,14 @@ RSpec.feature "Managing step by step pages" do
             with_drafts: true
           )
         )
+      end
+
+      scenario "User cannot reorder steps if none exist" do
+        given_there_is_a_step_by_step_page
+        when_I_visit_the_step_by_step_page
+        then_I_cannot_see_the_button_to_reorder_steps
+        and_I_visit_the_reorder_steps_page
+        then_I_cannot_reorder_steps
       end
 
       scenario "User reorders steps", js: true do
@@ -91,6 +99,16 @@ RSpec.feature "Managing step by step pages" do
   def and_I_reorder_the_steps
     click_on "Down", match: :first
     click_on "Save"
+  end
+
+  def then_I_cannot_reorder_steps
+    expect(page).not_to have_css("button", text: "Down")
+    expect(page).not_to have_css("button", text: "Up")
+    expect(page).to have_content("There are currently no steps to display.")
+  end
+
+  def then_I_cannot_see_the_button_to_reorder_steps
+    expect(page).not_to have_css("button", text: "Reorder steps")
   end
 
   def and_I_can_see_the_first_step
