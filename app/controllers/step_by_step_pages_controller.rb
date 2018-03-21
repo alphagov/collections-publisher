@@ -12,6 +12,23 @@ class StepByStepPagesController < ApplicationController
 
   def show; end
 
+  def reorder
+    @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
+
+    if request.post? && params.key?(:step_order_save)
+      reordered_steps = JSON.parse(params[:step_order_save])
+
+      reordered_steps.each do |step_data|
+        step = @step_by_step_page.steps.find(step_data["id"])
+        step.update_attribute(:position, step_data["position"])
+      end
+
+      StepNavPublisher.update(@step_by_step_page)
+
+      redirect_to @step_by_step_page, notice: 'Steps were successfully reordered.'
+    end
+  end
+
   def edit; end
 
   def create

@@ -7,6 +7,7 @@
 
 GOVUK.orderedLists.init();
 GOVUK.curatedLists.init();
+GOVUK.stepByStepPublisher.init();
 
 (function() {
   "use strict";

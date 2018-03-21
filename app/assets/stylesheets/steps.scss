@@ -10,3 +10,13 @@ ul.step-actions {
 pre.markdown-example {
   white-space: pre-wrap;
 }
+
+// hide up button in first row and down button in last row
+.js-reorder:first-of-type .js-up,
+.js-reorder:last-of-type .js-down {
+  visibility: hidden;
+}
+
+pre.markdown-example {
+  white-space: pre-wrap;
+}

@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   root to: redirect('/topics', status: 302)
 
   resources :step_by_step_pages, path: 'step-by-step-pages' do
+    get :reorder, to: 'step_by_step_pages#reorder'
+    post :reorder, to: 'step_by_step_pages#reorder'
+
     resources :steps
   end
 
