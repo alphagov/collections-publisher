@@ -8,9 +8,9 @@ class StepsController < ApplicationController
     @step = step_by_step_page.steps.new(step_params)
 
     if @step.save
-      StepLinksForRulesWorker.perform_async(step.id)
+      update_rules
+      update_publishing_api
 
-      StepNavPublisher.update(step_by_step_page.reload)
       redirect_to step_by_step_page_path(step_by_step_page.id), notice: 'Step was successfully created.'
     else
       render :new
@@ -24,9 +24,10 @@ class StepsController < ApplicationController
   def update
     step_params = params.require(:step).permit!
 
-    StepLinksForRulesWorker.perform_async(step.id)
     if step.update(step_params)
-      StepNavPublisher.update(step_by_step_page.reload)
+      update_rules
+      update_publishing_api
+
       redirect_to step_by_step_page_path(step_by_step_page.id), notice: 'Step was successfully updated.'
     else
       render :edit
@@ -34,8 +35,10 @@ class StepsController < ApplicationController
   end
 
   def destroy
-    StepNavPublisher.update(step_by_step_page)
     if step.destroy
+      update_rules
+      update_publishing_api
+
       redirect_to step_by_step_page_path(step_by_step_page.id), notice: 'Step was successfully deleted.'
     else
       redirect_to step_by_step_page_path
@@ -43,6 +46,14 @@ class StepsController < ApplicationController
   end
 
 private
+
+  def update_rules
+    StepLinksForRulesWorker.perform_async(step.id)
+  end
+
+  def update_publishing_api
+    StepNavPublisher.update(step_by_step_page.reload)
+  end
 
   def step_by_step_page
     @step_by_step_page ||= StepByStepPage.find(params[:step_by_step_page_id])
