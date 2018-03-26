@@ -11,6 +11,9 @@ Rails.application.routes.draw do
     get :unpublish
     post :unpublish
 
+    get 'navigation-rules', to: 'navigation_rules#edit'
+    put 'navigation-rules', to: 'navigation_rules#update'
+
     resources :steps
   end
 
