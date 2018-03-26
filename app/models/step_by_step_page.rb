@@ -6,6 +6,11 @@ class StepByStepPage < ApplicationRecord
   validates :slug, slug: true, on: :create
   before_validation :generate_content_id, on: :create
 
+  def self.validate_redirect(redirect_url)
+    regex = /\A([a-z0-9]+-)*[a-z0-9]+\z/
+    redirect_url =~ regex
+  end
+
 private
 
   def generate_content_id

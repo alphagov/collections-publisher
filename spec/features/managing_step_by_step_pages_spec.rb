@@ -53,6 +53,26 @@ RSpec.feature "Managing step by step pages" do
     and_the_page_is_deleted
   end
 
+  scenario "User unpublishes a step by step page with a valid redirect url" do
+    given_there_is_a_step_by_step_page_with_steps
+    when_I_visit_the_step_by_step_page
+    and_I_visit_the_unpublish_page
+    and_I_fill_in_the_form_with_a_valid_url
+    then_the_page_is_unpublished
+    and_I_am_taken_to_the_index_page
+    and_I_see_a_success_notice
+  end
+
+  scenario "User unpublishes a step by step page with an invalid redirect url" do
+    given_there_is_a_step_by_step_page_with_steps
+    when_I_visit_the_step_by_step_page
+    and_I_visit_the_unpublish_page
+    and_I_fill_in_the_form_with_an_invalid_url
+    then_I_see_that_the_url_isnt_valid
+    and_I_fill_in_the_form_with_an_empty_url
+    then_I_see_that_the_url_isnt_valid
+  end
+
   def given_there_is_a_step_by_step_page
     @step_by_step_page = create(:step_by_step_page)
   end
@@ -63,6 +83,10 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_visit_the_index_page
     when_I_visit_the_step_by_step_pages_index
+  end
+
+  def when_I_visit_the_step_by_step_page
+    visit step_by_step_page_path(@step_by_step_page)
   end
 
   def and_I_delete_the_step_by_step_page
@@ -105,6 +129,28 @@ RSpec.feature "Managing step by step pages" do
     click_on "Save and continue"
   end
 
+  def and_I_fill_in_the_form_with_a_valid_url
+    fill_in "Redirect to", with: "how-to-be-the-amazing-1"
+
+    click_on "Unpublish"
+  end
+
+  def and_I_fill_in_the_form_with_an_empty_url
+    fill_in "Redirect to", with: ""
+
+    click_on "Unpublish"
+  end
+
+  def and_I_fill_in_the_form_with_an_invalid_url
+    fill_in "Redirect to", with: "!"
+
+    click_on "Unpublish"
+  end
+
+  def then_I_see_that_the_url_isnt_valid
+    expect(page).to have_content("Redirect path is invalid. Step by step page has not been unpublished.")
+  end
+
   def then_I_see_the_new_step_by_step_page
     expect(page).to have_content("How to bake a cake")
   end
@@ -140,5 +186,9 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_see_a_slug_already_taken_error
     expect(page).to have_content("Slug has already been taken")
+  end
+
+  def and_I_visit_the_unpublish_page
+    visit step_by_step_page_unpublish_path(@step_by_step_page)
   end
 end
