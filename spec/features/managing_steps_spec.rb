@@ -26,8 +26,7 @@ RSpec.feature "Managing step by step pages" do
         when_I_visit_the_step_by_step_page
         and_I_edit_the_first_step
         then_I_can_see_the_edit_page
-        and_I_fill_in_the_form
-        then_the_content_is_sent_to_publishing_api
+        and_I_fill_the_edit_form_and_submit
         and_I_see_the_step_on_the_step_by_step_details_page
       end
 
@@ -129,11 +128,53 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_css("label", text: "Step title")
   end
 
-  def and_I_fill_in_the_form
+  def and_I_fill_in_the_form_with_content
     fill_in "Step title", with: "Buy Mary Berry's 'Simple Cakes' book"
     choose "number"
     choose "essential"
     fill_in "Content, tasks and links in this step", with: "* [Booky booky book book.com](http://bbbb.com)\n* [Words inside cardboard.com](http://wic.com)"
+  end
+
+  def and_I_fill_in_the_form
+    and_I_fill_in_the_form_with_content
+    and_I_click_on_save
+  end
+
+  def and_I_fill_the_edit_form_and_submit
+    and_I_fill_in_the_form_with_content
+    setup_publishing_api_request_expectations
+    and_I_click_on_save
+  end
+
+  def setup_publishing_api_request_expectations
+    allow(Services.publishing_api).to receive(:put_content)
+
+    mocked_content_ids = {
+      '/good/stuff' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e1',
+      '/also/good/stuff' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e2',
+      '/not/as/great' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e3'
+    }
+
+    mocked_content_ids.each do |base_path, content_id|
+      publishing_api_has_item(
+        content_item(content_id, base_path)
+      )
+    end
+
+    allow(Services.publishing_api).to(
+      receive(:lookup_content_ids).and_return(mocked_content_ids)
+    )
+  end
+
+  def content_item(content_id, base_path)
+    {
+      content_id: content_id,
+      base_path: base_path,
+      title: 'BLAH BLAH'
+    }
+  end
+
+  def and_I_click_on_save
     click_on "Save step"
   end
 
