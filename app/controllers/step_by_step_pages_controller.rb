@@ -61,7 +61,42 @@ class StepByStepPagesController < ApplicationController
     end
   end
 
+  def unpublish
+    @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
+
+    if request.post?
+      redirect_url = params.delete("redirect_url")
+
+      if StepByStepPage.validate_redirect(redirect_url)
+        unpublish_page_in_publishing_api(@step_by_step_page, redirect_url)
+      else
+        redirect_to(
+          step_by_step_page_unpublish_path(@step_by_step_page),
+          danger: 'Redirect path is invalid. Step by step page has not been unpublished.'
+        )
+      end
+    end
+  end
+
 private
+
+  def unpublish_page_in_publishing_api(step_page, redirect_url)
+    Services.publishing_api.unpublish(
+      step_page.content_id,
+      type: "redirect",
+      alternative_path: redirect_url
+    )
+
+    redirect_to(
+      step_by_step_pages_path,
+      notice: 'Step by step page was successfully unpublished.'
+    )
+  rescue GdsApi::HTTPNotFound
+    redirect_to(
+      step_by_step_page_unpublish_path(step_page),
+      alert: 'Step by step page has not been unpublished.'
+    )
+  end
 
   def set_step_by_step_page
     @step_by_step_page = StepByStepPage.find(params[:id])

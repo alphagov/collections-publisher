@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     get :reorder, to: 'step_by_step_pages#reorder'
     post :reorder, to: 'step_by_step_pages#reorder'
 
+    get :unpublish, to: 'step_by_step_pages#unpublish'
+    post :unpublish, to: 'step_by_step_pages#unpublish'
+
     resources :steps
   end
 

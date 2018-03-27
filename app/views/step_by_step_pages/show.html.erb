@@ -26,6 +26,7 @@
   <% if @step_by_step_page.steps.length > 0 %>
     <li><%= link_to("Reorder steps", step_by_step_page_reorder_path(@step_by_step_page), class: "btn btn-default") %></li>
   <% end %>
+  <li><%= link_to 'Unpublish', step_by_step_page_unpublish_path(@step_by_step_page), class: "btn btn-danger btn-primary" %></li>
 </ul>
 
 <div class="row">
