@@ -59,8 +59,8 @@
             </th>
 
             <td class="text-right text-nowrap">
-            <%= link_to("Edit", edit_step_by_step_page_step_path(@step_by_step_page.id, step.id), class: "btn btn-primary btn-sm") %>
-            <%= link_to("Delete", step_by_step_page_step_path(@step_by_step_page.id, step.id), method: 'delete', data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm") %>
+              <%= link_to("Edit", edit_step_by_step_page_step_path(@step_by_step_page.id, step.id), class: "btn btn-primary btn-sm") %>
+              <%= link_to("Delete", step_by_step_page_step_path(@step_by_step_page.id, step.id), method: 'delete', data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm") %>
             </td>
           </tr>
         <% end %>
