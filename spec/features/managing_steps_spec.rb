@@ -62,7 +62,6 @@ RSpec.feature "Managing step by step pages" do
         given_there_is_a_step_by_step_page_with_steps
         and_I_visit_the_reorder_steps_page
         and_I_reorder_the_steps
-        then_the_payload_contains_the_new_steps_order
         and_I_see_the_steps_updated_on_the_step_by_step_details_page
       end
     end
@@ -181,16 +180,6 @@ RSpec.feature "Managing step by step pages" do
   def and_I_see_the_step_on_the_step_by_step_details_page
     expect(page).to have_content("Add a new step")
     expect(page).to have_content("Buy Mary Berry's 'Simple Cakes' book")
-  end
-
-  def then_the_payload_contains_the_new_steps_order
-    presenter = StepNavPresenter.new(@step_by_step_page.reload)
-    payload = presenter.render_for_publishing_api
-
-    payload_steps = payload[:details][:step_by_step_nav][:steps]
-
-    expect(payload_steps[0][:title]).to eql("Dress like the Fonz")
-    expect(payload_steps[1][:title]).to eql("Check how awesome you are")
   end
 
   def and_I_see_the_steps_updated_on_the_step_by_step_details_page

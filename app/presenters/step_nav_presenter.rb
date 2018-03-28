@@ -4,8 +4,9 @@ class StepNavPresenter
     @step_content_parser = StepContentParser.new
   end
 
-  def render_for_publishing_api
-    required_fields
+  def render_for_publishing_api(publish_intent = PublishIntent.minor_update)
+    payload = required_fields
+    payload.merge(publish_intent.present)
   end
 
 private
@@ -27,8 +28,7 @@ private
       rendering_app: "collections",
       routes: routes,
       schema_name: "step_by_step_nav",
-      title: step_nav.title,
-      update_type: "minor",
+      title: step_nav.title
     }
   end
 

@@ -1,0 +1,58 @@
+<%
+  links = [
+    {
+      text: 'Step by step publisher',
+      href: step_by_step_pages_path
+    },
+    {
+      text: @step_by_step_page.title,
+      href: step_by_step_page_path(@step_by_step_page)
+    },
+    {
+      text: 'Publish'
+    }
+  ]
+%>
+
+<%= render 'shared/steps/step_breadcrumb', links: links %>
+
+<%= render 'shared/steps/form_notice', message: notice, status: "success" %>
+
+<%= render 'shared/steps/heading',
+  step_nav: @step_by_step_page.title,
+  action: 'Publish step by step page'
+%>
+
+<% if @publish_intent %>
+    <%= render "shared/steps/form_errors", resource: @publish_intent %>
+<% end %>
+
+<%= form_tag do %>
+  <div class="form-group">
+    <%= label_tag :update_type, "Update type" %>
+
+    <div class="radio">
+      <label>
+        <%= radio_button_tag :update_type, "minor", checked: true %>
+        minor
+      </label>
+    </div>
+
+    <div class="radio">
+      <label>
+        <%= radio_button_tag :update_type, "major" %>
+        major
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :change_note, "Change note" %>
+    <%= text_field_tag :change_note  %>
+  </div>
+
+  <div class="form-group">
+    <%= submit_tag "Publish", class: "btn btn-primary" %>
+    <%= link_to 'Cancel', @step_by_step_page %>
+  </div>
+<% end %>

@@ -12,7 +12,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def has_draft?
-    draft_updated_at.present?
+    draft_updated_at.present? && draft_updated_at != published_at
   end
 
   def mark_draft_updated
@@ -24,11 +24,14 @@ class StepByStepPage < ApplicationRecord
   end
 
   def mark_as_published
-    update_attribute(:published_at, Time.zone.now)
+    now = Time.zone.now
+    update_attribute(:published_at, now)
+    update_attribute(:draft_updated_at, now)
   end
 
   def mark_as_unpublished
     update_attribute(:published_at, nil)
+    update_attribute(:draft_updated_at, nil)
   end
 
 private

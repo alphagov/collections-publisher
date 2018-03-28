@@ -67,5 +67,15 @@
 
       </tbody>
     </table>
+    <ul class="list-inline publish-actions">
+      <% if @step_by_step_page.has_been_published? %>
+        <li><%= link_to 'Unpublish', step_by_step_page_unpublish_path(@step_by_step_page), class: "btn btn-danger" %></li>
+      <% else %>
+        <li><%= link_to 'Delete', @step_by_step_page, method: :delete, data: { confirm: 'Delete this step by step page?' }, class: "btn btn-danger" %></li>
+      <% end %>
+      <% if @step_by_step_page.has_draft? %>
+        <li><%= link_to 'Publish', step_by_step_page_publish_path(@step_by_step_page), class: "btn btn-primary" %></li>
+      <% end %>
+    </ul>
   </div>
 </div>
