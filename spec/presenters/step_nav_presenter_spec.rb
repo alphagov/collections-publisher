@@ -20,6 +20,7 @@ RSpec.describe StepNavPresenter do
       presented = subject.render_for_publishing_api
       expect(presented).to be_valid_against_schema("step_by_step_nav")
 
+      expect(presented[:update_type]).to eq("minor")
       expect(presented[:base_path]).to eq("/how-to-be-the-amazing-1")
       expect(presented[:routes]).to eq([{ path: "/how-to-be-the-amazing-1", type: "exact" }])
     end
@@ -38,6 +39,15 @@ RSpec.describe StepNavPresenter do
     it "presents edition links correctly" do
       presented = subject.render_for_publishing_api
       expect(presented[:links]).to eq(pages_part_of_step_nav: ["d6b1901d-b925-47c5-b1ca-1e52197097e2"])
+    end
+
+    it "shows the correct update type and change note" do
+      intent = PublishIntent.new(update_type: "major", change_note: "All your update belong to us")
+      presented = subject.render_for_publishing_api(intent)
+
+      expect(presented).to be_valid_against_schema("step_by_step_nav")
+      expect(presented[:update_type]).to eq("major")
+      expect(presented[:change_note]).to eq("All your update belong to us")
     end
   end
 end

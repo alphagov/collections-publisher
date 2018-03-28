@@ -19,6 +19,7 @@ RSpec.feature "Managing step by step pages" do
   scenario "User creates a new step by step page" do
     when_I_visit_the_new_step_by_step_form
     and_I_fill_in_the_form
+    then_I_see_delete_and_publish_buttons
     when_I_visit_the_step_by_step_pages_index
     then_I_see_the_new_step_by_step_page
   end
@@ -53,6 +54,16 @@ RSpec.feature "Managing step by step pages" do
     and_the_page_is_deleted
   end
 
+  scenario "User publishes a page" do
+    given_there_is_a_step_by_step_page_with_steps
+    and_I_visit_the_publish_page
+    and_I_publish_the_page
+    then_the_page_is_published
+    and_I_am_told_that_it_is_published
+    then_I_see_the_step_by_step_page
+    and_I_see_an_unpublish_button
+  end
+
   def given_there_is_a_step_by_step_page
     @step_by_step_page = create(:step_by_step_page)
   end
@@ -63,6 +74,10 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_visit_the_index_page
     when_I_visit_the_step_by_step_pages_index
+  end
+
+  def and_I_visit_the_publish_page
+    visit step_by_step_page_publish_path(@step_by_step_page)
   end
 
   def and_I_delete_the_step_by_step_page
@@ -109,6 +124,22 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_content("How to bake a cake")
   end
 
+  def then_I_see_delete_and_publish_buttons
+    within(".publish-actions") do
+      expect(page).to have_css("a", text: "Delete")
+      expect(page).to have_css("a", text: "Publish")
+      expect(page).to_not have_css("a", text: "Unpublish")
+    end
+  end
+
+  def and_I_see_an_unpublish_button
+    within(".publish-actions") do
+      expect(page).to_not have_css("a", text: "Delete")
+      expect(page).to_not have_css("a", text: "Publish")
+      expect(page).to have_css("a", text: "Unpublish")
+    end
+  end
+
   def and_the_page_is_deleted
     expect(page).to_not have_content("How to bake a cake")
   end
@@ -140,5 +171,13 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_see_a_slug_already_taken_error
     expect(page).to have_content("Slug has already been taken")
+  end
+
+  def and_I_publish_the_page
+    click_on "Publish"
+  end
+
+  def and_I_am_told_that_it_is_published
+    expect(page).to have_content("has been published")
   end
 end

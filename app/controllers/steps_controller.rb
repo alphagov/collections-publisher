@@ -53,6 +53,7 @@ private
 
   def update_publishing_api
     StepNavPublisher.update(step_by_step_page.reload)
+    step_by_step_page.mark_draft_updated
   end
 
   def step_by_step_page
