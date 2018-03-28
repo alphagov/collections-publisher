@@ -1,0 +1,61 @@
+<%
+  links = [
+    {
+      text: 'Step by step publisher',
+      href: step_by_step_pages_path
+    },
+    {
+      text: @step_by_step_page.title,
+      href: @step_by_step_page
+    },
+    {
+      text: 'Unpublish'
+    }
+  ]
+%>
+
+<%= render 'shared/steps/step_breadcrumb', links: links %>
+
+<%= render 'shared/steps/page_title', links: links %>
+
+<%= render 'shared/steps/heading',
+  step_nav: @step_by_step_page.title,
+  action: 'Unpublish step by step'
+%>
+
+<div class="callout callout-warning add-bottom-margin">
+  <div class="callout-title">
+    Warning
+  </div>
+  <div class="callout-body">
+    Unpublish a page from GOV.UK. This can’t be undone.
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-7">
+    <%= form_tag(step_by_step_page_unpublish_path(@step_by_step_page), method: :post) do %>
+      <h3 class="remove-top-margin add-bottom-margin">Unpublish</h3>
+
+      <div class="form-group">
+        <label for="redirect_url">Redirect to</label>
+        <span class="normal">
+          For example: <code>/redirect-to-replacement-page</code>
+        </span>
+        <%= text_field_tag :redirect_url %>
+      </div>
+
+      <div class="form-group">
+        <%= button_tag 'Unpublish',
+          {
+            data: {
+              module: 'confirm',
+              message: "This will remove ‘#{@step_by_step_page.title}’ from the website.\n\n Are you sure?"
+            },
+            class: "btn btn-danger"
+          }
+        %>
+      </div>
+    <% end %>
+  </div>
+</div>

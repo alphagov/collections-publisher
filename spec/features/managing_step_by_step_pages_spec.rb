@@ -64,12 +64,35 @@ RSpec.feature "Managing step by step pages" do
     and_I_see_an_unpublish_button
   end
 
+  scenario "User unpublishes a step by step page with a valid redirect url" do
+    given_there_is_a_published_step_by_step_page
+    when_I_view_the_step_by_step_page
+    when_I_want_to_unpublish_the_page
+    and_I_fill_in_the_form_with_a_valid_url
+    then_the_page_is_unpublished
+    and_I_see_a_success_notice
+  end
+
+  scenario "User unpublishes a step by step page with an invalid redirect url" do
+    given_there_is_a_published_step_by_step_page
+    when_I_view_the_step_by_step_page
+    when_I_want_to_unpublish_the_page
+    and_I_fill_in_the_form_with_an_invalid_url
+    then_I_see_that_the_url_isnt_valid
+    and_I_fill_in_the_form_with_an_empty_url
+    then_I_see_that_the_url_isnt_valid
+  end
+
   def given_there_is_a_step_by_step_page
     @step_by_step_page = create(:step_by_step_page)
   end
 
   def given_there_is_a_step_by_step_page_with_steps
     @step_by_step_page = create(:step_by_step_page_with_steps)
+  end
+
+  def given_there_is_a_published_step_by_step_page
+    @step_by_step_page = create(:published_step_by_step_page)
   end
 
   def and_I_visit_the_index_page
@@ -80,10 +103,41 @@ RSpec.feature "Managing step by step pages" do
     visit step_by_step_page_publish_path(@step_by_step_page)
   end
 
+  def when_I_want_to_unpublish_the_page
+    click_on "Unpublish"
+  end
+
+  def and_I_fill_in_the_form_with_a_valid_url
+    fill_in "Redirect to", with: "/micro-pigs-can-grow-to-the-size-of-godzilla"
+    click_on "Unpublish"
+  end
+
+  def and_I_fill_in_the_form_with_an_empty_url
+    fill_in "Redirect to", with: ""
+    click_on "Unpublish"
+  end
+
+  def and_I_fill_in_the_form_with_an_invalid_url
+    fill_in "Redirect to", with: "!"
+    click_on "Unpublish"
+  end
+
+  def then_I_see_that_the_url_isnt_valid
+    expect(page).to have_content("Redirect path is invalid. Step by step page has not been unpublished.")
+  end
+
+  def and_I_see_a_success_notice
+    expect(page).to have_content("Step by step page was successfully unpublished.")
+  end
+
   def and_I_delete_the_step_by_step_page
     accept_confirm do
       click_on "Delete"
     end
+  end
+
+  def when_I_view_the_step_by_step_page
+    visit step_by_step_page_path(@step_by_step_page)
   end
 
   def when_I_edit_the_step_by_step_page

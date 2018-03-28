@@ -24,35 +24,39 @@
 %>
 
 <% if @publish_intent %>
-    <%= render "shared/steps/form_errors", resource: @publish_intent %>
+  <%= render "shared/steps/form_errors", resource: @publish_intent %>
 <% end %>
 
-<%= form_tag do %>
-  <div class="form-group">
-    <%= label_tag :update_type, "Update type" %>
+<div class="row">
+  <div class="col-md-7">
+    <%= form_tag do %>
+      <div class="form-group">
+        <%= label_tag :update_type, "Update type" %>
 
-    <div class="radio">
-      <label>
-        <%= radio_button_tag :update_type, "minor", checked: true %>
-        minor
-      </label>
-    </div>
+        <div class="radio">
+          <label>
+            <%= radio_button_tag :update_type, "minor", checked: true %>
+            minor
+          </label>
+        </div>
 
-    <div class="radio">
-      <label>
-        <%= radio_button_tag :update_type, "major" %>
-        major
-      </label>
-    </div>
+        <div class="radio">
+          <label>
+            <%= radio_button_tag :update_type, "major" %>
+            major
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= label_tag :change_note, "Change note" %>
+        <%= text_field_tag :change_note  %>
+      </div>
+
+      <div class="form-group">
+        <%= submit_tag "Publish", class: "btn btn-primary" %>
+        <%= link_to 'Cancel', @step_by_step_page %>
+      </div>
+    <% end %>
   </div>
-
-  <div class="form-group">
-    <%= label_tag :change_note, "Change note" %>
-    <%= text_field_tag :change_note  %>
-  </div>
-
-  <div class="form-group">
-    <%= submit_tag "Publish", class: "btn btn-primary" %>
-    <%= link_to 'Cancel', @step_by_step_page %>
-  </div>
-<% end %>
+</div>
