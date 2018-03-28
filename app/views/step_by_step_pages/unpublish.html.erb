@@ -20,28 +20,29 @@
 
 <%= render 'shared/steps/heading',
   step_nav: @step_by_step_page.title,
-  action: 'Unpublish step by step'
+  action: 'Unpublish step by step navigation'
 %>
 
-<div class="callout callout-warning add-bottom-margin">
-  <div class="callout-title">
-    Warning
-  </div>
-  <div class="callout-body">
+<% warning = capture do %>
+  <h2 class="h4">Warning</h2>
+  <p>
     Unpublish a page from GOV.UK. This can’t be undone.
-  </div>
-</div>
+  </p>
+<% end %>
+
+<%= render "shared/steps/form_notice",
+  status: "danger",
+  message: warning
+%>
 
 <div class="row">
   <div class="col-md-7">
     <%= form_tag(step_by_step_page_unpublish_path(@step_by_step_page), method: :post) do %>
-      <h3 class="remove-top-margin add-bottom-margin">Unpublish</h3>
-
       <div class="form-group">
         <label for="redirect_url">Redirect to</label>
-        <span class="normal">
+        <div class="help-block">
           For example: <code>redirect-to-replacement-page</code>
-        </span>
+        </div>
         <%= text_field_tag :redirect_url %>
       </div>
 
