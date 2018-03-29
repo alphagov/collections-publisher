@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :step_by_step_page do
     title "How to be amazing"
     slug "how-to-be-the-amazing-1"
-    content_id SecureRandom.uuid
+    content_id { SecureRandom.uuid }
     introduction "Find out the steps to become amazing"
     description "How to be amazing - find out the steps to become amazing"
 

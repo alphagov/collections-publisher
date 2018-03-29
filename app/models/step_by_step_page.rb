@@ -7,6 +7,8 @@ class StepByStepPage < ApplicationRecord
   validates :slug, slug: true, on: :create
   before_validation :generate_content_id, on: :create
 
+  scope :by_title, -> { order(:title) }
+
   def has_been_published?
     published_at.present?
   end

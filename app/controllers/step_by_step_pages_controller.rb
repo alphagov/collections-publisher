@@ -3,7 +3,7 @@ class StepByStepPagesController < ApplicationController
   before_action :set_step_by_step_page, only: %i[show edit update destroy]
 
   def index
-    @step_by_step_pages = StepByStepPage.all
+    @step_by_step_pages = StepByStepPage.by_title
   end
 
   def new
