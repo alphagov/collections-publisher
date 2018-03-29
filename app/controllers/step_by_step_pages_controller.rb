@@ -71,14 +71,27 @@ class StepByStepPagesController < ApplicationController
     end
   end
 
-  def unpublish; end
+  def unpublish
+    @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
+
+    if request.post?
+      redirect_url = params.delete("redirect_url")
+
+      if StepByStepPage.validate_redirect(redirect_url)
+        unpublish_page(redirect_url)
+        redirect_to @step_by_step_page, notice: 'Step by step page was successfully unpublished.'
+      else
+        flash[:danger] = 'Redirect path is invalid. Step by step page has not been unpublished.'
+      end
+    end
+  end
 
 private
 
   def discard_draft
     StepNavPublisher.discard_draft(@step_by_step_page.content_id)
   rescue GdsApi::HTTPNotFound
-    nil
+    Rails.logger.info "Discarding #{@step_by_step_page.content_id} failed"
   end
 
   def update_draft
@@ -90,6 +103,15 @@ private
     StepNavPublisher.update(@step_by_step_page, publish_intent)
     StepNavPublisher.publish(@step_by_step_page)
     @step_by_step_page.mark_as_published
+  end
+
+  def unpublish_page(redirect_url)
+    begin
+      StepNavPublisher.unpublish(@step_by_step_page, redirect_url)
+    rescue GdsApi::HTTPNotFound
+      Rails.logger.info "Unpublishing #{@step_by_step_page.content_id} failed"
+    end
+    @step_by_step_page.mark_as_unpublished
   end
 
   def set_step_by_step_page

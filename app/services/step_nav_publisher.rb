@@ -16,4 +16,8 @@ class StepNavPublisher
   def self.publish(step_nav)
     Services.publishing_api.publish(step_nav.content_id)
   end
+
+  def self.unpublish(step_nav, redirect_url)
+    Services.publishing_api.unpublish(step_nav.content_id, type: "redirect", alternative_path: redirect_url)
+  end
 end

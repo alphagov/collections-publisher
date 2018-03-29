@@ -14,6 +14,11 @@ FactoryBot.define do
     end
   end
 
+  factory :published_step_by_step_page, parent: :step_by_step_page_with_steps do
+    draft_updated_at 3.hours.ago
+    published_at Time.zone.now
+  end
+
   factory :step do
     title "Check how awesome you are"
     logic "number"
