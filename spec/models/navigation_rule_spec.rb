@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe NavigationRule do
-  let(:step_page) { create(:step_by_step_page) }
+  let(:step_by_step_page) { create(:step_by_step_page) }
 
   it { belong_to :step_by_step_page }
 
@@ -28,7 +28,7 @@ RSpec.describe NavigationRule do
         resource = described_class.new(
           base_path: '/a-base-path',
           content_id: 'A-CONTENT-ID-BOOM',
-          step_by_step_page: step_page,
+          step_by_step_page: step_by_step_page,
         )
 
         expect(resource).to_not be_valid
@@ -41,7 +41,7 @@ RSpec.describe NavigationRule do
         resource = described_class.new(
           title: 'A Title',
           content_id: 'A-CONTENT-ID-BOOM',
-          step_by_step_page: step_page,
+          step_by_step_page: step_by_step_page,
         )
 
         expect(resource).to_not be_valid
@@ -54,7 +54,7 @@ RSpec.describe NavigationRule do
         resource = described_class.new(
           title: 'A Title',
           base_path: '/a-base-path',
-          step_by_step_page: step_page,
+          step_by_step_page: step_by_step_page,
         )
 
         expect(resource).to_not be_valid
@@ -68,7 +68,7 @@ RSpec.describe NavigationRule do
           title: 'A Title',
           base_path: '/a-base-path',
           content_id: 'A-CONTENT-ID-BOOM',
-          step_by_step_page: step_page,
+          step_by_step_page: step_by_step_page,
         )
 
         expect(resource).to be_valid
