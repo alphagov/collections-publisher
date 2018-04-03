@@ -26,7 +26,7 @@ RSpec.describe StepLinksForRules do
     it 'adds new navigation rules' do
       setup_test_with_publishing_api_requests
 
-      described_class.new(step: first_step).call
+      described_class.new(step_by_step_page: step_page).call
 
       navigation_rules = step_page.reload.navigation_rules
 
@@ -41,7 +41,7 @@ RSpec.describe StepLinksForRules do
   context 'when a step page has rules' do
     before do
       setup_test_with_publishing_api_requests
-      described_class.new(step: first_step).call
+      described_class.new(step_by_step_page: step_page).call
     end
 
     it "has 3 rules" do
@@ -74,7 +74,7 @@ RSpec.describe StepLinksForRules do
           content_items: initial_content_items << amazing_content_item
         )
 
-        described_class.new(step: first_step.reload).call
+        described_class.new(step_by_step_page: step_page).call
 
         expect(
           step_page.navigation_rules.size
@@ -97,7 +97,7 @@ RSpec.describe StepLinksForRules do
           content_items: initial_content_items
         )
 
-        described_class.new(step: first_step.reload).call
+        described_class.new(step_by_step_page: step_page).call
 
         expect { rule.reload }.to raise_error ActiveRecord::RecordNotFound
 
@@ -128,7 +128,7 @@ RSpec.describe StepLinksForRules do
           step_page.navigation_rules.count
         ).to eql(3)
 
-        described_class.new(step: first_step.reload).call
+        described_class.new(step_by_step_page: step_page).call
 
         expect(
           step_page.navigation_rules.count

@@ -1,12 +1,11 @@
 class StepLinksForRules
-  def initialize(step:, step_content_parser: StepContentParser.new)
-    @step = step
-    @step_page = step.step_by_step_page
+  def initialize(step_by_step_page:, step_content_parser: StepContentParser.new)
+    @step_by_step_page = step_by_step_page
     @step_content_parser = step_content_parser
   end
 
   def call
-    step_page.navigation_rules.each do |rule|
+    step_by_step_page.navigation_rules.each do |rule|
       rules_from_step_content[rule.content_id]["include_in_links"] = rule.include_in_links if rules_from_step_content[rule.content_id]
     end
 
@@ -19,7 +18,7 @@ class StepLinksForRules
 
 private
 
-  attr_reader :step, :step_content_parser, :step_page
+  attr_reader :step_content_parser, :step_by_step_page
 
   # hash of rules payloads keyed by content_id
   def rules_from_step_content
@@ -37,7 +36,7 @@ private
   def base_paths
     @base_paths ||=
       begin
-        all_contents = step_page.steps.map(&:contents).join
+        all_contents = step_by_step_page.steps.map(&:contents).join
         step_content_parser.base_paths(all_contents).uniq
       end
   end
@@ -60,16 +59,16 @@ private
   end
 
   def navigation_rule_paths
-    step_page.navigation_rules.pluck(&:base_path)
+    step_by_step_page.navigation_rules.pluck(&:base_path)
   end
 
   def delete_rules
-    step_page.navigation_rules.delete_all
+    step_by_step_page.navigation_rules.delete_all
   end
 
   def add_rules(rules:)
     rules.each do |rule|
-      step_page.navigation_rules.new(rule).save!
+      step_by_step_page.navigation_rules.new(rule).save!
     end
   end
 end
