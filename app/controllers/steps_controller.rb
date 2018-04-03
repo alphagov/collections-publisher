@@ -8,8 +8,7 @@ class StepsController < ApplicationController
     @step = step_by_step_page.steps.new(step_params)
 
     if @step.save
-      update_rules
-      update_publishing_api
+      update_downstream
 
       redirect_to step_by_step_page_path(step_by_step_page.id), notice: 'Step was successfully created.'
     else
@@ -25,8 +24,7 @@ class StepsController < ApplicationController
     step_params = params.require(:step).permit!
 
     if step.update(step_params)
-      update_rules
-      update_publishing_api
+      update_downstream
 
       redirect_to step_by_step_page_path(step_by_step_page.id), notice: 'Step was successfully updated.'
     else
@@ -36,8 +34,7 @@ class StepsController < ApplicationController
 
   def destroy
     if step.destroy
-      update_rules
-      update_publishing_api
+      update_downstream
 
       redirect_to step_by_step_page_path(step_by_step_page.id), notice: 'Step was successfully deleted.'
     else
@@ -47,13 +44,8 @@ class StepsController < ApplicationController
 
 private
 
-  def update_rules
-    StepLinksForRulesWorker.perform_async(step.id)
-  end
-
-  def update_publishing_api
-    StepNavPublisher.update(step_by_step_page.reload)
-    step_by_step_page.mark_draft_updated
+  def update_downstream
+    StepByStepDraftUpdateWorker.perform_async(step_by_step_page.id)
   end
 
   def step_by_step_page

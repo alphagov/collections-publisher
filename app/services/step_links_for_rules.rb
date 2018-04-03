@@ -4,6 +4,10 @@ class StepLinksForRules
     @step_content_parser = step_content_parser
   end
 
+  def self.update(step_by_step_page)
+    new(step_by_step_page: step_by_step_page).call
+  end
+
   def call
     step_by_step_page.navigation_rules.each do |rule|
       rules_from_step_content[rule.content_id]["include_in_links"] = rule.include_in_links if rules_from_step_content[rule.content_id]
