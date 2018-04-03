@@ -48,10 +48,8 @@ private
   def content_ids
     return [] if base_paths.empty?
 
-    unvalidated_base_paths = (base_paths - navigation_rule_paths)
-
     @content_ids ||= Services.publishing_api.lookup_content_ids(
-      base_paths: unvalidated_base_paths,
+      base_paths: base_paths,
       with_drafts: true,
       ).values
   end
