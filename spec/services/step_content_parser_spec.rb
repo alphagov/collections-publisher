@@ -341,6 +341,37 @@ RSpec.describe StepContentParser do
         )
       )
     end
+
+    it "strips query strings and segments" do
+      step_text = <<~HEREDOC
+        [All the prizes](/all-the-prizes#the-best-ones)
+        - [A very expensive speed boat](/i-love-speed-boats)
+        - [Spending money](/spending-money?currency=sterling)£5000 or so
+      HEREDOC
+
+      expect(subject.base_paths(step_text)).to eq(
+        %w(
+          /all-the-prizes
+          /i-love-speed-boats
+          /spending-money
+        )
+      )
+    end
+
+    it "can cope with weird things" do
+      step_text = <<~HEREDOC
+        Some text with a [link in the middle](/the-only/Server-Relative/path/in-here)
+        [All the prizes](\\all-the-prizes/#the-best-ones)
+        - [A very expensive speed boat](//i-love-speed-boats)
+        - [Spending money](spending-money?currency=sterling)£5000 or so
+      HEREDOC
+
+      expect(subject.base_paths(step_text)).to eq(
+        %w(
+          /the-only/Server-Relative/path/in-here
+        )
+      )
+    end
   end
 
   context "mixed content" do

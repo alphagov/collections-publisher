@@ -36,11 +36,18 @@ class StepContentParser
   end
 
   def base_paths(step_text)
-    step_text.scan(/\[.+\]\((.+)\)/).
-      reject { |href| href[0] =~ /https?:\/\//i if href.any? }.flatten
+    relative_paths(step_text).map do |path|
+      uri = URI.parse(path)
+      uri.path
+    end
   end
 
 private
+
+  def relative_paths(content)
+    content.scan(/\[.+\]\((.+)\)/).
+      select { |href| href[0] =~ /^\/[a-z0-9]+.*/i if href.any? }.flatten
+  end
 
   def standard_list?(section)
     section.all? { |line| line =~ LIST_REGEX }
