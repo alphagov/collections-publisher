@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.0'
+gem 'rails', '~> 5.1'
 gem 'govuk_app_config', '~> 1.4'
 
 gem 'aasm', '~> 4.0'
