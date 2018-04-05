@@ -59,7 +59,7 @@ private
   def base_paths
     @base_paths ||=
       begin
-        all_contents = step_by_step_page.steps.map(&:contents).join
+        all_contents = step_by_step_page.steps.map(&:contents).join('\n')
         step_content_parser.base_paths(all_contents).uniq
       end
   end
