@@ -28,4 +28,8 @@ module StepNavSteps
   def then_the_page_is_unpublished
     assert_publishing_api_unpublish(@step_by_step_page.content_id)
   end
+
+  def expect_update_worker
+    allow(StepByStepDraftUpdateWorker).to receive(:perform_async).with(@step_by_step_page.id)
+  end
 end

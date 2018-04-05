@@ -17,7 +17,6 @@ RSpec.feature "Managing step by step pages" do
         when_I_visit_the_step_by_step_page
         and_I_create_a_new_step
         and_I_fill_in_the_form
-        then_the_content_is_sent_to_publishing_api
         and_I_see_the_step_on_the_step_by_step_details_page
       end
 
@@ -35,7 +34,6 @@ RSpec.feature "Managing step by step pages" do
         when_I_visit_the_step_by_step_page
         and_I_can_see_the_first_step
         and_I_delete_the_first_step
-        then_the_content_is_sent_to_publishing_api
         and_the_step_is_deleted
       end
     end
@@ -96,6 +94,8 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_reorder_the_steps
     click_on "Down", match: :first
+
+    expect_update_worker
     click_on "Save"
   end
 
@@ -114,6 +114,8 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_delete_the_first_step
+    expect_update_worker
+
     accept_confirm do
       click_on "Delete", match: :first
     end
@@ -174,6 +176,8 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_click_on_save
+    expect_update_worker
+
     click_on "Save step"
   end
 

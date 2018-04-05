@@ -23,7 +23,7 @@ class StepByStepPagesController < ApplicationController
         step.update_attribute(:position, step_data["position"])
       end
 
-      update_draft
+      update_downstream
       redirect_to @step_by_step_page, notice: 'Steps were successfully reordered.'
     end
   end
@@ -34,7 +34,8 @@ class StepByStepPagesController < ApplicationController
     @step_by_step_page = StepByStepPage.new(step_by_step_page_params)
 
     if @step_by_step_page.save
-      update_draft
+      update_downstream
+
       redirect_to @step_by_step_page, notice: 'Step by step page was successfully created.'
     else
       render :new
@@ -43,7 +44,8 @@ class StepByStepPagesController < ApplicationController
 
   def update
     if @step_by_step_page.update(step_by_step_page_params)
-      update_draft
+      update_downstream
+
       redirect_to step_by_step_page_path, notice: 'Step by step page was successfully updated.'
     else
       render :edit
@@ -89,14 +91,13 @@ class StepByStepPagesController < ApplicationController
 private
 
   def discard_draft
-    StepNavPublisher.discard_draft(@step_by_step_page.content_id)
+    StepNavPublisher.discard_draft(@step_by_step_page)
   rescue GdsApi::HTTPNotFound
     Rails.logger.info "Discarding #{@step_by_step_page.content_id} failed"
   end
 
-  def update_draft
-    StepNavPublisher.update(@step_by_step_page)
-    @step_by_step_page.mark_draft_updated
+  def update_downstream
+    StepByStepDraftUpdateWorker.perform_async(@step_by_step_page.id)
   end
 
   def publish_page(publish_intent)
