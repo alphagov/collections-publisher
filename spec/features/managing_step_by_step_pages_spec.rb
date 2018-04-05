@@ -82,14 +82,6 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_that_the_url_isnt_valid
   end
 
-  def given_there_is_a_step_by_step_page
-    @step_by_step_page = create(:step_by_step_page)
-  end
-
-  def given_there_is_a_step_by_step_page_with_steps
-    @step_by_step_page = create(:step_by_step_page_with_steps)
-  end
-
   def given_there_is_a_published_step_by_step_page
     @step_by_step_page = create(:published_step_by_step_page)
   end

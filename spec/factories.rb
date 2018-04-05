@@ -10,6 +10,8 @@ FactoryBot.define do
       after(:create) do |step_by_step_page|
         create(:step, step_by_step_page: step_by_step_page)
         create(:or_step, step_by_step_page: step_by_step_page)
+        create(:navigation_rule, step_by_step_page: step_by_step_page)
+        create(:navigation_rule, step_by_step_page: step_by_step_page, title: "Also good stuff", base_path: "/also/good/stuff")
       end
     end
   end
@@ -40,6 +42,12 @@ FactoryBot.define do
       logic "or"
       position 2
     end
+  end
+
+  factory :navigation_rule do
+    title "Good stuff"
+    base_path "/good/stuff"
+    content_id { SecureRandom.uuid }
   end
 
   factory :redirect_item do
