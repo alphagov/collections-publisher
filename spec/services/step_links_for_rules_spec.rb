@@ -23,7 +23,7 @@ RSpec.describe StepLinksForRules do
       expect(step_page.navigation_rules.count).to eql(0)
     end
 
-    it 'adds new navigation rules' do
+    it 'adds new navigation rules alphabetically' do
       setup_test_with_publishing_api_requests
 
       described_class.new(step_by_step_page: step_page).call
@@ -32,8 +32,8 @@ RSpec.describe StepLinksForRules do
 
       expect(navigation_rules.size).to eql(3)
 
-      expect(navigation_rules.first.title).to eq("Good Stuff")
-      expect(navigation_rules.second.title).to eq("Also Good Stuff")
+      expect(navigation_rules.first.title).to eq("Also Good Stuff")
+      expect(navigation_rules.second.title).to eq("Good Stuff")
       expect(navigation_rules.third.title).to eq("Not as Great")
     end
   end

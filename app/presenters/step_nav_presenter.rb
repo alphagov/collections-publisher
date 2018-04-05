@@ -72,16 +72,17 @@ private
   end
 
   def edition_links
-    {
-      "pages_part_of_step_nav": parsed_edition_links
-    }
+    links = {}
+    links[:pages_part_of_step_nav] = part_of_step_nav_links if part_of_step_nav_links.present?
+    links[:pages_related_to_step_nav] = related_to_step_nav_links if related_to_step_nav_links.present?
+    links
   end
 
-  def parsed_edition_links
-    StepNavPublisher.lookup_content_ids(parsed_base_paths).values
+  def part_of_step_nav_links
+    step_nav.navigation_rules.part_of_content_ids
   end
 
-  def parsed_base_paths
-    step_nav.steps.map { |step| step_content_parser.base_paths(step.contents) }.flatten.uniq
+  def related_to_step_nav_links
+    step_nav.navigation_rules.related_content_ids
   end
 end

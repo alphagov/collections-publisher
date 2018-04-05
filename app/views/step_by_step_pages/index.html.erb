@@ -18,8 +18,15 @@
   <%= link_to 'Create new', new_step_by_step_page_path, class: "btn btn-primary" %>
 </p>
 
-<table class="table table-striped">
+<table class="table table-striped" data-module="filterable-table">
   <thead>
+    <tr>
+      <th colspan="3">
+      <div class='filter-control'>
+        <%= render partial: 'govuk_admin_template/table_filter_form', locals: { placeholder: 'Search for a step by step page here' } %>
+      </div>
+      </th>
+    </tr>
     <tr>
       <th>Title</th>
       <th>Actions</th>
@@ -35,9 +42,10 @@
         </th>
         <td>
           <ul class="list-inline">
-            <li><%= link_to 'Edit content', step_by_step_page %></li>
+            <li><%= link_to 'Edit', step_by_step_page %></li>
+            <li><%= link_to 'Choose navigation', step_by_step_page_navigation_rules_path(step_by_step_page) %></li>
             <% if step_by_step_page.has_draft? %>
-              <li><%= link_to 'Preview', preview_url(step_by_step_page.slug) %></li>
+                <li><%= link_to 'Preview', preview_url(step_by_step_page.slug) %></li>
             <% end %>
             <% unless step_by_step_page.has_been_published? %>
               <li><%= link_to 'Delete', step_by_step_page, method: :delete, data: { confirm: 'Delete this step by step page?' } %></li>

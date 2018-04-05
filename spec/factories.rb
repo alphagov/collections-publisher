@@ -10,8 +10,6 @@ FactoryBot.define do
       after(:create) do |step_by_step_page|
         create(:step, step_by_step_page: step_by_step_page)
         create(:or_step, step_by_step_page: step_by_step_page)
-        create(:navigation_rule, step_by_step_page: step_by_step_page)
-        create(:navigation_rule, step_by_step_page: step_by_step_page, title: "Also good stuff", base_path: "/also/good/stuff")
       end
     end
   end
@@ -19,6 +17,13 @@ FactoryBot.define do
   factory :published_step_by_step_page, parent: :step_by_step_page_with_steps do
     draft_updated_at 3.hours.ago
     published_at Time.zone.now
+  end
+
+  factory :step_by_step_page_with_navigation_rules, parent: :step_by_step_page_with_steps do
+    after(:create) do |step_by_step_page|
+      create(:navigation_rule, step_by_step_page: step_by_step_page)
+      create(:navigation_rule, step_by_step_page: step_by_step_page, title: "Also good stuff", base_path: "/also/good/stuff")
+    end
   end
 
   factory :step do

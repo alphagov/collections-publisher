@@ -8,7 +8,7 @@ RSpec.describe StepNavPresenter do
       allow(Services.publishing_api).to receive(:lookup_content_id)
     end
 
-    let(:step_nav) { create(:step_by_step_page_with_steps) }
+    let(:step_nav) { create(:step_by_step_page_with_navigation_rules) }
 
     subject { described_class.new(step_nav) }
 
@@ -38,7 +38,23 @@ RSpec.describe StepNavPresenter do
 
     it "presents edition links correctly" do
       presented = subject.render_for_publishing_api
-      expect(presented[:links]).to eq(pages_part_of_step_nav: ["d6b1901d-b925-47c5-b1ca-1e52197097e2"])
+      expect(presented[:links][:pages_part_of_step_nav].count).to eq(2)
+      expect(presented[:links][:pages_related_to_step_nav]).to be nil
+    end
+
+    it "detects pages for navigation" do
+      step_nav_with_navigation = create(:step_by_step_page_with_navigation_rules)
+      rule1 = step_nav_with_navigation.navigation_rules.first
+      rule1.include_in_links = false
+      rule1.save
+
+      step_nav_with_navigation.reload
+
+      presenter = described_class.new(step_nav_with_navigation)
+      presented = presenter.render_for_publishing_api
+
+      expect(presented[:links][:pages_part_of_step_nav].count).to eq(1)
+      expect(presented[:links][:pages_related_to_step_nav].count).to eq(1)
     end
 
     it "shows the correct update type and change note" do

@@ -12,7 +12,7 @@ RSpec.feature "Managing step by step navigation" do
     end
 
     scenario "User configures navigation" do
-      given_there_is_a_step_by_step_page_with_steps
+      given_there_is_a_step_by_step_page_with_navigation_rules
       and_I_visit_the_navigation_rules_page
       and_I_see_all_pages_included_in_navigation
       and_I_set_some_navigation_preferences
@@ -20,6 +20,10 @@ RSpec.feature "Managing step by step navigation" do
       then_I_visit_the_navigation_steps_page_again
       and_I_see_my_selected_preferences
     end
+  end
+
+  def given_there_is_a_step_by_step_page_with_navigation_rules
+    @step_by_step_page = create(:step_by_step_page_with_navigation_rules)
   end
 
   def and_I_visit_the_navigation_rules_page
@@ -32,7 +36,7 @@ RSpec.feature "Managing step by step navigation" do
 
     expect(page).to have_link("Also good stuff", href: "https://draft-origin.test.gov.uk/also/good/stuff")
 
-    checked = page.all(:css, "input[type=checkbox]") { |check| check.checked? }
+    checked = page.all(:css, "input[type=checkbox]", &:checked?)
     expect(checked.count).to eq @step_by_step_page.navigation_rules.count
   end
 

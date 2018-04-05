@@ -22,6 +22,7 @@ class NavigationRulesController < ApplicationController
   end
 
 private
+
   def set_step_by_step_page
     @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
   end
