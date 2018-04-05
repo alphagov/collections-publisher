@@ -65,15 +65,6 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-
-  def given_there_is_a_step_by_step_page_with_steps
-    @step_by_step_page = create(:step_by_step_page_with_steps)
-  end
-
-  def given_there_is_a_step_by_step_page
-    @step_by_step_page = create(:step_by_step_page)
-  end
-
   def when_I_visit_the_step_by_step_page
     visit step_by_step_page_path(@step_by_step_page)
   end

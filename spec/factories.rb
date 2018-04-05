@@ -19,6 +19,13 @@ FactoryBot.define do
     published_at Time.zone.now
   end
 
+  factory :step_by_step_page_with_navigation_rules, parent: :step_by_step_page_with_steps do
+    after(:create) do |step_by_step_page|
+      create(:navigation_rule, step_by_step_page: step_by_step_page)
+      create(:navigation_rule, step_by_step_page: step_by_step_page, title: "Also good stuff", base_path: "/also/good/stuff")
+    end
+  end
+
   factory :step do
     title "Check how awesome you are"
     logic "number"
@@ -40,6 +47,12 @@ FactoryBot.define do
       logic "or"
       position 2
     end
+  end
+
+  factory :navigation_rule do
+    title "Good stuff"
+    base_path "/good/stuff"
+    content_id { SecureRandom.uuid }
   end
 
   factory :redirect_item do

@@ -32,4 +32,12 @@ module StepNavSteps
   def expect_update_worker
     allow(StepByStepDraftUpdateWorker).to receive(:perform_async).with(@step_by_step_page.id)
   end
+
+  def given_there_is_a_step_by_step_page_with_steps
+    @step_by_step_page = create(:step_by_step_page_with_steps)
+  end
+
+  def given_there_is_a_step_by_step_page
+    @step_by_step_page = create(:step_by_step_page)
+  end
 end

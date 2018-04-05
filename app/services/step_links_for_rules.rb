@@ -69,7 +69,23 @@ private
 
     results_from_lookup = lookup_content_ids(base_paths)
 
-    results_from_lookup.values.uniq
+    missing_paths = base_paths - results_from_lookup.keys
+
+    parent_content_ids = lookup_parent_ids(missing_paths)
+
+    (results_from_lookup.values + parent_content_ids).uniq
+  end
+
+  # This will match guides where we've referenced a chapter, but not the base path
+  def lookup_parent_ids(paths)
+    return [] if paths.empty?
+
+    parent_paths = paths.map { |path| File.dirname(path) }
+
+    # we don't want to tag the homepage
+    filtered_parents = parent_paths.reject { |path| path == "/" }
+
+    lookup_content_ids(filtered_parents).values
   end
 
   def lookup_content_ids(base_paths)
