@@ -1,7 +1,5 @@
-<% page_title = '' %>
+<%
+  page_title = links.reverse.map { |link| link[:text] }.join(" | ")
 
-<% links.each do |link| %>
-  <% page_title = "#{link[:text]} | #{page_title}" %>
-<% end %>
-
-<% content_for :page_title, page_title %>
+  content_for :page_title, page_title
+%>

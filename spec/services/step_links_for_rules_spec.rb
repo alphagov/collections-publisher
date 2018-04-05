@@ -32,8 +32,9 @@ RSpec.describe StepLinksForRules do
 
       expect(navigation_rules.size).to eql(3)
 
-      expect(navigation_rules.first.title).to eq("Good Stuff")
-      expect(navigation_rules.second.title).to eq("Also Good Stuff")
+      # alphabetically orded
+      expect(navigation_rules.first.title).to eq("Also Good Stuff")
+      expect(navigation_rules.second.title).to eq("Good Stuff")
       expect(navigation_rules.third.title).to eq("Not as Great")
     end
   end

@@ -13,7 +13,9 @@ RSpec.describe StepNavPresenter do
     subject { described_class.new(step_nav) }
 
     before do
-      allow(StepNavPublisher).to receive(:lookup_content_ids).and_return('/foo' => 'd6b1901d-b925-47c5-b1ca-1e52197097e2')
+      allow(StepNavPublisher).to receive(:lookup_content_ids).with(
+        ["/good/stuff", "/also/good/stuff", "/not/as/great"]
+      ).and_return('/foo' => 'd6b1901d-b925-47c5-b1ca-1e52197097e2')
     end
 
     it "presents a step by step page in the correct format" do
@@ -38,7 +40,10 @@ RSpec.describe StepNavPresenter do
 
     it "presents edition links correctly" do
       presented = subject.render_for_publishing_api
-      expect(presented[:links]).to eq(pages_part_of_step_nav: ["d6b1901d-b925-47c5-b1ca-1e52197097e2"])
+      expect(presented[:links]).to eq(
+        pages_part_of_step_nav: ["d6b1901d-b925-47c5-b1ca-1e52197097e2"],
+        pages_related_to_step_nav: []
+      )
     end
 
     it "shows the correct update type and change note" do

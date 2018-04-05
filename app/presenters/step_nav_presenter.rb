@@ -73,15 +73,31 @@ private
 
   def edition_links
     {
-      "pages_part_of_step_nav": parsed_edition_links
+      "pages_part_of_step_nav": pages_part_of_step_nav,
+      "pages_related_to_step_nav": pages_related_to_step_nav,
     }
   end
 
-  def parsed_edition_links
-    StepNavPublisher.lookup_content_ids(parsed_base_paths).values
+  def base_paths_pages_part_of_step_nav
+    @base_paths_pages_part_of_step_nav ||=
+      parsed_base_paths - step_nav.navigation_rules.base_paths_part_of_step_nav
+  end
+
+  def base_paths_pages_related_to_step_nav
+    @base_paths_pages_related_to_step_nav ||=
+      (parsed_base_paths - step_nav.navigation_rules.base_paths_related_to_step_nav) - base_paths_pages_part_of_step_nav
+  end
+
+  def pages_part_of_step_nav
+    StepNavPublisher.lookup_content_ids(base_paths_pages_part_of_step_nav).values
+  end
+
+  def pages_related_to_step_nav
+    return [] if base_paths_pages_related_to_step_nav.empty?
+    StepNavPublisher.lookup_content_ids(base_paths_pages_related_to_step_nav).values
   end
 
   def parsed_base_paths
-    step_nav.steps.map { |step| step_content_parser.base_paths(step.contents) }.flatten.uniq
+    @parsed_base_paths ||= step_nav.steps.map { |step| step_content_parser.base_paths(step.contents) }.flatten.uniq
   end
 end
