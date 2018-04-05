@@ -342,6 +342,17 @@ RSpec.describe StepContentParser do
       )
     end
 
+    it "can cope with multiple links per line" do
+      step_text = "[Find driving instructor training courses](/find-driving-instructor-training)[Revise and practise for your test](/adi-part-1-test/revision-practice)"
+
+      expect(subject.base_paths(step_text.chomp)).to eq(
+        %w(
+          /find-driving-instructor-training
+          /adi-part-1-test/revision-practice
+        )
+      )
+    end
+
     it "strips query strings and segments" do
       step_text = <<~HEREDOC
         [All the prizes](/all-the-prizes#the-best-ones)

@@ -9,6 +9,9 @@ class StepContentParser
   # it matches [Link text](url)context
   LIST_REGEX = /^\[.+\]\(.+\).*$/
 
+  # matches [Link text](url)
+  LINK_REGEX = /\[[^\[\]]+\]\(([^)]+)/
+
   def parse(step_text)
     sections = step_text.delete("\r").split("\n\n").map do |section|
       section.lines.map(&:chomp)
@@ -45,8 +48,7 @@ class StepContentParser
 private
 
   def relative_paths(content)
-    content.scan(/\[.+\]\(([^)]+)\)/).
-      select { |href| href[0] =~ /^\/[a-z0-9]+.*/i if href.any? }.flatten
+    content.scan(LINK_REGEX).select { |href| href[0] =~ /^\/[a-z0-9]+.*/i if href.any? }.flatten
   end
 
   def standard_list?(section)
