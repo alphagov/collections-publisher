@@ -45,7 +45,7 @@ class StepContentParser
 private
 
   def relative_paths(content)
-    content.scan(/\[.+\]\((.+)\)/).
+    content.scan(/\[.+\]\(([^)]+)\)/).
       select { |href| href[0] =~ /^\/[a-z0-9]+.*/i if href.any? }.flatten
   end
 

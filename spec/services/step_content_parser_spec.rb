@@ -364,11 +364,13 @@ RSpec.describe StepContentParser do
         [All the prizes](\\all-the-prizes/#the-best-ones)
         - [A very expensive speed boat](//i-love-speed-boats)
         - [Spending money](spending-money?currency=sterling)£5000 or so
+        - [Other things](/apart-from-this-one) And some trailing text with a (set of parens) in it
       HEREDOC
 
       expect(subject.base_paths(step_text)).to eq(
         %w(
           /the-only/Server-Relative/path/in-here
+          /apart-from-this-one
         )
       )
     end
