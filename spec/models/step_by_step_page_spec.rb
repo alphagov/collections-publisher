@@ -89,6 +89,13 @@ RSpec.describe StepByStepPage do
         step_by_step_page.save(validate: false)
       }.to raise_error(ActiveRecord::RecordNotUnique)
     end
+
+    it 'must not be present in publishing-api' do
+      allow(Services.publishing_api).to receive(:lookup_content_id).and_return("A_CONTENT_ID")
+      step_by_step_page.save
+
+      expect(step_by_step_page.errors.full_messages).to eq(["Slug has already been taken."])
+    end
   end
 
   describe 'steps association' do
