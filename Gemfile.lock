@@ -188,7 +188,7 @@ GEM
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     parallel (1.12.1)
-    parser (2.5.0.5)
+    parser (2.5.1.0)
       ast (~> 2.4.0)
     plek (2.1.1)
     poltergeist (1.17.0)
@@ -370,7 +370,7 @@ DEPENDENCIES
   govuk_sidekiq (~> 3.0)
   mysql2
   nokogiri
-  parser (= 2.5.0.5)
+  parser (= 2.5.1.0)
   plek (~> 2.1)
   poltergeist
   pry-byebug
