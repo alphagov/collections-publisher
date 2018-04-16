@@ -49,7 +49,7 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     arel (9.0.0)
     ast (2.4.0)
-    autoprefixer-rails (7.2.5)
+    autoprefixer-rails (8.3.0)
       execjs
     better_errors (2.4.0)
       coderay (>= 1.0.0)
@@ -116,9 +116,10 @@ GEM
       rubocop (~> 0.52.0)
       rubocop-rspec (~> 1.19.0)
       scss_lint
-    govuk_admin_template (6.5.0)
+    govuk_admin_template (6.6.0)
       bootstrap-sass (= 3.3.5.1)
       jquery-rails (~> 4.3.1)
+      plek (>= 2.1.0)
       rails (>= 3.2.0)
     govuk_app_config (1.4.2)
       logstasher (~> 1.2.2)
@@ -373,7 +374,7 @@ DEPENDENCIES
   generic_form_builder (~> 0.13)
   govuk-content-schema-test-helpers
   govuk-lint
-  govuk_admin_template (~> 6.5)
+  govuk_admin_template (~> 6.6)
   govuk_app_config (~> 1.4)
   govuk_sidekiq (~> 3.0)
   mysql2
