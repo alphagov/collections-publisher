@@ -1,4 +1,6 @@
 class StepsController < ApplicationController
+  before_action :require_gds_editor_permissions!
+
   def new
     @step = step_by_step_page.steps.new
   end
