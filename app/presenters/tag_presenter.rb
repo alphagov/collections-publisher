@@ -39,7 +39,6 @@ class TagPresenter
       title: @tag.title,
       description: @tag.description,
       locale: 'en',
-      need_ids: [],
       public_updated_at: @tag.updated_at.iso8601,
       publishing_app: "collections-publisher",
       rendering_app: "collections",

@@ -21,7 +21,6 @@ private
       document_type: "step_by_step_nav",
       links: edition_links,
       locale: "en",
-      need_ids: [],
       public_updated_at: public_updated_at,
       publishing_app: "collections-publisher",
       redirects: [],
