@@ -18,7 +18,6 @@ RSpec.describe TopicPresenter do
           :title => 'Working at sea',
           :description => 'The sea, the sky, the sea, the sky...',
           :locale => 'en',
-          :need_ids => [],
           :publishing_app => 'collections-publisher',
           :rendering_app => 'collections',
           :redirects => [])
@@ -82,7 +81,6 @@ RSpec.describe TopicPresenter do
           :title => 'Offshore',
           :description => 'Oil rigs, pipelines etc.',
           :locale => 'en',
-          :need_ids => [],
           :publishing_app => 'collections-publisher',
           :rendering_app => 'collections',
           :redirects => [])

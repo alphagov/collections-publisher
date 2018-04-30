@@ -35,7 +35,6 @@ RSpec.describe MainstreamBrowsePagePresenter do
         :title => 'Benefits',
         :description => 'All about benefits',
         :locale => 'en',
-        :need_ids => [],
         :publishing_app => 'collections-publisher',
         :rendering_app => 'collections',
         :redirects => [])
