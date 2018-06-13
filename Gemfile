@@ -1,20 +1,19 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 5.2'
-gem 'govuk_app_config', '~> 1.5'
 
 gem 'aasm', '~> 4.0'
 gem 'generic_form_builder', '~> 0.13'
 gem 'mysql2'
 gem 'sass-rails', '~> 5.0'
 gem 'select2-rails', '~> 3.5.9'
-gem 'sinatra', require: nil
 gem 'uglifier', '~> 4.1'
 
 # GDS managed dependencies
 gem 'gds-sso', '~> 13.6'
 gem 'gds-api-adapters', '~> 52.6'
 gem 'govuk_admin_template', '~> 6.6'
+gem 'govuk_app_config', '~> 1.5'
 gem 'govuk_sidekiq', '~> 3.0'
 gem 'plek', '~> 2.1'
 
