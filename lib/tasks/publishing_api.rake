@@ -9,4 +9,9 @@ namespace :publishing_api do
   task :send_published_tags => :environment do
     TagRepublisher.new.republish_tags(Tag.published)
   end
+
+  desc "Publish the /api/organisations prefix route"
+  task :publish_organisations_api_route do
+    PublishOrganisationsApiRoute.new.publish
+  end
 end
