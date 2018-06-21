@@ -1,3 +1,5 @@
+require_relative "../app/lib/services"
+
 class PublishOrganisationsApiRoute
   def publish
     payload = present_for_publishing_api
@@ -28,7 +30,7 @@ private
             type: "prefix",
           },
         ],
-        public_updated_at: Time.zone.now.iso8601,
+        public_updated_at: Time.now.iso8601,
         update_type: "minor",
       }
     }

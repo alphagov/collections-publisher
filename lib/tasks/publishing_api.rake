@@ -1,3 +1,5 @@
+require_relative "../publish_organisations_api_route"
+
 namespace :publishing_api do
   desc "Send all tags to the publishing-api, skipping any marked as dirty"
   task :send_all_tags => :environment do
