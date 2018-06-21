@@ -1,0 +1,45 @@
+{
+  "content_id": "4eeafac0-3a6e-4c8c-967a-4f055845ff3e",
+  "base_path": "/government/organisations/latest",
+  "title": "Latest documents by organisation",
+  "description": "Documents published by organisations.",
+  "locale": "en",
+  "document_type": "finder",
+  "schema_name": "finder",
+  "publishing_app": "collections-publisher",
+  "rendering_app": "finder-frontend",
+  "update_type": "minor",
+  "details": {
+    "document_noun": "organisation",
+    "default_order": "-public_timestamp",
+    "facets": [
+      {
+        "name": "Organisation",
+        "key": "organisations",
+        "short_name": "From",
+        "type": "text",
+        "display_as_result_metadata": true,
+        "filterable": true,
+        "preposition": "from"
+      }
+    ],
+    "reject": {
+      "email_document_supertype": ["other"]
+    },
+    "show_summaries": true
+  },
+  "routes": [
+    {
+      "type": "exact",
+      "path": "/government/organisations/latest"
+    },
+    {
+      "type": "exact",
+      "path": "/government/organisations/latest.atom"
+    },
+    {
+      "type": "exact",
+      "path": "/government/organisations/latest.json"
+    }
+  ]
+}

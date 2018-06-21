@@ -16,4 +16,14 @@ namespace :publishing_api do
   task :publish_organisations_api_route do
     PublishOrganisationsApiRoute.new.publish
   end
+
+  desc 'Publish finders to the publishing API'
+  task publish_finders: :environment do
+    Dir[Rails.root + "lib/finders/*.json"].each do |file_path|
+      puts "Publishing #{file_path}"
+
+      content_item = JSON.parse(File.read(file_path))
+      FinderPublisher.call(content_item)
+    end
+  end
 end
