@@ -24,7 +24,7 @@
       }
     ],
     "reject": {
-      "email_document_supertype": ["other"]
+      "content_purpose_supergroup": ["other"]
     },
     "show_summaries": true
   },
