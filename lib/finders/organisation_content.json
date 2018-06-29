@@ -10,7 +10,7 @@
   "rendering_app": "finder-frontend",
   "update_type": "minor",
   "details": {
-    "document_noun": "organisation",
+    "document_noun": "document",
     "default_order": "-public_timestamp",
     "facets": [
       {
@@ -24,7 +24,7 @@
       }
     ],
     "reject": {
-      "email_document_supertype": ["other"]
+      "content_purpose_supergroup": ["other"]
     },
     "show_summaries": true
   },
