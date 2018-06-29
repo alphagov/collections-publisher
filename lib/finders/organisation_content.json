@@ -11,6 +11,7 @@
   "update_type": "minor",
   "details": {
     "document_noun": "document",
+    "default_documents_per_page": 100,
     "default_order": "-public_timestamp",
     "facets": [
       {
@@ -21,6 +22,15 @@
         "display_as_result_metadata": true,
         "filterable": true,
         "preposition": "from"
+      },
+      {
+        "key": "public_timestamp",
+        "name": "Published",
+        "short_name": "Published",
+        "type": "date",
+        "preposition": "published",
+        "display_as_result_metadata": true,
+        "filterable": false
       }
     ],
     "reject": {
