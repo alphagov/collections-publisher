@@ -23,7 +23,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'parser', '2.5.1.0'
+  gem 'parser', '2.5.1.2'
   gem 'byebug'
   gem 'capybara'
   gem 'database_cleaner'
