@@ -41,6 +41,21 @@ class StepByStepPage < ApplicationRecord
     redirect_url =~ regex
   end
 
+  # This function first generates a hash from the object id,
+  # then unpacks it to integers,
+  # and then finally interpolates them into a string.
+  # The purpose is to generate a deterministic hash
+  # It mostly rips off SecureRandom.uuid
+  # see http://ruby-doc.org/stdlib-1.9.3/libdoc/securerandom/rdoc/SecureRandom.html#uuid-method
+  def auth_bypass_id
+    @_auth_bypass_id ||= begin
+      ary = Digest::SHA256.hexdigest(content_id.to_s).unpack('NnnnnN')
+      ary[2] = (ary[2] & 0x0fff) | 0x4000
+      ary[3] = (ary[3] & 0x3fff) | 0x8000
+      "%08x-%04x-%04x-%04x-%04x%08x" % ary
+    end
+  end
+
 private
 
   def generate_content_id
