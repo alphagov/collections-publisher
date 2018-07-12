@@ -1,4 +1,6 @@
 class StepByStepPage < ApplicationRecord
+  include JwtHelper
+
   has_many :navigation_rules, -> { order(title: :asc) }, dependent: :destroy
   has_many :steps, -> { order(position: :asc) }, dependent: :destroy
 
@@ -39,6 +41,10 @@ class StepByStepPage < ApplicationRecord
   def self.validate_redirect(redirect_url)
     regex = /\A\/([a-z0-9]+-)*[a-z0-9]+\z/
     redirect_url =~ regex
+  end
+
+  def auth_bypass_id
+    @_auth_bypass_id ||= auth_bypass_token(content_id)
   end
 
 private
