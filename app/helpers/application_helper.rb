@@ -7,7 +7,13 @@ module ApplicationHelper
     Plek.new.external_url_for('content-tagger')
   end
 
-  def preview_url(slug)
-    "#{Plek.new.external_url_for('draft-origin')}/#{slug.sub(/^\//, '')}"
+  def preview_url(slug, auth_bypass_id: nil)
+    url = "#{Plek.new.external_url_for('draft-origin')}/#{slug.sub(/^\//, '')}"
+
+    if auth_bypass_id.present?
+      url = JwtHelper.access_limited_preview_url(url, auth_bypass_id)
+    end
+
+    url
   end
 end
