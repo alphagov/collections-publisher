@@ -174,5 +174,10 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_page.draft_updated_at).to be nil
       expect(step_by_step_page.has_draft?).to be false
     end
+
+    it 'should have a deterministically generated hex string' do
+      step_by_step_with_custom_id = create(:step_by_step_page, content_id: 123, slug: 'slug')
+      expect(step_by_step_with_custom_id.auth_bypass_id).to eq("61363635-6134-4539-b230-343232663964")
+    end
   end
 end

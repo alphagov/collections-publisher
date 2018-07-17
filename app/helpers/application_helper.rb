@@ -8,6 +8,6 @@ module ApplicationHelper
   end
 
   def preview_url(slug)
-    "#{Plek.new.external_url_for('draft-origin')}/#{slug.sub(/^\//, '')}"
+    "#{Services.draft_origin}/#{slug.sub(/^\//, '')}"
   end
 end

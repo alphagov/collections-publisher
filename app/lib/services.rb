@@ -16,4 +16,8 @@ module Services
       disable_cache: true
     )
   end
+
+  def self.draft_origin
+    @draft_origin ||= Plek.new.external_url_for('draft-origin')
+  end
 end
