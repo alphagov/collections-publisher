@@ -65,5 +65,30 @@ RSpec.describe StepNavPresenter do
       expect(presented[:update_type]).to eq("major")
       expect(presented[:change_note]).to eq("All your update belong to us")
     end
+
+    describe "#access_limited" do
+      before do
+        allow(step_nav).to receive(:auth_bypass_id) { "123" }
+      end
+
+      it "adds an access limiting token to drafts" do
+        step_nav.mark_draft_updated
+
+        presented = subject.render_for_publishing_api
+        expected_access_limited_tokens = {
+          auth_bypass_ids: ["123"]
+        }
+
+        expect(presented[:access_limited]).to eq(expected_access_limited_tokens)
+      end
+
+      it "doesn't add an access limiting token when publishing" do
+        step_nav.mark_as_published
+
+        presented = subject.render_for_publishing_api
+
+        expect(presented[:access_limited]).to be nil
+      end
+    end
   end
 end

@@ -6,6 +6,7 @@ class StepNavPresenter
 
   def render_for_publishing_api(publish_intent = PublishIntent.minor_update)
     payload = required_fields
+    payload.merge!(optional_fields)
     payload.merge(publish_intent.present)
   end
 
@@ -29,6 +30,12 @@ private
       schema_name: "step_by_step_nav",
       title: step_nav.title
     }
+  end
+
+  def optional_fields
+    fields = {}
+    fields[:access_limited] = access_limited_tokens if step_nav.has_draft?
+    fields
   end
 
   def base_path
@@ -83,5 +90,9 @@ private
 
   def related_to_step_nav_links
     step_nav.navigation_rules.related_content_ids
+  end
+
+  def access_limited_tokens
+    { auth_bypass_ids: [step_nav.auth_bypass_id] }
   end
 end
