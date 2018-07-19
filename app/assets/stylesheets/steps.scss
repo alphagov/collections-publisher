@@ -25,3 +25,15 @@ pre.markdown-example {
 .table-stepnav-rules .checkbox label {
   margin-top: 0;
 }
+
+.js-reorder {
+  cursor: pointer;
+}
+
+.js-reorder-ui-state-highlight { 
+  height: 4em; 
+  line-height: 4em; 
+  background-color: #FFBF47;
+  margin: 1em 0;
+  border: 2px dashed #0B0C0C;
+}

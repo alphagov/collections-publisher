@@ -10,6 +10,7 @@
     init: function() {
       this.addReorderButtons();
       this.bindReorderButtonClicks();
+      this.initialiseDragAndDrop();
     },
 
     addReorderButtons: function() {
@@ -61,6 +62,22 @@
       });
 
       $orderVal.val(JSON.stringify(order));
+    },
+
+    // initialises jQuery sortable on the #js-reorder-group element
+    // this code allows the steps to reorder via drag and drop
+    initialiseDragAndDrop: function() {
+      $('#js-reorder-group').sortable({
+        placeholder: "js-reorder-ui-state-highlight",
+        update: function(){
+          GOVUK.stepByStepPublisher.setOrder();
+        }
+      });
+
+      // adds disable selection 
+      // so that user does not accidently select text 
+      // while trying to do drag and drop 
+      $('#js-reorder-group').disableSelection();
     }
   };
 }());

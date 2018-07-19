@@ -32,6 +32,7 @@
         steps_length = @step_by_step_page.steps.length - 1
     %>
     <% if @step_by_step_page.steps.length > 0 %>
+    <div id="js-reorder-group">
       <% @step_by_step_page.steps.each_with_index do |step, step_index| %>
         <div class="panel panel-default js-reorder" data-id="<%= step.id %>">
           <div class="panel-body">
@@ -53,6 +54,7 @@
           </div>
         </div>
       <% end %>
+    </div>
 
       <%= form_for(@step_by_step_page, url: step_by_step_page_reorder_path(@step_by_step_page), method: :post) do |form| %>
         <input type="hidden" name="step_order_save" id="step_order_save" value="" />
