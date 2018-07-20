@@ -11,6 +11,7 @@
       this.addReorderButtons();
       this.bindReorderButtonClicks();
       this.initialiseDragAndDrop();
+      this.setOrder(); // this is called so the order of the list is initalised
     },
 
     addReorderButtons: function() {
