@@ -19,7 +19,7 @@ RSpec.feature "Managing step by step pages" do
   scenario "User creates a new step by step page" do
     when_I_visit_the_new_step_by_step_form
     and_I_fill_in_the_form
-    then_I_see_delete_and_publish_buttons
+    and_I_see_a_page_created_success_notice
     when_I_visit_the_step_by_step_pages_index
     then_I_see_the_new_step_by_step_page
   end
@@ -47,7 +47,7 @@ RSpec.feature "Managing step by step pages" do
 
   scenario "User deletes a step by step page", js: true do
     given_there_is_a_step_by_step_page_with_steps
-    and_I_visit_the_index_page
+    and_I_visit_the_publish_or_delete_page
     and_I_delete_the_step_by_step_page
     then_the_draft_is_discarded
     and_the_page_is_deleted
@@ -55,17 +55,20 @@ RSpec.feature "Managing step by step pages" do
 
   scenario "User publishes a page" do
     given_there_is_a_step_by_step_page_with_steps
+    and_I_visit_the_publish_or_delete_page
     and_I_visit_the_publish_page
     and_I_publish_the_page
     then_the_page_is_published
     and_I_am_told_that_it_is_published
     then_I_see_the_step_by_step_page
+    and_I_visit_the_publish_or_delete_page
     and_I_see_an_unpublish_button
   end
 
   scenario "User unpublishes a step by step page with a valid redirect url" do
     given_there_is_a_published_step_by_step_page
     when_I_view_the_step_by_step_page
+    and_I_visit_the_publish_or_delete_page
     when_I_want_to_unpublish_the_page
     and_I_fill_in_the_form_with_a_valid_url
     then_the_page_is_unpublished
@@ -75,6 +78,7 @@ RSpec.feature "Managing step by step pages" do
   scenario "User unpublishes a step by step page with an invalid redirect url" do
     given_there_is_a_published_step_by_step_page
     when_I_view_the_step_by_step_page
+    and_I_visit_the_publish_or_delete_page
     when_I_want_to_unpublish_the_page
     and_I_fill_in_the_form_with_an_invalid_url
     then_I_see_that_the_url_isnt_valid
@@ -121,9 +125,13 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_content("Step by step page was successfully unpublished.")
   end
 
+  def and_I_see_a_page_created_success_notice
+    expect(page).to have_content("Step by step page was successfully created.")
+  end
+
   def and_I_delete_the_step_by_step_page
     accept_confirm do
-      click_on "Delete"
+      click_on "Delete step by step"
     end
   end
 
@@ -139,13 +147,17 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_content("How to be amazing")
   end
 
+  def and_I_visit_the_publish_or_delete_page
+    visit step_by_step_page_publish_or_delete_path(@step_by_step_page)
+  end
+
   def and_I_fill_in_the_form
     fill_in "Title", with: "How to bake a cake"
     fill_in "Slug", with: "how-to-bake-a-cake"
     fill_in "Introduction", with: "Learn how you can bake a cake"
     fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
 
-    click_on "Save and continue"
+    click_on "Save"
   end
 
   def and_I_fill_in_the_edit_form
@@ -154,7 +166,7 @@ RSpec.feature "Managing step by step pages" do
     fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
 
     expect_update_worker
-    click_on "Save and continue"
+    click_on "Save"
   end
 
   def and_I_fill_in_the_form_with_a_taken_slug
@@ -163,7 +175,7 @@ RSpec.feature "Managing step by step pages" do
     fill_in "Introduction", with: "Learn how you can bake a cake"
     fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
 
-    click_on "Save and continue"
+    click_on "Save"
   end
 
   def then_I_see_the_new_step_by_step_page
@@ -171,17 +183,17 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def then_I_see_delete_and_publish_buttons
-    within(".publish-actions") do
-      expect(page).to have_css("a", text: "Delete")
-      expect(page).to have_css("a", text: "Publish")
+    within(".publish-or-delete") do
+      expect(page).to have_css("a", text: "Delete step by step")
+      expect(page).to have_css("a", text: "Publish changes")
       expect(page).to_not have_css("a", text: "Unpublish")
     end
   end
 
   def and_I_see_an_unpublish_button
-    within(".publish-actions") do
-      expect(page).to_not have_css("a", text: "Delete")
-      expect(page).to_not have_css("a", text: "Publish")
+    within(".publish-or-delete") do
+      expect(page).to_not have_css("a", text: "Delete step by step")
+      expect(page).to_not have_css("a", text: "Publish changes")
       expect(page).to have_css("a", text: "Unpublish")
     end
   end
@@ -195,7 +207,7 @@ RSpec.feature "Managing step by step pages" do
     fill_in "Slug", with: ""
     fill_in "Introduction", with: ""
     fill_in "Meta description", with: ""
-    click_on "Save and continue"
+    click_on "Save"
   end
 
   def then_I_see_a_validation_error

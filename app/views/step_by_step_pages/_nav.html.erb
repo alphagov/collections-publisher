@@ -1,0 +1,35 @@
+<% 
+  unless defined? active
+    active = ''
+  end
+%>
+
+<ul class="nav nav-tabs nav-justified step-by-step-tabs">
+  <li 
+    class="<%= "active" if active == 'edit-steps' %>"
+  >
+    <%= link_to 'Edit steps', @step_by_step_page %>
+  </li>
+  <% if @step_by_step_page.steps.length > 0 %>
+    <li
+      class="<%= "active" if active == 'reorder-steps' %>"
+    >
+        <%= link_to "Reorder steps", step_by_step_page_reorder_path(@step_by_step_page)%>
+    </li>
+  <% end %>
+  <li 
+    class="<%= "active" if active == 'edit-title' %>"
+  >
+    <%= link_to 'Edit title, intro or slug', edit_step_by_step_page_path(@step_by_step_page) %>
+  </li>
+  <li
+    class="<%= "active" if active == 'choose-navigation' %>"
+  >
+    <%= link_to 'Choose navigation', step_by_step_page_navigation_rules_path(@step_by_step_page) %>
+  </li>
+  <li 
+    class="<%= "active" if active == 'publish-or-delete' %>"
+  >
+    <%= link_to 'Publish or delete', step_by_step_page_publish_or_delete_path(@step_by_step_page) %>
+  </li>
+</ul>

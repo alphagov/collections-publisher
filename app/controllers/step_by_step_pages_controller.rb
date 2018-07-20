@@ -88,6 +88,10 @@ class StepByStepPagesController < ApplicationController
     end
   end
 
+  def publish_or_delete
+    @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
+  end
+
 private
 
   def discard_draft
