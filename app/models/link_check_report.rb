@@ -1,0 +1,2 @@
+class LinkCheckReport < ApplicationRecord
+end

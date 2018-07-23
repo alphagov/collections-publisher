@@ -1,0 +1,2 @@
+class LinkCheckController < ApplicationController
+end
