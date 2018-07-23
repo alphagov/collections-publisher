@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :step_by_step_pages, path: 'step-by-step-pages' do
     get 'navigation-rules', to: 'navigation_rules#edit'
     put 'navigation-rules', to: 'navigation_rules#update'
+    get 'link-check-report', to: 'link_check#retrieve_batch'
     get :publish
     post :publish
     get :reorder
