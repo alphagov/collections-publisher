@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :step_by_step_pages, path: 'step-by-step-pages' do
     get 'navigation-rules', to: 'navigation_rules#edit'
     put 'navigation-rules', to: 'navigation_rules#update'
-    get 'link-check-report', to: 'link_check#retrieve_batch'
+    get 'link-check', to: 'link_check#record_batch'
     get :publish
     post :publish
     get :reorder
@@ -41,6 +41,10 @@ Rails.application.routes.draw do
     resources :lists, only: [:index, :edit, :create, :update, :destroy] do
       resources :list_items, only: [:create, :update, :destroy]
     end
+  end
+
+  resources :link_check, path: 'link-check' do
+    get :record_batch
   end
 
   # Legacy route, may have been bookmarked by user.

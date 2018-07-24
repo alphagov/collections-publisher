@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180326073415) do
+ActiveRecord::Schema.define(version: 2018_07_23_140413) do
 
-  create_table "list_items", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "link_check_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "batch_id"
+    t.datetime "date_requested"
+    t.string "status"
+    t.integer "ste_nav_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "list_items", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "base_path"
     t.integer "index", default: 0, null: false
     t.integer "list_id"
@@ -22,14 +31,14 @@ ActiveRecord::Schema.define(version: 20180326073415) do
     t.index ["list_id", "index"], name: "index_list_items_on_list_id_and_index"
   end
 
-  create_table "lists", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "lists", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.integer "index", default: 0, null: false
     t.integer "tag_id", null: false
     t.index ["tag_id"], name: "index_lists_on_tag_id"
   end
 
-  create_table "navigation_rules", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "navigation_rules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title", null: false
     t.string "base_path", null: false
     t.string "content_id", null: false
@@ -42,7 +51,7 @@ ActiveRecord::Schema.define(version: 20180326073415) do
     t.index ["step_by_step_page_id"], name: "index_navigation_rules_on_step_by_step_page_id"
   end
 
-  create_table "redirect_items", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "redirect_items", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "content_id", null: false
     t.string "from_base_path", null: false
     t.string "to_base_path", null: false
@@ -52,7 +61,7 @@ ActiveRecord::Schema.define(version: 20180326073415) do
     t.index ["from_base_path"], name: "index_redirect_items_on_from_base_path", unique: true
   end
 
-  create_table "redirect_routes", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "redirect_routes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "redirect_id"
     t.string "from_base_path"
     t.string "to_base_path"
@@ -64,7 +73,7 @@ ActiveRecord::Schema.define(version: 20180326073415) do
     t.index ["tag_id"], name: "index_redirect_routes_on_tag_id"
   end
 
-  create_table "step_by_step_pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "step_by_step_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.string "slug"
     t.text "introduction"
@@ -78,7 +87,7 @@ ActiveRecord::Schema.define(version: 20180326073415) do
     t.index ["slug"], name: "index_step_by_step_pages_on_slug", unique: true
   end
 
-  create_table "steps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "steps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.string "logic"
     t.boolean "optional"
@@ -90,7 +99,7 @@ ActiveRecord::Schema.define(version: 20180326073415) do
     t.index ["step_by_step_page_id"], name: "index_steps_on_step_by_step_page_id"
   end
 
-  create_table "tag_associations", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "tag_associations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "from_tag_id", null: false
     t.integer "to_tag_id", null: false
     t.datetime "created_at"
@@ -99,7 +108,7 @@ ActiveRecord::Schema.define(version: 20180326073415) do
     t.index ["to_tag_id"], name: "index_tag_associations_on_to_tag_id"
   end
 
-  create_table "tags", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "tags", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "type"
     t.string "slug", null: false
     t.string "title", null: false
@@ -118,7 +127,7 @@ ActiveRecord::Schema.define(version: 20180326073415) do
     t.index ["slug", "parent_id"], name: "index_tags_on_slug_and_parent_id", unique: true
   end
 
-  create_table "users", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "uid", null: false
