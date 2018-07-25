@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_23_140413) do
+ActiveRecord::Schema.define(version: 2018_07_25_140923) do
 
   create_table "link_check_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.datetime "completed"
     t.integer "batch_id"
-    t.datetime "date_requested"
-    t.string "status"
-    t.integer "ste_nav_id"
+    t.bigint "step_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["step_id"], name: "index_link_check_reports_on_step_id"
   end
 
   create_table "list_items", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(version: 2018_07_23_140413) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
+  add_foreign_key "link_check_reports", "steps"
   add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
   add_foreign_key "lists", "tags", name: "lists_tag_id_fk", on_delete: :cascade
   add_foreign_key "navigation_rules", "step_by_step_pages"

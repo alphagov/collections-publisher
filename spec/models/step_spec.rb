@@ -38,4 +38,12 @@ RSpec.describe Step do
       expect(step_item.errors).to have_key(:logic)
     end
   end
+
+  describe 'link reports' do
+    it 'should return the most recent batch_id' do
+      create(:link_check_report, completed: Time.now, batch_id: 1)
+      create(:link_check_report, batch_id: 2)
+      expect(step_item.batch_link_report_id).to eql 1
+    end
+  end
 end
