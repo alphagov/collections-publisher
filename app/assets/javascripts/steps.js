@@ -10,6 +10,8 @@
     init: function() {
       this.addReorderButtons();
       this.bindReorderButtonClicks();
+      this.initialiseDragAndDrop();
+      this.setOrder(); // this is called so the order of the list is initalised
     },
 
     addReorderButtons: function() {
@@ -26,10 +28,15 @@
         $down.html('<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> Down');
         $down.attr('data-direction', 'down');
 
+        var $drag = $('<span/>');
+        $drag.addClass('drag-and-drop-icon').attr('title', 'Drag and drop');
+        $drag.html('<span class="glyphicon glyphicon-resize-vertical" aria-hidden="true"></span>');
+
         $reorderItems.each(function() {
           var $controls = $(this).find('.js-order-controls');
           $up.clone().appendTo($controls);
           $down.clone().appendTo($controls);
+          $drag.clone().appendTo($controls);
         });
       }
     },
@@ -61,6 +68,25 @@
       });
 
       $orderVal.val(JSON.stringify(order));
+    },
+
+    // initialises jQuery sortable on the #js-reorder-group element
+    // this code allows the steps to reorder via drag and drop
+    initialiseDragAndDrop: function() {
+      $('#js-reorder-group').sortable({
+        placeholder: "js-reorder-ui-state-highlight",
+        start: function(e, ui){
+          ui.placeholder.height(ui.item.height());
+        },
+        update: function(){
+          GOVUK.stepByStepPublisher.setOrder();
+        }
+      });
+
+      // adds disable selection
+      // so that user does not accidently select text
+      // while trying to do drag and drop
+      $('#js-reorder-group').disableSelection();
     }
   };
 }());

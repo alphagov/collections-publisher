@@ -25,3 +25,23 @@ pre.markdown-example {
 .table-stepnav-rules .checkbox label {
   margin-top: 0;
 }
+
+.js-reorder {
+  cursor: pointer;
+}
+
+.drag-and-drop-icon {
+  padding: 10px 0;
+  margin-left: 0.5em;
+  margin-right: -0.5em;
+  line-height: 20px;
+  vertical-align: middle;
+}
+
+.js-reorder-ui-state-highlight {
+  box-sizing: border-box;
+  background-color: #f5f5f5;
+  margin: 1em 0;
+  border: 1px dashed #0B0C0C;
+  border-radius: 4px;
+}
