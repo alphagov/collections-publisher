@@ -5,9 +5,7 @@ class Step < ApplicationRecord
   has_many :link_check_report
 
   def batch_link_report
-    @base_api_url = Plek.find("link-checker-api")
-    @api = GdsApi::LinkCheckerApi.new(@base_api_url)
-    @api.get_batch(find_batch_id)
+    Services.link_checker_api.get_batch(find_batch_id)
   end
 
     # gets the most recent batch id for a step
