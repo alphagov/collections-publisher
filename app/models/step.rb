@@ -12,5 +12,6 @@ class Step < ApplicationRecord
 
     # gets the most recent batch id for a step
   def batch_link_report_id
+    LinkCheckReport.where(step_id: self.id).last.id
   end
 end

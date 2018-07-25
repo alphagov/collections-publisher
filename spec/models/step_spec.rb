@@ -41,9 +41,9 @@ RSpec.describe Step do
 
   describe 'link reports' do
     it 'should return the most recent batch_id' do
-      create(:link_check_report, completed: Time.now, batch_id: 1)
-      create(:link_check_report, batch_id: 2)
-      expect(step_item.batch_link_report_id).to eql 1
+      create(:link_check_report, batch_id: 1, step_id: step_item.id)
+      create(:link_check_report, completed: Time.now, batch_id: 2, step_id: step_item.id)
+      expect(step_item.batch_link_report_id).to eql 2
     end
   end
 end
