@@ -41,6 +41,12 @@ class StepByStepPage < ApplicationRecord
     redirect_url =~ regex
   end
 
+  def status
+    return unpublished_status if has_draft? && has_been_published?
+    return live_status if has_been_published?
+    draft_status
+  end
+
   # Create a deterministic, but unique token that will be used to give one-time
   # access to a piece of draft content.
   # This token is created by using an id that should be unique so that there is
@@ -60,5 +66,29 @@ private
 
   def generate_content_id
     self.content_id ||= SecureRandom.uuid
+  end
+
+  def draft_status
+    {
+      name: "draft",
+      text: "Draft",
+      label_class: "label-default"
+    }
+  end
+
+  def live_status
+    {
+      name: "live",
+      text: "Live",
+      label_class: "label-success"
+    }
+  end
+
+  def unpublished_status
+    {
+      name: "unpublished_changes",
+      text: "Unpublished changes",
+      label_class: "label-primary"
+    }
   end
 end

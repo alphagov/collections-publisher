@@ -144,6 +144,7 @@ RSpec.describe StepByStepPage do
 
         expect(step_by_step_page.draft_updated_at).to be_within(1.second).of nowish
         expect(step_by_step_page.has_draft?).to be true
+        expect(step_by_step_page.status[:name]).to eq('draft')
       end
     end
 
@@ -163,6 +164,7 @@ RSpec.describe StepByStepPage do
         expect(step_by_step_page.published_at).to eq(step_by_step_page.draft_updated_at)
         expect(step_by_step_page.has_been_published?).to be true
         expect(step_by_step_page.has_draft?).to be false
+        expect(step_by_step_page.status[:name]).to eq('live')
       end
     end
 
@@ -178,6 +180,15 @@ RSpec.describe StepByStepPage do
     it 'should have a deterministically generated hex string' do
       step_by_step_with_custom_id = create(:step_by_step_page, content_id: 123, slug: 'slug')
       expect(step_by_step_with_custom_id.auth_bypass_id).to eq("61363635-6134-4539-b230-343232663964")
+    end
+
+    it 'should have a status of unpublished if published and then changes are made' do
+      step_by_step_page.mark_as_published
+
+      Timecop.freeze(Date.today + 1) do
+        step_by_step_page.mark_draft_updated
+        expect(step_by_step_page.status[:name]).to eq('unpublished_changes')
+      end
     end
   end
 end

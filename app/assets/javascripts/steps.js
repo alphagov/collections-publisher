@@ -12,6 +12,7 @@
       this.bindReorderButtonClicks();
       this.initialiseDragAndDrop();
       this.setOrder(); // this is called so the order of the list is initalised
+      this.bindStatusClicks();
     },
 
     addReorderButtons: function() {
@@ -87,6 +88,21 @@
       // so that user does not accidently select text
       // while trying to do drag and drop
       $('#js-reorder-group').disableSelection();
+    },
+
+    // handles the filtering of step navs based on their status
+    // e.g. 'published'
+    bindStatusClicks: function() {
+      $('#filterStatus a').on('click', function(e){
+        e.preventDefault();
+        var show = $(this).data('show');
+        if (show === 'all') {
+          $('tr[data-status]').show();
+        } else {
+          $('tr[data-status]').hide();
+          $('tr[data-status="' + show + '"').show();
+        }
+      });
     }
   };
 }());
