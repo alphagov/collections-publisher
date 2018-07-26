@@ -14,17 +14,35 @@
 
 <h1>Step by step navigation publisher</h1>
 
-<p class="step-actions">
-  <%= link_to 'Create new', new_step_by_step_page_path, class: "btn btn-primary" %>
-</p>
+<div class="row step-actions">
+  <div class="col-xs-6 col-md-6">
+    <%= link_to 'Create new', new_step_by_step_page_path, class: "btn btn-primary" %>
+  </div>
+
+  <div class="col-xs-6 col-md-6">
+    <div class="dropdown pull-right">
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Filter by status
+        <span class="caret"></span>
+      </button>
+
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="filterStatus">
+        <li><a href="#" data-show="all">All</a></li>
+        <li><a href="#" data-show="draft">Draft</a></li>
+        <li><a href="#" data-show="live">Live</a></li>
+        <li><a href="#" data-show="unpublished_changes">Unpublished changes</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
 
 <table class="table table-striped" data-module="filterable-table">
   <thead>
     <tr>
       <th colspan="4">
-      <div class='filter-control'>
-        <%= render partial: 'govuk_admin_template/table_filter_form', locals: { placeholder: 'Search for a step by step page here' } %>
-      </div>
+        <div class='filter-control'>
+          <%= render partial: 'govuk_admin_template/table_filter_form', locals: { placeholder: 'Search for a step by step page here' } %>
+        </div>
       </th>
     </tr>
     <tr>
@@ -37,7 +55,7 @@
 
   <tbody>
     <% @step_by_step_pages.each do |step_by_step_page| %>
-      <tr>
+      <tr data-status="<%= step_by_step_page.status[:name] %>">
         <th>
           <%= step_by_step_page.title %>
         </th>
