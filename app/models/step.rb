@@ -11,8 +11,8 @@ class Step < ApplicationRecord
 
   # returns an array of LinkReport objects if there are any with a broken status or an empty array if not
   def broken_links
-    batch_link_report.links.map do |link|
-      link if link.status == 'broken'
+    batch_link_report.links.keep_if do |link|
+      link.fetch('status') == 'broken' 
     end
   end
 
