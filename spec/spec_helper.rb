@@ -139,9 +139,9 @@ RSpec.configure do |config|
          with(
            headers: {
              'Accept' => 'application/json',
-       	    'Accept-Encoding' => 'gzip, deflate',
-       	    'Host' => 'link-checker-api.test.gov.uk',
-       	    'User-Agent' => 'gds-api-adapters/52.6.0 ()'}).
+             'Accept-Encoding' => 'gzip, deflate',
+             'Host' => 'link-checker-api.test.gov.uk',
+             'User-Agent' => 'gds-api-adapters/52.6.0 ()'}).
          to_return(status: 200, body: expected_response, headers: {})
   end
 end
