@@ -102,7 +102,7 @@ private
 
   def tag_params
     params.require(:mainstream_browse_page)
-      .permit(:slug, :title, :description, :parent_id, :child_ordering, children_attributes: [:index, :id])
+      .permit(:slug, :title, :description, :parent_id, :child_ordering, children_attributes: %i[index id])
   end
 
   def protect_archived_browse_pages!

@@ -25,13 +25,13 @@ RSpec.feature "Managing browse pages" do
     create(:mainstream_browse_page, parent: citizenship, title: "Voting")
     british_citizenship = create(:mainstream_browse_page, parent: citizenship, title: "British citizenship")
 
-    @linked_item_content_id_1 = "6896f0f3-9b79-4ec3-9f16-892f7f35e921"
-    @linked_item_content_id_2 = "f608313e-524a-478a-ae73-03cfdc920bdd"
+    @linked_item_content_id1 = "6896f0f3-9b79-4ec3-9f16-892f7f35e921"
+    @linked_item_content_id2 = "f608313e-524a-478a-ae73-03cfdc920bdd"
     publishing_api_has_linked_items(
       british_citizenship.content_id,
       items: [
-        { base_path: "/naturalisation", title: "Naturalisation", content_id: @linked_item_content_id_1 },
-        { base_path: "/marriage", title: "Marriage", content_id: @linked_item_content_id_2 },
+        { base_path: "/naturalisation", title: "Naturalisation", content_id: @linked_item_content_id1 },
+        { base_path: "/marriage", title: "Marriage", content_id: @linked_item_content_id2 },
       ]
     )
   end
@@ -66,7 +66,7 @@ RSpec.feature "Managing browse pages" do
       Naturalisation
       Marriage
     ))
-    expect(page).to have_link(nil, href: "#{Plek.new.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id_1}")
-    expect(page).to have_link(nil, href: "#{Plek.new.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id_2}")
+    expect(page).to have_link(nil, href: "#{Plek.new.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id1}")
+    expect(page).to have_link(nil, href: "#{Plek.new.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id2}")
   end
 end

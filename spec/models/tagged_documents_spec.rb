@@ -20,7 +20,7 @@ RSpec.describe TaggedDocuments do
 
       publishing_api_has_linked_items(
         topic.content_id,
-        items: [ { base_path: "/some-link", title: "The Title" }, { base_path: "/some-other-link", title: "Another Title" }]
+        items: [{ base_path: "/some-link", title: "The Title" }, { base_path: "/some-other-link", title: "Another Title" }]
       )
 
       documents = TaggedDocuments.new(topic).documents
@@ -33,7 +33,7 @@ RSpec.describe TaggedDocuments do
 
       publishing_api_has_linked_items(
         topic.content_id,
-        items: [ { base_path: "/some-link", title: "The Title" }, { base_path: "/some-other-link", title: "Another Title" }]
+        items: [{ base_path: "/some-link", title: "The Title" }, { base_path: "/some-other-link", title: "Another Title" }]
       )
 
       documents = TaggedDocuments.new(topic).documents
@@ -46,7 +46,7 @@ RSpec.describe TaggedDocuments do
 
       publishing_api_has_linked_items(
         topic.content_id,
-        items: [ { base_path: "/some-link", title: "The Title" }]
+        items: [{ base_path: "/some-link", title: "The Title" }]
       )
 
       document = TaggedDocuments.new(topic).documents.first

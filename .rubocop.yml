@@ -63,6 +63,7 @@ Layout/SpaceInsideParens:
 
 Metrics/BlockLength:
   Exclude:
+    - 'config/routes.rb'
     - 'lib/tasks/**/*.rake'
     - 'spec/**/*_spec.rb'
     - 'spec/factories.rb'

@@ -18,30 +18,30 @@ RSpec.describe RootTopicPresenter do
     end
 
     it ":public_updated_at equals the time of last browse page update" do
-      page_1 = create(:topic, title: "Top-Level Topic 1")
-      page_2 = create(:topic, title: "Top-Level Topic 2")
+      page1 = create(:topic, title: "Top-Level Topic 1")
+      page2 = create(:topic, title: "Top-Level Topic 2")
 
       Timecop.travel 3.hours.ago do
-        page_1.touch
+        page1.touch
       end
-      page_2.touch
+      page2.touch
 
       rendered = RootTopicPresenter.new('state' => 'published').render_for_publishing_api
 
-      expect(rendered[:public_updated_at]).to eq(page_2.updated_at.iso8601)
+      expect(rendered[:public_updated_at]).to eq(page2.updated_at.iso8601)
     end
   end
 
   describe '#render_links_for_publishing_api' do
     it "includes draft and published top-level browse pages" do
-      page_1 = create(:topic, :published, title: "Top-Level Page 1")
-      page_2 = create(:topic, :draft, title: "Top-Level Page 2")
+      page1 = create(:topic, :published, title: "Top-Level Page 1")
+      page2 = create(:topic, :draft, title: "Top-Level Page 2")
 
       rendered = RootTopicPresenter.new('state' => 'published').render_links_for_publishing_api
 
       expect(rendered[:links]["children"]).to eq([
-        page_1.content_id,
-        page_2.content_id,
+        page1.content_id,
+        page2.content_id,
       ])
     end
   end
