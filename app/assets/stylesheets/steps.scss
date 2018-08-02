@@ -6,6 +6,10 @@
   padding: 15px 0;
 }
 
+ul.step-by-step-actions li {
+  margin-bottom: 15px;
+}
+
 pre.markdown-example {
   white-space: pre-wrap;
 }
@@ -43,4 +47,27 @@ pre.markdown-example {
   margin: 1em 0;
   border: 1px dashed #0B0C0C;
   border-radius: 4px;
+}
+
+.nav.step-by-step-tabs {
+  margin-bottom: 2em;
+
+  @media screen and (min-width: 769px) and (max-width: 1000px) {
+    a {
+      min-height: 60px;
+    }
+  }
+}
+
+.publish-or-delete .panel {
+  padding: 5px;
+  background-color: #f8f8f8;
+}
+
+.publish-or-delete .publish-button {
+  margin: 10px 0 10px;
+}
+
+.publish-or-delete .panel.delete-or-unpublish-panel {
+  border-left: 10px #b10e1e solid;
 }

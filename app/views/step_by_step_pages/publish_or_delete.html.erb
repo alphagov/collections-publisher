@@ -1,0 +1,52 @@
+<%
+  links = [
+    {
+      text: 'Step by step publisher',
+      href: step_by_step_pages_path
+    },
+    {
+      text: @step_by_step_page.title,
+      href: step_by_step_page_path(@step_by_step_page)
+    },
+    {
+      text: 'Publish or delete'
+    }
+  ]
+%>
+
+<%= render 'shared/steps/step_breadcrumb', links: links %>
+
+<%= render 'shared/steps/form_notice', message: notice, status: "success" %>
+
+<%= render 'shared/steps/heading',
+  step_nav: @step_by_step_page.title,
+  action: 'Publish or delete'
+%>
+
+<%= render 'nav', step_by_step_page: @step_by_step_page, active:"publish-or-delete" %>
+
+<div class="row publish-or-delete">
+  <div class="col-md-12">
+    <% if @step_by_step_page.has_draft? %>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <%= link_to 'Publish changes', step_by_step_page_publish_path(@step_by_step_page), class: "btn btn-primary publish-button" %>
+                <p>You will need to tag this step by step to a mainstream browse category and a taxonomy topic after publishing</p>
+            </div>
+        </div>
+    <% end %>
+
+
+    <div class="panel panel-danger delete-or-unpublish-panel">
+        <div class="panel-body">
+            <% if @step_by_step_page.has_been_published? %>
+                <%= link_to 'Unpublish step by step', step_by_step_page_unpublish_path(@step_by_step_page), class: "btn btn-danger" %>
+            <% else %>
+                <p class="text-danger"><strong>Warning</strong></p>
+                <p>Deleted step by steps cannot be recovered.</p>
+                <%= link_to 'Delete step by step', @step_by_step_page, method: :delete, data: { confirm: 'Delete this step by step page?' }, class: "btn btn-danger" %>
+            <% end %>
+        </div>
+    </div>
+  </div>
+</div>
