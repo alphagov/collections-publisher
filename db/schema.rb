@@ -12,6 +12,15 @@
 
 ActiveRecord::Schema.define(version: 2018_08_02_125949) do
 
+  create_table "link_check_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.datetime "completed"
+    t.integer "batch_id"
+    t.bigint "step_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["step_id"], name: "index_link_check_reports_on_step_id"
+  end
+
   create_table "link_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "batch_id"
     t.datetime "completed"
@@ -139,7 +148,12 @@ ActiveRecord::Schema.define(version: 2018_08_02_125949) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
+  add_foreign_key "link_check_reports", "steps"
   add_foreign_key "link_reports", "steps"
+  add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
+  add_foreign_key "lists", "tags", name: "lists_tag_id_fk", on_delete: :cascade
+  add_foreign_key "navigation_rules", "step_by_step_pages"
+  add_foreign_key "redirect_routes", "tags"
   add_foreign_key "steps", "step_by_step_pages"
   add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "to_tag_id", name: "tag_associations_to_tag_id_fk", on_delete: :cascade
