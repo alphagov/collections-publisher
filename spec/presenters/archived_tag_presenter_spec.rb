@@ -6,7 +6,7 @@ RSpec.describe ArchivedTagPresenter do
 
   describe '#render_for_publishing_api' do
     before(:each) do
-      %w{ child-1 child-1/latest child-1/email-signup }.each do |route|
+      %w{child-1 child-1/latest child-1/email-signup}.each do |route|
         child.redirect_routes.create!(from_base_path: "/topic/parent/#{route}", to_base_path: parent.base_path, tag_id: child.id)
       end
     end

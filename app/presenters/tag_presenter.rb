@@ -26,7 +26,6 @@ class TagPresenter
     @tag = tag
   end
 
-
   def content_id
     tag.content_id
   end
@@ -48,7 +47,6 @@ class TagPresenter
       update_type: 'minor',
     }
   end
-
 
   def render_links_for_publishing_api
     {

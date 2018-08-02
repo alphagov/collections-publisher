@@ -37,8 +37,8 @@ Rails.application.routes.draw do
   resources :tags, only: [] do
     post :publish_lists
 
-    resources :lists, only: [:index, :edit, :create, :update, :destroy] do
-      resources :list_items, only: [:create, :update, :destroy]
+    resources :lists, only: %i[index edit create update destroy] do
+      resources :list_items, only: %i[create update destroy]
     end
   end
 
