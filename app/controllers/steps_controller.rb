@@ -6,7 +6,6 @@ class StepsController < ApplicationController
   end
 
   def create
-    step_params = params.require(:step).permit!
     @step = step_by_step_page.steps.new(step_params)
 
     if @step.save
@@ -23,8 +22,6 @@ class StepsController < ApplicationController
   end
 
   def update
-    step_params = params.require(:step).permit!
-
     if step.update(step_params)
       update_downstream
 
