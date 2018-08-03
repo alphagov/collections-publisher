@@ -2,12 +2,12 @@ class Step < ApplicationRecord
   belongs_to :step_by_step_page
   validates_presence_of :step_by_step_page
   validates :title, :logic, presence: true
-  
+
   def broken_links
     collect_broken_links unless most_recent_batch.nil?
   end
 
-  private
+private
 
   def batch_link_report
     @batch_link_report ||= Services.link_checker_api.get_batch(batch_link_report_id)
