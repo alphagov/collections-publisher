@@ -45,14 +45,6 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_the_new_step_by_step_page
   end
 
-  scenario "User deletes a step by step page", js: true do
-    given_there_is_a_step_by_step_page_with_steps
-    and_I_visit_the_index_page
-    and_I_delete_the_step_by_step_page
-    then_the_draft_is_discarded
-    and_the_page_is_deleted
-  end
-
   scenario "User publishes a page" do
     given_there_is_a_step_by_step_page_with_steps
     and_I_visit_the_publish_page
@@ -121,12 +113,6 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_content("Step by step page was successfully unpublished.")
   end
 
-  def and_I_delete_the_step_by_step_page
-    accept_confirm do
-      click_on "Delete"
-    end
-  end
-
   def when_I_view_the_step_by_step_page
     visit step_by_step_page_path(@step_by_step_page)
   end
@@ -184,10 +170,6 @@ RSpec.feature "Managing step by step pages" do
       expect(page).to_not have_css("a", text: "Publish")
       expect(page).to have_css("a", text: "Unpublish")
     end
-  end
-
-  def and_the_page_is_deleted
-    expect(page).to_not have_content("How to bake a cake")
   end
 
   def and_I_fill_in_the_form_with_invalid_data
