@@ -58,3 +58,16 @@ pre.markdown-example {
   border: 1px dashed #0B0C0C;
   border-radius: 4px;
 }
+
+.publish-or-delete .panel {
+  padding: 5px;
+  background-color: #f8f8f8;
+}
+
+.publish-or-delete .publish-button {
+  margin: 10px 0 10px;
+}
+
+.publish-or-delete .panel.delete-or-unpublish-panel {
+  border-left: 10px #b10e1e solid;
+}

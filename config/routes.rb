@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     post :reorder
     get :unpublish
     post :unpublish
+    get  'publish-or-delete', to: 'publish_or_delete'
 
     resources :steps
   end
