@@ -131,7 +131,7 @@ RSpec.feature "Managing step by step pages" do
     fill_in "Introduction", with: "Learn how you can bake a cake"
     fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
 
-    click_on "Save and continue"
+    click_on "Save"
   end
 
   def and_I_fill_in_the_edit_form
@@ -140,7 +140,7 @@ RSpec.feature "Managing step by step pages" do
     fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
 
     expect_update_worker
-    click_on "Save and continue"
+    click_on "Save"
   end
 
   def and_I_fill_in_the_form_with_a_taken_slug
@@ -149,7 +149,7 @@ RSpec.feature "Managing step by step pages" do
     fill_in "Introduction", with: "Learn how you can bake a cake"
     fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
 
-    click_on "Save and continue"
+    click_on "Save"
   end
 
   def then_I_see_the_new_step_by_step_page
@@ -177,7 +177,7 @@ RSpec.feature "Managing step by step pages" do
     fill_in "Slug", with: ""
     fill_in "Introduction", with: ""
     fill_in "Meta description", with: ""
-    click_on "Save and continue"
+    click_on "Save"
   end
 
   def then_I_see_a_validation_error
