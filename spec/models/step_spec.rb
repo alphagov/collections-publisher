@@ -41,7 +41,7 @@ RSpec.describe Step do
 
   describe 'link reports' do
     it 'should return nothing if there are no link reports yet' do
-      expect(step_item.broken_links).to be_empty
+      expect(step_item.broken_links).to be_nil
     end
     it 'should contain one item if there are link reports and at least one is broken' do
       create(:link_report, batch_id: 1, step_id: step_item.id)

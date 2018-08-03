@@ -4,13 +4,7 @@ class Step < ApplicationRecord
   validates :title, :logic, presence: true
   
   def broken_links
-    if most_recent_batch.nil?
-      []
-    else
-      batch_link_report.links.keep_if do |link|
-        link.fetch('status') == 'broken'
-      end
-    end
+    collect_broken_links unless most_recent_batch.nil?
   end
 
   private
@@ -25,5 +19,11 @@ class Step < ApplicationRecord
 
   def most_recent_batch
     LinkReport.where(step_id: self.id).last
+  end
+
+  def collect_broken_links
+    batch_link_report.links.keep_if do |link|
+      link.fetch('status') == 'broken'
+    end
   end
 end
