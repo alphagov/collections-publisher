@@ -24,6 +24,16 @@ pre.markdown-example {
   white-space: pre-wrap;
 }
 
+.nav.step-by-step-tabs {
+  margin-bottom: 2em;
+
+  @media screen and (min-width: 769px) and (max-width: 1000px) {
+    .step-by-step-tab-link {
+      min-height: 60px;
+    }
+  }
+}
+
 .table-stepnav-rules .checkbox,
 .table-stepnav-rules .checkbox label {
   margin-top: 0;
