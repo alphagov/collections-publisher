@@ -38,4 +38,23 @@ RSpec.describe Step do
       expect(step_item.errors).to have_key(:logic)
     end
   end
+
+  describe 'link reports' do
+    it 'should be false if there are no link reports yet' do
+      expect(step_item.broken_links?).to be false
+    end
+    it 'should be true if there are link reports and at least one is broken' do
+      create(:link_check_report, batch_id: 1, step_id: step_item.id)
+      create(:link_check_report, completed: Time.now, batch_id: 2, step_id: step_item.id)
+      expect(step_item.broken_links?).to be true
+    end
+    it 'should return an array of broken links if there are any' do
+      create(:link_check_report, batch_id: 1, step_id: step_item.id)
+      create(:link_check_report, completed: Time.now, batch_id: 2, step_id: step_item.id)
+      expect(step_item.broken_links.size).to eq 1
+      broken_link_report = step_item.broken_links.first
+      expect(broken_link_report.fetch('uri')).to eq "https://www.gov.uk/404"
+      expect(broken_link_report.fetch('problem_summary')).to eq "404 error (page not found)"
+    end
+  end
 end

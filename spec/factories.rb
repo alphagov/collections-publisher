@@ -1,4 +1,9 @@
 FactoryBot.define do
+  factory :link_check_report do
+    completed "2018-07-25 14:09:23"
+    batch_id 1
+    step nil
+  end
   factory :step_by_step_page do
     title "How to be amazing"
     slug "how-to-be-the-amazing-1"
