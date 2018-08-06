@@ -1,12 +1,16 @@
-/* import govuk_admin_template to get bootstrap styles */
+// import govuk_admin_template to get bootstrap styles
 @import 'govuk_admin_template';
 
-table.tags-list {
-  @extend .table;
-  @extend .table-bordered;
-  @extend .table-striped;
+$light-grey: #eee;
+$grey: #888;
+$dark-grey: #2a2a2a;
 
-  ul.child-actions {
+.tags-list {
+  @extend .table; // scss-lint:disable PlaceholderInExtend
+  @extend .table-bordered; // scss-lint:disable PlaceholderInExtend
+  @extend .table-striped; // scss-lint:disable PlaceholderInExtend
+
+  .child-actions {
     padding: 0;
     margin: 0;
     float: right;
@@ -15,18 +19,18 @@ table.tags-list {
       display: inline-block;
 
       a {
-        @extend .btn;
-        @extend .btn-default;
-        @extend .btn-xs;
+        @extend .btn; // scss-lint:disable PlaceholderInExtend
+        @extend .btn-default; // scss-lint:disable PlaceholderInExtend
+        @extend .btn-xs; // scss-lint:disable PlaceholderInExtend
 
         &[rel='view'] {
-          @extend .btn-primary;
+          @extend .btn-primary; // scss-lint:disable PlaceholderInExtend
         }
       }
     }
   }
 
-  td.no-entries {
+  .no-entries {
     text-align: center;
     padding: 20px 0;
   }
@@ -36,7 +40,8 @@ table.tags-list {
   margin: 10px 0 20px;
   overflow: hidden;
 
-  h1, h2 {
+  h1,
+  h2 {
     float: left;
     line-height: 1.4;
     margin: 0;
@@ -51,31 +56,32 @@ h1 .type {
   font-size: 22px;
   display: block;
   font-weight: normal;
-  color: #888;
+  color: $grey;
   line-height: 1.4;
 }
 
 .actions {
-  @extend .btn-group;
+  @extend .btn-group; // scss-lint:disable PlaceholderInExtend
 
   a {
-    @extend .btn;
-    @extend .btn-default;
+    @extend .btn; // scss-lint:disable PlaceholderInExtend
+    @extend .btn-default; // scss-lint:disable PlaceholderInExtend
   }
 }
 
 .attributes {
-  @extend .panel;
-  @extend .panel-default;
+  @extend .panel; // scss-lint:disable PlaceholderInExtend
+  @extend .panel-default; // scss-lint:disable PlaceholderInExtend
 
   font-size: 16px;
   margin-top: 25px;
 
   dl {
-    @extend .panel-body;
+    @extend .panel-body; // scss-lint:disable PlaceholderInExtend
     margin-bottom: 0;
 
-    dt, dd {
+    dt,
+    dd {
       line-height: 1.5;
     }
 
@@ -90,12 +96,12 @@ h1 .type {
 }
 
 .children {
-  border-top: 1px solid #eee;
+  border-top: 1px solid $light-grey;
   padding: 10px 0 0;
   position: relative;
 
   small i {
-    color: #2A2A2A;
+    color: $dark-grey;
     margin-right: 3px;
   }
 
