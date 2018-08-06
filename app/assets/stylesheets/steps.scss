@@ -2,11 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$light-grey: #f5f5f5;
+$black: #0B0C0C;
+
 .step-actions {
   padding: 15px 0;
 }
 
-pre.markdown-example {
+.markdown-example {
   white-space: pre-wrap;
 }
 
@@ -16,7 +19,7 @@ pre.markdown-example {
   visibility: hidden;
 }
 
-pre.markdown-example {
+.markdown-example {
   white-space: pre-wrap;
 }
 
@@ -39,8 +42,8 @@ pre.markdown-example {
 
 .js-reorder-ui-state-highlight {
   box-sizing: border-box;
-  background-color: #f5f5f5;
+  background-color: $light-grey;
   margin: 1em 0;
-  border: 1px dashed #0B0C0C;
+  border: 1px dashed $black;
   border-radius: 4px;
 }

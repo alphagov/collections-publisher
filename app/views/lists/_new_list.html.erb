@@ -1,4 +1,4 @@
-<%= form_for List.new, url: tag_lists_path(tag), html: { id: 'new-list' } do |f| %>
+<%= form_for List.new, url: tag_lists_path(tag), html: { id: 'new-list', class: 'new-list' } do |f| %>
   <%= f.text_field :name %>
   <button class='btn-submit'>Create new list</button>
 <% end %>
