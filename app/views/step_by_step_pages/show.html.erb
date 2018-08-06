@@ -17,20 +17,15 @@
 
 <%= render 'shared/steps/form_notice', message: notice, status: "success" %>
 
-<h1><%= @step_by_step_page.title %></h1>
+<%= render 'shared/steps/heading',
+  step_nav: @step_by_step_page.title,
+  action: 'Edit steps'
+%>
 
-<ul class="list-inline step-actions">
-  <li><%= link_to 'Add a new step', new_step_by_step_page_step_path(@step_by_step_page), class: "btn btn-primary" %></li>
-  <li><%= link_to 'Preview', preview_url(@step_by_step_page.slug, auth_bypass_id: @step_by_step_page.auth_bypass_id), class: "btn btn-primary" %></li>
-  <li><%= link_to 'Edit title, intro or slug', edit_step_by_step_page_path(@step_by_step_page), class: "btn btn-primary" %></li>
-  <li><%= link_to 'Choose navigation', step_by_step_page_navigation_rules_path(@step_by_step_page), class: "btn btn-primary" %></li>
-  <% if @step_by_step_page.steps.length > 0 %>
-    <li><%= link_to "Reorder steps", step_by_step_page_reorder_path(@step_by_step_page), class: "btn btn-primary" %></li>
-  <% end %>
-</ul>
+<%= render 'nav', step_by_step_page: @step_by_step_page, active:"edit-steps" %>
 
 <div class="row">
-  <div class="col-md-7">
+  <div class="col-md-12">
     <table class="table">
       <thead>
         <tr>
@@ -65,18 +60,13 @@
             </td>
           </tr>
         <% end %>
-
       </tbody>
     </table>
-    <ul class="list-inline publish-actions">
-      <% if @step_by_step_page.has_been_published? %>
-        <li><%= link_to 'Unpublish', step_by_step_page_unpublish_path(@step_by_step_page), class: "btn btn-danger" %></li>
-      <% else %>
-        <li><%= link_to 'Delete', @step_by_step_page, method: :delete, data: { confirm: 'Delete this step by step page?' }, class: "btn btn-danger" %></li>
-      <% end %>
-      <% if @step_by_step_page.has_draft? %>
-        <li><%= link_to 'Publish', step_by_step_page_publish_path(@step_by_step_page), class: "btn btn-primary" %></li>
-      <% end %>
-    </ul>
+    <div class="col-md-2 col-md-offset-10">
+      <ul class="list-unstyled step-by-step-actions text-right">
+        <li><%= link_to 'Add a new step', new_step_by_step_page_step_path(@step_by_step_page), class: "btn btn-primary btn-block step-action" %></li>
+        <li><%= link_to 'Preview', preview_url(@step_by_step_page.slug, auth_bypass_id: @step_by_step_page.auth_bypass_id), class: "btn btn-success btn-block preview-button step-action" %></li>
+      </ul>
+    </div>
   </div>
 </div>
