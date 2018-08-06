@@ -1,18 +1,20 @@
-/* import govuk_admin_template to get bootstrap styles */
+// import govuk_admin_template to get bootstrap styles
 @import 'govuk_admin_template';
 
-table.topics {
+.topics {
+  // scss-lint:disable PlaceholderInExtend
   @extend .table;
   @extend .table-bordered;
 
   margin: 30px 0;
 
-  tr.parent-tag > th {
+  .parent-tag > th {
     width: 30%;
   }
 
   tr:not(.parent-tag):nth-of-type(odd) {
-    > td, > th {
+    > td,
+    > th {
       background-color: $table-bg-accent;
     }
   }
@@ -23,6 +25,7 @@ table.topics {
       @extend .btn-default;
       @extend .btn-sm;
     }
+
     padding: 3px;
   }
 }

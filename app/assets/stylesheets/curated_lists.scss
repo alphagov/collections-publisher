@@ -1,5 +1,14 @@
+$light-grey: #f1f1f1;
+$grey: #ccc;
+$dark-grey: #333;
+$white: #fff;
+$light-yellow: #ffff99;
+
 // Hide the new item form.
-html.js {
+.js {
+  // scss-lint:disable SelectorFormat
+  // to fix [W] SelectorFormat: Selector `new_list_item` should be written in hyphenated BEM (Block Element Modifier) format
+  // @TODO: Investigate and remove element if element not used.
   .new_list_item {
     display: none;
   }
@@ -9,7 +18,7 @@ html.js {
   }
 }
 
-#all-list-items {
+.all-list-items {
   // Remove-buttons have no use in the uncategorized section, but we would like
   // to have them appear when dragged to a list.
   .removal-button form {
@@ -29,32 +38,33 @@ html.js {
     float: right;
   }
 
-  td, th {
+  td,
+  th {
     padding: 3px 0;
   }
 
   td {
-    border-bottom: 1px solid #f1f1f1;
+    border-bottom: 1px solid $light-grey;
   }
 
-  tr.item:hover {
+  .item:hover {
     cursor: move;
-    background-color: #f1f1f1;
+    background-color: $light-grey;
   }
 
   // Placeholders are created when a user drags a row to another place,
   // but hasn't dropped the item yet.
-  tr.droppable-placeholder {
+  .droppable-placeholder {
     width: 100%;
     margin-top: 40px;
 
     td {
-      border-top: 1px dashed #333;
-      border-bottom: 1px dashed #333;
+      border-top: 1px dashed $dark-grey;
+      border-bottom: 1px dashed $dark-grey;
     }
   }
 
-  tr.ui-sortable-helper {
+  .ui-sortable-helper {
     width: 300px;
 
     td {
@@ -74,8 +84,8 @@ html.js {
 
 .droppable-placeholder,
 .sortable-placeholder {
-  background-color: #FFF;
-  border: 1px dashed #333;
+  background-color: $white;
+  border: 1px dashed $dark-grey;
 }
 
 .list {
@@ -97,21 +107,21 @@ html.js {
 }
 
 .curated-list {
-  tr.untagged .title span {
+  .untagged .title span {
     text-decoration: line-through;
   }
 
-  tr.working {
-    background-color: #ffff99;
+  .working {
+    background-color: $light-yellow;
 
     .remove-button {
       visibility: none;
     }
   }
 
-  tr.empty-list {
+  .empty-list {
     font-style: italic;
-    color: #ccc;
+    color: $grey;
     text-align: center;
     display: none;
 
