@@ -12,15 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2018_08_02_125949) do
 
-  create_table "link_check_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.datetime "completed"
-    t.integer "batch_id"
-    t.bigint "step_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["step_id"], name: "index_link_check_reports_on_step_id"
-  end
-
   create_table "link_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "batch_id"
     t.datetime "completed"

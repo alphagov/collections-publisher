@@ -9,6 +9,12 @@ class Step < ApplicationRecord
 
 private
 
+  def collect_broken_links
+    batch_link_report.links.keep_if do |link|
+      link.fetch('status') == 'broken'
+    end
+  end
+
   def batch_link_report
     @batch_link_report ||= Services.link_checker_api.get_batch(batch_link_report_id)
   end
@@ -19,11 +25,5 @@ private
 
   def most_recent_batch
     LinkReport.where(step_id: self.id).last
-  end
-
-  def collect_broken_links
-    batch_link_report.links.keep_if do |link|
-      link.fetch('status') == 'broken'
-    end
   end
 end

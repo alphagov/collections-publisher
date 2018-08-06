@@ -1,5 +1,3 @@
-require 'json'
-
 ENV['GOVUK_APP_DOMAIN'] ||= "test.gov.uk"
 ENV['GOVUK_ASSET_ROOT'] ||= "http://static.test.gov.uk"
 
@@ -92,58 +90,15 @@ RSpec.configure do |config|
     request.env["HTTP_REFERER"] = ''
   end
 
-  expected_response = {
-    "id": 2,
-    "status": "completed",
-    "links": [
-      {
-        "uri": "https://www.gov.uk/",
-        "status": "ok",
-        "checked": "2017-04-12T18:47:16Z",
-        "errors": [],
-        "warnings": [],
-        "problem_summary": "null",
-        "suggested_fix": "null"
-      },
-      {
-        "uri": "https://www.gov.uk/404",
-        "status": "broken",
-        "checked": "2017-04-12T16:30:39Z",
-        "errors": [
-          "Received 404 response from the server."
-        ],
-        "warnings": [],
-        "problem_summary": "404 error (page not found)",
-        "suggested_fix": ""
-      },
-      {
-        "uri": "https://www.gov.uk/search",
-        "status": "ok",
-        "checked": "2017-04-12T18:55:29Z",
-        "errors": [],
-        "warnings": [],
-        "problem_summary": "null",
-        "suggested_fix": "null"
-      }
-    ],
-    "totals": {
-      "links": 3,
-      "ok": 2,
-      "caution": 0,
-      "broken": 1,
-      "pending": 0
-    },
-    "completed_at": "2017-04-12T18:55:29Z"
-  }.to_json
-  config.before :each do
-    stub_request(:get, "https://link-checker-api.test.gov.uk/batch/2").
-         with(
-           headers: {
-             'Accept' => 'application/json',
-             'Accept-Encoding' => 'gzip, deflate',
-             'Host' => 'link-checker-api.test.gov.uk',
-             'User-Agent' => 'gds-api-adapters/52.6.0 ()'
-            }
-            ).to_return(status: 200, body: expected_response, headers: {})
-  end
+  # config.before :each do
+  #   stub_request(:get, "https://link-checker-api.test.gov.uk/batch/2").
+  #        with(
+  #          headers: {
+  #            'Accept' => 'application/json',
+  #            'Accept-Encoding' => 'gzip, deflate',
+  #            'Host' => 'link-checker-api.test.gov.uk',
+  #            'User-Agent' => 'gds-api-adapters/52.6.0 ()'
+  #           }
+  #           ).to_return(status: 200, body: expected_response, headers: {})
+  # end
 end
