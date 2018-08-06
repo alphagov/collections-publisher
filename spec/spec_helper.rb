@@ -89,4 +89,16 @@ RSpec.configure do |config|
     # Set a referer header so `redirect_to :back` works in tests.
     request.env["HTTP_REFERER"] = ''
   end
+
+  # config.before :each do
+  #   stub_request(:get, "https://link-checker-api.test.gov.uk/batch/2").
+  #        with(
+  #          headers: {
+  #            'Accept' => 'application/json',
+  #            'Accept-Encoding' => 'gzip, deflate',
+  #            'Host' => 'link-checker-api.test.gov.uk',
+  #            'User-Agent' => 'gds-api-adapters/52.6.0 ()'
+  #           }
+  #           ).to_return(status: 200, body: expected_response, headers: {})
+  # end
 end
