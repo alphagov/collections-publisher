@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     PriorityQueue (0.1.2)
-    aasm (4.12.3)
+    aasm (5.0.0)
       concurrent-ruby (~> 1.0)
     actioncable (5.2.0)
       actionpack (= 5.2.0)
@@ -356,7 +356,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aasm (~> 4.0)
+  aasm (~> 5.0)
   better_errors
   binding_of_caller
   byebug

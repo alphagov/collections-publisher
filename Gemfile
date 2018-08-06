@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 5.2'
 
-gem 'aasm', '~> 4.0'
+gem 'aasm', '~> 5.0'
 gem 'generic_form_builder', '~> 0.13'
 gem 'mysql2'
 gem 'sass-rails', '~> 5.0'
