@@ -63,8 +63,7 @@
     <div class="broken-links">
       <div class="panel panel-warning">
         <div class="panel-heading">
-          <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-          <strong><%= step.broken_links.count %></strong> broken link<%= "(s)" if step.broken_links.count > 1 %> found.
+          <%= render 'shared/steps/broken-links-summary', step: step %>
         </div>
         <div class="table-responsive">
           <table class="table table-bordered table-hover">
