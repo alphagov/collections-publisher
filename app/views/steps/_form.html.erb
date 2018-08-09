@@ -59,11 +59,56 @@
 </div>
 
 <div class="form-group">
-  <div>
-    <p>
-      <%= step.broken_links %>
-    </p>
-  </div>
+  <% if step.broken_links && step.broken_links.count > 0 %>
+    <div class="broken-links">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+          <strong><%= step.broken_links.count %></strong> broken link<%= "(s)" if step.broken_links.count > 1 %> found.
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr class="warning">
+                <th>URI</th>
+                <th>Status</th>
+                <th>Last checked</th>
+                <th>Problem summary</th>
+                <th>Errors</th>
+                <th>Warnings</th>
+                <th>Suggested fix</th>
+              </tr>
+            <thead>
+            <tbody>
+              <% step.broken_links.each do |link| %>
+                <tr>
+                  <td><%= link['uri'] %></td>
+                  <td><%= link['status'] %></td>
+                  <td><%= link['checked'] %></td>
+                  <td><%= link['problem_summary'] %></td>
+                  <td>
+                    <ul>
+                      <% link['errors'].each do |error| %>
+                        <li><%= error %></li>
+                      <% end %>
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      <% link['warnings'].each do |warning| %>
+                        <li><%= warning %></li>
+                      <% end %>
+                    </ul>
+                  </td>
+                  <td><%= link['suggested_fix'] %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% end %>
   <div class="row">
     <div class="<%= left_col %>">
       <%= form.text_area :contents, class: "form-control", label: "Content, tasks and links in this step", rows: 8 %>
