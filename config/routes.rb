@@ -48,6 +48,8 @@ Rails.application.routes.draw do
     "/tags/#{params[:tag_id]}/lists"
   }
 
+  patch 'link_report/:id', to: 'link_report#update'
+
   mount GovukAdminTemplate::Engine, at: "/style-guide"
 
   class SidekiqAccessContraint
