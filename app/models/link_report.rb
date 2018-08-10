@@ -17,7 +17,7 @@ class LinkReport < ApplicationRecord
 private
   
   def list_contents(list_contents)
-    list_contents.map { |content_item| content_item.fetch(:href) }
+    list_contents.map { |content_item| content_item.fetch(:href) } unless list_contents.nil?
   end
 
   def prefix_govuk(path_to_prefix)
@@ -29,6 +29,7 @@ private
     parsed_content.each do |content|
       links << list_contents(content.fetch(:contents)) unless content.fetch(:type, nil) != 'list'
     end
-    links.flatten!
+    links.flatten! unless links.empty?
+    links
   end
 end

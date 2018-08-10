@@ -5,7 +5,6 @@ RSpec.describe LinkReport do
   include GdsApi::TestHelpers::LinkCheckerApi
   before do
     allow(Services.publishing_api).to receive(:lookup_content_id)
-    # allow(Services.link_checker_api).to receive(:create_batch)
   end
   describe '.batch_links' do
     context 'when there are links' do
