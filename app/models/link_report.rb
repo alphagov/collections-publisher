@@ -9,19 +9,22 @@ class LinkReport < ApplicationRecord
   end
 
   def create_batch
-    batch = Services.link_checker_api.create_batch(batch_links)
+    batch = Services.link_checker_api.create_batch(
+      batch_links,
+      webhook_uri: Plek.new.external_url_for("collections-publisher") + "/link_report"
+      )
     self.batch_id = batch.id
     self.save
   end
 
 private
-  
+
   def list_contents(list_contents)
     list_contents.map { |content_item| content_item.fetch(:href) } unless list_contents.nil?
   end
 
   def prefix_govuk(path_to_prefix)
-    "https://www.gov.uk" + path_to_prefix    
+    "https://www.gov.uk" + path_to_prefix
   end
 
   def generate_links(parsed_content)

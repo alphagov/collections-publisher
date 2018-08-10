@@ -20,6 +20,7 @@ module Services
 
   def self.link_checker_api
     @link_checker_api ||= GdsApi::LinkCheckerApi.new(
-      Plek.new.find("link-checker-api"))
+      Plek.new.find("link-checker-api")
+      )
   end
 end

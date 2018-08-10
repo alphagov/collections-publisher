@@ -29,7 +29,8 @@ RSpec.describe LinkReport do
           "https://www.gov.uk/also/good/stuff",
           "https://www.gov.uk/not/as/great",
           "http://example.com/good"
-        ]
+        ],
+        webhook_uri: "https://collections-publisher.test.gov.uk/link_report"
       )
       step = create(:step)
       link_report = create(:link_report, step: step)

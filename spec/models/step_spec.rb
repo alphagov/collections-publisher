@@ -147,13 +147,12 @@ RSpec.describe Step do
     context 'when there are no links in the step' do
       it 'should have an associated LinkReport with a batch id' do
         link_checker_api_create_batch(
-          uris: [
-          ],
+          uris: [],
           id: 1234,
           webhook_uri: "https://collections-publisher.test.gov.uk/link_report"
         )
         step = create(
-          :step, 
+          :step,
           contents: "<<~CONTENT This is a great step but it's got no links!"
           )
         step.request_broken_links
