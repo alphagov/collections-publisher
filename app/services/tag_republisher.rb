@@ -8,7 +8,7 @@ class TagRepublisher
 
       done += 1
 
-      if done % 100 == 0
+      if (done % 100).zero?
         log "#{done} completed..."
       end
     end

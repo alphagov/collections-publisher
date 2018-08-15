@@ -1,14 +1,15 @@
-/* import govuk_admin_template to get bootstrap styles */
+// import govuk_admin_template to get bootstrap styles
 @import 'govuk_admin_template';
 
-#new-list {
+.new-list {
   margin-bottom: 20px;
 }
 
 .btn-submit {
-  @extend .btn;
-  @extend .btn-lg;
-  @extend .btn-success;
+  // @TODO: remove extending classes and just add class to element
+  @extend .btn; // scss-lint:disable PlaceholderInExtend
+  @extend .btn-lg; // scss-lint:disable PlaceholderInExtend
+  @extend .btn-success; // scss-lint:disable PlaceholderInExtend
 }
 
 .select2 {
@@ -24,18 +25,14 @@ form label {
 }
 
 input[type='text'] {
-  @extend .form-control;
+  @extend .form-control; // scss-lint:disable PlaceholderInExtend
 }
+
 .errors input {
   border-color: $state-danger-border;
 }
 
 button {
-  @extend .btn;
-  @extend .btn-default;
-}
-
-#new_mainstream_browse_page_archival_form,
-#new_topic_archival_form {
-  padding-bottom: 2em;
+  @extend .btn; // scss-lint:disable PlaceholderInExtend
+  @extend .btn-default; // scss-lint:disable PlaceholderInExtend
 }

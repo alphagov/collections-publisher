@@ -1,28 +1,30 @@
-/* import govuk_admin_template to get bootstrap styles */
+// import govuk_admin_template to get bootstrap styles
 @import 'govuk_admin_template';
 
-table.topics {
-  @extend .table;
-  @extend .table-bordered;
+.topics {
+  @extend .table; // scss-lint:disable PlaceholderInExtend
+  @extend .table-bordered; // scss-lint:disable PlaceholderInExtend
 
   margin: 30px 0;
 
-  tr.parent-tag > th {
+  .parent-tag > th {
     width: 30%;
   }
 
   tr:not(.parent-tag):nth-of-type(odd) {
-    > td, > th {
+    > td,
+    > th {
       background-color: $table-bg-accent;
     }
   }
 
   .edit {
     a {
-      @extend .btn;
-      @extend .btn-default;
-      @extend .btn-sm;
+      @extend .btn; // scss-lint:disable PlaceholderInExtend
+      @extend .btn-default; // scss-lint:disable PlaceholderInExtend
+      @extend .btn-sm; // scss-lint:disable PlaceholderInExtend
     }
+
     padding: 3px;
   }
 }

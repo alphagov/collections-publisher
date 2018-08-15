@@ -17,17 +17,17 @@ RSpec.describe RootBrowsePagePresenter do
     end
 
     it ":public_updated_at equals the time of last browse page update" do
-      page_1 = create(:mainstream_browse_page, title: "Top-Level Page 1")
-      page_2 = create(:mainstream_browse_page, title: "Top-Level Page 2")
+      page1 = create(:mainstream_browse_page, title: "Top-Level Page 1")
+      page2 = create(:mainstream_browse_page, title: "Top-Level Page 2")
 
       Timecop.travel 3.hours.ago do
-        page_1.touch
+        page1.touch
       end
-      page_2.touch
+      page2.touch
 
       rendered = RootBrowsePagePresenter.new('state' => 'draft').render_for_publishing_api
 
-      expect(rendered[:public_updated_at]).to eq(page_2.updated_at.iso8601)
+      expect(rendered[:public_updated_at]).to eq(page2.updated_at.iso8601)
     end
   end
 
@@ -39,14 +39,14 @@ RSpec.describe RootBrowsePagePresenter do
     end
 
     it "includes draft and published top-level browse pages" do
-      page_1 = create(:mainstream_browse_page, :published, title: "Top-Level Page 1")
-      page_2 = create(:mainstream_browse_page, :draft, title: "Top-Level Page 2")
+      page1 = create(:mainstream_browse_page, :published, title: "Top-Level Page 1")
+      page2 = create(:mainstream_browse_page, :draft, title: "Top-Level Page 2")
 
       rendered = RootBrowsePagePresenter.new('state' => 'draft').render_links_for_publishing_api
 
       expect(rendered[:links]["top_level_browse_pages"]).to eq([
-        page_1.content_id,
-        page_2.content_id,
+        page1.content_id,
+        page2.content_id,
       ])
     end
   end

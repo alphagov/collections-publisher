@@ -2,6 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$light-grey: #f5f5f5;
+$light-grey-2: #f8f8f8;
+$black: #0B0C0C;
+$red: #b10e1e;
+
 .step-actions {
   padding: 15px 0;
 }
@@ -10,7 +15,7 @@
   margin-bottom: 15px;
 }
 
-pre.markdown-example {
+.markdown-example {
   white-space: pre-wrap;
 }
 
@@ -20,7 +25,7 @@ pre.markdown-example {
   visibility: hidden;
 }
 
-pre.markdown-example {
+.markdown-example {
   white-space: pre-wrap;
 }
 
@@ -53,15 +58,15 @@ pre.markdown-example {
 
 .js-reorder-ui-state-highlight {
   box-sizing: border-box;
-  background-color: #f5f5f5;
+  background-color: $light-grey;
   margin: 1em 0;
-  border: 1px dashed #0B0C0C;
+  border: 1px dashed $black;
   border-radius: 4px;
 }
 
 .publish-or-delete .panel {
   padding: 5px;
-  background-color: #f8f8f8;
+  background-color: $light-grey-2;
 }
 
 .publish-or-delete .publish-button {
@@ -69,5 +74,5 @@ pre.markdown-example {
 }
 
 .publish-or-delete .panel.delete-or-unpublish-panel {
-  border-left: 10px #b10e1e solid;
+  border-left: 10px $red solid;
 }

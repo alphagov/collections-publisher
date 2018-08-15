@@ -10,8 +10,8 @@ gem 'select2-rails', '~> 3.5.9'
 gem 'uglifier', '~> 4.1'
 
 # GDS managed dependencies
-gem 'gds-sso', '~> 13.6'
 gem 'gds-api-adapters', '~> 52.7'
+gem 'gds-sso', '~> 13.6'
 gem 'govuk_admin_template', '~> 6.6'
 gem 'govuk_app_config', '~> 1.8'
 gem 'govuk_sidekiq', '~> 3.0'
@@ -23,7 +23,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'parser', '2.5.1.2'
   gem 'byebug'
   gem 'capybara'
   gem 'database_cleaner'
@@ -31,6 +30,7 @@ group :development, :test do
   gem 'govuk-content-schema-test-helpers'
   gem 'govuk-lint'
   gem 'nokogiri'
+  gem 'parser', '2.5.1.2'
   gem 'poltergeist'
   gem 'pry-byebug'
   gem 'rspec-rails'
