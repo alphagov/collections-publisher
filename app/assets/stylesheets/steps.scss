@@ -25,3 +25,39 @@ pre.markdown-example {
 .table-stepnav-rules .checkbox label {
   margin-top: 0;
 }
+
+.broken-links-accordion__title {
+  word-wrap: break-word;
+}
+
+.broken-links-accordion__collapsible-link {
+  text-decoration: none;
+  color: #8a6d3b;
+
+  &:hover, &:focus {
+    text-decoration: none;
+    color: #8a6d3b;
+  }
+}
+
+.broken-links-accordion__indicator, {
+  float: right;
+
+  .broken-links-accordion__indicator-text {
+    margin-left: 3px;
+  }
+}
+
+.broken-links-accordion__indicator--show {
+  display: none;
+}
+
+.collapsed {
+  .broken-links-accordion__indicator--hide {
+    display: none;
+  }
+
+  .broken-links-accordion__indicator--show {
+    display: block;
+  }
+}
