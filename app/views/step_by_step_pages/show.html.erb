@@ -27,6 +27,7 @@
   <% if @step_by_step_page.steps.length > 0 %>
     <li><%= link_to "Reorder steps", step_by_step_page_reorder_path(@step_by_step_page), class: "btn btn-primary" %></li>
   <% end %>
+  <li><%= button_to "Batch", {action: "batch", step_by_step_page_id: @step_by_step_page.id } %>   
 </ul>
 
 <div class="row">

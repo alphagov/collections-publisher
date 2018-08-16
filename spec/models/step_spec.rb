@@ -124,4 +124,40 @@ RSpec.describe Step do
       expect(step_item.broken_links.length).to eql 1
     end
   end
+
+  describe '.request_broken_links' do
+    context 'when there are links in the step' do
+      it 'should have an associated LinkReport with a batch id' do
+        link_checker_api_create_batch(
+          uris: [
+            'https://www.gov.uk/good/stuff',
+            "https://www.gov.uk/also/good/stuff",
+            "https://www.gov.uk/not/as/great",
+            "http://example.com/good"
+          ],
+          id: 1234,
+          webhook_uri: "https://collections-publisher.test.gov.uk/link_report"
+        )
+        step = create(:step)
+        step.request_broken_links
+        expect(step.link_report.last.batch_id).to eql 1234
+      end
+    end
+
+    context 'when there are no links in the step' do
+      it 'should have an associated LinkReport with a batch id' do
+        link_checker_api_create_batch(
+          uris: [],
+          id: 1234,
+          webhook_uri: "https://collections-publisher.test.gov.uk/link_report"
+        )
+        step = create(
+          :step,
+          contents: "<<~CONTENT This is a great step but it's got no links!"
+          )
+        step.request_broken_links
+        expect(step.link_report.last.batch_id).to eql 1234
+      end
+    end
+  end
 end
