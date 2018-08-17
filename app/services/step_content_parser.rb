@@ -45,10 +45,30 @@ class StepContentParser
     end
   end
 
+  def all_paths(step_text)
+    external_links(step_text) + internal_links(step_text)
+  end
+
 private
 
   def relative_paths(content)
-    content.scan(LINK_REGEX).select { |href| href[0] =~ /^\/[a-z0-9]+.*/i if href.any? }.flatten
+    all_links_in_content(content).select { |href| href[0] =~ /^\/[a-z0-9]+.*/i if href.any? }.flatten
+  end
+
+  def external_links(content)
+    all_links_in_content(content).flatten - relative_paths(content)
+  end
+
+  def internal_links(content)
+    relative_paths(content).map { |path| prefix_govuk(path) }
+  end
+
+  def all_links_in_content(content)
+    content.scan(LINK_REGEX)
+  end
+
+  def prefix_govuk(path_to_prefix)
+    "https://www.gov.uk" + path_to_prefix
   end
 
   def standard_list?(section)
@@ -68,7 +88,6 @@ private
           "text": text,
           "href": href
         }
-
         payload[:context] = context.strip unless context.blank?
         payload
       end
