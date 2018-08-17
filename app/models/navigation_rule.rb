@@ -5,4 +5,8 @@ class NavigationRule < ActiveRecord::Base
 
   scope :part_of_content_ids, -> { where(include_in_links: true).pluck(:content_id) }
   scope :related_content_ids, -> { where(include_in_links: false).pluck(:content_id) }
+
+  def smartanswer?
+    schema_name == "transaction" && publishing_app == "smartanswers"
+  end
 end

@@ -107,4 +107,36 @@ RSpec.describe NavigationRule do
       end
     end
   end
+
+  describe '#smartanswer?' do
+    before do
+      allow(Services.publishing_api).to receive(:lookup_content_id)
+    end
+
+    it 'is a smartanswer start page' do
+      resource = described_class.new(
+        title: 'A Title',
+        base_path: '/a-base-path',
+        content_id: 'A-CONTENT-ID-BOOM',
+        step_by_step_page: step_by_step_page,
+        publishing_app: 'smartanswers',
+        schema_name: 'transaction'
+      )
+
+      expect(resource.smartanswer?).to be true
+    end
+
+    it 'is not a smartanswer start page' do
+      resource = described_class.new(
+        title: 'A Title',
+        base_path: '/a-base-path',
+        content_id: 'A-CONTENT-ID-BOOM',
+        step_by_step_page: step_by_step_page,
+        publishing_app: 'publisher',
+        schema_name: 'transaction'
+      )
+
+      expect(resource.smartanswer?).to be false
+    end
+  end
 end
