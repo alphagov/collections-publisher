@@ -62,6 +62,35 @@ RSpec.describe NavigationRule do
       end
     end
 
+    context 'without a publishing_app' do
+      it 'is invalid' do
+        resource = described_class.new(
+          title: 'A Title',
+          base_path: '/a-base-path',
+          content_id: 'A-CONTENT-ID-BOOM',
+          step_by_step_page: step_by_step_page,
+        )
+
+        expect(resource).to_not be_valid
+        expect(resource.errors).to have_key(:publishing_app)
+      end
+    end
+
+    context 'without a schema_name' do
+      it 'is invalid' do
+        resource = described_class.new(
+          title: 'A Title',
+          base_path: '/a-base-path',
+          content_id: 'A-CONTENT-ID-BOOM',
+          step_by_step_page: step_by_step_page,
+          publishing_app: 'transaction',
+        )
+
+        expect(resource).to_not be_valid
+        expect(resource.errors).to have_key(:schema_name)
+      end
+    end
+
     context 'with valid attributes' do
       it 'is valid' do
         resource = described_class.new(
@@ -69,6 +98,8 @@ RSpec.describe NavigationRule do
           base_path: '/a-base-path',
           content_id: 'A-CONTENT-ID-BOOM',
           step_by_step_page: step_by_step_page,
+          publishing_app: 'publisher',
+          schema_name: 'transaction'
         )
 
         expect(resource).to be_valid

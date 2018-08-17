@@ -53,6 +53,8 @@ FactoryBot.define do
     title "Good stuff"
     base_path "/good/stuff"
     content_id { SecureRandom.uuid }
+    publishing_app "publisher"
+    schema_name "guide"
   end
 
   factory :redirect_item do
