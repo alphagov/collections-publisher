@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     post :reorder
     get :unpublish
     post :unpublish
+    post :check_links
 
     resources :steps
   end
