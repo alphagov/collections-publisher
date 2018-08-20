@@ -73,5 +73,8 @@
         <li><%= link_to 'Preview', preview_url(@step_by_step_page.slug, auth_bypass_id: @step_by_step_page.auth_bypass_id), class: "btn btn-success btn-block preview-button step-action" %></li>
       </ul>
     </div>
+    <div>
+      <%= button_to "Check for broken links", {action: "check_links", step_by_step_page_id: @step_by_step_page.id}, class: "btn btn-primary" %>
+    </div>
   </div>
 </div>

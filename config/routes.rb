@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     get :unpublish
     post :unpublish
     get  'publish-or-delete', to: 'publish_or_delete'
+    post :check_links
 
     resources :steps
   end

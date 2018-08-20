@@ -83,6 +83,11 @@ class StepByStepPagesController < ApplicationController
     @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
   end
 
+  def check_links
+    set_current_page_as_step_by_step
+    @step_by_step_page.steps.each(&:request_broken_links)
+  end
+
 private
 
   def discard_draft
