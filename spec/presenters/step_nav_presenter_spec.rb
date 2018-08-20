@@ -90,5 +90,34 @@ RSpec.describe StepNavPresenter do
         expect(presented[:access_limited]).to be nil
       end
     end
+
+    describe "smartanswers" do
+      before do
+        allow(Services.publishing_api).to receive(:lookup_content_id)
+        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return('/a-smartanswer/y' => '2fcc4688-89b5-4e71-802d-d95c69fe458a')
+      end
+
+      let(:step_nav_with_smartanswer) { create(:step_by_step_page_with_smartanswer_navigation_rules) }
+      subject { described_class.new(step_nav_with_smartanswer) }
+
+      it "adds the content_id of the smartanswer done page to pages_part_of_step_nav" do
+        presented = subject.render_for_publishing_api
+
+        expect(presented[:links][:pages_part_of_step_nav].count).to eq(3)
+        expect(presented[:links][:pages_part_of_step_nav]).to include('2fcc4688-89b5-4e71-802d-d95c69fe458a')
+      end
+
+      it "doesn't add the content_id of the smartanswer done page if include_in_links is false" do
+        rule = step_nav_with_smartanswer.navigation_rules.select(&:smartanswer?).first
+        rule.include_in_links = false
+        rule.save
+
+        step_nav_with_smartanswer.reload
+        presented = subject.render_for_publishing_api
+
+        expect(presented[:links][:pages_part_of_step_nav].count).to eq(1)
+        expect(presented[:links][:pages_related_to_step_nav].count).to eq(1)
+      end
+    end
   end
 end
