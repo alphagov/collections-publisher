@@ -13,7 +13,7 @@ RSpec.describe StepNavPresenter do
     subject { described_class.new(step_nav) }
 
     before do
-      allow(StepNavPublisher).to receive(:lookup_content_ids).and_return('/foo' => 'd6b1901d-b925-47c5-b1ca-1e52197097e2')
+      allow(StepNavPublisher).to receive(:lookup_content_ids).and_return([])
     end
 
     it "presents a step by step page in the correct format" do
@@ -108,11 +108,36 @@ RSpec.describe StepNavPresenter do
       end
 
       it "doesn't add the content_id of the smartanswer done page if include_in_links is false" do
+        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return([])
+
         rule = step_nav_with_smartanswer.navigation_rules.select(&:smartanswer?).first
         rule.include_in_links = false
         rule.save
 
         step_nav_with_smartanswer.reload
+        presented = subject.render_for_publishing_api
+
+        expect(presented[:links][:pages_part_of_step_nav].count).to eq(1)
+        expect(presented[:links][:pages_related_to_step_nav].count).to eq(1)
+      end
+    end
+
+    describe "service done pages" do
+      it "adds the content_id of the service done page to pages_part_of_step_nav" do
+        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return('/done/good/stuff' => 'cd47dd79-393f-4ead-9c1c-c85e3f1b3423')
+
+        presented = subject.render_for_publishing_api
+
+        expect(presented[:links][:pages_part_of_step_nav].count).to eq(3)
+        expect(presented[:links][:pages_part_of_step_nav]).to include('cd47dd79-393f-4ead-9c1c-c85e3f1b3423')
+      end
+
+      it "doesn't add the content_id of the service done page if include_in_links is false" do
+        rule = step_nav.navigation_rules.first
+        rule.include_in_links = false
+        rule.save
+
+        step_nav.reload
         presented = subject.render_for_publishing_api
 
         expect(presented[:links][:pages_part_of_step_nav].count).to eq(1)
