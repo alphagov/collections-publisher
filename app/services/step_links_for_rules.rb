@@ -52,6 +52,8 @@ private
       content_id: content_item["content_id"],
       title: content_item["title"],
       base_path: content_item["base_path"],
+      publishing_app: content_item["publishing_app"],
+      schema_name: content_item["schema_name"],
       include_in_links: true
     }
   end

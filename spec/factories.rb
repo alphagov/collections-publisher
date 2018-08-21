@@ -26,6 +26,14 @@ FactoryBot.define do
     end
   end
 
+  factory :step_by_step_page_with_smartanswer_navigation_rules, parent: :step_by_step_page do
+    after(:create) do |step_by_step_page|
+      create(:navigation_rule, step_by_step_page: step_by_step_page)
+      create(:smartanswer_step, step_by_step_page: step_by_step_page)
+      create(:smartanswer_navigation_rule, step_by_step_page: step_by_step_page)
+    end
+  end
+
   factory :step do
     title "Check how awesome you are"
     logic "number"
@@ -47,12 +55,34 @@ FactoryBot.define do
       logic "or"
       position 2
     end
+
+    factory :smartanswer_step do
+      title "This step has a smartanswer in it"
+      logic "number"
+      position 1
+      contents <<~CONTENT
+        This is a step with a smartanswer
+
+        [A smartanswer](/a-smartanswer)
+      CONTENT
+      step_by_step_page
+    end
   end
 
   factory :navigation_rule do
     title "Good stuff"
     base_path "/good/stuff"
     content_id { SecureRandom.uuid }
+    publishing_app "publisher"
+    schema_name "guide"
+  end
+
+  factory :smartanswer_navigation_rule, parent: :navigation_rule do
+    title "A smartanswer"
+    base_path "/a-smartanswer"
+    content_id { SecureRandom.uuid }
+    publishing_app "smartanswers"
+    schema_name "transaction"
   end
 
   factory :redirect_item do

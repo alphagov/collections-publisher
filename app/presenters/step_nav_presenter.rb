@@ -85,7 +85,7 @@ private
   end
 
   def part_of_step_nav_links
-    step_nav.navigation_rules.part_of_content_ids
+    step_nav.navigation_rules.part_of_content_ids + done_page_content_ids
   end
 
   def related_to_step_nav_links
@@ -94,5 +94,18 @@ private
 
   def access_limited_tokens
     { auth_bypass_ids: [step_nav.auth_bypass_id] }
+  end
+
+  def done_page_content_ids
+    base_paths = step_nav.navigation_rules.select(&:include_in_links).map do |rule|
+      rule.base_path + "/y" if rule.smartanswer?
+    end
+
+    content_ids = []
+    if base_paths.any?
+      content_ids = StepNavPublisher.lookup_content_ids(base_paths).values
+    end
+
+    content_ids
   end
 end

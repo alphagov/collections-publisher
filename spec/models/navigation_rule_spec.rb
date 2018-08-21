@@ -62,8 +62,8 @@ RSpec.describe NavigationRule do
       end
     end
 
-    context 'with valid attributes' do
-      it 'is valid' do
+    context 'without a publishing_app' do
+      it 'is invalid' do
         resource = described_class.new(
           title: 'A Title',
           base_path: '/a-base-path',
@@ -71,9 +71,72 @@ RSpec.describe NavigationRule do
           step_by_step_page: step_by_step_page,
         )
 
+        expect(resource).to_not be_valid
+        expect(resource.errors).to have_key(:publishing_app)
+      end
+    end
+
+    context 'without a schema_name' do
+      it 'is invalid' do
+        resource = described_class.new(
+          title: 'A Title',
+          base_path: '/a-base-path',
+          content_id: 'A-CONTENT-ID-BOOM',
+          step_by_step_page: step_by_step_page,
+          publishing_app: 'transaction',
+        )
+
+        expect(resource).to_not be_valid
+        expect(resource.errors).to have_key(:schema_name)
+      end
+    end
+
+    context 'with valid attributes' do
+      it 'is valid' do
+        resource = described_class.new(
+          title: 'A Title',
+          base_path: '/a-base-path',
+          content_id: 'A-CONTENT-ID-BOOM',
+          step_by_step_page: step_by_step_page,
+          publishing_app: 'publisher',
+          schema_name: 'transaction'
+        )
+
         expect(resource).to be_valid
         expect(resource.errors).to be_empty
       end
+    end
+  end
+
+  describe '#smartanswer?' do
+    before do
+      allow(Services.publishing_api).to receive(:lookup_content_id)
+    end
+
+    it 'is a smartanswer start page' do
+      resource = described_class.new(
+        title: 'A Title',
+        base_path: '/a-base-path',
+        content_id: 'A-CONTENT-ID-BOOM',
+        step_by_step_page: step_by_step_page,
+        publishing_app: 'smartanswers',
+        schema_name: 'transaction'
+      )
+
+      expect(resource.smartanswer?).to be true
+    end
+
+    it 'is not a smartanswer start page' do
+      resource = described_class.new(
+        title: 'A Title',
+        base_path: '/a-base-path',
+        content_id: 'A-CONTENT-ID-BOOM',
+        step_by_step_page: step_by_step_page,
+        publishing_app: 'publisher',
+        schema_name: 'transaction'
+      )
+
+      expect(resource.smartanswer?).to be false
     end
   end
 end
