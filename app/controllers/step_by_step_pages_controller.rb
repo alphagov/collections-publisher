@@ -13,16 +13,13 @@ class StepByStepPagesController < ApplicationController
   def show; end
 
   def reorder
-    @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
-
+    set_current_page_as_step_by_step
     if request.post? && params.key?(:step_order_save)
       reordered_steps = JSON.parse(params[:step_order_save])
-
       reordered_steps.each do |step_data|
         step = @step_by_step_page.steps.find(step_data["id"])
         step.update_attribute(:position, step_data["position"])
       end
-
       update_downstream
       redirect_to @step_by_step_page, notice: 'Steps were successfully reordered.'
     end
@@ -32,10 +29,8 @@ class StepByStepPagesController < ApplicationController
 
   def create
     @step_by_step_page = StepByStepPage.new(step_by_step_page_params)
-
     if @step_by_step_page.save
       update_downstream
-
       redirect_to @step_by_step_page, notice: 'Step by step page was successfully created.'
     else
       render :new
@@ -45,7 +40,6 @@ class StepByStepPagesController < ApplicationController
   def update
     if @step_by_step_page.update(step_by_step_page_params)
       update_downstream
-
       redirect_to step_by_step_page_path, notice: 'Step by step page was successfully updated.'
     else
       render :edit
@@ -62,8 +56,7 @@ class StepByStepPagesController < ApplicationController
   end
 
   def publish
-    @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
-
+    set_current_page_as_step_by_step
     if request.post?
       @publish_intent = PublishIntent.new(params)
       if @publish_intent.valid?
@@ -74,11 +67,9 @@ class StepByStepPagesController < ApplicationController
   end
 
   def unpublish
-    @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
-
+    set_current_page_as_step_by_step
     if request.post?
       redirect_url = params.delete("redirect_url")
-
       if StepByStepPage.validate_redirect(redirect_url)
         unpublish_page(redirect_url)
         redirect_to @step_by_step_page, notice: 'Step by step page was successfully unpublished.'
@@ -125,5 +116,9 @@ private
 
   def step_by_step_page_params
     params.require(:step_by_step_page).permit(:title, :slug, :introduction, :description)
+  end
+
+  def set_current_page_as_step_by_step
+    @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
   end
 end
