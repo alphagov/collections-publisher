@@ -53,10 +53,6 @@ Layout/SpaceAroundOperators:
   Exclude:
     - 'spec/services/list_publisher_spec.rb'
 
-Layout/SpaceInsideBrackets:
-  Exclude:
-    - 'spec/models/tagged_documents_spec.rb'
-
 Layout/SpaceInsideParens:
   Exclude:
     - 'spec/features/listing_browse_pages_spec.rb'
