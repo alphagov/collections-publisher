@@ -57,7 +57,7 @@
 
             <th class="h4">
               <%= step.title %>
-              <% if step.broken_links %>
+              <% if step.broken_links? %>
                 <span class="label label-warning">
                   <%= render 'shared/steps/broken-links-summary', step: step %>
                 </span>
