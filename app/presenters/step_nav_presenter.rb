@@ -98,14 +98,21 @@ private
 
   def done_page_content_ids
     base_paths = step_nav.navigation_rules.select(&:include_in_links).map do |rule|
-      rule.base_path + "/y" if rule.smartanswer?
+      done_page_base_path(rule)
     end
 
     content_ids = []
     if base_paths.any?
-      content_ids = StepNavPublisher.lookup_content_ids(base_paths).values
+      results = StepNavPublisher.lookup_content_ids(base_paths)
+      content_ids = results.values if results.any?
     end
 
     content_ids
+  end
+
+  def done_page_base_path(page)
+    return page.base_path + "/y" if page.smartanswer?
+
+    "/done" + page.base_path
   end
 end
