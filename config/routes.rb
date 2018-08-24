@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     post :reorder
     get :unpublish
     post :unpublish
+    post :check_links
 
     resources :steps
   end
@@ -47,7 +48,7 @@ Rails.application.routes.draw do
     "/tags/#{params[:tag_id]}/lists"
   }
 
-  patch 'link_report/:id', to: 'link_report#update'
+  post '/link_report', to: 'link_report#update'
 
   mount GovukAdminTemplate::Engine, at: "/style-guide"
 

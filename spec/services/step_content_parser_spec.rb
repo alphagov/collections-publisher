@@ -464,4 +464,24 @@ RSpec.describe StepContentParser do
       )
     end
   end
+
+  describe '.all_paths' do
+    context 'when there are no links in the text' do
+      test_text = 'Lorem ipsum dolores'
+      it 'should return an empty array' do
+        expect(subject.all_paths(test_text)).to be_empty
+      end
+    end
+    context 'when there is one relative and one absolute path' do
+      test_text = "[Learn to drive](/learn-to-drive)\n[Google it](https://www.google.com)"
+      it 'should return an array of URLs' do
+        links = subject.all_paths(test_text)
+        expect(links).to all(start_with("https:"))
+      end
+      it 'should have a length of two' do
+        links = subject.all_paths(test_text)
+        expect(links.length).to eql 2
+      end
+    end
+  end
 end

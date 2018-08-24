@@ -2,9 +2,14 @@ class Step < ApplicationRecord
   belongs_to :step_by_step_page
   validates_presence_of :step_by_step_page
   validates :title, :logic, presence: true
+  has_many :link_reports
 
   def broken_links
     collect_broken_links unless most_recent_batch.nil?
+  end
+
+  def request_broken_links
+    LinkReport.new(step_id: self.id).create_record
   end
 
 private
