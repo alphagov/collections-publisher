@@ -61,6 +61,11 @@
                 <span class="label label-warning">
                   <%= render 'shared/steps/broken-links-summary', step: step %>
                 </span>
+              <% elsif step.link_report? %>
+                <span class="label label-success">
+                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                  <strong>No broken links</strong>
+                </span>
               <% end %>
             </th>
 

@@ -44,6 +44,7 @@ RSpec.describe Step do
     it 'should return nothing if there are no link reports yet' do
       expect(step_item.broken_links).to be_nil
       expect(step_item.broken_links?).to be false
+      expect(step_item.link_report?).to be false
     end
 
     it 'should return an empty array if there are link reports, but all the links work' do
@@ -64,6 +65,7 @@ RSpec.describe Step do
       )
       expect(step_item.broken_links).to eql []
       expect(step_item.broken_links?).to be false
+      expect(step_item.link_report?).to be true
     end
 
     it 'should return a batch report if there is one with a matching id and it contains a broken link' do
