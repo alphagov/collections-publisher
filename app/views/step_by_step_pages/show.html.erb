@@ -72,5 +72,10 @@
     <div>
       <%= button_to "Check for broken links", {action: "check_links", step_by_step_page_id: @step_by_step_page.id}, class: "btn btn-primary" %>
     </div>
+
+    <div>
+      Links last checked
+      on <%= @step_by_step_page.links_last_checked_date %>
+    </div>
   </div>
 </div>
