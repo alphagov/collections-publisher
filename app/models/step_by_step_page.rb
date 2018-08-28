@@ -56,6 +56,11 @@ class StepByStepPage < ApplicationRecord
     end
   end
 
+  def links_last_checked_date
+    date = steps.map(&:links_last_checked_date).reject(&:blank?).max
+    date.strftime('%A, %d %B %Y at %H:%M %p') if date
+  end
+
 private
 
   def generate_content_id

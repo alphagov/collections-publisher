@@ -134,6 +134,26 @@ RSpec.describe StepByStepPage do
     }.to raise_error(ActiveRecord::RecordNotUnique)
   end
 
+  describe '#links_last_checked_date' do
+    it 'gets the latest date that links were checked for any step' do
+      step_by_step_with_step = create(:step_by_step_page)
+
+      step1 = create(:step, step_by_step_page: step_by_step_with_step)
+      step2 = create(:step, step_by_step_page: step_by_step_with_step)
+
+      create(:link_report, batch_id: 1, step_id: step1.id, created_at: "2018-08-07 10:31:38")
+      create(:link_report, batch_id: 2, step_id: step2.id, created_at: "2018-08-07 10:30:38")
+
+      expect(step_by_step_with_step.links_last_checked_date).to eq("Tuesday, 07 August 2018 at 10:31 AM")
+    end
+
+    it 'does not fail if there are no link reports' do
+      step_by_step_with_step = create(:step_by_step_page)
+
+      expect(step_by_step_with_step.links_last_checked_date).to be nil
+    end
+  end
+
   describe 'publishing' do
     let(:step_by_step_page) { create(:step_by_step_page) }
 
