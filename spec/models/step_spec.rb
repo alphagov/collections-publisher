@@ -129,5 +129,10 @@ RSpec.describe Step do
       expect(step_item.broken_links.length).to eql 1
       expect(step_item.broken_links?).to be true
     end
+
+    it 'should return the last date the links where checked' do
+      create(:link_report, batch_id: 2, step_id: step_item.id, created_at: "2018-08-07 10:30:38")
+      expect(step_item.links_last_checked_date.utc).to eq(Time.new(2018, 8, 7, 10, 30, 38).utc)
+    end
   end
 end
