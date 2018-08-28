@@ -4,6 +4,14 @@ class Step < ApplicationRecord
   validates :title, :logic, presence: true
   has_many :link_reports
 
+  def broken_links?
+    broken_links.present? && broken_links.any?
+  end
+
+  def link_report?
+    most_recent_batch.present?
+  end
+
   def broken_links
     collect_broken_links unless most_recent_batch.nil?
   end
