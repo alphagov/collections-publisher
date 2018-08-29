@@ -154,6 +154,22 @@ RSpec.describe StepByStepPage do
     end
   end
 
+  describe 'links_checked?' do
+    it 'returns true if links have been checked' do
+      step_by_step_with_step = create(:step_by_step_page)
+      step = create(:step, step_by_step_page: step_by_step_with_step)
+      create(:link_report, batch_id: 1, step_id: step.id)
+
+      expect(step_by_step_with_step.links_checked?).to be true
+    end
+
+    it 'returns false if links have not been checked' do
+      step_by_step_with_step = create(:step_by_step_page)
+
+      expect(step_by_step_with_step.links_checked?).to be false
+    end
+  end
+
   describe 'publishing' do
     let(:step_by_step_page) { create(:step_by_step_page) }
 
