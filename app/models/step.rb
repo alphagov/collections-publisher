@@ -12,6 +12,10 @@ class Step < ApplicationRecord
     most_recent_batch.present?
   end
 
+  def links_last_checked_date
+    most_recent_batch.created_at if link_report?
+  end
+
   def broken_links
     collect_broken_links unless most_recent_batch.nil?
   end
