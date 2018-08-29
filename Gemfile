@@ -29,7 +29,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'govuk-content-schema-test-helpers'
-  gem 'govuk-lint'
+  gem 'govuk-lint', '~> 3.9.0'
   gem 'nokogiri'
   gem 'poltergeist'
   gem 'pry-byebug'
