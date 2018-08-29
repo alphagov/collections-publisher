@@ -74,9 +74,9 @@
     </div>
 
     <% if @step_by_step_page.links_checked? %>
-      <div>
-        Links last checked
-        <br>on <%= @step_by_step_page.links_last_checked_date %>
+      <div class="broken-links-last-checked--summary">
+        Links last checked on:
+        <br><%= @step_by_step_page.links_last_checked_date %>
       </div>
     <% end %>
 
