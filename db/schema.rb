@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_17_100339) do
+ActiveRecord::Schema.define(version: 2018_08_29_153755) do
 
-  create_table "list_items", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "internal_change_notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "author"
+    t.text "description"
+    t.bigint "step_by_step_page_id"
+    t.datetime "created_at"
+    t.index ["step_by_step_page_id"], name: "index_internal_change_notes_on_step_by_step_page_id"
+  end
+
+  create_table "list_items", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "base_path"
     t.integer "index", default: 0, null: false
     t.integer "list_id"
@@ -132,6 +140,7 @@ ActiveRecord::Schema.define(version: 2018_08_17_100339) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
+  add_foreign_key "internal_change_notes", "step_by_step_pages"
   add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
   add_foreign_key "lists", "tags", name: "lists_tag_id_fk", on_delete: :cascade
   add_foreign_key "navigation_rules", "step_by_step_pages"
