@@ -67,6 +67,10 @@ class StepByStepPage < ApplicationRecord
     date.strftime('%A, %d %B %Y at %H:%M %p') if date
   end
 
+  def links_checked?
+    steps.map(&:link_report?).any?
+  end
+
 private
 
   def generate_content_id
