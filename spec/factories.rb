@@ -103,7 +103,7 @@ FactoryBot.define do
 
   factory :user do
     uid { SecureRandom.hex }
-    permissions { ["signin"] }
+    permissions { %w(signin) }
   end
 
   factory :list do

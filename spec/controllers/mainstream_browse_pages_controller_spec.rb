@@ -12,7 +12,7 @@ RSpec.describe MainstreamBrowsePagesController do
     let(:browse_page) { create(:mainstream_browse_page) }
 
     it 'does not allow users without GDS Editor permissions access' do
-      stub_user.permissions = ["signin"]
+      stub_user.permissions = %w(signin)
 
       get :new, params: { parent_id: browse_page.id }
 

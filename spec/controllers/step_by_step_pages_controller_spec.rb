@@ -10,7 +10,7 @@ RSpec.describe StepByStepPagesController do
     end
 
     it "cannot be accessed by users without GDS editor permissions" do
-      stub_user.permissions = ["signin"]
+      stub_user.permissions = %w(signin)
       get :index
 
       expect(response.status).to eq(403)

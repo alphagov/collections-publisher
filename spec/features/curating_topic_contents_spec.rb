@@ -314,9 +314,7 @@ RSpec.feature "Curating topic contents" do
 
       # Then the list should be deleted
       within '.curated-lists' do
-        expect(list_titles_on_page).to eq([
-          'Piping'
-        ])
+        expect(list_titles_on_page).to eq(%w(Piping))
       end
 
       # And the content from the list should appear in the uncategorized section
