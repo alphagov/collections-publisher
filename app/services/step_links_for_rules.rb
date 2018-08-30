@@ -42,7 +42,7 @@ private
 
   # hash of rules payloads keyed by content_id
   def rules_from_step_content
-    @step_rules ||= content_items.each_with_object({}) do |content_item, items|
+    @rules_from_step_content ||= content_items.each_with_object({}) do |content_item, items|
       items[content_item["content_id"]] = build_rule(content_item)
     end
   end

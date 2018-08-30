@@ -109,7 +109,7 @@ class Tag < ApplicationRecord
   end
 
   def tagged_documents
-    @_tagged_documents ||= TaggedDocuments.new(self)
+    @tagged_documents ||= TaggedDocuments.new(self)
   end
 
   def tagged_document_for_base_path(base_path)
