@@ -87,7 +87,8 @@ $beige: #8a6d3b;
   text-decoration: none;
   color: $beige;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     text-decoration: none;
     color: $beige;
   }
