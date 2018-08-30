@@ -19,7 +19,7 @@ RSpec.describe "Sidekiq monitoring" do
   end
 
   it "does not allow users without permissions to monitor Sidekiq" do
-    user = create(:user, permissions: ["signin"])
+    user = create(:user, permissions: %w(signin))
     allow_any_instance_of(Warden::Proxy).to receive(:user).and_return(user)
 
     expect {

@@ -6,6 +6,8 @@ $light-grey: #f5f5f5;
 $light-grey-2: #f8f8f8;
 $black: #0B0C0C;
 $red: #b10e1e;
+$grey: #eeeeee;
+$beige: #8a6d3b;
 
 .step-actions {
   padding: 15px 0;
@@ -75,4 +77,47 @@ $red: #b10e1e;
 
 .publish-or-delete .panel.delete-or-unpublish-panel {
   border-left: 10px $red solid;
+}
+
+.broken-links-accordion__title {
+  word-wrap: break-word;
+}
+
+.broken-links-accordion__collapsible-link {
+  text-decoration: none;
+  color: $beige;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    color: $beige;
+  }
+}
+
+.broken-links-accordion__indicator {
+  float: right;
+
+  .broken-links-accordion__indicator-text {
+    margin-left: 3px;
+  }
+}
+
+.broken-links-accordion__indicator--show {
+  display: none;
+}
+
+.collapsed {
+  .broken-links-accordion__indicator--hide {
+    display: none;
+  }
+
+  .broken-links-accordion__indicator--show {
+    display: block;
+  }
+}
+
+.broken-links-last-checked--summary {
+  border-left: 5px solid $grey;
+  padding: 10px 20px;
+  margin: 20px 0 20px;
 }

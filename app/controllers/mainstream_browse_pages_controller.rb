@@ -78,7 +78,7 @@ private
   end
 
   def find_browse_page
-    @_browse_page ||= MainstreamBrowsePage.find_by!(content_id: params[:id])
+    @find_browse_page ||= MainstreamBrowsePage.find_by!(content_id: params[:id])
   end
 
   def browse_page_params

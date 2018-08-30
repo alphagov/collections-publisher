@@ -54,12 +54,21 @@ class StepByStepPage < ApplicationRecord
   # The code to create the token has been "borrowed" from SecureRandom.uuid,
   # See: http://ruby-doc.org/stdlib-1.9.3/libdoc/securerandom/rdoc/SecureRandom.html#uuid-method
   def auth_bypass_id
-    @_auth_bypass_id ||= begin
+    @auth_bypass_id ||= begin
       ary = Digest::SHA256.hexdigest(content_id.to_s).unpack('NnnnnN')
       ary[2] = (ary[2] & 0x0fff) | 0x4000
       ary[3] = (ary[3] & 0x3fff) | 0x8000
       "%08x-%04x-%04x-%04x-%04x%08x" % ary
     end
+  end
+
+  def links_last_checked_date
+    date = steps.map(&:links_last_checked_date).reject(&:blank?).max
+    date.strftime('%A, %d %B %Y at %H:%M %p') if date
+  end
+
+  def links_checked?
+    steps.map(&:link_report?).any?
   end
 
 private

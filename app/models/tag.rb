@@ -17,7 +17,7 @@ class Tag < ApplicationRecord
   has_many :redirect_routes
 
   validates :slug, :title, :content_id, presence: true
-  validates :slug, uniqueness: { scope: ["parent_id"] }, format: { with: /\A[a-z0-9-]*\z/ }
+  validates :slug, uniqueness: { scope: %w(parent_id) }, format: { with: /\A[a-z0-9-]*\z/ }
   validates :child_ordering, inclusion: { in: ORDERING_TYPES }
   validate :parent_is_not_a_child
   validate :cannot_change_slug
@@ -109,7 +109,7 @@ class Tag < ApplicationRecord
   end
 
   def tagged_documents
-    @_tagged_documents ||= TaggedDocuments.new(self)
+    @tagged_documents ||= TaggedDocuments.new(self)
   end
 
   def tagged_document_for_base_path(base_path)

@@ -1,4 +1,9 @@
 FactoryBot.define do
+  factory :link_report do
+    batch_id 1
+    completed "2018-08-07 10:35:38"
+    step nil
+  end
   factory :step_by_step_page do
     title "How to be amazing"
     slug "how-to-be-the-amazing-1"
@@ -98,7 +103,7 @@ FactoryBot.define do
 
   factory :user do
     uid { SecureRandom.hex }
-    permissions { ["signin"] }
+    permissions { %w(signin) }
   end
 
   factory :list do

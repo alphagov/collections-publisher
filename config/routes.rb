@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     get :unpublish
     post :unpublish
     get  'publish-or-delete', to: 'publish_or_delete'
+    post :check_links
 
     resources :steps
   end
@@ -47,6 +48,8 @@ Rails.application.routes.draw do
   get '/topics/:tag_id/lists', to: redirect { |params, _request|
     "/tags/#{params[:tag_id]}/lists"
   }
+
+  post '/link_report', to: 'link_report#update'
 
   mount GovukAdminTemplate::Engine, at: "/style-guide"
 

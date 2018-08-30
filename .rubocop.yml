@@ -63,3 +63,7 @@ Metrics/BlockLength:
     - 'lib/tasks/**/*.rake'
     - 'spec/**/*_spec.rb'
     - 'spec/factories.rb'
+
+Style/ExpandPathArguments:
+  Exclude:
+    - spec/rails_helper.rb

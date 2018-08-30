@@ -1,6 +1,8 @@
 require 'rails_helper'
+require 'gds_api/test_helpers/link_checker_api'
 
 RSpec.describe Step do
+  include GdsApi::TestHelpers::LinkCheckerApi
   before do
     allow(Services.publishing_api).to receive(:lookup_content_id)
   end
@@ -36,6 +38,101 @@ RSpec.describe Step do
 
       expect(step_item).not_to be_valid
       expect(step_item.errors).to have_key(:logic)
+    end
+  end
+  describe 'broken_links' do
+    it 'should return nothing if there are no link reports yet' do
+      expect(step_item.broken_links).to be_nil
+      expect(step_item.broken_links?).to be false
+      expect(step_item.link_report?).to be false
+    end
+
+    it 'should return an empty array if there are link reports, but all the links work' do
+      create(:link_report, batch_id: 2, step_id: step_item.id)
+      link_checker_api_get_batch(
+        id: 2,
+        links: [
+          {
+            "uri": "https://www.gov.uk/",
+            "status": "ok",
+            "checked": "2017-04-12T18:47:16Z",
+            "errors": [],
+            "warnings": [],
+            "problem_summary": "null",
+            "suggested_fix": "null"
+          }
+        ]
+      )
+      expect(step_item.broken_links).to eql []
+      expect(step_item.broken_links?).to be false
+      expect(step_item.link_report?).to be true
+    end
+
+    it 'should return a batch report if there is one with a matching id and it contains a broken link' do
+      link_checker_api_get_batch(
+        id: 2,
+        links: [
+          {
+            "uri": "https://www.gov.uk/",
+            "status": "ok",
+            "checked": "2017-04-12T18:47:16Z",
+            "errors": [],
+            "warnings": [],
+            "problem_summary": "null",
+            "suggested_fix": "null"
+          },
+          {
+            "uri": "https://www.gov.uk/404",
+            "status": "broken",
+            "checked": "2017-04-12T16:30:39Z",
+            "errors": [
+              "Received 404 response from the server."
+            ],
+            "warnings": [],
+            "problem_summary": "404 error (page not found)",
+            "suggested_fix": ""
+          }
+        ]
+        )
+      create(:link_report, batch_id: 2, step_id: step_item.id)
+      expect(step_item.broken_links).to_not be_empty
+      expect(step_item.broken_links?).to be true
+    end
+
+    it 'should contain one item if there are link reports and at least one is broken' do
+      link_checker_api_get_batch(
+        id: 2,
+        links: [
+          {
+            "uri": "https://www.gov.uk/",
+            "status": "ok",
+            "checked": "2017-04-12T18:47:16Z",
+            "errors": [],
+            "warnings": [],
+            "problem_summary": "null",
+            "suggested_fix": "null"
+          },
+          {
+            "uri": "https://www.gov.uk/404",
+            "status": "broken",
+            "checked": "2017-04-12T16:30:39Z",
+            "errors": [
+              "Received 404 response from the server."
+            ],
+            "warnings": [],
+            "problem_summary": "404 error (page not found)",
+            "suggested_fix": ""
+          }
+        ]
+        )
+      create(:link_report, batch_id: 2, step_id: step_item.id)
+      expect(step_item.broken_links.length).to eql 1
+      expect(step_item.broken_links?).to be true
+    end
+
+    it 'should return the last date the links where checked' do
+      create(:link_report, batch_id: 2, step_id: step_item.id, created_at: "2018-08-07 10:30:38")
+      expect(step_item.links_last_checked_date.utc).to eq(Time.new(2018, 8, 7, 10, 30, 38).utc)
     end
   end
 end

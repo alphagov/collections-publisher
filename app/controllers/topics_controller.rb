@@ -79,7 +79,7 @@ private
   end
 
   def find_topic
-    @_topic ||= Topic.find_by!(content_id: params[:id])
+    @find_topic ||= Topic.find_by!(content_id: params[:id])
   end
 
   def protect_archived_tags!

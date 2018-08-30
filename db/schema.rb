@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 2018_08_29_153755) do
     t.index ["step_by_step_page_id"], name: "index_internal_change_notes_on_step_by_step_page_id"
   end
 
+  create_table "link_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "batch_id"
+    t.datetime "completed"
+    t.bigint "step_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["step_id"], name: "index_link_reports_on_step_id"
+  end
+
   create_table "list_items", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "base_path"
     t.integer "index", default: 0, null: false
@@ -141,6 +150,7 @@ ActiveRecord::Schema.define(version: 2018_08_29_153755) do
   end
 
   add_foreign_key "internal_change_notes", "step_by_step_pages"
+  add_foreign_key "link_reports", "steps"
   add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
   add_foreign_key "lists", "tags", name: "lists_tag_id_fk", on_delete: :cascade
   add_foreign_key "navigation_rules", "step_by_step_pages"

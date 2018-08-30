@@ -59,6 +59,64 @@
 </div>
 
 <div class="form-group">
+  <% if step.broken_links && step.broken_links.count > 0 %>
+    <div class="broken-links">
+      <div class="panel panel-warning">
+        <div class="panel-heading" role="tab" id="brokenLinkHeading">
+          <a role="button" class="collapsed broken-links-accordion__collapsible-link" data-toggle="collapse" data-parent="#brokenLinksAccordion" href="#brokenLinkBody" aria-expanded="true" aria-controls="brokenLinkBody">
+            <p class="panel-title h4 broken-links-accordion__title">
+              <%= render 'shared/steps/broken-links-summary', step: step %>
+              
+              <button class="broken-links-accordion__indicator btn btn-success btn-xs">
+                <span class="broken-links-accordion__indicator--show">
+                  <span class="broken-links-accordion__indicator-text">Show</span>
+                  <i class="glyphicon glyphicon-plus"></i>
+                </span>
+
+                <span class="broken-links-accordion__indicator--hide">
+                  <span class="broken-links-accordion__indicator-text">Hide</span>
+                  <i class="glyphicon glyphicon-minus"></i>
+                </span>
+              </button>
+            </p>
+          </a>
+        </div>
+        <div id="brokenLinkBody" class="panel-collapse collapse" role="tabpanel" aria-labelledby="brokenLinkHeading">
+          <div class="list-group">
+            <% step.broken_links.each.with_index do |link, index| %>
+              <a href="<%= link['uri'] %>" class="list-group-item" target="_blank">
+                <h4 class="list-group-item-heading"><%= link['uri'] %></h4>
+                <p class="list-group-item-text">
+                  <dl class="dl">
+                    <dt>Last checked</dt>
+                    <dd><%= link['checked'].to_datetime.to_formatted_s(:rfc822) %></dd>
+                    
+                    <% if link['errors'] && link['errors'].count > 0 %>
+                      <dt>Errors</dt>
+                      <dd>
+                        <% link['errors'].each do |error| %>
+                          <%= error %> <br/>
+                        <% end %>
+                      </dd>
+                    <% end %>
+                    
+                    <% if link['warnings'] && link['warnings'].count > 0 %>
+                      <dt>Warnings</dt>
+                      <dd>
+                        <% link['warnings'].each do |warning| %>
+                          <%= warning %> <br/>
+                        <% end %>
+                      </dd>
+                    <% end %>
+                  </dl>
+                </p>
+              </a>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
   <div class="row">
     <div class="<%= left_col %>">
       <%= form.text_area :contents, class: "form-control", label: "Content, tasks and links in this step", rows: 8 %>
