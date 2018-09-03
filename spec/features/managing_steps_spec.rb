@@ -26,7 +26,7 @@ RSpec.feature "Managing step by step pages" do
         and_I_edit_the_first_step
         then_I_can_see_the_edit_page
         and_I_fill_the_edit_form_and_submit
-        and_I_see_the_step_on_the_step_by_step_details_page
+        then_I_can_see_the_edit_page
       end
 
       scenario "User deletes step", js: true do
