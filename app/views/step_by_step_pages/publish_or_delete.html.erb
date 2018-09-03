@@ -28,8 +28,9 @@
     <% if @step_by_step_page.has_draft? %>
       <div class="panel panel-default">
         <div class="panel-body">
+          <p>Before publishing check for broken links.</p>
+          <p>After publishing add this step by step to a mainstream browse category and a taxonomy topic.</p>
           <%= link_to 'Publish changes', step_by_step_page_publish_path(@step_by_step_page), class: "btn btn-primary publish-button" %>
-          <p>You will need to tag this step by step to a mainstream browse category and a taxonomy topic after publishing</p>
         </div>
       </div>
     <% end %>
