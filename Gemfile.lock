@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    PriorityQueue (0.1.2)
     aasm (5.0.0)
       concurrent-ruby (~> 1.0)
     actioncable (5.2.1)
@@ -91,10 +90,9 @@ GEM
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.23)
-    gds-api-adapters (52.8.0)
+    gds-api-adapters (53.0.0)
       addressable
       link_header
-      lrucache (~> 0.1.1)
       null_logger
       plek (>= 1.9.0)
       rack-cache
@@ -157,8 +155,6 @@ GEM
     loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    lrucache (0.1.4)
-      PriorityQueue (~> 0.1.2)
     mail (2.7.0)
       mini_mime (>= 0.1.1)
     marcel (0.3.2)
@@ -210,7 +206,7 @@ GEM
     pry-byebug (3.5.1)
       byebug (~> 9.1)
       pry (~> 0.10)
-    public_suffix (3.0.2)
+    public_suffix (3.0.3)
     rack (2.0.5)
     rack-cache (1.8.0)
       rack (>= 0.4)
@@ -365,7 +361,7 @@ DEPENDENCIES
   capybara
   database_cleaner
   factory_bot_rails
-  gds-api-adapters (~> 52.8)
+  gds-api-adapters (~> 53.0)
   gds-sso (~> 13.6)
   generic_form_builder (~> 0.13)
   govuk-content-schema-test-helpers
