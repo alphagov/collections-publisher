@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     get :unpublish
     post :unpublish
     get  'publish-or-delete', to: 'publish_or_delete'
+    get 'internal-change-notes', to: 'interal_change_notes'
+    post 'internal-change-notes', to: 'internal_change_notes#create'
     post :check_links
 
     resources :steps

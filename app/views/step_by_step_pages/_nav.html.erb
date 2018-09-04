@@ -22,4 +22,7 @@
   <li class="<%= "active" if active == 'publish-or-delete' %>">
     <%= link_to 'Publish or delete', step_by_step_page_publish_or_delete_path(@step_by_step_page), class: "step-by-step-tab-link" %>
   </li>
+  <li class="<%= "active" if active == 'internal-change-notes' %>">
+    <%= link_to 'Change notes', step_by_step_page_internal_change_notes_path(@step_by_step_page), class: "step-by-step-tab-link"%>
+  </li>
 </ul>
