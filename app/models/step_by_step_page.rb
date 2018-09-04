@@ -1,6 +1,7 @@
 class StepByStepPage < ApplicationRecord
   has_many :navigation_rules, -> { order(title: :asc) }, dependent: :destroy
   has_many :steps, -> { order(position: :asc) }, dependent: :destroy
+  has_many :internal_change_notes, -> { order(created_at: :desc) }
 
   validates :title, :slug, :introduction, :description, presence: true
   validates :slug, format: { with: /\A([a-z0-9]+-)*[a-z0-9]+\z/ }, uniqueness: true

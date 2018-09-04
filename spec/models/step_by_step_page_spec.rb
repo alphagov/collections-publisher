@@ -227,4 +227,22 @@ RSpec.describe StepByStepPage do
       end
     end
   end
+
+  describe '.internal_change_notes' do
+    context 'when there are changenotes' do
+      it 'returns an array of changenotes in chronological order' do
+        step_by_step_page = create(:step_by_step_page)
+        id = step_by_step_page.id
+        create(:internal_change_note, created_at: "2018-08-07 10:35:38", description: "First note", step_by_step_page_id: id)
+        create(:internal_change_note, created_at: "2018-08-07 11:35:38", description: "Second note", step_by_step_page_id: id)
+        expect(step_by_step_page.internal_change_notes.map(&:description)).to eql ["Second note", "First note"]
+      end
+    end
+    context 'when there are no changenotes' do
+      it 'returns an empty array' do
+        step_by_step_page = create(:step_by_step_page)
+        expect(step_by_step_page.internal_change_notes).to be_empty
+      end
+    end
+  end
 end

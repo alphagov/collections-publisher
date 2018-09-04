@@ -139,4 +139,11 @@ FactoryBot.define do
     factory :topic, class: Topic
     factory :mainstream_browse_page, class: MainstreamBrowsePage
   end
+
+  factory :internal_change_note do
+    step_by_step_page_id 0
+    author "Test Author"
+    description "Description of the changes I made"
+    created_at "2018-08-07 10:35:38"
+  end
 end
