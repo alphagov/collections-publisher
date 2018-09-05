@@ -1,0 +1,47 @@
+<%
+  links = [
+    {
+      text: 'Step by step publisher',
+      href: step_by_step_pages_path
+    },
+    {
+      text: @step_by_step_page.title,
+      href: @step_by_step_page
+    },
+    {
+      text: 'Record a new change note or review prior changes'
+    }
+  ]
+%>
+
+<%= render 'shared/steps/step_breadcrumb', links: links %>
+
+<%= render 'shared/steps/page_title', links: links %>
+
+<%= render 'shared/steps/heading',
+  step_nav: @step_by_step_page.title,
+  action: 'Record a new change note or review prior changes'
+%>
+
+<%= render 'nav', step_by_step_page: @step_by_step_page, active: "change-notes" %>
+
+<%
+  left_col = "col-md-7"
+  right_col = "col-md-5"
+%>
+
+<%= form_for(@internal_change_note, url: step_by_step_page_internal_change_notes_path) do |form| %>
+  <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
+
+  <div class="form-group row">
+    <div class="<%= left_col %>">
+      <%= form.text_area :description, required: true, class: "form-control", rows: 8 %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= form.submit "Save", class: "btn btn-primary" %>
+  </div>
+  <div class="form-group">
+    <%= link_to 'Cancel', @step_by_step_page %>
+  </div>
+<% end %>
