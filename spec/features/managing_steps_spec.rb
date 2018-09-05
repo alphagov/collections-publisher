@@ -63,6 +63,15 @@ RSpec.feature "Managing step by step pages" do
         and_I_see_the_steps_updated_on_the_step_by_step_details_page
       end
     end
+
+    context "and I would like to leave a change note on a step by step page" do
+      scenario "User leaves a change note" do
+        given_there_is_a_step_by_step_page
+        and_I_visit_the_change_notes_tab
+        and_I_complete_a_change_note
+        then_I_can_see_the_main_page
+      end
+    end
   end
 
   def when_I_visit_the_step_by_step_page
@@ -71,6 +80,10 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_visit_the_reorder_steps_page
     visit step_by_step_page_reorder_path(@step_by_step_page)
+  end
+
+  def and_I_visit_the_change_notes_tab
+    visit step_by_step_page_internal_change_notes_path(@step_by_step_page)
   end
 
   def and_I_create_a_new_step
@@ -180,5 +193,18 @@ RSpec.feature "Managing step by step pages" do
   def and_I_see_the_steps_updated_on_the_step_by_step_details_page
     expect(page).to have_css("table > tbody > tr:nth-child(1) > th:nth-child(2)", text: "Dress like the Fonz")
     expect(page).to have_css("table > tbody > tr:nth-child(2) > th:nth-child(2)", text: "Check how awesome you are")
+  end
+
+  def and_I_write_a_change_note
+    fill_in "Description", with: "I've changed this step by step!"
+  end
+
+  def and_I_complete_a_change_note
+    and_I_write_a_change_note
+    click_on "Save"
+  end
+
+  def then_I_can_see_the_main_page
+    expect(page).to have_content("How to be amazing")
   end
 end

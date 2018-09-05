@@ -88,6 +88,11 @@ class StepByStepPagesController < ApplicationController
     @step_by_step_page.steps.each(&:request_broken_links)
   end
 
+  def internal_change_notes
+    set_current_page_as_step_by_step
+    @internal_change_note = InternalChangeNote.new
+  end
+
 private
 
   def discard_draft
