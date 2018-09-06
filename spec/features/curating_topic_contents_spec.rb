@@ -25,6 +25,7 @@ RSpec.feature "Curating topic contents" do
     end
 
     it "with javascript", :js => true do
+      page.driver.browser.manage.window.resize_to(1366, 1000)
       # When I arrange the content of that topic into lists
       visit_topic_list_curation_page
 
@@ -32,9 +33,6 @@ RSpec.feature "Curating topic contents" do
         fill_in 'Name', :with => 'Oil rigs'
         click_on 'Create'
       end
-
-      # We need to scroll down first to see all the lists.
-      page.driver.scroll_to 0, 100
 
       expect(page).to have_selector('h4', :text => 'Oil rigs')
 
@@ -87,8 +85,16 @@ RSpec.feature "Curating topic contents" do
 
       # When I publish the topic
       content_id = extract_content_id_from(current_path)
-      click_on('Publish changes to GOV.UK')
 
+      accept_confirm do
+        click_on('Publish changes to GOV.UK')
+      end
+
+      # Necessary to re-visit the page here because accepting js confirmations
+      # seem to complete after the spec has finished. This means that subsequent
+      # expectations can fail or complete out-of-order. This arbitrary visit step
+      # seems to allow all the expectations to run in order.
+      visit_topic_list_curation_page
 
       #Then the curated lists should have been sent to the publishing API
       assert_publishing_api_put_content(

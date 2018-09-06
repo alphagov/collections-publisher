@@ -1,15 +1,15 @@
 FactoryBot.define do
   factory :link_report do
-    batch_id 1
-    completed "2018-08-07 10:35:38"
-    step nil
+    batch_id { 1 }
+    completed { "2018-08-07 10:35:38" }
+    step { nil }
   end
   factory :step_by_step_page do
-    title "How to be amazing"
-    slug "how-to-be-the-amazing-1"
+    title { "How to be amazing" }
+    slug { "how-to-be-the-amazing-1" }
     content_id { SecureRandom.uuid }
-    introduction "Find out the steps to become amazing"
-    description "How to be amazing - find out the steps to become amazing"
+    introduction { "Find out the steps to become amazing" }
+    description { "How to be amazing - find out the steps to become amazing" }
 
     factory :step_by_step_page_with_steps do
       after(:create) do |step_by_step_page|
@@ -20,8 +20,8 @@ FactoryBot.define do
   end
 
   factory :published_step_by_step_page, parent: :step_by_step_page_with_steps do
-    draft_updated_at 3.hours.ago
-    published_at Time.zone.now
+    draft_updated_at { 3.hours.ago }
+    published_at { Time.zone.now }
   end
 
   factory :step_by_step_page_with_navigation_rules, parent: :step_by_step_page_with_steps do
@@ -40,65 +40,69 @@ FactoryBot.define do
   end
 
   factory :step do
-    title "Check how awesome you are"
-    logic "number"
-    position 1
-    contents <<~CONTENT
-      This is a great step
+    title { "Check how awesome you are" }
+    logic { "number" }
+    position { 1 }
+    contents {
+      <<~CONTENT
+        This is a great step
 
-      - [Good stuff](/good/stuff)
-      - [Also good stuff](/also/good/stuff)
+        - [Good stuff](/good/stuff)
+        - [Also good stuff](/also/good/stuff)
 
-      * [Not as great](/not/as/great)£25
-      * [But good nonetheless](http://example.com/good)
-    CONTENT
+        * [Not as great](/not/as/great)£25
+        * [But good nonetheless](http://example.com/good)
+      CONTENT
+    }
     step_by_step_page
 
     factory :or_step do
-      title "Dress like the Fonz"
-      optional "true"
-      logic "or"
-      position 2
+      title { "Dress like the Fonz" }
+      optional { "true" }
+      logic { "or" }
+      position { 2 }
     end
 
     factory :smartanswer_step do
-      title "This step has a smartanswer in it"
-      logic "number"
-      position 1
-      contents <<~CONTENT
-        This is a step with a smartanswer
+      title { "This step has a smartanswer in it" }
+      logic { "number" }
+      position { 1 }
+      contents {
+        <<~CONTENT
+          This is a step with a smartanswer
 
-        [A smartanswer](/a-smartanswer)
-      CONTENT
+          [A smartanswer](/a-smartanswer)
+        CONTENT
+      }
       step_by_step_page
     end
   end
 
   factory :navigation_rule do
-    title "Good stuff"
-    base_path "/good/stuff"
+    title { "Good stuff" }
+    base_path { "/good/stuff" }
     content_id { SecureRandom.uuid }
-    publishing_app "publisher"
-    schema_name "guide"
+    publishing_app { "publisher" }
+    schema_name { "guide" }
   end
 
   factory :smartanswer_navigation_rule, parent: :navigation_rule do
-    title "A smartanswer"
-    base_path "/a-smartanswer"
+    title { "A smartanswer" }
+    base_path { "/a-smartanswer" }
     content_id { SecureRandom.uuid }
-    publishing_app "smartanswers"
-    schema_name "transaction"
+    publishing_app { "smartanswers" }
+    schema_name { "transaction" }
   end
 
   factory :redirect_item do
-    content_id SecureRandom.uuid
-    from_base_path "/from/foo"
-    to_base_path "/to/bar"
+    content_id { SecureRandom.uuid }
+    from_base_path { "/from/foo" }
+    to_base_path { "/to/bar" }
   end
 
   factory :redirect_route do
-    from_base_path "/some/route"
-    to_base_path "/to/some/route"
+    from_base_path { "/some/route" }
+    to_base_path { "/to/some/route" }
   end
 
   factory :user do
@@ -111,13 +115,13 @@ FactoryBot.define do
   end
 
   factory :list_item do
-    title 'A list item title'
+    title { 'A list item title' }
   end
 
   factory :tag do
     sequence(:title) { |n| "Browse page #{n}" }
     sequence(:slug) { |n| "browse-page-#{n}" }
-    description "Example description"
+    description { "Example description" }
 
     trait :draft do
       # no-op because initial state is draft
@@ -141,9 +145,9 @@ FactoryBot.define do
   end
 
   factory :internal_change_note do
-    step_by_step_page_id 0
-    author "Test Author"
-    description "Description of the changes I made"
-    created_at "2018-08-07 10:35:38"
+    step_by_step_page_id { 0 }
+    author { "Test Author" }
+    description { "Description of the changes I made" }
+    created_at { "2018-08-07 10:35:38" }
   end
 end
