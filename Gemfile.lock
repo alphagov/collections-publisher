@@ -137,7 +137,7 @@ GEM
       sidekiq (>= 5, < 6)
       sidekiq-logging-json (~> 0.0)
       sidekiq-statsd (~> 0.1)
-    govuk_test (0.1.0)
+    govuk_test (0.2.0)
       capybara
       chromedriver-helper
       puma
@@ -176,7 +176,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2018.0812)
     mimemagic (0.3.2)
-    mini_mime (1.0.0)
+    mini_mime (1.0.1)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
     multi_json (1.13.1)
@@ -360,7 +360,7 @@ GEM
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
-    xpath (3.0.0)
+    xpath (3.1.0)
       nokogiri (~> 1.8)
 
 PLATFORMS
