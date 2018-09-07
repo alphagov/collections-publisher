@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_29_153755) do
+ActiveRecord::Schema.define(version: 2018_09_07_075324) do
 
   create_table "internal_change_notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "author"
     t.text "description"
     t.bigint "step_by_step_page_id"
     t.datetime "created_at"
+    t.integer "edition_number"
     t.index ["step_by_step_page_id"], name: "index_internal_change_notes_on_step_by_step_page_id"
   end
 
