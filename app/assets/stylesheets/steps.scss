@@ -8,6 +8,7 @@ $black: #0B0C0C;
 $red: #b10e1e;
 $grey: #eeeeee;
 $beige: #8a6d3b;
+$border-grey: #aaaaaa;
 
 .step-actions {
   padding: 15px 0;
@@ -120,4 +121,40 @@ $beige: #8a6d3b;
   border-left: 5px solid $grey;
   padding: 10px 20px;
   margin: 20px 0 20px;
+}
+
+.add-change-note--details {
+  margin-bottom: 20px;
+
+  &[open] {
+    .add-change-note--summary {
+      display: none;
+    }
+  }
+
+  .add-change-note--summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.change-note--details {
+  border: 1px solid $border-grey;
+  border-radius: 4px;
+  padding: 10px 10px 0;
+  margin-bottom: 10px;
+
+  &[open] {
+    padding: 10px;
+
+    .change-note--summary {
+      border-bottom: 1px solid $border-grey;
+      margin-bottom: 10px;
+    }
+  }
+
+  .change-note--summary {
+    font-weight: bold;
+    margin: -10px -10px 0;
+    padding: 10px;
+  }
 }
