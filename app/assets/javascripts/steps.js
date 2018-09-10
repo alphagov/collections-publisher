@@ -13,6 +13,7 @@
       this.initialiseDragAndDrop();
       this.setOrder(); // this is called so the order of the list is initalised
       this.bindStatusClicks();
+      this.bindCancelAddChangeNoteLink();
     },
 
     addReorderButtons: function() {
@@ -102,6 +103,14 @@
           $('tr[data-status]').hide();
           $('tr[data-status="' + show + '"').show();
         }
+      });
+    },
+
+    bindCancelAddChangeNoteLink: function() {
+      $('.add-change-note-cancel--link').on('click', function(e){
+        e.preventDefault();
+        $('.add-change-note-description--textarea').val('');
+        $('.add-change-note--details').removeAttr('open');
       });
     }
   };

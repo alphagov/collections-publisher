@@ -41,8 +41,9 @@
           <span class="btn btn-primary">Add a change note</span>
         </summary>      
         <div class="form-group">
-          <%= form.text_area :description, required: true, class: "form-control", rows: 8 %>
+          <%= form.text_area :description, required: true, class: "form-control add-change-note-description--textarea", rows: 8 %>
           <%= form.submit "Save change note", class: "btn btn-success" %>
+          <a href="<%= step_by_step_page_internal_change_notes_path %>" class="btn btn-link add-change-note-cancel--link">Cancel</a>
         </div>
       </details>
     </div>
