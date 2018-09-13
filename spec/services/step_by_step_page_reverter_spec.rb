@@ -119,6 +119,12 @@ RSpec.describe StepByStepPageReverter do
             "- A list of text in the fifth step."
           )
         end
+
+        it "saves the contents of a list with links and context" do
+          expect(step_by_step_page.steps[5].contents).to eq(
+            "[The first item in the list for step six with context](/first-item-in-list-of-step-six-with-context) £23"
+          )
+        end
       end
     end
   end

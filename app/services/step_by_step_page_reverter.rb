@@ -77,7 +77,7 @@ private
 
   def list(contents)
     list = contents[:contents].map do |content|
-      link(content)
+      link(content) + context(content)
     end
 
     list.join("\r\n")
@@ -89,5 +89,9 @@ private
 
   def link(content)
     "[#{content[:text]}](#{content[:href]})"
+  end
+
+  def context(content)
+    content[:context].present? ? " #{content[:context]}" : ""
   end
 end
