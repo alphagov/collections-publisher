@@ -14,6 +14,8 @@ class StepByStepPageReverter
     step_by_step_page.draft_updated_at = step_by_step_page.published_at
 
     step_by_step_page.save!
+
+    step_by_step_page.steps = steps
   end
 
 private
@@ -25,5 +27,21 @@ private
   def introduction
     contents = step_by_step_nav_details[:introduction].map { |line| line[:content] }
     contents.join(" ")
+  end
+
+  def steps
+    steps_in_step_by_step = step_by_step_nav_details[:steps]
+    new_steps = steps_in_step_by_step.map do |step|
+      Step.new(
+        title: step[:title],
+        logic: logic(step),
+      )
+    end
+
+    new_steps
+  end
+
+  def logic(step)
+    step[:logic] || "number"
   end
 end

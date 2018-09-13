@@ -64,6 +64,24 @@ RSpec.describe StepByStepPageReverter do
       step_by_step.reload
       expect(step_by_step.draft_updated_at).to eq(published_at)
     end
+
+    describe "steps" do
+      it "saves the right number of steps" do
+        expect(step_by_step_page.steps.size).to eq(steps.size)
+      end
+
+      it 'saves the step title for each step' do
+        expect(step_by_step_page.steps[0].title).to eq("Step one of the step by step")
+        expect(step_by_step_page.steps[1].title).to eq("Step two of the step by step")
+        expect(step_by_step_page.steps[2].title).to eq("Step three of the step by step")
+      end
+
+      it 'saves the logic for each step' do
+        expect(step_by_step_page.steps[1].logic).to eq("number")
+        expect(step_by_step_page.steps[2].logic).to eq("or")
+        expect(step_by_step_page.steps[3].logic).to eq("and")
+      end
+    end
   end
 
   def payload_from_publishing_api(content_id, base_path: "/an-existing-step-by-step")
@@ -299,5 +317,10 @@ RSpec.describe StepByStepPageReverter do
       "warnings": {
       }
     }
+  end
+
+  def steps
+    @payload ||= payload_from_publishing_api(step_by_step_page.content_id)
+    @payload[:details][:step_by_step_nav][:steps]
   end
 end
