@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe StepByStepPageReverter do
   describe "#repopulate_from_publishing_api" do
-    let(:step_by_step_page) { create(:step_by_step_page_with_navigation_rules) }
+    let(:step_by_step_page) { create(:step_by_step_page_with_navigation_rules, content_id: "content-id-of-step-by-step_by_step_nav") }
 
     subject { described_class.new(step_by_step_page, payload_from_publishing_api(step_by_step_page.content_id)) }
 
@@ -26,6 +26,10 @@ RSpec.describe StepByStepPageReverter do
 
     it "saves the description" do
       expect(step_by_step_page.description).to eq("A description of the step by step page from publishing-api")
+    end
+
+    it "does not overwrite the content_id" do
+      expect(step_by_step_page.content_id).to eq("content-id-of-step-by-step_by_step_nav")
     end
   end
 
