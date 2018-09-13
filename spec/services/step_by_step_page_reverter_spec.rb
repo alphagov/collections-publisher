@@ -223,6 +223,17 @@ RSpec.describe StepByStepPageReverter do
           expect(rule.publishing_app).to eq("publisher")
         end
       end
+
+      it "saves whether or not to display the step nav" do
+        navigation_rule1 = step_by_step_page.navigation_rules.find_by(base_path: "/first-item-in-list-of-step-two")
+        expect(navigation_rule1.include_in_links).to be true
+
+        navigation_rule2 = step_by_step_page.navigation_rules.find_by(base_path: "/guidance/first-item-in-bulleted-list-of-step-three")
+        expect(navigation_rule2.include_in_links).to be true
+
+        navigation_rule3 = step_by_step_page.navigation_rules.find_by(base_path: "/first-item-in-list-of-step-four")
+        expect(navigation_rule3.include_in_links).to be false
+      end
     end
   end
 

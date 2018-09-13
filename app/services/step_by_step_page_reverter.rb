@@ -99,5 +99,17 @@ private
 
   def add_navigation_rules
     StepLinksForRules.update(step_by_step_page)
+
+    set_navigation_states
+  end
+
+  def set_navigation_states
+    step_by_step_page.navigation_rules.each do |rule|
+      rule.update_attribute(:include_in_links, false) if pages_related_to_step_nav.include?(rule.content_id)
+    end
+  end
+
+  def pages_related_to_step_nav
+    payload_from_publishing_api[:links][:pages_related_to_step_nav] || []
   end
 end
