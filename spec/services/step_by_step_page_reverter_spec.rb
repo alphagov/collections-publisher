@@ -87,6 +87,12 @@ RSpec.describe StepByStepPageReverter do
         expect(step_by_step_page.steps[2].optional).to be true
         expect(step_by_step_page.steps[3].optional).to be false
       end
+
+      it "saves the position of the step" do
+        expect(step_by_step_page.steps[0].position).to eq(1)
+        expect(step_by_step_page.steps[1].position).to eq(2)
+        expect(step_by_step_page.steps[2].position).to eq(3)
+      end
     end
   end
 
