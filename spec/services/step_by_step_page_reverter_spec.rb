@@ -131,6 +131,18 @@ RSpec.describe StepByStepPageReverter do
             "- [The first item in the bulleted list for step seven with context](/first-item-in-list-of-step-seven-with-context) £62 to £75"
           )
         end
+
+        it "saves a combination of links and paragraphs with context" do
+          expect(step_by_step_page.steps[7].contents).to eq(
+            "A paragraph of text in the eighth step.\r\n\r\n" \
+            "A second paragraph of text in the eighth step.\r\n\r\n" \
+            "[The first item in the list for step eight with context](/first-item-in-list-of-step-eight-with-context) £100\r\n" \
+            "[The second item in the list for step eight](/second-item-in-list-of-step-eight)\r\n\r\n" \
+            "A third paragraph of text in the eighth step.\r\n\r\n" \
+            "- [The first item in the bulleted list for step eight with context](/first-item-in-bulleted-list-of-step-eight-with-context) £100\r\n" \
+            "- [The second item in the bulleted list for step eight](/second-item-in-bulleted-list-of-step-eight)"
+          )
+        end
       end
     end
   end
