@@ -35,6 +35,7 @@ private
       Step.new(
         title: step[:title],
         logic: logic(step),
+        optional: step[:optional],
       )
     end
 

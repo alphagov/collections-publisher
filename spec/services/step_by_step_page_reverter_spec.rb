@@ -81,6 +81,12 @@ RSpec.describe StepByStepPageReverter do
         expect(step_by_step_page.steps[2].logic).to eq("or")
         expect(step_by_step_page.steps[3].logic).to eq("and")
       end
+
+      it "saves whether the step is optional" do
+        expect(step_by_step_page.steps[1].optional).to be false
+        expect(step_by_step_page.steps[2].optional).to be true
+        expect(step_by_step_page.steps[3].optional).to be false
+      end
     end
   end
 
