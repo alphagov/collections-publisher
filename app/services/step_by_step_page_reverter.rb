@@ -10,6 +10,7 @@ class StepByStepPageReverter
     step_by_step_page.title = payload_from_publishing_api[:title]
     step_by_step_page.slug = payload_from_publishing_api[:base_path].tr('/', '')
     step_by_step_page.introduction = introduction
+    step_by_step_page.description = payload_from_publishing_api[:description]
 
     step_by_step_page.save!
   end

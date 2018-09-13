@@ -23,6 +23,10 @@ RSpec.describe StepByStepPageReverter do
     it "saves the introduction" do
       expect(step_by_step_page.introduction).to eq("An introduction to the step by step journey.")
     end
+
+    it "saves the description" do
+      expect(step_by_step_page.description).to eq("A description of the step by step page from publishing-api")
+    end
   end
 
   def payload_from_publishing_api(content_id)
