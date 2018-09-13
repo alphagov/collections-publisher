@@ -15,6 +15,10 @@ RSpec.describe StepByStepPageReverter do
     it "saves the title" do
       expect(step_by_step_page.title).to eq("An existing step by step that has previously been published")
     end
+
+    it "saves the slug" do
+      expect(step_by_step_page.slug).to eq("an-existing-step-by-step")
+    end
   end
 
   def payload_from_publishing_api(content_id)
