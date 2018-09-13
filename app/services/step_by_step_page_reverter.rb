@@ -50,11 +50,24 @@ private
 
   def contents(step_contents)
     contents_list = step_contents.map do |content|
+      next bulleted_list(content) if bulleted_list?(content)
       next list(content) if list?(content[:type])
       content[:text]
     end
 
     contents_list.join("\r\n\r\n")
+  end
+
+  def bulleted_list?(content)
+    list?(content[:type]) && content[:style].present? && content[:style] == "choice"
+  end
+
+  def bulleted_list(contents)
+    list = contents[:contents].map do |content|
+      "- #{link(content)}"
+    end
+
+    list.join("\r\n")
   end
 
   def list?(type)
