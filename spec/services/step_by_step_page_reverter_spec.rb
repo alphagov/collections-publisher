@@ -19,6 +19,10 @@ RSpec.describe StepByStepPageReverter do
     it "saves the slug" do
       expect(step_by_step_page.slug).to eq("an-existing-step-by-step")
     end
+
+    it "saves the introduction" do
+      expect(step_by_step_page.introduction).to eq("An introduction to the step by step journey.")
+    end
   end
 
   def payload_from_publishing_api(content_id)
