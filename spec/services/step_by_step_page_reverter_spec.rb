@@ -113,6 +113,12 @@ RSpec.describe StepByStepPageReverter do
             "- [The first item in the bulleted list for step three](/guidance/first-item-in-bulleted-list-of-step-three)"
           )
         end
+
+        it "saves the contents of a bulleted list with just text" do
+          expect(step_by_step_page.steps[4].contents).to eq(
+            "- A list of text in the fifth step."
+          )
+        end
       end
     end
   end

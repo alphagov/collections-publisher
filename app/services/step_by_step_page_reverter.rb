@@ -64,7 +64,8 @@ private
 
   def bulleted_list(contents)
     list = contents[:contents].map do |content|
-      "- #{link(content)}"
+      next "- #{link(content)}" if link?(content)
+      "- #{content[:text]}"
     end
 
     list.join("\r\n")
@@ -80,6 +81,10 @@ private
     end
 
     list.join("\r\n")
+  end
+
+  def link?(content)
+    content[:href].present?
   end
 
   def link(content)
