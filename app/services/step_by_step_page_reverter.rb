@@ -64,7 +64,7 @@ private
 
   def bulleted_list(contents)
     list = contents[:contents].map do |content|
-      next "- #{link(content)}" if link?(content)
+      next "- #{link(content)}" + context(content) if link?(content)
       "- #{content[:text]}"
     end
 

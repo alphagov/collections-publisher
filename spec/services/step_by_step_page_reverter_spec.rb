@@ -125,6 +125,12 @@ RSpec.describe StepByStepPageReverter do
             "[The first item in the list for step six with context](/first-item-in-list-of-step-six-with-context) £23"
           )
         end
+
+        it "saves the contents of a bulleted list with links and context" do
+          expect(step_by_step_page.steps[6].contents).to eq(
+            "- [The first item in the bulleted list for step seven with context](/first-item-in-list-of-step-seven-with-context) £62 to £75"
+          )
+        end
       end
     end
   end
