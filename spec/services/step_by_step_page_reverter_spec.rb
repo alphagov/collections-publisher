@@ -145,6 +145,85 @@ RSpec.describe StepByStepPageReverter do
         end
       end
     end
+
+    describe "#navigation_rules" do
+      before do
+        allow(Services.publishing_api).to receive(:lookup_content_ids).with(
+          base_paths: [
+            "/first-item-in-list-of-step-two",
+            "/guidance/first-item-in-bulleted-list-of-step-three",
+            "/first-item-in-list-of-step-four",
+            "/second-item-in-list-of-step-four",
+            "/first-item-in-list-of-step-six-with-context",
+            "/first-item-in-list-of-step-seven-with-context",
+            "/first-item-in-list-of-step-eight-with-context",
+            "/second-item-in-list-of-step-eight",
+            "/first-item-in-bulleted-list-of-step-eight-with-context",
+            "/second-item-in-bulleted-list-of-step-eight"
+          ],
+          with_drafts: true
+        ).and_return(
+          "/first-item-in-list-of-step-two" => "a1156b8f-2a46-4fe1-8871-652abce9c925",
+          "/guidance/first-item-in-bulleted-list-of-step-three" => "eca3f3dd-3296-4b86-8dc8-42f91fe0cb6e",
+          "/first-item-in-list-of-step-four" => "8d35443d-7bf1-4f51-b9b1-e398e1d44030"
+        )
+
+        allow(Services.publishing_api).to receive(:get_content).with("a1156b8f-2a46-4fe1-8871-652abce9c925").and_return(
+          "base_path" => "/first-item-in-list-of-step-two",
+          "title" => "The first item in the list for step two",
+          "content_id" => "a1156b8f-2a46-4fe1-8871-652abce9c925",
+          "publishing_app" => "publisher",
+          "rendering_app" => "frontend",
+          "schema_name" => "transaction"
+        )
+        allow(Services.publishing_api).to receive(:get_content).with("eca3f3dd-3296-4b86-8dc8-42f91fe0cb6e").and_return(
+          "base_path" => "/guidance/first-item-in-bulleted-list-of-step-three",
+          "title" => "The first item in the bulleted list for step three",
+          "content_id" => "eca3f3dd-3296-4b86-8dc8-42f91fe0cb6e",
+          "publishing_app" => "publisher",
+          "rendering_app" => "frontend",
+          "schema_name" => "transaction"
+        )
+        allow(Services.publishing_api).to receive(:get_content).with("8d35443d-7bf1-4f51-b9b1-e398e1d44030").and_return(
+          "base_path" => "/first-item-in-list-of-step-four",
+          "title" => "The first item in the list for step four",
+          "content_id" => "8d35443d-7bf1-4f51-b9b1-e398e1d44030",
+          "publishing_app" => "publisher",
+          "rendering_app" => "frontend",
+          "schema_name" => "transaction"
+        )
+
+        updater = described_class.new(step_by_step_page, payload_from_publishing_api(step_by_step_page.content_id))
+        updater.repopulate_from_publishing_api
+        step_by_step_page.reload
+      end
+
+      it "saves the right number of navigation rules" do
+        expect(step_by_step_page.navigation_rules.size).to eq(3)
+      end
+
+      it "saves the title of the rule" do
+        titles = step_by_step_page.navigation_rules.pluck(:title)
+
+        expect(titles).to include("The first item in the list for step two")
+        expect(titles).to include("The first item in the bulleted list for step three")
+        expect(titles).to include("The first item in the list for step four")
+      end
+
+      it "saves the base_path of the rule" do
+        base_paths = step_by_step_page.navigation_rules.pluck(:base_path)
+
+        expect(base_paths).to include("/first-item-in-list-of-step-two")
+        expect(base_paths).to include("/guidance/first-item-in-bulleted-list-of-step-three")
+        expect(base_paths).to include("/first-item-in-list-of-step-four")
+      end
+
+      it "saves the publishing_app of the rule" do
+        step_by_step_page.navigation_rules.each do |rule|
+          expect(rule.publishing_app).to eq("publisher")
+        end
+      end
+    end
   end
 
   def payload_from_publishing_api(content_id, base_path: "/an-existing-step-by-step")

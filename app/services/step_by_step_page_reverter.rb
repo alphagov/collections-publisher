@@ -16,6 +16,8 @@ class StepByStepPageReverter
     step_by_step_page.save!
 
     step_by_step_page.steps = steps
+
+    add_navigation_rules
   end
 
 private
@@ -93,5 +95,9 @@ private
 
   def context(content)
     content[:context].present? ? " #{content[:context]}" : ""
+  end
+
+  def add_navigation_rules
+    StepLinksForRules.update(step_by_step_page)
   end
 end
