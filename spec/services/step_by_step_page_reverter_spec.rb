@@ -31,11 +31,22 @@ RSpec.describe StepByStepPageReverter do
     it "does not overwrite the content_id" do
       expect(step_by_step_page.content_id).to eq("content-id-of-step-by-step_by_step_nav")
     end
+
+    it "does not change the created_at time" do
+      created_at = Time.parse("2018-01-10T00:00:00Z")
+      step_by_step = create(:step_by_step_page, created_at: created_at)
+
+      updater = described_class.new(step_by_step, payload_from_publishing_api(step_by_step.content_id, base_path: "/base-path-1"))
+      updater.repopulate_from_publishing_api
+
+      step_by_step.reload
+      expect(step_by_step.created_at).to eq(created_at)
+    end
   end
 
-  def payload_from_publishing_api(content_id)
+  def payload_from_publishing_api(content_id, base_path: "/an-existing-step-by-step")
     {
-      "base_path": "/an-existing-step-by-step",
+      "base_path": base_path,
       "content_store": "live",
       "description": "A description of the step by step page from publishing-api",
       "details": {
