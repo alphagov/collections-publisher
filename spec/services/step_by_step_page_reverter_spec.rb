@@ -101,6 +101,12 @@ RSpec.describe StepByStepPageReverter do
             "A second paragraph of text in the first step."
           )
         end
+
+        it "saves the contents of a list with links" do
+          expect(step_by_step_page.steps[1].contents).to eq(
+            "[The first item in the list for step two](/first-item-in-list-of-step-two)"
+          )
+        end
       end
     end
   end
