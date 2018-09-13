@@ -93,6 +93,15 @@ RSpec.describe StepByStepPageReverter do
         expect(step_by_step_page.steps[1].position).to eq(2)
         expect(step_by_step_page.steps[2].position).to eq(3)
       end
+
+      describe "#contents" do
+        it "saves the contents of a paragraph" do
+          expect(step_by_step_page.steps[0].contents).to eq(
+            "A paragraph of text in the first step.\r\n\r\n" \
+            "A second paragraph of text in the first step."
+          )
+        end
+      end
     end
   end
 

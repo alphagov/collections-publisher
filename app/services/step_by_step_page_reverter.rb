@@ -37,6 +37,7 @@ private
         logic: logic(step),
         optional: step[:optional],
         position: index + 1,
+        contents: contents(step[:contents]),
       )
     end
 
@@ -45,5 +46,13 @@ private
 
   def logic(step)
     step[:logic] || "number"
+  end
+
+  def contents(step_contents)
+    contents_list = step_contents.map do |content|
+      content[:text]
+    end
+
+    contents_list.join("\r\n\r\n")
   end
 end
