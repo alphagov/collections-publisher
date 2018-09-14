@@ -61,6 +61,7 @@ class StepByStepPagesController < ApplicationController
       @publish_intent = PublishIntent.new(params)
       if @publish_intent.valid?
         publish_page(@publish_intent)
+        set_change_note_version
         redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been published."
       end
     end
@@ -120,6 +121,11 @@ private
     @step_by_step_page.mark_as_unpublished
   end
 
+  def set_change_note_version
+    change_notes = @step_by_step_page.internal_change_notes.where(edition_number: nil)
+    change_notes.update_all(edition_number: latest_edition_number)
+  end
+
   def set_step_by_step_page
     @step_by_step_page = StepByStepPage.find(params[:id])
   end
@@ -130,5 +136,15 @@ private
 
   def set_current_page_as_step_by_step
     @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
+  end
+
+  # state_history returns a hash like {"3"=>"draft", "2"=>"published", "1"=>"superseded"}
+  # so we need to get the highest value for a key.
+  def latest_edition_number
+    content_item[:state_history].keys.max
+  end
+
+  def content_item
+    Services.publishing_api.get_content(@step_by_step_page.content_id)
   end
 end

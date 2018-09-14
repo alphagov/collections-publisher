@@ -10,6 +10,9 @@ module StepNavSteps
     )
     stub_any_publishing_api_publish
     stub_any_publishing_api_unpublish
+    allow(Services.publishing_api).to receive(:get_content).and_return(
+      state_history: { "1" => "published" }
+    )
   end
 
   def then_the_content_is_sent_to_publishing_api
