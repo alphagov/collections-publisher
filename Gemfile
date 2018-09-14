@@ -24,7 +24,6 @@ end
 
 group :development, :test do
   gem 'byebug'
-  gem 'capybara'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'govuk-content-schema-test-helpers'
