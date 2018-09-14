@@ -2,7 +2,7 @@ class Step < ApplicationRecord
   belongs_to :step_by_step_page
   validates_presence_of :step_by_step_page
   validates :title, :logic, presence: true
-  has_many :link_reports
+  has_many :link_reports, :dependent => :destroy
 
   def broken_links?
     broken_links.present? && broken_links.any?

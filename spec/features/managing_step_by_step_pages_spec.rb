@@ -1,9 +1,11 @@
 require "rails_helper"
+require "gds_api/test_helpers/link_checker_api"
 
 RSpec.feature "Managing step by step pages" do
   include CommonFeatureSteps
   include NavigationSteps
   include StepNavSteps
+  include GdsApi::TestHelpers::LinkCheckerApi
 
   before do
     given_I_am_a_GDS_editor
@@ -81,6 +83,13 @@ RSpec.feature "Managing step by step pages" do
 
   scenario "User deletes a step" do
     given_there_is_a_step_by_step_page_with_steps
+    when_I_view_the_step_by_step_page
+    and_I_delete_the_first_step
+    and_I_see_a_step_deleted_success_notice
+  end
+
+  scenario "User deletes a step that has an existing link report" do
+    given_there_is_a_step_by_step_page_with_a_link_report
     when_I_view_the_step_by_step_page
     and_I_delete_the_first_step
     and_I_see_a_step_deleted_success_notice

@@ -61,4 +61,25 @@ module StepNavSteps
   def given_there_is_a_step_by_step_page
     @step_by_step_page = create(:step_by_step_page)
   end
+
+  def given_there_is_a_step_by_step_page_with_a_link_report
+    link_checker_api_get_batch(
+      id: 1,
+      links: [
+        {
+          "uri": "https://www.gov.uk/",
+          "status": "ok",
+          "checked": "2017-04-12T18:47:16Z",
+          "errors": [],
+          "warnings": [],
+          "problem_summary": "null",
+          "suggested_fix": "null"
+        }
+      ]
+    )
+
+    step = create(:step)
+    create(:link_report, step_id: step.id)
+    @step_by_step_page = create(:step_by_step_page, steps: [step], slug: "step-by-step-with-link-report")
+  end
 end
