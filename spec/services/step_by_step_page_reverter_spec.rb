@@ -53,6 +53,17 @@ RSpec.describe StepByStepPageReverter do
       step_by_step.reload
       expect(step_by_step.published_at).to eq(published_at)
     end
+
+    it "sets the draft_updated_at time to published_at time of the step by step" do
+      published_at = Time.parse("2018-01-10T10:00:00Z")
+      step_by_step = create(:published_step_by_step_page, published_at: published_at)
+
+      updater = described_class.new(step_by_step, payload_from_publishing_api(step_by_step.content_id, base_path: "/base-path-1"))
+      updater.repopulate_from_publishing_api
+
+      step_by_step.reload
+      expect(step_by_step.draft_updated_at).to eq(published_at)
+    end
   end
 
   def payload_from_publishing_api(content_id, base_path: "/an-existing-step-by-step")
