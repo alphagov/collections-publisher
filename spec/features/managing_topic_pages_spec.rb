@@ -62,11 +62,11 @@ RSpec.feature "Managing topics" do
   end
 
   def when_I_click_on_the_publish_button
-    click_on "Publish topic"
+    click_on "Publish"
   end
 
   def when_I_navigate_to_the_edit_page
-    click_on "Edit topic"
+    click_on "Edit"
   end
 
   def and_I_submit_a_changed_description
