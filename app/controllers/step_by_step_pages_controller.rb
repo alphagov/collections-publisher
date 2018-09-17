@@ -1,4 +1,6 @@
 class StepByStepPagesController < ApplicationController
+  include PublishingApiHelper
+
   before_action :require_gds_editor_permissions!
   before_action :set_step_by_step_page, only: %i[show edit update destroy]
 
@@ -123,7 +125,7 @@ private
 
   def set_change_note_version
     change_notes = @step_by_step_page.internal_change_notes.where(edition_number: nil)
-    change_notes.update_all(edition_number: latest_edition_number)
+    change_notes.update_all(edition_number: latest_edition_number(@step_by_step_page.content_id))
   end
 
   def set_step_by_step_page
@@ -136,15 +138,5 @@ private
 
   def set_current_page_as_step_by_step
     @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
-  end
-
-  # state_history returns a hash like {"3"=>"draft", "2"=>"published", "1"=>"superseded"}
-  # so we need to get the highest value for a key.
-  def latest_edition_number
-    content_item[:state_history].keys.max
-  end
-
-  def content_item
-    Services.publishing_api.get_content(@step_by_step_page.content_id)
   end
 end
