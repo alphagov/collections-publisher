@@ -1,9 +1,11 @@
 require "rails_helper"
+require "gds_api/test_helpers/link_checker_api"
 
 RSpec.feature "Managing step by step pages" do
   include CommonFeatureSteps
   include NavigationSteps
   include StepNavSteps
+  include GdsApi::TestHelpers::LinkCheckerApi
 
   before do
     given_I_am_a_GDS_editor
@@ -77,6 +79,20 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_that_the_url_isnt_valid
     and_I_fill_in_the_form_with_an_empty_url
     then_I_see_that_the_url_isnt_valid
+  end
+
+  scenario "User deletes a step" do
+    given_there_is_a_step_by_step_page_with_steps
+    when_I_view_the_step_by_step_page
+    and_I_delete_the_first_step
+    and_I_see_a_step_deleted_success_notice
+  end
+
+  scenario "User deletes a step that has an existing link report" do
+    given_there_is_a_step_by_step_page_with_a_link_report
+    when_I_view_the_step_by_step_page
+    and_I_delete_the_first_step
+    and_I_see_a_step_deleted_success_notice
   end
 
   def given_there_is_a_published_step_by_step_page
@@ -220,5 +236,15 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_am_told_that_it_is_published
     expect(page).to have_content("has been published")
+  end
+
+  def and_I_delete_the_first_step
+    within(".table tbody tr:first-child td") do
+      click_on "Delete"
+    end
+  end
+
+  def and_I_see_a_step_deleted_success_notice
+    expect(page).to have_content("Step was successfully deleted.")
   end
 end
