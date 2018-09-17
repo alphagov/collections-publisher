@@ -134,5 +134,14 @@ RSpec.describe Step do
       create(:link_report, batch_id: 2, step_id: step_item.id, created_at: "2018-08-07 10:30:38")
       expect(step_item.links_last_checked_date.utc).to eq(Time.new(2018, 8, 7, 10, 30, 38).utc)
     end
+
+    it 'should not fail if the saved batch id does not match a batch in link-checker-api' do
+      create(:link_report, batch_id: 2, step_id: step_item.id)
+
+      allow(Services.link_checker_api).to receive(:get_batch).and_raise(GdsApi::HTTPServerError.new(500))
+
+      expect(step_item.broken_links).to eq([])
+      expect(step_item.broken_links?).to be false
+    end
   end
 end

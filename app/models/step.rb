@@ -27,13 +27,19 @@ class Step < ApplicationRecord
 private
 
   def collect_broken_links
+    return [] if batch_link_report.blank?
+
     batch_link_report.links.keep_if do |link|
       link.fetch('status') == 'broken'
     end
   end
 
   def batch_link_report
-    @batch_link_report ||= Services.link_checker_api.get_batch(batch_link_report_id)
+    begin
+      @batch_link_report ||= Services.link_checker_api.get_batch(batch_link_report_id)
+    rescue GdsApi::HTTPServerError
+      nil
+    end
   end
 
   def batch_link_report_id
