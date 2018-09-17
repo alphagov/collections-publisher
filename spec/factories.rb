@@ -61,6 +61,12 @@ FactoryBot.define do
       optional { "true" }
       logic { "or" }
       position { 2 }
+      contents {
+        <<~CONTENT
+          This is another great step
+        CONTENT
+      }
+      step_by_step_page
     end
 
     factory :smartanswer_step do
