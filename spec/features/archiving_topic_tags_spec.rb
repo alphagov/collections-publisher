@@ -53,7 +53,7 @@ RSpec.feature "Archiving topic tags" do
 
   def when_I_redirect_the_topic_to_a_successor_topic
     select 'The Successor Topic', from: "topic_archival_form_successor"
-    click_button 'Archive and redirect to a topic'
+    click_button 'Archive and redirect to a specialist sector'
   end
 
   def when_I_visit_the_topic_edit_page
@@ -85,11 +85,11 @@ RSpec.feature "Archiving topic tags" do
   end
 
   def when_I_click_the_remove_button
-    click_link 'Remove topic'
+    click_link 'Remove'
   end
 
   def and_I_go_to_the_archive_page
-    click_link 'Archive topic'
+    click_link 'Archive'
   end
 
   def then_the_tag_is_archived

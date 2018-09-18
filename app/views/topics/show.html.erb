@@ -1,17 +1,17 @@
 <%= tag_header @topic do %>
   <% if gds_editor? %>
-    <%= link_to 'Edit topic',
+    <%= link_to 'Edit',
       edit_topic_path(@topic) %>
 
     <% if @topic.may_publish? %>
-      <%= link_to 'Publish topic', publish_topic_path(@topic), method: :post %>
+      <%= link_to 'Publish', publish_topic_path(@topic), method: :post %>
     <% end %>
 
     <% if @topic.child? %>
       <% if @topic.published? %>
-        <%= link_to 'Archive topic', propose_archive_topic_path(@topic) %>
+        <%= link_to 'Archive', propose_archive_topic_path(@topic) %>
       <% else %>
-        <%= link_to 'Remove topic', archive_topic_path(@topic),
+        <%= link_to 'Remove', archive_topic_path(@topic),
           method: 'post',
           data: { confirm: 'Are you sure?' } %>
       <% end %>

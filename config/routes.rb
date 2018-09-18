@@ -30,7 +30,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :topics, except: :destroy do
+  resources :topics, path: 'specialist-sector-pages', except: :destroy do
     member do
       post :publish
       get :propose_archive

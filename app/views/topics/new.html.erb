@@ -1,4 +1,4 @@
-<%= header "New topic",
+<%= header "New specialist sector page",
   breadcrumbs: [:topics, @topic.parent, "New"] %>
 
 <%= form_for @topic, html: { class: 'topic' } do |f| %>
@@ -6,7 +6,7 @@
       Topic.sorted_parents.map { |topic| [topic.title, topic.id] },
       { include_blank: true },
       { class: 'select2',
-        data: { placeholder: "Choose a parent topic (optional)" } } %>
+        data: { placeholder: "Choose a parent specialist sector (optional)" } } %>
 
   <%= f.text_field :slug %>
   <%= f.text_field :title %>

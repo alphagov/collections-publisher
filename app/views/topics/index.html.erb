@@ -1,11 +1,11 @@
-<%= header 'Topics', breadcrumbs: ['Topics'] do %>
+<%= header 'Specialist sector pages', breadcrumbs: ['Specialist sector pages'] do %>
   <% if gds_editor? %>
     <%= link_to new_topic_path, class: 'new' do %>
-      <%= icon :add %> Add a topic
+      <%= icon :add %> Add a specialist sector page
     <% end %>
   <% end %>
 <% end %>
 
 <%= render 'shared/tags/table',
       resources: @topics,
-      empty_message: "No topics exist yet" %>
+      empty_message: "No specialist sector pages exist yet" %>

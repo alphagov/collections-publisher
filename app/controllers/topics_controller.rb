@@ -20,7 +20,7 @@ class TopicsController < ApplicationController
 
     if topic.update_attributes(topic_params)
       TagBroadcaster.broadcast(topic)
-      redirect_to topic, success: "Topic updated"
+      redirect_to topic, success: "Specialist sector updated"
     else
       @topic = topic
       render 'edit'
