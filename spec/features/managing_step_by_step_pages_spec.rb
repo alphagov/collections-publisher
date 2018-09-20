@@ -95,8 +95,27 @@ RSpec.feature "Managing step by step pages" do
     and_I_see_a_step_deleted_success_notice
   end
 
+  scenario "User deletes a draft step by step guide without change notes" do
+    given_there_is_a_step_by_step_page
+    and_I_visit_the_publish_or_delete_page
+    and_I_delete_the_draft
+    then_I_see_a_step_by_step_deleted_success_notice
+  end
+
+  scenario "User deletes a draft step by step guide with change notes" do
+    given_there_is_a_step_by_step_page
+    and_it_has_change_notes
+    and_I_visit_the_publish_or_delete_page
+    and_I_delete_the_draft
+    then_I_see_a_step_by_step_deleted_success_notice
+  end
+
   def given_there_is_a_published_step_by_step_page
     @step_by_step_page = create(:published_step_by_step_page)
+  end
+
+  def and_it_has_change_notes
+    create(:internal_change_note, step_by_step_page_id: @step_by_step_page.id)
   end
 
   def and_I_visit_the_index_page
@@ -124,6 +143,14 @@ RSpec.feature "Managing step by step pages" do
   def and_I_fill_in_the_form_with_an_invalid_url
     fill_in "Redirect to", with: "!"
     click_on "Unpublish"
+  end
+
+  def and_I_delete_the_draft
+    click_on "Delete"
+  end
+
+  def then_I_see_a_step_by_step_deleted_success_notice
+    expect(page).to have_content("Step by step page was successfully deleted.")
   end
 
   def then_I_see_that_the_url_isnt_valid
