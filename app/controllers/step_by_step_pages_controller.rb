@@ -99,6 +99,7 @@ class StepByStepPagesController < ApplicationController
 private
 
   def discard_draft
+    @step_by_step_page.discard_notes
     StepNavPublisher.discard_draft(@step_by_step_page)
   rescue GdsApi::HTTPNotFound
     Rails.logger.info "Discarding #{@step_by_step_page.content_id} failed"
