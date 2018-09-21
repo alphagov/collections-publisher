@@ -54,6 +54,9 @@
         <details class="change-note--details" <%= "open" if index == 0 %>>
           <summary class="change-note--summary">
             <%= note.readable_created_date %>
+            <span class="badge pull-right">
+              <%= note.edition_number ? "Edition #{note.edition_number}" : "Current version" %>
+            </span>
           </summary>
           <p>Change made by <strong><%= note.author %></strong></p>
           <pre><%= note.description %></pre>
