@@ -72,6 +72,10 @@ class StepByStepPage < ApplicationRecord
     steps.map(&:link_report?).any?
   end
 
+  def discard_notes
+    internal_change_notes.where(edition_number: nil).delete_all
+  end
+
 private
 
   def generate_content_id

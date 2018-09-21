@@ -245,4 +245,22 @@ RSpec.describe StepByStepPage do
       end
     end
   end
+
+  describe '.discard_notes' do
+    before(:each) do
+      @step_by_step_page = create(:step_by_step_page)
+      create(:internal_change_note, edition_number: 1, step_by_step_page_id: @step_by_step_page.id)
+      create(:internal_change_note, step_by_step_page_id: @step_by_step_page.id)
+    end
+    context 'when there are existing change notes with a version and new change notes without a version' do
+      before(:each) do
+        @step_by_step_page.discard_notes
+        @step_by_step_page.reload
+      end
+      it 'should only delete the change notes without an edition' do
+        expect(@step_by_step_page.internal_change_notes.count).to eq 1
+        expect(@step_by_step_page.internal_change_notes.first[:edition_number]).to eql 1
+      end
+    end
+  end
 end
