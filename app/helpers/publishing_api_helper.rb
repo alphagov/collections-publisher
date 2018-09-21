@@ -13,6 +13,6 @@ module PublishingApiHelper
   end
 
   def content_item(content_id)
-    Services.publishing_api.get_content(content_id)
+    Services.publishing_api.get_content(content_id).to_hash
   end
 end
