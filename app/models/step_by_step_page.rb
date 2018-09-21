@@ -7,6 +7,7 @@ class StepByStepPage < ApplicationRecord
   validates :slug, format: { with: /\A([a-z0-9]+-)*[a-z0-9]+\z/ }, uniqueness: true
   validates :slug, slug: true, on: :create
   before_validation :generate_content_id, on: :create
+  before_destroy :discard_notes
 
   scope :by_title, -> { order(:title) }
 
