@@ -82,6 +82,17 @@ class StepByStepPagesController < ApplicationController
     end
   end
 
+  def revert
+    set_current_page_as_step_by_step
+    if request.post?
+      discard_draft
+      revert_page
+      redirect_to @step_by_step_page, notice: 'Draft successfully discarded.'
+    else
+      render :edit
+    end
+  end
+
   def publish_or_delete
     @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
   end
@@ -122,6 +133,13 @@ private
       Rails.logger.info "Unpublishing #{@step_by_step_page.content_id} failed"
     end
     @step_by_step_page.mark_as_unpublished
+  end
+
+  def revert_page
+    published_version = latest_edition_number(@step_by_step_page.content_id, publication_state: "published")
+    payload = Services.publishing_api.get_content(@step_by_step_page.content_id, version: published_version).to_hash
+
+    StepByStepPageReverter.new(@step_by_step_page, payload).repopulate_from_publishing_api
   end
 
   def set_change_note_version
