@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_07_075324) do
+ActiveRecord::Schema.define(version: 2018_09_21_105035) do
 
   create_table "internal_change_notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "author"
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 2018_09_07_075324) do
     t.string "content_id", null: false
     t.datetime "published_at"
     t.datetime "draft_updated_at"
+    t.string "draft_created_by"
     t.index ["content_id"], name: "index_step_by_step_pages_on_content_id", unique: true
     t.index ["slug"], name: "index_step_by_step_pages_on_slug", unique: true
   end
