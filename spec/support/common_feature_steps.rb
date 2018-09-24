@@ -6,6 +6,7 @@ module CommonFeatureSteps
 
   def given_I_am_a_GDS_editor
     stub_user.permissions << "GDS Editor"
+    stub_user.name = "Test author"
   end
 
   def given_I_am_not_a_GDS_editor
