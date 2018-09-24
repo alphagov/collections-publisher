@@ -34,7 +34,7 @@
 
           <% if @step_by_step_page.unpublished_changes? %>
             <p>Or</p>
-            <%= button_to 'Discard changes', { action: "revert", step_by_step_page_id: @step_by_step_page.id }, data: { confirm: 'Discarding reverts content back to currently published version of the step by step. Do you want to discard your changes?' }, class: "btn btn-danger" %>
+            <%= button_to 'Discard changes', { action: "revert", step_by_step_page_id: @step_by_step_page.id }, data: { confirm: 'This will delete your draft. Do you want to discard your changes?' }, class: "btn btn-danger" %>
           <% end %>
         </div>
       </div>
