@@ -110,6 +110,14 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_a_step_by_step_deleted_success_notice
   end
 
+  scenario "User reverts a step by step page" do
+    given_there_is_a_published_step_by_step_page
+    when_I_view_the_step_by_step_page
+    and_I_visit_the_publish_or_delete_page
+    when_I_want_to_revert_the_page
+    then_I_see_a_page_reverted_success_notice
+  end
+
   def given_there_is_a_published_step_by_step_page
     @step_by_step_page = create(:published_step_by_step_page)
   end
@@ -128,6 +136,28 @@ RSpec.feature "Managing step by step pages" do
 
   def when_I_want_to_unpublish_the_page
     click_on "Unpublish"
+  end
+
+  def when_I_want_to_revert_the_page
+    allow(Services.publishing_api).to receive(:get_content).and_return(
+      base_path: "/#{@step_by_step_page.slug}",
+      title: "A step by step",
+      description: "A description of a step by step",
+      details: {
+        step_by_step_nav: {
+          introduction: [
+            {
+              content_type: "text/govspeak",
+              content: "An introduction to the step by step journey."
+            }
+          ],
+          steps: []
+        }
+      },
+      state_history: { "1" => "published" }
+    )
+
+    click_on "Discard changes"
   end
 
   def and_I_fill_in_the_form_with_a_valid_url
@@ -273,5 +303,9 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_see_a_step_deleted_success_notice
     expect(page).to have_content("Step was successfully deleted.")
+  end
+
+  def then_I_see_a_page_reverted_success_notice
+    expect(page).to have_content("Draft successfully discarded.")
   end
 end

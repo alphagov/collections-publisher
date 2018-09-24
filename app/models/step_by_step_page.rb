@@ -44,9 +44,13 @@ class StepByStepPage < ApplicationRecord
   end
 
   def status
-    return unpublished_status if has_draft? && has_been_published?
+    return unpublished_status if unpublished_changes?
     return live_status if has_been_published?
     draft_status
+  end
+
+  def unpublished_changes?
+    has_draft? && has_been_published?
   end
 
   # Create a deterministic, but unique token that will be used to give one-time
