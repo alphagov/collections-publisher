@@ -19,7 +19,6 @@ private
   def other_fields
     fields = {
       step_by_step_page_id: step_by_step_page.id,
-      created_at: Time.now,
       author: current_user.name
     }
 

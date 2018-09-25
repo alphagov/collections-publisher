@@ -24,8 +24,17 @@ class StepByStepDraftUpdateWorker
 
   def update_assigned_to
     unless step_by_step_page.has_draft?
+      generate_internal_change_note
       step_by_step_page.assigned_to = @current_user
       step_by_step_page.save
     end
+  end
+
+  def generate_internal_change_note
+    change_note = step_by_step_page.internal_change_notes.new(
+      author: @current_user,
+      description: "Draft created by #{@current_user}",
+    )
+    change_note.save
   end
 end
