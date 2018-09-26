@@ -32,9 +32,16 @@ RSpec.describe StepByStepDraftUpdateWorker do
       before do
         step_by_step_page.mark_draft_updated
       end
-      it 'should remain assigned to the old author' do
+      it 'should be assigned to the new author' do
         described_class.new.perform(step_by_step_page.id, @current_user.name)
-        expect(StepByStepPage.find(step_by_step_page.id).assigned_to).to eql "Old author"
+        expect(StepByStepPage.find(step_by_step_page.id).assigned_to).to eql "New author"
+      end
+    end
+    context 'when a guide is a draft and its assignee is the current user' do
+      let(:step_by_step_page) { create(:step_by_step_page_with_steps, assigned_to: "New author") }
+      it 'keeps the same assignee' do
+        described_class.new.perform(step_by_step_page.id, @current_user.name)
+        expect(step_by_step_page.assigned_to_changed?).to be false
       end
     end
   end
@@ -42,16 +49,26 @@ RSpec.describe StepByStepDraftUpdateWorker do
   describe '#generate_internal_change_note' do
     let(:step_by_step_page) { create(:step_by_step_page_with_steps) }
     context 'when the guide is a new draft' do
-      it 'generates a note that says "Draft created by New author"' do
+      it 'generates a note that says "Draft saved by New author"' do
         described_class.new.perform(step_by_step_page.id, @current_user.name)
-        expect(step_by_step_page.internal_change_notes.first.description).to eql 'Draft created by New author'
+        expect(step_by_step_page.internal_change_notes.first.description).to eql 'Draft saved by New author'
       end
     end
     context 'when the guide is a draft that has already been updated' do
       before do
         step_by_step_page.mark_draft_updated
       end
-      it 'should not generate a change note' do
+      it 'should generate a change note' do
+        described_class.new.perform(step_by_step_page.id, @current_user.name)
+        expect(step_by_step_page.internal_change_notes.count).to eql 1
+      end
+    end
+    context "when it is updated by the same user" do
+      before do
+        step_by_step_page.assigned_to = "New author"
+        step_by_step_page.save
+      end
+      it "should not generate a change note" do
         described_class.new.perform(step_by_step_page.id, @current_user.name)
         expect(step_by_step_page.internal_change_notes.count).to eql 0
       end
