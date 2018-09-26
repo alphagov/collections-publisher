@@ -9,7 +9,7 @@
       href: @step_by_step_page
     },
     {
-      text: 'Edit title, intro or slug'
+      text: 'Title and intro'
     }
   ]
 %>
@@ -20,9 +20,9 @@
 
 <%= render 'shared/steps/heading',
   step_nav: @step_by_step_page.title,
-  action: 'Edit title, intro or slug'
+  action: 'Title and intro'
 %>
 
-<%= render 'nav', step_by_step_page: @step_by_step_page, active: "edit-title" %>
+<%= render 'nav', step_by_step_page: @step_by_step_page, active: "title-and-intro" %>
 
 <%= render 'form', step_by_step_page: @step_by_step_page %>
