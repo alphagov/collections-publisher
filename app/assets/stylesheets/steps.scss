@@ -9,6 +9,7 @@ $red: #b10e1e;
 $grey: #eeeeee;
 $beige: #8a6d3b;
 $border-grey: #aaaaaa;
+$dark-grey: #999999;
 
 .step-actions {
   padding: 15px 0;
@@ -161,4 +162,9 @@ $border-grey: #aaaaaa;
   .change-note--description {
     white-space: pre-wrap;
   }
+}
+
+.last-saved-by--text {
+  margin: 20px 0 20px;
+  color: $dark-grey;
 }
