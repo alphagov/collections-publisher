@@ -2,3 +2,7 @@
   <small><%= action %><span class="sr-only"> - </span></small><br />
   <%= step_nav %>
 </h1>
+
+<% if @step_by_step_page.assigned_to.present? %>
+  <%= render 'shared/steps/last-saved-by', assigned_to: @step_by_step_page.assigned_to %>
+<% end %>
