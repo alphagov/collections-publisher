@@ -45,7 +45,7 @@ RSpec.describe StepNavPresenter do
     it "detects pages for navigation" do
       step_nav_with_navigation = create(:step_by_step_page_with_navigation_rules)
       rule1 = step_nav_with_navigation.navigation_rules.first
-      rule1.include_in_links = false
+      rule1.include_in_links = 'conditionally'
       rule1.save
 
       step_nav_with_navigation.reload
@@ -107,11 +107,11 @@ RSpec.describe StepNavPresenter do
         expect(presented[:links][:pages_part_of_step_nav]).to include('2fcc4688-89b5-4e71-802d-d95c69fe458a')
       end
 
-      it "doesn't add the content_id of the smartanswer done page if include_in_links is false" do
+      it "doesn't add the content_id of the smartanswer done page if include_in_links is 'conditionally'" do
         allow(StepNavPublisher).to receive(:lookup_content_ids).and_return([])
 
         rule = step_nav_with_smartanswer.navigation_rules.select(&:smartanswer?).first
-        rule.include_in_links = false
+        rule.include_in_links = 'conditionally'
         rule.save
 
         step_nav_with_smartanswer.reload
@@ -132,9 +132,9 @@ RSpec.describe StepNavPresenter do
         expect(presented[:links][:pages_part_of_step_nav]).to include('cd47dd79-393f-4ead-9c1c-c85e3f1b3423')
       end
 
-      it "doesn't add the content_id of the service done page if include_in_links is false" do
+      it "doesn't add the content_id of the service done page if include_in_links is 'conditionally'" do
         rule = step_nav.navigation_rules.first
-        rule.include_in_links = false
+        rule.include_in_links = 'conditionally'
         rule.save
 
         step_nav.reload

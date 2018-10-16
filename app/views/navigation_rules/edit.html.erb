@@ -51,13 +51,16 @@
           <td><%= link_to(navigation_rule.title, preview_url(navigation_rule.base_path)) %></td>
           <td><%= navigation_rule.base_path %></td>
           <td>
-            <div class="checkbox">
-              <label>
-                <%= hidden_field_tag("navigation_rules[#{navigation_rule.content_id}]", false)%>
-                <%= check_box_tag( "navigation_rules[#{navigation_rule.content_id}]", true, navigation_rule.include_in_links) %>
-                Show this navigation<span class="sr-only"> on '<%= navigation_rule.title %>'</span>
-              </label>
-            </div>
+            <%= select_tag "navigation_rules[#{navigation_rule.content_id}]",
+                options_for_select(
+                  [
+                    ['Always show navigation', 'always'],
+                    ['Show navigation if user comes from a step-by-step', 'conditionally'],
+                    ['Never show navigation', 'never']
+                  ],
+                  navigation_rule.include_in_links
+                ),
+                { class: 'select2' } %>
           </td>
         </tr>
       <% end %>
