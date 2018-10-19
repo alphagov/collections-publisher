@@ -90,6 +90,7 @@ FactoryBot.define do
     content_id { SecureRandom.uuid }
     publishing_app { "publisher" }
     schema_name { "guide" }
+    include_in_links { "always" }
   end
 
   factory :smartanswer_navigation_rule, parent: :navigation_rule do
@@ -98,6 +99,7 @@ FactoryBot.define do
     content_id { SecureRandom.uuid }
     publishing_app { "smartanswers" }
     schema_name { "transaction" }
+    include_in_links { "always" }
   end
 
   factory :redirect_item do

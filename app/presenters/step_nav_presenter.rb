@@ -97,7 +97,7 @@ private
   end
 
   def done_page_content_ids
-    base_paths = step_nav.navigation_rules.select(&:include_in_links).map do |rule|
+    base_paths = step_nav.navigation_rules.select { |rule| rule.include_in_links == 'always' }.map do |rule|
       done_page_base_path(rule)
     end
 

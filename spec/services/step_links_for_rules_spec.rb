@@ -87,8 +87,8 @@ RSpec.describe StepLinksForRules do
         rule = step_page.navigation_rules.first
         rule_content_id = rule.content_id
 
-        rule.update_attribute(:include_in_links, false)
-        expect(rule.reload.include_in_links).to be false
+        rule.update_attribute(:include_in_links, 'conditionally')
+        expect(rule.reload.include_in_links).to eq('conditionally')
 
         publishing_api_receives_request_to_lookup_content_ids(
           base_paths: base_paths,
@@ -104,7 +104,7 @@ RSpec.describe StepLinksForRules do
         expect { rule.reload }.to raise_error ActiveRecord::RecordNotFound
 
         new_rule = NavigationRule.find_by(content_id: rule_content_id)
-        expect(new_rule.include_in_links).to be false
+        expect(new_rule.include_in_links).to eq('conditionally')
       end
     end
 

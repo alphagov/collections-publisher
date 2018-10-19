@@ -35,13 +35,12 @@ RSpec.feature "Managing step by step navigation" do
     expect(page).to have_css("h1", text: @step_by_step_page.title)
 
     expect(page).to have_link("Also good stuff", href: "https://draft-origin.test.gov.uk/also/good/stuff")
-
-    checked = page.all(:css, "input[type=checkbox]", &:checked?)
+    checked = page.all(:css, "option[value=always]", &:selected?)
     expect(checked.count).to eq @step_by_step_page.navigation_rules.count
   end
 
   def and_I_set_some_navigation_preferences
-    uncheck("Show this navigation", match: :first)
+    select("Never show navigation", match: :first)
 
     allow(StepByStepDraftUpdateWorker).to receive(:perform_async)
     click_on "Save"
@@ -57,7 +56,7 @@ RSpec.feature "Managing step by step navigation" do
   end
 
   def and_I_see_my_selected_preferences
-    expect(page.find(:checkbox, match: :first)).to_not be_checked
-    expect(page.all(:checkbox)[1]).to be_checked
+    expect(page.all(:select)[0].value).to eq("never")
+    expect(page.all(:select)[1].value).to eq("always")
   end
 end
