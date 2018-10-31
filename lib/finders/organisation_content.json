@@ -15,6 +15,21 @@
     "default_order": "-public_timestamp",
     "facets": [
       {
+        "key": "part_of_taxonomy_tree",
+        "name": "Topic",
+        "short_name": "Topic",
+        "type": "text",
+        "display_as_result_metadata": false,
+        "filterable": true,
+        "preposition": "about",
+        "allowed_values": [
+          {
+            "label": "Brexit",
+            "value": "d6c2de5d-ef90-45d1-82d4-5f2438369eea"
+          }
+        ]
+      },
+      {
         "name": "Organisation",
         "key": "organisations",
         "short_name": "From",
@@ -34,7 +49,9 @@
       }
     ],
     "reject": {
-      "content_purpose_supergroup": ["other"]
+      "content_purpose_supergroup": [
+        "other"
+      ]
     },
     "show_summaries": true
   },
