@@ -12,7 +12,25 @@
   "details": {
     "document_noun": "document",
     "default_documents_per_page": 100,
-    "default_order": "-public_timestamp",
+    "sort": [
+      {
+        "name": "Most viewed",
+        "key": "-popularity"
+      },
+      {
+        "name": "Relevance",
+        "key": "-relevance"
+      },
+      {
+        "name": "Updated (newest)",
+        "key": "-public_timestamp",
+        "default": true
+      },
+      {
+        "name": "Updated (oldest)",
+        "key": "public_timestamp"
+      }
+    ],
     "facets": [
       {
         "key": "part_of_taxonomy_tree",
