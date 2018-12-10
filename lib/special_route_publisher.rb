@@ -23,9 +23,9 @@ class SpecialRoutePublisher
       prefix: [
         {
           content_id: "ecb55f9d-0823-43bd-a116-dbfab2b76ef9",
-          base_path: "/prepare-uk-leaving-eu",
-          title: "Prepare for the UK leaving the EU",
-          description: "How to prepare for Brexit in March 2019 if you're a British citizen or have indefinite leave to remain in the UK.",
+          base_path: "/prepare-eu-exit-live-uk",
+          title: "Prepare for EU Exit if you live in the UK",
+          description: "",
         },
       ]
     }
