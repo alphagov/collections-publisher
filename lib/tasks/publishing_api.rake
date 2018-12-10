@@ -48,4 +48,26 @@ namespace :publishing_api do
       end
     end
   end
+
+  desc "Unpublish special routes"
+  task unpublish_special_routes: :environment do
+    publishing_api = Services.publishing_api
+
+    logger = Logger.new(STDOUT)
+
+    publisher = SpecialRoutePublisher.new(
+      logger: logger,
+      publishing_api: publishing_api
+    )
+
+    SpecialRoutePublisher.routes.each do |_, routes_for_type|
+      routes_for_type.each do |route|
+        options = {
+          type: "gone"
+        }
+
+        publisher.unpublish(route[:content_id], options)
+      end
+    end
+  end
 end
