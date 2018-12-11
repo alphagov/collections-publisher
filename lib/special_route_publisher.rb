@@ -30,7 +30,7 @@ class SpecialRoutePublisher
           content_id: "ecb55f9d-0823-43bd-a116-dbfab2b76ef9",
           base_path: "/prepare-eu-exit",
           title: "Prepare for EU Exit if you live in the UK",
-          description: "",
+          description: "How you may be affected if you're a citizen of the UK or a non-EU country.",
         },
       ]
     }
