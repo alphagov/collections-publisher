@@ -37,7 +37,7 @@ private
   def batch_link_report
     begin
       @batch_link_report ||= Services.link_checker_api.get_batch(batch_link_report_id)
-    rescue GdsApi::HTTPServerError
+    rescue GdsApi::HTTPServerError, GdsApi::HTTPNotFound
       nil
     end
   end
