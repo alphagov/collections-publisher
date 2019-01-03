@@ -118,6 +118,7 @@ class Tag < ApplicationRecord
 
   def sort_mode
     return nil unless parent_id
+
     display_curated_links? ? :curated : :a_to_z
   end
 

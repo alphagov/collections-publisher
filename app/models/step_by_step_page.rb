@@ -46,6 +46,7 @@ class StepByStepPage < ApplicationRecord
   def status
     return unpublished_status if unpublished_changes?
     return live_status if has_been_published?
+
     draft_status
   end
 

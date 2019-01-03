@@ -5,6 +5,7 @@ class StepByStepDraftUpdateWorker
     @step_by_step_page_id = step_by_step_page_id
     @current_user = name_of_current_user
     return unless step_by_step_page
+
     update_assigned_to
     update_navigation_rules
     update_draft
