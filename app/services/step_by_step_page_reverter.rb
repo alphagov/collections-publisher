@@ -54,6 +54,7 @@ private
     contents_list = step_contents.map do |content|
       next bulleted_list(content) if bulleted_list?(content)
       next list(content) if list?(content[:type])
+
       content[:text]
     end
 
@@ -67,6 +68,7 @@ private
   def bulleted_list(contents)
     list = contents[:contents].map do |content|
       next "- #{link(content)}" + context(content) if link?(content)
+
       "- #{content[:text]}"
     end
 

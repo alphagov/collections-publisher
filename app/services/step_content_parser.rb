@@ -4,13 +4,13 @@ class StepContentParser
   # - [Link text](url) context
   # * A bullet point without a link
   # - A bullet point without a link
-  BULLETED_LIST_REGEX = /^[\*\-]\s(\[.+\]\(.+\))?.*$/
+  BULLETED_LIST_REGEX = /^[\*\-]\s(\[.+\]\(.+\))?.*$/.freeze
 
   # it matches [Link text](url)context
-  LIST_REGEX = /^\[.+\]\(.+\).*$/
+  LIST_REGEX = /^\[.+\]\(.+\).*$/.freeze
 
   # matches [Link text](url)
-  LINK_REGEX = /\[[^\[\]]+\]\(([^)]+)/
+  LINK_REGEX = /\[[^\[\]]+\]\(([^)]+)/.freeze
 
   def parse(step_text)
     sections = step_text.delete("\r").split("\n\n").map do |section|

@@ -27,7 +27,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'govuk-content-schema-test-helpers'
-  gem 'govuk-lint', '~> 3.9.0'
+  gem 'govuk-lint', '~> 3.10.0'
   gem 'govuk_test'
   gem 'nokogiri'
   gem 'parser', '2.5.3.0'
