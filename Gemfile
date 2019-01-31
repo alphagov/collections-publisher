@@ -10,7 +10,7 @@ gem 'select2-rails', '~> 3.5.9'
 gem 'uglifier', '~> 4.1'
 
 # GDS managed dependencies
-gem 'gds-api-adapters', '~> 57.2'
+gem 'gds-api-adapters', '~> 57.3'
 gem 'gds-sso', '~> 14.0'
 gem 'govuk_admin_template', '~> 6.6'
 gem 'govuk_app_config', '~> 1.11'
