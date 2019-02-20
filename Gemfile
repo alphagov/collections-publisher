@@ -33,7 +33,7 @@ group :development, :test do
   gem 'parser', '2.6.0.0'
   gem 'pry-byebug'
   gem 'rspec-rails'
-  gem 'shoulda-matchers', '~> 3.1'
+  gem 'shoulda-matchers', '~> 4.0'
   gem 'timecop'
   gem 'webmock', require: false
 end
