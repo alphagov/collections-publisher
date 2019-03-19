@@ -14,6 +14,10 @@ class FinderPublisher
     send_to_publishing_api
   end
 
+  def unpublish(options = {})
+    Services.publishing_api.unpublish(content_id, options)
+  end
+
 private
 
   def send_to_publishing_api
