@@ -28,6 +28,25 @@ namespace :publishing_api do
     end
   end
 
+  desc 'Unpublish organisations content finder'
+  task unpublish_org_finder: :environment do
+    file_path = "#{Rails.root}/lib/finders/organisation_content.json"
+
+    content_item = JSON.parse(File.read(file_path))
+
+    puts "Unpublishing #{content_item['title']}..."
+
+    FinderPublisher.new(content_item).unpublish(
+      type: "redirect",
+      redirects: [{
+        segments_mode: "preserve",
+        destination: "/search/all",
+        type: "exact",
+        path: content_item["base_path"],
+      }],
+    )
+  end
+
   desc "Publish special routes"
   task publish_special_routes: :environment do
     publishing_api = GdsApi::PublishingApiV2.new(
