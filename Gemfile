@@ -30,7 +30,7 @@ group :development, :test do
   gem 'govuk-lint', '~> 3.11.0'
   gem 'govuk_test'
   gem 'nokogiri'
-  gem 'parser', '2.6.0.0'
+  gem 'parser', '2.6.2.0'
   gem 'pry-byebug'
   gem 'rspec-rails'
   gem 'shoulda-matchers', '~> 4.0'
