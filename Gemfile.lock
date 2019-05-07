@@ -203,7 +203,7 @@ GEM
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     parallel (1.17.0)
-    parser (2.6.2.1)
+    parser (2.6.3.0)
       ast (~> 2.4.0)
     plek (2.1.1)
     pry (0.12.2)
@@ -389,7 +389,7 @@ DEPENDENCIES
   govuk_test
   mysql2
   nokogiri
-  parser (= 2.6.2.1)
+  parser (= 2.6.3.0)
   plek (~> 2.1)
   pry-byebug
   rails (~> 5.2)
