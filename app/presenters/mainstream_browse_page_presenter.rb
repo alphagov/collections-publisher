@@ -1,5 +1,5 @@
 class MainstreamBrowsePagePresenter < TagPresenter
-private
+private # rubocop:disable Layout/IndentationWidth
 
   def format
     'mainstream_browse_page'

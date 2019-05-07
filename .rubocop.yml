@@ -41,7 +41,7 @@ Layout/ClosingParenthesisIndentation:
     - 'spec/presenters/mainstream_browse_page_presenter_spec.rb'
     - 'spec/presenters/tag_presenter_spec.rb'
 
-Layout/FirstParameterIndentation:
+Layout/IndentFirstArgument:
   Exclude:
     - 'spec/presenters/groups_presenter_spec.rb'
 

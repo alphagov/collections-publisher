@@ -1,5 +1,5 @@
 class TopicPresenter < TagPresenter
-private
+private # rubocop:disable Layout/IndentationWidth
 
   def format
     'topic'
