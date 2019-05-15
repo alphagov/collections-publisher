@@ -89,4 +89,16 @@ namespace :publishing_api do
       end
     end
   end
+
+  desc "Patch links for Mainstream Browse Pages"
+  task patch_links_for_mainstream_browse_pages: :environment do
+    MainstreamBrowsePage.all.each do |page|
+      Services.publishing_api.patch_links(
+        page.content_id,
+        MainstreamBrowsePagePresenter.new(page).render_links_for_publishing_api
+      )
+
+      puts "Patching links for #{page.content_id}..."
+    end
+  end
 end
