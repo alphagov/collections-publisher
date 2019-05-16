@@ -56,6 +56,12 @@ RSpec.describe TopicPresenter do
           expect(rendered_links[:links]).to have_key("children")
           expect(rendered_links[:links]["children"]).to eq([alpha, bravo].map(&:content_id))
         end
+
+        it "includes links to primary publishing organisation" do
+          organisation = "af07d5a5-df63-4ddc-9383-6a666845ebe9"
+          expect(rendered_links[:links]).to have_key("primary_publishing_organisation")
+          expect(rendered_links[:links]["primary_publishing_organisation"]).to eq([organisation])
+        end
       end
     end
 

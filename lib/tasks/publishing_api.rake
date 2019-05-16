@@ -101,4 +101,16 @@ namespace :publishing_api do
       puts "Patching links for #{page.content_id}..."
     end
   end
+
+  desc "Patch links for Topics"
+  task patch_links_for_topics: :environment do
+    Topic.all.each do |page|
+      Services.publishing_api.patch_links(
+        page.content_id,
+        TopicPresenter.new(page).render_links_for_publishing_api
+      )
+
+      puts "Patching links for #{page.content_id}..."
+    end
+  end
 end
