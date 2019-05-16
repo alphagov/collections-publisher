@@ -1,6 +1,8 @@
 class MainstreamBrowsePagePresenter < TagPresenter
 private # rubocop:disable Layout/IndentationWidth
 
+  GDS_CONTENT_ID = "af07d5a5-df63-4ddc-9383-6a666845ebe9".freeze
+
   def format
     'mainstream_browse_page'
   end
@@ -11,6 +13,7 @@ private # rubocop:disable Layout/IndentationWidth
       "active_top_level_browse_page" => active_top_level_browse_page_id,
       "top_level_browse_pages" => @tag.class.sorted_parents.map(&:content_id),
       "second_level_browse_pages" => second_level_browse_pages,
+      "primary_publishing_organisation" => [GDS_CONTENT_ID],
     )
   end
 

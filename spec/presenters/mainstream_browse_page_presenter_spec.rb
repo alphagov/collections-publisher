@@ -97,6 +97,19 @@ RSpec.describe MainstreamBrowsePagePresenter do
       end
     end
 
+    describe "linking to primary publishing organisation" do
+      let!(:parent_browse_page) { create(:mainstream_browse_page) }
+      let(:rendered_links)      { presenter.render_links_for_publishing_api }
+      let(:organisation) { "af07d5a5-df63-4ddc-9383-6a666845ebe9" }
+
+      before :each do
+        browse_page.update_attributes!(:parent => parent_browse_page)
+      end
+
+      it "includes Government Digital Service content id" do
+        expect(rendered_links[:links]["primary_publishing_organisation"]).to eq([organisation])
+      end
+    end
 
     describe "linking to related pages" do
       let!(:top_level_page_1) { create(
