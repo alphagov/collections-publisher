@@ -1,0 +1,103 @@
+<%
+  links = [
+    {
+      text: 'Step by step publisher',
+      href: step_by_step_pages_path
+    },
+    {
+      text: @step_by_step_page.title,
+      href: step_by_step_page_path(@step_by_step_page)
+    },
+    {
+      text: 'Secondary links'
+    }
+  ]
+%>
+
+<%= render 'shared/steps/step_breadcrumb', links: links %>
+
+<%= render 'shared/steps/heading',
+  step_nav: @step_by_step_page.title,
+  action: 'Secondary links'
+%>
+
+<%= render 'nav', step_by_step_page: @step_by_step_page, active:"secondary-links" %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+          What is secondary content?
+        </h3>
+      </div>
+      <div class="panel-body">
+        <p>Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.</p>
+        <p>We use it for content which:
+          <ul>
+            <li>helps you to complete a task in the journey, but is not the primary piece of content you need to visit to complete that task</li>
+            <li>is optional and not useful enough to be included in the step by step</li>
+          </ul>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <%= form_for(@secondary_links, url: step_by_step_page_secondary_links_path) do |form| %>
+      <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
+
+      <details class="add-secondary-link--details">
+        <summary class="add-secondary-link--summary">
+          <span class="btn btn-primary">Add a secondary link</span>
+        </summary>
+        <div class="form-group">
+          <label for="link">Link</label>
+          <input type="text" name="link" required="true" class="form-control add-secondary-link--input">
+          <p class="add-secondary-link__exampleText">For example: <a href="https://www.gov.uk/pay-vat">https://www.gov.uk/pay-vat</a> or <a href="https://www.gov.uk/bank-holidays">/bank-holidays</a></p>
+          <%= form.submit "Add secondary link", class: "btn btn-success" %>
+          <a href="<%= step_by_step_page_secondary_links_path %>" class="btn btn-link add-secondary-link-cancel--link">Cancel</a>
+        </div>
+      </details>
+    <% end %>
+  </div>
+</div>
+
+<hr />
+
+<div class="row secondary-links">
+  <div class="col-md-12">
+    <h2>Existing secondary links</h2>
+    <table class="table table-striped table-stepnav-rules" data-module="filterable-table">
+    <thead>
+      <tr>
+        <th colspan="3">
+        <div class='filter-control'>
+          <%= render partial: 'govuk_admin_template/table_filter_form', locals: { placeholder: 'Search for a rule here' } %>
+        </div>
+        </th>
+      </tr>
+      <tr>
+        <th>Page title</th>
+        <th>Path</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @step_by_step_page.navigation_rules.each do |navigation_rule| %>
+        <tr>
+          <td><%= link_to(navigation_rule.title, preview_url(navigation_rule.base_path)) %></td>
+          <td><%= navigation_rule.base_path %></td>
+          <td>
+            <%= link_to("Delete", "/fdsds", method: 'delete', data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm") %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+</div>

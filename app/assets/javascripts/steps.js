@@ -14,6 +14,7 @@
       this.setOrder(); // this is called so the order of the list is initalised
       this.bindStatusClicks();
       this.bindCancelAddChangeNoteLink();
+      this.bindCancelAddSecondaryLink();
     },
 
     addReorderButtons: function() {
@@ -111,6 +112,14 @@
         e.preventDefault();
         $('.add-change-note-description--textarea').val('');
         $('.add-change-note--details').removeAttr('open');
+      });
+    },
+
+    bindCancelAddSecondaryLink: function() {
+      $('.add-secondary-link-cancel--link').on('click', function(e){
+        e.preventDefault();
+        $('.add-secondary-link-input').val('');
+        $('.add-secondary-link--details').removeAttr('open');
       });
     }
   };
