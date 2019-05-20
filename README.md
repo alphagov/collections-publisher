@@ -59,7 +59,7 @@ Ensure the dependencies are satisfied before
 running. If you are using the development VM, run the app using bowler:
 
 ```
-cd /var/govuk/development && bundle exec bowl collections-publisher
+cd /var/govuk/govuk-puppet/development-vm && bundle exec bowl collections-publisher
 ```
 
 ### Running the test suite
