@@ -107,6 +107,11 @@ class StepByStepPagesController < ApplicationController
     @internal_change_note = InternalChangeNote.new
   end
 
+  def secondary_links
+    set_current_page_as_step_by_step
+    @secondary_links = StepByStepPage.find(params[:step_by_step_page_id])
+  end
+
 private
 
   def discard_draft
