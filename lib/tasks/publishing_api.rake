@@ -100,6 +100,13 @@ namespace :publishing_api do
 
       puts "Patching links for #{page.content_id}..."
     end
+
+    root_page = RootBrowsePagePresenter.new('state' => 'published')
+    Services.publishing_api.patch_links(
+      root_page.content_id,
+      root_page.render_links_for_publishing_api
+    )
+    puts "Links patched for root page..."
   end
 
   desc "Patch links for Topics"
