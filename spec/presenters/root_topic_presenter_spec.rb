@@ -44,5 +44,13 @@ RSpec.describe RootTopicPresenter do
         page2.content_id,
       ])
     end
+
+    it 'includes primary publishing organisation' do
+      organisation = "af07d5a5-df63-4ddc-9383-6a666845ebe9"
+
+      rendered = RootTopicPresenter.new('state' => 'published').render_links_for_publishing_api
+
+      expect(rendered[:links]["primary_publishing_organisation"]).to eq([organisation])
+    end
   end
 end
