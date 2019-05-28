@@ -1,4 +1,6 @@
 class RootTopicPresenter
+  GDS_CONTENT_ID = "af07d5a5-df63-4ddc-9383-6a666845ebe9".freeze
+
   def initialize(options)
     @state = options['state']
   end
@@ -64,7 +66,8 @@ private
 
   def links
     {
-      "children" => topics.map(&:content_id)
+      "children" => topics.map(&:content_id),
+      "primary_publishing_organisation" => [GDS_CONTENT_ID]
     }
   end
 end
