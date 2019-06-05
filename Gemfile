@@ -15,7 +15,7 @@ gem 'gds-sso', '~> 14.0'
 gem 'govuk_admin_template', '~> 6.7'
 gem 'govuk_app_config', '~> 1.16'
 gem 'govuk_sidekiq', '~> 3.0'
-gem 'plek', '~> 2.1'
+gem 'plek', '~> 3.0'
 
 group :development do
   gem 'better_errors'
