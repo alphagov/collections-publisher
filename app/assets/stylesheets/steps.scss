@@ -174,3 +174,21 @@ $dark-grey: #999999;
   margin: 20px 0 20px;
   color: $dark-grey;
 }
+
+.add-secondary-link--details {
+  margin-bottom: 20px;
+
+  &[open] {
+    .add-secondary-link--summary {
+      display: none;
+    }
+  }
+
+  .add-secondary-link--summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.add-secondary-link--example-text {
+  margin: 10px 0;
+}

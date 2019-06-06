@@ -24,6 +24,52 @@
 <%= render 'shared/steps/form_notice', message: notice, status: "success" %>
 
 <%= render '/step_by_step_pages/nav', step_by_step_page: @step_by_step_page, active:"secondary-links" %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+          What is secondary content?
+        </h3>
+      </div>
+      <div class="panel-body">
+        <p>Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.</p>
+        <p>We use it for content which:
+          <ul>
+            <li>helps you to complete a task in the journey, but is not the primary piece of content you need to visit to complete that task</li>
+            <li>is optional and not useful enough to be included in the step by step</li>
+          </ul>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <%= form_for(@secondary_content_link, url: step_by_step_page_secondary_content_links_path) do |form| %>
+      <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
+
+      <details class="add-secondary-link--details">
+        <summary class="add-secondary-link--summary">
+          <span class="btn btn-primary">Add a secondary link</span>
+        </summary>
+        <div class="form-group">
+          <label for="base_path">Base Path</label>
+          <input type="text" name="base_path" required="true" class="form-control add-secondary-link--input">
+          <p class="add-secondary-link__example-text">For example: <a href="https://www.gov.uk/pay-vat">https://www.gov.uk/pay-vat</a> or <a href="https://www.gov.uk/bank-holidays">/bank-holidays</a></p>
+          <%= form.submit "Add secondary link", class: "btn btn-success" %>
+          <a href="<%= step_by_step_page_secondary_content_links_path %>" class="btn btn-link add-secondary-link-cancel--link">Cancel</a>
+        </div>
+      </details>
+    <% end %>
+  </div>
+</div>
+
+<hr />
+
 <div class="row secondary-links">
   <div class="col-md-12">
     <h2>Existing secondary links</h2>
