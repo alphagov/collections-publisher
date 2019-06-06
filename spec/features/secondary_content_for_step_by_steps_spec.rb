@@ -25,6 +25,14 @@ RSpec.feature "Managing secondary content for step by step pages" do
     and_can_I_see_the_new_secondary_content_listed
   end
 
+  scenario "User trys to add broken secondary link" do
+    given_there_is_a_step_by_step_page_with_secondary_content
+    when_I_visit_the_step_by_step_page
+    when_I_visit_the_secondary_content_page
+    when_I_try_to_add_secondary_content_with_a_broken_link
+    then_I_see_a_failure_notice
+  end
+
   def given_there_is_a_step_by_step_page_with_secondary_content
     @step_by_step_page = create(:step_by_step_page_with_secondary_content)
   end
@@ -39,6 +47,12 @@ RSpec.feature "Managing secondary content for step by step pages" do
 
     find('details').click
     fill_in "base_path", with: base_path
+    find('input[value="Add secondary link"]').click
+  end
+
+  def when_I_try_to_add_secondary_content_with_a_broken_link
+    find('details').click
+    fill_in "base_path", with: broken_base_path
     find('input[value="Add secondary link"]').click
   end
 
@@ -74,6 +88,10 @@ RSpec.feature "Managing secondary content for step by step pages" do
 
   def base_path
     "/secondary-content"
+  end
+
+  def broken_base_path
+    "/i-dont-exist"
   end
 
   def content_id
