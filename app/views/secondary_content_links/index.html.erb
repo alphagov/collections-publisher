@@ -85,6 +85,7 @@
       <tr>
         <th>Page title</th>
         <th>Path</th>
+        <th>Action</th>
       </tr>
     </thead>
 
@@ -94,6 +95,9 @@
           <tr>
             <td><%= link_to(link.title, preview_url(link.base_path)) %></td>
             <td><%= link.base_path %></td>
+            <td>
+              <%= link_to("Delete", step_by_step_page_secondary_content_link_path(@step_by_step_page.id, link.id), method: 'delete', data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm") %>
+            </td>
           </tr>
         <% end %>
       <% end %>

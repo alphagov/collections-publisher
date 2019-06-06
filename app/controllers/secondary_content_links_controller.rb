@@ -14,6 +14,16 @@ class SecondaryContentLinksController < ApplicationController
     end
   end
 
+  def destroy
+    if secondary_content_link.destroy
+      update_downstream
+
+      redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id), notice: 'Secondary content link was successfully deleted.'
+    else
+      redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id)
+    end
+  end
+
   def index
     @secondary_content_link = step_by_step_page.secondary_content_links.new
     @secondary_content_links = step_by_step_page.secondary_content_links.all

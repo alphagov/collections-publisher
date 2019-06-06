@@ -60,6 +60,19 @@ RSpec.describe SecondaryContentLinksController do
     end
   end
 
+  describe "#destroy" do
+    it "removes a secondary content link" do
+      stub_user.permissions << "GDS Editor"
+      allow(Services.publishing_api).to receive(:put_content)
+
+      create(:secondary_content_link, step_by_step_page: step_by_step_page)
+
+      post :destroy, params: { step_by_step_page_id: step_by_step_page.id, id: step_by_step_page.secondary_content_links.first.id }
+
+      expect(step_by_step_page.secondary_content_links.count).to eq(0)
+    end
+  end
+
   def create_step_by_step_page
     build(:step_by_step_page_with_secondary_content).tap do |step_page|
       step_page.save(validate: false)
