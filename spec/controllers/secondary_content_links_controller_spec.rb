@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe SecondaryContentLinksController do
+  let(:step_by_step_page) { create_step_by_step_page }
+
   describe "GET secondary content index page" do
-    let(:step_by_step_page) { create_step_by_step_page }
     let(:secondary_content_link) { create(:secondary_content_link, step_by_step_page: step_by_step_page) }
 
     it "can only be accessed by users with GDS editor permissions" do
@@ -20,9 +21,37 @@ RSpec.describe SecondaryContentLinksController do
     end
   end
 
+  describe "#create" do
+    it "adds a new secondary content link" do
+      stub_user.permissions << "GDS Editor"
+
+      allow(Services.publishing_api).to receive(:lookup_content_id).and_return("a-content-id")
+      allow(Services.publishing_api).to receive(:get_content)
+        .with("a-content-id")
+        .and_return(content_item)
+      allow(Services.publishing_api).to receive(:put_content)
+
+      post :create, params: { step_by_step_page_id: step_by_step_page.id, base_path: "/base_path" }
+
+      expect(step_by_step_page.secondary_content_links.first.base_path).to eq("/base_path")
+      expect(step_by_step_page.secondary_content_links.first.content_id).to eq("a-content-id")
+      expect(step_by_step_page.secondary_content_links.first.title).to eq("A Title")
+    end
+  end
+
   def create_step_by_step_page
     build(:step_by_step_page_with_secondary_content).tap do |step_page|
       step_page.save(validate: false)
     end
+  end
+
+  def content_item
+    {
+      "content_id" => "a-content-id",
+      "base_path" => "/base_path",
+      "title" => "A Title",
+      "publishing_app" => "publisher",
+      "schema_name" => "guide",
+    }
   end
 end
