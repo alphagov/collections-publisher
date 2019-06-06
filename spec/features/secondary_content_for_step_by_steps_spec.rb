@@ -33,6 +33,15 @@ RSpec.feature "Managing secondary content for step by step pages" do
     then_I_see_a_failure_notice
   end
 
+  scenario "User removes a secondary content link" do
+    given_there_is_a_step_by_step_page_with_secondary_content
+    when_I_visit_the_step_by_step_page
+    when_I_visit_the_secondary_content_page
+    when_I_delete_secondary_content
+    then_I_see_a_successfully_deleted_notice
+    and_I_cannot_see_any_secondary_content_listed
+  end
+
   def given_there_is_a_step_by_step_page_with_secondary_content
     @step_by_step_page = create(:step_by_step_page_with_secondary_content)
   end
@@ -56,12 +65,22 @@ RSpec.feature "Managing secondary content for step by step pages" do
     find('input[value="Add secondary link"]').click
   end
 
+  def when_I_delete_secondary_content
+    expect_update_worker
+
+    find('.btn-danger').click
+  end
+
   def when_I_visit_the_secondary_content_page
     visit step_by_step_page_secondary_content_links_path(@step_by_step_page)
   end
 
   def then_I_see_a_successfully_linked_notice
     expect(page).to have_content("Secondary content was successfully linked.")
+  end
+
+  def then_I_see_a_successfully_deleted_notice
+    expect(page).to have_content("Secondary content link was successfully deleted.")
   end
 
   def then_I_see_a_failure_notice
@@ -74,6 +93,10 @@ RSpec.feature "Managing secondary content for step by step pages" do
 
   def and_can_I_see_the_new_secondary_content_listed
     expect(find('tbody')).to have_content(base_path)
+  end
+
+  def and_I_cannot_see_any_secondary_content_listed
+    expect(find('tbody')).to have_no_css('*')
   end
 
   def setup_publishing_api_request_expectations
