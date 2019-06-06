@@ -19,12 +19,6 @@ RSpec.describe SecondaryContentLink do
       expect(secondary_content_link).not_to be_valid
     end
 
-    it 'is created with valid attributes' do
-      expect(secondary_content_link).to be_valid
-      expect(secondary_content_link.save).to eql true
-      expect(secondary_content_link).to be_persisted
-    end
-
     it 'requires a title' do
       secondary_content_link.title = ''
 
@@ -58,6 +52,24 @@ RSpec.describe SecondaryContentLink do
 
       expect(secondary_content_link).not_to be_valid
       expect(secondary_content_link.errors).to have_key(:schema_name)
+    end
+
+    describe '#base_path' do
+      it 'is created with valid attributes when the base_path is unique to the step_by_step_page' do
+        secondary_content_link = build(
+          :secondary_content_link,
+          step_by_step_page: step_by_step_page,
+          base_path: "/same-step-by-step/shiny-new-path"
+        )
+        expect(secondary_content_link).to be_valid
+        expect(secondary_content_link.save).to eql true
+        expect(secondary_content_link).to be_persisted
+      end
+
+      it 'returns an error when the base_path and step_by_step_page are not unique' do
+        expect(secondary_content_link.save).to be false
+        expect(secondary_content_link.errors.count).to eq(1)
+      end
     end
   end
 end
