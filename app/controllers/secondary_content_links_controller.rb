@@ -34,10 +34,11 @@ private
   end
 
   def content_item
-    content_id = Services.publishing_api.lookup_content_id(base_path: params[:base_path], with_drafts: true)
+    base_path = URI.parse(params[:base_path]).path
+    content_id = Services.publishing_api.lookup_content_id(base_path: base_path, with_drafts: true)
 
     if content_id.nil?
-      @error = "#{params[:base_path]} doesn't exist on GOV.UK."
+      @error = "#{base_path} doesn't exist on GOV.UK."
       return {}
     end
 

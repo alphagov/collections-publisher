@@ -46,6 +46,18 @@ RSpec.describe SecondaryContentLinksController do
       post :create, params: { step_by_step_page_id: step_by_step_page.id, base_path: "/base_path" }
       expect(flash[:danger]).to be_present
     end
+
+    it "accepts a full url as the base_path" do
+      stub_user.permissions << "GDS Editor"
+
+      allow(Services.publishing_api).to receive(:lookup_content_id).and_return("a-content-id")
+      allow(Services.publishing_api).to receive(:get_content).and_return(content_item)
+      allow(Services.publishing_api).to receive(:put_content)
+
+      post :create, params: { step_by_step_page_id: step_by_step_page.id, base_path: "http:/foo.com/base_path" }
+
+      expect(step_by_step_page.secondary_content_links.first.base_path).to eq("/base_path")
+    end
   end
 
   def create_step_by_step_page
