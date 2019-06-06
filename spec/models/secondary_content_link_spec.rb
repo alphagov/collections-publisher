@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe SecondaryContentLink do
+  let(:step_by_step_page) { create(:step_by_step_page_with_secondary_content) }
+  let(:secondary_content_link) { build(:secondary_content_link, step_by_step_page: step_by_step_page) }
+
+  before do
+    allow(Services.publishing_api).to receive(:lookup_content_id)
+  end
+
   describe "validations" do
-    let(:step_by_step_page) { create(:step_by_step_page_with_secondary_content) }
-    let(:secondary_content_link) { build(:secondary_content_link, step_by_step_page: step_by_step_page) }
-
-    before do
-      allow(Services.publishing_api).to receive(:lookup_content_id)
-    end
-
     it 'should belong to a step_by_step_page' do
       should validate_presence_of(:step_by_step_page)
     end
@@ -70,6 +70,23 @@ RSpec.describe SecondaryContentLink do
         expect(secondary_content_link.save).to be false
         expect(secondary_content_link.errors.count).to eq(1)
       end
+    end
+  end
+
+  describe '#smartanswer?' do
+    it 'is not a smartanswer start page' do
+      expect(secondary_content_link.smartanswer?).to be false
+    end
+
+    it 'is a smartanswer start page' do
+      secondary_content_link = build(
+        :secondary_content_link,
+        step_by_step_page: step_by_step_page,
+        publishing_app: "smartanswers",
+        schema_name: "transaction",
+      )
+
+      expect(secondary_content_link.smartanswer?).to be true
     end
   end
 end
