@@ -155,7 +155,8 @@ RSpec.feature "Managing step by step pages" do
           steps: []
         }
       },
-      state_history: { "1" => "published" }
+      state_history: { "1" => "published" },
+      links: {},
     )
 
     click_on "Discard changes"

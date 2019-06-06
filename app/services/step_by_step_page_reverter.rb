@@ -16,6 +16,7 @@ class StepByStepPageReverter
     step_by_step_page.save!
 
     step_by_step_page.steps = steps
+    step_by_step_page.secondary_content_links = secondary_content_links
 
     add_navigation_rules
   end
@@ -112,6 +113,20 @@ private
     end
   end
 
+  def secondary_content_links
+    @secondary_content_links ||= pages_secondary_to_step_nav.map do |content_id|
+      content_item = Services.publishing_api.get_content(content_id)
+
+      SecondaryContentLink.new(
+        base_path: content_item["base_path"],
+        title: content_item["title"],
+        content_id: content_id,
+        publishing_app: content_item["publishing_app"],
+        schema_name: content_item["schema_name"],
+      )
+    end
+  end
+
   def pages_related_to_step_nav
     payload_from_publishing_api[:links][:pages_related_to_step_nav] || []
   end
@@ -119,5 +134,9 @@ private
   def pages_part_of_or_related_to_step_nav
     (payload_from_publishing_api[:links][:pages_part_of_step_nav] || []) +
       (payload_from_publishing_api[:links][:pages_related_to_step_nav] || [])
+  end
+
+  def pages_secondary_to_step_nav
+    payload_from_publishing_api[:links][:pages_secondary_to_step_nav] || []
   end
 end

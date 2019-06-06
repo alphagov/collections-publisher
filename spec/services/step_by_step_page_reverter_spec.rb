@@ -8,6 +8,9 @@ RSpec.describe StepByStepPageReverter do
 
     before do
       allow(Services.publishing_api).to receive(:lookup_content_ids).and_return({})
+      allow(Services.publishing_api).to receive(:get_content).with("42ce66de-04f3-4192-bf31-8394538e0734").and_return(
+        secondary_content_item
+      )
       subject.repopulate_from_publishing_api
       step_by_step_page.reload
     end
@@ -233,6 +236,32 @@ RSpec.describe StepByStepPageReverter do
 
         navigation_rule3 = step_by_step_page.navigation_rules.find_by(base_path: "/first-item-in-list-of-step-four")
         expect(navigation_rule3.include_in_links).to eq("conditionally")
+      end
+    end
+
+    describe "#secondary_content" do
+      it "saves the right number of secondary content" do
+        expect(step_by_step_page.secondary_content_links.size).to eq(1)
+      end
+
+      it "saves the title of the secondary content" do
+        title = step_by_step_page.secondary_content_links.first[:title]
+        expect(title).to eq(secondary_content_item["title"])
+      end
+
+      it "saves the base_path of the secondary content" do
+        base_path = step_by_step_page.secondary_content_links.first[:base_path]
+        expect(base_path).to eq(secondary_content_item["base_path"])
+      end
+
+      it "saves the publishing_app of the secondary content" do
+        publishing_app = step_by_step_page.secondary_content_links.first[:publishing_app]
+        expect(publishing_app).to eq(secondary_content_item["publishing_app"])
+      end
+
+      it "saves the schema_name of the secondary content" do
+        schema_name = step_by_step_page.secondary_content_links.first[:schema_name]
+        expect(schema_name).to eq(secondary_content_item["schema_name"])
       end
     end
   end
@@ -464,7 +493,10 @@ RSpec.describe StepByStepPageReverter do
           "1788c387-8680-4454-8923-71ad0f632cbb",
           "2b422e36-85c4-40fb-a40b-5cd40c86c0f8",
           "2148f116-f909-4976-bb05-cb4899f3272a"
-        ]
+        ],
+        "pages_secondary_to_step_nav": [
+          "42ce66de-04f3-4192-bf31-8394538e0734",
+        ],
       },
       "warnings": {
       }
@@ -474,5 +506,16 @@ RSpec.describe StepByStepPageReverter do
   def steps
     @payload ||= payload_from_publishing_api(step_by_step_page.content_id)
     @payload[:details][:step_by_step_nav][:steps]
+  end
+
+  def secondary_content_item
+    {
+      "base_path" => "/guidance/thats-sort-or-relevant",
+      "title" => "Guidance that's sort of relevant",
+      "content_id" => "42ce66de-04f3-4192-bf31-8394538e0734",
+      "publishing_app" => "publisher",
+      "rendering_app" => "frontend",
+      "schema_name" => "transaction"
+    }
   end
 end
