@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     post 'internal-change-notes', to: 'internal_change_notes#create'
     post :check_links
 
+    resources :secondary_content_links, path: 'secondary-content-links'
     resources :steps
   end
 
