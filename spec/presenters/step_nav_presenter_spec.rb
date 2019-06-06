@@ -144,5 +144,21 @@ RSpec.describe StepNavPresenter do
         expect(presented[:links][:pages_related_to_step_nav].count).to eq(1)
       end
     end
+
+    describe "secondary content" do
+      let(:step_nav_with_secondary_content) { create(:step_by_step_page_with_secondary_content) }
+
+      subject { described_class.new(step_nav_with_secondary_content) }
+
+      before do
+        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return([])
+      end
+
+      it "adds the content_id of secondary content to pages_secondary_to_step_nav" do
+        presented = subject.render_for_publishing_api
+
+        expect(presented[:links][:pages_secondary_to_step_nav].count).to eq(1)
+      end
+    end
   end
 end

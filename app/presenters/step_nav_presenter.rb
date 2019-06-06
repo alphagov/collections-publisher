@@ -81,6 +81,7 @@ private
     links = {}
     links[:pages_part_of_step_nav] = part_of_step_nav_links if part_of_step_nav_links.present?
     links[:pages_related_to_step_nav] = related_to_step_nav_links if related_to_step_nav_links.present?
+    links[:pages_secondary_to_step_nav] = secondary_to_step_nav_links if secondary_to_step_nav_links.present?
     links
   end
 
@@ -90,6 +91,10 @@ private
 
   def related_to_step_nav_links
     step_nav.navigation_rules.related_content_ids
+  end
+
+  def secondary_to_step_nav_links
+    step_nav.secondary_content_links.pluck(:content_id)
   end
 
   def access_limited_tokens
