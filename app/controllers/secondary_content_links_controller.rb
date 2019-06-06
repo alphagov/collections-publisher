@@ -9,6 +9,7 @@ class SecondaryContentLinksController < ApplicationController
 
       redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id), notice: 'Secondary content was successfully linked.'
     else
+      flash[:danger] = @error if @error
       redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id)
     end
   end
@@ -34,6 +35,12 @@ private
 
   def content_item
     content_id = Services.publishing_api.lookup_content_id(base_path: params[:base_path], with_drafts: true)
+
+    if content_id.nil?
+      @error = "#{params[:base_path]} doesn't exist on GOV.UK."
+      return {}
+    end
+
     content_item = Services.publishing_api.get_content(content_id)
 
     {

@@ -37,6 +37,15 @@ RSpec.describe SecondaryContentLinksController do
       expect(step_by_step_page.secondary_content_links.first.content_id).to eq("a-content-id")
       expect(step_by_step_page.secondary_content_links.first.title).to eq("A Title")
     end
+
+    it "returns an error if the base_path does not exist" do
+      stub_user.permissions << "GDS Editor"
+
+      allow(Services.publishing_api).to receive(:lookup_content_id).and_return(nil)
+
+      post :create, params: { step_by_step_page_id: step_by_step_page.id, base_path: "/base_path" }
+      expect(flash[:danger]).to be_present
+    end
   end
 
   def create_step_by_step_page
