@@ -19,6 +19,9 @@
   <li class="<%= "active" if active == 'choose-navigation' %>">
     <%= link_to 'Choose navigation', step_by_step_page_navigation_rules_path(@step_by_step_page), class: "step-by-step-tab-link" %>
   </li>
+  <li class="<%= "active" if active == 'secondary-links' %>">
+    <%= link_to 'Secondary links', step_by_step_page_secondary_content_links_path(@step_by_step_page), class: "step-by-step-tab-link" %>
+  </li>
   <li class="<%= "active" if active == 'publish-or-delete' %>">
     <%= link_to 'Publish or delete', step_by_step_page_publish_or_delete_path(@step_by_step_page), class: "step-by-step-tab-link" %>
   </li>

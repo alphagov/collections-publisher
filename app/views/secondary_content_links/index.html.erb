@@ -1,1 +1,57 @@
-<p> Placeholder for secondary content </p>
+<%
+  links = [
+    {
+      text: 'Step by step publisher',
+      href: step_by_step_pages_path
+    },
+    {
+      text: @step_by_step_page.title,
+      href: step_by_step_page_path(@step_by_step_page)
+    },
+    {
+      text: 'Secondary links'
+    }
+  ]
+%>
+
+<%= render 'shared/steps/step_breadcrumb', links: links %>
+
+<%= render 'shared/steps/heading',
+  step_nav: @step_by_step_page.title,
+  action: 'Secondary links'
+%>
+
+<%= render 'shared/steps/form_notice', message: notice, status: "success" %>
+
+<%= render '/step_by_step_pages/nav', step_by_step_page: @step_by_step_page, active:"secondary-links" %>
+<div class="row secondary-links">
+  <div class="col-md-12">
+    <h2>Existing secondary links</h2>
+    <table class="table table-striped table-stepnav-rules" data-module="filterable-table">
+    <thead>
+      <tr>
+        <th colspan="3">
+        <div class='filter-control'>
+          <%= render partial: 'govuk_admin_template/table_filter_form', locals: { placeholder: 'Search for a rule here' } %>
+        </div>
+        </th>
+      </tr>
+      <tr>
+        <th>Page title</th>
+        <th>Path</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% if @secondary_content_links.present? %>
+        <% @secondary_content_links.each do |link| %>
+          <tr>
+            <td><%= link_to(link.title, preview_url(link.base_path)) %></td>
+            <td><%= link.base_path %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+</div>

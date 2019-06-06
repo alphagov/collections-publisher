@@ -36,9 +36,15 @@ $dark-grey: #999999;
 .nav.step-by-step-tabs {
   margin-bottom: 2em;
 
+  @media screen and (min-width: 1001px) and (max-width: 1500px) {
+    .step-by-step-tab-link {
+      min-height: 65px;
+    }
+  }
+
   @media screen and (min-width: 769px) and (max-width: 1000px) {
     .step-by-step-tab-link {
-      min-height: 70px;
+      min-height: 85px;
     }
   }
 }
