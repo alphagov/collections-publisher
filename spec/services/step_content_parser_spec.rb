@@ -47,6 +47,7 @@ RSpec.describe StepContentParser do
 
           Conducted by Mr Andrew Preview
 
+
         HEREDOC
 
         expect(subject.parse(step_text)).to eq([

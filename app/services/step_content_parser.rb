@@ -13,7 +13,7 @@ class StepContentParser
   LINK_REGEX = /\[[^\[\]]+\]\(([^)]+)/.freeze
 
   def parse(step_text)
-    sections = step_text.delete("\r").split("\n\n").map do |section|
+    sections = step_text.rstrip.delete("\r").split("\n\n").map do |section|
       section.lines.map(&:chomp)
     end
 
