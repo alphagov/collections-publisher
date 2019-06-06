@@ -86,7 +86,7 @@ private
   end
 
   def part_of_step_nav_links
-    step_nav.navigation_rules.part_of_content_ids + done_page_content_ids
+    step_nav.navigation_rules.part_of_content_ids + done_page_content_ids(base_paths_for_navigation_rules)
   end
 
   def related_to_step_nav_links
@@ -94,32 +94,14 @@ private
   end
 
   def secondary_to_step_nav_links
-    step_nav.secondary_content_links.pluck(:content_id) + secondary_content_done_page_content_ids
+    step_nav.secondary_content_links.pluck(:content_id) + done_page_content_ids(base_paths_for_secondary_content_links)
   end
 
   def access_limited_tokens
     { auth_bypass_ids: [step_nav.auth_bypass_id] }
   end
 
-  def done_page_content_ids
-    base_paths = step_nav.navigation_rules.select { |rule| rule.include_in_links == 'always' }.map do |rule|
-      done_page_base_path(rule)
-    end
-
-    content_ids = []
-    if base_paths.any?
-      results = StepNavPublisher.lookup_content_ids(base_paths)
-      content_ids = results.values if results.any?
-    end
-
-    content_ids
-  end
-
-  def secondary_content_done_page_content_ids
-    base_paths = step_nav.secondary_content_links.map do |secondary_content_link|
-      done_page_base_path(secondary_content_link)
-    end
-
+  def done_page_content_ids(base_paths)
     content_ids = []
     if base_paths.any?
       results = StepNavPublisher.lookup_content_ids(base_paths)
@@ -133,5 +115,17 @@ private
     return page.base_path + "/y" if page.smartanswer?
 
     "/done" + page.base_path
+  end
+
+  def base_paths_for_navigation_rules
+    step_nav.navigation_rules.select { |rule| rule.include_in_links == 'always' }.map do |rule|
+      done_page_base_path(rule)
+    end
+  end
+
+  def base_paths_for_secondary_content_links
+    step_nav.secondary_content_links.map do |secondary_content_link|
+      done_page_base_path(secondary_content_link)
+    end
   end
 end
