@@ -94,7 +94,7 @@ private
   end
 
   def secondary_to_step_nav_links
-    step_nav.secondary_content_links.pluck(:content_id)
+    step_nav.secondary_content_links.pluck(:content_id) + secondary_content_done_page_content_ids
   end
 
   def access_limited_tokens
@@ -104,6 +104,20 @@ private
   def done_page_content_ids
     base_paths = step_nav.navigation_rules.select { |rule| rule.include_in_links == 'always' }.map do |rule|
       done_page_base_path(rule)
+    end
+
+    content_ids = []
+    if base_paths.any?
+      results = StepNavPublisher.lookup_content_ids(base_paths)
+      content_ids = results.values if results.any?
+    end
+
+    content_ids
+  end
+
+  def secondary_content_done_page_content_ids
+    base_paths = step_nav.secondary_content_links.map do |secondary_content_link|
+      done_page_base_path(secondary_content_link)
     end
 
     content_ids = []

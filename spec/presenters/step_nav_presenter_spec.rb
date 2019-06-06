@@ -146,7 +146,7 @@ RSpec.describe StepNavPresenter do
     end
 
     describe "secondary content" do
-      let(:step_nav_with_secondary_content) { create(:step_by_step_page_with_secondary_content) }
+      let(:step_nav_with_secondary_content) { create(:step_by_step_page_with_secondary_content, slug: "step-nav-with-secondary-content") }
 
       subject { described_class.new(step_nav_with_secondary_content) }
 
@@ -158,6 +158,38 @@ RSpec.describe StepNavPresenter do
         presented = subject.render_for_publishing_api
 
         expect(presented[:links][:pages_secondary_to_step_nav].count).to eq(1)
+      end
+
+      it "adds the content id of the smartanswer done page to pages_secondary_to_step_nav" do
+        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return('/a-smartanswer/y' => '2fcc4688-89b5-4e71-802d-d95c69fe458a')
+
+        build(
+          :secondary_content_link,
+          step_by_step_page: step_nav,
+          base_path: "/a-smartanswer",
+          publishing_app: "smartanswers",
+          schema_name: "transaction",
+        )
+
+        presented = subject.render_for_publishing_api
+        expect(presented[:links][:pages_secondary_to_step_nav].count).to eq(2)
+        expect(presented[:links][:pages_secondary_to_step_nav]).to include('2fcc4688-89b5-4e71-802d-d95c69fe458a')
+      end
+
+      it "adds the content id of a service done page to pages_secondary_to_step_nav" do
+        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return('/done/service-start-page' => '2fcc4688-89b5-4e71-802d-d95c69fe458a')
+
+        build(
+          :secondary_content_link,
+          step_by_step_page: step_nav,
+          base_path: "/service-start-page",
+          publishing_app: "publisher",
+          schema_name: "transaction",
+        )
+
+        presented = subject.render_for_publishing_api
+        expect(presented[:links][:pages_secondary_to_step_nav].count).to eq(2)
+        expect(presented[:links][:pages_secondary_to_step_nav]).to include('2fcc4688-89b5-4e71-802d-d95c69fe458a')
       end
     end
   end

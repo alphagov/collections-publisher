@@ -30,6 +30,7 @@ RSpec.describe SecondaryContentLinksController do
         .with("a-content-id")
         .and_return(content_item)
       allow(Services.publishing_api).to receive(:put_content)
+      allow(Services.publishing_api).to receive(:lookup_content_ids).and_return([])
 
       post :create, params: { step_by_step_page_id: step_by_step_page.id, base_path: "/base_path" }
 
@@ -53,6 +54,7 @@ RSpec.describe SecondaryContentLinksController do
       allow(Services.publishing_api).to receive(:lookup_content_id).and_return("a-content-id")
       allow(Services.publishing_api).to receive(:get_content).and_return(content_item)
       allow(Services.publishing_api).to receive(:put_content)
+      allow(Services.publishing_api).to receive(:lookup_content_ids).and_return([])
 
       post :create, params: { step_by_step_page_id: step_by_step_page.id, base_path: "http:/foo.com/base_path" }
 
