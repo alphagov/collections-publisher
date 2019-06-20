@@ -39,6 +39,12 @@ FactoryBot.define do
     end
   end
 
+  factory :step_by_step_page_with_secondary_content, parent: :step_by_step_page_with_steps do
+    after(:create) do |step_by_step_page|
+      create(:secondary_content_link, step_by_step_page: step_by_step_page)
+    end
+  end
+
   factory :step do
     title { "Check how awesome you are" }
     logic { "number" }
@@ -100,6 +106,15 @@ FactoryBot.define do
     publishing_app { "smartanswers" }
     schema_name { "transaction" }
     include_in_links { "always" }
+  end
+
+  factory :secondary_content_link do
+    title { "Secondary Good stuff" }
+    base_path { "/secondary/good/stuff" }
+    content_id { SecureRandom.uuid }
+    publishing_app { "publisher" }
+    schema_name { "guide" }
+    step_by_step_page
   end
 
   factory :redirect_item do

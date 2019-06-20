@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_11_094250) do
+ActiveRecord::Schema.define(version: 2019_05_20_162024) do
 
   create_table "internal_change_notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "author"
@@ -82,6 +82,16 @@ ActiveRecord::Schema.define(version: 2018_10_11_094250) do
     t.index ["from_base_path"], name: "index_redirect_routes_on_from_base_path", unique: true
     t.index ["redirect_id"], name: "index_redirect_routes_on_redirect_id"
     t.index ["tag_id"], name: "index_redirect_routes_on_tag_id"
+  end
+
+  create_table "secondary_content_links", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "base_path"
+    t.string "title"
+    t.string "content_id"
+    t.string "publishing_app"
+    t.string "schema_name"
+    t.bigint "step_by_step_page_id"
+    t.index ["step_by_step_page_id"], name: "index_secondary_content_links_on_step_by_step_page_id"
   end
 
   create_table "step_by_step_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -157,6 +167,7 @@ ActiveRecord::Schema.define(version: 2018_10_11_094250) do
   add_foreign_key "lists", "tags", name: "lists_tag_id_fk", on_delete: :cascade
   add_foreign_key "navigation_rules", "step_by_step_pages"
   add_foreign_key "redirect_routes", "tags"
+  add_foreign_key "secondary_content_links", "step_by_step_pages"
   add_foreign_key "steps", "step_by_step_pages"
   add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "to_tag_id", name: "tag_associations_to_tag_id_fk", on_delete: :cascade

@@ -263,4 +263,19 @@ RSpec.describe StepByStepPage do
       end
     end
   end
+
+  describe 'secondary content association' do
+    let(:step_by_step) { create(:step_by_step_page_with_secondary_content) }
+
+    it 'is created with a secondary content link' do
+      expect(step_by_step.secondary_content_links.length).to eql(1)
+    end
+
+    it 'deletes secondary content when the StepByStepPage is deleted' do
+      step_by_step.destroy
+
+      expect { step_by_step.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect(step_by_step.secondary_content_links.length).to eql(0)
+    end
+  end
 end
