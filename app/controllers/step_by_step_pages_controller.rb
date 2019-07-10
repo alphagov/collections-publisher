@@ -63,6 +63,7 @@ class StepByStepPagesController < ApplicationController
       @publish_intent = PublishIntent.new(params)
       if @publish_intent.valid?
         publish_page(@publish_intent)
+        generate_internal_change_note
         set_change_note_version
         redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been published."
       end
@@ -140,6 +141,19 @@ private
     payload = Services.publishing_api.get_content(@step_by_step_page.content_id, version: published_version).to_hash
 
     StepByStepPageReverter.new(@step_by_step_page, payload).repopulate_from_publishing_api
+  end
+
+  def generate_internal_change_note
+    change_note = @step_by_step_page.internal_change_notes.new(
+      author: current_user.name,
+      description: note_description
+    )
+    change_note.save!
+  end
+
+  def note_description
+    note = "#{@publish_intent.update_type.capitalize} update published by #{current_user.name}"
+    @publish_intent.change_note.empty? ? note : note.concat(" with note: #{@publish_intent.change_note}")
   end
 
   def set_change_note_version
