@@ -21,4 +21,12 @@ class StepNavPublisher
   def self.unpublish(step_by_step_page, redirect_url)
     Services.publishing_api.unpublish(step_by_step_page.content_id, type: "redirect", alternative_path: redirect_url)
   end
+
+  def self.schedule_for_publishing(step_by_step_page)
+    presenter = StepNavPresenter.new(step_by_step_page)
+    payload = presenter.scheduling_payload
+    GdsApi.publishing_api.put_intent("/#{step_by_step_page.slug}", payload)
+
+    ScheduledPublishingJob.perform_at(payload[:publish_time], step_by_step_page.id)
+  end
 end
