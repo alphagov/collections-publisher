@@ -15,6 +15,17 @@ RSpec.describe StepNavPublisher do
       StepNavPublisher.update(step_nav)
       expect(Services.publishing_api).to have_received(:put_content)
     end
+
+    context "live step by step having a step edited" do
+      let(:step_nav) { create(:published_step_by_step_page) }
+
+      it "defines :access_limited in the publishing-api payload" do
+        StepNavPublisher.update(step_nav)
+        content_id = /[0-9a-f]{5,40}/ # changes on each test run, as does Array value below
+        payload = hash_including(:access_limited => { :auth_bypass_ids => instance_of(Array) })
+        expect(Services.publishing_api).to have_received(:put_content).with(content_id, payload)
+      end
+    end
   end
 
   context ".lookup_content_ids" do
