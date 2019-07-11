@@ -112,7 +112,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   scenario "User reverts a step by step page" do
-    given_there_is_a_published_step_by_step_page
+    given_there_is_a_published_step_by_step_page_with_unpublished_changes
     when_I_view_the_step_by_step_page
     and_I_visit_the_publish_or_delete_page
     when_I_want_to_revert_the_page
@@ -121,6 +121,10 @@ RSpec.feature "Managing step by step pages" do
 
   def given_there_is_a_published_step_by_step_page
     @step_by_step_page = create(:published_step_by_step_page)
+  end
+
+  def given_there_is_a_published_step_by_step_page_with_unpublished_changes
+    @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: Time.zone.now)
   end
 
   def and_it_has_change_notes
