@@ -13,7 +13,7 @@ gem 'uglifier', '~> 4.1'
 gem 'gds-api-adapters', '~> 59.5'
 gem 'gds-sso', '~> 14.0'
 gem 'govuk_admin_template', '~> 6.7'
-gem 'govuk_app_config', '~> 1.19'
+gem 'govuk_app_config', '~> 1.20'
 gem 'govuk_sidekiq', '~> 3.0'
 gem 'plek', '~> 3.0'
 
