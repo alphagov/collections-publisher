@@ -1,7 +1,7 @@
-<h1>
-  <small><%= action %><span class="sr-only"> - </span></small><br />
-  <%= step_nav %>
-</h1>
+<%= render "govuk_publishing_components/components/title", {
+  context: action,
+  title: step_nav
+} %>
 
 <% if @step_by_step_page.assigned_to.present? %>
   <%= render 'shared/steps/last-saved-by', assigned_to: @step_by_step_page.assigned_to %>
