@@ -35,6 +35,7 @@ private
   def optional_fields
     fields = {}
     fields[:access_limited] = access_limited_tokens if step_nav.has_draft?
+    fields[:overridden_queue] = 'HIGH_QUEUE'
     fields
   end
 
