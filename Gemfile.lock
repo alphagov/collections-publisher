@@ -406,7 +406,7 @@ DEPENDENCIES
   govuk-lint (~> 3.11.2)
   govuk_admin_template (~> 6.7)
   govuk_app_config (~> 1.20)
-  govuk_publishing_components (~> 17.18)
+  govuk_publishing_components (~> 17.18.0)
   govuk_sidekiq (~> 3.0)
   govuk_test
   mysql2
