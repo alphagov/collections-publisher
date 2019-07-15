@@ -3,60 +3,55 @@
   right_col = "col-md-5"
 %>
 
-<%= render "shared/steps/form_errors", resource: step %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "shared/steps/form_errors", resource: step %>
 
-<div class="form-group">
-  <div class="row">
-    <div class="<%= left_col %>">
-      <%= form.text_field :title, label: "Step title" %>
-    </div>
-  </div>
-</div>
+    <%= render "govuk_publishing_components/components/input", {
+      label: {
+        text: "Step Title"
+      },
+      name: :title,
+      value: step.title
+    } %>
 
-<div class="form-group">
-  <%= form.label :logic, "Step labelling", default_builder: true %>
+    <%= render "govuk_publishing_components/components/radio", {
+      name: "logic",
+      heading: "Step labelling",
+      items: [
+        {
+          value: "number",
+          text: "number",
+          checked: true
+        },
+        {
+          value: "and",
+          text: "and"
+        },
+        {
+          value: "or",
+          text: "or"
+        }
+      ]
+    } %>
 
-  <div class="radio">
-    <label>
-      <%= form.radio_button :logic, "number", default_builder: true, checked: true %>
-      number
-    </label>
-  </div>
+    <%= render "govuk_publishing_components/components/radio", {
+      name: "optional",
+      heading: "Is this step optional?",
+      hint: "You must select one of these so that user activity is tracked correctly in Google Analytics.",
+      items: [
+        {
+          value: "false",
+          text: "essential",
+          checked: true
+        },
+        {
+          value: "true",
+          text: "optional"
+        }
+      ]
+    } %>
 
-  <div class="radio">
-    <label>
-      <%= form.radio_button :logic, "and", default_builder: true %>
-      and
-    </label>
-  </div>
-
-  <div class="radio">
-    <label>
-      <%= form.radio_button :logic, "or", default_builder: true  %>
-      or
-    </label>
-  </div>
-</div>
-
-<div class="form-group">
-  <%= form.label :optional, "Is this step optional?", default_builder: true %>
-
-  <div class="help-block">You must select one of these so that user activity is tracked correctly in Google Analytics.</div>
-
-  <div class="radio">
-    <label>
-      <%= form.radio_button :optional, "false", default_builder: true, checked: true %>
-      essential
-    </label>
-  </div>
-
-  <div class="radio">
-    <label>
-      <%= form.radio_button :optional, "true", default_builder: true %>
-      optional
-    </label>
-  </div>
-</div>
 
 <div class="form-group">
   <% if step.broken_links && step.broken_links.count > 0 %>
@@ -117,21 +112,35 @@
       </div>
     </div>
   <% end %>
-  <div class="row">
-    <div class="<%= left_col %>">
-      <%= form.text_area :contents, class: "form-control", label: "Content, tasks and links in this step", rows: 8 %>
+
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        <%= render "govuk_publishing_components/components/textarea", {
+          label: {
+            text: "Content, tasks and links in this step"
+          },
+          name: :contents,
+          value: step.contents
+        } %>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <%= render 'shared/steps/markdown_help' %>
+      </div>
     </div>
 
-    <div class="<%= right_col %>">
-      <%= render 'shared/steps/markdown_help' %>
-    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <%= render "govuk_publishing_components/components/button", {
+          text: "Save"
+        } %>
+      </div>
+      <div class="govuk-grid-column-full govuk-!-margin-top-3">
+        <%= link_to 'Cancel', @step_by_step_page %>
+      </div>
+    </div >
+
+
   </div>
-</div>
-
-
-<div class="form-group">
-  <%= form.submit "Save step", class: "btn btn-primary" %>
-</div>
-<div class="form-group">
-  <%= link_to "Cancel", @step_by_step_page %>
 </div>
