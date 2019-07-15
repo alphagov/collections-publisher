@@ -1,39 +1,46 @@
-<%
-  left_col = "col-md-7"
-  right_col = "col-md-5"
-%>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_for(@step_by_step_page) do |form| %>
+      <%= render "shared/steps/form_errors", resource: step_by_step_page %>
 
-<%= form_for(@step_by_step_page) do |form| %>
-  <%= render "shared/steps/form_errors", resource: step_by_step_page %>
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: "Title"
+        },
+        name: :title
+      } %>
 
-  <div class="form-group row">
-    <div class="<%= left_col %>">
-      <%= form.text_field :title %>
-    </div>
-  </div>
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: "Slug (no slashes)"
+        },
+        name: :slug
+      } %>
 
-  <div class="form-group row">
-    <div class="<%= left_col %>">
-      <%= form.text_field :slug, label: "Slug (no slashes)" %>
-    </div>
-  </div>
+      <%= render "govuk_publishing_components/components/textarea", {
+        label: {
+          text: "Introduction"
+        },
+        name: :introduction
+      } %>
 
-  <div class="form-group row">
-    <div class="<%= left_col %>">
-      <%= form.text_area :introduction, class: "form-control", rows: 8 %>
-    </div>
-  </div>
+      <%= render "govuk_publishing_components/components/textarea", {
+        label: {
+          text: "Meta description"
+        },
+        name: :description
+      } %>
 
-  <div class="form-group row">
-    <div class="<%= left_col %>">
-      <%= form.text_area :description, label: "Meta description", class: "form-control", rows: 8 %>
-    </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <%= render "govuk_publishing_components/components/button", {
+            text: "Save"
+          } %>
+        </div>
+        <div class="govuk-grid-column-full govuk-!-margin-top-3">
+          <%= link_to 'Cancel', @step_by_step_page %>
+        </div>
+      </div >
+    <% end %>
   </div>
-
-  <div class="form-group">
-    <%= form.submit "Save", class: "btn btn-primary" %>
-  </div>
-  <div class="form-group">
-    <%= link_to 'Cancel', @step_by_step_page %>
-  </div>
-<% end %>
+</div>
