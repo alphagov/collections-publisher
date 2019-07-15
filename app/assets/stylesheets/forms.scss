@@ -32,7 +32,7 @@ input[type='text']:not(.govuk-input) {
   border-color: $state-danger-border;
 }
 
-button:not(.govuk-button) {
+button:not(.govuk-button):not(.navbar-toggle) {
   @extend .btn; // scss-lint:disable PlaceholderInExtend
   @extend .btn-default; // scss-lint:disable PlaceholderInExtend
 }

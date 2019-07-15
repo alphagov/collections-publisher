@@ -7,28 +7,32 @@
         label: {
           text: "Title"
         },
-        name: :title
+        name: :title,
+        value: step_by_step_page.title
       } %>
 
       <%= render "govuk_publishing_components/components/input", {
         label: {
           text: "Slug (no slashes)"
         },
-        name: :slug
+        name: :slug,
+        value: step_by_step_page.slug
       } %>
 
       <%= render "govuk_publishing_components/components/textarea", {
         label: {
           text: "Introduction"
         },
-        name: :introduction
+        name: :introduction,
+        value: step_by_step_page.introduction
       } %>
 
       <%= render "govuk_publishing_components/components/textarea", {
         label: {
           text: "Meta description"
         },
-        name: :description
+        name: :description,
+        value: step_by_step_page.description
       } %>
 
       <div class="govuk-grid-row">
