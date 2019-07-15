@@ -1,4 +1,6 @@
 class SecondaryContentLinksController < ApplicationController
+  include StepByStepHelper
+
   before_action :require_gds_editor_permissions!
 
   def create
@@ -37,10 +39,6 @@ private
 
   def secondary_content_link
     @secondary_content_link ||= step_by_step_page.secondary_content_links.find(params[:id])
-  end
-
-  def update_downstream
-    StepByStepDraftUpdateWorker.perform_async(step_by_step_page.id, current_user.name)
   end
 
   def content_item

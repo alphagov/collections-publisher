@@ -1,4 +1,6 @@
 class StepsController < ApplicationController
+  include StepByStepHelper
+
   before_action :require_gds_editor_permissions!
 
   def new
@@ -40,10 +42,6 @@ class StepsController < ApplicationController
   end
 
 private
-
-  def update_downstream
-    StepByStepDraftUpdateWorker.perform_async(step_by_step_page.id, current_user.name)
-  end
 
   def step_by_step_page
     @step_by_step_page ||= StepByStepPage.find(params[:step_by_step_page_id])

@@ -1,5 +1,6 @@
 class StepByStepPagesController < ApplicationController
   include PublishingApiHelper
+  include StepByStepHelper
 
   before_action :require_gds_editor_permissions!
   before_action :set_step_by_step_page, only: %i[show edit update destroy]
@@ -115,10 +116,6 @@ private
     StepNavPublisher.discard_draft(@step_by_step_page)
   rescue GdsApi::HTTPNotFound
     Rails.logger.info "Discarding #{@step_by_step_page.content_id} failed"
-  end
-
-  def update_downstream
-    StepByStepDraftUpdateWorker.perform_async(@step_by_step_page.id, current_user.name)
   end
 
   def publish_page(publish_intent)
