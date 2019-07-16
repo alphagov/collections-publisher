@@ -12,7 +12,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
       expect(
         presenter.render_links_for_publishing_api[:links]["parent"]
-      ).to eql(["9bb05887-d741-4a98-95b2-2c45dfc31556"])
+      ).to eql(%w(9bb05887-d741-4a98-95b2-2c45dfc31556))
     end
   end
 
