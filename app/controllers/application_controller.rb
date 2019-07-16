@@ -39,4 +39,8 @@ private
       GdsApi::GovukHeaders.set_header(:x_govuk_authenticated_user, current_user.uid)
     end
   end
+
+  def require_scheduling_permissions!
+    authorise_user!("Scheduling")
+  end
 end
