@@ -2,6 +2,10 @@ class StepByStepScheduledPublishWorker
   include Sidekiq::Worker
   sidekiq_options retry: 5
 
+  sidekiq_retries_exhausted do |msg, _e|
+    GovukError.notify(msg['error_message'])
+  end
+
   def perform(id)
     step_nav = nil
 
