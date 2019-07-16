@@ -16,4 +16,9 @@ RSpec.describe StepByStepScheduledPublishWorker do
     step_by_step_page.reload
     expect(step_by_step_page.has_been_published?).to be true
   end
+
+  it "generates a change note" do
+    described_class.new.perform(step_by_step_page.id)
+    expect(step_by_step_page.internal_change_notes.first.description).to eq("Published on schedule")
+  end
 end
