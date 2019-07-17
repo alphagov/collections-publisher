@@ -7,13 +7,14 @@ class StepByStepScheduledPublishWorker
   end
 
   def perform(id)
-    step_nav = nil
+    step_nav = StepByStepPage.find_by(id: id)
 
-    StepByStepPage.transaction do
-      step_nav = StepByStepPage.lock.find_by(id: id)
-      StepNavPublisher.publish(step_nav)
-      step_nav.mark_as_published
-      generate_internal_change_note(step_nav)
+    if publish_now?(step_nav)
+      step_nav.with_lock do
+        StepNavPublisher.publish(step_nav)
+        step_nav.mark_as_published
+        generate_internal_change_note(step_nav)
+      end
     end
   end
 
@@ -23,5 +24,11 @@ class StepByStepScheduledPublishWorker
       description: "Published on schedule",
     )
     change_note.save!
+  end
+
+private
+
+  def publish_now?(step_nav)
+    step_nav.scheduled_for_publishing?
   end
 end

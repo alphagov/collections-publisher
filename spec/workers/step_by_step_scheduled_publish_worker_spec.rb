@@ -6,7 +6,8 @@ RSpec.describe StepByStepScheduledPublishWorker do
     allow(StepNavPublisher).to receive(:publish)
   end
 
-  let(:step_by_step_page) { create(:step_by_step_page_with_steps) }
+  let(:step_by_step_page) { create(:draft_step_by_step_page, scheduled_at: Time.now) }
+
 
   it "publishes the step by step" do
     described_class.new.perform(step_by_step_page.id)
@@ -20,5 +21,15 @@ RSpec.describe StepByStepScheduledPublishWorker do
   it "generates a change note" do
     described_class.new.perform(step_by_step_page.id)
     expect(step_by_step_page.internal_change_notes.first.description).to eq("Published on schedule")
+  end
+
+  it "doesn't publish the step by step if it isn't scheduled" do
+    step_by_step_page = create(:draft_step_by_step_page)
+    described_class.new.perform(step_by_step_page.id)
+
+    expect(StepNavPublisher).to_not have_received(:publish)
+
+    step_by_step_page.reload
+    expect(step_by_step_page.has_been_published?).to be false
   end
 end
