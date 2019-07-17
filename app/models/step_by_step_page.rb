@@ -21,7 +21,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def scheduled_for_publishing?
-    has_draft? && scheduled_at.present? && scheduled_at.future?
+    has_draft? && scheduled_at.present?
   end
 
   def mark_draft_updated
