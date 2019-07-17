@@ -20,6 +20,10 @@ class StepByStepPage < ApplicationRecord
     draft_updated_at.present? && draft_updated_at != published_at
   end
 
+  def scheduled_for_publishing?
+    has_draft? && scheduled_at.present? && scheduled_at.future?
+  end
+
   def mark_draft_updated
     update_attribute(:draft_updated_at, Time.zone.now)
   end
