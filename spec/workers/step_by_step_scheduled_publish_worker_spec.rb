@@ -32,4 +32,14 @@ RSpec.describe StepByStepScheduledPublishWorker do
     step_by_step_page.reload
     expect(step_by_step_page.has_been_published?).to be false
   end
+
+  it "doesn't publish a step by step scheduled in the future" do
+    step_by_step_page = create(:draft_step_by_step_page, scheduled_at: Time.now + 1.hour)
+    described_class.new.perform(step_by_step_page.id)
+
+    expect(StepNavPublisher).to_not have_received(:publish)
+
+    step_by_step_page.reload
+    expect(step_by_step_page.has_been_published?).to be false
+  end
 end

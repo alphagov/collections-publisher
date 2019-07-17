@@ -29,6 +29,10 @@ class StepByStepScheduledPublishWorker
 private
 
   def publish_now?(step_nav)
-    step_nav.scheduled_for_publishing?
+    step_nav.scheduled_for_publishing? && !scheduled_in_future?(step_nav)
+  end
+
+  def scheduled_in_future?(step_nav)
+    step_nav.scheduled_at > Time.zone.now
   end
 end
