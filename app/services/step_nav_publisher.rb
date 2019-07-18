@@ -21,4 +21,8 @@ class StepNavPublisher
   def self.unpublish(step_by_step_page, redirect_url)
     Services.publishing_api.unpublish(step_by_step_page.content_id, type: "redirect", alternative_path: redirect_url)
   end
+
+  def self.schedule_for_publishing(step_by_step_page)
+    StepByStepScheduledPublishWorker.perform_at(step_by_step_page.scheduled_at, step_by_step_page.id)
+  end
 end

@@ -36,4 +36,16 @@ RSpec.describe StepNavPublisher do
       expect(Services.publishing_api).to have_received(:lookup_content_ids)
     end
   end
+
+  context ".schedule_for_publishing" do
+    let(:step_nav) { create(:draft_step_by_step_page, scheduled_at: Date.tomorrow) }
+
+    it "adds a scheduled job to the queue" do
+      Sidekiq::Testing.fake! do
+        expect {
+          StepNavPublisher.schedule_for_publishing(step_nav)
+        }.to change(StepByStepScheduledPublishWorker.jobs, :size).by(1)
+      end
+    end
+  end
 end
