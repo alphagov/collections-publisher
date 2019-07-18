@@ -1,4 +1,5 @@
 class StepByStepPagesController < ApplicationController
+  layout 'admin_layout'
   include PublishingApiHelper
 
   before_action :require_gds_editor_permissions!
