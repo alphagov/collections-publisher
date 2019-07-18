@@ -36,6 +36,7 @@ class StepByStepPage < ApplicationRecord
     now = Time.zone.now
     update_attribute(:published_at, now)
     update_attribute(:draft_updated_at, now)
+    update_attribute(:scheduled_at, nil)
   end
 
   def mark_as_unpublished

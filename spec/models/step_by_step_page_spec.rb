@@ -204,6 +204,15 @@ RSpec.describe StepByStepPage do
       end
     end
 
+    it 'should reset scheduled date' do
+      step_by_step_page.scheduled_at = Date.today
+
+      step_by_step_page.mark_as_published
+
+      expect(step_by_step_page.scheduled_at).to be nil
+      expect(step_by_step_page.scheduled_for_publishing?).to be false
+    end
+
     it 'should reset published date' do
       step_by_step_page.mark_as_unpublished
 
