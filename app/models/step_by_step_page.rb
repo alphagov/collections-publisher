@@ -49,6 +49,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def status
+    return scheduled_status if scheduled_for_publishing?
     return unpublished_status if unpublished_changes?
     return live_status if has_been_published?
 
@@ -98,6 +99,14 @@ private
       name: "draft",
       text: "Draft",
       label_class: "label-default"
+    }
+  end
+
+  def scheduled_status
+    {
+      name: "scheduled",
+      text: "Scheduled",
+      label_class: "label-warning"
     }
   end
 
