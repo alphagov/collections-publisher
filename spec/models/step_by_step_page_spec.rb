@@ -228,6 +228,27 @@ RSpec.describe StepByStepPage do
     end
   end
 
+  describe 'scheduled publishing' do
+    let(:step_by_step_page) { create(:step_by_step_page) }
+
+    it 'is scheduled for publishing when it has a draft and scheduled_at is in the future' do
+      step_by_step_page.mark_draft_updated
+      step_by_step_page.scheduled_at = Date.tomorrow
+      expect(step_by_step_page.scheduled_for_publishing?).to be true
+    end
+
+    it 'is not scheduled for publishing if a draft has not been saved' do
+      step_by_step_page.scheduled_at = Date.tomorrow
+      expect(step_by_step_page.scheduled_for_publishing?).to be false
+    end
+
+    it 'is not scheduled for publishing if scheduled_at is in the past' do
+      step_by_step_page.mark_draft_updated
+      step_by_step_page.scheduled_at = Date.yesterday
+      expect(step_by_step_page.scheduled_for_publishing?).to be false
+    end
+  end
+
   describe '.internal_change_notes' do
     context 'when there are changenotes' do
       it 'returns an array of changenotes in chronological order' do
