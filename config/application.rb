@@ -22,5 +22,8 @@ module CollectionsPublisher
     unless Rails.env.production?
       ENV['JWT_AUTH_SECRET'] = '123'
     end
+
+    config.assets.precompile += %w(admin_layout.css admin_layout.js)
+
   end
 end
