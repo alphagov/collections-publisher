@@ -193,4 +193,29 @@ RSpec.describe StepNavPresenter do
       end
     end
   end
+
+  describe "#scheduling_payload" do
+    let(:step_nav) { create(:draft_step_by_step_page, scheduled_at: Date.tomorrow) }
+
+    before do
+      allow(Services.publishing_api).to receive(:lookup_content_id)
+    end
+
+    subject { described_class.new(step_nav) }
+
+    it "adds the scheduled_at time" do
+      presented = subject.scheduling_payload
+      expect(presented[:publish_time]).to eq(step_nav.scheduled_at)
+    end
+
+    it "adds the publishing app" do
+      presented = subject.scheduling_payload
+      expect(presented[:publishing_app]).to eq("collections-publisher")
+    end
+
+    it "adds the rendering_app" do
+      presented = subject.scheduling_payload
+      expect(presented[:rendering_app]).to eq("collections")
+    end
+  end
 end

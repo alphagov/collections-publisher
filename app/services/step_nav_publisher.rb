@@ -23,11 +23,7 @@ class StepNavPublisher
   end
 
   def self.schedule_for_publishing(step_by_step_page)
-    payload = {
-      publish_time: step_by_step_page.scheduled_at,
-      publishing_app: "collections-publisher",
-      rendering_app: "collections",
-    }
+    payload = StepNavPresenter.new(step_by_step_page).scheduling_payload
     base_path = "/#{step_by_step_page.slug}"
 
     GdsApi.publishing_api.put_intent(base_path, payload)

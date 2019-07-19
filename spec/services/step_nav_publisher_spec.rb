@@ -43,15 +43,8 @@ RSpec.describe StepNavPublisher do
   context ".schedule_for_publishing" do
     let(:step_nav) { create(:draft_step_by_step_page, scheduled_at: Date.tomorrow) }
 
-    let(:payload) do
-      {
-        publish_time: step_nav.scheduled_at,
-        publishing_app: "collections-publisher",
-        rendering_app: "collections"
-      }
-    end
-
     before do
+      payload = StepNavPresenter.new(step_nav).scheduling_payload
       @publishing_api_request = stub_publishing_api_put_intent("/#{step_nav.slug}", payload)
     end
 

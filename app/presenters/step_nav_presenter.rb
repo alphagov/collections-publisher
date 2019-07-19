@@ -10,6 +10,14 @@ class StepNavPresenter
     payload.merge(publish_intent.present)
   end
 
+  def scheduling_payload
+    {
+      publish_time: step_nav.scheduled_at,
+      publishing_app: "collections-publisher",
+      rendering_app: "collections",
+    }
+  end
+
 private
 
   attr_reader :step_nav, :step_content_parser
