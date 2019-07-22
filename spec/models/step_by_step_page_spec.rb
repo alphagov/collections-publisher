@@ -243,7 +243,9 @@ RSpec.describe StepByStepPage do
     it 'is scheduled for publishing when it has a draft and has a scheduled_at date' do
       step_by_step_page.mark_draft_updated
       step_by_step_page.scheduled_at = Date.tomorrow
+
       expect(step_by_step_page.scheduled_for_publishing?).to be true
+      expect(step_by_step_page.status[:name]).to eq('scheduled')
     end
 
     it 'is not scheduled for publishing if a draft has not been saved' do
