@@ -29,4 +29,9 @@ class StepNavPublisher
     GdsApi.publishing_api.put_intent(base_path, payload)
     StepByStepScheduledPublishWorker.perform_at(step_by_step_page.scheduled_at, step_by_step_page.id)
   end
+
+  def self.cancel_scheduling(step_by_step_page)
+    base_path = "/#{step_by_step_page.slug}"
+    GdsApi.publishing_api.destroy_intent(base_path)
+  end
 end

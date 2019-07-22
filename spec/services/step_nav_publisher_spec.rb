@@ -61,4 +61,17 @@ RSpec.describe StepNavPublisher do
       expect(@publishing_api_request).to have_been_requested
     end
   end
+
+  context ".cancel_scheduling" do
+    let(:step_nav) { create(:draft_step_by_step_page, scheduled_at: Date.tomorrow) }
+
+    before do
+      @publishing_api_request = stub_publishing_api_destroy_intent("/#{step_nav.slug}")
+    end
+
+    it "tells publishing-api a scheduled job has been cancelled" do
+      StepNavPublisher.cancel_scheduling(step_nav)
+      expect(@publishing_api_request).to have_been_requested
+    end
+  end
 end
