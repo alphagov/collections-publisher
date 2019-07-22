@@ -44,8 +44,8 @@ RSpec.describe StepNavPublisher do
     let(:step_nav) { create(:draft_step_by_step_page, scheduled_at: Date.tomorrow) }
 
     before do
-      payload = StepNavPresenter.new(step_nav).scheduling_payload
-      @publishing_api_request = stub_publishing_api_put_intent("/#{step_nav.slug}", payload)
+      presenter = StepNavPresenter.new(step_nav)
+      @publishing_api_request = stub_publishing_api_put_intent(presenter.base_path, presenter.scheduling_payload)
     end
 
     it "adds a scheduled job to the queue" do
@@ -66,7 +66,8 @@ RSpec.describe StepNavPublisher do
     let(:step_nav) { create(:draft_step_by_step_page, scheduled_at: Date.tomorrow) }
 
     before do
-      @publishing_api_request = stub_publishing_api_destroy_intent("/#{step_nav.slug}")
+      base_path = StepNavPresenter.new(step_nav).base_path
+      @publishing_api_request = stub_publishing_api_destroy_intent(base_path)
     end
 
     it "tells publishing-api a scheduled job has been cancelled" do

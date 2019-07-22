@@ -218,4 +218,18 @@ RSpec.describe StepNavPresenter do
       expect(presented[:rendering_app]).to eq("collections")
     end
   end
+
+  describe "#base_path" do
+    let(:step_nav) { create(:step_by_step_page) }
+
+    before do
+      allow(Services.publishing_api).to receive(:lookup_content_id)
+    end
+
+    subject { described_class.new(step_nav) }
+
+    it "gets the base_path" do
+      expect(subject.base_path).to eq("/how-to-be-the-amazing-1")
+    end
+  end
 end
