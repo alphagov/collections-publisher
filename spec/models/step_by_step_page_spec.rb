@@ -204,6 +204,15 @@ RSpec.describe StepByStepPage do
       end
     end
 
+    it 'should reset scheduled date' do
+      step_by_step_page.scheduled_at = Date.today
+
+      step_by_step_page.mark_as_published
+
+      expect(step_by_step_page.scheduled_at).to be nil
+      expect(step_by_step_page.scheduled_for_publishing?).to be false
+    end
+
     it 'should reset published date' do
       step_by_step_page.mark_as_unpublished
 
@@ -231,7 +240,7 @@ RSpec.describe StepByStepPage do
   describe 'scheduled publishing' do
     let(:step_by_step_page) { create(:step_by_step_page) }
 
-    it 'is scheduled for publishing when it has a draft and scheduled_at is in the future' do
+    it 'is scheduled for publishing when it has a draft and has a scheduled_at date' do
       step_by_step_page.mark_draft_updated
       step_by_step_page.scheduled_at = Date.tomorrow
       expect(step_by_step_page.scheduled_for_publishing?).to be true
@@ -242,9 +251,8 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_page.scheduled_for_publishing?).to be false
     end
 
-    it 'is not scheduled for publishing if scheduled_at is in the past' do
+    it 'is not scheduled for publishing if scheduled_at is not present' do
       step_by_step_page.mark_draft_updated
-      step_by_step_page.scheduled_at = Date.yesterday
       expect(step_by_step_page.scheduled_for_publishing?).to be false
     end
   end

@@ -89,4 +89,8 @@ RSpec.configure do |config|
     # Set a referer header so `redirect_to :back` works in tests.
     request.env["HTTP_REFERER"] = ''
   end
+
+  config.before(:each) do
+    Sidekiq::Worker.clear_all
+  end
 end

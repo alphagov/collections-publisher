@@ -21,7 +21,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def scheduled_for_publishing?
-    has_draft? && scheduled_at.present? && scheduled_at.future?
+    has_draft? && scheduled_at.present?
   end
 
   def mark_draft_updated
@@ -36,6 +36,7 @@ class StepByStepPage < ApplicationRecord
     now = Time.zone.now
     update_attribute(:published_at, now)
     update_attribute(:draft_updated_at, now)
+    update_attribute(:scheduled_at, nil)
   end
 
   def mark_as_unpublished

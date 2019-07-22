@@ -24,6 +24,10 @@ FactoryBot.define do
     published_at { 3.hours.ago }
   end
 
+  factory :draft_step_by_step_page, parent: :step_by_step_page_with_steps do
+    draft_updated_at { 1.day.ago }
+  end
+
   factory :step_by_step_page_with_navigation_rules, parent: :step_by_step_page_with_steps do
     after(:create) do |step_by_step_page|
       create(:navigation_rule, step_by_step_page: step_by_step_page)

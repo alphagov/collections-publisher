@@ -1,6 +1,9 @@
 require 'rails_helper'
+require 'gds_api/test_helpers/publishing_api'
 
 RSpec.describe StepNavPublisher do
+  include GdsApi::TestHelpers::PublishingApi
+
   let(:step_nav) { create(:step_by_step_page_with_steps) }
 
   before do
@@ -34,6 +37,28 @@ RSpec.describe StepNavPublisher do
       StepNavPublisher.lookup_content_ids(["/foo", "/bar"])
 
       expect(Services.publishing_api).to have_received(:lookup_content_ids)
+    end
+  end
+
+  context ".schedule_for_publishing" do
+    let(:step_nav) { create(:draft_step_by_step_page, scheduled_at: Date.tomorrow) }
+
+    before do
+      payload = StepNavPresenter.new(step_nav).scheduling_payload
+      @publishing_api_request = stub_publishing_api_put_intent("/#{step_nav.slug}", payload)
+    end
+
+    it "adds a scheduled job to the queue" do
+      Sidekiq::Testing.fake! do
+        expect {
+          StepNavPublisher.schedule_for_publishing(step_nav)
+        }.to change(StepByStepScheduledPublishWorker.jobs, :size).by(1)
+      end
+    end
+
+    it "tells publishing-api to expect a scheduled job" do
+      StepNavPublisher.schedule_for_publishing(step_nav)
+      expect(@publishing_api_request).to have_been_requested
     end
   end
 end
