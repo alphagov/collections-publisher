@@ -63,7 +63,9 @@ class StepByStepPagesController < ApplicationController
       @publish_intent = PublishIntent.new(params)
       if @publish_intent.valid?
         publish_page(@publish_intent)
-        generate_internal_change_note
+        custom_note = " with note: #{@publish_intent.change_note}" unless @publish_intent.change_note.empty?
+        note_description = "#{@publish_intent.update_type.capitalize} update published by #{current_user.name}#{custom_note}"
+        generate_internal_change_note(note_description)
         set_change_note_version
         redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been published."
       end
@@ -75,6 +77,9 @@ class StepByStepPagesController < ApplicationController
     if request.post?
       if @step_by_step_page.update_attributes(scheduled_at: params[:scheduled_at])
         schedule_to_publish
+        note_description = "Minor update scheduled by #{current_user.name} for publishing at #{params[:scheduled_at]}"
+        generate_internal_change_note(note_description)
+        set_change_note_version
         redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been scheduled to publish."
       else
         render :schedule
@@ -159,17 +164,12 @@ private
     StepByStepPageReverter.new(@step_by_step_page, payload).repopulate_from_publishing_api
   end
 
-  def generate_internal_change_note
+  def generate_internal_change_note(note_description)
     change_note = @step_by_step_page.internal_change_notes.new(
       author: current_user.name,
       description: note_description
     )
     change_note.save!
-  end
-
-  def note_description
-    note = "#{@publish_intent.update_type.capitalize} update published by #{current_user.name}"
-    @publish_intent.change_note.empty? ? note : note.concat(" with note: #{@publish_intent.change_note}")
   end
 
   def set_change_note_version

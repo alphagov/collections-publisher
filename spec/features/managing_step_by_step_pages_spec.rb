@@ -9,6 +9,8 @@ RSpec.feature "Managing step by step pages" do
   include GdsApi::TestHelpers::LinkCheckerApi
   include GdsApi::TestHelpers::PublishingApi
 
+  let(:schedule_time) { "2030-04-20 10:26:51 UTC" }
+
   before do
     given_I_am_a_GDS_editor
     setup_publishing_api
@@ -129,6 +131,7 @@ RSpec.feature "Managing step by step pages" do
     when_I_submit_the_form
     then_I_should_see "has been scheduled to publish"
     and_the_step_by_step_should_have_the_status "Scheduled"
+    and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing at #{schedule_time}"
   end
 
   scenario "User tries to schedule publishing for date in the past" do
@@ -352,7 +355,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_fill_in_the_scheduling_form
-    fill_in 'scheduled_at', with: '2030-04-20 10:26:51 UTC'
+    fill_in 'scheduled_at', with: schedule_time
   end
 
   def and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
@@ -374,5 +377,10 @@ RSpec.feature "Managing step by step pages" do
   def and_the_step_by_step_should_have_the_status(status)
     visit step_by_step_pages_url
     expect(page).to have_css("tr[data-status=#{status.downcase}]")
+  end
+
+  def and_there_should_be_a_change_note(change_note)
+    visit step_by_step_page_internal_change_notes_path(@step_by_step_page)
+    expect(page).to have_content(change_note)
   end
 end
