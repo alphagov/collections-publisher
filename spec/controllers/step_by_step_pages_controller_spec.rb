@@ -30,6 +30,21 @@ RSpec.describe StepByStepPagesController do
     end
   end
 
+  describe "GET Step by step schedule page" do
+    it "can only be accessed by users with Scheduling permissions" do
+      stub_user.permissions << "Scheduling"
+      get :schedule, params: { step_by_step_page_id: step_by_step_page.id }
+
+      expect(response.status).to eq(200)
+    end
+
+    it "cannot be accessed by users without Scheduling permissions" do
+      get :schedule, params: { step_by_step_page_id: step_by_step_page.id }
+
+      expect(response.status).to eq(403)
+    end
+  end
+
   describe "#publish" do
     context 'major updates' do
       it "generates an internal change note with change note text" do

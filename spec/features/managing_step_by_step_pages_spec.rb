@@ -124,30 +124,42 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_a_page_reverted_success_notice
   end
 
-  scenario "User schedules publishing" do
+  scenario "User cannot see Schedule button without Scheduling permissions" do
     given_there_is_a_draft_step_by_step_page
-    and_I_visit_the_scheduling_page
-    and_I_fill_in_the_scheduling_form
-    when_I_submit_the_form
-    then_I_should_see "has been scheduled to publish"
-    and_the_step_by_step_should_have_the_status "Scheduled"
-    and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing at #{schedule_time}"
+    and_I_visit_the_publish_or_delete_page
+    then_there_should_be_no_schedule_button
   end
 
-  scenario "User tries to schedule publishing for date in the past" do
-    given_there_is_a_draft_step_by_step_page
-    and_I_visit_the_scheduling_page
-    and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
-    when_I_submit_the_form
-    then_I_should_see "Scheduled at can't be in the past"
-    and_the_step_by_step_should_have_the_status "Draft"
-  end
+  context "Given I have Scheduling permissions" do
+    before do
+      given_I_have_scheduling_permissions
+    end
 
-  scenario "User tries to schedule publishing for an already scheduled step by step" do
-    given_there_is_a_scheduled_step_by_step_page
-    when_I_visit_the_publish_or_delete_page
-    then_I_should_see "Scheduled to be published at"
-    and_there_should_be_no_schedule_button
+    scenario "User schedules publishing" do
+      given_there_is_a_draft_step_by_step_page
+      and_I_visit_the_scheduling_page
+      and_I_fill_in_the_scheduling_form
+      when_I_submit_the_form
+      then_I_should_see "has been scheduled to publish"
+      and_the_step_by_step_should_have_the_status "Scheduled"
+      and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing at #{schedule_time}"
+    end
+
+    scenario "User tries to schedule publishing for date in the past" do
+      given_there_is_a_draft_step_by_step_page
+      and_I_visit_the_scheduling_page
+      and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
+      when_I_submit_the_form
+      then_I_should_see "Scheduled at can't be in the past"
+      and_the_step_by_step_should_have_the_status "Draft"
+    end
+
+    scenario "User tries to schedule publishing for an already scheduled step by step" do
+      given_there_is_a_scheduled_step_by_step_page
+      when_I_visit_the_publish_or_delete_page
+      then_I_should_see "Scheduled to be published at"
+      and_there_should_be_no_schedule_button
+    end
   end
 
   def and_it_has_change_notes
@@ -346,6 +358,10 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_content("Last saved by Test author")
   end
 
+  def given_I_have_scheduling_permissions
+    stub_user.permissions << "Scheduling"
+  end
+
   def and_I_visit_the_scheduling_page
     visit step_by_step_page_schedule_path(@step_by_step_page)
   end
@@ -368,6 +384,10 @@ RSpec.feature "Managing step by step pages" do
 
   def and_there_should_be_no_schedule_button
     expect(page).not_to have_css("button", text: "Schedule to publish")
+  end
+
+  def then_there_should_be_no_schedule_button
+    and_there_should_be_no_schedule_button
   end
 
   def then_I_should_see(content)

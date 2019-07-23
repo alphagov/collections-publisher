@@ -2,6 +2,7 @@ class StepByStepPagesController < ApplicationController
   include PublishingApiHelper
 
   before_action :require_gds_editor_permissions!
+  before_action :require_scheduling_permissions!, only: %i[schedule]
   before_action :set_step_by_step_page, only: %i[show edit update destroy]
 
   def index
