@@ -70,6 +70,10 @@ class StepByStepPagesController < ApplicationController
     end
   end
 
+  def schedule
+    # TODO
+  end
+
   def unpublish
     set_current_page_as_step_by_step
     if request.post?
