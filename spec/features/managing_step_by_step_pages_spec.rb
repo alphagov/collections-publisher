@@ -119,14 +119,6 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_a_page_reverted_success_notice
   end
 
-  def given_there_is_a_published_step_by_step_page
-    @step_by_step_page = create(:published_step_by_step_page)
-  end
-
-  def given_there_is_a_published_step_by_step_page_with_unpublished_changes
-    @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: Time.zone.now)
-  end
-
   def and_it_has_change_notes
     create(:internal_change_note, step_by_step_page_id: @step_by_step_page.id)
   end

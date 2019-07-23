@@ -22,10 +22,6 @@ RSpec.feature "Managing step by step navigation" do
     end
   end
 
-  def given_there_is_a_step_by_step_page_with_navigation_rules
-    @step_by_step_page = create(:step_by_step_page_with_navigation_rules)
-  end
-
   def and_I_visit_the_navigation_rules_page
     visit step_by_step_page_navigation_rules_path(@step_by_step_page)
   end
