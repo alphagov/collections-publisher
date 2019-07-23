@@ -18,6 +18,10 @@ class StepNavPresenter
     }
   end
 
+  def base_path
+    "/#{step_nav.slug}"
+  end
+
 private
 
   attr_reader :step_nav, :step_content_parser
@@ -44,10 +48,6 @@ private
     fields = {}
     fields[:access_limited] = access_limited_tokens if step_nav.has_draft?
     fields
-  end
-
-  def base_path
-    "/#{step_nav.slug}"
   end
 
   def public_updated_at
