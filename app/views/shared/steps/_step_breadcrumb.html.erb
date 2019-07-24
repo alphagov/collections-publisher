@@ -1,15 +1,12 @@
-<% if links.any? %>
-  <ol class="breadcrumb">
-    <% links.each do |link| %>
-      <% if link[:href] %>
-        <li>
-          <%= link_to link[:text], link[:href] %>
-        </li>
-      <% else %>
-        <li class="active">
-          <%= link[:text] %>
-        </li>
-      <% end %>
-    <% end %>
-  </ol>
+<% content_for :breadcrumbs do %>
+  <% if links.any? %>
+    <%= render "govuk_publishing_components/components/breadcrumbs", {
+      breadcrumbs: links.map do |link| 
+        {
+          :title => link[:text],
+          :url => link[:href].present? ? url_for(link[:href]) : nil
+        }
+      end
+    } %>
+  <% end %>
 <% end %>

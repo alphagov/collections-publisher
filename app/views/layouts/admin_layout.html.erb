@@ -1,3 +1,6 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag 'admin_layout', media: 'all' %>
+<% end %>
 <%= render 'govuk_publishing_components/components/layout_for_admin',
   product_name: "Collections Publisher",
   environment: GovukPublishingComponents::AppHelpers::Environment.current_acceptance_environment,
@@ -9,25 +12,37 @@
     product_name: "Publisher",
     environment: GovukPublishingComponents::AppHelpers::Environment.current_acceptance_environment,
     navigation_items: [
+      { text: "Switch app", href: Plek.new.external_url_for("signon") },
       {
         text: "Mainstream browse",
         href: mainstream_browse_pages_path,
-        active: active_navigation_item == 'mainstream_browse_pages' ? 'active' : false
+        active: active_navigation_item == 'mainstream_browse_pages' ? 'active' : false,
+        show_only_in_collapsed_menu: true
       },
       {
         text: "Specialist sector",
         href: topics_path,
-        active: active_navigation_item == 'topics' ? 'active' : false
+        active: active_navigation_item == 'topics' ? 'active' : false,
+        show_only_in_collapsed_menu: true
       },
       {
         text: "Step by step",
         href: step_by_step_pages_path,
-        active: active_navigation_item == 'step_by_step_pages' ? 'active' : false
-      }
+        active: active_navigation_item == 'step_by_step_pages' ? 'active' : false,
+        show_only_in_collapsed_menu: true
+      },
+      { text: current_user.name, href: Plek.new.external_url_for("signon") },
+      { text: "Log out", href: gds_sign_out_path }
     ],
   }%>
-
   <div class="govuk-width-container">
+    <%= render "govuk_publishing_components/components/phase_banner", {
+      app_name: "Collections Publisher",
+      phase: "beta",
+      message: capture do
+        render "layouts/phase_banner_elements"
+      end,
+    } %>
     <% if yield(:back_link).present? %>
       <%= render "govuk_publishing_components/components/back_link", href: yield(:back_link) %>
     <% end %>
@@ -44,6 +59,8 @@
           message: flash["alert"]
         } %>
       <% end %>
+
+      <%= yield(:breadcrumbs) %>
 
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">

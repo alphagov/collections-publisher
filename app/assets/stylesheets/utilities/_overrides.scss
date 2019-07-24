@@ -1,0 +1,28 @@
+@import "govuk_publishing_components/all_components";
+
+.gem-c-layout-for-admin {
+  @include _govuk-font-face-nta;
+}
+
+#main-content {
+  padding-top: 0;
+}
+
+.gem-c-phase-banner {
+  .gem-c-phase-banner__banner-item {
+    display: none;
+    margin-right: govuk-spacing(4);
+
+    @include govuk-media-query($from: desktop) {
+      display: inline-block;
+    }
+  }
+
+  .govuk-link {
+    font-size: inherit;
+
+    &.active {
+      font-weight: bold;
+    }
+  }
+}
