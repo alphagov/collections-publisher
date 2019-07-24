@@ -70,7 +70,7 @@ module StepNavSteps
   end
 
   def given_there_is_a_draft_step_by_step_page
-    @step_by_step_page = create(:step_by_step_page_with_steps)
+    @step_by_step_page = create(:draft_step_by_step_page)
     expect(@step_by_step_page.status[:name]).to eq 'draft'
   end
 
@@ -82,6 +82,11 @@ module StepNavSteps
   def given_there_is_a_published_step_by_step_page_with_unpublished_changes
     @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: Time.zone.now)
     expect(@step_by_step_page.status[:name]).to eq 'unpublished_changes'
+  end
+
+  def given_there_is_a_scheduled_step_by_step_page
+    @step_by_step_page = create(:scheduled_step_by_step_page)
+    expect(@step_by_step_page.status[:name]).to eq 'scheduled'
   end
 
   def given_there_is_a_step_by_step_page_with_a_link_report

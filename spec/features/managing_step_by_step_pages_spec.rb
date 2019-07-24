@@ -1,15 +1,18 @@
 require "rails_helper"
 require "gds_api/test_helpers/link_checker_api"
+require "gds_api/test_helpers/publishing_api"
 
 RSpec.feature "Managing step by step pages" do
   include CommonFeatureSteps
   include NavigationSteps
   include StepNavSteps
   include GdsApi::TestHelpers::LinkCheckerApi
+  include GdsApi::TestHelpers::PublishingApi
 
   before do
     given_I_am_a_GDS_editor
     setup_publishing_api
+    stub_default_publishing_api_put_intent
   end
 
   scenario "User visits the index page" do
@@ -119,6 +122,31 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_a_page_reverted_success_notice
   end
 
+  scenario "User schedules publishing" do
+    given_there_is_a_draft_step_by_step_page
+    and_I_visit_the_scheduling_page
+    and_I_fill_in_the_scheduling_form
+    when_I_submit_the_form
+    then_I_should_see "has been scheduled to publish"
+    and_the_step_by_step_should_have_the_status "Scheduled"
+  end
+
+  scenario "User tries to schedule publishing for date in the past" do
+    given_there_is_a_draft_step_by_step_page
+    and_I_visit_the_scheduling_page
+    and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
+    when_I_submit_the_form
+    then_I_should_see "Scheduled at can't be in the past"
+    and_the_step_by_step_should_have_the_status "Draft"
+  end
+
+  scenario "User tries to schedule publishing for an already scheduled step by step" do
+    given_there_is_a_scheduled_step_by_step_page
+    when_I_visit_the_publish_or_delete_page
+    then_I_should_see "Scheduled to be published at"
+    and_there_should_be_no_schedule_button
+  end
+
   def and_it_has_change_notes
     create(:internal_change_note, step_by_step_page_id: @step_by_step_page.id)
   end
@@ -207,6 +235,10 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_visit_the_publish_or_delete_page
     visit step_by_step_page_publish_or_delete_path(@step_by_step_page)
+  end
+
+  def when_I_visit_the_publish_or_delete_page
+    and_I_visit_the_publish_or_delete_page
   end
 
   def and_I_fill_in_the_form
@@ -309,5 +341,38 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_see_I_saved_it_last
     expect(page).to have_content("Last saved by Test author")
+  end
+
+  def and_I_visit_the_scheduling_page
+    visit step_by_step_page_schedule_path(@step_by_step_page)
+  end
+
+  def when_I_visit_the_scheduling_page
+    and_I_visit_the_scheduling_page
+  end
+
+  def and_I_fill_in_the_scheduling_form
+    fill_in 'scheduled_at', with: '2030-04-20 10:26:51 UTC'
+  end
+
+  def and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
+    fill_in 'scheduled_at', with: '1937-04-20 10:26:51 UTC'
+  end
+
+  def when_I_submit_the_form
+    click_on 'Schedule to publish'
+  end
+
+  def and_there_should_be_no_schedule_button
+    expect(page).not_to have_css("button", text: "Schedule to publish")
+  end
+
+  def then_I_should_see(content)
+    expect(page).to have_content content
+  end
+
+  def and_the_step_by_step_should_have_the_status(status)
+    visit step_by_step_pages_url
+    expect(page).to have_css("tr[data-status=#{status.downcase}]")
   end
 end

@@ -71,7 +71,15 @@ class StepByStepPagesController < ApplicationController
   end
 
   def schedule
-    # TODO
+    set_current_page_as_step_by_step
+    if request.post?
+      if @step_by_step_page.update_attributes(scheduled_at: params[:scheduled_at])
+        schedule_to_publish
+        redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been scheduled to publish."
+      else
+        render :schedule
+      end
+    end
   end
 
   def unpublish
@@ -129,6 +137,10 @@ private
     StepNavPublisher.update(@step_by_step_page, publish_intent)
     StepNavPublisher.publish(@step_by_step_page)
     @step_by_step_page.mark_as_published
+  end
+
+  def schedule_to_publish
+    StepNavPublisher.schedule_for_publishing(@step_by_step_page)
   end
 
   def unpublish_page(redirect_url)

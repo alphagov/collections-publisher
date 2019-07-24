@@ -32,7 +32,13 @@
           <p>After publishing add this step by step to a mainstream browse category and a taxonomy topic.</p>
           <%= link_to 'Publish changes', step_by_step_page_publish_path(@step_by_step_page), class: "btn btn-primary publish-button" %>
           <p>Or</p>	
-          <%= link_to 'Schedule publish', step_by_step_page_schedule_path(@step_by_step_page), class: "btn btn-info" %>	
+          <% if @step_by_step_page.scheduled_for_publishing? %>
+            <div class="alert alert-info">
+              Scheduled to be published at <%= @step_by_step_page.scheduled_at %>
+            </div>
+          <% else %>
+            <%= link_to 'Schedule publish', step_by_step_page_schedule_path(@step_by_step_page), class: "btn btn-info" %>	
+          <% end %>
 
           <% if @step_by_step_page.unpublished_changes? %>
             <p>Or</p>
