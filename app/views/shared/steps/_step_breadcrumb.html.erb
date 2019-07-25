@@ -4,7 +4,8 @@
       breadcrumbs: links.map do |link| 
         {
           :title => link[:text],
-          :url => link[:href].present? ? url_for(link[:href]) : nil
+          :url => link[:href].present? ? url_for(link[:href]) : nil,
+          :is_current_page => !link[:href].present?
         }
       end
     } %>
