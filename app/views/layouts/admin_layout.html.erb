@@ -1,5 +1,6 @@
 <% content_for :head do %>
   <%= stylesheet_link_tag 'admin_layout', media: 'all' %>
+  <%= javascript_include_tag "admin_layout" %>
 <% end %>
 <%= render 'govuk_publishing_components/components/layout_for_admin',
   product_name: "Collections Publisher",
