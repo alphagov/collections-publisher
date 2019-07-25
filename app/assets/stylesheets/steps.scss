@@ -20,7 +20,14 @@ $dark-grey: #999999;
 }
 
 .markdown-example {
+  font-size: 14px;
   white-space: pre-wrap;
+  display: block;
+  padding: 20px;
+  margin: 0 0 10px;
+  color: #0b0c0c;
+  word-wrap: break-word;
+  background-color:	#f8f8f8;
 }
 
 // hide up button in first row and down button in last row
