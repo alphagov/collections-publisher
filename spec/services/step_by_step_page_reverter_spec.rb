@@ -482,7 +482,7 @@ RSpec.describe StepByStepPageReverter do
       },
       "links": {
         "pages_related_to_step_nav": %w(
-          "8d35443d-7bf1-4f51-b9b1-e398e1d44030",
+          8d35443d-7bf1-4f51-b9b1-e398e1d44030
         ),
         "pages_part_of_step_nav": %w(
           a1156b8f-2a46-4fe1-8871-652abce9c925
