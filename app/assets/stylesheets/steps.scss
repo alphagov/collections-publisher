@@ -195,3 +195,15 @@ $dark-grey: #999999;
 .add-secondary-link--example-text {
   margin: 10px 0;
 }
+
+.stepByStepActions__list {
+  text-align: right;
+  width: 250px;
+  float: right;
+  padding: 15px;
+  background: #f8f8f8;
+
+  .gem-c-button {
+      width: 100%;
+  }
+}
