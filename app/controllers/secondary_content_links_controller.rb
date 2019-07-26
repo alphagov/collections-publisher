@@ -1,4 +1,5 @@
 class SecondaryContentLinksController < ApplicationController
+  layout 'admin_layout'
   before_action :require_gds_editor_permissions!
 
   def create

@@ -1,6 +1,10 @@
 .app-c-panel {
-  .govuk-panel--inverse {
+  &.govuk-panel--inverse {
     color: govuk-colour('white');
     background-color: govuk-colour('blue');
+    text-align: left;
+  }
+  .govuk-body, .govuk-list {
+    color: govuk-colour('white');
   }
 }

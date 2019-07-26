@@ -25,43 +25,56 @@
 
 <%= render '/step_by_step_pages/nav', step_by_step_page: @step_by_step_page, active:"secondary-links" %>
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-          What is secondary content?
-        </h3>
-      </div>
-      <div class="panel-body">
-        <p>Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.</p>
-        <p>We use it for content which:
-          <ul>
-            <li>helps you to complete a task in the journey, but is not the primary piece of content you need to visit to complete that task</li>
-            <li>is optional and not useful enough to be included in the step by step</li>
-          </ul>
-        </p>
-      </div>
-    </div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render "components/panel", {
+      title: "What is secondary content?",
+      body: capture do %>
+        <p class="govuk-body">Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.</p>
+        <p class="govuk-body">We use it for content which:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>helps you to complete a task in the journey, but is not the primary piece of content you need to visit to complete that task</li>
+          <li>is optional and not useful enough to be included in the step by step</li>
+        </ul>
+      <% end
+    } %>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-12">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
     <%= form_for(@secondary_content_link, url: step_by_step_page_secondary_content_links_path) do |form| %>
       <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
-
       <details class="add-secondary-link--details">
         <summary class="add-secondary-link--summary">
-          <span class="btn btn-primary">Add a secondary link</span>
+          <span class="gem-c-button govuk-button">Add a secondary link</span>
         </summary>
-        <div class="form-group">
-          <label for="base_path">Base Path</label>
-          <input type="text" name="base_path" required="true" class="form-control add-secondary-link--input">
-          <p class="add-secondary-link__example-text">For example: <a href="https://www.gov.uk/pay-vat">https://www.gov.uk/pay-vat</a> or <a href="https://www.gov.uk/bank-holidays">/bank-holidays</a></p>
-          <%= form.submit "Add secondary link", class: "btn btn-success" %>
-          <a href="<%= step_by_step_page_secondary_content_links_path %>" class="btn btn-link add-secondary-link-cancel--link">Cancel</a>
+        <div class="govuk-grid-row govuk-!-margin-top-5">
+          <div class="govuk-grid-column-full">
+            <%= render "govuk_publishing_components/components/heading", {
+              text: "Add new secondary link",
+              margin_bottom: 5
+            } %>
+            <%= render "govuk_publishing_components/components/input", {
+              label: {
+                text: "Base Path"
+              },
+              hint: capture do %>
+                For example: 
+                <a href="https://www.gov.uk/pay-vat" target="_blank" class="govuk-link">https://www.gov.uk/pay-vat</a> 
+                or <a href="https://www.gov.uk/bank-holidays" class="govuk-link" target="_blank">/bank-holidays</a>
+              <% end,
+              name: "base_path"
+            } %>
+          </div>
+          <div class="govuk-grid-column-full">
+            <%= render "govuk_publishing_components/components/button", {
+              text: "Add secondary link"
+            } %>
+          </div>
+          <div class="govuk-grid-column-full govuk-!-margin-top-3">
+            <%= link_to 'Cancel', step_by_step_page_secondary_content_links_path, class: "govuk-link add-secondary-link-cancel--link" %>
+          </div>
         </div>
       </details>
     <% end %>
@@ -70,36 +83,40 @@
 
 <hr />
 
-<div class="row secondary-links">
-  <div class="col-md-12">
-    <h2>Existing secondary links</h2>
-    <table class="table table-striped table-stepnav-rules" data-module="filterable-table">
-    <thead>
+
+<div class="govuk-grid-row secondary-links">
+  <div class="govuk-grid-column-full">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: "Existing secondary links",
+      margin_bottom: 5
+    } %>
+
+    <table class="govuk-table" data-module="filterable-table">
+    <thead class="govuk-table__head">
       <tr>
-        <th colspan="3">
-        <div class='filter-control'>
-          <%= render partial: 'govuk_admin_template/table_filter_form', locals: { placeholder: 'Search for a rule here' } %>
-        </div>
-        </th>
-      </tr>
-      <tr>
-        <th>Page title</th>
-        <th>Path</th>
-        <th>Action</th>
+        <th class="govuk-table__header" scope="col">Page title</th>
+        <th class="govuk-table__header" scope="col">Path</th>
+        <th class="govuk-table__header govuk-table__header--numeric" scope="col">Action</th>
       </tr>
     </thead>
 
-    <tbody>
+    <tbody class="govuk-table__body">
       <% if @secondary_content_links.present? %>
         <% @secondary_content_links.each do |link| %>
-          <tr>
-            <td><%= link_to(link.title, preview_url(link.base_path)) %></td>
-            <td><%= link.base_path %></td>
-            <td>
-              <%= link_to("Delete", step_by_step_page_secondary_content_link_path(@step_by_step_page.id, link.id), method: 'delete', data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm") %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><%= link_to(link.title, preview_url(link.base_path), class: "govuk-link") %></td>
+            <td class="govuk-table__cell"><%= link.base_path %></td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              <%= link_to("Delete", step_by_step_page_secondary_content_link_path(@step_by_step_page.id, link.id), method: 'delete', data: { confirm: "Are you sure?" }, class: "gem-c-button govuk-button gem-c-button--warning") %>
             </td>
           </tr>
         <% end %>
+      <% else %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell" colspan="3">
+            <p class="govuk-hint">No seconday links have been added yet.</p>
+          </tr>
+        </tr>
       <% end %>
     </tbody>
   </table>
