@@ -22,12 +22,12 @@
 
       if ($reorderItems.length) {
         var $up = $('<button/>');
-        $up.addClass('btn btn-default js-up');
+        $up.addClass('gem-c-button govuk-button gem-c-button--secondary govuk-!-margin-right-1 js-up');
         $up.html('<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Up');
         $up.attr('data-direction', 'up');
 
         var $down = $('<button/>');
-        $down.addClass('btn btn-default js-down');
+        $down.addClass('gem-c-button govuk-button gem-c-button--secondary-quiet js-down');
         $down.html('<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> Down');
         $down.attr('data-direction', 'down');
 

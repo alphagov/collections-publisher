@@ -75,6 +75,7 @@ $dark-grey: #999999;
   margin: 1em 0;
   border: 1px dashed $black;
   border-radius: 4px;
+  min-height: 60px;
 }
 
 .publish-or-delete .panel {
@@ -205,5 +206,13 @@ $dark-grey: #999999;
 
   .gem-c-button {
       width: 100%;
+  }
+}
+
+.stepByStepReorder__list {
+  .js-reorder {
+    padding: 20px;
+    border: 1px solid #6f777b;
+    background-color: #ffffff;
   }
 }
