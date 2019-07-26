@@ -168,10 +168,16 @@ $dark-grey: #999999;
     margin: -10px -10px 0;
     padding: 10px;
   }
+}
 
-  .change-note--description {
-    white-space: pre-wrap;
-  }
+.change-note--description {
+  white-space: pre-wrap;
+  display: block;
+  padding: 20px;
+  margin: 0 0 10px;
+  color: #0b0c0c;
+  word-wrap: break-word;
+  background-color:	#f8f8f8;
 }
 
 .last-saved-by--text {
