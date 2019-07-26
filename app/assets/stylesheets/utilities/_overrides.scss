@@ -26,3 +26,14 @@
     }
   }
 }
+
+.govuk-list {
+  &.govuk-list--inline {
+    li {
+      display: inline-block;
+      padding-right: 5px;
+      padding-top: 10px;
+      margin-bottom: 0;
+    }
+  }
+}

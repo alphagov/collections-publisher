@@ -12,56 +12,42 @@
 
 <%= render 'shared/steps/form_notice', message: notice, status: "success" %>
 
-<h1>Step by step navigation publisher</h1>
 
-<div class="row step-actions">
-  <div class="col-xs-6 col-md-6">
-    <%= link_to 'Create new', new_step_by_step_page_path, class: "btn btn-primary" %>
-  </div>
+<%= render "govuk_publishing_components/components/heading", {
+  text: "Step by step navigation publisher",
+  margin_bottom: 6
+} %>
 
-  <div class="col-xs-6 col-md-6">
-    <div class="dropdown pull-right">
-      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Filter by status
-        <span class="caret"></span>
-      </button>
-
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="filterStatus">
-        <li><a href="#" data-show="all">All</a></li>
-        <li><a href="#" data-show="draft">Draft</a></li>
-        <li><a href="#" data-show="live">Live</a></li>
-        <li><a href="#" data-show="scheduled">Scheduled</a></li>
-        <li><a href="#" data-show="unpublished_changes">Unpublished changes</a></li>
-      </ul>
-    </div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render "govuk_publishing_components/components/button", {
+      text: "Create new",
+      href: new_step_by_step_page_path
+    } %>
   </div>
 </div>
 
-<table class="table table-striped" data-module="filterable-table">
-  <thead>
+<table class="govuk-table govuk-!-margin-top-4">
+  <thead class="govuk-table__head">
     <tr>
-      <th colspan="4">
-        <div class='filter-control'>
-          <%= render partial: 'govuk_admin_template/table_filter_form', locals: { placeholder: 'Search for a step by step page here' } %>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th>Title</th>
-      <th>Actions</th>
-      <th>Slug</th>
-      <th class="text-right">Status</th>
+      <th class="govuk-table__header" scope="col">Title</th>
+      <th class="govuk-table__header" scope="col">Slug</th>
+      <th class="govuk-table__header" scope="col">Actions</th>
+      <th class="govuk-table__header govuk-table__header--numeric" scope="col">Status</th>
     </tr>
   </thead>
 
-  <tbody>
+  <tbody class="govuk-table__body">
     <% @step_by_step_pages.each do |step_by_step_page| %>
-      <tr data-status="<%= step_by_step_page.status[:name] %>">
-        <th>
+      <tr class="govuk-table__row" data-status="<%= step_by_step_page.status[:name] %>">
+        <th class="govuk-table__header" scope="col">
           <%= step_by_step_page.title %>
         </th>
-        <td>
-          <ul class="list-inline">
+        <td class="govuk-table__cell">
+          <%= step_by_step_page.slug %>
+        </td>
+        <td class="govuk-table__cell">
+          <ul class="govuk-list govuk-list--inline">
             <li><%= link_to 'Edit', step_by_step_page %></li>
             <li><%= link_to 'Choose navigation', step_by_step_page_navigation_rules_path(step_by_step_page) %></li>
             <% if step_by_step_page.has_draft? %>
@@ -69,10 +55,7 @@
             <% end %>
           </ul>
         </td>
-        <td>
-          <%= step_by_step_page.slug %>
-        </td>
-        <td class="text-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
           <span class="h4">
             <span class="label <%= step_by_step_page.status[:label_class] %>" title="<%= step_by_step_page.status[:text] %>"><%= step_by_step_page.status[:text] %></span>
           </span>
