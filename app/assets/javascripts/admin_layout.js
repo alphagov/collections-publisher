@@ -1,3 +1,1 @@
-(function(){
-
-})();
+//= require jquery-ui.sortable.min
