@@ -78,8 +78,8 @@ $dark-grey: #999999;
   min-height: 60px;
 }
 
-.publish-or-delete .panel {
-  padding: 5px;
+.publish-or-delete .govuk-panel {
+  border: 1px solid $grey;
   background-color: $light-grey-2;
 }
 

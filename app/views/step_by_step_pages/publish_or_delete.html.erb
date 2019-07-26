@@ -23,14 +23,17 @@
 
 <%= render 'nav', step_by_step_page: @step_by_step_page, active:"publish-or-delete" %>
 
-<div class="row publish-or-delete">
-  <div class="col-md-12">
+<div class="govuk-grid-row publish-or-delete">
+  <div class="govuk-grid-column-full">
     <% if @step_by_step_page.has_draft? %>
-      <div class="panel panel-default">
+      <div class="govuk-panel panel-default">
         <div class="panel-body">
-          <p>Before publishing check for broken links.</p>
-          <p>After publishing add this step by step to a mainstream browse category and a taxonomy topic.</p>
-          <%= link_to 'Publish changes', step_by_step_page_publish_path(@step_by_step_page), class: "btn btn-primary publish-button" %>
+          <p class="govuk-body">Before publishing check for broken links.</p>
+          <p class="govuk-body">After publishing add this step by step to a mainstream browse category and a taxonomy topic.</p>
+          <%= render "govuk_publishing_components/components/button", {
+            text: "Publish changes",
+            href: step_by_step_page_publish_path(@step_by_step_page)
+          } %>
           <% if user_can_schedule? %>
             <p>Or</p>
             <% if @step_by_step_page.scheduled_for_publishing? %>
@@ -46,20 +49,20 @@
           <% end %>
 
           <% if @step_by_step_page.unpublished_changes? %>
-            <p>Or</p>
-            <%= button_to 'Discard changes', { action: "revert", step_by_step_page_id: @step_by_step_page.id }, data: { confirm: 'This will delete your draft. Do you want to discard your changes?' }, class: "btn btn-danger" %>
+            <p class="govuk-body">Or</p>
+            <%= button_to 'Discard changes', { action: "revert", step_by_step_page_id: @step_by_step_page.id }, data: { confirm: 'This will delete your draft. Do you want to discard your changes?' }, class: "gem-c-button govuk-button govuk-button--secondary" %>
           <% end %>
         </div>
       </div>
     <% end %>
-    <div class="panel panel-danger delete-or-unpublish-panel">
+    <div class="govuk-panel panel-danger delete-or-unpublish-panel">
       <div class="panel-body">
         <% if @step_by_step_page.has_been_published? %>
-          <%= link_to 'Unpublish step by step', step_by_step_page_unpublish_path(@step_by_step_page), class: "btn btn-danger" %>
+          <%= link_to 'Unpublish step by step', step_by_step_page_unpublish_path(@step_by_step_page), class: "gem-c-button govuk-button govuk-button--warning" %>
         <% else %>
-          <p class="text-danger"><strong>Warning</strong></p>
-          <p>Deleted step by steps cannot be recovered.</p>
-          <%= link_to 'Delete step by step', @step_by_step_page, method: :delete, data: { confirm: 'Delete this step by step page?' }, class: "btn btn-danger" %>
+          <p class="text-danger govuk-body"><strong>Warning</strong></p>
+          <p class="govuk-body">Deleted step by steps cannot be recovered.</p>
+          <%= link_to 'Delete step by step', @step_by_step_page, method: :delete, data: { confirm: 'Delete this step by step page?' }, class: "gem-c-button govuk-button govuk-button--warning" %>
         <% end %>
       </div>
     </div>
