@@ -1,0 +1,44 @@
+<%
+  links = [
+    {
+      text: 'Step by step publisher',
+      href: step_by_step_pages_path
+    },
+    {
+      text: @step_by_step_page.title,
+      href: step_by_step_page_path(@step_by_step_page)
+    },
+    {
+      text: 'Schedule'
+    }
+  ]
+%>
+
+<%= render 'shared/steps/step_breadcrumb', links: links %>
+
+<%= render 'shared/steps/heading',
+  step_nav: @step_by_step_page.title,
+  action: 'Set a date and time to publish'
+%>
+
+<%= render 'nav', step_by_step_page: @step_by_step_page, active: "schedule" %>
+
+<% if @step_by_step_page.errors.any? %>
+  <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
+<% end %>
+
+<div class="row">
+  <div class="col-md-7">
+    <%= form_tag do %>
+      <div class="form-group">
+        <%= label_tag :scheduled_at, 'Schedule datetime (e.g. "2020-04-20 10:26:51 UTC")' %>
+        <%= text_field_tag :scheduled_at, params[:scheduled_at]  %>
+      </div>
+
+      <div class="form-group">
+        <%= submit_tag "Schedule to publish", class: "btn btn-primary" %>
+        <%= link_to "Cancel", @step_by_step_page %>
+      </div>
+    <% end %>
+  </div>
+</div>

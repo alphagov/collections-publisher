@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     put 'navigation-rules', to: 'navigation_rules#update'
     get :publish
     post :publish
+    get :schedule
+    post :schedule
     get :reorder
     post :reorder
     get :unpublish

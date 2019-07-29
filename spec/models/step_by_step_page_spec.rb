@@ -54,6 +54,29 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_page.errors).to have_key(:description)
     end
 
+    it 'must have a scheduled_at value that is nil or in the future' do
+      valid_values = [
+        nil,
+        'foo', # automatically converted to nil
+        1.day.from_now,
+        Time.zone.now + 1.second,
+      ]
+      invalid_values = [
+        Time.zone.now,
+        1.day.ago,
+      ]
+
+      valid_values.each do |good_val|
+        step_by_step_page.scheduled_at = good_val
+        expect(step_by_step_page).to be_valid
+      end
+      invalid_values.each do |bad_val|
+        step_by_step_page.scheduled_at = bad_val
+        expect(step_by_step_page).not_to be_valid
+        expect(step_by_step_page.errors).to have_key(:scheduled_at)
+      end
+    end
+
     it 'must have a valid slug' do
       [
         "not/a/valid/path",
