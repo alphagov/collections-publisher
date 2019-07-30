@@ -117,6 +117,15 @@ RSpec.describe StepByStepPagesController do
       expect(step_by_step_page.scheduled_for_publishing?).to be false
       expect(step_by_step_page.status[:name]).to eq 'unpublished_changes'
     end
+
+    it "creates and internal change note" do
+      step_by_step_page = create(:scheduled_step_by_step_page, slug: 'how-to-be-fantastic')
+
+      unschedule_publishing(step_by_step_page)
+
+      expected_description = "Publishing was unscheduled by Name Surname."
+      expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
+    end
   end
 
   describe "#revert" do

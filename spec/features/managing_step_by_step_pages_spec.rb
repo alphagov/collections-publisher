@@ -169,6 +169,7 @@ RSpec.feature "Managing step by step pages" do
       when_I_unschedule_publishing
       then_I_should_see "has been unscheduled"
       and_the_step_by_step_should_have_the_status "Draft"
+      and_there_should_be_a_change_note "Publishing was unscheduled by Test author."
     end
   end
 
