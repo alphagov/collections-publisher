@@ -8,33 +8,31 @@
   browser_title: yield(:page_title) do %>
 
   <%= render "govuk_publishing_components/components/skip_link" %>
-
   <%= render "govuk_publishing_components/components/layout_header", {
     product_name: "Publisher",
     environment: GovukPublishingComponents::AppHelpers::Environment.current_acceptance_environment,
     navigation_items: [
-      { text: "Switch app", href: Plek.new.external_url_for("signon") },
       {
-        text: "Mainstream browse",
+        text: "Mainstream",
         href: mainstream_browse_pages_path,
         active: active_navigation_item == 'mainstream_browse_pages' ? 'active' : false,
-        show_only_in_collapsed_menu: true
+        user_has_permission_to_see: gds_editor?
       },
       {
-        text: "Specialist sector",
+        text: "Topics",
         href: topics_path,
         active: active_navigation_item == 'topics' ? 'active' : false,
-        show_only_in_collapsed_menu: true
       },
       {
-        text: "Step by step",
+        text: "Step nav",
         href: step_by_step_pages_path,
         active: active_navigation_item == 'step_by_step_pages' ? 'active' : false,
-        show_only_in_collapsed_menu: true
+        user_has_permission_to_see: gds_editor?
       },
+      { text: "Switch app", href: Plek.new.external_url_for("signon") },
       { text: current_user.name, href: Plek.new.external_url_for("signon") },
       { text: "Log out", href: gds_sign_out_path }
-    ],
+    ].delete_if{ |item| item[:user_has_permission_to_see] == false },
   }%>
   <div class="govuk-width-container">
     <%= render "govuk_publishing_components/components/phase_banner", {
