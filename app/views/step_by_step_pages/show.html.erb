@@ -55,7 +55,7 @@
 
             <td class="govuk-table__cell govuk-table__cell--numeric">
               <%= link_to("Edit", edit_step_by_step_page_step_path(@step_by_step_page.id, step.id), class: "gem-c-button govuk-button gem-c-button--inline") %>
-              <%= link_to("Delete", step_by_step_page_step_path(@step_by_step_page.id, step.id), method: 'delete', data: { message: "Are you sure?", module: "confirm" }, class: "gem-c-button govuk-button govuk-button--warning gem-c-button--inline") %>
+              <%= link_to("Delete", step_by_step_page_step_path(@step_by_step_page.id, step.id), method: 'delete', data: { confirm: "Are you sure?" }, class: "gem-c-button govuk-button govuk-button--warning gem-c-button--inline") %>
             </td>
           </tr>
         <% end %>

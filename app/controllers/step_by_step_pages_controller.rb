@@ -97,7 +97,7 @@ class StepByStepPagesController < ApplicationController
         unpublish_page(redirect_url)
         redirect_to @step_by_step_page, notice: 'Step by step page was successfully unpublished.'
       else
-        flash[:danger] = 'Redirect path is invalid. Step by step page has not been unpublished.'
+        flash[:alert] = 'Redirect path is invalid. Step by step page has not been unpublished.'
       end
     end
   end
