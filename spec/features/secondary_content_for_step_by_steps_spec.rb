@@ -56,19 +56,19 @@ RSpec.feature "Managing secondary content for step by step pages" do
 
     find('details').click
     fill_in "base_path", with: base_path
-    find('input[value="Add secondary link"]').click
+    find('button[type=submit]').click
   end
 
   def when_I_try_to_add_secondary_content_with_a_broken_link
     find('details').click
     fill_in "base_path", with: broken_base_path
-    find('input[value="Add secondary link"]').click
+    find('button[type=submit]').click
   end
 
   def when_I_delete_secondary_content
     expect_update_worker
 
-    find('.btn-danger').click
+    find('.gem-c-button--warning').click
   end
 
   def when_I_visit_the_secondary_content_page
@@ -96,7 +96,7 @@ RSpec.feature "Managing secondary content for step by step pages" do
   end
 
   def and_I_cannot_see_any_secondary_content_listed
-    expect(find('tbody')).to have_no_css('*')
+    expect(find('tbody')).to have_content('No seconday links have been added yet.')
   end
 
   def setup_publishing_api_request_expectations
