@@ -101,6 +101,8 @@ class StepByStepPagesController < ApplicationController
     end
   end
 
+  def unschedule; end
+
   def revert
     set_current_page_as_step_by_step
     if request.post?

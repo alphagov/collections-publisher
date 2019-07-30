@@ -160,6 +160,12 @@ RSpec.feature "Managing step by step pages" do
       then_I_should_see "Scheduled to be published at"
       and_there_should_be_no_schedule_button
     end
+
+    scenario "User unschedules publishing" do
+      given_there_is_a_scheduled_step_by_step_page
+      and_I_visit_the_publish_or_delete_page
+      then_I_see_an_unschedule_button
+    end
   end
 
   def and_it_has_change_notes
@@ -402,5 +408,12 @@ RSpec.feature "Managing step by step pages" do
   def and_there_should_be_a_change_note(change_note)
     visit step_by_step_page_internal_change_notes_path(@step_by_step_page)
     expect(page).to have_content(change_note)
+  end
+
+  def then_I_see_an_unschedule_button
+    within(".publish-or-delete") do
+      expect(page).to_not have_css("button", text: "Schedule to publish")
+      expect(page).to have_css("button", text: "Unschedule publishing")
+    end
   end
 end
