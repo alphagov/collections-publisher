@@ -4,4 +4,6 @@
 //= require ./confirm
 //= require ./steps
 
-GOVUK.stepByStepPublisher.init();
+$(document).ready(function() {
+  GOVUK.stepByStepPublisher.init();
+});
