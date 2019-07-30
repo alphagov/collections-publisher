@@ -101,7 +101,12 @@ class StepByStepPagesController < ApplicationController
     end
   end
 
-  def unschedule; end
+  def unschedule
+    set_current_page_as_step_by_step
+    @step_by_step_page.update(scheduled_at: nil)
+    unschedule_publishing
+    redirect_to @step_by_step_page, notice: "Publishing of '#{@step_by_step_page.title}' has been unscheduled."
+  end
 
   def revert
     set_current_page_as_step_by_step
@@ -158,6 +163,10 @@ private
       Rails.logger.info "Unpublishing #{@step_by_step_page.content_id} failed"
     end
     @step_by_step_page.mark_as_unpublished
+  end
+
+  def unschedule_publishing
+    StepNavPublisher.cancel_scheduling(@step_by_step_page)
   end
 
   def revert_page

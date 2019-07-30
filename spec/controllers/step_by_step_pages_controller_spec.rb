@@ -1,8 +1,10 @@
 require 'rails_helper'
 require 'gds_api/test_helpers/publishing_api_v2'
+require "gds_api/test_helpers/publishing_api"
 
 RSpec.describe StepByStepPagesController do
   include GdsApi::TestHelpers::PublishingApiV2
+  include GdsApi::TestHelpers::PublishingApi
 
   let(:step_by_step_page) { create(:step_by_step_page_with_steps) }
   let(:stub_user) { create(:user, name: "Name Surname", permissions: ["signin", "GDS Editor"]) }
@@ -88,6 +90,35 @@ RSpec.describe StepByStepPagesController do
     end
   end
 
+  describe "#unschedule" do
+    before :each do
+      stub_user.permissions << "Scheduling"
+
+      allow(Services.publishing_api).to receive(:get_content)
+        .and_return(content_item(step_by_step_page))
+    end
+
+    it "clears Scheduled status and sets it back to Draft" do
+      step_by_step_page = create(:scheduled_step_by_step_page, slug: 'how-to-be-fantastic')
+
+      unschedule_publishing(step_by_step_page)
+
+      expect(step_by_step_page.scheduled_at).to eq nil
+      expect(step_by_step_page.scheduled_for_publishing?).to be false
+      expect(step_by_step_page.status[:name]).to eq 'draft'
+    end
+
+    it "clears Scheduled status and sets it back to Unpublished changes" do
+      step_by_step_page = create(:published_step_by_step_page, draft_updated_at: Time.zone.now, scheduled_at: 2.hours.from_now, slug: 'how-to-be-fantastic2')
+
+      unschedule_publishing(step_by_step_page)
+
+      expect(step_by_step_page.scheduled_at).to eq nil
+      expect(step_by_step_page.scheduled_for_publishing?).to be false
+      expect(step_by_step_page.status[:name]).to eq 'unpublished_changes'
+    end
+  end
+
   describe "#revert" do
     it "reverts the step by step page to the published version" do
       allow(Services.publishing_api).to receive(:discard_draft)
@@ -133,5 +164,11 @@ RSpec.describe StepByStepPagesController do
 
     stub_any_publishing_api_put_content
     stub_any_publishing_api_publish
+  end
+
+  def unschedule_publishing(step_by_step_page)
+    stub_publishing_api_destroy_intent(base_path(step_by_step_page.slug))
+    post :unschedule, params: { step_by_step_page_id: step_by_step_page.id }
+    step_by_step_page.reload
   end
 end
