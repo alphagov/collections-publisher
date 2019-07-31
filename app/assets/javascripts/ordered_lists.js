@@ -2,6 +2,7 @@
   "use strict";
   window.GOVUK = window.GOVUK || {};
   var $ = window.jQuery;
+  var csrfToken = $( 'meta[name="csrf-token"]' ).attr( 'content' );
 
   GOVUK.orderedLists = {
     init: function() {
@@ -54,7 +55,8 @@
           }
         }),
         contentType: 'application/json',
-        dataType: 'json'
+        dataType: 'json',
+        headers: { 'X-CSRF-Token': csrfToken }
       });
     }
   };
