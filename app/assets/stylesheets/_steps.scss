@@ -10,6 +10,7 @@ $grey: #eeeeee;
 $beige: #8a6d3b;
 $border-grey: #aaaaaa;
 $dark-grey: #999999;
+$dark-grey-2: #6f777b;
 
 .step-actions {
   padding: 15px 0;
@@ -25,9 +26,9 @@ $dark-grey: #999999;
   display: block;
   padding: 20px;
   margin: 0 0 10px;
-  color: #0b0c0c;
+  color: $black;
   word-wrap: break-word;
-  background-color:	#f8f8f8;
+  background-color: $light-grey-2;
 }
 
 // hide up button in first row and down button in last row
@@ -175,9 +176,9 @@ $dark-grey: #999999;
   display: block;
   padding: 20px;
   margin: 0 0 10px;
-  color: #0b0c0c;
+  color: $black;
   word-wrap: break-word;
-  background-color:	#f8f8f8;
+  background-color: $light-grey-2;
 }
 
 .last-saved-by--text {
@@ -203,22 +204,22 @@ $dark-grey: #999999;
   margin: 10px 0;
 }
 
-.stepByStepActions__list {
+.step-by-step-actions__list {
   text-align: right;
   width: 250px;
   float: right;
   padding: 15px;
-  background: #f8f8f8;
+  background: $light-grey-2;
 
   .gem-c-button {
-      width: 100%;
+    width: 100%;
   }
 }
 
-.stepByStepReorder__list {
+.step-by-step-reorder__list {
   .js-reorder {
     padding: 20px;
-    border: 1px solid #6f777b;
-    background-color: #ffffff;
+    border: 1px solid $dark-grey-2;
+    background-color: govuk-colour('white');
   }
 }

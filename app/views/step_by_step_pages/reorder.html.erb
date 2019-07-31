@@ -33,7 +33,7 @@
       steps_length = @step_by_step_page.steps.length - 1
     %>
     <% if @step_by_step_page.steps.length > 0 %>
-      <ul class="govuk-list stepByStepReorder__list" id="js-reorder-group">
+      <ul class="govuk-list step-by-step-reorder__list" id="js-reorder-group">
         <% @step_by_step_page.steps.each_with_index do |step, step_index| %>
             <li class="js-reorder" data-id="<%= step.id %>">
               <div class="govuk-grid-row" id="step-<%= step_index %>">
