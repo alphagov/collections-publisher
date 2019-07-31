@@ -2,6 +2,7 @@
   "use strict";
   window.GOVUK = window.GOVUK || {};
   var $ = window.jQuery;
+  var csrfToken = $( 'meta[name="csrf-token"]' ).attr( 'content' );
 
   GOVUK.curatedLists = {
     init: function() {
@@ -58,6 +59,7 @@
         }),
         contentType: 'application/json',
         dataType: 'json',
+        headers: { 'X-CSRF-Token': csrfToken },
         success: function() {
           $row.removeClass('working');
           GOVUK.publishing.unlockPublishing();
@@ -81,6 +83,7 @@
         }),
         contentType: 'application/json',
         dataType: 'json',
+        headers: { 'X-CSRF-Token': csrfToken },
         success: function(data) {
           $row.removeClass('working');
           $row.data({ 'update-url': data['updateURL'] });
@@ -101,6 +104,7 @@
         type: 'DELETE',
         contentType: 'application/json',
         dataType: 'json',
+        headers: { 'X-CSRF-Token': csrfToken },
         success: function() {
           $row.removeClass('working');
           $row.remove();
