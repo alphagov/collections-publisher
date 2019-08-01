@@ -223,3 +223,7 @@ $dark-grey-2: #6f777b;
     background-color: govuk-colour('white');
   }
 }
+
+.step-by-step-list__table {
+  @include govuk-font(16);
+}
