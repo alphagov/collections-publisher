@@ -95,9 +95,9 @@
     // handles the filtering of step navs based on their status
     // e.g. 'published'
     bindStatusClicks: function() {
-      $('#filterStatus a').on('click', function(e){
+      $('#filterStatus').on('change', function(e){
         e.preventDefault();
-        var show = $(this).data('show');
+        var show = $(this).find(':selected').data('show');
         if (show === 'all') {
           $('tr[data-status]').show();
         } else {

@@ -16,4 +16,8 @@ module ApplicationHelper
 
     url
   end
+
+  def live_url(slug)
+    "#{Plek.new.external_url_for('www')}/#{slug.sub(/^\//, '')}"
+  end
 end

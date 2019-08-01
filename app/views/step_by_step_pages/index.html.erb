@@ -27,40 +27,93 @@
   </div>
 </div>
 
-<table class="govuk-table govuk-!-margin-top-4">
-  <thead class="govuk-table__head">
-    <tr>
-      <th class="govuk-table__header" scope="col">Title</th>
-      <th class="govuk-table__header" scope="col">Slug</th>
-      <th class="govuk-table__header" scope="col">Actions</th>
-      <th class="govuk-table__header govuk-table__header--numeric" scope="col">Status</th>
-    </tr>
-  </thead>
+<div class="govuk-grid-row govuk-!-margin-top-5">
+  <div class="govuk-grid-column-one-quarter">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <%= render "govuk_publishing_components/components/input", {
+          label: {
+            text: "Title or slug"
+          },
+          name: "search"
+        } %>
+      </div>
+      <div class="govuk-grid-column-full">
+        <%= render "govuk_publishing_components/components/select", {
+          id: "filterStatus",
+          label: "Status filter",
+          full_width: true,
+          options: [
+            {
+              text: "All",
+              data_attributes: {
+                show: "all"
+              },
+              selected: true
+            },
+            {
+              text: "Draft",
+              data_attributes: {
+                show: "draft"
+              }
+            },
+            {
+              text: "Live",
+              data_attributes: {
+                show: "live"
+              }
+            },
+            {
+              text: "Scheduled",
+              data_attributes: {
+                show: "scheduled"
+              }
+            },
+            {
+              text: "Unpublished changes",
+              data_attributes: {
+                show: "unpublished_changes"
+              }
+            }
+          ]
+        } %>
+      </div>
+    </div>
+  </div>
 
-  <tbody class="govuk-table__body">
-    <% @step_by_step_pages.each do |step_by_step_page| %>
-      <tr class="govuk-table__row" data-status="<%= step_by_step_page.status[:name] %>">
-        <th class="govuk-table__header" scope="col">
-          <%= step_by_step_page.title %>
-        </th>
-        <td class="govuk-table__cell">
-          <%= step_by_step_page.slug %>
-        </td>
-        <td class="govuk-table__cell">
-          <ul class="govuk-list govuk-list--inline">
-            <li><%= link_to 'Edit', step_by_step_page %></li>
-            <li><%= link_to 'Choose navigation', step_by_step_page_navigation_rules_path(step_by_step_page) %></li>
-            <% if step_by_step_page.has_draft? %>
-                <li><%= link_to 'Preview', preview_url(step_by_step_page.slug, auth_bypass_id: step_by_step_page.auth_bypass_id) %></li>
-            <% end %>
-          </ul>
-        </td>
-        <td class="govuk-table__cell govuk-table__cell--numeric">
-          <span class="h4">
-            <span class="label <%= step_by_step_page.status[:label_class] %>" title="<%= step_by_step_page.status[:text] %>"><%= step_by_step_page.status[:text] %></span>
-          </span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="govuk-grid-column-three-quarters">
+    <table class="gem-c-table govuk-table govuk-table--sortable">
+      <thead class="govuk-table__head">
+        <tr>
+          <th class="govuk-table__header" scope="col">Title</th>
+          <th class="govuk-table__header" scope="col">Slug</th>
+          <th class="govuk-table__header" scope="col">Status</th>
+        </tr>
+      </thead>
+
+      <tbody class="govuk-table__body">
+        <% @step_by_step_pages.each do |step_by_step_page| %>
+          <tr class="govuk-table__row" data-status="<%= step_by_step_page.status[:name] %>">
+            <td class="govuk-table__cell">
+              <strong><%= link_to step_by_step_page.title, step_by_step_page %></strong>
+            </td>
+            <td class="govuk-table__cell">
+              <% if step_by_step_page.has_draft? %>
+                <%= link_to "/#{step_by_step_page.slug}", preview_url(step_by_step_page.slug, auth_bypass_id: step_by_step_page.auth_bypass_id), target: "_blank" %>
+              <% elsif step_by_step_page.status[:name] == "live" %>
+                <%= link_to "/#{step_by_step_page.slug}", live_url(step_by_step_page.slug), target: "_blank" %>
+              <% else %>
+                /<%= step_by_step_page.slug %>
+              <% end %>
+            </td>
+            <td class="govuk-table__cell">
+              <span class="h4">
+                <span class="label <%= step_by_step_page.status[:label_class] %>" title="<%= step_by_step_page.status[:text] %>"><%= step_by_step_page.status[:text] %></span>
+              </span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
