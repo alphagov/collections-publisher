@@ -23,7 +23,7 @@
 <%= render 'nav', step_by_step_page: @step_by_step_page, active:"edit-steps" %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+  <div class="govuk-grid-column-two-thirds">
     <table class="govuk-table">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
@@ -70,10 +70,8 @@
       </tbody>
     </table>
   </div>
-</div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+  <div class="govuk-grid-column-one-third">
     <ul class="govuk-list step-by-step-actions__list">
       <li>
         <%= render "govuk_publishing_components/components/button", {
