@@ -15,6 +15,7 @@
       this.bindStatusClicks();
       this.bindCancelAddChangeNoteLink();
       this.bindCancelAddSecondaryLink();
+      this.bindOverviewTableFilter();
     },
 
     addReorderButtons: function() {
@@ -121,6 +122,34 @@
         $('.add-secondary-link-input').val('');
         $('.add-secondary-link--details').removeAttr('open');
       });
+    },
+
+    bindOverviewTableFilter: function() {
+      var rows = $('.step-by-step-list__table').find('tbody tr'),
+          tableInput = $('#filterTableInput');
+
+      tableInput.on('keyup change', filterTableBasedOnInput);
+
+      function filterTableBasedOnInput() {
+        var searchString = $.trim(tableInput.val()),
+            regExp = new RegExp(escapeStringForRegexp(searchString), 'i');
+
+        rows.each(function() {
+          var row = $(this);
+          if (row.text().search(regExp) > -1) {
+            row.show();
+          } else {
+            row.hide();
+          }
+        });
+      }
+
+      // http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
+      // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/regexp
+      // Escape ~!@#$%^&*(){}[]`/=?+\|-_;:'",<.>
+      function escapeStringForRegexp(str) {
+        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+      }
     }
   };
 }());
