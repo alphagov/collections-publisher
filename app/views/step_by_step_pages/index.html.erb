@@ -92,25 +92,33 @@
       </thead>
 
       <tbody class="govuk-table__body">
-        <% @step_by_step_pages.each do |step_by_step_page| %>
-          <tr class="govuk-table__row" data-status="<%= step_by_step_page.status[:name] %>">
-            <td class="govuk-table__cell">
-              <strong><%= link_to step_by_step_page.title, step_by_step_page %></strong>
-            </td>
-            <td class="govuk-table__cell">
-              <% if step_by_step_page.has_draft? %>
-                <%= link_to "/#{step_by_step_page.slug}", preview_url(step_by_step_page.slug, auth_bypass_id: step_by_step_page.auth_bypass_id), target: "_blank" %>
-              <% elsif step_by_step_page.status[:name] == "live" %>
-                <%= link_to "/#{step_by_step_page.slug}", live_url(step_by_step_page.slug), target: "_blank" %>
-              <% else %>
-                /<%= step_by_step_page.slug %>
-              <% end %>
-            </td>
-            <td class="govuk-table__cell">
-              <span class="h4">
-                <span class="label <%= step_by_step_page.status[:label_class] %>" title="<%= step_by_step_page.status[:text] %>"><%= step_by_step_page.status[:text] %></span>
-              </span>
-            </td>
+        <% if @step_by_step_pages.present? %>
+          <% @step_by_step_pages.each do |step_by_step_page| %>
+            <tr class="govuk-table__row" data-status="<%= step_by_step_page.status[:name] %>">
+              <td class="govuk-table__cell">
+                <strong><%= link_to step_by_step_page.title, step_by_step_page %></strong>
+              </td>
+              <td class="govuk-table__cell">
+                <% if step_by_step_page.has_draft? %>
+                  <%= link_to "/#{step_by_step_page.slug}", preview_url(step_by_step_page.slug, auth_bypass_id: step_by_step_page.auth_bypass_id), target: "_blank" %>
+                <% elsif step_by_step_page.status[:name] == "live" %>
+                  <%= link_to "/#{step_by_step_page.slug}", live_url(step_by_step_page.slug), target: "_blank" %>
+                <% else %>
+                  /<%= step_by_step_page.slug %>
+                <% end %>
+              </td>
+              <td class="govuk-table__cell">
+                <span class="h4">
+                  <span class="label <%= step_by_step_page.status[:label_class] %>" title="<%= step_by_step_page.status[:text] %>"><%= step_by_step_page.status[:text] %></span>
+                </span>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell" colspan="3">
+              <p class="govuk-hint">No step by steps have been created yet.</p>
+            </tr>
           </tr>
         <% end %>
       </tbody>
