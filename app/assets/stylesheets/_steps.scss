@@ -225,5 +225,5 @@ $dark-grey-2: #6f777b;
 }
 
 .step-by-step-list__table {
-  @include govuk-font(16);
+  font-size: 16px;
 }

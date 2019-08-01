@@ -30,58 +30,59 @@
     <%= render "components/panel", {
       title: "What is secondary content?",
       body: capture do %>
-        <p class="govuk-body">Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.</p>
-        <p class="govuk-body">We use it for content which:</p>
+        <p class="govuk-body-s">Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.</p>
+        <p class="govuk-body-s">We use it for content which:</p>
         <ul class="govuk-list govuk-list--bullet">
-          <li>helps you to complete a task in the journey, but is not the primary piece of content you need to visit to complete that task</li>
-          <li>is optional and not useful enough to be included in the step by step</li>
+          <li class="govuk-body-s">helps you to complete a task in the journey, but is not the primary piece of content you need to visit to complete that task</li>
+          <li class="govuk-body-s">is optional and not useful enough to be included in the step by step</li>
         </ul>
       <% end
     } %>
   </div>
 </div>
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
   <div class="govuk-grid-column-full">
     <%= form_for(@secondary_content_link, url: step_by_step_page_secondary_content_links_path) do |form| %>
-      <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
-      <details class="add-secondary-link--details">
-        <summary class="add-secondary-link--summary">
-          <span class="gem-c-button govuk-button">Add a secondary link</span>
-        </summary>
-        <div class="govuk-grid-row govuk-!-margin-top-5">
-          <div class="govuk-grid-column-full">
-            <%= render "govuk_publishing_components/components/heading", {
-              text: "Add new secondary link",
-              margin_bottom: 5
-            } %>
-            <%= render "govuk_publishing_components/components/input", {
-              label: {
-                text: "Base Path"
-              },
-              hint: capture do %>
-                For example: 
-                <a href="https://www.gov.uk/pay-vat" target="_blank" class="govuk-link">https://www.gov.uk/pay-vat</a> 
-                or <a href="https://www.gov.uk/bank-holidays" class="govuk-link" target="_blank">/bank-holidays</a>
-              <% end,
-              name: "base_path"
-            } %>
-          </div>
-          <div class="govuk-grid-column-full">
-            <%= render "govuk_publishing_components/components/button", {
-              text: "Add secondary link"
-            } %>
-          </div>
-          <div class="govuk-grid-column-full govuk-!-margin-top-3">
-            <%= link_to 'Cancel', step_by_step_page_secondary_content_links_path, class: "govuk-link add-secondary-link-cancel--link" %>
-          </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
+
+          <%= render "govuk_publishing_components/components/heading", {
+            text: "Add new secondary link",
+            margin_bottom: 5
+          } %>
+
+          <%= render "govuk_publishing_components/components/input", {
+            label: {
+              text: "Base Path"
+            },
+            hint: capture do %>
+              For example: 
+              <a href="https://www.gov.uk/pay-vat" target="_blank" class="govuk-link">https://www.gov.uk/pay-vat</a> 
+              or <a href="https://www.gov.uk/bank-holidays" class="govuk-link" target="_blank">/bank-holidays</a>
+            <% end,
+            name: "base_path"
+          } %>
         </div>
-      </details>
+      </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <%= render "govuk_publishing_components/components/button", {
+            text: "Add secondary link"
+          } %>
+        </div>
+      </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-!-margin-top-3">
+          <%= link_to 'Cancel', step_by_step_page_secondary_content_links_path, class: "govuk-link add-secondary-link-cancel--link" %>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>
 
-<hr />
+<hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
 
 <div class="govuk-grid-row secondary-links">
