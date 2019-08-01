@@ -87,7 +87,7 @@
         } %>
       </li>
       <li class="govuk-!-margin-top-3">
-        <%= link_to "Check for broken links", {action: "check_links", step_by_step_page_id: @step_by_step_page.id}, class: "govuk-link" %>
+        <%= link_to "Check for broken links", {action: "check_links", step_by_step_page_id: @step_by_step_page.id}, method: :post, class: "govuk-link" %>
       </li>
     </ul>
   </div>
