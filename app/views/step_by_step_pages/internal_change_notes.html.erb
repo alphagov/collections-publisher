@@ -18,8 +18,6 @@
 
 <%= render 'shared/steps/page_title', links: links %>
 
-<%= render 'shared/steps/form_notice', message: notice, status: "success" %>
-
 <%= render 'shared/steps/heading',
   step_nav: @step_by_step_page.title,
   action: 'Change notes'
@@ -27,41 +25,56 @@
 
 <%= render 'nav', step_by_step_page: @step_by_step_page, active: "internal-change-notes" %>
 
-<%
-  full_width = "col-md-12"
-%>
-
 <%= form_for(@internal_change_note, url: step_by_step_page_internal_change_notes_path) do |form| %>
   <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
 
-  <div class="row">
-    <div class="<%= full_width %>">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
       <details class="add-change-note--details">
         <summary class="add-change-note--summary">
-          <span class="btn btn-primary">Add a change note</span>
-        </summary>      
-        <div class="form-group">
-          <%= form.text_area :description, required: true, class: "form-control add-change-note-description--textarea", rows: 8, maxlength: 50000 %>
-          <%= form.submit "Save change note", class: "btn btn-success" %>
-          <a href="<%= step_by_step_page_internal_change_notes_path %>" class="btn btn-link add-change-note-cancel--link">Cancel</a>
+          <span class="gem-c-button govuk-button">Add a change note</span>
+        </summary>
+        <div class="govuk-grid-column-full">
+          <%= render "govuk_publishing_components/components/textarea", {
+            label: {
+              text: "Description"
+            },
+            name: "internal_change_note[description]",
+            rows: 8
+          } %>
+        </div>
+        <div class="govuk-grid-column-full">
+          <%= render "govuk_publishing_components/components/button", {
+            text: "Save change note"
+          } %>
+        </div>
+        <div class="govuk-grid-column-full govuk-!-margin-top-3">
+          <%= link_to 'Cancel', step_by_step_page_internal_change_notes_path, class: "govuk-link add-change-note-cancel--link" %>
         </div>
       </details>
     </div>
   </div>
-  <div class="row">
-    <div class="<%= full_width %>">
-      <% @step_by_step_page.internal_change_notes.each_with_index do |note, index| %>
-        <details class="change-note--details" <%= "open" if index == 0 %>>
-          <summary class="change-note--summary">
-            <%= note.readable_created_date %>
-            <span class="badge pull-right">
-              <%= note.edition_number ? "Edition #{note.edition_number}" : "Current version" %>
-            </span>
-          </summary>
-          <p>Change made by <strong><%= note.author %></strong></p>
-          <pre class="change-note--description"><%= note.description %></pre>
-        </details>
-      <% end %>
-    </div>
-  </div>
 <% end %>
+
+<div class="govuk-grid-row govuk-!-margin-top-3">
+  <div class="govuk-grid-column-full">
+    <%= render "govuk_publishing_components/components/accordion", {
+      items: @step_by_step_page.internal_change_notes.map.with_index do |note, index|
+        {
+          heading: {
+            text: "#{note.readable_created_date}"
+          },
+          summary: {
+            text: sanitize("#{note.edition_number ? "Edition #{note.edition_number}" : "Current version"} - Change made by <strong>#{note.author}</strong>")
+          },
+          content: {
+            html: sanitize("
+              <pre class=\"govuk-body change-note--description\">#{note.description}</pre>
+            ")
+          },
+          expanded: index == 0
+        }
+      end
+    } %>
+  </div>
+</div>

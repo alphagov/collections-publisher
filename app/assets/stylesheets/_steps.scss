@@ -76,6 +76,7 @@ $dark-grey-2: #6f777b;
   margin: 1em 0;
   border: 1px dashed $black;
   border-radius: 4px;
+  min-height: 60px;
 }
 
 .publish-or-delete .govuk-panel {
@@ -168,10 +169,16 @@ $dark-grey-2: #6f777b;
     margin: -10px -10px 0;
     padding: 10px;
   }
+}
 
-  .change-note--description {
-    white-space: pre-wrap;
-  }
+.change-note--description {
+  white-space: pre-wrap;
+  display: block;
+  padding: 20px;
+  margin: 0 0 10px;
+  color: $black;
+  word-wrap: break-word;
+  background-color: $light-grey-2;
 }
 
 .last-saved-by--text {
