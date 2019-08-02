@@ -1,0 +1,14 @@
+.app-c-panel {
+  &.govuk-panel--inverse {
+    color: govuk-colour('white');
+    background-color: govuk-colour('blue');
+    text-align: left;
+
+    .app-c-panel__title,
+    .govuk-body,
+    .govuk-body-s,
+    .govuk-list {
+      color: govuk-colour('white');
+    }
+  }
+}
