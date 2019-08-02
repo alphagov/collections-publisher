@@ -214,17 +214,17 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_fill_in_the_form_with_a_valid_url
     fill_in "Redirect to", with: "/micro-pigs-can-grow-to-the-size-of-godzilla"
-    click_on "Unpublish"
+    click_on "Unpublish step by step"
   end
 
   def and_I_fill_in_the_form_with_an_empty_url
     fill_in "Redirect to", with: ""
-    click_on "Unpublish"
+    click_on "Unpublish step by step"
   end
 
   def and_I_fill_in_the_form_with_an_invalid_url
     fill_in "Redirect to", with: "!"
-    click_on "Unpublish"
+    click_on "Unpublish step by step"
   end
 
   def and_I_delete_the_draft
@@ -344,7 +344,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_publish_the_page
-    click_on "Publish"
+    click_on "Publish step by step"
   end
 
   def and_I_am_told_that_it_is_published
