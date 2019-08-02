@@ -14,9 +14,11 @@
   ]
 %>
 
-<%= render 'shared/steps/form_notice', message: notice, status: "success" %>
-
-<%= render 'shared/steps/step_breadcrumb', links: links %>
+<% content_for :breadcrumbs do %>
+  <%= render "govuk_publishing_components/components/back_link", {
+    href: @step_by_step_page
+  } %>
+<% end %>
 
 <%= render 'shared/steps/page_title', links: links %>
 

@@ -1,137 +1,141 @@
-<%
-  left_col = "col-md-7"
-  right_col = "col-md-5"
-%>
+<div class="govuk-grid-row govuk-!-margin-top-7">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "shared/steps/form_errors", resource: step %>
 
-<%= render "shared/steps/form_errors", resource: step %>
+    <%= render "govuk_publishing_components/components/input", {
+      label: {
+        text: "Step title"
+      },
+      name: "step[title]",
+      value: step.title
+    } %>
 
-<div class="form-group">
-  <div class="row">
-    <div class="<%= left_col %>">
-      <%= form.text_field :title, label: "Step title" %>
-    </div>
+    <%= render "govuk_publishing_components/components/radio", {
+      name: "step[logic]",
+      heading: "Step label",
+      items: [
+        {
+          value: "number",
+          text: "number",
+          checked: !step.logic.present? || step.logic == "number"
+        },
+        {
+          value: "and",
+          text: "and",
+          checked: step.logic == "and"
+        },
+        {
+          value: "or",
+          text: "or",
+          checked: step.logic == "or"
+        }
+      ]
+    } %>
+
+    <%= render "govuk_publishing_components/components/radio", {
+      name: "step[optional]",
+      heading: "Is this step optional?",
+      hint: "You must select one of these so that user activity is tracked correctly in Google Analytics.",
+      items: [
+        {
+          value: "false",
+          text: "essential",
+          checked: !step.optional.present? || !step.optional
+        },
+        {
+          value: "true",
+          text: "optional",
+          checked: step.optional
+        }
+      ]
+    } %>
   </div>
 </div>
 
-<div class="form-group">
-  <%= form.label :logic, "Step labelling", default_builder: true %>
-
-  <div class="radio">
-    <label>
-      <%= form.radio_button :logic, "number", default_builder: true, checked: true %>
-      number
-    </label>
-  </div>
-
-  <div class="radio">
-    <label>
-      <%= form.radio_button :logic, "and", default_builder: true %>
-      and
-    </label>
-  </div>
-
-  <div class="radio">
-    <label>
-      <%= form.radio_button :logic, "or", default_builder: true  %>
-      or
-    </label>
+<div class="govuk-grid-row govuk-!-margin-bottom-5">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render 'shared/steps/broken-links-summary', step: step %>
   </div>
 </div>
 
-<div class="form-group">
-  <%= form.label :optional, "Is this step optional?", default_builder: true %>
-
-  <div class="help-block">You must select one of these so that user activity is tracked correctly in Google Analytics.</div>
-
-  <div class="radio">
-    <label>
-      <%= form.radio_button :optional, "false", default_builder: true, checked: true %>
-      essential
-    </label>
-  </div>
-
-  <div class="radio">
-    <label>
-      <%= form.radio_button :optional, "true", default_builder: true %>
-      optional
-    </label>
-  </div>
-</div>
-
-<div class="form-group">
-  <% if step.broken_links && step.broken_links.count > 0 %>
-    <div class="broken-links">
-      <div class="panel panel-warning">
-        <div class="panel-heading" role="tab" id="brokenLinkHeading">
-          <a role="button" class="collapsed broken-links-accordion__collapsible-link" data-toggle="collapse" data-parent="#brokenLinksAccordion" href="#brokenLinkBody" aria-expanded="true" aria-controls="brokenLinkBody">
-            <p class="panel-title h4 broken-links-accordion__title">
-              <%= render 'shared/steps/broken-links-summary', step: step %>
-              
-              <button class="broken-links-accordion__indicator btn btn-success btn-xs">
-                <span class="broken-links-accordion__indicator--show">
-                  <span class="broken-links-accordion__indicator-text">Show</span>
-                  <i class="glyphicon glyphicon-plus"></i>
-                </span>
-
-                <span class="broken-links-accordion__indicator--hide">
-                  <span class="broken-links-accordion__indicator-text">Hide</span>
-                  <i class="glyphicon glyphicon-minus"></i>
-                </span>
-              </button>
-            </p>
-          </a>
-        </div>
-        <div id="brokenLinkBody" class="panel-collapse collapse" role="tabpanel" aria-labelledby="brokenLinkHeading">
-          <div class="list-group">
-            <% step.broken_links.each.with_index do |link, index| %>
-              <a href="<%= link['uri'] %>" class="list-group-item" target="_blank">
-                <h4 class="list-group-item-heading"><%= link['uri'] %></h4>
-                <p class="list-group-item-text">
-                  <dl class="dl">
-                    <dt>Last checked</dt>
-                    <dd><%= link['checked'].to_datetime.to_formatted_s(:rfc822) %></dd>
-                    
-                    <% if link['errors'] && link['errors'].count > 0 %>
-                      <dt>Errors</dt>
-                      <dd>
-                        <% link['errors'].each do |error| %>
-                          <%= error %> <br/>
-                        <% end %>
-                      </dd>
+<% if step.broken_links && step.broken_links.count > 0 %>
+  <div class="govuk-grid-row govuk-!-margin-bottom-5">
+    <div class="govuk-grid-column-two-thirds">
+      <%= render "govuk_publishing_components/components/details", {
+        title: "View broken links"
+      } do %>
+          <% step.broken_links.each.with_index do |link, index| %>
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  URL
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  <a href="<%= link['uri'] %>" target="_blank" class="govuk-link">
+                    <%= link['uri'] %>
+                  </a>
+                </dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                  Last checked
+                </dt>
+                <dd class="govuk-summary-list__value">
+                  <%= link['checked'].to_datetime.to_formatted_s(:rfc822) %>
+                </dd>
+              </div>
+              <% if link['errors'] && link['errors'].count > 0 %>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">
+                    Errors
+                  </dt>
+                  <dd class="govuk-summary-list__value">
+                    <% link['errors'].each do |error| %>
+                      <%= error %> <br/>
                     <% end %>
-                    
-                    <% if link['warnings'] && link['warnings'].count > 0 %>
-                      <dt>Warnings</dt>
-                      <dd>
-                        <% link['warnings'].each do |warning| %>
-                          <%= warning %> <br/>
-                        <% end %>
-                      </dd>
+                  </dd>
+                </div>
+              <% end %>
+              <% if link['warnings'] && link['warnings'].count > 0 %>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">Warnings</dt>
+                  <dd class="govuk-summary-list__value">
+                    <% link['warnings'].each do |warning| %>
+                      <%= warning %> <br/>
                     <% end %>
-                  </dl>
-                </p>
-              </a>
-            <% end %>
-          </div>
-        </div>
-      </div>
+                  </dd>
+                </div>
+              <% end %>
+            </dl>
+          <% end %>
+      <% end %>
     </div>
-  <% end %>
-  <div class="row">
-    <div class="<%= left_col %>">
-      <%= form.text_area :contents, class: "form-control", label: "Content, tasks and links in this step", rows: 8 %>
-    </div>
+  </div>
+<% end %>
 
-    <div class="<%= right_col %>">
-      <%= render 'shared/steps/markdown_help' %>
-    </div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/textarea", {
+      label: {
+        text: "Content, tasks and links in this step"
+      },
+      name: "step[contents]",
+      value: step.contents,
+      rows: 15
+    } %>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <%= render 'shared/steps/markdown_help' %>
   </div>
 </div>
 
-
-<div class="form-group">
-  <%= form.submit "Save step", class: "btn btn-primary" %>
-</div>
-<div class="form-group">
-  <%= link_to "Cancel", @step_by_step_page %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render "govuk_publishing_components/components/button", {
+      text: "Save step"
+    } %>
+  </div>
+  <div class="govuk-grid-column-full govuk-!-margin-top-3">
+    <%= link_to 'Return to overview', @step_by_step_page, class: "govuk-link" %>
+  </div>
 </div>

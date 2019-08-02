@@ -17,7 +17,7 @@ RSpec.feature "Managing step by step pages" do
         when_I_visit_the_step_by_step_page
         and_I_create_a_new_step
         and_I_fill_in_the_form
-        and_I_see_the_step_on_the_step_by_step_details_page
+        then_I_can_see_the_edit_page
       end
 
       scenario "User edits step" do

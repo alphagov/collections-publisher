@@ -20,17 +20,20 @@ $dark-grey: #999999;
 }
 
 .markdown-example {
+  @include govuk-font(14);
   white-space: pre-wrap;
+  display: block;
+  padding: govuk-spacing(4);
+  margin: 0 0 govuk-spacing(2);
+  color: $black;
+  word-wrap: break-word;
+  background-color: govuk-colour('grey-4');
 }
 
 // hide up button in first row and down button in last row
 .js-reorder:first-of-type .js-up,
 .js-reorder:last-of-type .js-down {
   visibility: hidden;
-}
-
-.markdown-example {
-  white-space: pre-wrap;
 }
 
 .nav.step-by-step-tabs {
