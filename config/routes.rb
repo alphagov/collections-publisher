@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     post :reorder
     get :unpublish
     post :unpublish
+    post :unschedule
     post :revert
     get  'publish-or-delete', to: 'publish_or_delete'
     get 'internal-change-notes', to: 'interal_change_notes'

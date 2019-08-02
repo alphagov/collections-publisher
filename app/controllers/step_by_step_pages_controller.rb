@@ -2,7 +2,7 @@ class StepByStepPagesController < ApplicationController
   include PublishingApiHelper
 
   before_action :require_gds_editor_permissions!
-  before_action :require_scheduling_permissions!, only: %i[schedule]
+  before_action :require_scheduling_permissions!, only: %i[schedule unschedule]
   before_action :set_step_by_step_page, only: %i[show edit update destroy]
 
   def index
@@ -101,6 +101,16 @@ class StepByStepPagesController < ApplicationController
     end
   end
 
+  def unschedule
+    set_current_page_as_step_by_step
+    @step_by_step_page.update(scheduled_at: nil)
+    unschedule_publishing
+    note_description = "Publishing was unscheduled by #{current_user.name}."
+    generate_internal_change_note(note_description)
+    set_change_note_version
+    redirect_to @step_by_step_page, notice: "Publishing of '#{@step_by_step_page.title}' has been unscheduled."
+  end
+
   def revert
     set_current_page_as_step_by_step
     if request.post?
@@ -156,6 +166,10 @@ private
       Rails.logger.info "Unpublishing #{@step_by_step_page.content_id} failed"
     end
     @step_by_step_page.mark_as_unpublished
+  end
+
+  def unschedule_publishing
+    StepNavPublisher.cancel_scheduling(@step_by_step_page)
   end
 
   def revert_page

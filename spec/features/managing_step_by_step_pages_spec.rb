@@ -133,6 +133,7 @@ RSpec.feature "Managing step by step pages" do
   context "Given I have Scheduling permissions" do
     before do
       given_I_have_scheduling_permissions
+      stub_publishing_api_destroy_intent('/how-to-be-the-amazing-1')
     end
 
     scenario "User schedules publishing" do
@@ -159,6 +160,16 @@ RSpec.feature "Managing step by step pages" do
       when_I_visit_the_publish_or_delete_page
       then_I_should_see "Scheduled to be published at"
       and_there_should_be_no_schedule_button
+    end
+
+    scenario "User unschedules publishing" do
+      given_there_is_a_scheduled_step_by_step_page
+      and_I_visit_the_publish_or_delete_page
+      then_I_see_an_unschedule_button
+      when_I_unschedule_publishing
+      then_I_should_see "has been unscheduled"
+      and_the_step_by_step_should_have_the_status "Draft"
+      and_there_should_be_a_change_note "Publishing was unscheduled by Test author."
     end
   end
 
@@ -402,5 +413,16 @@ RSpec.feature "Managing step by step pages" do
   def and_there_should_be_a_change_note(change_note)
     visit step_by_step_page_internal_change_notes_path(@step_by_step_page)
     expect(page).to have_content(change_note)
+  end
+
+  def then_I_see_an_unschedule_button
+    within(".publish-or-delete") do
+      expect(page).to_not have_css("button", text: "Schedule to publish")
+      expect(page).to have_css("button", text: "Unschedule publishing")
+    end
+  end
+
+  def when_I_unschedule_publishing
+    click_on 'Unschedule publishing'
   end
 end
