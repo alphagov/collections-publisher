@@ -1,5 +1,6 @@
 class StepByStepPagesController < ApplicationController
   include PublishingApiHelper
+  layout 'admin_layout'
 
   before_action :require_gds_editor_permissions!
   before_action :require_scheduling_permissions!, only: %i[schedule unschedule]
