@@ -46,3 +46,9 @@
     background-color: govuk-colour('green');
   }
 }
+
+.gem-c-select {
+  &.govuk-form-group {
+    margin-bottom: 10px;
+  }
+}
