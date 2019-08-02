@@ -196,3 +196,18 @@ $dark-grey: #999999;
 .step-by-step-list__table {
   font-size: 16px;
 }
+
+.step-by-step-actions__list {
+  padding: govuk-spacing(3);
+  background: govuk-colour("grey-4");
+
+  .gem-c-button {
+    width: 100%;
+  }
+}
+
+.step-list {
+  .step-list__title {
+    max-width: 300px;
+  }
+}

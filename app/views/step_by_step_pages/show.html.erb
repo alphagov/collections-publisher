@@ -15,8 +15,6 @@
 
 <%= render 'shared/steps/page_title', links: links %>
 
-<%= render 'shared/steps/form_notice', message: notice, status: "success" %>
-
 <%= render 'shared/steps/heading',
   step_nav: @step_by_step_page.title,
   action: 'Edit steps'
@@ -24,60 +22,85 @@
 
 <%= render 'nav', step_by_step_page: @step_by_step_page, active:"edit-steps" %>
 
-<div class="row">
-  <div class="col-md-12">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Step</th>
-          <th>Title</th>
-          <th class="text-right">Actions</th>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <table class="govuk-table step-list">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="col">Step</th>
+          <th class="govuk-table__header" scope="col">Title</th>
+          <th class="govuk-table__header govuk-table__header--numeric" scope="col">Actions</th>
         </tr>
       </thead>
 
-      <tbody>
+      <tbody class="govuk-table__body">
         <%
           step_number = 1
         %>
-        <% @step_by_step_page.steps.each do |step| %>
-          <tr>
-            <th class="h4">
-              <% if step.logic == 'number' %>
-                <%= step_number %>
-                <% step_number += 1 %>
-              <% else %>
-                <%= step.logic %>
-              <% end %>
-            </th>
+        <% if @step_by_step_page.steps.present? %>
+          <% @step_by_step_page.steps.each do |step| %>
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header" scope="row">
+                <% if step.logic == 'number' %>
+                  <%= step_number %>
+                  <% step_number += 1 %>
+                <% else %>
+                  <%= step.logic %>
+                <% end %>
+              </th>
 
-            <th class="h4">
-              <%= step.title %>
-              <%= render 'shared/steps/broken-links-summary', step: step %>
-            </th>
+              <th class="govuk-table__header step-list__title" scope="row">
+                <%= step.title %>
+                <div class="step-broken-links__summary">
+                  <%= render 'shared/steps/broken-links-summary', step: step %>
+                </div>
+              </th>
 
-            <td class="text-right text-nowrap">
-              <%= link_to("Edit", edit_step_by_step_page_step_path(@step_by_step_page.id, step.id), class: "btn btn-primary btn-sm") %>
-              <%= link_to("Delete", step_by_step_page_step_path(@step_by_step_page.id, step.id), method: 'delete', data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm") %>
-            </td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">
+                <%= link_to("Edit", edit_step_by_step_page_step_path(@step_by_step_page.id, step.id), class: "gem-c-button govuk-button gem-c-button--inline") %>
+                <%= link_to("Delete", step_by_step_page_step_path(@step_by_step_page.id, step.id), method: 'delete', data: { confirm: "Are you sure?" }, class: "gem-c-button govuk-button govuk-button--warning gem-c-button--inline") %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell" colspan="3">
+              <p class="govuk-hint">No steps have been added yet.</p>
+            </tr>
           </tr>
         <% end %>
       </tbody>
     </table>
-    <div class="col-md-2 col-md-offset-10">
-      <ul class="list-unstyled step-by-step-actions text-right">
-        <li><%= link_to 'Add a new step', new_step_by_step_page_step_path(@step_by_step_page), class: "btn btn-primary btn-block step-action" %></li>
-        <li><%= link_to 'Preview', preview_url(@step_by_step_page.slug, auth_bypass_id: @step_by_step_page.auth_bypass_id), class: "btn btn-success btn-block preview-button step-action" %></li>
-      </ul>
-    </div>
-    <div>
-      <%= button_to "Check for broken links", {action: "check_links", step_by_step_page_id: @step_by_step_page.id}, class: "btn btn-primary" %>
-    </div>
+  </div>
 
+  <div class="govuk-grid-column-one-third">
+    <ul class="govuk-list step-by-step-actions__list">
+      <li>
+        <%= render "govuk_publishing_components/components/button", {
+          text: "Add a new step",
+          href: new_step_by_step_page_step_path(@step_by_step_page)
+        } %>
+      </li>
+      <li class="govuk-!-margin-top-2">
+        <%= render "govuk_publishing_components/components/button", {
+          text: "Preview",
+          href: preview_url(@step_by_step_page.slug, auth_bypass_id: @step_by_step_page.auth_bypass_id),
+          secondary: true
+        } %>
+      </li>
+      <li class="govuk-!-margin-top-2">
+        <%= button_to "Check for broken links", {action: "check_links", step_by_step_page_id: @step_by_step_page.id}, method: :post, class: "govuk-button gem-c-button gem-c-button--secondary-quiet" %>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
     <% if @step_by_step_page.links_checked? %>
-      <div class="broken-links-last-checked--summary">
-        Last checked:
-        <br><%= @step_by_step_page.links_last_checked_date %>
-      </div>
+      <%= render "govuk_publishing_components/components/inset_text", {
+        text: sanitize("<strong>Links last checked:</strong> <br/>#{@step_by_step_page.links_last_checked_date}")
+      } %>
     <% end %>
   </div>
 </div>

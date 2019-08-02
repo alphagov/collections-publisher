@@ -352,7 +352,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_delete_the_first_step
-    within(".table tbody tr:first-child td") do
+    within(".govuk-table tbody tr:first-child td") do
       click_on "Delete"
     end
   end
