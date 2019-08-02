@@ -1,15 +1,13 @@
-//= require govuk_publishing_components/dependencies
-//= require govuk_publishing_components/all_components
 //= require jquery-ui.sortable.min
 //= require jquery.clicktoggle
-//= require_tree .
-//= require_self
+//= require ./curated_lists
+//= require ./ordered_lists
+//= require ./publishing
 
 //= require select2
 
 GOVUK.orderedLists.init();
 GOVUK.curatedLists.init();
-GOVUK.stepByStepPublisher.init();
 
 (function() {
   "use strict";

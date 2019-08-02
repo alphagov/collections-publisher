@@ -1,0 +1,24 @@
+<%
+  tabs ||= []
+%>
+<% if tabs.present? %>
+  <div class="govuk-tabs app-c-tabs">
+    <h2 class="govuk-tabs__title">
+      Contents
+    </h2>
+    <ul class="govuk-tabs__list">
+      <% tabs.each do |tab| %>
+      <li class="govuk-tabs__list-item">
+        <%
+          tab[:class] = %w(govuk-tabs__tab)
+          tab[:class] << "govuk-tabs__tab--selected" if tab[:active]
+          tab[:class] = tab[:class].join(" ")
+        %>
+        <%= link_to(tab[:label],
+                    tab[:href],
+                    class: tab[:class]) %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
