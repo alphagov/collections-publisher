@@ -10,6 +10,7 @@ $grey: #eeeeee;
 $beige: #8a6d3b;
 $border-grey: #aaaaaa;
 $dark-grey: #999999;
+$dark-grey-2: #6f777b;
 
 .step-actions {
   padding: 15px 0;
@@ -212,5 +213,17 @@ $dark-grey: #999999;
 .step-list {
   .step-list__title {
     max-width: 300px;
+  }
+}
+
+.step-by-step-reorder__list {
+  .js-reorder {
+    padding: 20px;
+    border: 1px solid $dark-grey-2;
+    background-color: govuk-colour('white');
+  }
+
+  .step-by-step-reorder__step-title {
+    line-height: 2;
   }
 }
