@@ -133,7 +133,7 @@ GEM
     govuk_frontend_toolkit (8.2.0)
       railties (>= 3.1.0)
       sass (>= 3.2.0)
-    govuk_publishing_components (17.19.1)
+    govuk_publishing_components (17.21.0)
       gds-api-adapters
       govuk_app_config
       govuk_frontend_toolkit
@@ -252,7 +252,7 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.0.4)
+    rails-html-sanitizer (1.1.0)
       loofah (~> 2.2, >= 2.2.2)
     railties (5.2.3)
       actionpack (= 5.2.3)
@@ -410,7 +410,7 @@ DEPENDENCIES
   govuk-lint (~> 3.11.5)
   govuk_admin_template (~> 6.7)
   govuk_app_config (~> 1.20)
-  govuk_publishing_components (~> 17.19)
+  govuk_publishing_components (~> 17.21)
   govuk_sidekiq (~> 3.0)
   govuk_test
   mysql2
