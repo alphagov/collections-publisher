@@ -26,51 +26,67 @@
 %>
 
 <%= render 'step_by_step_pages/nav', step_by_step_page: @step_by_step_page, active: "choose-navigation" %>
+<div class="govuk-grid-row">
+    <%= form_for(step_by_step_page_navigation_rules_path(@step_by_step_page), method: :put) do |form| %>
+      <div class="govuk-grid-column-full">
+        <table class="govuk-table table-stepnav-rules" data-module="filterable-table">
+          <thead class="govuk-table__head">
+            <tr>
+              <th class="govuk-table__header" scope="col">Page title</th>
+              <th class="govuk-table__header" scope="col">Path</th>
+              <th class="govuk-table__header" scope="col">Sidebar content of page</th>
+            </tr>
+          </thead>
 
-<%= form_for(step_by_step_page_navigation_rules_path(@step_by_step_page), method: :put) do |form| %>
-
-  <table class="table table-striped table-stepnav-rules" data-module="filterable-table">
-    <thead>
-      <tr>
-        <th colspan="3">
-        <div class='filter-control'>
-          <%= render partial: 'govuk_admin_template/table_filter_form', locals: { placeholder: 'Search for a rule here' } %>
+          <tbody class="govuk-table__body">
+            <% if @step_by_step_page.navigation_rules.present? %>
+              <% @step_by_step_page.navigation_rules.each do |navigation_rule| %>
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell"><%= link_to(navigation_rule.title, preview_url(navigation_rule.base_path), class: "govuk-link") %></td>
+                  <td class="govuk-table__cell"><%= navigation_rule.base_path %></td>
+                  <td class="govuk-table__cell">
+                    <%= render "govuk_publishing_components/components/select", {
+                      id: "navigation_rules[#{navigation_rule.content_id}]",
+                      label: "",
+                      options: [
+                        {
+                          text: "Always show navigation",
+                          value: "always",
+                          selected: true
+                        },
+                        {
+                          text: "Show navigation if user comes from a step-by-step",
+                          value: "conditionally",
+                        },
+                        {
+                          text: "Never show navigation",
+                          value: "never"
+                        }
+                      ].each{ |item| item[:selected] = item[:value] == navigation_rule.include_in_links }
+                    } %>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell" colspan="3">
+                  <p class="govuk-hint">No links exist</p>
+                </tr>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <% if @step_by_step_page.navigation_rules.present? %>
+        <div class="govuk-grid-column-full">
+          <%= render "govuk_publishing_components/components/button", {
+            text: "Save"
+          } %>
         </div>
-        </th>
-      </tr>
-      <tr>
-        <th>Page title</th>
-        <th>Path</th>
-        <th>Sidebar content of page</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @step_by_step_page.navigation_rules.each do |navigation_rule| %>
-        <tr>
-          <td><%= link_to(navigation_rule.title, preview_url(navigation_rule.base_path)) %></td>
-          <td><%= navigation_rule.base_path %></td>
-          <td>
-            <%= select_tag "navigation_rules[#{navigation_rule.content_id}]",
-                options_for_select(
-                  [
-                    ['Always show navigation', 'always'],
-                    ['Show navigation if user comes from a step-by-step', 'conditionally'],
-                    ['Never show navigation', 'never']
-                  ],
-                  navigation_rule.include_in_links
-                ),
-                { class: 'select2' } %>
-          </td>
-        </tr>
+        <div class="govuk-grid-column-full govuk-!-margin-top-3">
+          <%= link_to 'Cancel', step_by_step_page_secondary_content_links_path, class: "govuk-link add-secondary-link-cancel--link" %>
+        </div>
       <% end %>
-    </tbody>
-  </table>
-
-  <div class="form-group">
-    <%= form.submit "Save", class: "btn btn-primary" %>
+    <% end %>
   </div>
-  <div class="form-group">
-    <%= link_to "Cancel", @step_page %>
-  </div>
-<% end %>
+</div>

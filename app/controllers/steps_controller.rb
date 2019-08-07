@@ -1,4 +1,5 @@
 class StepsController < ApplicationController
+  layout 'admin_layout'
   before_action :require_gds_editor_permissions!
 
   def new
@@ -11,7 +12,7 @@ class StepsController < ApplicationController
     if @step.save
       update_downstream
 
-      redirect_to step_by_step_page_path(step_by_step_page.id), notice: 'Step was successfully created.'
+      redirect_to edit_step_by_step_page_step_path(:id => @step[:id]), notice: 'Step was successfully created.'
     else
       render :new
     end

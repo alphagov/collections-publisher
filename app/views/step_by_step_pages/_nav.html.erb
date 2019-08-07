@@ -4,28 +4,42 @@
   end
 %>
 
-<ul class="nav nav-tabs nav-justified step-by-step-tabs">
-  <li class="<%= "active" if active == 'edit-steps' %>">
-    <%= link_to 'Edit steps', @step_by_step_page, class: "step-by-step-tab-link" %>
-  </li>
-  <% if @step_by_step_page.steps.length > 0 %>
-    <li class="<%= "active" if active == 'reorder-steps' %>">
-        <%= link_to "Reorder steps", step_by_step_page_reorder_path(@step_by_step_page), class: "step-by-step-tab-link" %>
-    </li>
-  <% end %>
-  <li class="<%= "active" if active == 'title-and-intro' %>">
-    <%= link_to 'Title and intro', edit_step_by_step_page_path(@step_by_step_page), class: "step-by-step-tab-link" %>
-  </li>
-  <li class="<%= "active" if active == 'choose-navigation' %>">
-    <%= link_to 'Choose navigation', step_by_step_page_navigation_rules_path(@step_by_step_page), class: "step-by-step-tab-link" %>
-  </li>
-  <li class="<%= "active" if active == 'secondary-links' %>">
-    <%= link_to 'Secondary links', step_by_step_page_secondary_content_links_path(@step_by_step_page), class: "step-by-step-tab-link" %>
-  </li>
-  <li class="<%= "active" if active == 'publish-or-delete' %>">
-    <%= link_to 'Publish or delete', step_by_step_page_publish_or_delete_path(@step_by_step_page), class: "step-by-step-tab-link" %>
-  </li>
-  <li class="<%= "active" if active == 'internal-change-notes' %>">
-    <%= link_to 'Change notes', step_by_step_page_internal_change_notes_path(@step_by_step_page), class: "step-by-step-tab-link"%>
-  </li>
-</ul>
+<%= render "components/tabs", {
+  tabs: [
+    {
+      href: @step_by_step_page,
+      label: "Edit steps",
+      active: active == 'edit-steps'
+    },
+    {
+      href: step_by_step_page_reorder_path(@step_by_step_page),
+      label: "Reorder steps",
+      active: active == 'reorder-steps'
+    },
+    {
+      href: edit_step_by_step_page_path(@step_by_step_page),
+      label: "Title and intro",
+      active: active == 'title-and-intro'
+    },
+    {
+      href: step_by_step_page_navigation_rules_path(@step_by_step_page),
+      label: "Choose navigation",
+      active: active == 'choose-navigation'
+    },
+    {
+      href: step_by_step_page_secondary_content_links_path(@step_by_step_page),
+      label: "Secondary links",
+      active: active == 'secondary-links'
+    },
+    {
+      href: step_by_step_page_publish_or_delete_path(@step_by_step_page),
+      label: "Publish or delete",
+      active: active == 'publish-or-delete'
+    },
+    {
+      href: step_by_step_page_internal_change_notes_path(@step_by_step_page),
+      label: "Change notes",
+      active: active == 'internal-change-notes'
+    }
+  ]
+} %>

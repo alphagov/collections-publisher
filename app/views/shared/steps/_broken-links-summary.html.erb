@@ -1,11 +1,9 @@
 <% if step.broken_links? %>
-  <span class="label label-warning">
-    <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-    <strong><%= step.broken_links.count %> broken link<%= "(s)" if step.broken_links.count > 1 %> found</strong>
+  <span class="govuk-tag govuk-tag--warning">
+    <%= step.broken_links.count %> broken link<%= "(s)" if step.broken_links.count > 1 %> found
   </span>
 <% elsif step.link_report? %>
-  <span class="label label-success">
-    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-    <strong>No broken links</strong>
+  <span class="govuk-tag govuk-tag--success">
+    No broken links
   </span>
 <% end %>

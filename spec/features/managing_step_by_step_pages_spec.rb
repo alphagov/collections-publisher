@@ -214,17 +214,17 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_fill_in_the_form_with_a_valid_url
     fill_in "Redirect to", with: "/micro-pigs-can-grow-to-the-size-of-godzilla"
-    click_on "Unpublish"
+    click_on "Unpublish step by step"
   end
 
   def and_I_fill_in_the_form_with_an_empty_url
     fill_in "Redirect to", with: ""
-    click_on "Unpublish"
+    click_on "Unpublish step by step"
   end
 
   def and_I_fill_in_the_form_with_an_invalid_url
     fill_in "Redirect to", with: "!"
-    click_on "Unpublish"
+    click_on "Unpublish step by step"
   end
 
   def and_I_delete_the_draft
@@ -326,7 +326,7 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_content("Title can't be blank")
     expect(page).to have_content("Slug can't be blank")
     expect(page).to have_content("Introduction can't be blank")
-    expect(page).to have_content("Meta description can't be blank")
+    expect(page).to have_content("Description can't be blank")
   end
 
   def and_the_slug_has_been_taken
@@ -344,7 +344,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_publish_the_page
-    click_on "Publish"
+    click_on "Publish step by step"
   end
 
   def and_I_am_told_that_it_is_published
@@ -352,7 +352,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_delete_the_first_step
-    within(".table tbody tr:first-child td") do
+    within(".govuk-table tbody tr:first-child td") do
       click_on "Delete"
     end
   end

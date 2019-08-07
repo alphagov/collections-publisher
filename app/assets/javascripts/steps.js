@@ -15,6 +15,7 @@
       this.bindStatusClicks();
       this.bindCancelAddChangeNoteLink();
       this.bindCancelAddSecondaryLink();
+      this.bindOverviewTableFilter();
     },
 
     addReorderButtons: function() {
@@ -22,12 +23,12 @@
 
       if ($reorderItems.length) {
         var $up = $('<button/>');
-        $up.addClass('btn btn-default js-up');
+        $up.addClass('gem-c-button govuk-button gem-c-button--secondary govuk-!-margin-right-1 js-up');
         $up.html('<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Up');
         $up.attr('data-direction', 'up');
 
         var $down = $('<button/>');
-        $down.addClass('btn btn-default js-down');
+        $down.addClass('gem-c-button govuk-button gem-c-button--secondary-quiet js-down');
         $down.html('<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> Down');
         $down.attr('data-direction', 'down');
 
@@ -95,9 +96,9 @@
     // handles the filtering of step navs based on their status
     // e.g. 'published'
     bindStatusClicks: function() {
-      $('#filterStatus a').on('click', function(e){
+      $('#filterStatus').on('change', function(e){
         e.preventDefault();
-        var show = $(this).data('show');
+        var show = $(this).find(':selected').data('show');
         if (show === 'all') {
           $('tr[data-status]').show();
         } else {
@@ -105,6 +106,39 @@
           $('tr[data-status="' + show + '"').show();
         }
       });
+    },
+
+    // Ported over from: 
+    // https://github.com/alphagov/govuk_admin_template/blob/master/app/assets/javascripts/govuk-admin-template/modules/filterable_table.js
+    bindOverviewTableFilter: function() {
+      var rows = $('.step-by-step-list__table').find('tbody tr'),
+          tableInput = $('#filterTableInput');
+
+      tableInput.on('keyup change', filterTableBasedOnInput);
+
+      function filterTableBasedOnInput() {
+        var searchString = $.trim(tableInput.val()),
+            regExp = new RegExp(escapeStringForRegexp(searchString), 'i');
+
+          rows.each(function() {
+          var row = $(this);
+          if (row.text().search(regExp) > -1) {
+            row.show();
+          } else {
+            row.hide();
+          }
+        });
+      }
+
+      // http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
+      // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/regexp
+      // Escape ~!@#$%^&*(){}[]`/=?+\|-_;:'",<.>
+      // Example:
+      // escapeRegExp("All of these should be escaped: \ ^ $ * + ? . ( ) | { } [ ]");
+      // result >>> "All of these should be escaped: \\ \^ \$ \* \+ \? \. \( \) \| \{ \} \[ \]"
+      function escapeStringForRegexp(str) {
+        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+      }
     },
 
     bindCancelAddChangeNoteLink: function() {

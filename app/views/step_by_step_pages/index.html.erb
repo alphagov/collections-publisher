@@ -6,78 +6,121 @@
   ]
 %>
 
-<%= render 'shared/steps/step_breadcrumb', links: links %>
-
 <%= render 'shared/steps/page_title', links: links %>
 
 <%= render 'shared/steps/form_notice', message: notice, status: "success" %>
 
-<h1>Step by step navigation publisher</h1>
 
-<div class="row step-actions">
-  <div class="col-xs-6 col-md-6">
-    <%= link_to 'Create new', new_step_by_step_page_path, class: "btn btn-primary" %>
-  </div>
+<%= render "govuk_publishing_components/components/heading", {
+  text: "Step by step navigation publisher",
+  margin_bottom: 6
+} %>
 
-  <div class="col-xs-6 col-md-6">
-    <div class="dropdown pull-right">
-      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Filter by status
-        <span class="caret"></span>
-      </button>
-
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="filterStatus">
-        <li><a href="#" data-show="all">All</a></li>
-        <li><a href="#" data-show="draft">Draft</a></li>
-        <li><a href="#" data-show="live">Live</a></li>
-        <li><a href="#" data-show="scheduled">Scheduled</a></li>
-        <li><a href="#" data-show="unpublished_changes">Unpublished changes</a></li>
-      </ul>
-    </div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render "govuk_publishing_components/components/button", {
+      text: "Create new",
+      href: new_step_by_step_page_path
+    } %>
   </div>
 </div>
 
-<table class="table table-striped" data-module="filterable-table">
-  <thead>
-    <tr>
-      <th colspan="4">
-        <div class='filter-control'>
-          <%= render partial: 'govuk_admin_template/table_filter_form', locals: { placeholder: 'Search for a step by step page here' } %>
-        </div>
-      </th>
-    </tr>
-    <tr>
-      <th>Title</th>
-      <th>Actions</th>
-      <th>Slug</th>
-      <th class="text-right">Status</th>
-    </tr>
-  </thead>
+<div class="govuk-grid-row govuk-!-margin-top-5">
+  <div class="govuk-grid-column-one-quarter">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <%= render "govuk_publishing_components/components/input", {
+          label: {
+            text: "Title or base path"
+          },
+          name: "search",
+          id: "filterTableInput"
+        } %>
+      </div>
+      <div class="govuk-grid-column-full">
+        <%= render "govuk_publishing_components/components/select", {
+          id: "filterStatus",
+          label: "Status filter",
+          full_width: true,
+          options: [
+            {
+              text: "All",
+              data_attributes: {
+                show: "all"
+              },
+              selected: true
+            },
+            {
+              text: "Draft",
+              data_attributes: {
+                show: "draft"
+              }
+            },
+            {
+              text: "Live",
+              data_attributes: {
+                show: "live"
+              }
+            },
+            {
+              text: "Scheduled",
+              data_attributes: {
+                show: "scheduled"
+              }
+            },
+            {
+              text: "Unpublished changes",
+              data_attributes: {
+                show: "unpublished_changes"
+              }
+            }
+          ]
+        } %>
+      </div>
+    </div>
+  </div>
 
-  <tbody>
-    <% @step_by_step_pages.each do |step_by_step_page| %>
-      <tr data-status="<%= step_by_step_page.status[:name] %>">
-        <th>
-          <%= step_by_step_page.title %>
-        </th>
-        <td>
-          <ul class="list-inline">
-            <li><%= link_to 'Edit', step_by_step_page %></li>
-            <li><%= link_to 'Choose navigation', step_by_step_page_navigation_rules_path(step_by_step_page) %></li>
-            <% if step_by_step_page.has_draft? %>
-                <li><%= link_to 'Preview', preview_url(step_by_step_page.slug, auth_bypass_id: step_by_step_page.auth_bypass_id) %></li>
-            <% end %>
-          </ul>
-        </td>
-        <td>
-          <%= step_by_step_page.slug %>
-        </td>
-        <td class="text-right">
-          <span class="h4">
-            <span class="label <%= step_by_step_page.status[:label_class] %>" title="<%= step_by_step_page.status[:text] %>"><%= step_by_step_page.status[:text] %></span>
-          </span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="govuk-grid-column-three-quarters">
+    <table class="gem-c-table govuk-table govuk-table--sortable step-by-step-list__table">
+      <thead class="govuk-table__head">
+        <tr>
+          <th class="govuk-table__header govuk-!-font-weight-bold" scope="col">Title</th>
+          <th class="govuk-table__header govuk-!-font-weight-bold" scope="col">Status</th>
+          <th class="govuk-table__header govuk-!-font-weight-bold" scope="col">Base path / preview</th>
+        </tr>
+      </thead>
+
+      <tbody class="govuk-table__body">
+        <% if @step_by_step_pages.present? %>
+          <% @step_by_step_pages.each do |step_by_step_page| %>
+            <tr class="govuk-table__row" data-status="<%= step_by_step_page.status[:name] %>">
+              <td class="govuk-table__cell">
+                <strong><%= link_to step_by_step_page.title, step_by_step_page %></strong>
+              </td>
+              <td class="govuk-table__cell">
+                <span class="h4">
+                  <span class="label <%= step_by_step_page.status[:label_class] %>" title="<%= step_by_step_page.status[:text] %>"><%= step_by_step_page.status[:text] %></span>
+                </span>
+              </td>
+              <td class="govuk-table__cell">
+                <% if step_by_step_page.has_draft? %>
+                  <%= link_to "/#{step_by_step_page.slug}", preview_url(step_by_step_page.slug, auth_bypass_id: step_by_step_page.auth_bypass_id), target: "_blank" %>
+                <% elsif step_by_step_page.status[:name] == "live" %>
+                  <%= link_to "/#{step_by_step_page.slug}", live_url(step_by_step_page.slug), target: "_blank" %>
+                <% else %>
+                  /<%= step_by_step_page.slug %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell" colspan="3">
+              <p class="govuk-hint">No step by steps have been created yet.</p>
+            </tr>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

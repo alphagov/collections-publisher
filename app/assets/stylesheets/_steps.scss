@@ -10,6 +10,7 @@ $grey: #eeeeee;
 $beige: #8a6d3b;
 $border-grey: #aaaaaa;
 $dark-grey: #999999;
+$dark-grey-2: #6f777b;
 
 .step-actions {
   padding: 15px 0;
@@ -20,17 +21,20 @@ $dark-grey: #999999;
 }
 
 .markdown-example {
+  @include govuk-font(14);
   white-space: pre-wrap;
+  display: block;
+  padding: govuk-spacing(4);
+  margin: 0 0 govuk-spacing(2);
+  color: $black;
+  word-wrap: break-word;
+  background-color: govuk-colour('grey-4');
 }
 
 // hide up button in first row and down button in last row
 .js-reorder:first-of-type .js-up,
 .js-reorder:last-of-type .js-down {
   visibility: hidden;
-}
-
-.markdown-example {
-  white-space: pre-wrap;
 }
 
 .nav.step-by-step-tabs {
@@ -72,10 +76,11 @@ $dark-grey: #999999;
   margin: 1em 0;
   border: 1px dashed $black;
   border-radius: 4px;
+  min-height: 60px;
 }
 
-.publish-or-delete .panel {
-  padding: 5px;
+.publish-or-delete .govuk-panel {
+  border: 1px solid $grey;
   background-color: $light-grey-2;
 }
 
@@ -164,10 +169,16 @@ $dark-grey: #999999;
     margin: -10px -10px 0;
     padding: 10px;
   }
+}
 
-  .change-note--description {
-    white-space: pre-wrap;
-  }
+.change-note--description {
+  white-space: pre-wrap;
+  display: block;
+  padding: 20px;
+  margin: 0 0 10px;
+  color: $black;
+  word-wrap: break-word;
+  background-color: $light-grey-2;
 }
 
 .last-saved-by--text {
@@ -191,4 +202,35 @@ $dark-grey: #999999;
 
 .add-secondary-link--example-text {
   margin: 10px 0;
+}
+
+.step-by-step-list__table {
+  font-size: 16px;
+}
+
+.step-by-step-actions__list {
+  padding: govuk-spacing(3);
+  background: govuk-colour("grey-4");
+
+  .gem-c-button {
+    width: 100%;
+  }
+}
+
+.step-list {
+  .step-list__title {
+    max-width: 300px;
+  }
+}
+
+.step-by-step-reorder__list {
+  .js-reorder {
+    padding: 20px;
+    border: 1px solid $dark-grey-2;
+    background-color: govuk-colour('white');
+  }
+
+  .step-by-step-reorder__step-title {
+    line-height: 2;
+  }
 }
