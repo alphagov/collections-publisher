@@ -367,6 +367,21 @@ RSpec.describe StepByStepPage do
     end
   end
 
+  describe '#can_be_edited?' do
+    let(:step_by_step_page) { create(:step_by_step_page) }
+
+    it 'can be edited if it is not scheduled for publishing' do
+      expect(step_by_step_page.can_be_edited?).to be true
+    end
+
+    it 'cannot be edited if it is scheduled for publishing' do
+      step_by_step_page.mark_draft_updated
+      step_by_step_page.scheduled_at = Date.tomorrow
+
+      expect(step_by_step_page.can_be_edited?).to be false
+    end
+  end
+
   describe '.internal_change_notes' do
     context 'when there are changenotes' do
       it 'returns an array of changenotes in chronological order' do

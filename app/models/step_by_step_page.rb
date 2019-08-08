@@ -78,6 +78,10 @@ class StepByStepPage < ApplicationRecord
     !has_been_published? && !scheduled_for_publishing?
   end
 
+  def can_be_edited?
+    !scheduled_for_publishing?
+  end
+
   # Create a deterministic, but unique token that will be used to give one-time
   # access to a piece of draft content.
   # This token is created by using an id that should be unique so that there is
