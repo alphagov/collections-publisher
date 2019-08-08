@@ -84,6 +84,10 @@ module StepNavSteps
     expect(@step_by_step_page.status[:name]).to eq 'unpublished_changes'
   end
 
+  def given_there_is_a_step_by_step_page_assigned_to_me
+    @step_by_step_page = create(:step_by_step_page_with_navigation_rules, assigned_to: stub_user.name)
+  end
+
   def given_there_is_a_scheduled_step_by_step_page
     @step_by_step_page = create(:scheduled_step_by_step_page)
     expect(@step_by_step_page.status[:name]).to eq 'scheduled'

@@ -236,6 +236,13 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_page.scheduled_for_publishing?).to be false
     end
 
+    it 'should unassign the user' do
+      step_by_step_page.assigned_to = "Test User"
+      step_by_step_page.mark_as_published
+
+      expect(step_by_step_page.assigned_to).to be nil
+    end
+
     it 'should reset published date' do
       step_by_step_page.mark_as_unpublished
 

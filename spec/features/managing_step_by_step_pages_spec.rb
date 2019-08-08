@@ -124,6 +124,16 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_a_page_reverted_success_notice
   end
 
+  scenario "User publishes and then makes more changes to a step by step page" do
+    given_there_is_a_step_by_step_page_assigned_to_me
+    and_I_visit_the_publish_page
+    and_I_publish_the_page
+    then_there_should_be_a_change_note "Minor update published by #{stub_user.name}"
+    when_I_view_the_step_by_step_page
+    and_I_delete_the_first_step
+    then_there_should_be_a_change_note "Draft saved by #{stub_user.name}"
+  end
+
   scenario "User cannot see Schedule button without Scheduling permissions" do
     given_there_is_a_draft_step_by_step_page
     and_I_visit_the_publish_or_delete_page
@@ -414,6 +424,8 @@ RSpec.feature "Managing step by step pages" do
     visit step_by_step_page_internal_change_notes_path(@step_by_step_page)
     expect(page).to have_content(change_note)
   end
+
+  alias_method :then_there_should_be_a_change_note, :and_there_should_be_a_change_note
 
   def then_I_see_an_unschedule_button
     within(".publish-or-delete") do
