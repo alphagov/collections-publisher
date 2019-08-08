@@ -109,4 +109,9 @@ module StepNavSteps
     create(:link_report, step_id: step.id)
     @step_by_step_page = create(:step_by_step_page, steps: [step], slug: "step-by-step-with-link-report")
   end
+
+  def given_there_is_a_draft_step_by_step_page_with_secondary_content
+    @step_by_step_page = create(:step_by_step_page_with_secondary_content, draft_updated_at: 1.day.ago)
+    expect(@step_by_step_page.status[:name]).to eq 'draft'
+  end
 end

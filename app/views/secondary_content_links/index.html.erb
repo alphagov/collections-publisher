@@ -40,48 +40,50 @@
 </div>
 
 <div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
-  <div class="govuk-grid-column-full">
-    <%= form_for(@secondary_content_link, url: step_by_step_page_secondary_content_links_path) do |form| %>
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-          <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
+  <% if !@step_by_step_page.scheduled_for_publishing? %>
+    <div class="govuk-grid-column-full">
+      <%= form_for(@secondary_content_link, url: step_by_step_page_secondary_content_links_path) do |form| %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
 
-          <%= render "govuk_publishing_components/components/heading", {
-            text: "Add new secondary link",
-            margin_bottom: 5
-          } %>
+            <%= render "govuk_publishing_components/components/heading", {
+              text: "Add new secondary link",
+              margin_bottom: 5
+            } %>
 
-          <%= render "govuk_publishing_components/components/input", {
-            label: {
-              text: "Base Path"
-            },
-            hint: capture do %>
-              For example: 
-              <a href="https://www.gov.uk/pay-vat" target="_blank" class="govuk-link">https://www.gov.uk/pay-vat</a> 
-              or <a href="https://www.gov.uk/bank-holidays" class="govuk-link" target="_blank">/bank-holidays</a>
-            <% end,
-            name: "base_path"
-          } %>
+            <%= render "govuk_publishing_components/components/input", {
+              label: {
+                text: "Base Path"
+              },
+              hint: capture do %>
+                For example:
+                <a href="https://www.gov.uk/pay-vat" target="_blank" class="govuk-link">https://www.gov.uk/pay-vat</a>
+                or <a href="https://www.gov.uk/bank-holidays" class="govuk-link" target="_blank">/bank-holidays</a>
+              <% end,
+              name: "base_path"
+            } %>
+          </div>
         </div>
-      </div>
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-          <%= render "govuk_publishing_components/components/button", {
-            text: "Add secondary link"
-          } %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <%= render "govuk_publishing_components/components/button", {
+              text: "Add secondary link"
+            } %>
+          </div>
         </div>
-      </div>
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full govuk-!-margin-top-3">
-          <%= link_to 'Cancel', step_by_step_page_secondary_content_links_path, class: "govuk-link add-secondary-link-cancel--link" %>
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full govuk-!-margin-top-3">
+            <%= link_to 'Cancel', step_by_step_page_secondary_content_links_path, class: "govuk-link add-secondary-link-cancel--link" %>
+          </div>
         </div>
-      </div>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>
-
-<hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
-
+<% if !@step_by_step_page.scheduled_for_publishing? %>
+  <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+<% end %>
 
 <div class="govuk-grid-row secondary-links">
   <div class="govuk-grid-column-full">
@@ -95,7 +97,9 @@
       <tr>
         <th class="govuk-table__header" scope="col">Page title</th>
         <th class="govuk-table__header" scope="col">Path</th>
-        <th class="govuk-table__header govuk-table__header--numeric" scope="col">Action</th>
+        <% if !@step_by_step_page.scheduled_for_publishing? %>
+          <th class="govuk-table__header govuk-table__header--numeric" scope="col">Action</th>
+        <% end %>
       </tr>
     </thead>
 
@@ -105,9 +109,11 @@
           <tr class="govuk-table__row">
             <td class="govuk-table__cell"><%= link_to(link.title, preview_url(link.base_path), class: "govuk-link") %></td>
             <td class="govuk-table__cell"><%= link.base_path %></td>
-            <td class="govuk-table__cell govuk-table__cell--numeric">
-              <%= link_to("Delete", step_by_step_page_secondary_content_link_path(@step_by_step_page.id, link.id), method: 'delete', data: { confirm: "Are you sure?" }, class: "gem-c-button govuk-button govuk-button--warning") %>
-            </td>
+            <% if !@step_by_step_page.scheduled_for_publishing? %>
+              <td class="govuk-table__cell govuk-table__cell--numeric">
+                <%= link_to("Delete", step_by_step_page_secondary_content_link_path(@step_by_step_page.id, link.id), method: 'delete', data: { confirm: "Are you sure?" }, class: "gem-c-button govuk-button govuk-button--warning") %>
+              </td>
+            <% end %>
           </tr>
         <% end %>
       <% else %>
