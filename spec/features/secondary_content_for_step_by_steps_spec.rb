@@ -82,7 +82,7 @@ RSpec.feature "Managing secondary content for step by step pages" do
   end
 
   def then_I_see_a_failure_notice
-    "#{broken_base_path} doesn't exist on GOV.UK."
+    expect(page).to have_content("#{broken_base_path} doesn't exist on GOV.UK.")
   end
 
   def then_can_I_see_the_existing_secondary_content_listed

@@ -10,7 +10,7 @@ class SecondaryContentLinksController < ApplicationController
 
       redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id), notice: 'Secondary content was successfully linked.'
     else
-      flash[:danger] = @error if @error
+      flash[:alert] = @error if @error
       redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id)
     end
   end

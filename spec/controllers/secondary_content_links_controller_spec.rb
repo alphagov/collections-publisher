@@ -45,7 +45,7 @@ RSpec.describe SecondaryContentLinksController do
       allow(Services.publishing_api).to receive(:lookup_content_id).and_return(nil)
 
       post :create, params: { step_by_step_page_id: step_by_step_page.id, base_path: "/base_path" }
-      expect(flash[:danger]).to be_present
+      expect(flash[:alert]).to be_present
     end
 
     it "accepts a full url as the base_path" do
