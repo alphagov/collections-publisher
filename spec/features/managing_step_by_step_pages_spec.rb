@@ -158,7 +158,7 @@ RSpec.feature "Managing step by step pages" do
     scenario "User tries to schedule publishing for an already scheduled step by step" do
       given_there_is_a_scheduled_step_by_step_page
       when_I_visit_the_publish_or_delete_page
-      then_I_should_see "Scheduled to be published at"
+      then_I_should_see "Scheduled to be published on"
       and_there_should_be_no_schedule_button
     end
 
