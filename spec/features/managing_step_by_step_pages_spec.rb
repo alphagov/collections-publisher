@@ -144,6 +144,7 @@ RSpec.feature "Managing step by step pages" do
       then_I_should_see "has been scheduled to publish"
       and_the_step_by_step_should_have_the_status "Scheduled"
       and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing at #{schedule_time}"
+      and_the_step_by_step_is_not_editable
     end
 
     scenario "User tries to schedule publishing for date in the past" do
@@ -424,5 +425,30 @@ RSpec.feature "Managing step by step pages" do
 
   def when_I_unschedule_publishing
     click_on 'Unschedule publishing'
+  end
+
+  def and_the_step_by_step_is_not_editable
+    when_I_visit_the_publish_or_delete_page
+    there_should_be_no_publish_button
+    there_should_be_no_discard_changes_button
+    there_should_be_no_unpublish_button
+  end
+
+  def there_should_be_no_publish_button
+    within(".publish-or-delete") do
+      expect(page).to_not have_css("button", text: "Publish changes")
+    end
+  end
+
+  def there_should_be_no_discard_changes_button
+    within(".publish-or-delete") do
+      expect(page).to_not have_css("button", text: "Discard changes")
+    end
+  end
+
+  def there_should_be_no_unpublish_button
+    within(".publish-or-delete") do
+      expect(page).to_not have_css("button", text: "Unpublish step by step")
+    end
   end
 end

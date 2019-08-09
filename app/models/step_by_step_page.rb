@@ -63,19 +63,19 @@ class StepByStepPage < ApplicationRecord
   end
 
   def can_be_published?
-    has_draft?
+    has_draft? && !scheduled_for_publishing?
   end
 
   def can_be_unpublished?
-    has_been_published?
+    has_been_published? && !scheduled_for_publishing?
   end
 
   def can_discard_changes?
-    unpublished_changes?
+    unpublished_changes? && !scheduled_for_publishing?
   end
 
   def can_be_deleted?
-    !has_been_published?
+    !has_been_published? && !scheduled_for_publishing?
   end
 
   # Create a deterministic, but unique token that will be used to give one-time
