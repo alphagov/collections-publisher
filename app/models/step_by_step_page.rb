@@ -62,6 +62,22 @@ class StepByStepPage < ApplicationRecord
     has_draft? && has_been_published?
   end
 
+  def can_be_published?
+    has_draft?
+  end
+
+  def can_be_unpublished?
+    has_been_published?
+  end
+
+  def can_discard_changes?
+    unpublished_changes?
+  end
+
+  def can_be_deleted?
+    !has_been_published?
+  end
+
   # Create a deterministic, but unique token that will be used to give one-time
   # access to a piece of draft content.
   # This token is created by using an id that should be unique so that there is
