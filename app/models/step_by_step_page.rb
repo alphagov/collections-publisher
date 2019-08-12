@@ -38,6 +38,7 @@ class StepByStepPage < ApplicationRecord
     update_attribute(:published_at, now)
     update_attribute(:draft_updated_at, now)
     update_attribute(:scheduled_at, nil)
+    update_attribute(:assigned_to, nil)
   end
 
   def mark_as_unpublished
