@@ -282,6 +282,106 @@ RSpec.describe StepByStepPage do
     end
   end
 
+  describe '#can_be_published?' do
+    let(:step_by_step_page) { create(:step_by_step_page) }
+
+    it 'can be published if it has a draft and it is not scheduled for publishing' do
+      step_by_step_page.mark_draft_updated
+
+      expect(step_by_step_page.can_be_published?).to be true
+    end
+
+    it 'cannot be published if it does not have a draft' do
+      expect(step_by_step_page.can_be_published?).to be false
+    end
+
+    it 'cannot be published if it is scheduled for publishing' do
+      step_by_step_page.mark_draft_updated
+      step_by_step_page.scheduled_at = Date.tomorrow
+
+      expect(step_by_step_page.can_be_published?).to be false
+    end
+  end
+
+  describe '#can_be_unpublished?' do
+    let(:step_by_step_page) { create(:step_by_step_page) }
+
+    it 'can be unpublished if it has been published and it is not scheduled for publishing' do
+      step_by_step_page.mark_as_published
+
+      expect(step_by_step_page.can_be_unpublished?).to be true
+    end
+
+    it 'cannot be unpublished if it is scheduled for publishing' do
+      step_by_step_page.mark_draft_updated
+      step_by_step_page.scheduled_at = Date.tomorrow
+
+      expect(step_by_step_page.can_be_unpublished?).to be false
+    end
+
+    it 'cannot be unpublished if it has not been published' do
+      expect(step_by_step_page.can_be_unpublished?).to be false
+    end
+  end
+
+  describe '#can_discard_changes?' do
+    let(:step_by_step_page) { create(:step_by_step_page) }
+
+    it 'can discard changes if it has unpublished changes and it is not scheduled for publishing' do
+      step_by_step_page.published_at = Time.zone.now - 1.hour
+      step_by_step_page.mark_draft_updated
+
+      expect(step_by_step_page.can_discard_changes?).to be true
+    end
+
+    it 'cannot discard changes if it does not have unpublished changes' do
+      expect(step_by_step_page.can_discard_changes?).to be false
+    end
+
+    it 'cannot discard changes if it is scheduled for publishing' do
+      step_by_step_page.mark_draft_updated
+      step_by_step_page.scheduled_at = Date.tomorrow
+
+      expect(step_by_step_page.can_discard_changes?).to be false
+    end
+  end
+
+  describe '#can_be_deleted?' do
+    let(:step_by_step_page) { create(:step_by_step_page) }
+
+    it 'can be deleted if it has not been published and it is not scheduled for publishing' do
+      expect(step_by_step_page.can_be_deleted?).to be true
+    end
+
+    it 'cannot be deleted if it is scheduled for publishing' do
+      step_by_step_page.mark_draft_updated
+      step_by_step_page.scheduled_at = Date.tomorrow
+
+      expect(step_by_step_page.can_be_deleted?).to be false
+    end
+
+    it 'cannot be deleted if it has been published' do
+      step_by_step_page.mark_as_published
+
+      expect(step_by_step_page.can_be_deleted?).to be false
+    end
+  end
+
+  describe '#can_be_edited?' do
+    let(:step_by_step_page) { create(:step_by_step_page) }
+
+    it 'can be edited if it is not scheduled for publishing' do
+      expect(step_by_step_page.can_be_edited?).to be true
+    end
+
+    it 'cannot be edited if it is scheduled for publishing' do
+      step_by_step_page.mark_draft_updated
+      step_by_step_page.scheduled_at = Date.tomorrow
+
+      expect(step_by_step_page.can_be_edited?).to be false
+    end
+  end
+
   describe '.internal_change_notes' do
     context 'when there are changenotes' do
       it 'returns an array of changenotes in chronological order' do
