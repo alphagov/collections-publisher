@@ -14,7 +14,6 @@
       this.setOrder(); // this is called so the order of the list is initalised
       this.bindStatusClicks();
       this.bindCancelAddChangeNoteLink();
-      this.bindCancelAddSecondaryLink();
       this.bindOverviewTableFilter();
     },
 
@@ -108,7 +107,7 @@
       });
     },
 
-    // Ported over from: 
+    // Ported over from:
     // https://github.com/alphagov/govuk_admin_template/blob/master/app/assets/javascripts/govuk-admin-template/modules/filterable_table.js
     bindOverviewTableFilter: function() {
       var rows = $('.step-by-step-list__table').find('tbody tr'),
@@ -146,14 +145,6 @@
         e.preventDefault();
         $('.add-change-note-description--textarea').val('');
         $('.add-change-note--details').removeAttr('open');
-      });
-    },
-
-    bindCancelAddSecondaryLink: function() {
-      $('.add-secondary-link-cancel--link').on('click', function(e){
-        e.preventDefault();
-        $('.add-secondary-link-input').val('');
-        $('.add-secondary-link--details').removeAttr('open');
       });
     }
   };
