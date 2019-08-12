@@ -3,6 +3,11 @@
 library("govuk")
 
 node {
+  govuk.buildProject(
+    beforeTest: {
+      sh("yarn install")
+    }
+  )
   govuk.setEnvar("PUBLISHING_E2E_TESTS_COMMAND", "test-collections-publisher")
   govuk.buildProject(sassLint: false, rubyLintDiff: false, publishingE2ETests: true, brakeman: true)
 }
