@@ -1,0 +1,41 @@
+<%
+  textarea ||= {}
+  component_classes = %w[app-c-markdown-editor govuk-form-group]
+%>
+<%= tag.div class: component_classes do %>
+
+  <%= render "govuk_publishing_components/components/label", {
+    html_for: textarea[:id],
+  }.merge(label.symbolize_keys) %>
+
+   <div class="app-c-markdown-editor__container">
+    <div class="app-c-markdown-editor__head">
+      <div class="app-c-markdown-editor__toolbar">
+        <markdown-toolbar class="app-c-markdown-editor__toolbar-group" for="<%= textarea[:id] %>">
+          <md-header-2 class="app-c-markdown-editor__toolbar-button" title="Heading level 2" aria-label="Heading level 2">
+            <%= render "components/markdown_editor/heading_two.svg" %>
+          </md-header-2>
+          <md-header-3 class="app-c-markdown-editor__toolbar-button" title="Heading level 3" aria-label="Heading level 3">
+            <%= render "components/markdown_editor/heading_three.svg" %>
+          </md-header-3>
+          <md-link class="app-c-markdown-editor__toolbar-button" title="Link" aria-label="Link">
+            <%= render "components/markdown_editor/link.svg" %>
+          </md-link>
+          <md-quote class="app-c-markdown-editor__toolbar-button" title="Blockquote" aria-label="Blockquote">
+            <%= render "components/markdown_editor/blockquote.svg" %>
+          </md-quote>
+          <md-ordered-list class="app-c-markdown-editor__toolbar-button" title="Numbered list" aria-label="Numbered list">
+            <%= render "components/markdown_editor/numbered_list.svg" %>
+          </md-ordered-list>
+          <md-unordered-list class="app-c-markdown-editor__toolbar-button" title="Bullets" aria-label="Bullets">
+            <%= render "components/markdown_editor/bullets.svg" %>
+          </md-unordered-list>
+        </markdown-toolbar>
+      </div>
+    </div>
+
+    <div class="app-c-markdown-editor__input">
+      <%= render "govuk_publishing_components/components/textarea", textarea %>
+    </div>
+  </div>
+<% end %>
