@@ -30,6 +30,16 @@ describe('Step by step publisher component', function () {
       expectOnlyVisibleRowToBe('js-test__row-id--fish')
     })
 
+    it('should allow special (regex) characters in title', function () {
+      searchFor('$fish')
+      expectOnlyVisibleRowToBe('js-test__row-id--fish')
+    })
+
+    it('should not ignore special (regex) characters in title', function () {
+      searchFor('^fish')
+      expectAllRowsToBeHidden()
+    })
+
     it('should display results where the slug matches the search term', function () {
       searchFor('special')
       expectOnlyVisibleRowToBe('js-test__row-id--marriage')
@@ -44,6 +54,12 @@ describe('Step by step publisher component', function () {
     expect(stepByStepRows.length).toEqual(3)
     stepByStepRows.each(function () {
       expect($(this)).toBeVisible()
+    })
+  }
+
+  function expectAllRowsToBeHidden () {
+    stepByStepRows.each(function () {
+      expect($(this)).toBeHidden()
     })
   }
 
