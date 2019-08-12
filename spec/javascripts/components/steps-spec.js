@@ -29,6 +29,11 @@ describe('Step by step publisher component', function () {
       searchFor('fish')
       expectOnlyVisibleRowToBe('js-test__row-id--fish')
     })
+
+    it('should display results where the slug matches the search term', function () {
+      searchFor('special')
+      expectOnlyVisibleRowToBe('js-test__row-id--marriage')
+    })
   })
 
   function searchFor (searchTerm) {
