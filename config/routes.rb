@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   post '/link_report', to: 'link_report#update'
 
   mount GovukAdminTemplate::Engine, at: "/style-guide"
+  mount GovukPublishingComponents::Engine, at: "/component-guide"
 
   class SidekiqAccessContraint
     def matches?(request)

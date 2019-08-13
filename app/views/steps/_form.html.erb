@@ -115,13 +115,17 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/textarea", {
+    <%= render "components/markdown_editor", {
       label: {
-        text: "Content, tasks and links in this step"
+        text: "Content, tasks and links in this step",
+        bold: true
       },
-      name: "step[contents]",
-      value: step.contents,
-      rows: 15
+      textarea: {
+        name: "step[contents]",
+        id: "step-content",
+        rows: 20,
+        value: step.contents
+      }
     } %>
   </div>
   <div class="govuk-grid-column-one-third">

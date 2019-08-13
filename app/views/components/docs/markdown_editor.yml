@@ -1,0 +1,28 @@
+name: Markdown editor
+description: Allows editing markdown within a textarea
+body: |
+  This component is branched from the [markdown_editor component in Content Publisher](https://content-publisher.integration.publishing.service.gov.uk/component-guide/markdown_editor)
+  and it relies on the [markdown-toolbar-element](https://github.com/alphagov/markdown-toolbar-element).
+  It must always have an `id` attribute defined for the textarea element (as shown in the example below) as it's required
+  to bind the textarea with the label and the markdown toolbar.
+accessibility_criteria: |
+  The markdown toolbar buttons in this component must:
+
+  * accept focus
+  * be focusable with a keyboard
+  * be usable with a keyboard
+  * be usable with touch
+  * indicate when it has focus
+  * have correctly associated labels
+
+  The textarea in this component must:
+
+  * have correctly associated label
+examples:
+  default:
+    data:
+      label:
+        text: Body
+      textarea:
+        name: markdown-editor
+        id: markdown-editor
