@@ -84,6 +84,9 @@ class StepByStepPagesController < ApplicationController
       @parser = DatetimeParser.new(date: date_params, time: time_param)
       scheduled_at = @parser.parse
       if @parser.issues.any?
+        @parser.issues.each do |issue|
+          @step_by_step_page.errors.add :base, issue.values.first
+        end
         render :schedule
       elsif @step_by_step_page.update_attributes(scheduled_at: scheduled_at)
         schedule_to_publish

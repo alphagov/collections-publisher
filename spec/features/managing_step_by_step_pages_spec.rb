@@ -190,7 +190,9 @@ RSpec.feature "Managing step by step pages" do
       and_I_visit_the_scheduling_page
       and_I_fill_in_the_scheduling_form_with_nonsense_data
       when_I_submit_the_form
-      then_I_should_see "Enter a valid date", :within_the_date_component
+      then_I_should_see "Enter a valid date", :at_the_top_of_the_page
+      and_I_should_see "Enter a valid time", :at_the_top_of_the_page
+      and_I_should_see "Enter a valid date", :within_the_date_component
       and_I_should_see "Enter a valid time", :within_the_time_component
     end
   end
@@ -451,6 +453,8 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_should_see(content, scope = nil)
     scope_selector = case scope
+                     when :at_the_top_of_the_page
+                       '.gem-c-error-summary'
                      when :within_the_date_component
                        'form > .govuk-form-group:not(.app-c-autocomplete)'
                      when :within_the_time_component
