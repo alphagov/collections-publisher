@@ -1,0 +1,102 @@
+name: Autocomplete
+description: An autocomplete component, built to be accessible
+body: |
+  This component is build using [Accessible Autocomplete](https://github.com/alphagov/accessible-autocomplete).
+  An enhancement to an input element. All options (provided by a datalist)
+  are shown whenever the input is focused. A user can enter a value outside
+  the list of options.
+part_of_admin_layout: true
+accessibility_criteria: |
+  [Accessibility acceptance criteria](https://github.com/alphagov/accessible-autocomplete/blob/master/accessibility-criteria.md)
+examples:
+  default:
+    data:
+      id: autocomplete
+      name: autocomplete
+      label:
+        text: Select your country
+      input:
+        options:
+          -
+            -
+          -
+            - France
+            - fr
+          -
+            - Germany
+            - de
+          -
+            - United Kingdom
+            - uk
+
+  with_placeholder_value:
+    data:
+      id: autocomplete-placeholder
+      name: autocomplete-placeholder
+      label:
+        text: Select your country
+        bold: true
+      hint: Only a few countries are available
+      input:
+        options:
+          -
+            - France
+            - fr
+          -
+            - Germany
+            - de
+          -
+            - United Kingdom
+            - uk
+        value: de
+
+  with_error:
+    data:
+      name: autocomplete-with-error
+      label:
+        text: Autocomplete with error
+      input:
+        options:
+          -
+            - France
+            - fr
+          -
+            - Germany
+            - de
+          -
+            - United Kingdom
+            - uk
+      error_items:
+        - text: There is a problem with this input
+
+  autocomplete_narrow_width:
+    data:
+      id: autocomplete-narrow
+      name: autocomplete-narrow
+      label:
+        text: Status
+      width: narrow
+      input:
+        options:
+          -
+            - Draft
+          -
+            - Published
+          -
+            - Removed
+
+  autocomplete_without_narrowing_results:
+    data:
+      id: autocomplete-without-narrowing-results
+      name: autocomplete-without-narrowing-results
+      data_attributes:
+        autocomplete-without-narrowing-results: true
+      label:
+        text: Select your country
+        bold: true
+      input:
+        value: France
+        options:
+          - France
+          - United Arab Emirates
+          - United Kingdom
