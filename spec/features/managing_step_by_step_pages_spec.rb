@@ -287,9 +287,7 @@ RSpec.feature "Managing step by step pages" do
     visit step_by_step_page_publish_or_delete_path(@step_by_step_page)
   end
 
-  def when_I_visit_the_publish_or_delete_page
-    and_I_visit_the_publish_or_delete_page
-  end
+  alias_method :when_I_visit_the_publish_or_delete_page, :and_I_visit_the_publish_or_delete_page
 
   def and_I_fill_in_the_form
     fill_in "Title", with: "How to bake a cake"
@@ -401,9 +399,7 @@ RSpec.feature "Managing step by step pages" do
     visit step_by_step_page_schedule_path(@step_by_step_page)
   end
 
-  def when_I_visit_the_scheduling_page
-    and_I_visit_the_scheduling_page
-  end
+  alias_method :when_I_visit_the_scheduling_page, :and_I_visit_the_scheduling_page
 
   def and_I_fill_in_the_scheduling_form
     fill_in 'schedule[date][year]', with: "2030"
@@ -447,9 +443,7 @@ RSpec.feature "Managing step by step pages" do
     expect(page).not_to have_css("button", text: "Schedule to publish")
   end
 
-  def then_there_should_be_no_schedule_button
-    and_there_should_be_no_schedule_button
-  end
+  alias_method :then_there_should_be_no_schedule_button, :and_there_should_be_no_schedule_button
 
   def then_I_should_see(content, scope = nil)
     scope_selector = case scope
