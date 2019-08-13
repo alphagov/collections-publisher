@@ -1,4 +1,4 @@
-<div class="govuk-grid-row govuk-!-margin-top-7">
+<div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "shared/steps/form_errors", resource: step %>
 
@@ -53,14 +53,14 @@
   </div>
 </div>
 
-<div class="govuk-grid-row govuk-!-margin-bottom-5">
+<div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render 'shared/steps/broken-links-summary', step: step %>
   </div>
 </div>
 
 <% if step.broken_links && step.broken_links.count > 0 %>
-  <div class="govuk-grid-row govuk-!-margin-bottom-5">
+  <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <%= render "govuk_publishing_components/components/details", {
         title: "View broken links"
@@ -140,7 +140,7 @@
       text: "Save step"
     } %>
   </div>
-  <div class="govuk-grid-column-full govuk-!-margin-top-3">
+  <div class="govuk-grid-column-full">
     <%= link_to 'Return to overview', @step_by_step_page, class: "govuk-link" %>
   </div>
 </div>
