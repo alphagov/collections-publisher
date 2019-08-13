@@ -184,6 +184,15 @@ RSpec.feature "Managing step by step pages" do
       and_the_step_by_step_should_have_the_status "Draft"
       and_there_should_be_a_change_note "Publishing was unscheduled by Test author."
     end
+
+    scenario "User tries using invalid values for schedule date and time" do
+      given_there_is_a_draft_step_by_step_page
+      and_I_visit_the_scheduling_page
+      and_I_fill_in_the_scheduling_form_with_nonsense_data
+      when_I_submit_the_form
+      then_I_should_see "Enter a valid date", :within_the_date_component
+      and_I_should_see "Enter a valid time", :within_the_time_component
+    end
   end
 
   def and_it_has_change_notes
@@ -408,6 +417,13 @@ RSpec.feature "Managing step by step pages" do
     fill_in 'schedule[time]', with: "10:26am"
   end
 
+  def and_I_fill_in_the_scheduling_form_with_nonsense_data
+    fill_in 'schedule[date][year]', with: Time.current.year
+    fill_in 'schedule[date][month]', with: ""
+    fill_in 'schedule[date][day]', with: Time.current.day
+    fill_in 'schedule[time]', with: "foo"
+  end
+
   def then_inputs_should_have_tomorrows_date
     tomorrow = Time.current.tomorrow
     expect(find_field('schedule[date][year]').value).to eq tomorrow.year.to_s
@@ -433,9 +449,21 @@ RSpec.feature "Managing step by step pages" do
     and_there_should_be_no_schedule_button
   end
 
-  def then_I_should_see(content)
-    expect(page).to have_content content
+  def then_I_should_see(content, scope = nil)
+    scope_selector = case scope
+                     when :within_the_date_component
+                       'form > .govuk-form-group:not(.app-c-autocomplete)'
+                     when :within_the_time_component
+                       'form > .app-c-autocomplete'
+                     else
+                       'body'
+                     end
+    within scope_selector do
+      expect(page).to have_content content
+    end
   end
+
+  alias_method :and_I_should_see, :then_I_should_see
 
   def and_the_step_by_step_should_have_the_status(status)
     visit step_by_step_pages_url

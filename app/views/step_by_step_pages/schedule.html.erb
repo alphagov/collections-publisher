@@ -39,6 +39,7 @@
         name: "schedule[date]",
         hint: "For example, 01 08 2027",
         id: "date",
+        error_items: issues_for(:date),
         items: [
           {
             name: "day",
@@ -69,6 +70,7 @@
           options: time_options,
           value: @schedule_placeholder[:time],
         },
+        error_items: issues_for(:time),
         data_attributes: {
           "autocomplete-without-narrowing-results": true,
         },

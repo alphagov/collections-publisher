@@ -88,4 +88,61 @@ RSpec.describe DatetimeParser do
       expect(DatetimeParser.new(params).parse).to be_nil
     end
   end
+
+  describe "#issues_for" do
+    context "an invalid time is provided" do
+      let(:parser) { DatetimeParser.new(date: valid_date, time: nil) }
+
+      it "finds issues for schedule_time" do
+        parser.parse
+        time_issues = parser.issues_for(:time)
+
+        expect(time_issues.count).to eq(1)
+        expect(time_issues.first).to eq("Enter a valid time")
+      end
+
+      it "doesn't report issues for date" do
+        parser.parse
+        date_issues = parser.issues_for(:date)
+
+        expect(date_issues.count).to eq(0)
+      end
+    end
+
+    context "an invalid date is provided" do
+      let(:parser) { DatetimeParser.new(date: nil, time: valid_time) }
+
+      it "finds issues for date" do
+        parser.parse
+        date_issues = parser.issues_for(:date)
+
+        expect(date_issues.count).to eq(1)
+        expect(date_issues.first).to eq("Enter a valid date")
+      end
+
+      it "doesn't report issues for time" do
+        parser.parse
+        time_issues = parser.issues_for(:time)
+
+        expect(time_issues.count).to eq(0)
+      end
+    end
+  end
+
+  describe "#issues" do
+    it "returns no issues when there are none" do
+      parser = DatetimeParser.new(date: valid_date, time: valid_time)
+      parser.parse
+
+      expect(parser.issues).to be_empty
+    end
+
+    it "returns both date and time issues" do
+      parser = DatetimeParser.new(date: nil, time: nil)
+      parser.parse
+
+      expect(parser.issues).to include(date: "Enter a valid date")
+      expect(parser.issues).to include(time: "Enter a valid time")
+    end
+  end
 end

@@ -81,9 +81,11 @@ class StepByStepPagesController < ApplicationController
       date_params = params[:schedule][:date].permit(:year, :month, :day).to_h.symbolize_keys
       time_param = params[:schedule][:time]
       @schedule_placeholder = default_datetime_placeholder(date_params.merge(time: time_param))
-      parser = DatetimeParser.new(date: date_params, time: time_param)
-      scheduled_at = parser.parse
-      if scheduled_at && @step_by_step_page.update_attributes(scheduled_at: scheduled_at)
+      @parser = DatetimeParser.new(date: date_params, time: time_param)
+      scheduled_at = @parser.parse
+      if @parser.issues.any?
+        render :schedule
+      elsif @step_by_step_page.update_attributes(scheduled_at: scheduled_at)
         schedule_to_publish
         note_description = "Minor update scheduled by #{current_user.name} for publishing at #{scheduled_at}"
         generate_internal_change_note(note_description)
@@ -143,6 +145,13 @@ class StepByStepPagesController < ApplicationController
   def internal_change_notes
     set_current_page_as_step_by_step
     @internal_change_note = InternalChangeNote.new
+  end
+
+  helper_method :issues_for
+  def issues_for(namespace)
+    return if @parser.nil?
+
+    @parser.issues_for(namespace).map { |error| { text: error } }
   end
 
 private

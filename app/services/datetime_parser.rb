@@ -1,26 +1,30 @@
 # frozen_string_literal: true
 
 class DatetimeParser
+  attr_reader :issues
+
   def initialize(date:, time:)
     @raw_date = date.to_h
     @raw_time = time.to_s
+    @issues = []
+  end
+
+  def issues_for(param)
+    issues.pluck(param).compact
   end
 
   def parse
-    begin
-      check_date_is_valid
-      check_time_is_valid
+    check_date_is_valid
+    check_time_is_valid
+    return if issues.any?
 
-      Time.find_zone("London").local(
-        raw_date[:year].to_i,
-        raw_date[:month].to_i,
-        raw_date[:day].to_i,
-        time[:hour],
-        time[:minute]
-      )
-    rescue ArgumentError
-      nil
-    end
+    Time.find_zone("London").local(
+      raw_date[:year].to_i,
+      raw_date[:month].to_i,
+      raw_date[:day].to_i,
+      time[:hour],
+      time[:minute]
+    )
   end
 
 private
@@ -30,10 +34,14 @@ private
   def check_date_is_valid
     day, month, year = raw_date.values_at(:day, :month, :year)
     Date.strptime("#{day}-#{month}-#{year}", "%d-%m-%Y")
+  rescue ArgumentError
+    issues << { date: "Enter a valid date" }
   end
 
   def check_time_is_valid
-    raise ArgumentError unless parsed_time_values
+    unless parsed_time_values
+      issues << { time: "Enter a valid time" }
+    end
   end
 
   def parsed_time_values
