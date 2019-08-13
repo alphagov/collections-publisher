@@ -96,17 +96,29 @@ RSpec.describe StepByStepPagesController do
     before :each do
       stub_scheduling_permissions
       stub_publishing_api_for_scheduling
+      stub_default_publishing_api_put_intent
+    end
+
+    def schedule_for_future
+      post :schedule, params: {
+        step_by_step_page_id: step_by_step_page.id,
+        schedule: {
+          date: { year: "2030", month: "04", day: "20" },
+          time: "10:26am",
+        },
+      }
+      step_by_step_page.reload
     end
 
     it "sets `scheduled_at` to a datetime" do
-      schedule_publishing(step_by_step_page, "2030-04-20 10:26 London")
+      schedule_for_future
 
       expect(step_by_step_page.scheduled_at.class.name).to eq 'Time'
       expect(step_by_step_page.scheduled_at.in_time_zone("London").strftime('%d/%m/%Y %H:%M:%S')).to eq '20/04/2030 10:26:00'
     end
 
     it "sets the status to Scheduled" do
-      schedule_publishing(step_by_step_page)
+      schedule_for_future
 
       expect(step_by_step_page.status[:name]).to eq 'scheduled'
     end
@@ -202,12 +214,6 @@ RSpec.describe StepByStepPagesController do
   def stub_publishing_api_for_scheduling
     allow(Services.publishing_api).to receive(:get_content)
       .and_return(content_item(step_by_step_page))
-  end
-
-  def schedule_publishing(step_by_step_page, schedule_time = (Time.zone.now + 1.day).to_s)
-    stub_default_publishing_api_put_intent
-    post :schedule, params: { step_by_step_page_id: step_by_step_page.id, scheduled_at: schedule_time }
-    step_by_step_page.reload
   end
 
   def unschedule_publishing(step_by_step_page)

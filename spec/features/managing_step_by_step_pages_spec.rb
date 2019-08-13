@@ -9,8 +9,6 @@ RSpec.feature "Managing step by step pages" do
   include GdsApi::TestHelpers::LinkCheckerApi
   include GdsApi::TestHelpers::PublishingApi
 
-  let(:schedule_time) { "2030-04-20 10:26:51 London" }
-
   before do
     given_I_am_a_GDS_editor
     setup_publishing_api
@@ -153,7 +151,7 @@ RSpec.feature "Managing step by step pages" do
       when_I_submit_the_form
       then_I_should_see "has been scheduled to publish"
       and_the_step_by_step_should_have_the_status "Scheduled"
-      and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing at #{schedule_time}"
+      and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing at 2030-04-20 10:26:00 +0100"
       and_the_step_by_step_is_not_editable
     end
 
@@ -393,11 +391,18 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_fill_in_the_scheduling_form
-    fill_in 'scheduled_at', with: schedule_time
+    fill_in 'schedule[date][year]', with: "2030"
+    fill_in 'schedule[date][month]', with: "04"
+    fill_in 'schedule[date][day]', with: "20"
+    fill_in 'schedule[time]', with: "10:26am"
   end
 
   def and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
-    fill_in 'scheduled_at', with: '1937-04-20 10:26:51 London'
+    yesterday = Time.current - 1.day
+    fill_in 'schedule[date][year]', with: yesterday.year
+    fill_in 'schedule[date][month]', with: yesterday.month
+    fill_in 'schedule[date][day]', with: yesterday.day
+    fill_in 'schedule[time]', with: "10:26am"
   end
 
   def when_I_submit_the_form

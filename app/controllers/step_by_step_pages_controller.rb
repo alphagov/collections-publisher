@@ -77,9 +77,12 @@ class StepByStepPagesController < ApplicationController
   def schedule
     set_current_page_as_step_by_step
     if request.post?
-      if @step_by_step_page.update_attributes(scheduled_at: params[:scheduled_at])
+      date_params = params[:schedule][:date].permit(:year, :month, :day)
+      parser = DatetimeParser.new(date: date_params, time: params[:schedule][:time])
+      scheduled_at = parser.parse
+      if scheduled_at && @step_by_step_page.update_attributes(scheduled_at: scheduled_at)
         schedule_to_publish
-        note_description = "Minor update scheduled by #{current_user.name} for publishing at #{params[:scheduled_at]}"
+        note_description = "Minor update scheduled by #{current_user.name} for publishing at #{scheduled_at}"
         generate_internal_change_note(note_description)
         set_change_note_version
         redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been scheduled to publish."
