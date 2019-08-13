@@ -30,6 +30,8 @@ group :development, :test do
   gem 'govuk-content-schema-test-helpers'
   gem 'govuk-lint', '~> 3.11.5'
   gem 'govuk_test'
+  gem "jasmine", "~> 3.4"
+  gem "jasmine_selenium_runner", "~> 3", require: false
   gem 'nokogiri'
   gem 'parser', '2.6.3.0'
   gem 'pry-byebug'
