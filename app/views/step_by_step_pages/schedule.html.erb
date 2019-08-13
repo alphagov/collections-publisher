@@ -77,9 +77,15 @@
         width: "narrow",
       } %>
 
-      <div class="form-group">
-        <%= submit_tag "Schedule to publish", class: "btn btn-primary" %>
-        <%= link_to "Cancel", @step_by_step_page %>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <%= render "govuk_publishing_components/components/button", {
+            text: "Schedule to publish",
+          } %>
+        </div>
+        <div class="govuk-grid-column-full govuk-!-margin-top-3">
+          <%= link_to "Cancel", @step_by_step_page, class: "govuk-link" %>
+        </div>
       </div>
     <% end %>
   </div>
