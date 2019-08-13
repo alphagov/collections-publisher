@@ -9,7 +9,7 @@ RSpec.feature "Managing step by step pages" do
   include GdsApi::TestHelpers::LinkCheckerApi
   include GdsApi::TestHelpers::PublishingApi
 
-  let(:schedule_time) { "2030-04-20 10:26:51 UTC" }
+  let(:schedule_time) { "2030-04-20 10:26:51 London" }
 
   before do
     given_I_am_a_GDS_editor
@@ -397,7 +397,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
-    fill_in 'scheduled_at', with: '1937-04-20 10:26:51 UTC'
+    fill_in 'scheduled_at', with: '1937-04-20 10:26:51 London'
   end
 
   def when_I_submit_the_form
