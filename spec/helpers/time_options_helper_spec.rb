@@ -35,4 +35,54 @@ RSpec.describe TimeOptionsHelper do
       end
     end
   end
+
+  describe "#format_time_12_hour_clock" do
+    it "formats the time correctly" do
+      expect(helper.format_time_12_hour_clock(Time.current.tomorrow.change(hour: 9))).to eq("9:00am")
+    end
+  end
+
+  describe "#default_datetime_placeholder" do
+    let(:default_day) { Time.current.tomorrow.day }
+    let(:default_month) { Time.current.tomorrow.month }
+    let(:default_year) { Time.current.tomorrow.year }
+    let(:default_time) { '9:00am' }
+
+    context "with no params" do
+      it "should fall back to default placeholder values" do
+        expect(default_datetime_placeholder[:day]).to eq default_day
+        expect(default_datetime_placeholder[:month]).to eq default_month
+        expect(default_datetime_placeholder[:year]).to eq default_year
+        expect(default_datetime_placeholder[:time]).to eq default_time
+      end
+    end
+
+    context "with all params" do
+      it "should override the default datetime" do
+        schedule_datetime = default_datetime_placeholder(
+          day: '30',
+          month: '12',
+          year: '2030',
+          time: '13:00'
+        )
+        expect(schedule_datetime[:day]).to eq '30'
+        expect(schedule_datetime[:month]).to eq '12'
+        expect(schedule_datetime[:year]).to eq '2030'
+        expect(schedule_datetime[:time]).to eq '13:00'
+      end
+    end
+
+    context "with some params" do
+      it "should override those params and fall back to defaults for others" do
+        schedule_datetime = default_datetime_placeholder(
+          day: '7',
+          time: '3:14pm'
+        )
+        expect(schedule_datetime[:day]).to eq '7'
+        expect(schedule_datetime[:month]).to eq default_month
+        expect(schedule_datetime[:year]).to eq default_year
+        expect(schedule_datetime[:time]).to eq '3:14pm'
+      end
+    end
+  end
 end

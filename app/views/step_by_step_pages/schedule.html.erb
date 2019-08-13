@@ -42,15 +42,18 @@
         items: [
           {
             name: "day",
-            width: 2
+            width: 2,
+            value: @schedule_placeholder[:day]
           },
           {
             name: "month",
-            width: 2
+            width: 2,
+            value: @schedule_placeholder[:month]
           },
           {
             name: "year",
-            width: 4
+            width: 4,
+            value: @schedule_placeholder[:year]
           }
         ]
       } %>
@@ -64,6 +67,7 @@
         },
         input: {
           options: time_options,
+          value: @schedule_placeholder[:time],
         },
         data_attributes: {
           "autocomplete-without-narrowing-results": true,

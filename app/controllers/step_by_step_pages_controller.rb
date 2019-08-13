@@ -1,5 +1,6 @@
 class StepByStepPagesController < ApplicationController
   include PublishingApiHelper
+  include TimeOptionsHelper
   layout 'admin_layout'
 
   before_action :require_gds_editor_permissions!
@@ -77,8 +78,10 @@ class StepByStepPagesController < ApplicationController
   def schedule
     set_current_page_as_step_by_step
     if request.post?
-      date_params = params[:schedule][:date].permit(:year, :month, :day)
-      parser = DatetimeParser.new(date: date_params, time: params[:schedule][:time])
+      date_params = params[:schedule][:date].permit(:year, :month, :day).to_h.symbolize_keys
+      time_param = params[:schedule][:time]
+      @schedule_placeholder = default_datetime_placeholder(date_params.merge(time: time_param))
+      parser = DatetimeParser.new(date: date_params, time: time_param)
       scheduled_at = parser.parse
       if scheduled_at && @step_by_step_page.update_attributes(scheduled_at: scheduled_at)
         schedule_to_publish
@@ -89,6 +92,8 @@ class StepByStepPagesController < ApplicationController
       else
         render :schedule
       end
+    else
+      @schedule_placeholder = default_datetime_placeholder
     end
   end
 

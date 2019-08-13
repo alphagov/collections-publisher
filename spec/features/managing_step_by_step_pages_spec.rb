@@ -9,6 +9,8 @@ RSpec.feature "Managing step by step pages" do
   include GdsApi::TestHelpers::LinkCheckerApi
   include GdsApi::TestHelpers::PublishingApi
 
+  let(:yesterday) { Time.current - 1.day }
+
   before do
     given_I_am_a_GDS_editor
     setup_publishing_api
@@ -158,9 +160,11 @@ RSpec.feature "Managing step by step pages" do
     scenario "User tries to schedule publishing for date in the past" do
       given_there_is_a_draft_step_by_step_page
       and_I_visit_the_scheduling_page
+      then_inputs_should_have_tomorrows_date
       and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
       when_I_submit_the_form
       then_I_should_see "Scheduled at can't be in the past"
+      and_I_can_still_see_the_date_and_time_values_I_entered
       and_the_step_by_step_should_have_the_status "Draft"
     end
 
@@ -398,11 +402,23 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
-    yesterday = Time.current - 1.day
     fill_in 'schedule[date][year]', with: yesterday.year
     fill_in 'schedule[date][month]', with: yesterday.month
     fill_in 'schedule[date][day]', with: yesterday.day
     fill_in 'schedule[time]', with: "10:26am"
+  end
+
+  def then_inputs_should_have_tomorrows_date
+    tomorrow = Time.current.tomorrow
+    expect(find_field('schedule[date][year]').value).to eq tomorrow.year.to_s
+    expect(find_field('schedule[date][month]').value).to eq tomorrow.month.to_s
+    expect(find_field('schedule[date][day]').value).to eq tomorrow.day.to_s
+    expect(find_field('schedule[time]').value).to eq "9:00am"
+  end
+
+  def and_I_can_still_see_the_date_and_time_values_I_entered
+    expect(find_field('schedule[date][day]').value).to eq yesterday.day.to_s
+    expect(find_field('schedule[time]').value).to eq "10:26am"
   end
 
   def when_I_submit_the_form
