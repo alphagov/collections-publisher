@@ -1,5 +1,6 @@
 class StepByStepPagesController < ApplicationController
   include PublishingApiHelper
+  include TimeOptionsHelper
   layout 'admin_layout'
 
   before_action :require_gds_editor_permissions!
@@ -77,15 +78,27 @@ class StepByStepPagesController < ApplicationController
   def schedule
     set_current_page_as_step_by_step
     if request.post?
-      if @step_by_step_page.update_attributes(scheduled_at: params[:scheduled_at])
+      date_params = params[:schedule][:date].permit(:year, :month, :day).to_h.symbolize_keys
+      time_param = params[:schedule][:time]
+      @schedule_placeholder = default_datetime_placeholder(date_params.merge(time: time_param))
+      @parser = DatetimeParser.new(date: date_params, time: time_param)
+      scheduled_at = @parser.parse
+      if @parser.issues.any?
+        @parser.issues.each do |issue|
+          @step_by_step_page.errors.add :base, issue.values.first
+        end
+        render :schedule
+      elsif @step_by_step_page.update_attributes(scheduled_at: scheduled_at)
         schedule_to_publish
-        note_description = "Minor update scheduled by #{current_user.name} for publishing at #{params[:scheduled_at]}"
+        note_description = "Minor update scheduled by #{current_user.name} for publishing on #{format_full_date_and_time(scheduled_at)}"
         generate_internal_change_note(note_description)
         set_change_note_version
         redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been scheduled to publish."
       else
         render :schedule
       end
+    else
+      @schedule_placeholder = default_datetime_placeholder
     end
   end
 
@@ -135,6 +148,13 @@ class StepByStepPagesController < ApplicationController
   def internal_change_notes
     set_current_page_as_step_by_step
     @internal_change_note = InternalChangeNote.new
+  end
+
+  helper_method :issues_for
+  def issues_for(namespace)
+    return if @parser.nil?
+
+    @parser.issues_for(namespace).map { |error| { text: error } }
   end
 
 private

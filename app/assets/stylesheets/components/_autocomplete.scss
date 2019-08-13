@@ -1,0 +1,46 @@
+@import url(asset-path("accessible-autocomplete/dist/accessible-autocomplete.min.css"));
+
+// TODO: Replace with $govuk-focus-colour when the new colour scheme is released
+$app-focus-colour: #ffdd00;
+
+.autocomplete__wrapper {
+  background: govuk-colour("white");
+}
+
+.autocomplete__input {
+  @include govuk-font(19);
+  z-index: 1;
+  color: $govuk-text-colour;
+}
+
+.autocomplete__dropdown-arrow-down {
+  z-index: 0;
+}
+
+.autocomplete__option,
+.autocomplete__selected-option {
+  @include govuk-font(19);
+  color: $govuk-text-colour;
+
+  mark {
+    border-bottom: 3px solid $govuk-focus-text-colour;
+    background: $app-focus-colour;
+  }
+}
+
+.autocomplete__option--focused,
+.autocomplete__option:hover {
+  color: govuk-colour("white");
+
+  .autocomplete__option-hint {
+    color: govuk-colour("white");
+  }
+}
+
+.app-c-autocomplete--narrow {
+  max-width: 200px;
+
+  @include govuk-media-query($from: tablet) {
+    max-width: 230px;
+  }
+}

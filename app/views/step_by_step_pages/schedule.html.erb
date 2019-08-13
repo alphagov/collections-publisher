@@ -14,6 +14,10 @@
   ]
 %>
 
+<% legend = capture do %>
+  <span class="govuk-heading-s govuk-!-margin-bottom-0">Date</span>
+<% end %>
+
 <%= render 'shared/steps/step_breadcrumb', links: links %>
 
 <%= render 'shared/steps/heading',
@@ -30,14 +34,58 @@
 <div class="row">
   <div class="col-md-7">
     <%= form_tag do %>
-      <div class="form-group">
-        <%= label_tag :scheduled_at, 'Schedule datetime (e.g. "2020-04-20 10:26:51 UTC")' %>
-        <%= text_field_tag :scheduled_at, params[:scheduled_at]  %>
-      </div>
+      <%= render "govuk_publishing_components/components/date_input", {
+        legend_text: legend,
+        name: "schedule[date]",
+        hint: "For example, 01 08 2027",
+        id: "date",
+        error_items: issues_for(:date),
+        items: [
+          {
+            name: "day",
+            width: 2,
+            value: @schedule_placeholder[:day]
+          },
+          {
+            name: "month",
+            width: 2,
+            value: @schedule_placeholder[:month]
+          },
+          {
+            name: "year",
+            width: 4,
+            value: @schedule_placeholder[:year]
+          }
+        ]
+      } %>
 
-      <div class="form-group">
-        <%= submit_tag "Schedule to publish", class: "btn btn-primary" %>
-        <%= link_to "Cancel", @step_by_step_page %>
+      <%= render "components/autocomplete", {
+        id: "time",
+        name: "schedule[time]",
+        label: {
+          text: "Time",
+          bold: true,
+        },
+        input: {
+          options: time_options,
+          value: @schedule_placeholder[:time],
+        },
+        error_items: issues_for(:time),
+        data_attributes: {
+          "autocomplete-without-narrowing-results": true,
+        },
+        width: "narrow",
+      } %>
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <%= render "govuk_publishing_components/components/button", {
+            text: "Schedule to publish",
+          } %>
+        </div>
+        <div class="govuk-grid-column-full govuk-!-margin-top-3">
+          <%= link_to "Cancel", step_by_step_page_publish_or_delete_path(@step_by_step_page), class: "govuk-link" %>
+        </div>
       </div>
     <% end %>
   </div>

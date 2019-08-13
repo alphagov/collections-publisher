@@ -9,7 +9,7 @@ RSpec.feature "Managing step by step pages" do
   include GdsApi::TestHelpers::LinkCheckerApi
   include GdsApi::TestHelpers::PublishingApi
 
-  let(:schedule_time) { "2030-04-20 10:26:51 UTC" }
+  let(:yesterday) { Time.current - 1.day }
 
   before do
     given_I_am_a_GDS_editor
@@ -153,16 +153,18 @@ RSpec.feature "Managing step by step pages" do
       when_I_submit_the_form
       then_I_should_see "has been scheduled to publish"
       and_the_step_by_step_should_have_the_status "Scheduled"
-      and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing at #{schedule_time}"
+      and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing on Saturday, 20 April 2030 at 10:26 am"
       and_the_step_by_step_is_not_editable
     end
 
     scenario "User tries to schedule publishing for date in the past" do
       given_there_is_a_draft_step_by_step_page
       and_I_visit_the_scheduling_page
+      then_inputs_should_have_tomorrows_date
       and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
       when_I_submit_the_form
       then_I_should_see "Scheduled at can't be in the past"
+      and_I_can_still_see_the_date_and_time_values_I_entered
       and_the_step_by_step_should_have_the_status "Draft"
     end
 
@@ -181,6 +183,17 @@ RSpec.feature "Managing step by step pages" do
       then_I_should_see "has been unscheduled"
       and_the_step_by_step_should_have_the_status "Draft"
       and_there_should_be_a_change_note "Publishing was unscheduled by Test author."
+    end
+
+    scenario "User tries using invalid values for schedule date and time" do
+      given_there_is_a_draft_step_by_step_page
+      and_I_visit_the_scheduling_page
+      and_I_fill_in_the_scheduling_form_with_nonsense_data
+      when_I_submit_the_form
+      then_I_should_see "Enter a valid date", :at_the_top_of_the_page
+      and_I_should_see "Enter a valid time", :at_the_top_of_the_page
+      and_I_should_see "Enter a valid date", :within_the_date_component
+      and_I_should_see "Enter a valid time", :within_the_time_component
     end
   end
 
@@ -274,9 +287,7 @@ RSpec.feature "Managing step by step pages" do
     visit step_by_step_page_publish_or_delete_path(@step_by_step_page)
   end
 
-  def when_I_visit_the_publish_or_delete_page
-    and_I_visit_the_publish_or_delete_page
-  end
+  alias_method :when_I_visit_the_publish_or_delete_page, :and_I_visit_the_publish_or_delete_page
 
   def and_I_fill_in_the_form
     fill_in "Title", with: "How to bake a cake"
@@ -388,16 +399,40 @@ RSpec.feature "Managing step by step pages" do
     visit step_by_step_page_schedule_path(@step_by_step_page)
   end
 
-  def when_I_visit_the_scheduling_page
-    and_I_visit_the_scheduling_page
-  end
+  alias_method :when_I_visit_the_scheduling_page, :and_I_visit_the_scheduling_page
 
   def and_I_fill_in_the_scheduling_form
-    fill_in 'scheduled_at', with: schedule_time
+    fill_in 'schedule[date][year]', with: "2030"
+    fill_in 'schedule[date][month]', with: "04"
+    fill_in 'schedule[date][day]', with: "20"
+    fill_in 'schedule[time]', with: "10:26am"
   end
 
   def and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
-    fill_in 'scheduled_at', with: '1937-04-20 10:26:51 UTC'
+    fill_in 'schedule[date][year]', with: yesterday.year
+    fill_in 'schedule[date][month]', with: yesterday.month
+    fill_in 'schedule[date][day]', with: yesterday.day
+    fill_in 'schedule[time]', with: "10:26am"
+  end
+
+  def and_I_fill_in_the_scheduling_form_with_nonsense_data
+    fill_in 'schedule[date][year]', with: Time.current.year
+    fill_in 'schedule[date][month]', with: ""
+    fill_in 'schedule[date][day]', with: Time.current.day
+    fill_in 'schedule[time]', with: "foo"
+  end
+
+  def then_inputs_should_have_tomorrows_date
+    tomorrow = Time.current.tomorrow
+    expect(find_field('schedule[date][year]').value).to eq tomorrow.year.to_s
+    expect(find_field('schedule[date][month]').value).to eq tomorrow.month.to_s
+    expect(find_field('schedule[date][day]').value).to eq tomorrow.day.to_s
+    expect(find_field('schedule[time]').value).to eq "9:00am"
+  end
+
+  def and_I_can_still_see_the_date_and_time_values_I_entered
+    expect(find_field('schedule[date][day]').value).to eq yesterday.day.to_s
+    expect(find_field('schedule[time]').value).to eq "10:26am"
   end
 
   def when_I_submit_the_form
@@ -408,13 +443,25 @@ RSpec.feature "Managing step by step pages" do
     expect(page).not_to have_css("button", text: "Schedule to publish")
   end
 
-  def then_there_should_be_no_schedule_button
-    and_there_should_be_no_schedule_button
+  alias_method :then_there_should_be_no_schedule_button, :and_there_should_be_no_schedule_button
+
+  def then_I_should_see(content, scope = nil)
+    scope_selector = case scope
+                     when :at_the_top_of_the_page
+                       '.gem-c-error-summary'
+                     when :within_the_date_component
+                       'form > .govuk-form-group:not(.app-c-autocomplete)'
+                     when :within_the_time_component
+                       'form > .app-c-autocomplete'
+                     else
+                       'body'
+                     end
+    within scope_selector do
+      expect(page).to have_content content
+    end
   end
 
-  def then_I_should_see(content)
-    expect(page).to have_content content
-  end
+  alias_method :and_I_should_see, :then_I_should_see
 
   def and_the_step_by_step_should_have_the_status(status)
     visit step_by_step_pages_url

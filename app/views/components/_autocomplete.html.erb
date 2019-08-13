@@ -1,0 +1,51 @@
+<%
+  id ||= "autocomplete-#{SecureRandom.hex(4)}"
+  type ||= nil
+  error_id = "error-#{SecureRandom.hex(4)}"
+  error_items ||= []
+  width ||= nil
+  data_attributes ||= {}
+  input ||= {}
+  name ||= nil
+  label = label.symbolize_keys if label
+  aria = error_id if error_items.any?
+
+  root_classes = %w(app-c-autocomplete govuk-form-group)
+  root_classes << "app-c-autocomplete--#{width}" if width
+  root_classes << "govuk-form-group--error" if error_items.any?
+
+  if name && label
+%>
+  <%= tag.div class: root_classes,
+              data: data_attributes.merge(module: "autocomplete", "autocomplete-type": type) do %>
+    <%= tag.fieldset class: "govuk-fieldset", "aria-describedby": aria do %>
+      <%= render "govuk_publishing_components/components/label", {
+        html_for: id
+      }.merge(label) %>
+
+      <% if error_items.any? %>
+        <%= render "govuk_publishing_components/components/error_message", {
+          id: error_id,
+          items: error_items,
+        } %>
+      <% end %>
+
+      <% options = Array(input[:options]) %>
+
+      <%= tag.input name: name,
+                    value: input[:value],
+                    class: "govuk-input",
+                    id: id,
+                    list: options.any? ? "#{id}-list" : nil,
+                    type: "text" %>
+
+      <% if options.any? %>
+        <%= tag.datalist id: "#{id}-list" do %>
+          <% options.each do |option| %>
+            <%= tag.option(value: option) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

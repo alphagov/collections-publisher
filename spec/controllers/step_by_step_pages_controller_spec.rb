@@ -5,6 +5,7 @@ require "gds_api/test_helpers/publishing_api"
 RSpec.describe StepByStepPagesController do
   include GdsApi::TestHelpers::PublishingApiV2
   include GdsApi::TestHelpers::PublishingApi
+  include TimeOptionsHelper
 
   let(:step_by_step_page) { create(:step_by_step_page_with_steps) }
   let(:stub_user) { create(:user, name: "Name Surname", permissions: ["signin", "GDS Editor"]) }
@@ -90,12 +91,44 @@ RSpec.describe StepByStepPagesController do
     end
   end
 
+  describe "#schedule" do
+    let(:step_by_step_page) { create(:draft_step_by_step_page) }
+
+    before :each do
+      stub_scheduling_permissions
+      stub_publishing_api_for_scheduling
+      stub_default_publishing_api_put_intent
+    end
+
+    def schedule_for_future
+      post :schedule, params: {
+        step_by_step_page_id: step_by_step_page.id,
+        schedule: {
+          date: { year: "2030", month: "04", day: "20" },
+          time: "10:26am",
+        },
+      }
+      step_by_step_page.reload
+    end
+
+    it "sets `scheduled_at` to a datetime" do
+      schedule_for_future
+
+      expect(step_by_step_page.scheduled_at.class.name).to eq 'Time'
+      expect(format_full_date_and_time(step_by_step_page.scheduled_at.in_time_zone("London"))).to eq 'Saturday, 20 April 2030 at 10:26 am'
+    end
+
+    it "sets the status to Scheduled" do
+      schedule_for_future
+
+      expect(step_by_step_page.status[:name]).to eq 'scheduled'
+    end
+  end
+
   describe "#unschedule" do
     before :each do
-      stub_user.permissions << "Scheduling"
-
-      allow(Services.publishing_api).to receive(:get_content)
-        .and_return(content_item(step_by_step_page))
+      stub_scheduling_permissions
+      stub_publishing_api_for_scheduling
     end
 
     it "clears Scheduled status and sets it back to Draft" do
@@ -173,6 +206,15 @@ RSpec.describe StepByStepPagesController do
 
     stub_any_publishing_api_put_content
     stub_any_publishing_api_publish
+  end
+
+  def stub_scheduling_permissions
+    stub_user.permissions << "Scheduling"
+  end
+
+  def stub_publishing_api_for_scheduling
+    allow(Services.publishing_api).to receive(:get_content)
+      .and_return(content_item(step_by_step_page))
   end
 
   def unschedule_publishing(step_by_step_page)
