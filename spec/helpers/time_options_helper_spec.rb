@@ -42,6 +42,13 @@ RSpec.describe TimeOptionsHelper do
     end
   end
 
+  describe "#format_full_date_and_time" do
+    it "formats the date and time correctly" do
+      datetime = Time.new(2030, 4, 20, 10, 26, 0, '+01:00') # London timezone
+      expect(helper.format_full_date_and_time(datetime)).to eq("Saturday, 20 April 2030 at 10:26 am")
+    end
+  end
+
   describe "#default_datetime_placeholder" do
     let(:default_day) { Time.current.tomorrow.day }
     let(:default_month) { Time.current.tomorrow.month }

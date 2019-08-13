@@ -153,7 +153,7 @@ RSpec.feature "Managing step by step pages" do
       when_I_submit_the_form
       then_I_should_see "has been scheduled to publish"
       and_the_step_by_step_should_have_the_status "Scheduled"
-      and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing at 2030-04-20 10:26:00 +0100"
+      and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing on Saturday, 20 April 2030 at 10:26 am"
       and_the_step_by_step_is_not_editable
     end
 

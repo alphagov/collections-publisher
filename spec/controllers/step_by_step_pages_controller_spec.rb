@@ -5,6 +5,7 @@ require "gds_api/test_helpers/publishing_api"
 RSpec.describe StepByStepPagesController do
   include GdsApi::TestHelpers::PublishingApiV2
   include GdsApi::TestHelpers::PublishingApi
+  include TimeOptionsHelper
 
   let(:step_by_step_page) { create(:step_by_step_page_with_steps) }
   let(:stub_user) { create(:user, name: "Name Surname", permissions: ["signin", "GDS Editor"]) }
@@ -114,7 +115,7 @@ RSpec.describe StepByStepPagesController do
       schedule_for_future
 
       expect(step_by_step_page.scheduled_at.class.name).to eq 'Time'
-      expect(step_by_step_page.scheduled_at.in_time_zone("London").strftime('%d/%m/%Y %H:%M:%S')).to eq '20/04/2030 10:26:00'
+      expect(format_full_date_and_time(step_by_step_page.scheduled_at.in_time_zone("London"))).to eq 'Saturday, 20 April 2030 at 10:26 am'
     end
 
     it "sets the status to Scheduled" do
