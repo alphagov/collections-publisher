@@ -491,6 +491,8 @@ RSpec.feature "Managing step by step pages" do
 
     when_I_view_the_step_by_step_page
     then_I_can_see_the_steps
+    and_I_cannot_edit_any_steps
+    and_I_cannot_delete_any_steps
 
     when_I_edit_the_step_by_step_page
     then_I_can_see_the_step_by_step_details
@@ -513,6 +515,14 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_can_see_the_steps
     expect(find('tbody')).to have_content(@step_by_step_page.steps.first.title)
+  end
+
+  def and_I_cannot_edit_any_steps
+    expect(page).to_not have_button("Edit")
+  end
+
+  def and_I_cannot_delete_any_steps
+    expect(page).to_not have_button("Delete")
   end
 
   def then_I_can_see_the_step_by_step_details
