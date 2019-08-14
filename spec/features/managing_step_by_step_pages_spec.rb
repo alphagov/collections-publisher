@@ -489,6 +489,9 @@ RSpec.feature "Managing step by step pages" do
   def and_the_step_by_step_is_not_editable
     then_there_should_be_no_reorder_steps_tab
 
+    when_I_view_the_step_by_step_page
+    then_I_can_see_the_steps
+
     when_I_edit_the_step_by_step_page
     then_I_can_see_the_step_by_step_details
     and_I_cannot_edit_the_step_by_step_details
@@ -506,6 +509,10 @@ RSpec.feature "Managing step by step pages" do
 
   def then_there_should_be_no_reorder_steps_tab
     expect(page).to_not have_link("Reorder steps", :href => step_by_step_page_reorder_path(@step_by_step_page))
+  end
+
+  def then_I_can_see_the_steps
+    expect(find('tbody')).to have_content(@step_by_step_page.steps.first.title)
   end
 
   def then_I_can_see_the_step_by_step_details
