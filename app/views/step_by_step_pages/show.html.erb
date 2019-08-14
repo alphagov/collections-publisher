@@ -79,12 +79,14 @@
 
   <div class="govuk-grid-column-one-third">
     <ul class="govuk-list step-by-step-actions__list">
-      <li>
-        <%= render "govuk_publishing_components/components/button", {
-          text: "Add a new step",
-          href: new_step_by_step_page_step_path(@step_by_step_page)
-        } %>
+      <% if @step_by_step_page.can_be_edited? %>
+        <li>
+          <%= render "govuk_publishing_components/components/button", {
+            text: "Add a new step",
+            href: new_step_by_step_page_step_path(@step_by_step_page)
+          } %>
       </li>
+      <% end %>
       <li class="govuk-!-margin-top-2">
         <%= render "govuk_publishing_components/components/button", {
           text: "Preview",

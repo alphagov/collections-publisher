@@ -493,6 +493,7 @@ RSpec.feature "Managing step by step pages" do
     then_I_can_see_the_steps
     and_I_cannot_edit_any_steps
     and_I_cannot_delete_any_steps
+    and_I_cannot_add_new_steps
 
     when_I_edit_the_step_by_step_page
     then_I_can_see_the_step_by_step_details
@@ -523,6 +524,10 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_cannot_delete_any_steps
     expect(page).to_not have_button("Delete")
+  end
+
+  def and_I_cannot_add_new_steps
+    expect(page).to_not have_button("Add a new step")
   end
 
   def then_I_can_see_the_step_by_step_details
