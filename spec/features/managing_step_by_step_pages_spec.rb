@@ -508,9 +508,9 @@ RSpec.feature "Managing step by step pages" do
     and_I_cannot_delete_secondary_content_links
 
     when_I_visit_the_publish_or_delete_page
-    there_should_be_no_publish_button
-    there_should_be_no_discard_changes_button
-    there_should_be_no_unpublish_button
+    then_there_should_be_no_publish_button
+    then_there_should_be_no_discard_changes_button
+    then_there_should_be_no_unpublish_button
   end
 
   def then_there_should_be_no_reorder_steps_tab
@@ -567,19 +567,19 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def there_should_be_no_publish_button
+  def then_there_should_be_no_publish_button
     within(".publish-or-delete") do
       expect(page).to_not have_css("button", text: "Publish changes")
     end
   end
 
-  def there_should_be_no_discard_changes_button
+  def then_there_should_be_no_discard_changes_button
     within(".publish-or-delete") do
       expect(page).to_not have_css("button", text: "Discard changes")
     end
   end
 
-  def there_should_be_no_unpublish_button
+  def then_there_should_be_no_unpublish_button
     within(".publish-or-delete") do
       expect(page).to_not have_css("button", text: "Unpublish step by step")
     end
