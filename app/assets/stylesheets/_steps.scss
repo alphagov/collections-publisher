@@ -21,7 +21,7 @@ $dark-grey-2: #6f777b;
 }
 
 .markdown-example {
-  @include govuk-font(14);
+  @include govuk-font(16);
   white-space: pre-wrap;
   display: block;
   padding: govuk-spacing(4);
