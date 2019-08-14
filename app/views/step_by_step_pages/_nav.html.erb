@@ -1,11 +1,11 @@
-<% 
+<%
   unless defined? active
     active = ''
   end
 %>
 
-<%= render "components/tabs", {
-  tabs: [
+<%
+  tabs = [
     {
       href: @step_by_step_page,
       label: "Edit steps",
@@ -42,4 +42,9 @@
       active: active == 'internal-change-notes'
     }
   ]
+  tabs.delete_at(1) unless @step_by_step_page.can_be_edited?
+%>
+
+<%= render "components/tabs", {
+  tabs: tabs
 } %>

@@ -487,6 +487,8 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_the_step_by_step_is_not_editable
+    then_there_should_be_no_reorder_steps_tab
+
     when_I_visit_the_secondary_content_page
     then_I_can_see_the_existing_secondary_links
     and_I_cannot_add_secondary_content_link
@@ -496,6 +498,10 @@ RSpec.feature "Managing step by step pages" do
     there_should_be_no_publish_button
     there_should_be_no_discard_changes_button
     there_should_be_no_unpublish_button
+  end
+
+  def then_there_should_be_no_reorder_steps_tab
+    expect(page).to_not have_link("Reorder steps", :href => step_by_step_page_reorder_path(@step_by_step_page))
   end
 
   def when_I_visit_the_secondary_content_page
