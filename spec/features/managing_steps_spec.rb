@@ -67,9 +67,16 @@ RSpec.feature "Managing step by step pages" do
     context "and I would like to leave a change note on a step by step page" do
       scenario "User leaves a change note" do
         given_there_is_a_step_by_step_page
-        and_I_visit_the_change_notes_tab
+        when_I_visit_the_change_notes_tab
         and_I_complete_a_change_note
-        then_I_can_see_the_main_page
+        then_the_change_note_should_be_saved
+      end
+
+      scenario "User leaves a change note on a step by step that is scheduled" do
+        given_there_is_a_scheduled_step_by_step_page
+        when_I_visit_the_change_notes_tab
+        and_I_complete_a_change_note
+        then_the_change_note_should_be_saved
       end
     end
   end
@@ -82,7 +89,7 @@ RSpec.feature "Managing step by step pages" do
     visit step_by_step_page_reorder_path(@step_by_step_page)
   end
 
-  def and_I_visit_the_change_notes_tab
+  def when_I_visit_the_change_notes_tab
     visit step_by_step_page_internal_change_notes_path(@step_by_step_page)
   end
 
@@ -204,7 +211,7 @@ RSpec.feature "Managing step by step pages" do
     click_on "Save"
   end
 
-  def then_I_can_see_the_main_page
-    expect(page).to have_content("How to be amazing")
+  def then_the_change_note_should_be_saved
+    expect(page).to have_content "Change note was successfully added."
   end
 end
