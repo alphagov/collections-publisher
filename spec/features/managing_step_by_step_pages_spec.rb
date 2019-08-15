@@ -155,6 +155,8 @@ RSpec.feature "Managing step by step pages" do
       and_the_step_by_step_should_have_the_status "Scheduled"
       and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing on Saturday, 20 April 2030 at 10:26 am"
       and_the_step_by_step_is_not_editable
+      when_I_view_the_step_by_step_page
+      then_I_can_preview_the_step_by_step
     end
 
     scenario "User tries to schedule publishing for date in the past" do
@@ -580,5 +582,9 @@ RSpec.feature "Managing step by step pages" do
     within(".publish-or-delete") do
       expect(page).to_not have_css("button", text: "Unpublish step by step")
     end
+  end
+
+  def then_I_can_preview_the_step_by_step
+    expect(page).to have_link("Preview")
   end
 end
