@@ -9,6 +9,6 @@ user_id = "026530a0-750f-41e6-8863-b539d1467145"
 User.create!(
   uid: user_id,
   name: "Test user",
-  permissions: ["signin", "GDS Editor", "Scheduling"],
+  permissions: ["signin", "GDS Editor"],
   organisation_content_id: gds_organisation_id,
 )
