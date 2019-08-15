@@ -157,6 +157,7 @@ RSpec.feature "Managing step by step pages" do
       and_the_step_by_step_is_not_editable
       when_I_view_the_step_by_step_page
       then_I_can_preview_the_step_by_step
+      and_the_steps_can_be_checked_for_broken_links
     end
 
     scenario "User tries to schedule publishing for date in the past" do
@@ -586,5 +587,9 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_can_preview_the_step_by_step
     expect(page).to have_link("Preview")
+  end
+
+  def and_the_steps_can_be_checked_for_broken_links
+    expect(page).to have_button("Check for broken links")
   end
 end
