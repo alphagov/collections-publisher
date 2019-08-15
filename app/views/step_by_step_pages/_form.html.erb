@@ -3,61 +3,99 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: "Title"
-        },
-        name: "step_by_step_page[title]",
-        value: step_by_step_page.title
-      } %>
+      <% if @step_by_step_page.can_be_edited? %>
+        <%= render "govuk_publishing_components/components/input", {
+          label: {
+            text: "Title"
+          },
+          name: "step_by_step_page[title]",
+          value: step_by_step_page.title
+        } %>
+      <% else %>
+        <%= render "govuk_publishing_components/components/label", {
+          text: "Title",
+          bold: true,
+          html_for: 'step_by_step_page_title'
+        } %>
+        <%= tag.p step_by_step_page.title, id: "step_by_step_page_title", class: "govuk-body" %>
+      <% end %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: "Slug"
-        },
-        hint: "No slashes",
-        name: "step_by_step_page[slug]",
-        value: step_by_step_page.slug
-      } %>
+      <% if @step_by_step_page.can_be_edited? %>
+        <%= render "govuk_publishing_components/components/input", {
+          label: {
+            text: "Slug"
+          },
+          hint: "No slashes",
+          name: "step_by_step_page[slug]",
+          value: step_by_step_page.slug
+        } %>
+      <% else %>
+        <%= render "govuk_publishing_components/components/label", {
+          text: "Slug",
+          bold: true,
+          html_for: 'step_by_step_page_slug'
+        } %>
+        <%= tag.p step_by_step_page.slug, id: "step_by_step_page_slug", class: "govuk-body" %>
+      <% end %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <%= render "govuk_publishing_components/components/textarea", {
-        label: {
-          text: "Introduction"
-        },
-        name: "step_by_step_page[introduction]",
-        value: step_by_step_page.introduction
-      } %>
+      <% if @step_by_step_page.can_be_edited? %>
+        <%= render "govuk_publishing_components/components/textarea", {
+          label: {
+            text: "Introduction"
+          },
+          name: "step_by_step_page[introduction]",
+          value: step_by_step_page.introduction
+        } %>
+      <% else %>
+        <%= render "govuk_publishing_components/components/label", {
+          text: "Introduction",
+          bold: true,
+          html_for: 'step_by_step_page_introduction'
+        } %>
+        <%= tag.p step_by_step_page.introduction, id: "step_by_step_page_introduction", class: "govuk-body" %>
+      <% end %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <%= render "govuk_publishing_components/components/textarea", {
-        label: {
-          text: "Meta description"
-        },
-        name: "step_by_step_page[description]",
-        value: step_by_step_page.description
-      } %>
+      <% if @step_by_step_page.can_be_edited? %>
+        <%= render "govuk_publishing_components/components/textarea", {
+          label: {
+            text: "Meta description"
+          },
+          name: "step_by_step_page[description]",
+          value: step_by_step_page.description
+        } %>
+      <% else %>
+        <%= render "govuk_publishing_components/components/label", {
+          text: "Meta description",
+          bold: true,
+          html_for: 'step_by_step_page_description'
+        } %>
+        <%= tag.p step_by_step_page.description, id: "step_by_step_page_description", class: "govuk-body" %>
+      <% end %>
     </div>
   </div>
 
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-      <%= render "govuk_publishing_components/components/button", {
-        text: "Save"
-      } %>
-    </div>
-    <div class="govuk-grid-column-full govuk-!-margin-top-3">
-      <%= link_to 'Cancel', @step_by_step_page, class: "govuk-link" %>
-    </div>
+    <% if @step_by_step_page.can_be_edited? %>
+      <div class="govuk-grid-column-full">
+        <%= render "govuk_publishing_components/components/button", {
+          text: "Save"
+        } %>
+      </div>
+      <div class="govuk-grid-column-full govuk-!-margin-top-3">
+        <%= link_to 'Cancel', @step_by_step_page, class: "govuk-link" %>
+      </div>
+    <% end %>
   </div>
 <% end %>
