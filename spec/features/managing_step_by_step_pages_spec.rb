@@ -155,6 +155,9 @@ RSpec.feature "Managing step by step pages" do
       and_the_step_by_step_should_have_the_status "Scheduled"
       and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing on Saturday, 20 April 2030 at 10:26 am"
       and_the_step_by_step_is_not_editable
+      when_I_view_the_step_by_step_page
+      then_I_can_preview_the_step_by_step
+      and_the_steps_can_be_checked_for_broken_links
     end
 
     scenario "User tries to schedule publishing for date in the past" do
@@ -489,6 +492,12 @@ RSpec.feature "Managing step by step pages" do
   def and_the_step_by_step_is_not_editable
     then_there_should_be_no_reorder_steps_tab
 
+    when_I_view_the_step_by_step_page
+    then_I_can_see_the_steps
+    and_I_cannot_edit_any_steps
+    and_I_cannot_delete_any_steps
+    and_I_cannot_add_new_steps
+
     when_I_edit_the_step_by_step_page
     then_I_can_see_the_step_by_step_details
     and_I_cannot_edit_the_step_by_step_details
@@ -499,13 +508,29 @@ RSpec.feature "Managing step by step pages" do
     and_I_cannot_delete_secondary_content_links
 
     when_I_visit_the_publish_or_delete_page
-    there_should_be_no_publish_button
-    there_should_be_no_discard_changes_button
-    there_should_be_no_unpublish_button
+    then_there_should_be_no_publish_button
+    then_there_should_be_no_discard_changes_button
+    then_there_should_be_no_unpublish_button
   end
 
   def then_there_should_be_no_reorder_steps_tab
     expect(page).to_not have_link("Reorder steps", :href => step_by_step_page_reorder_path(@step_by_step_page))
+  end
+
+  def then_I_can_see_the_steps
+    expect(find('tbody')).to have_content(@step_by_step_page.steps.first.title)
+  end
+
+  def and_I_cannot_edit_any_steps
+    expect(page).to_not have_button("Edit")
+  end
+
+  def and_I_cannot_delete_any_steps
+    expect(page).to_not have_button("Delete")
+  end
+
+  def and_I_cannot_add_new_steps
+    expect(page).to_not have_button("Add a new step")
   end
 
   def then_I_can_see_the_step_by_step_details
@@ -542,21 +567,29 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def there_should_be_no_publish_button
+  def then_there_should_be_no_publish_button
     within(".publish-or-delete") do
       expect(page).to_not have_css("button", text: "Publish changes")
     end
   end
 
-  def there_should_be_no_discard_changes_button
+  def then_there_should_be_no_discard_changes_button
     within(".publish-or-delete") do
       expect(page).to_not have_css("button", text: "Discard changes")
     end
   end
 
-  def there_should_be_no_unpublish_button
+  def then_there_should_be_no_unpublish_button
     within(".publish-or-delete") do
       expect(page).to_not have_css("button", text: "Unpublish step by step")
     end
+  end
+
+  def then_I_can_preview_the_step_by_step
+    expect(page).to have_link("Preview")
+  end
+
+  def and_the_steps_can_be_checked_for_broken_links
+    expect(page).to have_button("Check for broken links")
   end
 end

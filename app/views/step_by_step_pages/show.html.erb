@@ -29,7 +29,9 @@
         <tr class="govuk-table__row">
           <th class="govuk-table__header" scope="col">Step</th>
           <th class="govuk-table__header" scope="col">Title</th>
-          <th class="govuk-table__header govuk-table__header--numeric" scope="col">Actions</th>
+          <% if @step_by_step_page.can_be_edited? %>
+            <th class="govuk-table__header govuk-table__header--numeric" scope="col">Actions</th>
+          <% end %>
         </tr>
       </thead>
 
@@ -56,10 +58,12 @@
                 </div>
               </th>
 
-              <td class="govuk-table__cell govuk-table__cell--numeric">
-                <%= link_to("Edit", edit_step_by_step_page_step_path(@step_by_step_page.id, step.id), class: "gem-c-button govuk-button gem-c-button--inline") %>
-                <%= link_to("Delete", step_by_step_page_step_path(@step_by_step_page.id, step.id), method: 'delete', data: { confirm: "Are you sure?" }, class: "gem-c-button govuk-button govuk-button--warning gem-c-button--inline") %>
-              </td>
+              <% if @step_by_step_page.can_be_edited? %>
+                <td class="govuk-table__cell govuk-table__cell--numeric">
+                  <%= link_to("Edit", edit_step_by_step_page_step_path(@step_by_step_page.id, step.id), class: "gem-c-button govuk-button gem-c-button--inline") %>
+                  <%= link_to("Delete", step_by_step_page_step_path(@step_by_step_page.id, step.id), method: 'delete', data: { confirm: "Are you sure?" }, class: "gem-c-button govuk-button govuk-button--warning gem-c-button--inline") %>
+                </td>
+              <% end %>
             </tr>
           <% end %>
         <% else %>
@@ -75,12 +79,14 @@
 
   <div class="govuk-grid-column-one-third">
     <ul class="govuk-list step-by-step-actions__list">
-      <li>
-        <%= render "govuk_publishing_components/components/button", {
-          text: "Add a new step",
-          href: new_step_by_step_page_step_path(@step_by_step_page)
-        } %>
+      <% if @step_by_step_page.can_be_edited? %>
+        <li>
+          <%= render "govuk_publishing_components/components/button", {
+            text: "Add a new step",
+            href: new_step_by_step_page_step_path(@step_by_step_page)
+          } %>
       </li>
+      <% end %>
       <li class="govuk-!-margin-top-2">
         <%= render "govuk_publishing_components/components/button", {
           text: "Preview",
