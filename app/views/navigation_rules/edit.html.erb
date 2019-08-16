@@ -51,16 +51,16 @@
                         label: "",
                         options: [
                           {
-                            text: "Always show navigation",
+                            text: navigation_rule.display_text("always"),
                             value: "always",
                             selected: true
                           },
                           {
-                            text: "Show navigation if user comes from a step-by-step",
+                            text: navigation_rule.display_text("conditionally"),
                             value: "conditionally",
                           },
                           {
-                            text: "Never show navigation",
+                            text: navigation_rule.display_text("never"),
                             value: "never"
                           }
                         ].each{ |item| item[:selected] = item[:value] == navigation_rule.include_in_links }
