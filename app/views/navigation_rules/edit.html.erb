@@ -48,21 +48,7 @@
                     <%= render "govuk_publishing_components/components/select", {
                       id: "navigation_rules[#{navigation_rule.content_id}]",
                       label: "",
-                      options: [
-                        {
-                          text: "Always show navigation",
-                          value: "always",
-                          selected: true
-                        },
-                        {
-                          text: "Show navigation if user comes from a step-by-step",
-                          value: "conditionally",
-                        },
-                        {
-                          text: "Never show navigation",
-                          value: "never"
-                        }
-                      ].each{ |item| item[:selected] = item[:value] == navigation_rule.include_in_links }
+                      options: navigation_rule.options_with_selected,
                     } %>
                   </td>
                 </tr>

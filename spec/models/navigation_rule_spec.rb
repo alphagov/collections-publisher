@@ -139,4 +139,93 @@ RSpec.describe NavigationRule do
       expect(resource.smartanswer?).to be false
     end
   end
+
+  describe '#options_with_selected' do
+    context "include_in_links is set to always" do
+      it 'returns an array of hashes, where selected is true for the always hash' do
+        resource = described_class.new(
+          title: 'A Title',
+          base_path: '/a-base-path',
+          content_id: 'A-CONTENT-ID-BOOM',
+          include_in_links: 'always'
+        )
+        expected_options = [
+          {
+            text: "Always show navigation",
+            value: "always",
+            selected: true
+          },
+          {
+            text: "Show navigation if user comes from a step-by-step",
+            value: "conditionally",
+            selected: false
+          },
+          {
+            text: "Never show navigation",
+            value: "never",
+            selected: false
+          }
+        ]
+        expect(resource.options_with_selected).to eq(expected_options)
+      end
+    end
+
+    context "include_in_links is set to conditionally" do
+      it 'returns an array of hashes, where selected is true for the conditionally hash' do
+        resource = described_class.new(
+          title: 'A Title',
+          base_path: '/a-base-path',
+          content_id: 'A-CONTENT-ID-BOOM',
+          include_in_links: 'conditionally'
+        )
+        expected_options = [
+          {
+            text: "Always show navigation",
+            value: "always",
+            selected: false
+          },
+          {
+            text: "Show navigation if user comes from a step-by-step",
+            value: "conditionally",
+            selected: true
+          },
+          {
+            text: "Never show navigation",
+            value: "never",
+            selected: false
+          }
+        ]
+        expect(resource.options_with_selected).to eq(expected_options)
+      end
+    end
+
+    context "include_in_links is set to never" do
+      it 'returns an array of hashes, where selected is true for the never hash' do
+        resource = described_class.new(
+          title: 'A Title',
+          base_path: '/a-base-path',
+          content_id: 'A-CONTENT-ID-BOOM',
+          include_in_links: 'never'
+        )
+        expected_options = [
+          {
+            text: "Always show navigation",
+            value: "always",
+            selected: false
+          },
+          {
+            text: "Show navigation if user comes from a step-by-step",
+            value: "conditionally",
+            selected: false
+          },
+          {
+            text: "Never show navigation",
+            value: "never",
+            selected: true
+          }
+        ]
+        expect(resource.options_with_selected).to eq(expected_options)
+      end
+    end
+  end
 end
