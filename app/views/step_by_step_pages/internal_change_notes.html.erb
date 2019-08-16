@@ -56,8 +56,8 @@
   </div>
 <% end %>
 
-<div class="govuk-grid-row govuk-!-margin-top-3">
-  <div class="govuk-grid-column-full">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/accordion", {
       items: @step_by_step_page.internal_change_notes.map.with_index do |note, index|
         {
