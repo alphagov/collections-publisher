@@ -19,6 +19,8 @@ module CollectionsPublisher
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
+    config.time_zone = "London"
+
     unless Rails.env.production?
       ENV['JWT_AUTH_SECRET'] = '123'
     end
