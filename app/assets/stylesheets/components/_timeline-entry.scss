@@ -1,0 +1,28 @@
+.app-c-timeline-entry {
+  margin-bottom: govuk-spacing(6);
+}
+
+.app-c-timeline-entry__title {
+  @include govuk-font(24, $weight: bold);
+  margin-top: 0;
+  margin-bottom: govuk-spacing(4);
+}
+
+.app-c-timeline-entry__type {
+  @include govuk-font(19, $weight: bold);
+  margin-top: 0;
+  margin-bottom: govuk-spacing(1);
+}
+
+.app-c-timeline-entry__dateline {
+  @include govuk-font(19);
+  margin-top: 0;
+  margin-bottom: govuk-spacing(4);
+  color: $govuk-secondary-text-colour;
+}
+
+.app-c-timeline-entry__description {
+  @include govuk-font(16);
+  margin-top: 0;
+  white-space: pre-line;
+}

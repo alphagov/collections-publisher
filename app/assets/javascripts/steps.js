@@ -13,7 +13,6 @@
       this.initialiseDragAndDrop();
       this.setOrder(); // this is called so the order of the list is initalised
       this.bindStatusClicks();
-      this.bindCancelAddChangeNoteLink();
       this.bindOverviewTableFilter();
     },
 
@@ -138,14 +137,6 @@
       function escapeStringForRegexp(str) {
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
       }
-    },
-
-    bindCancelAddChangeNoteLink: function() {
-      $('.add-change-note-cancel--link').on('click', function(e){
-        e.preventDefault();
-        $('.add-change-note-description--textarea').val('');
-        $('.add-change-note--details').removeAttr('open');
-      });
     }
   };
 }());
