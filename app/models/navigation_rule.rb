@@ -9,4 +9,12 @@ class NavigationRule < ActiveRecord::Base
   def smartanswer?
     schema_name == "transaction" && publishing_app == "smartanswers"
   end
+
+  def display_text(value)
+    {
+      "always" => "Always show navigation",
+      "conditionally" => "Show navigation if user comes from a step-by-step",
+      "never" => "Never show navigation"
+    }[value]
+  end
 end

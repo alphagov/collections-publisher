@@ -139,4 +139,25 @@ RSpec.describe NavigationRule do
       expect(resource.smartanswer?).to be false
     end
   end
+
+  describe '#display_text' do
+    let(:resource) {
+      described_class.new(
+        title: 'A Title',
+        base_path: '/a-base-path',
+        content_id: 'A-CONTENT-ID-BOOM',
+      )
+    }
+    it "returns 'Always show navigation' if the value always" do
+      expect(resource.display_text("always")).to eq("Always show navigation")
+    end
+
+    it "returns 'Always show navigation' if the value conditionally" do
+      expect(resource.display_text("conditionally")).to eq("Show navigation if user comes from a step-by-step")
+    end
+
+    it "returns 'Never show navigation' if the value never" do
+      expect(resource.display_text("never")).to eq("Never show navigation")
+    end
+  end
 end
