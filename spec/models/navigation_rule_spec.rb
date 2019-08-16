@@ -228,4 +228,36 @@ RSpec.describe NavigationRule do
       end
     end
   end
+
+  describe '#selected_option_text' do
+    it 'returns correct text, when include_in_links is set to always' do
+      resource = described_class.new(
+        title: 'A Title',
+        base_path: '/a-base-path',
+        content_id: 'A-CONTENT-ID-BOOM',
+        include_in_links: 'always'
+      )
+      expect(resource.selected_option_text).to eq("Always show navigation")
+    end
+
+    it 'returns correct text, when include_in_links is set to conditionally' do
+      resource = described_class.new(
+        title: 'A Title',
+        base_path: '/a-base-path',
+        content_id: 'A-CONTENT-ID-BOOM',
+        include_in_links: 'conditionally'
+      )
+      expect(resource.selected_option_text).to eq("Show navigation if user comes from a step-by-step")
+    end
+
+    it 'returns correct text, when include_in_links is set to never' do
+      resource = described_class.new(
+        title: 'A Title',
+        base_path: '/a-base-path',
+        content_id: 'A-CONTENT-ID-BOOM',
+        include_in_links: 'never'
+      )
+      expect(resource.selected_option_text).to eq("Never show navigation")
+    end
+  end
 end

@@ -14,6 +14,11 @@ class NavigationRule < ActiveRecord::Base
     options.each { |item| item[:selected] = item[:value] == include_in_links }
   end
 
+  def selected_option_text
+    selected = options.select { |item| item[:value] == include_in_links }.first
+    selected[:text]
+  end
+
 private
 
   def options
