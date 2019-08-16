@@ -147,7 +147,7 @@ RSpec.feature "Managing step by step pages" do
     end
 
     scenario "User schedules publishing" do
-      given_there_is_a_draft_step_by_step_page_with_secondary_content
+      given_there_is_a_draft_step_by_step_page_with_secondary_content_and_navigation_rules
       and_I_visit_the_scheduling_page
       and_I_fill_in_the_scheduling_form
       when_I_submit_the_form
@@ -502,6 +502,10 @@ RSpec.feature "Managing step by step pages" do
     then_I_can_see_the_step_by_step_details
     and_I_cannot_edit_the_step_by_step_details
 
+    when_I_visit_the_navigation_rules_page
+    then_I_see_pages_included_in_navigation
+    but_there_is_no_select_component
+
     when_I_visit_the_secondary_content_page
     then_I_can_see_the_existing_secondary_links
     and_I_cannot_add_secondary_content_link
@@ -546,6 +550,19 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to_not have_field("step_by_step_page[introduction]")
     expect(page).to_not have_field("step_by_step_page[description]")
     expect(page).to_not have_css("button", text: "Save")
+  end
+
+  def when_I_visit_the_navigation_rules_page
+    visit step_by_step_page_navigation_rules_path(@step_by_step_page)
+  end
+
+  def then_I_see_pages_included_in_navigation
+    expect(page).to have_link("Also good stuff", href: "https://draft-origin.test.gov.uk/also/good/stuff")
+    expect(page).to have_content("Always show navigation")
+  end
+
+  def but_there_is_no_select_component
+    expect(page).not_to have_css("select")
   end
 
   def when_I_visit_the_secondary_content_page

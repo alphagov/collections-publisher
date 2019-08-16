@@ -45,25 +45,29 @@
                   <td class="govuk-table__cell"><%= link_to(navigation_rule.title, preview_url(navigation_rule.base_path), class: "govuk-link") %></td>
                   <td class="govuk-table__cell"><%= navigation_rule.base_path %></td>
                   <td class="govuk-table__cell">
-                    <%= render "govuk_publishing_components/components/select", {
-                      id: "navigation_rules[#{navigation_rule.content_id}]",
-                      label: "",
-                      options: [
-                        {
-                          text: "Always show navigation",
-                          value: "always",
-                          selected: true
-                        },
-                        {
-                          text: "Show navigation if user comes from a step-by-step",
-                          value: "conditionally",
-                        },
-                        {
-                          text: "Never show navigation",
-                          value: "never"
-                        }
-                      ].each{ |item| item[:selected] = item[:value] == navigation_rule.include_in_links }
-                    } %>
+                    <% if @step_by_step_page.can_be_edited? %>
+                      <%= render "govuk_publishing_components/components/select", {
+                        id: "navigation_rules[#{navigation_rule.content_id}]",
+                        label: "",
+                        options: [
+                          {
+                            text: navigation_rule.display_text("always"),
+                            value: "always",
+                            selected: true
+                          },
+                          {
+                            text: navigation_rule.display_text("conditionally"),
+                            value: "conditionally",
+                          },
+                          {
+                            text: navigation_rule.display_text("never"),
+                            value: "never"
+                          }
+                        ].each{ |item| item[:selected] = item[:value] == navigation_rule.include_in_links }
+                      } %>
+                    <% else %>
+                      <%= tag.p navigation_rule.display_text(navigation_rule.include_in_links), id: "navigation_rules[#{navigation_rule.content_id}]" %>
+                    <% end %>
                   </td>
                 </tr>
               <% end %>
@@ -77,7 +81,7 @@
           </tbody>
         </table>
       </div>
-      <% if @step_by_step_page.navigation_rules.present? %>
+      <% if @step_by_step_page.navigation_rules.present? && @step_by_step_page.can_be_edited?%>
         <div class="govuk-grid-column-full">
           <%= render "govuk_publishing_components/components/button", {
             text: "Save"

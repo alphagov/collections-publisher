@@ -54,6 +54,14 @@ FactoryBot.define do
     end
   end
 
+  factory :step_by_step_page_with_secondary_content_and_navigation_rules, parent: :step_by_step_page_with_steps do
+    after(:create) do |step_by_step_page|
+      create(:secondary_content_link, step_by_step_page: step_by_step_page)
+      create(:navigation_rule, step_by_step_page: step_by_step_page)
+      create(:navigation_rule, step_by_step_page: step_by_step_page, title: "Also good stuff", base_path: "/also/good/stuff")
+    end
+  end
+
   factory :step do
     title { "Check how awesome you are" }
     logic { "number" }
