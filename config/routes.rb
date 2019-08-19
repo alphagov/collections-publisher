@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root to: redirect('/specialist-sector-pages', status: 302)
+  root to: redirect('/step-by-step-pages', status: 302)
 
   resources :step_by_step_pages, path: 'step-by-step-pages' do
     get 'navigation-rules', to: 'navigation_rules#edit'
