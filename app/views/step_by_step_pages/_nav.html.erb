@@ -8,7 +8,7 @@
   tabs = [
     {
       href: @step_by_step_page,
-      label: "Edit steps",
+      label: @step_by_step_page.can_be_edited? ? "Edit steps" : "View steps",
       active: active == 'edit-steps'
     },
     {
