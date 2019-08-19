@@ -131,8 +131,8 @@ RSpec.describe Step do
     end
 
     it 'should return the last date the links where checked' do
-      create(:link_report, batch_id: 2, step_id: step_item.id, created_at: "2018-08-07 10:30:38")
-      expect(step_item.links_last_checked_date.utc).to eq(Time.new(2018, 8, 7, 10, 30, 38).utc)
+      create(:link_report, batch_id: 2, step_id: step_item.id, created_at: Time.zone.parse("2018-08-07 10:30:38"))
+      expect(step_item.links_last_checked_date).to eq(Time.zone.local(2018, 8, 7, 10, 30, 38))
     end
 
     it 'should not fail if the saved batch id does not match a batch in link-checker-api' do
