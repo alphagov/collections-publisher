@@ -37,25 +37,23 @@
             } %>
           <% end %>
 
-          <% if user_can_schedule? %>
-            <% if @step_by_step_page.scheduled_for_publishing? %>
-              <p class="govuk-body">
-                Scheduled to be published on <%= format_full_date_and_time(@step_by_step_page.scheduled_at) %>
-              </p>
-              <%= form_tag step_by_step_page_unschedule_path(@step_by_step_page), method: :unschedule do %>
-                <%= render "govuk_publishing_components/components/button", {
-                  text: "Unschedule publishing",
-                  destructive: true
-                } %>
-              <% end %>
-            <% else %>
-              <p class="govuk-body govuk-!-margin-top-5">Or</p>
+          <% if @step_by_step_page.scheduled_for_publishing? %>
+            <p class="govuk-body">
+              Scheduled to be published on <%= format_full_date_and_time(@step_by_step_page.scheduled_at) %>
+            </p>
+            <%= form_tag step_by_step_page_unschedule_path(@step_by_step_page), method: :unschedule do %>
               <%= render "govuk_publishing_components/components/button", {
-                text: "Schedule publish",
-                href: step_by_step_page_schedule_path(@step_by_step_page),
-                secondary: true
+                text: "Unschedule publishing",
+                destructive: true
               } %>
             <% end %>
+          <% else %>
+            <p class="govuk-body govuk-!-margin-top-5">Or</p>
+            <%= render "govuk_publishing_components/components/button", {
+              text: "Schedule publish",
+              href: step_by_step_page_schedule_path(@step_by_step_page),
+              secondary: true
+            } %>
           <% end %>
 
           <% if @step_by_step_page.can_discard_changes? %>

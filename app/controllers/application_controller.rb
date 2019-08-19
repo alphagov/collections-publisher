@@ -11,14 +11,10 @@ class ApplicationController < ActionController::Base
 
 private
 
-  helper_method :gds_editor?, :user_can_schedule?, :active_navigation_item
+  helper_method :gds_editor?, :active_navigation_item
 
   def gds_editor?
     current_user.has_permission? "GDS Editor"
-  end
-
-  def user_can_schedule?
-    current_user.has_permission? "Scheduling"
   end
 
   # Can be overridden to allow controllers to choose the active menu item.
@@ -42,9 +38,5 @@ private
     if current_user && GdsApi::GovukHeaders.headers[:x_govuk_authenticated_user].nil?
       GdsApi::GovukHeaders.set_header(:x_govuk_authenticated_user, current_user.uid)
     end
-  end
-
-  def require_scheduling_permissions!
-    authorise_user!("Scheduling")
   end
 end

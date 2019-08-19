@@ -34,14 +34,14 @@ RSpec.describe StepByStepPagesController do
   end
 
   describe "GET Step by step schedule page" do
-    it "can only be accessed by users with Scheduling permissions" do
-      stub_user.permissions << "Scheduling"
+    it "can only be accessed by users with GDS editor permissions" do
       get :schedule, params: { step_by_step_page_id: step_by_step_page.id }
 
       expect(response.status).to eq(200)
     end
 
-    it "cannot be accessed by users without Scheduling permissions" do
+    it "cannot be accessed by users without GDS editor permissions" do
+      stub_user.permissions = %w(signin)
       get :schedule, params: { step_by_step_page_id: step_by_step_page.id }
 
       expect(response.status).to eq(403)
@@ -95,7 +95,6 @@ RSpec.describe StepByStepPagesController do
     let(:step_by_step_page) { create(:draft_step_by_step_page) }
 
     before :each do
-      stub_scheduling_permissions
       stub_publishing_api_for_scheduling
       stub_default_publishing_api_put_intent
     end
@@ -127,7 +126,6 @@ RSpec.describe StepByStepPagesController do
 
   describe "#unschedule" do
     before :each do
-      stub_scheduling_permissions
       stub_publishing_api_for_scheduling
     end
 
@@ -206,10 +204,6 @@ RSpec.describe StepByStepPagesController do
 
     stub_any_publishing_api_put_content
     stub_any_publishing_api_publish
-  end
-
-  def stub_scheduling_permissions
-    stub_user.permissions << "Scheduling"
   end
 
   def stub_publishing_api_for_scheduling

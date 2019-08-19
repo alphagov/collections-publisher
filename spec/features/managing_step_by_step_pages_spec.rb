@@ -134,15 +134,8 @@ RSpec.feature "Managing step by step pages" do
     then_there_should_be_a_change_note "Draft saved by #{stub_user.name}"
   end
 
-  scenario "User cannot see Schedule button without Scheduling permissions" do
-    given_there_is_a_draft_step_by_step_page
-    and_I_visit_the_publish_or_delete_page
-    then_there_should_be_no_schedule_button
-  end
-
-  context "Given I have Scheduling permissions" do
+  context "Scheduling" do
     before do
-      given_I_have_scheduling_permissions
       stub_publishing_api_destroy_intent('/how-to-be-the-amazing-1')
     end
 
@@ -392,10 +385,6 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_see_I_saved_it_last
     expect(page).to have_content("Last saved by Test author")
-  end
-
-  def given_I_have_scheduling_permissions
-    stub_user.permissions << "Scheduling"
   end
 
   def and_I_visit_the_scheduling_page
