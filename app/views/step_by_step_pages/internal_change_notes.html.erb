@@ -25,7 +25,6 @@
 
 <%= render 'nav', step_by_step_page: @step_by_step_page, active: "internal-change-notes" %>
 
-<% displayed_edition_number = nil %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_for(@internal_change_note, url: step_by_step_page_internal_change_notes_path) do |form| %>
@@ -45,25 +44,27 @@
       } %>
     <% end %>
 
-    <% @step_by_step_page.internal_change_notes.each do |entry| %>
-      <div class="app-c-timeline-entry">
-        <% if displayed_edition_number != entry.edition_number %>
-          <h3 class="app-c-timeline-entry__title"><%= "#{entry.edition_number.to_i.ordinalize} edition" %></h3>
-          <% displayed_edition_number = entry.edition_number %>
-        <% end %>
-
-        <h4 class="app-c-timeline-entry__type">
-          <%= "Internal note" %>
-        </h4>
-
-        <p class="app-c-timeline-entry__dateline">
-          <%= entry.readable_created_date %> by <%= entry.author %>
-        </p>
-
-        <div class="app-c-timeline-entry__description">
-          <%= entry.description %>
-        </div>
-      </div>
-    <% end %>
+    <%= render "govuk_publishing_components/components/accordion", {
+      items: @step_by_step_page.internal_change_notes
+        .group_by { |edition| edition.edition_number }
+        .map { |_ , records|
+          {
+            heading: {
+              text: sanitize("#{records.first.edition_number ? "#{records.first.edition_number.to_i.ordinalize} edition" : "Current version"}")
+            },
+            content: {
+              html: sanitize(records.map { |note|
+                  "<div class='app-c-timeline-entry'>
+                    <h4 class='app-c-timeline-entry__type'>Internal note</h4>
+                    <p class='app-c-timeline-entry__dateline'>#{note.readable_created_date} by #{note.author}</p>
+                    <pre class='app-c-timeline-entry__description'>#{note.description}</pre>
+                  </div>"
+                }.join
+              )
+            },
+            expanded: !records.first.edition_number
+          }
+        }
+    } %>
   </div>
 </div>

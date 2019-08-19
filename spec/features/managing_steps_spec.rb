@@ -213,5 +213,10 @@ RSpec.feature "Managing step by step pages" do
 
   def then_the_change_note_should_be_saved
     expect(page).to have_content "Change note was successfully added."
+    expect(page).to have_css(".govuk-accordion", count: 1)
+    within(".govuk-accordion") do
+      expect(page).to have_css(".govuk-accordion__section-heading", text: "Current version", count: 1)
+      expect(page).to have_css(".govuk-accordion__section-content", text: "I've changed this step by step!", count: 1)
+    end
   end
 end
