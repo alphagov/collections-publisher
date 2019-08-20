@@ -17,7 +17,7 @@
 
 <%= render 'shared/steps/heading',
   step_nav: @step_by_step_page.title,
-  action: 'Edit steps'
+  action: @step_by_step_page.can_be_edited? ? "Edit steps" : "View steps"
 %>
 
 <%= render 'nav', step_by_step_page: @step_by_step_page, active:"edit-steps" %>
