@@ -48,3 +48,34 @@
     margin-bottom: 10px;
   }
 }
+
+.gem-c-metadata {
+  @include govuk-font(19);
+  margin-bottom: 0;
+
+  dl {
+    margin: 0;
+  }
+
+  .gem-c-metadata__term {
+    width: auto;
+    max-width: inherit;
+    padding-right: 0;
+    float: none;
+    @include govuk-font($size: 19, $weight: bold);
+  }
+
+  .gem-c-metadata__definition {
+    width: auto;
+    margin: 0;
+    margin-bottom: govuk-spacing(3);
+    float: none;
+
+    &:last-child {
+      margin: 0;
+    }
+
+    @include govuk-clearfix;
+  }
+
+}

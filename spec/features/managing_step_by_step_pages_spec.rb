@@ -392,7 +392,10 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_see_I_saved_it_last
-    expect(page).to have_content("Last saved by Test author")
+    within(".gem-c-metadata") do
+      expect(page).to have_content("Status: Draft")
+      expect(page).to have_content("by Test author")
+    end
   end
 
   def and_I_visit_the_scheduling_page
