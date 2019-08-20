@@ -64,7 +64,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def can_be_published?
-    has_draft? && !scheduled_for_publishing? && steps.any?
+    has_draft? && !scheduled_for_publishing? && steps_have_content?
   end
 
   def can_be_unpublished?
@@ -147,5 +147,9 @@ private
       text: "Unpublished changes",
       label_class: "label-primary"
     }
+  end
+
+  def steps_have_content?
+    steps.any? && steps.map(&:contents).all?(&:present?)
   end
 end
