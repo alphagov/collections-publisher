@@ -83,6 +83,10 @@ class StepByStepPage < ApplicationRecord
     !scheduled_for_publishing?
   end
 
+  def steps_have_content?
+    steps.any? && steps.map(&:contents).all?(&:present?)
+  end
+
   # Create a deterministic, but unique token that will be used to give one-time
   # access to a piece of draft content.
   # This token is created by using an id that should be unique so that there is
@@ -147,9 +151,5 @@ private
       text: "Unpublished changes",
       label_class: "label-primary"
     }
-  end
-
-  def steps_have_content?
-    steps.any? && steps.map(&:contents).all?(&:present?)
   end
 end

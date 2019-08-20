@@ -193,6 +193,14 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
+  scenario "A step doesn't have any content" do
+    given_there_is_a_step_by_step_page_with_steps_missing_content
+    when_I_visit_the_publish_or_delete_page
+    then_I_should_see "Step by steps cannot be published until all steps have content."
+    and_there_should_be_no_publish_button
+    and_there_should_be_no_schedule_button
+  end
+
   def and_it_has_change_notes
     create(:internal_change_note, step_by_step_page_id: @step_by_step_page.id)
   end
@@ -578,6 +586,8 @@ RSpec.feature "Managing step by step pages" do
       expect(page).to_not have_css("button", text: "Publish changes")
     end
   end
+
+  alias_method :and_there_should_be_no_publish_button, :then_there_should_be_no_publish_button
 
   def then_there_should_be_no_discard_changes_button
     within(".publish-or-delete") do

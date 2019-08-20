@@ -25,7 +25,7 @@
 
 <div class="govuk-grid-row publish-or-delete">
   <div class="govuk-grid-column-full">
-    <% if @step_by_step_page.can_be_published? || @step_by_step_page.can_discard_changes? ||  @step_by_step_page.scheduled_for_publishing?%>
+    <% if @step_by_step_page.can_be_published? || @step_by_step_page.can_discard_changes? || @step_by_step_page.scheduled_for_publishing? || !@step_by_step_page.steps_have_content? %>
       <div class="govuk-panel panel-default">
         <div class="panel-body">
           <% if @step_by_step_page.scheduled_for_publishing? %>
@@ -38,8 +38,7 @@
                 destructive: true
               } %>
             <% end %>
-          <% end %>
-          <% if @step_by_step_page.can_be_published? %>
+          <% elsif @step_by_step_page.can_be_published? %>
             <p class="govuk-body">Before publishing check for broken links.</p>
             <p class="govuk-body">After publishing add this step by step to a mainstream browse category and a taxonomy topic.</p>
             <%= render "govuk_publishing_components/components/button", {
@@ -52,6 +51,10 @@
               href: step_by_step_page_schedule_path(@step_by_step_page),
               secondary: true
             } %>
+          <% elsif !@step_by_step_page.steps_have_content? %>
+            <p class="govuk-body">
+              Step by steps cannot be published until all steps have content.
+            </p>
           <% end %>
 
           <% if @step_by_step_page.can_discard_changes? %>
