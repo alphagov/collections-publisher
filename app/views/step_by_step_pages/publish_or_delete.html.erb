@@ -28,15 +28,6 @@
     <% if @step_by_step_page.can_be_published? || @step_by_step_page.can_discard_changes? ||  @step_by_step_page.scheduled_for_publishing?%>
       <div class="govuk-panel panel-default">
         <div class="panel-body">
-          <% if @step_by_step_page.can_be_published? %>
-            <p class="govuk-body">Before publishing check for broken links.</p>
-            <p class="govuk-body">After publishing add this step by step to a mainstream browse category and a taxonomy topic.</p>
-            <%= render "govuk_publishing_components/components/button", {
-              text: "Publish changes",
-              href: step_by_step_page_publish_path(@step_by_step_page)
-            } %>
-          <% end %>
-
           <% if @step_by_step_page.scheduled_for_publishing? %>
             <p class="govuk-body">
               Scheduled to be published on <%= format_full_date_and_time(@step_by_step_page.scheduled_at) %>
@@ -47,7 +38,14 @@
                 destructive: true
               } %>
             <% end %>
-          <% else %>
+          <% end %>
+          <% if @step_by_step_page.can_be_published? %>
+            <p class="govuk-body">Before publishing check for broken links.</p>
+            <p class="govuk-body">After publishing add this step by step to a mainstream browse category and a taxonomy topic.</p>
+            <%= render "govuk_publishing_components/components/button", {
+              text: "Publish changes",
+              href: step_by_step_page_publish_path(@step_by_step_page)
+            } %>
             <p class="govuk-body govuk-!-margin-top-5">Or</p>
             <%= render "govuk_publishing_components/components/button", {
               text: "Schedule publish",
@@ -57,7 +55,9 @@
           <% end %>
 
           <% if @step_by_step_page.can_discard_changes? %>
-            <p class="govuk-body govuk-!-margin-top-5">Or</p>
+            <% if @step_by_step_page.can_be_published? %>
+              <p class="govuk-body govuk-!-margin-top-5">Or</p>
+            <% end %>
             <%= button_to 'Discard changes', { action: "revert", step_by_step_page_id: @step_by_step_page.id }, data: { confirm: 'This will delete your draft. Do you want to discard your changes?' }, class: "gem-c-button govuk-button govuk-button--warning" %>
           <% end %>
           </div>
