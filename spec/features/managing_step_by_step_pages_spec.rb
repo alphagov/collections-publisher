@@ -123,6 +123,15 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_a_page_reverted_success_notice
   end
 
+  scenario "User publishes changes to a live step by step page" do
+    given_there_is_a_published_step_by_step_page_with_unpublished_changes
+    and_I_visit_the_publish_or_delete_page
+    and_I_click_button "Publish changes"
+    then_I_should_see_a_publish_form_with_changenotes
+    and_when_I_click_button "Publish step by step"
+    then_I_am_told_that_it_is_published
+  end
+
   scenario "User publishes and then makes more changes to a step by step page" do
     given_there_is_a_step_by_step_page_assigned_to_me
     and_I_visit_the_publish_page
@@ -402,6 +411,23 @@ RSpec.feature "Managing step by step pages" do
   end
 
   alias_method :when_I_visit_the_scheduling_page, :and_I_visit_the_scheduling_page
+
+  def and_I_click_button(button_text)
+    begin
+      click_button button_text, exact: true
+    rescue Capybara::ElementNotFound
+      # some button-like things are actually marked up as link
+      click_link button_text, exact: true
+    end
+  end
+
+  alias_method :and_when_I_click_button, :and_I_click_button
+
+  def then_I_should_see_a_publish_form_with_changenotes
+    expect(page).to have_content("Update type")
+    expect(page).to have_css('input[type="radio"][name="update_type"]', count: 2)
+    expect(page).to have_css('textarea[name="change_note"]')
+  end
 
   def and_I_fill_in_the_scheduling_form
     fill_in 'schedule[date][year]', with: "2030"
