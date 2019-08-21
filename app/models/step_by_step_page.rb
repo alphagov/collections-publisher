@@ -64,7 +64,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def can_be_published?
-    has_draft? && !scheduled_for_publishing?
+    has_draft? && !scheduled_for_publishing? && steps_have_content?
   end
 
   def can_be_unpublished?
@@ -81,6 +81,10 @@ class StepByStepPage < ApplicationRecord
 
   def can_be_edited?
     !scheduled_for_publishing?
+  end
+
+  def steps_have_content?
+    steps.any? && steps.map(&:contents).all?(&:present?)
   end
 
   # Create a deterministic, but unique token that will be used to give one-time
