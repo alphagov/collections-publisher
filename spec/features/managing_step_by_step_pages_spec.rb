@@ -59,8 +59,7 @@ RSpec.feature "Managing step by step pages" do
     and_I_visit_the_publish_or_delete_page
     and_I_visit_the_publish_page
     and_I_publish_the_page
-    then_the_page_is_published
-    and_I_am_told_that_it_is_published
+    then_I_am_told_that_it_is_published
     then_I_see_the_step_by_step_page
     and_I_visit_the_publish_or_delete_page
     and_I_see_an_unpublish_button
@@ -373,7 +372,7 @@ RSpec.feature "Managing step by step pages" do
     click_on "Publish step by step"
   end
 
-  def and_I_am_told_that_it_is_published
+  def then_I_am_told_that_it_is_published
     expect(page).to have_content("has been published")
   end
 

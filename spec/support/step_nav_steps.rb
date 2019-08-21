@@ -44,11 +44,6 @@ module StepNavSteps
     assert_publishing_api_put_content(@step_by_step_page.content_id)
   end
 
-  def then_the_page_is_published
-    payload = StepNavPresenter.new(@step_by_step_page).render_for_publishing_api
-    stub_publishing_api_put_content_links_and_publish(payload, @step_by_step_page.content_id)
-  end
-
   def then_the_page_is_unpublished
     assert_publishing_api_unpublish(@step_by_step_page.content_id)
   end
