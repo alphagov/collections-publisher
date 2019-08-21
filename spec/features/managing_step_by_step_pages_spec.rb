@@ -54,11 +54,9 @@ RSpec.feature "Managing step by step pages" do
   end
 
   scenario "User publishes a page" do
-    given_there_is_a_step_by_step_page_with_steps
-    when_I_view_the_step_by_step_page
+    given_there_is_a_draft_step_by_step_page
     and_I_visit_the_publish_or_delete_page
-    and_I_visit_the_publish_page
-    and_I_publish_the_page
+    and_I_click_button "Publish"
     then_I_am_told_that_it_is_published
     then_I_see_the_step_by_step_page
     and_I_visit_the_publish_or_delete_page

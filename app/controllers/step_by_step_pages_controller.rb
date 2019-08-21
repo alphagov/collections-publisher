@@ -62,7 +62,7 @@ class StepByStepPagesController < ApplicationController
   def publish
     set_current_page_as_step_by_step
     if request.post?
-      @publish_intent = PublishIntent.new(params)
+      @publish_intent = PublishIntent.new(publish_intent_params)
       if @publish_intent.valid?
         publish_page(@publish_intent)
         custom_note = " with note: #{@publish_intent.change_note}" unless @publish_intent.change_note.empty?
@@ -167,6 +167,10 @@ private
 
   def update_downstream
     StepByStepDraftUpdateWorker.perform_async(@step_by_step_page.id, current_user.name)
+  end
+
+  def publish_intent_params
+    @step_by_step_page.has_been_published? ? params : { update_type: "minor" }
   end
 
   def publish_page(publish_intent)

@@ -50,6 +50,8 @@ RSpec.describe StepByStepPagesController do
 
   describe "#publish" do
     context 'major updates' do
+      let(:step_by_step_page) { create(:published_step_by_step_page) }
+
       it "generates an internal change note with change note text" do
         stub_publishing_api
 
@@ -62,6 +64,8 @@ RSpec.describe StepByStepPagesController do
     end
 
     context 'minor updates' do
+      let(:step_by_step_page) { create(:published_step_by_step_page) }
+
       it "generates an internal change note with change note text" do
         stub_publishing_api
 
