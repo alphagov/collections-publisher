@@ -102,4 +102,16 @@ RSpec.describe StepByStepFilter do
       end
     end
   end
+
+  context "filter by slug" do
+    it "matches on slug" do
+      filter_params = {
+        title_or_url: "draft-step-by-step"
+      }
+      results = described_class.new(filter_params).results
+
+      expect(results.count).to eq(1)
+      expect(results.first.title).to eq(draft_step_by_step.title)
+    end
+  end
 end
