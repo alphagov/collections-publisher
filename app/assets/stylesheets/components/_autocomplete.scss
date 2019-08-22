@@ -4,7 +4,7 @@
 $app-focus-colour: #ffdd00;
 
 .autocomplete__wrapper {
-  background: govuk-colour("white");
+  background: govuk-colour("white", $legacy: "white");
 }
 
 .autocomplete__input {
@@ -30,10 +30,10 @@ $app-focus-colour: #ffdd00;
 
 .autocomplete__option--focused,
 .autocomplete__option:hover {
-  color: govuk-colour("white");
+  color: govuk-colour("white", $legacy: "white");
 
   .autocomplete__option-hint {
-    color: govuk-colour("white");
+    color: govuk-colour("white", $legacy: "white");
   }
 }
 

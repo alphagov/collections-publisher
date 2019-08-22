@@ -6,17 +6,17 @@
     <h2 class="govuk-tabs__title">
       Contents
     </h2>
-    <ul class="govuk-tabs__list">
+    <ul class="govuk-tabs__list" role="tablist">
       <% tabs.each do |tab| %>
-      <li class="govuk-tabs__list-item">
-        <%
-          tab[:class] = %w(govuk-tabs__tab)
-          tab[:class] << "govuk-tabs__tab--selected" if tab[:active]
-          tab[:class] = tab[:class].join(" ")
-        %>
+      <%
+        tab[:class] = %w(govuk-tabs__list-item)
+        tab[:class] << "govuk-tabs__list-item--selected" if tab[:active]
+        tab[:class] = tab[:class].join(" ")
+      %>
+      <li class="<%= tab[:class] %>" role="presentation">
         <%= link_to(tab[:label],
                     tab[:href],
-                    class: tab[:class]) %>
+                    class: "govuk-tabs__tab") %>
       </li>
       <% end %>
     </ul>
