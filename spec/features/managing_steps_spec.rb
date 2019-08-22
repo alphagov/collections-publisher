@@ -203,15 +203,20 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_write_a_change_note
-    fill_in "Description", with: "I've changed this step by step!"
+    fill_in "Internal note", with: "I've changed this step by step!"
   end
 
   def and_I_complete_a_change_note
     and_I_write_a_change_note
-    click_on "Save"
+    click_on "Add internal note"
   end
 
   def then_the_change_note_should_be_saved
     expect(page).to have_content "Change note was successfully added."
+    expect(page).to have_css(".govuk-accordion", count: 1)
+    within(".govuk-accordion") do
+      expect(page).to have_css(".govuk-accordion__section-heading", text: "Current version", count: 1)
+      expect(page).to have_css(".govuk-accordion__section-content", text: "I've changed this step by step!", count: 1)
+    end
   end
 end

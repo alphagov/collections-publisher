@@ -25,56 +25,46 @@
 
 <%= render 'nav', step_by_step_page: @step_by_step_page, active: "internal-change-notes" %>
 
-<%= form_for(@internal_change_note, url: step_by_step_page_internal_change_notes_path) do |form| %>
-  <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_for(@internal_change_note, url: step_by_step_page_internal_change_notes_path) do |form| %>
+      <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-      <details class="add-change-note--details">
-        <summary class="add-change-note--summary">
-          <span class="gem-c-button govuk-button">Add a change note</span>
-        </summary>
-        <div class="govuk-grid-column-full">
-          <%= render "govuk_publishing_components/components/textarea", {
-            label: {
-              text: "Description"
-            },
-            name: "internal_change_note[description]",
-            rows: 8
-          } %>
-        </div>
-        <div class="govuk-grid-column-full">
-          <%= render "govuk_publishing_components/components/button", {
-            text: "Save change note"
-          } %>
-        </div>
-        <div class="govuk-grid-column-full govuk-!-margin-top-3">
-          <%= link_to 'Cancel', step_by_step_page_internal_change_notes_path, class: "govuk-link add-change-note-cancel--link" %>
-        </div>
-      </details>
-    </div>
-  </div>
-<% end %>
+      <%= render "govuk_publishing_components/components/textarea", {
+        label: {
+          text: "Internal note",
+          bold: true
+        },
+        name: "internal_change_note[description]"
+      } %>
 
-<div class="govuk-grid-row govuk-!-margin-top-3">
-  <div class="govuk-grid-column-full">
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Add internal note",
+        margin_bottom: true
+      } %>
+    <% end %>
+
     <%= render "govuk_publishing_components/components/accordion", {
-      items: @step_by_step_page.internal_change_notes.map.with_index do |note, index|
-        {
-          heading: {
-            text: "#{note.readable_created_date}"
-          },
-          summary: {
-            text: sanitize("#{note.edition_number ? "Edition #{note.edition_number}" : "Current version"} - Change made by <strong>#{note.author}</strong>")
-          },
-          content: {
-            html: sanitize("
-              <pre class=\"govuk-body change-note--description\">#{note.description}</pre>
-            ")
-          },
-          expanded: index == 0
+      items: @step_by_step_page.internal_change_notes
+        .group_by { |edition| edition.edition_number }
+        .map { |_ , records|
+          {
+            heading: {
+              text: sanitize("#{records.first.edition_number ? "#{records.first.edition_number.to_i.ordinalize} edition" : "Current version"}")
+            },
+            content: {
+              html: sanitize(records.map { |note|
+                  "<div class='app-c-timeline-entry'>
+                    <h4 class='app-c-timeline-entry__type'>Internal note</h4>
+                    <p class='app-c-timeline-entry__dateline'>#{note.readable_created_date} by #{note.author}</p>
+                    <pre class='app-c-timeline-entry__description'>#{note.description}</pre>
+                  </div>"
+                }.join
+              )
+            },
+            expanded: !records.first.edition_number
+          }
         }
-      end
     } %>
   </div>
 </div>
