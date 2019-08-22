@@ -69,4 +69,37 @@ RSpec.describe StepByStepFilter do
       expect(results.count).to eq(0)
     end
   end
+
+  context "filter by title" do
+    it "matches on the whole title" do
+      filter_params = {
+        title_or_url: "published step by step"
+      }
+      results = described_class.new(filter_params).results
+
+      expect(results.count).to eq(1)
+      expect(results.first.title).to eq(published_step_by_step.title)
+    end
+
+    context "partial titles" do
+      it "matches on beginning of title" do
+        filter_params = {
+          title_or_url: "published"
+        }
+        results = described_class.new(filter_params).results
+
+        expect(results.count).to eq(1)
+        expect(results.first.title).to eq(published_step_by_step.title)
+      end
+
+      it "matches on end of title" do
+        filter_params = {
+          title_or_url: "by step"
+        }
+        results = described_class.new(filter_params).results
+
+        expect(results.count).to eq(3)
+      end
+    end
+  end
 end
