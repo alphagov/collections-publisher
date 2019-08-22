@@ -167,7 +167,7 @@ RSpec.describe StepByStepPage do
       create(:link_report, batch_id: 1, step_id: step1.id, created_at: "2018-08-07 10:31:38")
       create(:link_report, batch_id: 2, step_id: step2.id, created_at: "2018-08-07 10:30:38")
 
-      expect(step_by_step_with_step.links_last_checked_date).to eq("Tuesday, 07 August 2018 at 10:31 AM")
+      expect(step_by_step_with_step.links_last_checked_date).to eq(Time.zone.local(2018, 8, 7, 10, 31, 38))
     end
 
     it 'does not fail if there are no link reports' do

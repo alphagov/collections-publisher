@@ -1,8 +1,7 @@
-
 <%
   links = [
     {
-      text: 'Step by step publisher',
+      text: 'Step by steps',
       href: step_by_step_pages_path
     },
     {
@@ -11,14 +10,9 @@
   ]
 %>
 
-<%= render 'shared/steps/step_breadcrumb', links: links %>
-
-<%= render 'shared/steps/page_title', links: links %>
-
-<%= render 'shared/steps/heading',
-  step_nav: @step_by_step_page.title,
-  action: @step_by_step_page.can_be_edited? ? "Edit steps" : "View steps"
-%>
+<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :title, @step_by_step_page.title %>
+<% content_for :context, 'Step by step' %>
 
 <%= render 'nav', step_by_step_page: @step_by_step_page, active:"edit-steps" %>
 
@@ -78,35 +72,33 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <ul class="govuk-list step-by-step-actions__list">
-      <% if @step_by_step_page.can_be_edited? %>
-        <li>
+    <div class="app-side">
+      <div class="app-side__actions">
+        <% if @step_by_step_page.can_be_edited? %>
           <%= render "govuk_publishing_components/components/button", {
             text: "Add a new step",
             href: new_step_by_step_page_step_path(@step_by_step_page)
           } %>
-      </li>
-      <% end %>
-      <li class="govuk-!-margin-top-2">
+        <% end %>
         <%= render "govuk_publishing_components/components/button", {
           text: "Preview",
           href: preview_url(@step_by_step_page.slug, auth_bypass_id: @step_by_step_page.auth_bypass_id),
           secondary: true
         } %>
-      </li>
-      <li class="govuk-!-margin-top-2">
         <%= button_to "Check for broken links", {action: "check_links", step_by_step_page_id: @step_by_step_page.id}, method: :post, class: "govuk-button gem-c-button gem-c-button--secondary-quiet" %>
-      </li>
-    </ul>
-  </div>
-</div>
+      </div>
+    </div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <% if @step_by_step_page.links_checked? %>
-      <%= render "govuk_publishing_components/components/inset_text", {
-        text: sanitize("<strong>Links last checked:</strong> <br/>#{@step_by_step_page.links_last_checked_date}")
-      } %>
-    <% end %>
+    <div class="app-side">
+      <%
+        metadata = {}
+        metadata.store("Status", @step_by_step_page.status[:text])
+        metadata.store("Last updated", format_full_date_and_time(@step_by_step_page.updated_at))
+        metadata["Last updated"] = "#{metadata["Last updated"]} by #{@step_by_step_page.assigned_to}" if @step_by_step_page.assigned_to.present?
+        metadata.store("Created", format_full_date_and_time(@step_by_step_page.created_at))
+        metadata.store("Links checked", format_full_date_and_time(@step_by_step_page.links_last_checked_date)) if @step_by_step_page.links_checked?
+      %>
+      <%= render "govuk_publishing_components/components/metadata", { other: metadata } %>
+    </div>
   </div>
 </div>

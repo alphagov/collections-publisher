@@ -114,7 +114,7 @@ RSpec.describe StepByStepPagesController do
       schedule_for_future
 
       expect(step_by_step_page.scheduled_at.class.name).to eq 'Time'
-      expect(format_full_date_and_time(step_by_step_page.scheduled_at)).to eq 'Saturday, 20 April 2030 at 10:26 am'
+      expect(format_full_date_and_time(step_by_step_page.scheduled_at)).to eq '10:26am on 20 April 2030'
     end
 
     it "sets the status to Scheduled" do

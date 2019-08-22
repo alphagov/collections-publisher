@@ -89,7 +89,7 @@ class StepByStepPagesController < ApplicationController
         render :schedule
       elsif @step_by_step_page.update_attributes(scheduled_at: scheduled_at)
         schedule_to_publish
-        note_description = "Minor update scheduled by #{current_user.name} for publishing on #{format_full_date_and_time(scheduled_at)}"
+        note_description = "Minor update scheduled by #{current_user.name} for publishing at #{format_full_date_and_time(scheduled_at)}"
         generate_internal_change_note(note_description)
         set_change_note_version
         redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been scheduled to publish."

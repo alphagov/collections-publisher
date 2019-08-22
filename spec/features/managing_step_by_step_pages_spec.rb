@@ -146,7 +146,7 @@ RSpec.feature "Managing step by step pages" do
       when_I_submit_the_form
       then_I_should_see "has been scheduled to publish"
       and_the_step_by_step_should_have_the_status "Scheduled"
-      and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing on Saturday, 20 April 2030 at 10:26 am"
+      and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing at 10:26am on 20 April 2030"
       and_the_step_by_step_is_not_editable
       when_I_view_the_step_by_step_page
       then_I_can_preview_the_step_by_step
@@ -167,7 +167,7 @@ RSpec.feature "Managing step by step pages" do
     scenario "User tries to schedule publishing for an already scheduled step by step" do
       given_there_is_a_scheduled_step_by_step_page
       when_I_visit_the_publish_or_delete_page
-      then_I_should_see "Scheduled to be published on"
+      then_I_should_see "Scheduled to be published at"
       and_there_should_be_no_schedule_button
     end
 
@@ -392,7 +392,10 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_see_I_saved_it_last
-    expect(page).to have_content("Last saved by Test author")
+    within(".gem-c-metadata") do
+      expect(page).to have_content("Status: Draft")
+      expect(page).to have_content("by Test author")
+    end
   end
 
   def and_I_visit_the_scheduling_page

@@ -42,7 +42,7 @@
     <%= yield(:back_link) %>
     <%= yield(:breadcrumbs) %>
 
-    <main class="govuk-main-wrapper<%= " govuk-main-wrapper--l" if yield(:back_link).blank?%>" id="main-content" role="main">
+    <main class="govuk-main-wrapper<%= " govuk-main-wrapper--l" if yield(:back_link).blank? && yield(:breadcrumbs).blank?%>" id="main-content" role="main">
       <% if flash["notice"].present? %>
         <%= render "govuk_publishing_components/components/success_alert", {
           message: flash["notice"]
