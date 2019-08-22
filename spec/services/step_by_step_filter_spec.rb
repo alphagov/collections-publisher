@@ -114,4 +114,36 @@ RSpec.describe StepByStepFilter do
       expect(results.first.title).to eq(draft_step_by_step.title)
     end
   end
+
+  it "filters by status and title" do
+    filter_params = {
+      status: "scheduled",
+      title_or_url: "by step"
+    }
+    results = described_class.new(filter_params).results
+
+    expect(results.count).to eq(1)
+    expect(results.first.title).to eq(scheduled_step_by_step.title)
+  end
+
+  it "filters by status and slug" do
+    filter_params = {
+      status: "scheduled",
+      title_or_url: "scheduled-step-by-step"
+    }
+    results = described_class.new(filter_params).results
+
+    expect(results.count).to eq(1)
+    expect(results.first.title).to eq(scheduled_step_by_step.title)
+  end
+
+  it "returns nothing if no step by steps with status and title exist" do
+    filter_params = {
+      status: "live",
+      title_or_url: "scheduled-step-by-step"
+    }
+    results = described_class.new(filter_params).results
+
+    expect(results.count).to eq(0)
+  end
 end
