@@ -113,6 +113,26 @@ RSpec.describe StepByStepFilter do
       expect(results.count).to eq(1)
       expect(results.first.title).to eq(draft_step_by_step.title)
     end
+
+    it "matches on base_path" do
+      filter_params = {
+        title_or_url: "/draft-step-by-step"
+      }
+      results = described_class.new(filter_params).results
+
+      expect(results.count).to eq(1)
+      expect(results.first.title).to eq(draft_step_by_step.title)
+    end
+
+    it "matches on full url" do
+      filter_params = {
+        title_or_url: "http://wwww.gov.uk/draft-step-by-step"
+      }
+      results = described_class.new(filter_params).results
+
+      expect(results.count).to eq(1)
+      expect(results.first.title).to eq(draft_step_by_step.title)
+    end
   end
 
   it "filters by status and title" do

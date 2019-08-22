@@ -26,6 +26,10 @@ private
 
   def filter_by_title_or_url
     StepByStepPage.where("title LIKE ?", "%#{title_or_url}%")
-      .or(StepByStepPage.where(slug: title_or_url))
+      .or(StepByStepPage.where(slug: slug_from_title_or_url))
+  end
+
+  def slug_from_title_or_url
+    title_or_url.split('/').last
   end
 end
