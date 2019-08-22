@@ -61,6 +61,7 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_the_step_by_step_page
     and_I_visit_the_publish_or_delete_page
     and_I_see_an_unpublish_button
+    and_there_should_be_a_change_note "First published by Test author"
   end
 
   scenario "User unpublishes a step by step page with a valid redirect url" do
@@ -131,7 +132,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   scenario "User publishes and then makes more changes to a step by step page" do
-    given_there_is_a_step_by_step_page_assigned_to_me
+    given_I_am_assigned_to_a_live_step_by_step_page_with_unpublished_changes
     and_I_visit_the_publish_page
     and_I_publish_the_page
     then_there_should_be_a_change_note "Minor update published by #{stub_user.name}"
