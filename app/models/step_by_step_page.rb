@@ -103,8 +103,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def links_last_checked_date
-    date = steps.map(&:links_last_checked_date).reject(&:blank?).max
-    date.strftime('%A, %d %B %Y at %H:%M %p') if date
+    steps.map(&:links_last_checked_date).reject(&:blank?).max
   end
 
   def links_checked?

@@ -30,7 +30,7 @@
         <div class="panel-body">
           <% if @step_by_step_page.scheduled_for_publishing? %>
             <p class="govuk-body">
-              Scheduled to be published on <%= format_full_date_and_time(@step_by_step_page.scheduled_at) %>
+              Scheduled to be published at <%= format_full_date_and_time(@step_by_step_page.scheduled_at) %>
             </p>
             <%= form_tag step_by_step_page_unschedule_path(@step_by_step_page), method: :unschedule do %>
               <%= render "govuk_publishing_components/components/button", {

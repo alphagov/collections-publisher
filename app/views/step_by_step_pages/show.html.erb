@@ -96,7 +96,7 @@
         metadata.store("Last updated", format_full_date_and_time(@step_by_step_page.updated_at))
         metadata["Last updated"] = "#{metadata["Last updated"]} by #{@step_by_step_page.assigned_to}" if @step_by_step_page.assigned_to.present?
         metadata.store("Created", format_full_date_and_time(@step_by_step_page.created_at))
-        metadata.store("Links checked", @step_by_step_page.links_last_checked_date) if @step_by_step_page.links_checked?
+        metadata.store("Links checked", format_full_date_and_time(@step_by_step_page.links_last_checked_date)) if @step_by_step_page.links_checked?
       %>
       <%= render "govuk_publishing_components/components/metadata", { other: metadata } %>
     </div>
