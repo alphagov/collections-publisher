@@ -1,12 +1,15 @@
 class StepByStepFilter
-  attr_reader :status, :title_or_url
+  attr_reader :status, :title_or_url, :order_by
 
   def initialize(params = {})
     @status = params[:status]
     @title_or_url = params[:title_or_url]
+    @order_by = params[:order_by].to_sym if params[:order_by]
   end
 
   def results
+    return filtered_results.sort_by { |result| result[order_by] } if order_by
+
     filtered_results.sort_by(&:title)
   end
 

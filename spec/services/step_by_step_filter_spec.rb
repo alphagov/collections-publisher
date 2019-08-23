@@ -186,13 +186,16 @@ RSpec.describe StepByStepFilter do
   end
 
   context "ordering results" do
-    it "returns results ordered by title by default" do
-      new_step_by_step = create(
+    let!(:new_step_by_step) do
+      create(
         :scheduled_step_by_step_page,
         title: "new scheduled step by step",
-        slug: "new-scheduled-step-by-step"
+        slug: "new-scheduled-step-by-step",
+        scheduled_at: 4.hours.from_now
       )
+    end
 
+    it "returns results ordered by title by default" do
       filter_params = {
         status: "scheduled",
         title_or_url: "scheduled"
@@ -202,6 +205,30 @@ RSpec.describe StepByStepFilter do
       expect(results.count).to eq(2)
       expect(results.first.title).to eq(new_step_by_step.title)
       expect(results.last.title).to eq(scheduled_step_by_step.title)
+    end
+
+    it "orders results by any step by step attribute" do
+      filter_params = {
+        status: "scheduled",
+        title_or_url: "scheduled",
+        order_by: "scheduled_at"
+      }
+      results = described_class.new(filter_params).results
+
+      expect(results.count).to eq(2)
+      expect(results.first.title).to eq(scheduled_step_by_step.title)
+      expect(results.last.title).to eq(new_step_by_step.title)
+    end
+
+    it "returns all results if order by attribute is invalid" do
+      filter_params = {
+        status: "scheduled",
+        title_or_url: "scheduled",
+        order_by: "foo"
+      }
+      results = described_class.new(filter_params).results
+
+      expect(results.count).to eq(2)
     end
   end
 end
