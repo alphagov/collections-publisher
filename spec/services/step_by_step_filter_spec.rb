@@ -166,4 +166,22 @@ RSpec.describe StepByStepFilter do
 
     expect(results.count).to eq(0)
   end
+
+  context "no filter params" do
+    it "returns all step by steps if none of the filters params have a value" do
+      filter_params = {
+        status: "",
+        title_or_url: ""
+      }
+      results = described_class.new(filter_params).results
+
+      expect(results.count).to eq(3)
+    end
+
+    it "returns all step by steps if there aren't any filter params" do
+      results = described_class.new.results
+
+      expect(results.count).to eq(3)
+    end
+  end
 end

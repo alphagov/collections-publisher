@@ -1,7 +1,7 @@
 class StepByStepFilter
   attr_reader :status, :title_or_url
 
-  def initialize(params)
+  def initialize(params = {})
     @status = params[:status]
     @title_or_url = params[:title_or_url]
   end
@@ -14,7 +14,7 @@ class StepByStepFilter
     elsif title_or_url.present?
       filter_by_title_or_url
     else
-      []
+      StepByStepPage.by_title
     end
   end
 
