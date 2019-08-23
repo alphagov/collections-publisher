@@ -54,16 +54,14 @@ RSpec.feature "Managing step by step pages" do
   end
 
   scenario "User publishes a page" do
-    given_there_is_a_step_by_step_page_with_steps
-    when_I_view_the_step_by_step_page
+    given_there_is_a_draft_step_by_step_page
     and_I_visit_the_publish_or_delete_page
-    and_I_visit_the_publish_page
-    and_I_publish_the_page
-    then_the_page_is_published
-    and_I_am_told_that_it_is_published
+    and_I_click_button "Publish"
+    then_I_am_told_that_it_is_published
     then_I_see_the_step_by_step_page
     and_I_visit_the_publish_or_delete_page
     and_I_see_an_unpublish_button
+    and_there_should_be_a_change_note "First published by Test author"
   end
 
   scenario "User unpublishes a step by step page with a valid redirect url" do
@@ -124,8 +122,17 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_a_page_reverted_success_notice
   end
 
+  scenario "User publishes changes to a live step by step page" do
+    given_there_is_a_published_step_by_step_page_with_unpublished_changes
+    and_I_visit_the_publish_or_delete_page
+    and_I_click_button "Publish changes"
+    then_I_should_see_a_publish_form_with_changenotes
+    and_when_I_click_button "Publish step by step"
+    then_I_am_told_that_it_is_published
+  end
+
   scenario "User publishes and then makes more changes to a step by step page" do
-    given_there_is_a_step_by_step_page_assigned_to_me
+    given_I_am_assigned_to_a_live_step_by_step_page_with_unpublished_changes
     and_I_visit_the_publish_page
     and_I_publish_the_page
     then_there_should_be_a_change_note "Minor update published by #{stub_user.name}"
@@ -373,7 +380,7 @@ RSpec.feature "Managing step by step pages" do
     click_on "Publish step by step"
   end
 
-  def and_I_am_told_that_it_is_published
+  def then_I_am_told_that_it_is_published
     expect(page).to have_content("has been published")
   end
 
@@ -403,6 +410,23 @@ RSpec.feature "Managing step by step pages" do
   end
 
   alias_method :when_I_visit_the_scheduling_page, :and_I_visit_the_scheduling_page
+
+  def and_I_click_button(button_text)
+    begin
+      click_button button_text, exact: true
+    rescue Capybara::ElementNotFound
+      # some button-like things are actually marked up as link
+      click_link button_text, exact: true
+    end
+  end
+
+  alias_method :and_when_I_click_button, :and_I_click_button
+
+  def then_I_should_see_a_publish_form_with_changenotes
+    expect(page).to have_content("Update type")
+    expect(page).to have_css('input[type="radio"][name="update_type"]', count: 2)
+    expect(page).to have_css('textarea[name="change_note"]')
+  end
 
   def and_I_fill_in_the_scheduling_form
     fill_in 'schedule[date][year]', with: "2030"

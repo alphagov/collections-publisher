@@ -12,7 +12,7 @@ class PublishIntent
 
   def initialize(params)
     @update_type = params[:update_type]
-    @change_note = params[:change_note]
+    @change_note = params[:change_note] || ""
   end
 
   def major_update?
@@ -22,7 +22,7 @@ class PublishIntent
   def present
     {
       update_type: update_type,
-      change_note: change_note || ""
+      change_note: change_note
     }
   end
 end
