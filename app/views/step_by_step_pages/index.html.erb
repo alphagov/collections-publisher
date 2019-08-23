@@ -28,56 +28,82 @@
 <div class="govuk-grid-row govuk-!-margin-top-5">
   <div class="govuk-grid-column-one-quarter">
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
-        <%= render "govuk_publishing_components/components/input", {
-          label: {
-            text: "Title or base path"
-          },
-          name: "search",
-          id: "filterTableInput"
-        } %>
-      </div>
-      <div class="govuk-grid-column-full">
-        <%= render "govuk_publishing_components/components/select", {
-          id: "filterStatus",
-          label: "Status filter",
-          full_width: true,
-          options: [
-            {
-              text: "All",
-              data_attributes: {
-                show: "all"
+      <%= form_tag({}, enforce_utf8: false, method: :get) do %>
+        <div class="govuk-grid-column-full">
+          <%= render "govuk_publishing_components/components/input", {
+            label: {
+              text: "Title or URL",
+              bold: true
+            },
+            name: "title_or_url",
+            value: params[:title_or_url],
+            id: "title_or_url"
+          } %>
+        </div>
+        <div class="govuk-grid-column-full">
+          <%= render "govuk_publishing_components/components/label", {
+            text: "Status",
+            html_for: "status",
+            bold: true
+          } %>
+          <%= render "govuk_publishing_components/components/select", {
+            id: "status",
+            name: "status",
+            label: "",
+            full_width: true,
+            options: [
+              {
+                text: "All",
+                data_attributes: {
+                  show: "all"
+                },
               },
-              selected: true
-            },
-            {
-              text: "Draft",
-              data_attributes: {
-                show: "draft"
+              {
+                text: "Draft",
+                value: "draft",
+                data_attributes: {
+                  show: "draft"
+                },
+              },
+              {
+                text: "Live",
+                value: "live",
+                data_attributes: {
+                  show: "live"
+                },
+              },
+              {
+                text: "Scheduled",
+                value: "scheduled",
+                data_attributes: {
+                  show: "scheduled"
+                },
+              },
+              {
+                text: "Unpublished changes",
+                value: "unpublished_changes",
+                data_attributes: {
+                  show: "unpublished_changes"
+                },
               }
-            },
-            {
-              text: "Live",
-              data_attributes: {
-                show: "live"
-              }
-            },
-            {
-              text: "Scheduled",
-              data_attributes: {
-                show: "scheduled"
-              }
-            },
-            {
-              text: "Unpublished changes",
-              data_attributes: {
-                show: "unpublished_changes"
-              }
-            }
-          ]
-        } %>
-      </div>
+            ].each{ |item| item[:selected] = item[:value] == params[:status] }
+          } %>
+        </div>
+        <div class="govuk-grid-column-full">
+          <%= render "govuk_publishing_components/components/button", {
+            text: "Filter",
+            margin_bottom: true
+          } %>
+        </div>
+      <% end %>
     </div>
+
+    <p class="govuk-body">
+      <%= link_to "Clear all filters",
+        step_by_step_pages_path,
+        class: "govuk-link govuk-link--no-visited-state"
+      %>
+    </p>
   </div>
 
   <div class="govuk-grid-column-three-quarters">
