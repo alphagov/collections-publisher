@@ -184,4 +184,24 @@ RSpec.describe StepByStepFilter do
       expect(results.count).to eq(3)
     end
   end
+
+  context "ordering results" do
+    it "returns results ordered by title by default" do
+      new_step_by_step = create(
+        :scheduled_step_by_step_page,
+        title: "new scheduled step by step",
+        slug: "new-scheduled-step-by-step"
+      )
+
+      filter_params = {
+        status: "scheduled",
+        title_or_url: "scheduled"
+      }
+      results = described_class.new(filter_params).results
+
+      expect(results.count).to eq(2)
+      expect(results.first.title).to eq(new_step_by_step.title)
+      expect(results.last.title).to eq(scheduled_step_by_step.title)
+    end
+  end
 end

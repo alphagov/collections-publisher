@@ -7,6 +7,12 @@ class StepByStepFilter
   end
 
   def results
+    filtered_results.sort_by(&:title)
+  end
+
+private
+
+  def filtered_results
     if status.present? && title_or_url.present?
       filter_by_status & filter_by_title_or_url
     elsif status.present?
@@ -17,8 +23,6 @@ class StepByStepFilter
       StepByStepPage.by_title
     end
   end
-
-private
 
   def filter_by_status
     StepByStepPage.select { |step_by_step| step_by_step.status[:name] == status }
