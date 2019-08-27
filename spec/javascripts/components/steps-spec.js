@@ -46,20 +46,8 @@ describe('Step by step publisher component', function () {
     })
   })
 
-  describe('#bindStatusClicks', function () {
-    it('should display results that match the chosen filter status', function () {
-      selectFilter('draft')
-      expectOnlyVisibleRowToBe('js-test__row-id--dog') // the only one with the 'Draft' status
-    })
-  })
-
   function searchFor (searchTerm) {
     $('#filterTableInput').val(searchTerm).trigger('keyup')
-  }
-
-  function selectFilter (optionValue) {
-    var optionIndex = $('#filterStatus option').index($('#filterStatus option[data-show="' + optionValue + '"]'))
-    $('#filterStatus').prop('selectedIndex', optionIndex).trigger('change')
   }
 
   function expectAllRowsToBeVisible () {
