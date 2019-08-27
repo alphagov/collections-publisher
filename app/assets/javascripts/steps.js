@@ -12,7 +12,6 @@
       this.bindReorderButtonClicks();
       this.initialiseDragAndDrop();
       this.setOrder(); // this is called so the order of the list is initalised
-      this.bindOverviewTableFilter();
     },
 
     addReorderButtons: function() {
@@ -89,38 +88,5 @@
       // while trying to do drag and drop
       $('#js-reorder-group').disableSelection();
     },
-
-    // Ported over from:
-    // https://github.com/alphagov/govuk_admin_template/blob/master/app/assets/javascripts/govuk-admin-template/modules/filterable_table.js
-    bindOverviewTableFilter: function() {
-      var rows = $('.step-by-step-list__table').find('tbody tr'),
-          tableInput = $('#filterTableInput');
-
-      tableInput.on('keyup change', filterTableBasedOnInput);
-
-      function filterTableBasedOnInput() {
-        var searchString = $.trim(tableInput.val()),
-            regExp = new RegExp(escapeStringForRegexp(searchString), 'i');
-
-          rows.each(function() {
-          var row = $(this);
-          if (row.text().search(regExp) > -1) {
-            row.show();
-          } else {
-            row.hide();
-          }
-        });
-      }
-
-      // http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
-      // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/regexp
-      // Escape ~!@#$%^&*(){}[]`/=?+\|-_;:'",<.>
-      // Example:
-      // escapeRegExp("All of these should be escaped: \ ^ $ * + ? . ( ) | { } [ ]");
-      // result >>> "All of these should be escaped: \\ \^ \$ \* \+ \? \. \( \) \| \{ \} \[ \]"
-      function escapeStringForRegexp(str) {
-        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-      }
-    }
   };
 }());
