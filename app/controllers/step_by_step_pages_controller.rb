@@ -14,7 +14,9 @@ class StepByStepPagesController < ApplicationController
     @step_by_step_page = StepByStepPage.new
   end
 
-  def show; end
+  def show
+    @step_by_step_page_presenter = StepByStepPagePresenter.new(@step_by_step_page)
+  end
 
   def reorder
     set_current_page_as_step_by_step
