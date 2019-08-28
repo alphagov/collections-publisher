@@ -118,4 +118,11 @@ module StepNavSteps
     @step_by_step_page = create(:draft_step_by_step_page)
     create(:step, step_by_step_page: @step_by_step_page, contents: "")
   end
+
+  def given_there_are_step_by_step_pages
+    @step_by_step_pages = [
+      create(:draft_step_by_step_page, title: "A draft step nav", slug: "a-draft-step-nav"),
+      create(:published_step_by_step_page, title: "A published step nav", slug: "a-published-step-nav")
+    ]
+  end
 end

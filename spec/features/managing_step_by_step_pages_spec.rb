@@ -23,6 +23,13 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_the_step_by_step_page
   end
 
+  scenario "User filters results on index page" do
+    given_there_are_step_by_step_pages
+    when_I_visit_the_step_by_step_pages_index
+    and_I_filter_by_title_and_status
+    then_I_should_see_a_filtered_list_of_step_by_steps
+  end
+
   scenario "User creates a new step by step page" do
     when_I_visit_the_new_step_by_step_form
     and_I_fill_in_the_form
@@ -634,5 +641,19 @@ RSpec.feature "Managing step by step pages" do
 
   def and_the_steps_can_be_checked_for_broken_links
     expect(page).to have_button("Check for broken links")
+  end
+
+  def and_I_filter_by_title_and_status
+    fill_in "title_or_url", with: "step nav"
+    select "Draft", from: "status"
+    click_on "Filter"
+  end
+
+  def then_I_should_see_a_filtered_list_of_step_by_steps
+    within(".govuk-table__body") do
+      expect(page).to have_xpath(".//tr", :count => 1)
+      expect(page).to have_content("A draft step nav")
+      expect(page).to_not have_content("A published step nav")
+    end
   end
 end

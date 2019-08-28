@@ -7,7 +7,7 @@ class StepByStepPagesController < ApplicationController
   before_action :set_step_by_step_page, only: %i[show edit update destroy]
 
   def index
-    @step_by_step_pages = StepByStepPage.by_title
+    @step_by_step_pages = StepByStepFilter.new(filter_params).results
   end
 
   def new
@@ -228,6 +228,10 @@ private
 
   def step_by_step_page_params
     params.require(:step_by_step_page).permit(:title, :slug, :introduction, :description)
+  end
+
+  def filter_params
+    params.permit(:title_or_url, :status, :order_by)
   end
 
   def set_current_page_as_step_by_step
