@@ -1,4 +1,5 @@
 class StepByStepPagePresenter
+  include Rails.application.routes.url_helpers
   include TimeOptionsHelper
   attr_reader :step_by_step_page
 
@@ -19,6 +20,37 @@ class StepByStepPagePresenter
       )
     end
     items
+  end
+
+  def summary_list_params
+    {
+      borderless: true,
+      title: "Content",
+      edit: {
+        href: edit_step_by_step_page_path(step_by_step_page),
+        data_attributes: {
+          gtm: "edit-title-summary-body"
+        }
+      },
+      items: [
+        {
+          field: "Title",
+          value: step_by_step_page.title
+        },
+        {
+          field: "Slug",
+          value: step_by_step_page.slug
+        },
+        {
+          field: "Introduction",
+          value: step_by_step_page.introduction
+        },
+        {
+          field: "Description",
+          value: step_by_step_page.description
+        }
+      ]
+    }
   end
 
   def last_saved
