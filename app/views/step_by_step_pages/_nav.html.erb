@@ -1,45 +1,18 @@
 <%
-  unless defined? active
-    active = ''
-  end
-%>
-
-<%
-  tabs = [
-    {
-      href: @step_by_step_page,
-      label: @step_by_step_page.can_be_edited? ? "Edit steps" : "View steps",
-      active: active == 'edit-steps'
-    },
-    {
-      href: step_by_step_page_reorder_path(@step_by_step_page),
-      label: "Reorder steps",
-      active: active == 'reorder-steps'
-    },
-    {
-      href: edit_step_by_step_page_path(@step_by_step_page),
-      label: "Title and intro",
-      active: active == 'title-and-intro'
-    },
-    {
-      href: step_by_step_page_navigation_rules_path(@step_by_step_page),
-      label: "Choose navigation",
-      active: active == 'choose-navigation'
-    },
-    {
-      href: step_by_step_page_secondary_content_links_path(@step_by_step_page),
-      label: "Secondary links",
-      active: active == 'secondary-links'
-    },
-    {
-      href: step_by_step_page_internal_change_notes_path(@step_by_step_page),
-      label: "Change notes",
-      active: active == 'internal-change-notes'
-    }
-  ]
-  tabs.delete_at(1) unless @step_by_step_page.can_be_edited?
+  active ||= ''
 %>
 
 <%= render "components/tabs", {
-  tabs: tabs
+  tabs: [
+    {
+      href: @step_by_step_page,
+      label: "Summary",
+      active: active == 'edit-steps'
+    },
+    {
+      href: step_by_step_page_internal_change_notes_path(@step_by_step_page),
+      label: "History",
+      active: active == 'internal-change-notes'
+    }
+  ]
 } %>

@@ -25,7 +25,6 @@
   action: 'Choose on-page side navigation'
 %>
 
-<%= render 'step_by_step_pages/nav', step_by_step_page: @step_by_step_page, active: "choose-navigation" %>
 <div class="govuk-grid-row">
     <%= form_for(step_by_step_page_navigation_rules_path(@step_by_step_page), method: :put) do |form| %>
       <div class="govuk-grid-column-full">
