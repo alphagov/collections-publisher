@@ -66,10 +66,10 @@
                 },
               },
               {
-                text: "Live",
-                value: "live",
+                text: "Published",
+                value: "published",
                 data_attributes: {
-                  show: "live"
+                  show: "published"
                 },
               },
               {
@@ -132,7 +132,7 @@
               <td class="govuk-table__cell">
                 <% if step_by_step_page.has_draft? %>
                   <%= link_to "/#{step_by_step_page.slug}", preview_url(step_by_step_page.slug, auth_bypass_id: step_by_step_page.auth_bypass_id), target: "_blank" %>
-                <% elsif step_by_step_page.status == "live" %>
+                <% elsif step_by_step_page.status == "published" %>
                   <%= link_to "/#{step_by_step_page.slug}", live_url(step_by_step_page.slug), target: "_blank" %>
                 <% else %>
                   /<%= step_by_step_page.slug %>

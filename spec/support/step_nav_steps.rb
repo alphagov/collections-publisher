@@ -71,7 +71,7 @@ module StepNavSteps
 
   def given_there_is_a_published_step_by_step_page
     @step_by_step_page = create(:published_step_by_step_page)
-    expect(@step_by_step_page.status).to eq 'live'
+    expect(@step_by_step_page.status).to eq 'published'
   end
 
   def given_there_is_a_published_step_by_step_page_with_unpublished_changes
@@ -79,7 +79,7 @@ module StepNavSteps
     expect(@step_by_step_page.status).to eq 'unpublished_changes'
   end
 
-  def given_I_am_assigned_to_a_live_step_by_step_page_with_unpublished_changes
+  def given_I_am_assigned_to_a_published_step_by_step_page_with_unpublished_changes
     @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: Time.zone.now, assigned_to: stub_user.name)
   end
 

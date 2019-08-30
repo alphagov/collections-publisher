@@ -54,7 +54,7 @@ class StepByStepPage < ApplicationRecord
   def status
     return "scheduled" if scheduled_for_publishing?
     return "unpublished_changes" if unpublished_changes?
-    return "live" if has_been_published?
+    return "published" if has_been_published?
 
     "draft"
   end

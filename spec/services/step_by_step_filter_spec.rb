@@ -42,7 +42,7 @@ RSpec.describe StepByStepFilter do
 
     it "returns a list of step by steps with a status of published" do
       filter_params = {
-        status: "live"
+        status: "published"
       }
       results = described_class.new(filter_params).results
 
@@ -159,7 +159,7 @@ RSpec.describe StepByStepFilter do
 
   it "returns nothing if no step by steps with status and title exist" do
     filter_params = {
-      status: "live",
+      status: "published",
       title_or_url: "scheduled-step-by-step"
     }
     results = described_class.new(filter_params).results

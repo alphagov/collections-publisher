@@ -139,7 +139,7 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_a_page_reverted_success_notice
   end
 
-  scenario "User publishes changes to a live step by step page" do
+  scenario "User publishes changes to a published step by step page" do
     given_there_is_a_published_step_by_step_page_with_unpublished_changes
     and_I_visit_the_publish_or_delete_page
     and_I_click_button "Publish changes"
@@ -149,7 +149,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   scenario "User publishes and then makes more changes to a step by step page" do
-    given_I_am_assigned_to_a_live_step_by_step_page_with_unpublished_changes
+    given_I_am_assigned_to_a_published_step_by_step_page_with_unpublished_changes
     and_I_visit_the_publish_page
     and_I_publish_the_page
     then_there_should_be_a_change_note "Minor update published by #{stub_user.name}"
