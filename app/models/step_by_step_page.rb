@@ -124,7 +124,6 @@ private
     {
       name: "draft",
       text: "Draft",
-      label_class: "label-default"
     }
   end
 
@@ -132,7 +131,6 @@ private
     {
       name: "scheduled",
       text: "Scheduled",
-      label_class: "label-warning"
     }
   end
 
@@ -140,7 +138,6 @@ private
     {
       name: "live",
       text: "Live",
-      label_class: "label-success"
     }
   end
 
@@ -148,7 +145,6 @@ private
     {
       name: "unpublished_changes",
       text: "Unpublished changes",
-      label_class: "label-primary"
     }
   end
 end
