@@ -66,17 +66,17 @@ module StepNavSteps
 
   def given_there_is_a_draft_step_by_step_page
     @step_by_step_page = create(:draft_step_by_step_page)
-    expect(@step_by_step_page.status[:name]).to eq 'draft'
+    expect(@step_by_step_page.status).to eq 'draft'
   end
 
   def given_there_is_a_published_step_by_step_page
     @step_by_step_page = create(:published_step_by_step_page)
-    expect(@step_by_step_page.status[:name]).to eq 'live'
+    expect(@step_by_step_page.status).to eq 'live'
   end
 
   def given_there_is_a_published_step_by_step_page_with_unpublished_changes
     @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: Time.zone.now)
-    expect(@step_by_step_page.status[:name]).to eq 'unpublished_changes'
+    expect(@step_by_step_page.status).to eq 'unpublished_changes'
   end
 
   def given_I_am_assigned_to_a_live_step_by_step_page_with_unpublished_changes
@@ -85,7 +85,7 @@ module StepNavSteps
 
   def given_there_is_a_scheduled_step_by_step_page
     @step_by_step_page = create(:scheduled_step_by_step_page)
-    expect(@step_by_step_page.status[:name]).to eq 'scheduled'
+    expect(@step_by_step_page.status).to eq 'scheduled'
   end
 
   def given_there_is_a_step_by_step_page_with_a_link_report
@@ -111,7 +111,7 @@ module StepNavSteps
 
   def given_there_is_a_draft_step_by_step_page_with_secondary_content_and_navigation_rules
     @step_by_step_page = create(:step_by_step_page_with_secondary_content_and_navigation_rules, draft_updated_at: 1.day.ago)
-    expect(@step_by_step_page.status[:name]).to eq 'draft'
+    expect(@step_by_step_page.status).to eq 'draft'
   end
 
   def given_there_is_a_step_by_step_page_with_steps_missing_content

@@ -135,7 +135,7 @@ RSpec.describe StepByStepPagesController do
     it "sets the status to Scheduled" do
       schedule_for_future
 
-      expect(step_by_step_page.status[:name]).to eq 'scheduled'
+      expect(step_by_step_page.status).to eq 'scheduled'
     end
   end
 
@@ -151,7 +151,7 @@ RSpec.describe StepByStepPagesController do
 
       expect(step_by_step_page.scheduled_at).to eq nil
       expect(step_by_step_page.scheduled_for_publishing?).to be false
-      expect(step_by_step_page.status[:name]).to eq 'draft'
+      expect(step_by_step_page.status).to eq 'draft'
     end
 
     it "clears Scheduled status and sets it back to Unpublished changes" do
@@ -161,7 +161,7 @@ RSpec.describe StepByStepPagesController do
 
       expect(step_by_step_page.scheduled_at).to eq nil
       expect(step_by_step_page.scheduled_for_publishing?).to be false
-      expect(step_by_step_page.status[:name]).to eq 'unpublished_changes'
+      expect(step_by_step_page.status).to eq 'unpublished_changes'
     end
 
     it "creates and internal change note" do

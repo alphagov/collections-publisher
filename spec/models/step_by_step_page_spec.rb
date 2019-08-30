@@ -202,7 +202,7 @@ RSpec.describe StepByStepPage do
 
         expect(step_by_step_page.draft_updated_at).to be_within(1.second).of nowish
         expect(step_by_step_page.has_draft?).to be true
-        expect(step_by_step_page.status[:name]).to eq('draft')
+        expect(step_by_step_page.status).to eq('draft')
       end
     end
 
@@ -222,7 +222,7 @@ RSpec.describe StepByStepPage do
         expect(step_by_step_page.published_at).to eq(step_by_step_page.draft_updated_at)
         expect(step_by_step_page.has_been_published?).to be true
         expect(step_by_step_page.has_draft?).to be false
-        expect(step_by_step_page.status[:name]).to eq('live')
+        expect(step_by_step_page.status).to eq('live')
       end
     end
 
@@ -261,7 +261,7 @@ RSpec.describe StepByStepPage do
 
       Timecop.freeze(Date.today + 1) do
         step_by_step_page.mark_draft_updated
-        expect(step_by_step_page.status[:name]).to eq('unpublished_changes')
+        expect(step_by_step_page.status).to eq('unpublished_changes')
       end
     end
   end
@@ -274,7 +274,7 @@ RSpec.describe StepByStepPage do
       step_by_step_page.scheduled_at = Date.tomorrow
 
       expect(step_by_step_page.scheduled_for_publishing?).to be true
-      expect(step_by_step_page.status[:name]).to eq('scheduled')
+      expect(step_by_step_page.status).to eq('scheduled')
     end
 
     it 'is not scheduled for publishing if a draft has not been saved' do

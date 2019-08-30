@@ -120,19 +120,19 @@
       <tbody class="govuk-table__body">
         <% if @step_by_step_pages.present? %>
           <% @step_by_step_pages.each do |step_by_step_page| %>
-            <tr class="govuk-table__row" data-status="<%= step_by_step_page.status[:name] %>">
+            <tr class="govuk-table__row" data-status="<%= step_by_step_page.status %>">
               <td class="govuk-table__cell">
                 <strong><%= link_to step_by_step_page.title, step_by_step_page %></strong>
               </td>
               <td class="govuk-table__cell">
                 <span class="h4">
-                  <span class="label" title="<%= step_by_step_page.status[:text] %>"><%= step_by_step_page.status[:text] %></span>
+                  <span class="label" title="<%= step_by_step_page.status.humanize %>"><%= step_by_step_page.status.humanize %></span>
                 </span>
               </td>
               <td class="govuk-table__cell">
                 <% if step_by_step_page.has_draft? %>
                   <%= link_to "/#{step_by_step_page.slug}", preview_url(step_by_step_page.slug, auth_bypass_id: step_by_step_page.auth_bypass_id), target: "_blank" %>
-                <% elsif step_by_step_page.status[:name] == "live" %>
+                <% elsif step_by_step_page.status == "live" %>
                   <%= link_to "/#{step_by_step_page.slug}", live_url(step_by_step_page.slug), target: "_blank" %>
                 <% else %>
                   /<%= step_by_step_page.slug %>

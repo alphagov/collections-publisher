@@ -9,7 +9,7 @@ class StepByStepPagePresenter
 
   def summary_metadata
     items = {
-      "Status" => step_by_step_page.status[:text],
+      "Status" => step_by_step_page.status.humanize,
       "Last saved" => last_saved,
       "Created" => format_full_date_and_time(step_by_step_page.created_at),
     }

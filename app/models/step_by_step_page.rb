@@ -52,11 +52,11 @@ class StepByStepPage < ApplicationRecord
   end
 
   def status
-    return scheduled_status if scheduled_for_publishing?
-    return unpublished_status if unpublished_changes?
-    return live_status if has_been_published?
+    return "scheduled" if scheduled_for_publishing?
+    return "unpublished_changes" if unpublished_changes?
+    return "live" if has_been_published?
 
-    draft_status
+    "draft"
   end
 
   def unpublished_changes?
@@ -118,33 +118,5 @@ private
 
   def generate_content_id
     self.content_id ||= SecureRandom.uuid
-  end
-
-  def draft_status
-    {
-      name: "draft",
-      text: "Draft",
-    }
-  end
-
-  def scheduled_status
-    {
-      name: "scheduled",
-      text: "Scheduled",
-    }
-  end
-
-  def live_status
-    {
-      name: "live",
-      text: "Live",
-    }
-  end
-
-  def unpublished_status
-    {
-      name: "unpublished_changes",
-      text: "Unpublished changes",
-    }
   end
 end

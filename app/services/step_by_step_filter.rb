@@ -28,7 +28,7 @@ private
   end
 
   def filter_by_status
-    StepByStepPage.select { |step_by_step| step_by_step.status[:name] == status }
+    StepByStepPage.select { |step_by_step| step_by_step.status == status }
   end
 
   def filter_by_title_or_url
