@@ -135,7 +135,7 @@ RSpec.describe StepByStepPagesController do
     it "sets the status to Scheduled" do
       schedule_for_future
 
-      expect(step_by_step_page.status).to eq 'scheduled'
+      expect(step_by_step_page.status).to be_scheduled
     end
   end
 
@@ -151,7 +151,7 @@ RSpec.describe StepByStepPagesController do
 
       expect(step_by_step_page.scheduled_at).to eq nil
       expect(step_by_step_page.scheduled_for_publishing?).to be false
-      expect(step_by_step_page.status).to eq 'draft'
+      expect(step_by_step_page.status).to be_draft
     end
 
     it "creates and internal change note" do

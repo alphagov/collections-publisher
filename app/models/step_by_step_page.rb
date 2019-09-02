@@ -31,7 +31,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def scheduled_for_publishing?
-    status == "scheduled"
+    status.scheduled?
   end
 
   def mark_draft_updated
@@ -78,11 +78,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def status
-    return "scheduled" if scheduled_for_publishing?
-    return "draft" if has_draft?
-    return "published" if has_been_published?
-
-    "draft"
+    (read_attribute("status") || "").inquiry
   end
 
   def unpublished_changes?

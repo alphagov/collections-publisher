@@ -69,7 +69,7 @@ RSpec.describe StepByStepPageReverter do
     end
 
     it "sets the status to published" do
-      expect(step_by_step_page.status).to eq("published")
+      expect(step_by_step_page.status).to be_published
     end
 
     describe "steps" do
