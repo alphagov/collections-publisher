@@ -68,6 +68,10 @@ RSpec.describe StepByStepPageReverter do
       expect(step_by_step.draft_updated_at).to eq(published_at)
     end
 
+    it "sets the status to published" do
+      expect(step_by_step_page.status).to eq("published")
+    end
+
     describe "steps" do
       it "saves the right number of steps" do
         expect(step_by_step_page.steps.size).to eq(steps.size)
