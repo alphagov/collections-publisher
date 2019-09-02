@@ -59,6 +59,10 @@ class StepByStepPage < ApplicationRecord
     update_attribute(:status, "scheduled")
   end
 
+  def mark_as_unscheduled
+    update_attribute(:status, "draft")
+  end
+
   def self.validate_redirect(redirect_url)
     regex = /\A\/([a-z0-9]+-)*[a-z0-9]+\z/
     redirect_url =~ regex

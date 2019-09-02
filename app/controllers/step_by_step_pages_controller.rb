@@ -197,6 +197,7 @@ private
 
   def unschedule_publishing
     StepNavPublisher.cancel_scheduling(@step_by_step_page)
+    @step_by_step_page.mark_as_unscheduled
   end
 
   def revert_page
