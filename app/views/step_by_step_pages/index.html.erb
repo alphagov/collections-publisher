@@ -78,13 +78,6 @@
                 data_attributes: {
                   show: "scheduled"
                 },
-              },
-              {
-                text: "Unpublished changes",
-                value: "unpublished_changes",
-                data_attributes: {
-                  show: "unpublished_changes"
-                },
               }
             ].each{ |item| item[:selected] = item[:value] == params[:status] }
           } %>

@@ -10,7 +10,7 @@ RSpec.describe StepByStepPagePresenter do
 
   describe "#summary_list" do
     let(:time_now) { Time.zone.now }
-    let(:step_nav) { create(:step_by_step_page_with_steps) }
+    let(:step_nav) { create(:draft_step_by_step_page) }
     let(:default_summary) {
       {
         "Status" => "Draft",

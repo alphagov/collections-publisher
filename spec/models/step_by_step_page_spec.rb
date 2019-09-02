@@ -256,12 +256,12 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_with_custom_id.auth_bypass_id).to eq("61363635-6134-4539-b230-343232663964")
     end
 
-    it 'should have a status of unpublished if published and then changes are made' do
+    it 'should have a status of draft if published and then changes are made' do
       step_by_step_page.mark_as_published
 
       Timecop.freeze(Date.today + 1) do
         step_by_step_page.mark_draft_updated
-        expect(step_by_step_page.status).to eq('unpublished_changes')
+        expect(step_by_step_page.status).to eq('draft')
       end
     end
   end

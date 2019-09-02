@@ -13,14 +13,6 @@ RSpec.describe StepByStepFilter do
     )
   end
 
-  let!(:published_step_by_step) do
-    create(
-      :published_step_by_step_page,
-      title: "published step by step",
-      slug: "published-step-by-step"
-    )
-  end
-
   let!(:scheduled_step_by_step) do
     create(
       :scheduled_step_by_step_page,
@@ -40,16 +32,6 @@ RSpec.describe StepByStepFilter do
       expect(results.first.title).to eq(draft_step_by_step.title)
     end
 
-    it "returns a list of step by steps with a status of published" do
-      filter_params = {
-        status: "published"
-      }
-      results = described_class.new(filter_params).results
-
-      expect(results.count).to eq(1)
-      expect(results.first.title).to eq(published_step_by_step.title)
-    end
-
     it "returns a list of step by steps with a status of scheduled" do
       filter_params = {
         status: "scheduled"
@@ -62,7 +44,7 @@ RSpec.describe StepByStepFilter do
 
     it "returns nothing if there are no matches" do
       filter_params = {
-        status: "unpublished_changes"
+        status: "published"
       }
       results = described_class.new(filter_params).results
 
@@ -73,23 +55,23 @@ RSpec.describe StepByStepFilter do
   context "filter by title" do
     it "matches on the whole title" do
       filter_params = {
-        title_or_url: "published step by step"
+        title_or_url: "scheduled step by step"
       }
       results = described_class.new(filter_params).results
 
       expect(results.count).to eq(1)
-      expect(results.first.title).to eq(published_step_by_step.title)
+      expect(results.first.title).to eq(scheduled_step_by_step.title)
     end
 
     context "partial titles" do
       it "matches on beginning of title" do
         filter_params = {
-          title_or_url: "published"
+          title_or_url: "scheduled"
         }
         results = described_class.new(filter_params).results
 
         expect(results.count).to eq(1)
-        expect(results.first.title).to eq(published_step_by_step.title)
+        expect(results.first.title).to eq(scheduled_step_by_step.title)
       end
 
       it "matches on end of title" do
@@ -98,7 +80,7 @@ RSpec.describe StepByStepFilter do
         }
         results = described_class.new(filter_params).results
 
-        expect(results.count).to eq(3)
+        expect(results.count).to eq(2)
       end
     end
   end
@@ -175,13 +157,13 @@ RSpec.describe StepByStepFilter do
       }
       results = described_class.new(filter_params).results
 
-      expect(results.count).to eq(3)
+      expect(results.count).to eq(2)
     end
 
     it "returns all step by steps if there aren't any filter params" do
       results = described_class.new.results
 
-      expect(results.count).to eq(3)
+      expect(results.count).to eq(2)
     end
   end
 
