@@ -288,6 +288,7 @@ RSpec.describe StepByStepPage do
     it 'is scheduled for publishing when it has a draft and has a scheduled_at date' do
       step_by_step_page.mark_draft_updated
       step_by_step_page.scheduled_at = Date.tomorrow
+      step_by_step_page.mark_as_scheduled
 
       expect(step_by_step_page.scheduled_for_publishing?).to be true
       expect(step_by_step_page.status).to eq('scheduled')
@@ -320,6 +321,7 @@ RSpec.describe StepByStepPage do
     it 'cannot be published if it is scheduled for publishing' do
       step_by_step_page.mark_draft_updated
       step_by_step_page.scheduled_at = Date.tomorrow
+      step_by_step_page.mark_as_scheduled
 
       expect(step_by_step_page.can_be_published?).to be false
     end
@@ -392,6 +394,7 @@ RSpec.describe StepByStepPage do
     it 'cannot be deleted if it is scheduled for publishing' do
       step_by_step_page.mark_draft_updated
       step_by_step_page.scheduled_at = Date.tomorrow
+      step_by_step_page.mark_as_scheduled
 
       expect(step_by_step_page.can_be_deleted?).to be false
     end
@@ -413,6 +416,7 @@ RSpec.describe StepByStepPage do
     it 'cannot be edited if it is scheduled for publishing' do
       step_by_step_page.mark_draft_updated
       step_by_step_page.scheduled_at = Date.tomorrow
+      step_by_step_page.mark_as_scheduled
 
       expect(step_by_step_page.can_be_edited?).to be false
     end

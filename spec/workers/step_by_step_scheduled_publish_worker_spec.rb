@@ -9,7 +9,7 @@ RSpec.describe StepByStepScheduledPublishWorker do
   let(:future_datetime) { Time.now + 1.hour }
 
   it "publishes the step by step" do
-    step_by_step_page = create(:draft_step_by_step_page, scheduled_at: future_datetime)
+    step_by_step_page = create(:scheduled_step_by_step_page, scheduled_at: future_datetime)
     Timecop.travel future_datetime do
       described_class.new.perform(step_by_step_page.id)
 
@@ -21,7 +21,7 @@ RSpec.describe StepByStepScheduledPublishWorker do
   end
 
   it "generates a change note" do
-    step_by_step_page = create(:draft_step_by_step_page, scheduled_at: future_datetime)
+    step_by_step_page = create(:scheduled_step_by_step_page, scheduled_at: future_datetime)
     Timecop.travel future_datetime do
       described_class.new.perform(step_by_step_page.id)
       expect(step_by_step_page.internal_change_notes.first.description).to eq("Published on schedule")
@@ -39,7 +39,7 @@ RSpec.describe StepByStepScheduledPublishWorker do
   end
 
   it "doesn't publish a step by step scheduled in the future" do
-    step_by_step_page = create(:draft_step_by_step_page, scheduled_at: future_datetime)
+    step_by_step_page = create(:scheduled_step_by_step_page, scheduled_at: future_datetime)
     described_class.new.perform(step_by_step_page.id)
 
     expect(StepNavPublisher).to_not have_received(:publish)

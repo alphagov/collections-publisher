@@ -183,6 +183,7 @@ private
 
   def schedule_to_publish
     StepNavPublisher.schedule_for_publishing(@step_by_step_page)
+    @step_by_step_page.mark_as_scheduled
   end
 
   def unpublish_page(redirect_url)

@@ -30,7 +30,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def scheduled_for_publishing?
-    has_draft? && scheduled_at.present?
+    has_draft? && scheduled_at.present? && status == "scheduled"
   end
 
   def mark_draft_updated
@@ -52,6 +52,10 @@ class StepByStepPage < ApplicationRecord
   def mark_as_unpublished
     update_attribute(:published_at, nil)
     update_attribute(:draft_updated_at, nil)
+  end
+
+  def mark_as_scheduled
+    update_attribute(:status, "scheduled")
   end
 
   def self.validate_redirect(redirect_url)
