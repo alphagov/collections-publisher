@@ -118,6 +118,22 @@ RSpec.describe StepByStepPage do
 
       expect(step_by_step_page.errors.full_messages).to eq(["Slug has already been taken."])
     end
+
+    describe '#status' do
+      it 'requires a status' do
+        step_by_step_page.status = ''
+
+        expect(step_by_step_page).not_to be_valid
+        expect(step_by_step_page.errors).to have_key(:status)
+      end
+
+      it 'must have a valid status' do
+        step_by_step_page.status = 'invalid'
+
+        expect(step_by_step_page).not_to be_valid
+        expect(step_by_step_page.errors).to have_key(:status)
+      end
+    end
   end
 
   describe 'steps association' do

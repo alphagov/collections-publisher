@@ -1,4 +1,10 @@
 class StepByStepPage < ApplicationRecord
+  STATUSES = %w(
+    draft
+    published
+    scheduled
+  ).freeze
+
   has_many :navigation_rules, -> { order(title: :asc) }, dependent: :destroy
   has_many :steps, -> { order(position: :asc) }, dependent: :destroy
   has_many :internal_change_notes, -> { order(created_at: :desc) }
@@ -8,6 +14,8 @@ class StepByStepPage < ApplicationRecord
   validates :scheduled_at, in_future: true
   validates :slug, format: { with: /\A([a-z0-9]+-)*[a-z0-9]+\z/ }, uniqueness: true
   validates :slug, slug: true, on: :create
+  validates :status, inclusion: { in: STATUSES }, presence: true
+
   before_validation :generate_content_id, on: :create
   before_destroy :discard_notes
 
