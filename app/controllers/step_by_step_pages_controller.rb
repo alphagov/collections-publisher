@@ -34,7 +34,8 @@ class StepByStepPagesController < ApplicationController
   def edit; end
 
   def create
-    @step_by_step_page = StepByStepPage.new(step_by_step_page_params)
+    create_params = step_by_step_page_params.merge(status: "draft")
+    @step_by_step_page = StepByStepPage.new(create_params)
     if @step_by_step_page.save
       update_downstream
       redirect_to @step_by_step_page, notice: 'Step by step page was successfully created.'
