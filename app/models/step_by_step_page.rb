@@ -35,7 +35,10 @@ class StepByStepPage < ApplicationRecord
   end
 
   def mark_draft_updated
-    update_attribute(:draft_updated_at, Time.zone.now)
+    update(
+      draft_updated_at: Time.zone.now,
+      status: "draft"
+    )
   end
 
   def mark_draft_deleted
