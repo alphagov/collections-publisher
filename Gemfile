@@ -33,7 +33,7 @@ group :development, :test do
   gem "jasmine", "~> 3.4"
   gem "jasmine_selenium_runner", "~> 3", require: false
   gem 'nokogiri'
-  gem 'parser', '2.6.3.0'
+  gem 'parser', '2.6.4.0'
   gem 'pry-byebug'
   gem 'rspec-rails'
   gem 'shoulda-matchers', '~> 4.1'
