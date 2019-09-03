@@ -23,15 +23,9 @@ class StepByStepPagePresenter
   end
 
   def summary_list_params
-    {
+    params = {
       borderless: true,
       title: "Content",
-      edit: {
-        href: edit_step_by_step_page_path(step_by_step_page),
-        data_attributes: {
-          gtm: "edit-title-summary-body"
-        }
-      },
       items: [
         {
           field: "Title",
@@ -51,6 +45,15 @@ class StepByStepPagePresenter
         }
       ]
     }
+    if step_by_step_page.can_be_edited?
+      params.merge!(edit: {
+        href: edit_step_by_step_page_path(step_by_step_page),
+        data_attributes: {
+          gtm: "edit-title-summary-body"
+        }
+      })
+    end
+    params
   end
 
   def last_saved

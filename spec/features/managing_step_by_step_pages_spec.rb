@@ -171,6 +171,8 @@ RSpec.feature "Managing step by step pages" do
       and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing at 10:26am on 20 April 2030"
       and_the_step_by_step_is_not_editable
       when_I_view_the_step_by_step_page
+      then_I_can_see_a_summary_section
+      but_I_cannot_edit_the_summary_section
       then_I_can_preview_the_step_by_step
       and_the_steps_can_be_checked_for_broken_links
     end
@@ -322,6 +324,12 @@ RSpec.feature "Managing step by step pages" do
   def and_I_can_edit_the_summary_section
     within_summary_section do
       expect(page).to have_link("Edit", :href => edit_step_by_step_page_path(@step_by_step_page))
+    end
+  end
+
+  def but_I_cannot_edit_the_summary_section
+    within_summary_section do
+      expect(page).not_to have_link("Edit")
     end
   end
 
