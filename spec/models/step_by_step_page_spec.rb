@@ -12,7 +12,6 @@ RSpec.describe StepByStepPage do
     let!(:step_by_step_page_2) { create(:step_by_step_page, slug: "a", title: "Agonise over the next title you can think of") }
 
     it 'returns step by step pages in alphabetical order by title' do
-      # binding.pry
       step_pages = StepByStepPage.by_title
       expect(step_pages.first.title).to eq "Agonise over the next title you can think of"
       expect(step_pages.last.title).to eq "Suffer the slings and arrows of outrageous fortune"
