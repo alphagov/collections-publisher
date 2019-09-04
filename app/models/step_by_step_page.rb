@@ -15,6 +15,7 @@ class StepByStepPage < ApplicationRecord
   validates :slug, format: { with: /\A([a-z0-9]+-)*[a-z0-9]+\z/ }, uniqueness: true
   validates :slug, slug: true, on: :create
   validates :status, inclusion: { in: STATUSES }, presence: true
+  validates :status, status_prerequisite: true
 
   before_validation :generate_content_id, on: :create
   before_destroy :discard_notes
@@ -30,7 +31,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def scheduled_for_publishing?
-    has_draft? && scheduled_at.present? && status == "scheduled"
+    status == "scheduled"
   end
 
   def mark_draft_updated
