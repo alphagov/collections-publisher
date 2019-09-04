@@ -58,7 +58,7 @@ RSpec.describe StepByStepPage do
         nil,
         'foo', # automatically converted to nil
         1.day.from_now,
-        Time.zone.now + 1.second,
+        Time.zone.now + 1.minute,
       ]
       invalid_values = [
         Time.zone.now,
