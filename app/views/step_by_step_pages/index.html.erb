@@ -51,35 +51,7 @@
             name: "status",
             label: "",
             full_width: true,
-            options: [
-              {
-                text: "All",
-                data_attributes: {
-                  show: "all"
-                },
-              },
-              {
-                text: "Draft",
-                value: "draft",
-                data_attributes: {
-                  show: "draft"
-                },
-              },
-              {
-                text: "Published",
-                value: "published",
-                data_attributes: {
-                  show: "published"
-                },
-              },
-              {
-                text: "Scheduled",
-                value: "scheduled",
-                data_attributes: {
-                  show: "scheduled"
-                },
-              }
-            ].each{ |item| item[:selected] = item[:value] == params[:status] }
+            options: StepByStepFilter::Options.statuses.each { |item| item[:selected] = item[:value] == params[:status] }
           } %>
         </div>
         <div class="govuk-grid-column-full">
