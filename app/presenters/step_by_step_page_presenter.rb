@@ -57,6 +57,20 @@ class StepByStepPagePresenter
     params
   end
 
+  def sidebar_settings
+    {
+      title: "Sidebar settings",
+      id: "sidebar-settings",
+      edit: {
+        link_text: step_by_step_page.can_be_edited? ? "Edit" : "View",
+        href: step_by_step_page_navigation_rules_path(step_by_step_page),
+        data_attributes: {
+          gtm: "edit-sidebar-settings"
+        }
+      }
+    }
+  end
+
   def last_saved
     last_saved_time = format_full_date_and_time(step_by_step_page.updated_at)
     return "#{last_saved_time} by #{step_by_step_page.assigned_to}" if assigned?
