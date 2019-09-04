@@ -7,7 +7,7 @@ class StepByStepPagesController < ApplicationController
   before_action :set_step_by_step_page, only: %i[show edit update destroy]
 
   def index
-    @step_by_step_pages = StepByStepFilter.new(filter_params).results
+    @step_by_step_pages = StepByStepFilter::Results.new(filter_params).call
   end
 
   def new

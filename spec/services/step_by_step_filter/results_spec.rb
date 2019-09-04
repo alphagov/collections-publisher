@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe StepByStepFilter do
+RSpec.describe StepByStepFilter::Results do
   before do
     allow(Services.publishing_api).to receive(:lookup_content_id)
   end
@@ -26,7 +26,7 @@ RSpec.describe StepByStepFilter do
       filter_params = {
         status: "draft"
       }
-      results = described_class.new(filter_params).results
+      results = described_class.new(filter_params).call
 
       expect(results.count).to eq(1)
       expect(results.first.title).to eq(draft_step_by_step.title)
@@ -36,7 +36,7 @@ RSpec.describe StepByStepFilter do
       filter_params = {
         status: "scheduled"
       }
-      results = described_class.new(filter_params).results
+      results = described_class.new(filter_params).call
 
       expect(results.count).to eq(1)
       expect(results.first.title).to eq(scheduled_step_by_step.title)
@@ -46,7 +46,7 @@ RSpec.describe StepByStepFilter do
       filter_params = {
         status: "published"
       }
-      results = described_class.new(filter_params).results
+      results = described_class.new(filter_params).call
 
       expect(results.count).to eq(0)
     end
@@ -57,7 +57,7 @@ RSpec.describe StepByStepFilter do
       filter_params = {
         title_or_url: "scheduled step by step"
       }
-      results = described_class.new(filter_params).results
+      results = described_class.new(filter_params).call
 
       expect(results.count).to eq(1)
       expect(results.first.title).to eq(scheduled_step_by_step.title)
@@ -68,7 +68,7 @@ RSpec.describe StepByStepFilter do
         filter_params = {
           title_or_url: "scheduled"
         }
-        results = described_class.new(filter_params).results
+        results = described_class.new(filter_params).call
 
         expect(results.count).to eq(1)
         expect(results.first.title).to eq(scheduled_step_by_step.title)
@@ -78,7 +78,7 @@ RSpec.describe StepByStepFilter do
         filter_params = {
           title_or_url: "by step"
         }
-        results = described_class.new(filter_params).results
+        results = described_class.new(filter_params).call
 
         expect(results.count).to eq(2)
       end
@@ -90,7 +90,7 @@ RSpec.describe StepByStepFilter do
       filter_params = {
         title_or_url: "draft-step-by-step"
       }
-      results = described_class.new(filter_params).results
+      results = described_class.new(filter_params).call
 
       expect(results.count).to eq(1)
       expect(results.first.title).to eq(draft_step_by_step.title)
@@ -100,7 +100,7 @@ RSpec.describe StepByStepFilter do
       filter_params = {
         title_or_url: "/draft-step-by-step"
       }
-      results = described_class.new(filter_params).results
+      results = described_class.new(filter_params).call
 
       expect(results.count).to eq(1)
       expect(results.first.title).to eq(draft_step_by_step.title)
@@ -110,7 +110,7 @@ RSpec.describe StepByStepFilter do
       filter_params = {
         title_or_url: "http://wwww.gov.uk/draft-step-by-step"
       }
-      results = described_class.new(filter_params).results
+      results = described_class.new(filter_params).call
 
       expect(results.count).to eq(1)
       expect(results.first.title).to eq(draft_step_by_step.title)
@@ -122,7 +122,7 @@ RSpec.describe StepByStepFilter do
       status: "scheduled",
       title_or_url: "by step"
     }
-    results = described_class.new(filter_params).results
+    results = described_class.new(filter_params).call
 
     expect(results.count).to eq(1)
     expect(results.first.title).to eq(scheduled_step_by_step.title)
@@ -133,7 +133,7 @@ RSpec.describe StepByStepFilter do
       status: "scheduled",
       title_or_url: "scheduled-step-by-step"
     }
-    results = described_class.new(filter_params).results
+    results = described_class.new(filter_params).call
 
     expect(results.count).to eq(1)
     expect(results.first.title).to eq(scheduled_step_by_step.title)
@@ -144,7 +144,7 @@ RSpec.describe StepByStepFilter do
       status: "published",
       title_or_url: "scheduled-step-by-step"
     }
-    results = described_class.new(filter_params).results
+    results = described_class.new(filter_params).call
 
     expect(results.count).to eq(0)
   end
@@ -155,13 +155,13 @@ RSpec.describe StepByStepFilter do
         status: "",
         title_or_url: ""
       }
-      results = described_class.new(filter_params).results
+      results = described_class.new(filter_params).call
 
       expect(results.count).to eq(2)
     end
 
     it "returns all step by steps if there aren't any filter params" do
-      results = described_class.new.results
+      results = described_class.new.call
 
       expect(results.count).to eq(2)
     end
@@ -182,7 +182,7 @@ RSpec.describe StepByStepFilter do
         status: "scheduled",
         title_or_url: "scheduled"
       }
-      results = described_class.new(filter_params).results
+      results = described_class.new(filter_params).call
 
       expect(results.count).to eq(2)
       expect(results.first.title).to eq(new_step_by_step.title)
@@ -195,7 +195,7 @@ RSpec.describe StepByStepFilter do
         title_or_url: "scheduled",
         order_by: "scheduled_at"
       }
-      results = described_class.new(filter_params).results
+      results = described_class.new(filter_params).call
 
       expect(results.count).to eq(2)
       expect(results.first.title).to eq(scheduled_step_by_step.title)
@@ -208,7 +208,7 @@ RSpec.describe StepByStepFilter do
         title_or_url: "scheduled",
         order_by: "foo"
       }
-      results = described_class.new(filter_params).results
+      results = described_class.new(filter_params).call
 
       expect(results.count).to eq(2)
     end
