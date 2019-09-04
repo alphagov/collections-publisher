@@ -71,6 +71,20 @@ class StepByStepPagePresenter
     }
   end
 
+  def secondary_links_settings
+    {
+      title: "Secondary links",
+      id: "secondary-links",
+      edit: {
+        link_text: step_by_step_page.can_be_edited? ? "Edit" : "View",
+        href: step_by_step_page_secondary_content_links_path(step_by_step_page),
+        data_attributes: {
+          gtm: "edit-secondary-links"
+        }
+      }
+    }
+  end
+
   def last_saved
     last_saved_time = format_full_date_and_time(step_by_step_page.updated_at)
     return "#{last_saved_time} by #{step_by_step_page.assigned_to}" if assigned?
