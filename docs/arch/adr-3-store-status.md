@@ -121,3 +121,7 @@ That means the 2i workflow can be simplified.
 
 - Extra validation will be needed to ensure that a status can be set. E.g Cannot set to `in_review` if there is no `reviewer` recorded.
 - Existing step-by-steps will need to be updated to store a status.
+
+## Status
+
+Accepted, 2019-09-03.
