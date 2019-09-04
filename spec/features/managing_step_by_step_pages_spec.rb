@@ -334,8 +334,8 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def within_summary_section
-    expect(page).to have_css(".gem-c-summary-list")
-    within(".gem-c-summary-list") do
+    expect(page).to have_css(".gem-c-summary-list#content")
+    within(".gem-c-summary-list#content") do
       yield
     end
   end

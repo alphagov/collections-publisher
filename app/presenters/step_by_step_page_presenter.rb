@@ -25,6 +25,7 @@ class StepByStepPagePresenter
   def summary_list_params
     params = {
       borderless: true,
+      id: "content",
       title: "Content",
       items: [
         {
