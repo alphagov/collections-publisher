@@ -1,3 +1,5 @@
+$govuk-use-legacy-palette: true;
+
 @import "govuk_publishing_components/all_components";
 @import "./components/all";
 @import "./objects/side";

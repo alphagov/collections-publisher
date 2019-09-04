@@ -39,6 +39,14 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_the_new_step_by_step_page
   end
 
+  scenario "User visits an existing step by step page" do
+    given_there_is_a_step_by_step_page
+    when_I_view_the_step_by_step_page
+    then_I_can_see_a_summary_section
+    and_I_can_edit_the_summary_section
+    and_I_can_see_a_metadata_section
+  end
+
   scenario "Validation fails" do
     when_I_visit_the_new_step_by_step_form
     and_I_fill_in_the_form_with_invalid_data
@@ -163,6 +171,8 @@ RSpec.feature "Managing step by step pages" do
       and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing at 10:26am on 20 April 2030"
       and_the_step_by_step_is_not_editable
       when_I_view_the_step_by_step_page
+      then_I_can_see_a_summary_section
+      but_I_cannot_edit_the_summary_section
       then_I_can_preview_the_step_by_step
       and_the_steps_can_be_checked_for_broken_links
     end
@@ -299,6 +309,43 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_see_the_step_by_step_page
     expect(page).to have_content("How to be amazing")
+  end
+
+  def then_I_can_see_a_summary_section
+    within_summary_section do
+      expect(page).to have_content "Content"
+      expect(page).to have_content "Title #{@step_by_step_page.title}"
+      expect(page).to have_content "Slug #{@step_by_step_page.slug}"
+      expect(page).to have_content "Introduction #{@step_by_step_page.introduction}"
+      expect(page).to have_content "Description #{@step_by_step_page.description}"
+    end
+  end
+
+  def and_I_can_edit_the_summary_section
+    within_summary_section do
+      expect(page).to have_link("Edit", :href => edit_step_by_step_page_path(@step_by_step_page))
+    end
+  end
+
+  def but_I_cannot_edit_the_summary_section
+    within_summary_section do
+      expect(page).not_to have_link("Edit")
+    end
+  end
+
+  def within_summary_section
+    expect(page).to have_css(".gem-c-summary-list")
+    within(".gem-c-summary-list") do
+      yield
+    end
+  end
+
+  def and_I_can_see_a_metadata_section
+    within(".gem-c-metadata") do
+      expect(page).to have_content("Status: Draft")
+      expect(page).to have_content("Last saved")
+      expect(page).to have_content("Created")
+    end
   end
 
   def and_I_visit_the_publish_or_delete_page
