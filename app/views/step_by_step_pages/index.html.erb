@@ -6,24 +6,18 @@
   ]
 %>
 
-<%= render 'shared/steps/page_title', links: links %>
+<% content_for :title, render("govuk_publishing_components/components/heading", {
+  text: "Step by step navigation publisher",
+  margin_bottom: 6
+}) %>
 
 <%= render 'shared/steps/form_notice', message: notice, status: "success" %>
 
-
-<%= render "govuk_publishing_components/components/heading", {
-  text: "Step by step navigation publisher",
-  margin_bottom: 6
-} %>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <%= render "govuk_publishing_components/components/button", {
-      text: "Create new",
-      href: new_step_by_step_page_path
-    } %>
-  </div>
-</div>
+<% content_for :title_side, render("govuk_publishing_components/components/button", {
+  text: "Create new step by step",
+  href: new_step_by_step_page_path,
+  margin_bottom: true
+}) %>
 
 <div class="govuk-grid-row govuk-!-margin-top-5">
   <div class="govuk-grid-column-one-quarter">
