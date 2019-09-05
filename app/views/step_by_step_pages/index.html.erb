@@ -6,12 +6,9 @@
   ]
 %>
 
-<% content_for :title, render("govuk_publishing_components/components/heading", {
-  text: "Step by step navigation publisher",
-  margin_bottom: 6
-}) %>
-
 <%= render 'shared/steps/form_notice', message: notice, status: "success" %>
+
+<% content_for :title, "Step by steps" %>
 
 <% content_for :title_side, render("govuk_publishing_components/components/button", {
   text: "Create new step by step",
@@ -19,94 +16,25 @@
   margin_bottom: true
 }) %>
 
-<div class="govuk-grid-row govuk-!-margin-top-5">
+<div class="govuk-grid-row">
   <div class="govuk-grid-column-one-quarter">
-    <div class="govuk-grid-row">
-      <%= form_tag({}, enforce_utf8: false, method: :get) do %>
-        <div class="govuk-grid-column-full">
-          <%= render "govuk_publishing_components/components/input", {
-            label: {
-              text: "Title or URL",
-              bold: true
-            },
-            name: "title_or_url",
-            value: params[:title_or_url],
-            id: "title_or_url"
-          } %>
-        </div>
-        <div class="govuk-grid-column-full">
-          <%= render "govuk_publishing_components/components/label", {
-            text: "Status",
-            html_for: "status",
-            bold: true
-          } %>
-          <%= render "govuk_publishing_components/components/select", {
-            id: "status",
-            name: "status",
-            label: "",
-            full_width: true,
-            options: StepByStepFilter::Options.statuses(params[:status])
-          } %>
-        </div>
-        <div class="govuk-grid-column-full">
-          <%= render "govuk_publishing_components/components/button", {
-            text: "Filter",
-            margin_bottom: true
-          } %>
-        </div>
-      <% end %>
-    </div>
-
-    <p class="govuk-body">
-      <%= link_to "Clear all filters",
-        step_by_step_pages_path,
-        class: "govuk-link govuk-link--no-visited-state"
-      %>
-    </p>
+    <%= render "step_by_step_pages/index/filters" %>
   </div>
 
   <div class="govuk-grid-column-three-quarters">
     <p class="govuk-body govuk-!-margin-bottom-1"><%= pluralize(@step_by_step_pages.count, "step by step") %></p>
-    <table class="gem-c-table govuk-table govuk-table--sortable step-by-step-list__table">
-      <thead class="govuk-table__head">
-        <tr>
-          <th class="govuk-table__header govuk-!-font-weight-bold" scope="col">Title</th>
-          <th class="govuk-table__header govuk-!-font-weight-bold" scope="col">Status</th>
-          <th class="govuk-table__header govuk-!-font-weight-bold" scope="col">Base path / preview</th>
-        </tr>
-      </thead>
 
-      <tbody class="govuk-table__body">
-        <% if @step_by_step_pages.present? %>
-          <% @step_by_step_pages.each do |step_by_step_page| %>
-            <tr class="govuk-table__row" data-status="<%= step_by_step_page.status %>">
-              <td class="govuk-table__cell">
-                <strong><%= link_to step_by_step_page.title, step_by_step_page %></strong>
-              </td>
-              <td class="govuk-table__cell">
-                <span class="h4">
-                  <span class="label" title="<%= step_by_step_page.status.humanize %>"><%= step_by_step_page.status.humanize %></span>
-                </span>
-              </td>
-              <td class="govuk-table__cell">
-                <% if step_by_step_page.has_draft? %>
-                  <%= link_to "/#{step_by_step_page.slug}", preview_url(step_by_step_page.slug, auth_bypass_id: step_by_step_page.auth_bypass_id), target: "_blank" %>
-                <% elsif step_by_step_page.status.published? %>
-                  <%= link_to "/#{step_by_step_page.slug}", published_url(step_by_step_page.slug), target: "_blank" %>
-                <% else %>
-                  /<%= step_by_step_page.slug %>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        <% else %>
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell" colspan="3">
-              <p class="govuk-hint">No step by steps have been created yet.</p>
-            </tr>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <% if @step_by_step_pages.none? %>
+      <div class="govuk-body">
+        <p>Improve your search results by:</p>
+        <ul>
+          <li>removing filters</li>
+          <li>searching for something less specific</li>
+          <li>double-checking your spelling</li>
+        </ul>
+      </div>
+    <% else %>
+      <%= render "step_by_step_pages/index/results" %>
+    <% end %>
   </div>
 </div>
