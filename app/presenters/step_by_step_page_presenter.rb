@@ -25,6 +25,7 @@ class StepByStepPagePresenter
   def summary_list_params
     params = {
       borderless: true,
+      id: "content",
       title: "Content",
       items: [
         {
@@ -54,6 +55,34 @@ class StepByStepPagePresenter
       })
     end
     params
+  end
+
+  def sidebar_settings
+    {
+      title: "Sidebar settings",
+      id: "sidebar-settings",
+      edit: {
+        link_text: step_by_step_page.can_be_edited? ? "Edit" : "View",
+        href: step_by_step_page_navigation_rules_path(step_by_step_page),
+        data_attributes: {
+          gtm: "edit-sidebar-settings"
+        }
+      }
+    }
+  end
+
+  def secondary_links_settings
+    {
+      title: "Secondary links",
+      id: "secondary-links",
+      edit: {
+        link_text: step_by_step_page.can_be_edited? ? "Edit" : "View",
+        href: step_by_step_page_secondary_content_links_path(step_by_step_page),
+        data_attributes: {
+          gtm: "edit-secondary-links"
+        }
+      }
+    }
   end
 
   def last_saved

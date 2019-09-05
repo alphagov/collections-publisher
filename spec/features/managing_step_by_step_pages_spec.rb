@@ -44,6 +44,8 @@ RSpec.feature "Managing step by step pages" do
     when_I_view_the_step_by_step_page
     then_I_can_see_a_summary_section
     and_I_can_edit_the_summary_section
+    and_I_can_see_a_sidebar_settings_section_with_link "Edit"
+    and_I_can_see_a_secondary_links_section_with_link "Edit"
     and_I_can_see_a_metadata_section
   end
 
@@ -173,6 +175,8 @@ RSpec.feature "Managing step by step pages" do
       when_I_view_the_step_by_step_page
       then_I_can_see_a_summary_section
       but_I_cannot_edit_the_summary_section
+      and_I_can_see_a_sidebar_settings_section_with_link "View"
+      and_I_can_see_a_secondary_links_section_with_link "View"
       then_I_can_preview_the_step_by_step
       and_the_steps_can_be_checked_for_broken_links
     end
@@ -334,9 +338,23 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def within_summary_section
-    expect(page).to have_css(".gem-c-summary-list")
-    within(".gem-c-summary-list") do
+    expect(page).to have_css(".gem-c-summary-list#content")
+    within(".gem-c-summary-list#content") do
       yield
+    end
+  end
+
+  def and_I_can_see_a_sidebar_settings_section_with_link(link_text)
+    within(".gem-c-summary-list#sidebar-settings") do
+      expect(page).to have_content "Sidebar settings"
+      expect(page).to have_link(link_text, :href => step_by_step_page_navigation_rules_path(@step_by_step_page))
+    end
+  end
+
+  def and_I_can_see_a_secondary_links_section_with_link(link_text)
+    within(".gem-c-summary-list#secondary-links") do
+      expect(page).to have_content "Secondary links"
+      expect(page).to have_link(link_text, :href => step_by_step_page_secondary_content_links_path(@step_by_step_page))
     end
   end
 
