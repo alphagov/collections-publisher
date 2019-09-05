@@ -25,38 +25,8 @@
   <%= render "shared/steps/form_errors", resource: @publish_intent %>
 <% end %>
 
-
 <%= form_tag do %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <%= render "govuk_publishing_components/components/radio", {
-        heading: "Update type",
-        name: "update_type",
-        items: [
-          {
-            value: "minor",
-            text: "Minor",
-            checked: true
-          },
-          {
-            value: "major",
-            text: "Major"
-          }
-        ]
-      } %>
-    </div>
-  </div>
-
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <%= render "govuk_publishing_components/components/textarea", {
-        label: {
-          text: "Change note"
-        },
-        name: "change_note"
-      } %>
-    </div>
-  </div>
+  <%= render "step_by_step_pages/change_notes" %>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">

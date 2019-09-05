@@ -477,7 +477,7 @@ RSpec.feature "Managing step by step pages" do
   alias_method :and_when_I_click_button, :and_I_click_button
 
   def then_I_should_see_a_publish_form_with_changenotes
-    expect(page).to have_content("Update type")
+    expect(page).to have_content("Notify users about this change?")
     expect(page).to have_css('input[type="radio"][name="update_type"]', count: 2)
     expect(page).to have_css('textarea[name="change_note"]')
   end
