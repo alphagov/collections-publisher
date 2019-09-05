@@ -1,41 +1,42 @@
-<table class="gem-c-table govuk-table govuk-table--sortable step-by-step-list__table">
-  <thead class="govuk-table__head">
-    <tr>
-      <th class="govuk-table__header govuk-!-font-weight-bold" scope="col">Title</th>
-      <th class="govuk-table__header govuk-!-font-weight-bold" scope="col">Status</th>
-      <th class="govuk-table__header govuk-!-font-weight-bold" scope="col">Base path / preview</th>
-    </tr>
-  </thead>
+<%= GovukPublishingComponents::AppHelpers::TableHelper.helper(self, "Documents list", { sortable: true, caption_classes: "govuk-visually-hidden" }) do |t| %>
 
-  <tbody class="govuk-table__body">
-    <% if @step_by_step_pages.present? %>
-      <% @step_by_step_pages.each do |step_by_step_page| %>
-        <tr class="govuk-table__row" data-status="<%= step_by_step_page.status[:name] %>">
-          <td class="govuk-table__cell">
-            <strong><%= link_to step_by_step_page.title, step_by_step_page %></strong>
-          </td>
-          <td class="govuk-table__cell">
-            <span class="h4">
-              <span class="label <%= step_by_step_page.status[:label_class] %>" title="<%= step_by_step_page.status[:text] %>"><%= step_by_step_page.status[:text] %></span>
-            </span>
-          </td>
-          <td class="govuk-table__cell">
-            <% if step_by_step_page.has_draft? %>
-              <%= link_to "/#{step_by_step_page.slug}", preview_url(step_by_step_page.slug, auth_bypass_id: step_by_step_page.auth_bypass_id), target: "_blank" %>
-            <% elsif step_by_step_page.status[:name] == "live" %>
-              <%= link_to "/#{step_by_step_page.slug}", live_url(step_by_step_page.slug), target: "_blank" %>
-            <% else %>
-              /<%= step_by_step_page.slug %>
-            <% end %>
-          </td>
-        </tr>
+  <%= t.head do %>
+    <%= t.header "Title" %>
+    <%= t.header "Status" %>
+    <%= t.header "Last updated" %>
+  <% end %>
+
+  <%= t.body do %>
+    <% @step_by_step_pages.each do |step_by_step_page| %>
+
+      <% preview_link = capture do %>
+        <% if step_by_step_page.has_draft? %>
+          <%= link_to "/#{step_by_step_page.slug}", preview_url(step_by_step_page.slug, auth_bypass_id: step_by_step_page.auth_bypass_id), target: "_blank", class: "govuk-link" %>
+        <% elsif step_by_step_page.status.published? %>
+          <%= link_to "/#{step_by_step_page.slug}", published_url(step_by_step_page.slug), target: "_blank", class: "govuk-link" %>
+        <% else %>
+          /<%= step_by_step_page.slug %>
+        <% end %>
       <% end %>
-    <% else %>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell" colspan="3">
-          <p class="govuk-hint">No step by steps have been created yet.</p>
-        </td>
-      </tr>
+
+      <%= t.row do %>
+        <%= t.cell render "govuk_publishing_components/components/document_list", {
+          items: [
+            {
+              link: {
+                text: step_by_step_page.title,
+                path: step_by_step_page
+              },
+              metadata: {
+                preview_link: preview_link
+              }
+            }
+          ]
+        } %>
+
+        <%= t.cell step_by_step_page.status.humanize %>
+        <%= t.cell step_by_step_page.created_at.strftime('%-d %B %Y') %>
+      <% end %>
     <% end %>
-  </tbody>
-</table>
+  <% end %>
+<% end %>

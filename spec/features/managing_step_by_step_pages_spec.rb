@@ -564,7 +564,7 @@ RSpec.feature "Managing step by step pages" do
 
   def and_the_step_by_step_should_have_the_status(status)
     visit step_by_step_pages_url
-    expect(page).to have_css("tr[data-status=#{status.downcase}]")
+    expect(page).to have_content(status)
   end
 
   def and_there_should_be_a_change_note(change_note)
