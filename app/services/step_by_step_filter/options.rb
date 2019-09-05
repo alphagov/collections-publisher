@@ -1,6 +1,6 @@
 module StepByStepFilter
   class Options
-    def self.statuses
+    def self.statuses(selected = nil)
       statuses = StepByStepPage::STATUSES.map do |status|
         {
           text: status.humanize,
@@ -8,6 +8,7 @@ module StepByStepFilter
           data_attributes: {
             show: status
           },
+          selected: selected.present? && selected == status
         }
       end
 
@@ -16,6 +17,7 @@ module StepByStepFilter
         data_attributes: {
           show: "all"
         },
+        selected: selected.blank?
       )
     end
   end

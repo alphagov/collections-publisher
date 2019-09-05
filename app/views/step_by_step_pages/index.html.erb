@@ -51,7 +51,7 @@
             name: "status",
             label: "",
             full_width: true,
-            options: StepByStepFilter::Options.statuses.each { |item| item[:selected] = item[:value] == params[:status] }
+            options: StepByStepFilter::Options.statuses(params[:status])
           } %>
         </div>
         <div class="govuk-grid-column-full">
