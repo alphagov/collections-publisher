@@ -7,7 +7,7 @@ class StepByStepPagesController < ApplicationController
   before_action :set_step_by_step_page, only: %i[show edit update destroy]
 
   def index
-    @step_by_step_pages = StepByStepFilter.new(filter_params).results
+    @step_by_step_pages = StepByStepFilter::Results.new(filter_params).call
   end
 
   def new
@@ -34,7 +34,8 @@ class StepByStepPagesController < ApplicationController
   def edit; end
 
   def create
-    @step_by_step_page = StepByStepPage.new(step_by_step_page_params)
+    create_params = step_by_step_page_params.merge(status: "draft")
+    @step_by_step_page = StepByStepPage.new(create_params)
     if @step_by_step_page.save
       update_downstream
       redirect_to @step_by_step_page, notice: 'Step by step page was successfully created.'
@@ -182,6 +183,7 @@ private
 
   def schedule_to_publish
     StepNavPublisher.schedule_for_publishing(@step_by_step_page)
+    @step_by_step_page.mark_as_scheduled
   end
 
   def unpublish_page(redirect_url)
@@ -195,6 +197,7 @@ private
 
   def unschedule_publishing
     StepNavPublisher.cancel_scheduling(@step_by_step_page)
+    @step_by_step_page.mark_as_unscheduled
   end
 
   def revert_page

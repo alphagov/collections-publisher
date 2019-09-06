@@ -7,13 +7,14 @@ class StepByStepPageReverter
   end
 
   def repopulate_from_publishing_api
-    step_by_step_page.title = payload_from_publishing_api[:title]
-    step_by_step_page.slug = payload_from_publishing_api[:base_path].tr('/', '')
-    step_by_step_page.introduction = introduction
-    step_by_step_page.description = payload_from_publishing_api[:description]
-    step_by_step_page.draft_updated_at = step_by_step_page.published_at
-
-    step_by_step_page.save!
+    step_by_step_page.update(
+      title: title,
+      slug: slug,
+      introduction: introduction,
+      description: description,
+      draft_updated_at: step_by_step_page.published_at,
+      status: "published"
+    )
 
     step_by_step_page.steps = steps
     step_by_step_page.secondary_content_links = secondary_content_links
@@ -22,6 +23,18 @@ class StepByStepPageReverter
   end
 
 private
+
+  def title
+    payload_from_publishing_api[:title]
+  end
+
+  def slug
+    payload_from_publishing_api[:base_path].tr('/', '')
+  end
+
+  def description
+    payload_from_publishing_api[:description]
+  end
 
   def step_by_step_nav_details
     payload_from_publishing_api[:details][:step_by_step_nav]

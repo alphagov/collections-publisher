@@ -1,4 +1,10 @@
 class StepByStepPage < ApplicationRecord
+  STATUSES = %w(
+    draft
+    published
+    scheduled
+  ).freeze
+
   has_many :navigation_rules, -> { order(title: :asc) }, dependent: :destroy
   has_many :steps, -> { order(position: :asc) }, dependent: :destroy
   has_many :internal_change_notes, -> { order(created_at: :desc) }
@@ -8,6 +14,9 @@ class StepByStepPage < ApplicationRecord
   validates :scheduled_at, in_future: true
   validates :slug, format: { with: /\A([a-z0-9]+-)*[a-z0-9]+\z/ }, uniqueness: true
   validates :slug, slug: true, on: :create
+  validates :status, inclusion: { in: STATUSES }, presence: true
+  validates :status, status_prerequisite: true
+
   before_validation :generate_content_id, on: :create
   before_destroy :discard_notes
 
@@ -22,11 +31,14 @@ class StepByStepPage < ApplicationRecord
   end
 
   def scheduled_for_publishing?
-    has_draft? && scheduled_at.present?
+    status.scheduled?
   end
 
   def mark_draft_updated
-    update_attribute(:draft_updated_at, Time.zone.now)
+    update(
+      draft_updated_at: Time.zone.now,
+      status: "draft"
+    )
   end
 
   def mark_draft_deleted
@@ -35,15 +47,29 @@ class StepByStepPage < ApplicationRecord
 
   def mark_as_published
     now = Time.zone.now
-    update_attribute(:published_at, now)
-    update_attribute(:draft_updated_at, now)
-    update_attribute(:scheduled_at, nil)
-    update_attribute(:assigned_to, nil)
+    update(
+      published_at: now,
+      draft_updated_at: now,
+      scheduled_at: nil,
+      assigned_to: nil,
+      status: "published"
+    )
   end
 
   def mark_as_unpublished
-    update_attribute(:published_at, nil)
-    update_attribute(:draft_updated_at, nil)
+    update(
+      published_at: nil,
+      draft_updated_at: nil,
+      status: "draft"
+    )
+  end
+
+  def mark_as_scheduled
+    update_attribute(:status, "scheduled")
+  end
+
+  def mark_as_unscheduled
+    update_attribute(:status, "draft")
   end
 
   def self.validate_redirect(redirect_url)
@@ -52,11 +78,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def status
-    return scheduled_status if scheduled_for_publishing?
-    return unpublished_status if unpublished_changes?
-    return live_status if has_been_published?
-
-    draft_status
+    (read_attribute("status") || "").inquiry
   end
 
   def unpublished_changes?
@@ -118,37 +140,5 @@ private
 
   def generate_content_id
     self.content_id ||= SecureRandom.uuid
-  end
-
-  def draft_status
-    {
-      name: "draft",
-      text: "Draft",
-      label_class: "label-default"
-    }
-  end
-
-  def scheduled_status
-    {
-      name: "scheduled",
-      text: "Scheduled",
-      label_class: "label-warning"
-    }
-  end
-
-  def live_status
-    {
-      name: "live",
-      text: "Live",
-      label_class: "label-success"
-    }
-  end
-
-  def unpublished_status
-    {
-      name: "unpublished_changes",
-      text: "Unpublished changes",
-      label_class: "label-primary"
-    }
   end
 end

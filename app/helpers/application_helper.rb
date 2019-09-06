@@ -17,7 +17,7 @@ module ApplicationHelper
     url
   end
 
-  def live_url(slug)
+  def published_url(slug)
     "#{Plek.new.website_root}/#{slug}"
   end
 end

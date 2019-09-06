@@ -19,7 +19,7 @@ RSpec.describe StepNavPublisher do
       expect(Services.publishing_api).to have_received(:put_content)
     end
 
-    context "live step by step having a step edited" do
+    context "published step by step having a step edited" do
       let(:step_nav) { create(:published_step_by_step_page) }
 
       it "defines :access_limited in the publishing-api payload" do

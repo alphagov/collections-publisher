@@ -118,6 +118,22 @@ RSpec.describe StepByStepPage do
 
       expect(step_by_step_page.errors.full_messages).to eq(["Slug has already been taken."])
     end
+
+    describe '#status' do
+      it 'requires a status' do
+        step_by_step_page.status = ''
+
+        expect(step_by_step_page).not_to be_valid
+        expect(step_by_step_page.errors).to have_key(:status)
+      end
+
+      it 'must have a valid status' do
+        step_by_step_page.status = 'invalid'
+
+        expect(step_by_step_page).not_to be_valid
+        expect(step_by_step_page.errors).to have_key(:status)
+      end
+    end
   end
 
   describe 'steps association' do
@@ -202,7 +218,7 @@ RSpec.describe StepByStepPage do
 
         expect(step_by_step_page.draft_updated_at).to be_within(1.second).of nowish
         expect(step_by_step_page.has_draft?).to be true
-        expect(step_by_step_page.status[:name]).to eq('draft')
+        expect(step_by_step_page.status).to be_draft
       end
     end
 
@@ -222,7 +238,7 @@ RSpec.describe StepByStepPage do
         expect(step_by_step_page.published_at).to eq(step_by_step_page.draft_updated_at)
         expect(step_by_step_page.has_been_published?).to be true
         expect(step_by_step_page.has_draft?).to be false
-        expect(step_by_step_page.status[:name]).to eq('live')
+        expect(step_by_step_page.status).to be_published
       end
     end
 
@@ -256,12 +272,12 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_with_custom_id.auth_bypass_id).to eq("61363635-6134-4539-b230-343232663964")
     end
 
-    it 'should have a status of unpublished if published and then changes are made' do
+    it 'should have a status of draft if published and then changes are made' do
       step_by_step_page.mark_as_published
 
       Timecop.freeze(Date.today + 1) do
         step_by_step_page.mark_draft_updated
-        expect(step_by_step_page.status[:name]).to eq('unpublished_changes')
+        expect(step_by_step_page.status).to be_draft
       end
     end
   end
@@ -272,9 +288,10 @@ RSpec.describe StepByStepPage do
     it 'is scheduled for publishing when it has a draft and has a scheduled_at date' do
       step_by_step_page.mark_draft_updated
       step_by_step_page.scheduled_at = Date.tomorrow
+      step_by_step_page.mark_as_scheduled
 
       expect(step_by_step_page.scheduled_for_publishing?).to be true
-      expect(step_by_step_page.status[:name]).to eq('scheduled')
+      expect(step_by_step_page.status).to be_scheduled
     end
 
     it 'is not scheduled for publishing if a draft has not been saved' do
@@ -304,6 +321,7 @@ RSpec.describe StepByStepPage do
     it 'cannot be published if it is scheduled for publishing' do
       step_by_step_page.mark_draft_updated
       step_by_step_page.scheduled_at = Date.tomorrow
+      step_by_step_page.mark_as_scheduled
 
       expect(step_by_step_page.can_be_published?).to be false
     end
@@ -376,6 +394,7 @@ RSpec.describe StepByStepPage do
     it 'cannot be deleted if it is scheduled for publishing' do
       step_by_step_page.mark_draft_updated
       step_by_step_page.scheduled_at = Date.tomorrow
+      step_by_step_page.mark_as_scheduled
 
       expect(step_by_step_page.can_be_deleted?).to be false
     end
@@ -397,6 +416,7 @@ RSpec.describe StepByStepPage do
     it 'cannot be edited if it is scheduled for publishing' do
       step_by_step_page.mark_draft_updated
       step_by_step_page.scheduled_at = Date.tomorrow
+      step_by_step_page.mark_as_scheduled
 
       expect(step_by_step_page.can_be_edited?).to be false
     end
