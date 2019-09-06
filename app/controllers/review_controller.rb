@@ -1,4 +1,6 @@
 class ReviewController < ApplicationController
+  layout 'admin_layout'
+
   before_action :require_gds_editor_permissions!
   before_action :require_unreleased_feature_permissions!
   before_action :set_step_by_step_page

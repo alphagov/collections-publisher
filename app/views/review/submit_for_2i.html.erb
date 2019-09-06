@@ -1,1 +1,46 @@
-<p>TO DO</p>
+<%
+  links = [
+    {
+      text: 'Step by steps',
+      href: step_by_step_pages_path
+    },
+    {
+      text: @step_by_step_page.title,
+      href: step_by_step_page_path(@step_by_step_page)
+    },
+    {
+      text: 'Submit for 2i'
+    }
+  ]
+%>
+
+<%= render 'shared/steps/step_breadcrumb', links: links %>
+
+<%= render 'shared/steps/heading',
+  step_nav: @step_by_step_page.title,
+  action: 'Submit for 2i'
+%>
+
+<%= form_tag do %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= render "govuk_publishing_components/components/textarea", {
+        label: {
+          text: "Additional comments (optional)"
+        },
+        name: "additional_comments"
+      } %>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Submit for 2i"
+      } %>
+    </div>
+    <div class="govuk-grid-column-full govuk-!-margin-top-3">
+      <%= link_to 'Cancel', @step_by_step_page, class: "govuk-link" %>
+    </div>
+  </div>
+<% end %>
