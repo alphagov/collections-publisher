@@ -69,7 +69,7 @@ RSpec.describe StepByStepPagesController do
         change_note_text = "Testing major change note"
         post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "major", change_note: change_note_text }
 
-        expected_description = "Major update published by Name Surname with note: #{change_note_text}"
+        expected_description = "Published by Name Surname with change note: #{change_note_text}"
         expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
       end
     end
@@ -77,21 +77,11 @@ RSpec.describe StepByStepPagesController do
     context 'minor updates' do
       let(:step_by_step_page) { create(:published_step_by_step_page) }
 
-      it "generates an internal change note with change note text" do
-        stub_publishing_api
-
-        change_note_text = "Corrected a typo"
-        post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor", change_note: change_note_text }
-
-        expected_description = "Minor update published by Name Surname with note: #{change_note_text}"
-        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
-      end
-
       it "generates an internal change note without change note text" do
         stub_publishing_api
         post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor", change_note: "" }
 
-        expected_description = "Minor update published by Name Surname"
+        expected_description = "Published by Name Surname"
         expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
       end
     end
