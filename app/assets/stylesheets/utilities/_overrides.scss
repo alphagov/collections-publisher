@@ -74,3 +74,25 @@
     @include govuk-clearfix;
   }
 }
+
+.govuk-table {
+  .gem-c-document-list__item {
+    margin: 0;
+    padding: 0;
+  }
+
+  .gem-c-document-list__item-title {
+    @extend %govuk-link;
+    font-weight: normal;
+  }
+
+  .gem-c-document-list__attribute {
+    @include govuk-font(16);
+  }
+
+  .govuk-table__body {
+    .govuk-table__cell {
+      @include govuk-font(16);
+    }
+  }
+}
