@@ -35,7 +35,7 @@
         } %>
 
         <%= t.cell step_by_step_page.status.humanize %>
-        <%= t.cell step_by_step_page.created_at.strftime('%-d %B %Y') %>
+        <%= t.cell format_full_date(step_by_step_page.updated_at) %>
       <% end %>
     <% end %>
   <% end %>

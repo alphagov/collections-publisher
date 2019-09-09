@@ -20,6 +20,10 @@ module TimeOptionsHelper
     datetime.strftime('%-l:%M%P on %-d %B %Y')
   end
 
+  def format_full_date(datetime)
+    datetime.strftime('%-d %B %Y')
+  end
+
   def default_datetime_placeholder(
     year: 1.day.from_now.year,
     month: 1.day.from_now.month,

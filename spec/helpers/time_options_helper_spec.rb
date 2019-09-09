@@ -49,6 +49,13 @@ RSpec.describe TimeOptionsHelper do
     end
   end
 
+  describe "#format_full_date" do
+    it "formats the date correctly" do
+      date = Time.new(2030, 4, 20)
+      expect(helper.format_full_date(date)).to eq("20 April 2030")
+    end
+  end
+
   describe "#default_datetime_placeholder" do
     let(:default_day) { Time.current.tomorrow.day }
     let(:default_month) { Time.current.tomorrow.month }
