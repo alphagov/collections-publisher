@@ -2,78 +2,69 @@ require 'rails_helper'
 
 RSpec.describe StepByStepFilter::Options do
   it "returns filter options with the default selected" do
-    expected_options = [
-      {
-        text: "All",
-        data_attributes: {
-          show: "all"
-        },
-        selected: true,
+    subject = described_class.statuses
+
+    all_option = {
+      text: "All",
+      data_attributes: {
+        show: "all"
       },
-      {
-        text: "Draft",
-        value: "draft",
+      selected: true,
+    }
+
+    expect(subject).to include(all_option)
+
+    StepByStepPage::STATUSES.each do |status|
+      status_option = {
+        text: status.humanize,
+        value: status,
         data_attributes: {
-          show: "draft"
-        },
-        selected: false,
-      },
-      {
-        text: "Published",
-        value: "published",
-        data_attributes: {
-          show: "published"
-        },
-        selected: false,
-      },
-      {
-        text: "Scheduled",
-        value: "scheduled",
-        data_attributes: {
-          show: "scheduled"
+          show: status
         },
         selected: false,
       }
-    ]
 
-    expect(described_class.statuses).to eq(expected_options)
+      expect(subject).to include(status_option)
+    end
   end
 
   it "returns filter options with the selected status" do
-    expected_options = [
-      {
-        text: "All",
-        data_attributes: {
-          show: "all"
-        },
-        selected: false,
-      },
-      {
-        text: "Draft",
-        value: "draft",
-        data_attributes: {
-          show: "draft"
-        },
-        selected: false,
-      },
-      {
-        text: "Published",
-        value: "published",
-        data_attributes: {
-          show: "published"
-        },
-        selected: false,
-      },
-      {
-        text: "Scheduled",
-        value: "scheduled",
-        data_attributes: {
-          show: "scheduled"
-        },
-        selected: true,
-      }
-    ]
+    subject = described_class.statuses("scheduled")
 
-    expect(described_class.statuses("scheduled")).to eq(expected_options)
+    all_option = {
+      text: "All",
+      data_attributes: {
+        show: "all"
+      },
+      selected: false,
+    }
+
+    expect(subject).to include(all_option)
+
+    scheduled_option = {
+      text: "Scheduled",
+      value: "scheduled",
+      data_attributes: {
+        show: "scheduled"
+      },
+      selected: true,
+    }
+
+    expect(subject).to include(scheduled_option)
+
+    other_options = StepByStepPage::STATUSES.dup - %w(scheduled)
+
+    other_options.each do |status|
+      status_option = {
+        text: status.humanize,
+        value: status,
+        data_attributes: {
+          show: status
+        },
+        selected: false
+      }
+
+      expect(subject).to include(status_option)
+    end
   end
 end
