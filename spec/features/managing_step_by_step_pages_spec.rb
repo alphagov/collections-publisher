@@ -152,7 +152,7 @@ RSpec.feature "Managing step by step pages" do
     given_I_am_assigned_to_a_published_step_by_step_page_with_unpublished_changes
     and_I_visit_the_publish_page
     and_I_publish_the_page
-    then_there_should_be_a_change_note "Minor update published by #{stub_user.name}"
+    then_there_should_be_a_change_note "Published by #{stub_user.name}"
     when_I_view_the_step_by_step_page
     and_I_delete_the_first_step
     then_there_should_be_a_change_note "Draft saved by #{stub_user.name}"
@@ -170,7 +170,7 @@ RSpec.feature "Managing step by step pages" do
       when_I_submit_the_form
       then_I_should_see "has been scheduled to publish"
       and_the_step_by_step_should_have_the_status "Scheduled"
-      and_there_should_be_a_change_note "Minor update scheduled by Test author for publishing at 10:26am on 20 April 2030"
+      and_there_should_be_a_change_note "Scheduled by Test author for publishing at 10:26am on 20 April 2030"
       and_the_step_by_step_is_not_editable
       when_I_view_the_step_by_step_page
       then_I_can_see_a_summary_section
@@ -495,7 +495,7 @@ RSpec.feature "Managing step by step pages" do
   alias_method :and_when_I_click_button, :and_I_click_button
 
   def then_I_should_see_a_publish_form_with_changenotes
-    expect(page).to have_content("Update type")
+    expect(page).to have_content("Notify users about this change?")
     expect(page).to have_css('input[type="radio"][name="update_type"]', count: 2)
     expect(page).to have_css('textarea[name="change_note"]')
   end
