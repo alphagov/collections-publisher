@@ -80,15 +80,7 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <div class="app-side">
-      <div class="app-side__actions">
-        <%= render "govuk_publishing_components/components/button", {
-          text: "Preview",
-          href: preview_url(@step_by_step_page.slug, auth_bypass_id: @step_by_step_page.auth_bypass_id),
-          secondary: true
-        } %>
-      </div>
-    </div>
+    <%= render "step_by_step_pages/show/actions" %>
 
     <div class="app-side">
       <%= render "govuk_publishing_components/components/metadata", {
