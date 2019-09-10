@@ -13,7 +13,7 @@ class ReviewController < ApplicationController
         review_requester: current_user.name,
         status: status
       )
-        generate_change_note(status)
+        generate_change_note(status, params[:additional_comments])
 
         redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully #{status.humanize.downcase}."
       else
@@ -24,10 +24,13 @@ class ReviewController < ApplicationController
 
 private
 
-  def generate_change_note(status)
+  def generate_change_note(status, change_note)
+    description = "#{status.humanize} by #{current_user.name}"
+    description << "\n\n#{change_note}" if change_note.present?
+
     @step_by_step_page.internal_change_notes.create(
       author: current_user.name,
-      description: "#{status.humanize} by #{current_user.name}"
+      description: description
     )
   end
 
