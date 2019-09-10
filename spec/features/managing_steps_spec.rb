@@ -17,16 +17,17 @@ RSpec.feature "Managing step by step pages" do
         when_I_visit_the_step_by_step_page
         and_I_create_a_new_step
         and_I_fill_in_the_form
-        then_I_can_see_the_edit_page
+        then_I_can_see_a_success_message "Step was successfully created."
+        and_I_should_still_be_on_the_edit_step_page
       end
 
       scenario "User edits step" do
         given_there_is_a_step_by_step_page_with_steps
         when_I_visit_the_step_by_step_page
         and_I_edit_the_first_step
-        then_I_can_see_the_edit_page
         and_I_fill_the_edit_form_and_submit
-        then_I_can_see_the_edit_page
+        then_I_can_see_a_success_message "Step was successfully updated."
+        and_I_should_still_be_on_the_edit_step_page
       end
 
       scenario "User deletes step", js: true do
@@ -34,7 +35,7 @@ RSpec.feature "Managing step by step pages" do
         when_I_visit_the_step_by_step_page
         and_I_can_see_the_first_step
         and_I_delete_the_first_step
-        and_the_step_is_deleted
+        then_the_step_is_deleted
       end
     end
 
@@ -132,12 +133,19 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def and_the_step_is_deleted
-    expect(page).not_to have_css(".govuk-summary-list__value", text: "Check how awesome you are")
+  def then_the_step_is_deleted
+    expect(page).not_to have_content("Check how awesome you are")
   end
 
-  def then_I_can_see_the_edit_page
-    expect(page).to have_css("label", text: "Step title")
+  def then_I_can_see_a_success_message(message)
+    within('.gem-c-success-alert') do
+      expect(page).to have_content message
+    end
+  end
+
+  def and_I_should_still_be_on_the_edit_step_page
+    edit_step_path = edit_step_by_step_page_step_path(@step_by_step_page.id, @step_by_step_page.steps.first.id)
+    expect(current_url).to end_with edit_step_path
   end
 
   def and_I_fill_in_the_form_with_content
