@@ -130,7 +130,7 @@ GEM
     govuk_frontend_toolkit (9.0.0)
       railties (>= 3.1.0)
       sass (>= 3.2.0)
-    govuk_publishing_components (20.2.2)
+    govuk_publishing_components (20.3.0)
       gds-api-adapters
       govuk_app_config
       govuk_frontend_toolkit
@@ -344,7 +344,7 @@ GEM
     selenium-webdriver (3.142.3)
       childprocess (>= 0.5, < 2.0)
       rubyzip (~> 1.2, >= 1.2.2)
-    sentry-raven (2.11.0)
+    sentry-raven (2.11.1)
       faraday (>= 0.7.6, < 1.0)
     shoulda-matchers (4.1.2)
       activesupport (>= 4.2.0)
@@ -417,7 +417,7 @@ DEPENDENCIES
   govuk-lint (~> 3.11.5)
   govuk_admin_template (~> 6.7)
   govuk_app_config (~> 2.0)
-  govuk_publishing_components (~> 20.2)
+  govuk_publishing_components (~> 20.3)
   govuk_sidekiq (~> 3.0)
   govuk_test
   jasmine (~> 3.4)
