@@ -47,6 +47,15 @@ RSpec.describe ReviewController do
         expect(step_by_step_page.status).to eq("submitted_for_2i")
         expect(step_by_step_page.review_requester).to eq(stub_user.name)
       end
+
+      it "creates an internal change note" do
+        expected_change_note = "Submitted for 2i by Firstname Lastname"
+
+        post :submit_for_2i, params: { step_by_step_page_id: step_by_step_page.id }
+        step_by_step_page.reload
+
+        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_change_note
+      end
     end
   end
 end
