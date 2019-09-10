@@ -201,4 +201,16 @@ module StepNavSteps
       expect(page).to have_content message
     end
   end
+
+  def then_I_see_the_new_step_by_step_page
+    expect(page).to have_content("How to bake a cake")
+  end
+
+  def then_I_can_preview_the_step_by_step
+    within(".app-side__actions") do
+      expect(page).to have_link("Preview")
+    end
+  end
+
+  alias_method :and_I_can_preview_the_step_by_step, :then_I_can_preview_the_step_by_step
 end
