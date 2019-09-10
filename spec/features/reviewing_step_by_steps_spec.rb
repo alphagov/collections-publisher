@@ -15,6 +15,8 @@ RSpec.feature "Reviewing step by step pages" do
     when_I_visit_the_submit_for_2i_page
     and_I_submit_the_form
     then_I_see_a_submitted_for_2i_success_notice
+    when_I_view_internal_change_notes
+    then_I_can_see_an_automated_change_note
   end
 
   def given_I_can_access_unreleased_features
@@ -25,11 +27,19 @@ RSpec.feature "Reviewing step by step pages" do
     visit step_by_step_page_submit_for_2i_path(@step_by_step_page)
   end
 
+  def when_I_view_internal_change_notes
+    visit step_by_step_page_internal_change_notes_path(@step_by_step_page)
+  end
+
   def and_I_submit_the_form
     click_on "Submit for 2i"
   end
 
   def then_I_see_a_submitted_for_2i_success_notice
     expect(page).to have_content("Step by step page was successfully submitted for 2i")
+  end
+
+  def then_I_can_see_an_automated_change_note
+    expect(page).to have_content("Submitted for 2i by #{stub_user.name}")
   end
 end
