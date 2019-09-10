@@ -82,10 +82,6 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def when_I_visit_the_step_by_step_page
-    visit step_by_step_page_path(@step_by_step_page)
-  end
-
   def and_I_visit_the_reorder_steps_page
     visit step_by_step_page_reorder_path(@step_by_step_page)
   end
@@ -135,12 +131,6 @@ RSpec.feature "Managing step by step pages" do
 
   def then_the_step_is_deleted
     expect(page).not_to have_content("Check how awesome you are")
-  end
-
-  def then_I_can_see_a_success_message(message)
-    within('.gem-c-success-alert') do
-      expect(page).to have_content message
-    end
   end
 
   def and_I_should_still_be_on_the_edit_step_page

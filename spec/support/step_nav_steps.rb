@@ -195,4 +195,10 @@ module StepNavSteps
       "status": "broken"
     }
   end
+
+  def then_I_can_see_a_success_message(message)
+    within('.gem-c-success-alert') do
+      expect(page).to have_content message
+    end
+  end
 end
