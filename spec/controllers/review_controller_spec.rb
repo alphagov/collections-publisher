@@ -48,13 +48,26 @@ RSpec.describe ReviewController do
         expect(step_by_step_page.review_requester_id).to eq(stub_user.uid)
       end
 
-      it "creates an internal change note" do
-        expected_change_note = "Submitted for 2i by Firstname Lastname"
+      describe "internal change notes" do
+        it "creates an internal change note" do
+          expected_change_note = "Submitted for 2i by Firstname Lastname"
 
-        post :submit_for_2i, params: { step_by_step_page_id: step_by_step_page.id }
-        step_by_step_page.reload
+          post :submit_for_2i, params: { step_by_step_page_id: step_by_step_page.id }
+          step_by_step_page.reload
 
-        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_change_note
+          expect(step_by_step_page.internal_change_notes.first.description).to eq expected_change_note
+        end
+
+        it "records the additional comments in the internal change note" do
+          additional_comments = "additional comments for reviewer"
+
+          post :submit_for_2i, params: {
+            step_by_step_page_id: step_by_step_page.id,
+            additional_comments: additional_comments
+          }
+
+          expect(step_by_step_page.internal_change_notes.first.description).to include(additional_comments)
+        end
       end
     end
   end
