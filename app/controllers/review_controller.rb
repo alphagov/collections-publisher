@@ -7,16 +7,15 @@ class ReviewController < ApplicationController
 
   def submit_for_2i
     if request.post?
+      status = "submitted_for_2i"
+
       if @step_by_step_page.update(
         review_requester: current_user.name,
-        status: "submitted_for_2i"
+        status: status
       )
-        @step_by_step_page.internal_change_notes.create(
-          author: current_user.name,
-          description: "Submitted for 2i by #{current_user.name}"
-        )
+        generate_change_note(status)
 
-        redirect_to step_by_step_page_path(@step_by_step_page.id), notice: 'Step by step page was successfully submitted for 2i.'
+        redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully #{status.humanize.downcase}."
       else
         render :submit_for_2i
       end
@@ -24,6 +23,13 @@ class ReviewController < ApplicationController
   end
 
 private
+
+  def generate_change_note(status)
+    @step_by_step_page.internal_change_notes.create(
+      author: current_user.name,
+      description: "#{status.humanize} by #{current_user.name}"
+    )
+  end
 
   def set_step_by_step_page
     @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
