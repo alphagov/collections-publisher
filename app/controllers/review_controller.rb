@@ -10,7 +10,7 @@ class ReviewController < ApplicationController
       status = "submitted_for_2i"
 
       if @step_by_step_page.update(
-        review_requester: current_user.name,
+        review_requester: current_user.uid,
         status: status
       )
         generate_change_note(status, params[:additional_comments])

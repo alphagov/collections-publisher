@@ -45,7 +45,7 @@ RSpec.describe ReviewController do
         step_by_step_page.reload
 
         expect(step_by_step_page.status).to eq("submitted_for_2i")
-        expect(step_by_step_page.review_requester).to eq(stub_user.name)
+        expect(step_by_step_page.review_requester).to eq(stub_user.uid)
       end
 
       describe "internal change notes" do
