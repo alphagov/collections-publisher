@@ -5,7 +5,19 @@ class ReviewController < ApplicationController
   before_action :require_unreleased_feature_permissions!
   before_action :set_step_by_step_page
 
-  def submit_for_2i; end
+  def submit_for_2i
+    if request.post?
+      if @step_by_step_page.update(
+        review_requester: current_user.name,
+        status: "submitted_for_2i"
+      )
+
+        redirect_to step_by_step_page_path(@step_by_step_page.id), notice: 'Step by step page was successfully submitted for 2i.'
+      else
+        render :submit_for_2i
+      end
+    end
+  end
 
 private
 
