@@ -154,9 +154,9 @@ RSpec.feature "Managing step by step pages" do
   scenario "User publishes changes to a published step by step page" do
     given_there_is_a_published_step_by_step_page_with_unpublished_changes
     when_I_view_the_step_by_step_page
-    and_when_I_click_button "Publish changes"
+    and_when_I_click_button "Publish"
     then_I_should_see_a_publish_form_with_changenotes
-    and_when_I_click_button "Publish step by step"
+    and_when_I_click_the_publish_button_in_the_publish_form
     then_I_am_told_that_it_is_published
   end
 
@@ -331,17 +331,17 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_fill_in_the_form_with_a_valid_url
     fill_in "Redirect to", with: "/micro-pigs-can-grow-to-the-size-of-godzilla"
-    click_on "Unpublish step by step"
+    click_on "Unpublish"
   end
 
   def and_I_fill_in_the_form_with_an_empty_url
     fill_in "Redirect to", with: ""
-    click_on "Unpublish step by step"
+    click_on "Unpublish"
   end
 
   def and_I_fill_in_the_form_with_an_invalid_url
     fill_in "Redirect to", with: "!"
-    click_on "Unpublish step by step"
+    click_on "Unpublish"
   end
 
   def and_I_delete_the_draft
@@ -504,16 +504,16 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_see_delete_and_publish_buttons
     within(".app-side__actions") do
-      expect(page).to have_css("a", text: "Delete step by step")
-      expect(page).to have_css("a", text: "Publish changes")
+      expect(page).to have_css("a", text: "Delete")
+      expect(page).to have_css("a", text: "Publish")
       expect(page).to_not have_css("a", text: "Unpublish")
     end
   end
 
   def and_I_see_an_unpublish_button
     within(".app-side__actions") do
-      expect(page).to_not have_css("a", text: "Delete step by step")
-      expect(page).to_not have_css("a", text: "Publish changes")
+      expect(page).to_not have_css("a", text: "Delete")
+      expect(page).to_not have_css("a", text: "Publish")
       expect(page).to have_css("a", text: "Unpublish")
     end
   end
@@ -548,7 +548,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_publish_the_page
-    click_on "Publish step by step"
+    click_on "Publish"
   end
 
   def then_I_am_told_that_it_is_published
@@ -592,6 +592,10 @@ RSpec.feature "Managing step by step pages" do
   end
 
   alias_method :and_when_I_click_button, :when_I_click_button
+
+  def and_when_I_click_the_publish_button_in_the_publish_form
+    click_button "Publish", exact: true
+  end
 
   def then_I_should_see_a_publish_form_with_changenotes
     expect(page).to have_content("Notify users about this change?")
@@ -639,11 +643,11 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def when_I_submit_the_form
-    click_on 'Schedule to publish'
+    click_on 'Schedule'
   end
 
   def and_there_should_be_no_schedule_button
-    expect(page).not_to have_css("button", text: "Schedule to publish")
+    expect(page).not_to have_css("button", text: "Schedule")
   end
 
   alias_method :then_there_should_be_no_schedule_button, :and_there_should_be_no_schedule_button
@@ -680,13 +684,13 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_see_an_unschedule_button
     within(".app-side__actions") do
-      expect(page).to_not have_css("button", text: "Schedule to publish")
-      expect(page).to have_css("button", text: "Unschedule publishing")
+      expect(page).to_not have_css("button", text: "Schedule")
+      expect(page).to have_css("button", text: "Unschedule")
     end
   end
 
   def when_I_unschedule_publishing
-    click_on 'Unschedule publishing'
+    click_on 'Unschedule'
   end
 
   def and_the_step_by_step_is_not_editable
@@ -786,7 +790,7 @@ RSpec.feature "Managing step by step pages" do
 
   def then_there_should_be_no_publish_button
     within(".app-side__actions") do
-      expect(page).to_not have_css("button", text: "Publish changes")
+      expect(page).to_not have_css("button", text: "Publish")
     end
   end
 
@@ -800,7 +804,7 @@ RSpec.feature "Managing step by step pages" do
 
   def then_there_should_be_no_unpublish_button
     within(".app-side__actions") do
-      expect(page).to_not have_css("button", text: "Unpublish step by step")
+      expect(page).to_not have_css("button", text: "Unpublish")
     end
   end
 
