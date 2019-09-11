@@ -782,7 +782,9 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def then_I_can_preview_the_step_by_step
-    expect(page).to have_link("Preview")
+    within(".app-side__actions") do
+      expect(page).to have_link("Preview")
+    end
   end
 
   def and_the_steps_can_be_checked_for_broken_links
