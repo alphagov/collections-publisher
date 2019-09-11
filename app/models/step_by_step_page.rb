@@ -7,6 +7,8 @@ class StepByStepPage < ApplicationRecord
     submitted_for_2i
   ).freeze
 
+  enum update_type: %i[major minor]
+
   has_many :navigation_rules, -> { order(title: :asc) }, dependent: :destroy
   has_many :steps, -> { order(position: :asc) }, dependent: :destroy
   has_many :internal_change_notes, -> { order(created_at: :desc) }
@@ -54,6 +56,8 @@ class StepByStepPage < ApplicationRecord
       published_at: now,
       draft_updated_at: now,
       scheduled_at: nil,
+      update_type: nil,
+      public_change_note: nil,
       assigned_to: nil,
       review_requester_id: nil,
       reviewer_id: nil,
