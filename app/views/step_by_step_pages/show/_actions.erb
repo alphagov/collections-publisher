@@ -1,7 +1,14 @@
+<% preview_link = render "govuk_publishing_components/components/button", {
+  text: "Preview",
+  href: preview_url(@step_by_step_page.slug, auth_bypass_id: @step_by_step_page.auth_bypass_id),
+  secondary: true
+} %>
+
 <div class="app-side">
   <div class="app-side__actions">
     <% if @step_by_step_page.can_be_published? || @step_by_step_page.can_discard_changes? || @step_by_step_page.scheduled_for_publishing? || !@step_by_step_page.steps_have_content? %>
       <% if @step_by_step_page.scheduled_for_publishing? %>
+        <%= preview_link %>
         <p class="govuk-body">Scheduled to be published at <%= format_full_date_and_time(@step_by_step_page.scheduled_at) %></p>
         <%= link_to "Unschedule",
           step_by_step_page_unschedule_path(@step_by_step_page),
@@ -21,12 +28,14 @@
             <%= render "govuk_publishing_components/components/button", text: "Publish" %>
           <% end %>
         <% end %>
+        <%= preview_link %>
         <%= link_to "Schedule",
           step_by_step_page_schedule_path(@step_by_step_page),
           class: %w(govuk-link govuk-link--no-visited-state app-link--right)
         %>
       <% elsif !@step_by_step_page.steps_have_content? %>
         <p class="govuk-body">Step by steps cannot be published until all steps have content.</p>
+        <%= preview_link %>
       <% end %>
 
       <% if @step_by_step_page.can_discard_changes? %>
@@ -45,11 +54,5 @@
         <%= link_to "Delete", @step_by_step_page, method: :delete, data: { confirm: 'Deleted step by steps cannot be recovered. Are you sure you want to delete this step by step page?' }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
       <% end %>
     <% end %>
-
-    <%= render "govuk_publishing_components/components/button", {
-      text: "Preview",
-      href: preview_url(@step_by_step_page.slug, auth_bypass_id: @step_by_step_page.auth_bypass_id),
-      secondary: true
-    } %>
   </div>
 </div>
