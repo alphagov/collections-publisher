@@ -3,12 +3,11 @@
     <% if @step_by_step_page.can_be_published? || @step_by_step_page.can_discard_changes? || @step_by_step_page.scheduled_for_publishing? || !@step_by_step_page.steps_have_content? %>
       <% if @step_by_step_page.scheduled_for_publishing? %>
         <p class="govuk-body">Scheduled to be published at <%= format_full_date_and_time(@step_by_step_page.scheduled_at) %></p>
-        <%= form_tag step_by_step_page_unschedule_path(@step_by_step_page), method: :unschedule do %>
-          <%= render "govuk_publishing_components/components/button", {
-            text: "Unschedule",
-            destructive: true
-          } %>
-        <% end %>
+        <%= link_to "Unschedule",
+          step_by_step_page_unschedule_path(@step_by_step_page),
+          method: :post,
+          class: %w(govuk-link govuk-link--no-visited-state app-link--right)
+        %>
       <% elsif @step_by_step_page.can_be_published? %>
         <p class="govuk-body">Before publishing check for broken links.</p>
         <p class="govuk-body">After publishing add this step by step to a mainstream browse category and a taxonomy topic.</p>
@@ -22,11 +21,10 @@
             <%= render "govuk_publishing_components/components/button", text: "Publish" %>
           <% end %>
         <% end %>
-        <%= render "govuk_publishing_components/components/button", {
-          text: "Schedule",
-          href: step_by_step_page_schedule_path(@step_by_step_page),
-          secondary: true
-        } %>
+        <%= link_to "Schedule",
+          step_by_step_page_schedule_path(@step_by_step_page),
+          class: %w(govuk-link govuk-link--no-visited-state app-link--right)
+        %>
       <% elsif !@step_by_step_page.steps_have_content? %>
         <p class="govuk-body">Step by steps cannot be published until all steps have content.</p>
       <% end %>
