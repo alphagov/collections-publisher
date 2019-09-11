@@ -106,6 +106,8 @@ ActiveRecord::Schema.define(version: 2019_09_13_122638) do
     t.datetime "draft_updated_at"
     t.string "assigned_to"
     t.datetime "scheduled_at"
+    t.integer "update_type"
+    t.text "public_change_note"
     t.string "status", null: false
     t.string "review_requester_id"
     t.string "reviewer_id"
