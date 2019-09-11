@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     post :revert
     get :schedule
     post :schedule
+    post 'schedule-datetime', to: 'schedule_datetime'
     get 'submit-for-2i', to: 'review#submit_for_2i'
     post 'submit-for-2i', to: 'review#submit_for_2i'
     get :unpublish

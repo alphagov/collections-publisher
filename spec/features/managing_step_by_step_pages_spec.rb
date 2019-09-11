@@ -166,6 +166,9 @@ RSpec.feature "Managing step by step pages" do
     scenario "User schedules publishing" do
       given_there_is_a_draft_step_by_step_page_with_secondary_content_and_navigation_rules
       and_I_visit_the_scheduling_page
+      then_I_should_see_a_publish_form_with_changenotes
+      and_when_I_click_button "Continue"
+      then_inputs_should_have_tomorrows_date
       and_I_fill_in_the_scheduling_form
       when_I_submit_the_form
       then_I_should_see "has been scheduled to publish"
@@ -184,6 +187,8 @@ RSpec.feature "Managing step by step pages" do
     scenario "User tries to schedule publishing for date in the past" do
       given_there_is_a_draft_step_by_step_page
       and_I_visit_the_scheduling_page
+      then_I_should_see_a_publish_form_with_changenotes
+      and_when_I_click_button "Continue"
       then_inputs_should_have_tomorrows_date
       and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
       when_I_submit_the_form
@@ -212,6 +217,9 @@ RSpec.feature "Managing step by step pages" do
     scenario "User tries using invalid values for schedule date and time" do
       given_there_is_a_draft_step_by_step_page
       and_I_visit_the_scheduling_page
+      then_I_should_see_a_publish_form_with_changenotes
+      and_when_I_click_button "Continue"
+      then_inputs_should_have_tomorrows_date
       and_I_fill_in_the_scheduling_form_with_nonsense_data
       when_I_submit_the_form
       then_I_should_see "Enter a valid date", :at_the_top_of_the_page
