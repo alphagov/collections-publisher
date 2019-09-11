@@ -798,13 +798,13 @@ RSpec.feature "Managing step by step pages" do
 
   def then_there_should_be_no_discard_changes_button
     within(".app-side__actions") do
-      expect(page).to_not have_css("button", text: "Discard changes")
+      expect(page).to_not have_css("a", text: "Discard changes")
     end
   end
 
   def then_there_should_be_no_unpublish_button
     within(".app-side__actions") do
-      expect(page).to_not have_css("button", text: "Unpublish")
+      expect(page).to_not have_css("a", text: "Unpublish")
     end
   end
 
