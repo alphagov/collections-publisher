@@ -41,11 +41,11 @@ RSpec.feature "Managing step by step pages" do
     and_I_can_see_a_metadata_section
   end
 
-  scenario "User edits step by step information when there is a step" do
-    given_there_is_a_step_by_step_page_with_steps
+  scenario "User edits step by step information" do
+    given_there_is_a_step_by_step_page
     when_I_edit_the_step_by_step_page
     and_I_fill_in_the_edit_form
-    then_I_see_the_new_step_by_step_page
+    then_the_step_by_step_information_should_have_updated
   end
 
   scenario "User publishes a page" do
@@ -492,11 +492,21 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_fill_in_the_edit_form
     fill_in "Title", with: "How to bake a cake"
+    fill_in "Slug", with: "how-to-bake-a-cake"
     fill_in "Introduction", with: "Learn how you can bake a cake"
     fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
 
     expect_update_worker
     click_on "Save"
+  end
+
+  def then_the_step_by_step_information_should_have_updated
+    within ".gem-c-summary-list#content" do
+      expect(page).to have_content("Title How to bake a cake")
+      expect(page).to have_content("Slug how-to-bake-a-cake")
+      expect(page).to have_content("Introduction Learn how you can bake a cake")
+      expect(page).to have_content("Description How to bake a cake - learn how you can bake a cake")
+    end
   end
 
   def then_I_see_delete_and_publish_buttons
