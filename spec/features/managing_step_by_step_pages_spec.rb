@@ -620,7 +620,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_there_should_be_no_schedule_button
-    expect(page).not_to have_css("button", text: "Schedule")
+    expect(page).not_to have_css("a", text: "Schedule")
   end
 
   alias_method :then_there_should_be_no_schedule_button, :and_there_should_be_no_schedule_button
@@ -657,8 +657,8 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_see_an_unschedule_button
     within(".app-side__actions") do
-      expect(page).to_not have_css("button", text: "Schedule")
-      expect(page).to have_css("button", text: "Unschedule")
+      expect(page).to_not have_css("a", text: "Schedule")
+      expect(page).to have_css("a", text: "Unschedule")
     end
   end
 
