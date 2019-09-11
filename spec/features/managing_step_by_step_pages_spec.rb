@@ -88,11 +88,10 @@ RSpec.feature "Managing step by step pages" do
 
   scenario "User publishes a page" do
     given_there_is_a_draft_step_by_step_page
-    and_I_visit_the_publish_or_delete_page
-    and_I_click_button "Publish"
+    when_I_view_the_step_by_step_page
+    and_when_I_click_button "Publish"
     then_I_am_told_that_it_is_published
     then_I_see_the_step_by_step_page
-    and_I_visit_the_publish_or_delete_page
     and_I_see_an_unpublish_button
     and_there_should_be_a_change_note "First published by Test author"
   end
@@ -100,8 +99,7 @@ RSpec.feature "Managing step by step pages" do
   scenario "User unpublishes a step by step page with a valid redirect url" do
     given_there_is_a_published_step_by_step_page
     when_I_view_the_step_by_step_page
-    and_I_visit_the_publish_or_delete_page
-    when_I_want_to_unpublish_the_page
+    and_I_want_to_unpublish_the_page
     and_I_fill_in_the_form_with_a_valid_url
     then_the_page_is_unpublished
     and_I_see_a_success_notice
@@ -110,8 +108,7 @@ RSpec.feature "Managing step by step pages" do
   scenario "User unpublishes a step by step page with an invalid redirect url" do
     given_there_is_a_published_step_by_step_page
     when_I_view_the_step_by_step_page
-    and_I_visit_the_publish_or_delete_page
-    when_I_want_to_unpublish_the_page
+    and_I_want_to_unpublish_the_page
     and_I_fill_in_the_form_with_an_invalid_url
     then_I_see_that_the_url_isnt_valid
     and_I_fill_in_the_form_with_an_empty_url
@@ -134,7 +131,7 @@ RSpec.feature "Managing step by step pages" do
 
   scenario "User deletes a draft step by step guide without change notes" do
     given_there_is_a_step_by_step_page
-    and_I_visit_the_publish_or_delete_page
+    when_I_view_the_step_by_step_page
     and_I_delete_the_draft
     then_I_see_a_step_by_step_deleted_success_notice
   end
@@ -142,7 +139,7 @@ RSpec.feature "Managing step by step pages" do
   scenario "User deletes a draft step by step guide with change notes" do
     given_there_is_a_step_by_step_page
     and_it_has_change_notes
-    and_I_visit_the_publish_or_delete_page
+    when_I_view_the_step_by_step_page
     and_I_delete_the_draft
     then_I_see_a_step_by_step_deleted_success_notice
   end
@@ -150,15 +147,14 @@ RSpec.feature "Managing step by step pages" do
   scenario "User reverts a step by step page" do
     given_there_is_a_published_step_by_step_page_with_unpublished_changes
     when_I_view_the_step_by_step_page
-    and_I_visit_the_publish_or_delete_page
     when_I_want_to_revert_the_page
     then_I_see_a_page_reverted_success_notice
   end
 
   scenario "User publishes changes to a published step by step page" do
     given_there_is_a_published_step_by_step_page_with_unpublished_changes
-    and_I_visit_the_publish_or_delete_page
-    and_I_click_button "Publish changes"
+    when_I_view_the_step_by_step_page
+    and_when_I_click_button "Publish changes"
     then_I_should_see_a_publish_form_with_changenotes
     and_when_I_click_button "Publish step by step"
     then_I_am_told_that_it_is_published
@@ -232,14 +228,14 @@ RSpec.feature "Managing step by step pages" do
 
     scenario "User tries to schedule publishing for an already scheduled step by step" do
       given_there_is_a_scheduled_step_by_step_page
-      when_I_visit_the_publish_or_delete_page
+      when_I_view_the_step_by_step_page
       then_I_should_see "Scheduled to be published at"
       and_there_should_be_no_schedule_button
     end
 
     scenario "User unschedules publishing" do
       given_there_is_a_scheduled_step_by_step_page
-      and_I_visit_the_publish_or_delete_page
+      when_I_view_the_step_by_step_page
       then_I_see_an_unschedule_button
       when_I_unschedule_publishing
       then_I_should_see "has been unscheduled"
@@ -264,7 +260,7 @@ RSpec.feature "Managing step by step pages" do
 
   scenario "A step doesn't have any content" do
     given_there_is_a_step_by_step_page_with_steps_missing_content
-    when_I_visit_the_publish_or_delete_page
+    when_I_view_the_step_by_step_page
     then_I_should_see "Step by steps cannot be published until all steps have content."
     and_there_should_be_no_publish_button
     and_there_should_be_no_schedule_button
@@ -306,7 +302,7 @@ RSpec.feature "Managing step by step pages" do
     visit step_by_step_page_publish_path(@step_by_step_page)
   end
 
-  def when_I_want_to_unpublish_the_page
+  def and_I_want_to_unpublish_the_page
     click_on "Unpublish"
   end
 
@@ -475,12 +471,6 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def and_I_visit_the_publish_or_delete_page
-    visit step_by_step_page_publish_or_delete_path(@step_by_step_page)
-  end
-
-  alias_method :when_I_visit_the_publish_or_delete_page, :and_I_visit_the_publish_or_delete_page
-
   def and_I_fill_in_the_form
     fill_in "Title", with: "How to bake a cake"
     fill_in "Slug", with: "how-to-bake-a-cake"
@@ -513,7 +503,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def then_I_see_delete_and_publish_buttons
-    within(".publish-or-delete") do
+    within(".app-side__actions") do
       expect(page).to have_css("a", text: "Delete step by step")
       expect(page).to have_css("a", text: "Publish changes")
       expect(page).to_not have_css("a", text: "Unpublish")
@@ -521,7 +511,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_see_an_unpublish_button
-    within(".publish-or-delete") do
+    within(".app-side__actions") do
       expect(page).to_not have_css("a", text: "Delete step by step")
       expect(page).to_not have_css("a", text: "Publish changes")
       expect(page).to have_css("a", text: "Unpublish")
@@ -592,7 +582,7 @@ RSpec.feature "Managing step by step pages" do
 
   alias_method :when_I_visit_the_scheduling_page, :and_I_visit_the_scheduling_page
 
-  def and_I_click_button(button_text)
+  def when_I_click_button(button_text)
     begin
       click_button button_text, exact: true
     rescue Capybara::ElementNotFound
@@ -601,7 +591,7 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  alias_method :and_when_I_click_button, :and_I_click_button
+  alias_method :and_when_I_click_button, :when_I_click_button
 
   def then_I_should_see_a_publish_form_with_changenotes
     expect(page).to have_content("Notify users about this change?")
@@ -689,7 +679,7 @@ RSpec.feature "Managing step by step pages" do
   alias_method :then_there_should_be_a_change_note, :and_there_should_be_a_change_note
 
   def then_I_see_an_unschedule_button
-    within(".publish-or-delete") do
+    within(".app-side__actions") do
       expect(page).to_not have_css("button", text: "Schedule to publish")
       expect(page).to have_css("button", text: "Unschedule publishing")
     end
@@ -721,7 +711,7 @@ RSpec.feature "Managing step by step pages" do
     and_I_cannot_add_secondary_content_link
     and_I_cannot_delete_secondary_content_links
 
-    when_I_visit_the_publish_or_delete_page
+    when_I_view_the_step_by_step_page
     then_there_should_be_no_publish_button
     then_there_should_be_no_discard_changes_button
     then_there_should_be_no_unpublish_button
@@ -795,7 +785,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def then_there_should_be_no_publish_button
-    within(".publish-or-delete") do
+    within(".app-side__actions") do
       expect(page).to_not have_css("button", text: "Publish changes")
     end
   end
@@ -803,13 +793,13 @@ RSpec.feature "Managing step by step pages" do
   alias_method :and_there_should_be_no_publish_button, :then_there_should_be_no_publish_button
 
   def then_there_should_be_no_discard_changes_button
-    within(".publish-or-delete") do
+    within(".app-side__actions") do
       expect(page).to_not have_css("button", text: "Discard changes")
     end
   end
 
   def then_there_should_be_no_unpublish_button
-    within(".publish-or-delete") do
+    within(".app-side__actions") do
       expect(page).to_not have_css("button", text: "Unpublish step by step")
     end
   end
