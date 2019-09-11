@@ -78,7 +78,11 @@ class StepByStepPagesController < ApplicationController
 
   def schedule
     set_current_page_as_step_by_step
-    if request.post?
+  end
+
+  def schedule_datetime
+    set_current_page_as_step_by_step
+    if request.post? && params[:schedule]
       date_params = params[:schedule][:date].permit(:year, :month, :day).to_h.symbolize_keys
       time_param = params[:schedule][:time]
       @schedule_placeholder = default_datetime_placeholder(date_params.merge(time: time_param))
@@ -88,18 +92,18 @@ class StepByStepPagesController < ApplicationController
         @parser.issues.each do |issue|
           @step_by_step_page.errors.add :base, issue.values.first
         end
-        render :schedule
+        render :schedule_datetime
       elsif @step_by_step_page.update_attributes(scheduled_at: scheduled_at)
         schedule_to_publish
         note_description = "Scheduled by #{current_user.name} for publishing at #{format_full_date_and_time(scheduled_at)}"
         generate_internal_change_note(note_description)
         set_change_note_version
         redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been scheduled to publish."
-      else
-        render :schedule
       end
     else
       @schedule_placeholder = default_datetime_placeholder
+      session[:update_type] = params[:update_type]
+      session[:public_change_note] = params[:change_note]
     end
   end
 

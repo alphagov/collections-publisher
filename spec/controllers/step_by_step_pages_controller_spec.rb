@@ -104,8 +104,16 @@ RSpec.describe StepByStepPagesController do
       stub_default_publishing_api_put_intent
     end
 
+    def schedule_with_public_change_note
+      post :schedule_datetime, params: {
+        step_by_step_page_id: step_by_step_page.id,
+        update_type: 'major',
+        change_note: 'This is a public change note.',
+      }
+    end
+
     def schedule_for_future
-      post :schedule, params: {
+      post :schedule_datetime, params: {
         step_by_step_page_id: step_by_step_page.id,
         schedule: {
           date: { year: "2030", month: "04", day: "20" },
@@ -113,6 +121,13 @@ RSpec.describe StepByStepPagesController do
         },
       }
       step_by_step_page.reload
+    end
+
+    it "sets session variables for update type and public change note" do
+      schedule_with_public_change_note
+
+      expect(session[:update_type]).to eq 'major'
+      expect(session[:public_change_note]).to eq 'This is a public change note.'
     end
 
     it "sets `scheduled_at` to a datetime" do

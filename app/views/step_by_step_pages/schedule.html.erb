@@ -22,7 +22,7 @@
 
 <%= render 'shared/steps/heading',
   step_nav: @step_by_step_page.title,
-  action: 'Set a date and time to publish'
+  action: 'Schedule publish'
 %>
 
 <%= render 'nav', step_by_step_page: @step_by_step_page, active: "schedule" %>
@@ -33,58 +33,17 @@
 
 <div class="row">
   <div class="col-md-7">
-    <%= form_tag do %>
-      <%= render "govuk_publishing_components/components/date_input", {
-        legend_text: legend,
-        name: "schedule[date]",
-        hint: "For example, 01 08 2027",
-        id: "date",
-        error_items: issues_for(:date),
-        items: [
-          {
-            name: "day",
-            width: 2,
-            value: @schedule_placeholder[:day]
-          },
-          {
-            name: "month",
-            width: 2,
-            value: @schedule_placeholder[:month]
-          },
-          {
-            name: "year",
-            width: 4,
-            value: @schedule_placeholder[:year]
-          }
-        ]
-      } %>
-
-      <%= render "components/autocomplete", {
-        id: "time",
-        name: "schedule[time]",
-        label: {
-          text: "Time",
-          bold: true,
-        },
-        input: {
-          options: time_options,
-          value: @schedule_placeholder[:time],
-        },
-        error_items: issues_for(:time),
-        data_attributes: {
-          "autocomplete-without-narrowing-results": true,
-        },
-        width: "narrow",
-      } %>
+    <%= form_tag(step_by_step_page_schedule_datetime_path(@step_by_step_page)) do %>
+      <%= render "step_by_step_pages/change_notes" %>
 
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
           <%= render "govuk_publishing_components/components/button", {
-            text: "Schedule to publish",
+            text: "Continue"
           } %>
         </div>
         <div class="govuk-grid-column-full govuk-!-margin-top-3">
-          <%= link_to "Cancel", step_by_step_page_publish_or_delete_path(@step_by_step_page), class: "govuk-link" %>
+          <%= link_to "Cancel", @step_by_step_page, class: "govuk-link" %>
         </div>
       </div>
     <% end %>
