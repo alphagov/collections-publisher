@@ -89,3 +89,16 @@
     }
   }
 }
+
+// scss-lint:disable IdSelector
+.gem-c-summary-list#steps {
+  .govuk-summary-list__key {
+    width: 10%;
+    font-weight: normal;
+  }
+
+  .govuk-summary-list__value {
+    width: 70%;
+  }
+}
+// scss-lint:enable IdSelector
