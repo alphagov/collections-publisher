@@ -137,6 +137,14 @@ RSpec.describe StepByStepPagesController do
       expect(format_full_date_and_time(step_by_step_page.scheduled_at)).to eq '10:26am on 20 April 2030'
     end
 
+    it "sets `update_type` and `public_change_note`" do
+      schedule_with_public_change_note
+      schedule_for_future
+
+      expect(step_by_step_page.update_type).to eq 'major'
+      expect(step_by_step_page.public_change_note).to eq 'This is a public change note.'
+    end
+
     it "sets the status to Scheduled" do
       schedule_for_future
 

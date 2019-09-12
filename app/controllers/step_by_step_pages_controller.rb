@@ -93,7 +93,9 @@ class StepByStepPagesController < ApplicationController
           @step_by_step_page.errors.add :base, issue.values.first
         end
         render :schedule_datetime
-      elsif @step_by_step_page.update_attributes(scheduled_at: scheduled_at)
+      elsif @step_by_step_page.update_attributes(scheduled_at: scheduled_at,
+                                                 update_type: session[:update_type],
+                                                 public_change_note: session[:public_change_note])
         schedule_to_publish
         note_description = "Scheduled by #{current_user.name} for publishing at #{format_full_date_and_time(scheduled_at)}"
         generate_internal_change_note(note_description)
