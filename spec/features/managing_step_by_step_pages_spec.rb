@@ -251,6 +251,30 @@ RSpec.feature "Managing step by step pages" do
     and_there_should_be_no_schedule_button
   end
 
+  scenario "A step has not been tested for broken links" do
+    given_there_is_a_step_that_has_not_been_tested_for_broken_links
+    when_I_view_the_step_by_step_page
+    then_the_step_should_have_no_broken_link_summary
+  end
+
+  scenario "A step contains no broken links" do
+    given_there_is_a_step_that_has_no_broken_links
+    when_I_view_the_step_by_step_page
+    then_the_step_should_confirm_it_has_no_broken_links
+  end
+
+  scenario "A step contains a single broken link" do
+    given_there_is_a_step_with_a_broken_link
+    when_I_view_the_step_by_step_page
+    then_the_step_should_confirm_it_has_one_broken_link
+  end
+
+  scenario "A step contains multiple broken links" do
+    given_there_is_a_step_with_multiple_broken_links
+    when_I_view_the_step_by_step_page
+    then_the_step_should_confirm_it_has_multiple_broken_links
+  end
+
   def and_it_has_change_notes
     create(:internal_change_note, step_by_step_page_id: @step_by_step_page.id)
   end
@@ -733,6 +757,26 @@ RSpec.feature "Managing step by step pages" do
 
   def and_the_steps_can_be_checked_for_broken_links
     expect(page).to have_button("Check for broken links")
+  end
+
+  def then_the_step_should_have_no_broken_link_summary
+    expect(first_step_summary).to_not have_css(".step-broken-links__summary")
+  end
+
+  def then_the_step_should_confirm_it_has_no_broken_links
+    expect(first_step_summary).to have_css(".app-broken-link-status--pass", text: "No broken links")
+  end
+
+  def then_the_step_should_confirm_it_has_one_broken_link
+    expect(first_step_summary).to have_css(".app-broken-link-status--fail", text: "1 broken link found")
+  end
+
+  def then_the_step_should_confirm_it_has_multiple_broken_links
+    expect(first_step_summary).to have_css(".app-broken-link-status--fail", text: "2 broken links found")
+  end
+
+  def first_step_summary
+    find(".gem-c-summary-list#steps .govuk-summary-list__row:first-child .govuk-summary-list__value")
   end
 
   def and_I_filter_by_title_and_status
