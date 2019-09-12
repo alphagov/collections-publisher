@@ -191,6 +191,7 @@ RSpec.feature "Managing step by step pages" do
       then_I_can_see_a_summary_section
       but_I_cannot_edit_the_summary_section
       and_I_can_see_a_steps_overview_section
+      but_I_cannot_edit_or_delete_steps
       and_I_cannot_reorder_the_steps
       and_I_can_see_a_sidebar_settings_section_with_link "View"
       and_I_can_see_a_secondary_links_section_with_link "View"
@@ -407,6 +408,13 @@ RSpec.feature "Managing step by step pages" do
     all('.gem-c-summary-list#steps .govuk-summary-list__actions').each do |step|
       expect(step).to have_link("Edit")
       expect(step).to have_link("Delete")
+    end
+  end
+
+  def but_I_cannot_edit_or_delete_steps
+    all('.gem-c-summary-list#steps .govuk-summary-list__actions').each do |step|
+      expect(step).not_to have_link("Edit")
+      expect(step).not_to have_link("Delete")
     end
   end
 
