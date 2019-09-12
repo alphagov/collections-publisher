@@ -56,6 +56,7 @@ RSpec.feature "Managing step by step pages" do
     then_I_can_see_a_summary_section
     and_I_can_edit_the_summary_section
     and_I_can_see_a_steps_overview_section
+    and_I_can_edit_and_delete_steps
     and_I_can_see_a_sidebar_settings_section_with_link "Edit"
     and_I_can_see_a_secondary_links_section_with_link "Edit"
     and_I_can_see_a_metadata_section
@@ -396,6 +397,13 @@ RSpec.feature "Managing step by step pages" do
 
   def have_step_text_in_row(row:, text:)
     have_selector(".govuk-summary-list__row:nth-child(#{row}) .govuk-summary-list__value", text: text)
+  end
+
+  def and_I_can_edit_and_delete_steps
+    all('.gem-c-summary-list#steps .govuk-summary-list__actions').each do |step|
+      expect(step).to have_link("Edit")
+      expect(step).to have_link("Delete")
+    end
   end
 
   def and_I_can_see_a_sidebar_settings_section_with_link(link_text)
