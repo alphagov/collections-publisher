@@ -4,22 +4,24 @@ Rails.application.routes.draw do
   root to: redirect('/step-by-step-pages', status: 302)
 
   resources :step_by_step_pages, path: 'step-by-step-pages' do
+    post :check_links
+    get 'internal-change-notes', to: 'interal_change_notes'
+    post 'internal-change-notes', to: 'internal_change_notes#create'
     get 'navigation-rules', to: 'navigation_rules#edit'
     put 'navigation-rules', to: 'navigation_rules#update'
     get :publish
     post :publish
-    get :schedule
-    post :schedule
+    get 'publish-or-delete', to: 'publish_or_delete'
     get :reorder
     post :reorder
+    post :revert
+    get :schedule
+    post :schedule
+    get 'submit-for-2i', to: 'review#submit_for_2i'
+    post 'submit-for-2i', to: 'review#submit_for_2i'
     get :unpublish
     post :unpublish
     post :unschedule
-    post :revert
-    get  'publish-or-delete', to: 'publish_or_delete'
-    get 'internal-change-notes', to: 'interal_change_notes'
-    post 'internal-change-notes', to: 'internal_change_notes#create'
-    post :check_links
 
     resources :secondary_content_links, path: 'secondary-content-links'
     resources :steps

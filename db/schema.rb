@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_02_134939) do
+ActiveRecord::Schema.define(version: 2019_09_11_125734) do
 
   create_table "internal_change_notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "author"
@@ -107,7 +107,9 @@ ActiveRecord::Schema.define(version: 2019_09_02_134939) do
     t.string "assigned_to"
     t.datetime "scheduled_at"
     t.string "status", null: false
+    t.string "review_requester_id"
     t.index ["content_id"], name: "index_step_by_step_pages_on_content_id", unique: true
+    t.index ["review_requester_id"], name: "fk_rails_d4fb625ca0"
     t.index ["slug"], name: "index_step_by_step_pages_on_slug", unique: true
   end
 
@@ -170,6 +172,7 @@ ActiveRecord::Schema.define(version: 2019_09_02_134939) do
   add_foreign_key "navigation_rules", "step_by_step_pages"
   add_foreign_key "redirect_routes", "tags"
   add_foreign_key "secondary_content_links", "step_by_step_pages"
+  add_foreign_key "step_by_step_pages", "users", column: "review_requester_id", primary_key: "uid"
   add_foreign_key "steps", "step_by_step_pages"
   add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "to_tag_id", name: "tag_associations_to_tag_id_fk", on_delete: :cascade

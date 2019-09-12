@@ -3,6 +3,7 @@ class StepByStepPage < ApplicationRecord
     draft
     published
     scheduled
+    submitted_for_2i
   ).freeze
 
   has_many :navigation_rules, -> { order(title: :asc) }, dependent: :destroy

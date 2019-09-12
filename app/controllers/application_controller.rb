@@ -30,6 +30,10 @@ private
     require_gds_editor_permissions! if @tag.is_a?(MainstreamBrowsePage)
   end
 
+  def require_unreleased_feature_permissions!
+    authorise_user!("Unreleased feature")
+  end
+
   def find_tag
     @tag = Tag.find_by!(content_id: params[:tag_id])
   end
