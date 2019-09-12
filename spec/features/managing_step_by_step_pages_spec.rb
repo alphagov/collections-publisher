@@ -50,6 +50,17 @@ RSpec.feature "Managing step by step pages" do
     and_I_can_see_a_metadata_section
   end
 
+  scenario "User visits an existing step by step page with steps" do
+    given_there_is_a_step_by_step_page_with_steps
+    when_I_view_the_step_by_step_page
+    then_I_can_see_a_summary_section
+    and_I_can_edit_the_summary_section
+    and_I_can_see_a_steps_overview_section
+    and_I_can_see_a_sidebar_settings_section_with_link "Edit"
+    and_I_can_see_a_secondary_links_section_with_link "Edit"
+    and_I_can_see_a_metadata_section
+  end
+
   scenario "Validation fails" do
     when_I_visit_the_new_step_by_step_form
     and_I_fill_in_the_form_with_invalid_data
@@ -394,6 +405,19 @@ RSpec.feature "Managing step by step pages" do
   def and_I_can_see_a_steps_overview_section_with_no_steps
     expect(page).not_to have_css('.gem-c-summary-list#steps .govuk-summary-list__row')
     expect(page).to have_content('No steps have been added yet.')
+  end
+
+  def and_I_can_see_a_steps_overview_section
+    within('.gem-c-summary-list#steps') do
+      expect(page).to have_selector(".govuk-heading-m", text: "Steps")
+      expect(page).to have_css('.govuk-summary-list__row', count: 2)
+      expect(page).to have_step_text_in_row(row: 1, text: 'Check how awesome you are')
+      expect(page).to have_step_text_in_row(row: 2, text: 'Dress like the Fonz')
+    end
+  end
+
+  def have_step_text_in_row(row:, text:)
+    have_selector(".govuk-summary-list__row:nth-child(#{row}) .govuk-summary-list__value", text: text)
   end
 
   def and_I_can_see_a_sidebar_settings_section_with_link(link_text)
