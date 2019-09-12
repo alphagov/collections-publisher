@@ -24,20 +24,27 @@
       step_number = 0
       steps = @step_by_step_page.steps.map do |step|
         step_number = step_number + 1 if step.logic == 'number'
-        {
+        step_config = {
           field: step.logic == 'number' ? step_number : step.logic,
-          value: render('shared/steps/broken-links-summary', step: step).html_safe,
-          edit: {
-            href: edit_step_by_step_page_step_path(@step_by_step_page.id, step.id)
-          },
-          delete: {
-            href: step_by_step_page_step_path(@step_by_step_page.id, step.id),
-            data_attributes: {
-              confirm: "Are you sure?",
-              method: "delete"
-            }
-          }
+          value: render('shared/steps/broken-links-summary', step: step).html_safe
         }
+
+        if @step_by_step_page.can_be_edited?
+          step_config.merge!(
+            edit: {
+              href: edit_step_by_step_page_step_path(@step_by_step_page.id, step.id)
+            },
+            delete: {
+              href: step_by_step_page_step_path(@step_by_step_page.id, step.id),
+              data_attributes: {
+                confirm: "Are you sure?",
+                method: "delete"
+              }
+            }
+          )
+        end
+
+        step_config
       end
 
       steps_section_config = {
