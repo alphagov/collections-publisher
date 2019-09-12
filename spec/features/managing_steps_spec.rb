@@ -94,7 +94,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_create_a_new_step
-    click_on "Add a new step"
+    click_on "Add step"
   end
 
   def and_I_edit_the_first_step
