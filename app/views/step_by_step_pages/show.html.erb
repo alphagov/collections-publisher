@@ -20,57 +20,50 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/summary_list", @step_by_step_page_presenter.summary_list_params %>
 
-    <table class="govuk-table step-list">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th class="govuk-table__header" scope="col">Step</th>
-          <th class="govuk-table__header" scope="col">Title</th>
-          <% if @step_by_step_page.can_be_edited? %>
-            <th class="govuk-table__header govuk-table__header--numeric" scope="col">Actions</th>
-          <% end %>
-        </tr>
-      </thead>
+    <%
+      step_number = 0
+      steps = @step_by_step_page.steps.map do |step|
+        step_number = step_number + 1 if step.logic == 'number'
+        step_config = {
+          field: step.logic == 'number' ? step_number : step.logic,
+          value: render('shared/steps/broken-links-summary', step: step).html_safe
+        }
 
-      <tbody class="govuk-table__body">
-        <%
-          step_number = 1
-        %>
-        <% if @step_by_step_page.steps.present? %>
-          <% @step_by_step_page.steps.each do |step| %>
-            <tr class="govuk-table__row">
-              <th class="govuk-table__header" scope="row">
-                <% if step.logic == 'number' %>
-                  <%= step_number %>
-                  <% step_number += 1 %>
-                <% else %>
-                  <%= step.logic %>
-                <% end %>
-              </th>
+        if @step_by_step_page.can_be_edited?
+          step_config.merge!(
+            edit: {
+              href: edit_step_by_step_page_step_path(@step_by_step_page.id, step.id)
+            },
+            delete: {
+              href: step_by_step_page_step_path(@step_by_step_page.id, step.id),
+              data_attributes: {
+                confirm: "Are you sure?",
+                method: "delete"
+              }
+            }
+          )
+        end
 
-              <th class="govuk-table__header step-list__title" scope="row">
-                <%= step.title %>
-                <div class="step-broken-links__summary">
-                  <%= render 'shared/steps/broken-links-summary', step: step %>
-                </div>
-              </th>
+        step_config
+      end
+    %>
+    <%= render "govuk_publishing_components/components/summary_list", @step_by_step_page_presenter.steps_section_config.merge(items: steps) do %>
+      <% unless @step_by_step_page.steps.any? %>
+        <p class="govuk-hint govuk-!-margin-bottom-7">No steps have been added yet.</p>
+      <% end %>
 
-              <% if @step_by_step_page.can_be_edited? %>
-                <td class="govuk-table__cell govuk-table__cell--numeric">
-                  <%= link_to("Edit", edit_step_by_step_page_step_path(@step_by_step_page.id, step.id), class: "gem-c-button govuk-button gem-c-button--inline") %>
-                  <%= link_to("Delete", step_by_step_page_step_path(@step_by_step_page.id, step.id), method: 'delete', data: { confirm: "Are you sure?" }, class: "gem-c-button govuk-button govuk-button--warning gem-c-button--inline") %>
-                </td>
-              <% end %>
-            </tr>
-          <% end %>
-        <% else %>
-          <tr class="govuk-table__row">
-            <td class="govuk-table__cell" colspan="3">
-              <p class="govuk-hint">No steps have been added yet.</p>
-            </tr>
-          </tr>
+      <div class="step-list__actions">
+        <% if @step_by_step_page.can_be_edited? %>
+          <%= render "govuk_publishing_components/components/button", {
+            text: "Add step",
+            href: new_step_by_step_page_step_path(@step_by_step_page)
+          } %>
         <% end %>
-      </tbody>
-    </table>
+        <% if @step_by_step_page.steps.any? %>
+          <%= button_to "Check for broken links", { action: "check_links", step_by_step_page_id: @step_by_step_page.id}, method: :post, class: "govuk-button gem-c-button gem-c-button--inline gem-c-button--secondary-quiet" %>
+        <% end %>
+      </div>
+    <% end %>
 
     <%= render "govuk_publishing_components/components/summary_list", @step_by_step_page_presenter.sidebar_settings %>
 
@@ -89,18 +82,11 @@
   <div class="govuk-grid-column-one-third">
     <div class="app-side">
       <div class="app-side__actions">
-        <% if @step_by_step_page.can_be_edited? %>
-          <%= render "govuk_publishing_components/components/button", {
-            text: "Add a new step",
-            href: new_step_by_step_page_step_path(@step_by_step_page)
-          } %>
-        <% end %>
         <%= render "govuk_publishing_components/components/button", {
           text: "Preview",
           href: preview_url(@step_by_step_page.slug, auth_bypass_id: @step_by_step_page.auth_bypass_id),
           secondary: true
         } %>
-        <%= button_to "Check for broken links", {action: "check_links", step_by_step_page_id: @step_by_step_page.id}, method: :post, class: "govuk-button gem-c-button gem-c-button--secondary-quiet" %>
       </div>
     </div>
 

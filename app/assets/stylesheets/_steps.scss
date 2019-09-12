@@ -168,6 +168,16 @@ $dark-grey-2: #6f777b;
   }
 }
 
+.step-list__actions {
+  form {
+    display: inline;
+  }
+
+  .gem-c-button {
+    display: inline-block;
+  }
+}
+
 .step-by-step-reorder__list {
   .js-reorder {
     padding: 20px;

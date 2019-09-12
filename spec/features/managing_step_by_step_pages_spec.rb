@@ -44,6 +44,22 @@ RSpec.feature "Managing step by step pages" do
     when_I_view_the_step_by_step_page
     then_I_can_see_a_summary_section
     and_I_can_edit_the_summary_section
+    and_I_can_see_a_steps_overview_section_with_no_steps
+    and_I_cannot_check_for_broken_links
+    and_I_cannot_reorder_the_steps
+    and_I_can_see_a_sidebar_settings_section_with_link "Edit"
+    and_I_can_see_a_secondary_links_section_with_link "Edit"
+    and_I_can_see_a_metadata_section
+  end
+
+  scenario "User visits an existing step by step page with steps" do
+    given_there_is_a_step_by_step_page_with_steps
+    when_I_view_the_step_by_step_page
+    then_I_can_see_a_summary_section
+    and_I_can_edit_the_summary_section
+    and_I_can_see_a_steps_overview_section
+    and_I_can_edit_and_delete_steps
+    and_I_can_reorder_the_steps
     and_I_can_see_a_sidebar_settings_section_with_link "Edit"
     and_I_can_see_a_secondary_links_section_with_link "Edit"
     and_I_can_see_a_metadata_section
@@ -175,6 +191,9 @@ RSpec.feature "Managing step by step pages" do
       when_I_view_the_step_by_step_page
       then_I_can_see_a_summary_section
       but_I_cannot_edit_the_summary_section
+      and_I_can_see_a_steps_overview_section
+      but_I_cannot_edit_or_delete_steps
+      and_I_cannot_reorder_the_steps
       and_I_can_see_a_sidebar_settings_section_with_link "View"
       and_I_can_see_a_secondary_links_section_with_link "View"
       then_I_can_preview_the_step_by_step
@@ -227,6 +246,30 @@ RSpec.feature "Managing step by step pages" do
     then_I_should_see "Step by steps cannot be published until all steps have content."
     and_there_should_be_no_publish_button
     and_there_should_be_no_schedule_button
+  end
+
+  scenario "A step has not been tested for broken links" do
+    given_there_is_a_step_that_has_not_been_tested_for_broken_links
+    when_I_view_the_step_by_step_page
+    then_the_step_should_have_no_broken_link_summary
+  end
+
+  scenario "A step contains no broken links" do
+    given_there_is_a_step_that_has_no_broken_links
+    when_I_view_the_step_by_step_page
+    then_the_step_should_confirm_it_has_no_broken_links
+  end
+
+  scenario "A step contains a single broken link" do
+    given_there_is_a_step_with_a_broken_link
+    when_I_view_the_step_by_step_page
+    then_the_step_should_confirm_it_has_one_broken_link
+  end
+
+  scenario "A step contains multiple broken links" do
+    given_there_is_a_step_with_multiple_broken_links
+    when_I_view_the_step_by_step_page
+    then_the_step_should_confirm_it_has_multiple_broken_links
   end
 
   def and_it_has_change_notes
@@ -344,6 +387,50 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
+  def and_I_can_see_a_steps_overview_section_with_no_steps
+    expect(page).not_to have_css('.gem-c-summary-list#steps .govuk-summary-list__row')
+    expect(page).to have_content('No steps have been added yet.')
+  end
+
+  def and_I_cannot_check_for_broken_links
+    expect(page).not_to have_link('Check for broken links')
+  end
+
+  def and_I_can_see_a_steps_overview_section
+    within('.gem-c-summary-list#steps') do
+      expect(page).to have_selector(".govuk-heading-m", text: "Steps")
+      expect(page).to have_css('.govuk-summary-list__row', count: 2)
+      expect(page).to have_step_text_in_row(row: 1, text: 'Check how awesome you are')
+      expect(page).to have_step_text_in_row(row: 2, text: 'Dress like the Fonz')
+    end
+  end
+
+  def have_step_text_in_row(row:, text:)
+    have_selector(".govuk-summary-list__row:nth-child(#{row}) .govuk-summary-list__value", text: text)
+  end
+
+  def and_I_can_edit_and_delete_steps
+    all('.gem-c-summary-list#steps .govuk-summary-list__actions').each do |step|
+      expect(step).to have_link("Edit")
+      expect(step).to have_link("Delete")
+    end
+  end
+
+  def but_I_cannot_edit_or_delete_steps
+    all('.gem-c-summary-list#steps .govuk-summary-list__actions').each do |step|
+      expect(step).not_to have_link("Edit")
+      expect(step).not_to have_link("Delete")
+    end
+  end
+
+  def and_I_can_reorder_the_steps
+    expect(page).to have_link("Reorder", href: step_by_step_page_reorder_path(@step_by_step_page))
+  end
+
+  def and_I_cannot_reorder_the_steps
+    expect(page).to_not have_link("Reorder", exact: true)
+  end
+
   def and_I_can_see_a_sidebar_settings_section_with_link(link_text)
     within(".gem-c-summary-list#sidebar-settings") do
       expect(page).to have_content "Sidebar settings"
@@ -457,7 +544,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_delete_the_first_step
-    within(".govuk-table tbody tr:first-child td") do
+    within(".gem-c-summary-list#steps .govuk-summary-list__row:first-child") do
       click_on "Delete"
     end
   end
@@ -618,7 +705,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def then_I_can_see_the_steps
-    expect(find('tbody')).to have_content(@step_by_step_page.steps.first.title)
+    expect(find('.gem-c-summary-list#steps .govuk-summary-list__row:nth-child(1) .govuk-summary-list__value')).to have_content(@step_by_step_page.steps.first.title)
   end
 
   def and_I_cannot_edit_any_steps
@@ -706,6 +793,26 @@ RSpec.feature "Managing step by step pages" do
 
   def and_the_steps_can_be_checked_for_broken_links
     expect(page).to have_button("Check for broken links")
+  end
+
+  def then_the_step_should_have_no_broken_link_summary
+    expect(first_step_summary).to_not have_css(".step-broken-links__summary")
+  end
+
+  def then_the_step_should_confirm_it_has_no_broken_links
+    expect(first_step_summary).to have_css(".app-broken-link-status--pass", text: "No broken links")
+  end
+
+  def then_the_step_should_confirm_it_has_one_broken_link
+    expect(first_step_summary).to have_css(".app-broken-link-status--fail", text: "1 broken link found")
+  end
+
+  def then_the_step_should_confirm_it_has_multiple_broken_links
+    expect(first_step_summary).to have_css(".app-broken-link-status--fail", text: "2 broken links found")
+  end
+
+  def first_step_summary
+    find(".gem-c-summary-list#steps .govuk-summary-list__row:first-child .govuk-summary-list__value")
   end
 
   def and_I_filter_by_title_and_status

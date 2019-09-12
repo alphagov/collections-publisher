@@ -1,0 +1,21 @@
+.app-broken-link-status {
+  @include govuk-font(16);
+  color: $govuk-secondary-text-colour;
+
+  svg {
+    margin-right: 0.2em;
+    vertical-align: middle;
+  }
+}
+
+.app-broken-link-status--fail {
+  color: $govuk-error-colour;
+
+  svg {
+    fill: $govuk-error-colour;
+  }
+}
+
+.app-broken-link-status--pass svg {
+  fill: govuk-colour("green");
+}
