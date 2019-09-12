@@ -479,7 +479,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_delete_the_first_step
-    within(".govuk-table tbody tr:first-child td") do
+    within(".gem-c-summary-list#steps .govuk-summary-list__row:first-child") do
       click_on "Delete"
     end
   end
@@ -645,7 +645,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def then_I_can_see_the_steps
-    expect(find('tbody')).to have_content(@step_by_step_page.steps.first.title)
+    expect(find('.gem-c-summary-list#steps .govuk-summary-list__row:nth-child(1) .govuk-summary-list__value')).to have_content(@step_by_step_page.steps.first.title)
   end
 
   def and_I_cannot_edit_any_steps
