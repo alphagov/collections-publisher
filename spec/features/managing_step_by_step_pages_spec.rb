@@ -45,6 +45,7 @@ RSpec.feature "Managing step by step pages" do
     then_I_can_see_a_summary_section
     and_I_can_edit_the_summary_section
     and_I_can_see_a_steps_overview_section_with_no_steps
+    and_I_cannot_reorder_the_steps
     and_I_can_see_a_sidebar_settings_section_with_link "Edit"
     and_I_can_see_a_secondary_links_section_with_link "Edit"
     and_I_can_see_a_metadata_section
