@@ -51,6 +51,13 @@
       <% unless @step_by_step_page.steps.any? %>
         <p class="govuk-hint govuk-!-margin-bottom-7">No steps have been added yet.</p>
       <% end %>
+
+      <% if @step_by_step_page.can_be_edited? %>
+        <%= render "govuk_publishing_components/components/button", {
+          text: "Add step",
+          href: new_step_by_step_page_step_path(@step_by_step_page)
+        } %>
+      <% end %>
     <% end %>
 
     <%= render "govuk_publishing_components/components/summary_list", @step_by_step_page_presenter.sidebar_settings %>
@@ -70,12 +77,6 @@
   <div class="govuk-grid-column-one-third">
     <div class="app-side">
       <div class="app-side__actions">
-        <% if @step_by_step_page.can_be_edited? %>
-          <%= render "govuk_publishing_components/components/button", {
-            text: "Add a new step",
-            href: new_step_by_step_page_step_path(@step_by_step_page)
-          } %>
-        <% end %>
         <%= render "govuk_publishing_components/components/button", {
           text: "Preview",
           href: preview_url(@step_by_step_page.slug, auth_bypass_id: @step_by_step_page.auth_bypass_id),
