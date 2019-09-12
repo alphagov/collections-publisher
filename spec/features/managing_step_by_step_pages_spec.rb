@@ -44,6 +44,7 @@ RSpec.feature "Managing step by step pages" do
     when_I_view_the_step_by_step_page
     then_I_can_see_a_summary_section
     and_I_can_edit_the_summary_section
+    and_I_can_see_a_steps_overview_section_with_no_steps
     and_I_can_see_a_sidebar_settings_section_with_link "Edit"
     and_I_can_see_a_secondary_links_section_with_link "Edit"
     and_I_can_see_a_metadata_section
@@ -388,6 +389,11 @@ RSpec.feature "Managing step by step pages" do
     within(".gem-c-summary-list#content") do
       yield
     end
+  end
+
+  def and_I_can_see_a_steps_overview_section_with_no_steps
+    expect(page).not_to have_css('.gem-c-summary-list#steps .govuk-summary-list__row')
+    expect(page).to have_content('No steps have been added yet.')
   end
 
   def and_I_can_see_a_sidebar_settings_section_with_link(link_text)
