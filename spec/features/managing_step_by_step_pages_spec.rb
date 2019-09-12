@@ -189,6 +189,8 @@ RSpec.feature "Managing step by step pages" do
       when_I_view_the_step_by_step_page
       then_I_can_see_a_summary_section
       but_I_cannot_edit_the_summary_section
+      and_I_can_see_a_steps_overview_section
+      and_I_cannot_reorder_the_steps
       and_I_can_see_a_sidebar_settings_section_with_link "View"
       and_I_can_see_a_secondary_links_section_with_link "View"
       then_I_can_preview_the_step_by_step
@@ -409,6 +411,10 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_can_reorder_the_steps
     expect(page).to have_link("Reorder", href: step_by_step_page_reorder_path(@step_by_step_page))
+  end
+
+  def and_I_cannot_reorder_the_steps
+    expect(page).to_not have_link("Reorder", exact: true)
   end
 
   def and_I_can_see_a_sidebar_settings_section_with_link(link_text)
