@@ -163,6 +163,8 @@ RSpec.describe StepByStepPagesController do
       unschedule_publishing(step_by_step_page)
 
       expect(step_by_step_page.scheduled_at).to eq nil
+      expect(step_by_step_page.update_type).to be_nil
+      expect(step_by_step_page.public_change_note).to be_nil
       expect(step_by_step_page.scheduled_for_publishing?).to be false
       expect(step_by_step_page.status).to be_draft
     end

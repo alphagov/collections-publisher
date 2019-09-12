@@ -124,7 +124,7 @@ class StepByStepPagesController < ApplicationController
 
   def unschedule
     set_current_page_as_step_by_step
-    @step_by_step_page.update(scheduled_at: nil)
+    @step_by_step_page.update(scheduled_at: nil, update_type: nil, public_change_note: nil)
     unschedule_publishing
     note_description = "Publishing was unscheduled by #{current_user.name}."
     generate_internal_change_note(note_description)
