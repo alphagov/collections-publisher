@@ -54,5 +54,11 @@
         <%= link_to "Delete", @step_by_step_page, method: :delete, data: { confirm: 'Deleted step by steps cannot be recovered. Are you sure you want to delete this step by step page?' }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
       <% end %>
     <% end %>
+
+    <% if @step_by_step_page.has_been_published? %>
+      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
+      <%= link_to "View on GOV.UK", published_url(@step_by_step_page.slug), target: "_blank", class: "govuk-link govuk-link--no-visited-state" %>
+    <% end %>
+
   </div>
 </div>

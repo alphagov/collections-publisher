@@ -22,7 +22,16 @@
     margin-bottom: 0;
   }
 
+  .govuk-link {
+    margin-bottom: govuk-spacing(3);
+  }
+
+  .govuk-section-break {
+    clear: both;
+  }
+
   .app-link--destructive {
+    display: block;
     color: $govuk-error-colour;
 
     &:link,

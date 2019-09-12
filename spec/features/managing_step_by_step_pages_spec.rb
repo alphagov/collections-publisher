@@ -93,6 +93,7 @@ RSpec.feature "Managing step by step pages" do
     then_I_am_told_that_it_is_published
     then_I_see_the_step_by_step_page
     and_I_see_an_unpublish_button
+    and_I_see_a_view_on_govuk_link
     and_there_should_be_a_change_note "First published by Test author"
   end
 
@@ -515,6 +516,12 @@ RSpec.feature "Managing step by step pages" do
       expect(page).to_not have_css("a", text: "Delete")
       expect(page).to_not have_css("a", text: "Publish")
       expect(page).to have_css("a", text: "Unpublish")
+    end
+  end
+
+  def and_I_see_a_view_on_govuk_link
+    within(".app-side__actions") do
+      expect(page).to have_css("a", text: "View on GOV.UK")
     end
   end
 
