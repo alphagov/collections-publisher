@@ -7,7 +7,7 @@ class StepNavPresenter
   def render_for_publishing_api(publish_intent = PublishIntent.minor_update)
     payload = required_fields
     payload.merge!(optional_fields)
-    payload.merge(publish_intent.present)
+    publish_intent.present.merge(payload)
   end
 
   def scheduling_payload
@@ -47,6 +47,8 @@ private
   def optional_fields
     fields = {}
     fields[:access_limited] = access_limited_tokens if step_nav.has_draft?
+    fields[:update_type] = step_nav.update_type if step_nav.update_type
+    fields[:change_note] = step_nav.public_change_note if step_nav.public_change_note
     fields
   end
 

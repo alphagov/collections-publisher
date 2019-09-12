@@ -34,7 +34,13 @@ FactoryBot.define do
   factory :scheduled_step_by_step_page, parent: :step_by_step_page_with_steps do
     draft_updated_at { 3.hours.ago }
     scheduled_at { 3.hours.from_now }
+    update_type { "minor" }
     status { "scheduled" }
+  end
+
+  factory :scheduled_step_by_step_page_with_major_change, parent: :scheduled_step_by_step_page do
+    update_type { "major" }
+    public_change_note { "Some major change" }
   end
 
   factory :step_by_step_page_with_navigation_rules, parent: :step_by_step_page_with_steps do

@@ -188,6 +188,7 @@ private
   end
 
   def schedule_to_publish
+    StepNavPublisher.update(@step_by_step_page)
     StepNavPublisher.schedule_for_publishing(@step_by_step_page)
     @step_by_step_page.mark_as_scheduled
   end

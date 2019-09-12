@@ -91,6 +91,19 @@ RSpec.describe StepNavPresenter do
       end
     end
 
+    describe "scheduled" do
+      let(:scheduled_step_nav) { create(:scheduled_step_by_step_page_with_major_change) }
+      subject { described_class.new(scheduled_step_nav) }
+
+      it "presents a scheduled step by step page with major change in the correct format" do
+        presented = subject.render_for_publishing_api
+        expect(presented).to be_valid_against_schema("step_by_step_nav")
+
+        expect(presented[:update_type]).to eq("major")
+        expect(presented[:change_note]).to eq("Some major change")
+      end
+    end
+
     describe "smartanswers" do
       before do
         allow(Services.publishing_api).to receive(:lookup_content_id)

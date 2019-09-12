@@ -12,6 +12,7 @@ RSpec.describe StepByStepPagesController do
 
   before do
     allow(Services.publishing_api).to receive(:lookup_content_id).and_return(nil)
+    allow(Services.publishing_api).to receive(:put_content)
 
     allow(Services.publishing_api).to receive(:get_content)
       .with(step_by_step_page.content_id)
