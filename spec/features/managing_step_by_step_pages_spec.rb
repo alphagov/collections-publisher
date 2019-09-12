@@ -57,6 +57,7 @@ RSpec.feature "Managing step by step pages" do
     and_I_can_edit_the_summary_section
     and_I_can_see_a_steps_overview_section
     and_I_can_edit_and_delete_steps
+    and_I_can_reorder_the_steps
     and_I_can_see_a_sidebar_settings_section_with_link "Edit"
     and_I_can_see_a_secondary_links_section_with_link "Edit"
     and_I_can_see_a_metadata_section
@@ -404,6 +405,10 @@ RSpec.feature "Managing step by step pages" do
       expect(step).to have_link("Edit")
       expect(step).to have_link("Delete")
     end
+  end
+
+  def and_I_can_reorder_the_steps
+    expect(page).to have_link("Reorder", href: step_by_step_page_reorder_path(@step_by_step_page))
   end
 
   def and_I_can_see_a_sidebar_settings_section_with_link(link_text)
