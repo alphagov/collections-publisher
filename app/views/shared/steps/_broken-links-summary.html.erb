@@ -1,9 +1,15 @@
-<% if step.broken_links? %>
-  <span class="govuk-tag govuk-tag--warning">
-    <%= step.broken_links.count %> broken link<%= "(s)" if step.broken_links.count > 1 %> found
-  </span>
-<% elsif step.link_report? %>
-  <span class="govuk-tag govuk-tag--success">
-    No broken links
-  </span>
+<% if step.link_report? %>
+  <div class="step-broken-links__summary">
+    <% if step.broken_links? %>
+      <span class="app-broken-link-status app-broken-link-status--fail">
+        <%= render "svgs/cross.svg" %>
+        <%= pluralize(step.broken_links.count, "broken link") %> found
+      </span>
+    <% else %>
+      <span class="app-broken-link-status app-broken-link-status--pass">
+        <%= render "svgs/tick.svg" %>
+        No broken links
+      </span>
+    <% end %>
+  </div>
 <% end %>

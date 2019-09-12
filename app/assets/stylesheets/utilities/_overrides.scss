@@ -28,17 +28,6 @@
   }
 }
 
-.govuk-tag {
-  &.govuk-tag--warning {
-    background-color: govuk-colour("yellow", $legacy: "yellow");
-    color: govuk-colour("black", $legacy: "black");
-  }
-
-  &.govuk-tag--success {
-    background-color: govuk-colour("green", $legacy: "green");
-  }
-}
-
 .gem-c-select {
   &.govuk-form-group {
     margin-bottom: 10px;
