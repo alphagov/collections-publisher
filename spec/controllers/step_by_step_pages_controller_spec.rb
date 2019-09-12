@@ -102,6 +102,7 @@ RSpec.describe StepByStepPagesController do
     before :each do
       stub_publishing_api_for_scheduling
       stub_default_publishing_api_put_intent
+      stub_publishing_api
     end
 
     def schedule_with_public_change_note
@@ -141,6 +142,16 @@ RSpec.describe StepByStepPagesController do
       schedule_for_future
 
       expect(step_by_step_page.status).to be_scheduled
+    end
+
+    it "sends update_type and change note to Publishing API" do
+      allow(Services.publishing_api).to receive(:put_content)
+
+      schedule_with_public_change_note
+      schedule_for_future
+
+      payload = hash_including(update_type: 'major', change_note: 'This is a public change note.')
+      expect(Services.publishing_api).to have_received(:put_content).with(step_by_step_page.content_id, payload)
     end
   end
 

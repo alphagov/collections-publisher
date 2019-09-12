@@ -94,7 +94,7 @@ class StepByStepPagesController < ApplicationController
         end
         render :schedule_datetime
       elsif @step_by_step_page.update_attributes(scheduled_at: scheduled_at)
-        schedule_to_publish
+        schedule_to_publish(session[:update_type], session[:public_change_note])
         note_description = "Scheduled by #{current_user.name} for publishing at #{format_full_date_and_time(scheduled_at)}"
         generate_internal_change_note(note_description)
         set_change_note_version
@@ -185,8 +185,10 @@ private
     @step_by_step_page.mark_as_published
   end
 
-  def schedule_to_publish
+  def schedule_to_publish(update_type, change_note)
+    publish_intent = PublishIntent.new(update_type: update_type, change_note: change_note)
     StepNavPublisher.schedule_for_publishing(@step_by_step_page)
+    StepNavPublisher.update(@step_by_step_page, publish_intent)
     @step_by_step_page.mark_as_scheduled
   end
 
