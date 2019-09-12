@@ -45,6 +45,7 @@ RSpec.feature "Managing step by step pages" do
     then_I_can_see_a_summary_section
     and_I_can_edit_the_summary_section
     and_I_can_see_a_steps_overview_section_with_no_steps
+    and_I_cannot_check_for_broken_links
     and_I_cannot_reorder_the_steps
     and_I_can_see_a_sidebar_settings_section_with_link "Edit"
     and_I_can_see_a_secondary_links_section_with_link "Edit"
@@ -389,6 +390,10 @@ RSpec.feature "Managing step by step pages" do
   def and_I_can_see_a_steps_overview_section_with_no_steps
     expect(page).not_to have_css('.gem-c-summary-list#steps .govuk-summary-list__row')
     expect(page).to have_content('No steps have been added yet.')
+  end
+
+  def and_I_cannot_check_for_broken_links
+    expect(page).not_to have_link('Check for broken links')
   end
 
   def and_I_can_see_a_steps_overview_section
