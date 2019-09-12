@@ -52,12 +52,15 @@
         <p class="govuk-hint govuk-!-margin-bottom-7">No steps have been added yet.</p>
       <% end %>
 
-      <% if @step_by_step_page.can_be_edited? %>
-        <%= render "govuk_publishing_components/components/button", {
-          text: "Add step",
-          href: new_step_by_step_page_step_path(@step_by_step_page)
-        } %>
-      <% end %>
+      <div class="step-list__actions">
+        <% if @step_by_step_page.can_be_edited? %>
+          <%= render "govuk_publishing_components/components/button", {
+            text: "Add step",
+            href: new_step_by_step_page_step_path(@step_by_step_page)
+          } %>
+        <% end %>
+        <%= button_to "Check for broken links", { action: "check_links", step_by_step_page_id: @step_by_step_page.id}, method: :post, class: "govuk-button gem-c-button gem-c-button--inline gem-c-button--secondary-quiet" %>
+      </div>
     <% end %>
 
     <%= render "govuk_publishing_components/components/summary_list", @step_by_step_page_presenter.sidebar_settings %>
@@ -82,7 +85,6 @@
           href: preview_url(@step_by_step_page.slug, auth_bypass_id: @step_by_step_page.auth_bypass_id),
           secondary: true
         } %>
-        <%= button_to "Check for broken links", {action: "check_links", step_by_step_page_id: @step_by_step_page.id}, method: :post, class: "govuk-button gem-c-button gem-c-button--secondary-quiet" %>
       </div>
     </div>
 
