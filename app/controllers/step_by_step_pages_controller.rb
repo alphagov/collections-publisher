@@ -65,14 +65,13 @@ class StepByStepPagesController < ApplicationController
   def publish
     set_current_page_as_step_by_step
     if request.post?
-      @publish_intent = PublishIntent.new(publish_intent_params)
-      if @publish_intent.valid?
-        note_description = publish_note_description
-        publish_page(@publish_intent)
-        generate_internal_change_note(note_description)
-        set_change_note_version
-        redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been published."
-      end
+      @step_by_step_page.update_attributes(update_type: params[:update_type] || 'minor',
+                                           public_change_note: params[:change_note])
+      note_description = publish_note_description
+      publish_page
+      generate_internal_change_note(note_description)
+      set_change_note_version
+      redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been published."
     end
   end
 
@@ -177,12 +176,8 @@ private
     StepByStepDraftUpdateWorker.perform_async(@step_by_step_page.id, current_user.name)
   end
 
-  def publish_intent_params
-    @step_by_step_page.has_been_published? ? params : { update_type: "minor" }
-  end
-
-  def publish_page(publish_intent)
-    StepNavPublisher.update(@step_by_step_page, publish_intent)
+  def publish_page
+    StepNavPublisher.update(@step_by_step_page)
     StepNavPublisher.publish(@step_by_step_page)
     @step_by_step_page.mark_as_published
   end
@@ -217,7 +212,7 @@ private
   def publish_note_description
     return "First published by #{current_user.name}" unless @step_by_step_page.has_been_published?
 
-    custom_note = " with change note: #{@publish_intent.change_note}" unless @publish_intent.change_note.empty?
+    custom_note = " with change note: #{@step_by_step_page.public_change_note}" unless @step_by_step_page.public_change_note.empty?
     "Published by #{current_user.name}#{custom_note}"
   end
 

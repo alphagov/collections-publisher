@@ -4,10 +4,9 @@ class StepNavPresenter
     @step_content_parser = StepContentParser.new
   end
 
-  def render_for_publishing_api(publish_intent = PublishIntent.minor_update)
+  def render_for_publishing_api
     payload = required_fields
     payload.merge!(optional_fields)
-    publish_intent.present.merge(payload)
   end
 
   def scheduling_payload

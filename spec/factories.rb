@@ -44,6 +44,8 @@ FactoryBot.define do
   end
 
   factory :step_by_step_page_with_navigation_rules, parent: :step_by_step_page_with_steps do
+    update_type { "major" }
+    public_change_note { "All your update belong to us" }
     after(:create) do |step_by_step_page|
       create(:navigation_rule, step_by_step_page: step_by_step_page)
       create(:navigation_rule, step_by_step_page: step_by_step_page, title: "Also good stuff", base_path: "/also/good/stuff")

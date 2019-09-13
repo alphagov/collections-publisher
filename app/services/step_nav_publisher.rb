@@ -1,8 +1,8 @@
 class StepNavPublisher
-  def self.update(step_by_step_page, publish_intent = PublishIntent.minor_update)
+  def self.update(step_by_step_page)
     step_by_step_page.mark_draft_updated
     presenter = StepNavPresenter.new(step_by_step_page)
-    payload = presenter.render_for_publishing_api(publish_intent)
+    payload = presenter.render_for_publishing_api
     Services.publishing_api.put_content(step_by_step_page.content_id, payload)
   end
 

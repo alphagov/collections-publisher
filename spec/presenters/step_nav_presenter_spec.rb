@@ -20,7 +20,6 @@ RSpec.describe StepNavPresenter do
       presented = subject.render_for_publishing_api
       expect(presented).to be_valid_against_schema("step_by_step_nav")
 
-      expect(presented[:update_type]).to eq("minor")
       expect(presented[:base_path]).to eq("/how-to-be-the-amazing-1")
       expect(presented[:routes]).to eq([{ path: "/how-to-be-the-amazing-1", type: "exact" }])
     end
@@ -58,8 +57,7 @@ RSpec.describe StepNavPresenter do
     end
 
     it "shows the correct update type and change note" do
-      intent = PublishIntent.new(update_type: "major", change_note: "All your update belong to us")
-      presented = subject.render_for_publishing_api(intent)
+      presented = subject.render_for_publishing_api
 
       expect(presented).to be_valid_against_schema("step_by_step_nav")
       expect(presented[:update_type]).to eq("major")
