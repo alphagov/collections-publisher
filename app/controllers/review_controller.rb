@@ -3,7 +3,10 @@ class ReviewController < ApplicationController
 
   before_action :require_gds_editor_permissions!
   before_action :require_unreleased_feature_permissions!
+  before_action :require_2i_reviewer_permissions!, only: %i(claim_2i_review)
   before_action :set_step_by_step_page
+
+  def claim_2i_review; end
 
   def submit_for_2i
     if request.post?
