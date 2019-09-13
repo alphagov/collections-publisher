@@ -55,6 +55,7 @@ class StepByStepPage < ApplicationRecord
       draft_updated_at: now,
       scheduled_at: nil,
       assigned_to: nil,
+      reviewer_id: nil,
       status: "published"
     )
   end
