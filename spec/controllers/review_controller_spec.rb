@@ -119,6 +119,18 @@ RSpec.describe ReviewController do
         expect(step_by_step_page.status).to eq("in_review")
         expect(step_by_step_page.reviewer_id).to eq(stub_user.uid)
       end
+
+      it "creates an internal change note" do
+        stub_user.permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
+        stub_user.name = "Firstname Lastname"
+
+        expected_change_note = "In review by Firstname Lastname"
+
+        post :claim_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
+        step_by_step_page.reload
+
+        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_change_note
+      end
     end
   end
 end
