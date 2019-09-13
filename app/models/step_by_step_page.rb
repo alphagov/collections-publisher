@@ -1,6 +1,7 @@
 class StepByStepPage < ApplicationRecord
   STATUSES = %w(
     draft
+    in_review
     published
     scheduled
     submitted_for_2i
