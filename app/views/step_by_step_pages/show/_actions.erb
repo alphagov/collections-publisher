@@ -6,53 +6,49 @@
 
 <div class="app-side">
   <div class="app-side__actions">
-    <% if @step_by_step_page.can_be_published? || @step_by_step_page.can_discard_changes? || @step_by_step_page.scheduled_for_publishing? || !@step_by_step_page.steps_have_content? %>
-      <% if @step_by_step_page.scheduled_for_publishing? %>
-        <%= preview_link %>
-        <p class="govuk-body">Scheduled to be published at <%= format_full_date_and_time(@step_by_step_page.scheduled_at) %></p>
-        <%= link_to "Unschedule",
-          step_by_step_page_unschedule_path(@step_by_step_page),
-          method: :post,
-          class: %w(govuk-link govuk-link--no-visited-state app-link--right)
-        %>
-      <% elsif @step_by_step_page.can_be_published? %>
-        <p class="govuk-body">Before publishing check for broken links.</p>
-        <p class="govuk-body">After publishing add this step by step to a mainstream browse category and a taxonomy topic.</p>
-        <% if @step_by_step_page.has_been_published? %>
-          <%= render "govuk_publishing_components/components/button", {
-            text: "Publish",
-            href: step_by_step_page_publish_path(@step_by_step_page)
-          } %>
-        <% else %>
-          <%= form_for(@step_by_step_page, url: step_by_step_page_publish_path(@step_by_step_page), method: :post) do %>
-            <%= render "govuk_publishing_components/components/button", text: "Publish" %>
-          <% end %>
+    <% if @step_by_step_page.scheduled_for_publishing? %>
+      <%= preview_link %>
+      <p class="govuk-body">Scheduled to be published at <%= format_full_date_and_time(@step_by_step_page.scheduled_at) %></p>
+      <%= link_to "Unschedule",
+        step_by_step_page_unschedule_path(@step_by_step_page),
+        method: :post,
+        class: %w(govuk-link govuk-link--no-visited-state app-link--right)
+      %>
+    <% elsif @step_by_step_page.can_be_published? %>
+      <p class="govuk-body">Before publishing check for broken links.</p>
+      <p class="govuk-body">After publishing add this step by step to a mainstream browse category and a taxonomy topic.</p>
+      <% if @step_by_step_page.has_been_published? %>
+        <%= render "govuk_publishing_components/components/button", {
+          text: "Publish",
+          href: step_by_step_page_publish_path(@step_by_step_page)
+        } %>
+      <% else %>
+        <%= form_for(@step_by_step_page, url: step_by_step_page_publish_path(@step_by_step_page), method: :post) do %>
+          <%= render "govuk_publishing_components/components/button", text: "Publish" %>
         <% end %>
-        <%= preview_link %>
-        <%= link_to "Schedule",
-          step_by_step_page_schedule_path(@step_by_step_page),
-          class: %w(govuk-link govuk-link--no-visited-state app-link--right)
-        %>
-      <% elsif !@step_by_step_page.steps_have_content? %>
-        <p class="govuk-body">Step by steps cannot be published until all steps have content.</p>
-        <%= preview_link %>
       <% end %>
-
-      <% if @step_by_step_page.can_discard_changes? %>
-        <%= link_to 'Discard changes', { action: "revert", step_by_step_page_id: @step_by_step_page.id }, method: :post, data: { confirm: 'This will delete your draft. Do you want to discard your changes?' }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
-      <% end %>
+      <%= preview_link %>
+      <%= link_to "Schedule",
+        step_by_step_page_schedule_path(@step_by_step_page),
+        class: %w(govuk-link govuk-link--no-visited-state app-link--right)
+      %>
+    <% elsif !@step_by_step_page.steps_have_content? %>
+      <p class="govuk-body">Step by steps cannot be published until all steps have content.</p>
+      <%= preview_link %>
     <% end %>
 
-    <% if @step_by_step_page.can_be_unpublished? || @step_by_step_page.can_be_deleted? %>
-      <% if @step_by_step_page.can_be_unpublished? %>
-        <%= link_to "Unpublish",
-          step_by_step_page_unpublish_path(@step_by_step_page),
-          class: %w(govuk-link govuk-link--no-visited-state)
-        %>
-      <% end %>
-      <% if @step_by_step_page.can_be_deleted? %>
-        <%= link_to "Delete", @step_by_step_page, method: :delete, data: { confirm: 'Deleted step by steps cannot be recovered. Are you sure you want to delete this step by step page?' }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
-      <% end %>
+    <% if @step_by_step_page.can_discard_changes? %>
+      <%= link_to 'Discard changes', { action: "revert", step_by_step_page_id: @step_by_step_page.id }, method: :post, data: { confirm: 'This will delete your draft. Do you want to discard your changes?' }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
+    <% end %>
+
+    <% if @step_by_step_page.can_be_unpublished? %>
+      <%= link_to "Unpublish",
+        step_by_step_page_unpublish_path(@step_by_step_page),
+        class: %w(govuk-link govuk-link--no-visited-state)
+      %>
+    <% end %>
+    <% if @step_by_step_page.can_be_deleted? %>
+      <%= link_to "Delete", @step_by_step_page, method: :delete, data: { confirm: 'Deleted step by steps cannot be recovered. Are you sure you want to delete this step by step page?' }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
     <% end %>
 
     <% if @step_by_step_page.has_been_published? %>
