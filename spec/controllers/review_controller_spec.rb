@@ -72,11 +72,21 @@ RSpec.describe ReviewController do
     end
 
     describe "POST claim 2i review" do
+      let(:user) { create(:user) }
+
+      let(:step_by_step_page) do
+        create(
+          :draft_step_by_step_page,
+          review_requester_id: user.uid,
+          status: "submitted_for_2i"
+        )
+      end
+
       it "can be accessed by users with GDS editor, Unreleased feature and 2i reviewer permissions" do
         stub_user.permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
         post :claim_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
 
-        expect(response.status).to eq(204)
+        expect(response).to redirect_to step_by_step_page_path(step_by_step_page)
       end
 
       it "cannot be accessed by users with only GDS editor permissions" do
@@ -98,6 +108,16 @@ RSpec.describe ReviewController do
         post :claim_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
 
         expect(response.status).to eq(403)
+      end
+
+      it "sets status to in_review" do
+        stub_user.permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
+        post :claim_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
+
+        step_by_step_page.reload
+
+        expect(step_by_step_page.status).to eq("in_review")
+        expect(step_by_step_page.reviewer_id).to eq(stub_user.uid)
       end
     end
   end
