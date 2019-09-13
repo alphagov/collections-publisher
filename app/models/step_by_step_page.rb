@@ -17,6 +17,7 @@ class StepByStepPage < ApplicationRecord
   validates :slug, slug: true, on: :create
   validates :status, inclusion: { in: STATUSES }, presence: true
   validates :status, status_prerequisite: true
+  validate :reviewer_is_not_same_as_review_requester
 
   before_validation :generate_content_id, on: :create
   before_destroy :discard_notes
@@ -141,5 +142,11 @@ private
 
   def generate_content_id
     self.content_id ||= SecureRandom.uuid
+  end
+
+  def reviewer_is_not_same_as_review_requester
+    if review_requester_id.present? && review_requester_id == reviewer_id
+      errors.add(:reviewer_id, "can't be the same as review_requester_id")
+    end
   end
 end
