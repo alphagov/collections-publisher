@@ -269,6 +269,14 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_page.assigned_to).to be nil
     end
 
+    it 'should unassign the review requester' do
+      stub_user = create(:user)
+      step_by_step_page.review_requester_id = stub_user.uid
+      step_by_step_page.mark_as_published
+
+      expect(step_by_step_page.review_requester_id).to be nil
+    end
+
     it 'should unassign the reviewer' do
       stub_user = create(:user)
       step_by_step_page.review_requester_id = stub_user.uid
