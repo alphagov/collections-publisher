@@ -163,7 +163,7 @@ RSpec.feature "Managing step by step pages" do
       stub_publishing_api_destroy_intent('/how-to-be-the-amazing-1')
     end
 
-    scenario "User schedules publishing" do
+    scenario "User schedules publishing without a public change note" do
       given_there_is_a_draft_step_by_step_page_with_secondary_content_and_navigation_rules
       and_I_visit_the_scheduling_page
       then_I_should_see_a_publish_form_with_changenotes
@@ -182,6 +182,20 @@ RSpec.feature "Managing step by step pages" do
       and_I_can_see_a_secondary_links_section_with_link "View"
       then_I_can_preview_the_step_by_step
       and_the_steps_can_be_checked_for_broken_links
+    end
+
+    scenario "User schedules publishing with a public change note" do
+      given_there_is_a_draft_step_by_step_page_with_secondary_content_and_navigation_rules
+      and_I_visit_the_scheduling_page
+      then_I_should_see_a_publish_form_with_changenotes
+      and_I_fill_in_the_changenote_form
+      and_when_I_click_button "Continue"
+      then_inputs_should_have_tomorrows_date
+      and_I_fill_in_the_scheduling_form
+      when_I_submit_the_form
+      then_I_should_see "has been scheduled to publish"
+      and_the_step_by_step_should_have_the_status "Scheduled"
+      and_there_should_be_a_change_note "Scheduled by Test author for publishing at 10:26am on 20 April 2030 with change note: We made some changes"
     end
 
     scenario "User tries to schedule publishing for date in the past" do
@@ -506,6 +520,11 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_content("Notify users about this change?")
     expect(page).to have_css('input[type="radio"][name="update_type"]', count: 2)
     expect(page).to have_css('textarea[name="change_note"]')
+  end
+
+  def and_I_fill_in_the_changenote_form
+    choose 'Yes'
+    fill_in 'change_note', with: 'We made some changes'
   end
 
   def and_I_fill_in_the_scheduling_form

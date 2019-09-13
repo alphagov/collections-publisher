@@ -153,6 +153,21 @@ RSpec.describe StepByStepPagesController do
       payload = hash_including(update_type: 'major', change_note: 'This is a public change note.')
       expect(Services.publishing_api).to have_received(:put_content).with(step_by_step_page.content_id, payload)
     end
+
+    it "creates an internal change note for minor change" do
+      schedule_for_future
+
+      expected_description = "Scheduled by Name Surname for publishing at 10:26am on 20 April 2030"
+      expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
+    end
+
+    it "creates an internal change note with public change note text for major change" do
+      schedule_with_public_change_note
+      schedule_for_future
+
+      expected_description = "Scheduled by Name Surname for publishing at 10:26am on 20 April 2030 with change note: This is a public change note."
+      expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
+    end
   end
 
   describe "#unschedule" do
