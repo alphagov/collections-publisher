@@ -86,7 +86,10 @@ class StepByStepPage < ApplicationRecord
   end
 
   def can_be_published?
-    has_draft? && !scheduled_for_publishing? && steps_have_content? && links_checked?
+    has_draft? &&
+      !scheduled_for_publishing? &&
+      steps_have_content? &&
+      links_checked_since_last_update?
   end
 
   def can_be_unpublished?
@@ -126,6 +129,10 @@ class StepByStepPage < ApplicationRecord
 
   def links_last_checked_date
     steps.map(&:links_last_checked_date).reject(&:blank?).max
+  end
+
+  def links_checked_since_last_update?
+    links_checked? && links_last_checked_date > draft_updated_at
   end
 
   def links_checked?
