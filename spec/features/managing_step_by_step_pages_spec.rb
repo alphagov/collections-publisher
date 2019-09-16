@@ -240,8 +240,7 @@ RSpec.feature "Managing step by step pages" do
     then_I_should_see "Step by steps cannot be published until all steps have content."
     and_I_should_see_an_inset_prompt
     and_the_prompt_should_contain_link_to_steps_section "Add content to all your steps"
-    and_there_should_be_no_publish_button
-    and_there_should_be_no_schedule_button
+    and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
   scenario "A step has not been tested for broken links" do
@@ -273,8 +272,7 @@ RSpec.feature "Managing step by step pages" do
     when_I_view_the_step_by_step_page
     then_I_should_see_an_inset_prompt
     and_the_prompt_should_contain_link_to_steps_section "Add at least one step"
-    and_there_should_be_no_publish_button
-    and_there_should_be_no_schedule_button
+    and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
   scenario "Step by step has not been checked for broken links" do
@@ -282,8 +280,7 @@ RSpec.feature "Managing step by step pages" do
     when_I_view_the_step_by_step_page
     then_I_should_see_an_inset_prompt
     and_the_prompt_should_contain_link_to_steps_section "Check for broken links"
-    and_there_should_be_no_publish_button
-    and_there_should_be_no_schedule_button
+    and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
   scenario "Step by step has been updated since it was last checked for broken links" do
@@ -291,8 +288,7 @@ RSpec.feature "Managing step by step pages" do
     when_I_view_the_step_by_step_page
     then_I_should_see_an_inset_prompt
     and_the_prompt_should_contain_link_to_steps_section "Check for broken links"
-    and_there_should_be_no_publish_button
-    and_there_should_be_no_schedule_button
+    and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
   def and_it_has_change_notes
@@ -650,8 +646,6 @@ RSpec.feature "Managing step by step pages" do
     expect(page).not_to have_link("Schedule")
   end
 
-  alias_method :then_there_should_be_no_schedule_button, :and_there_should_be_no_schedule_button
-
   def and_I_should_see_an_inset_prompt
     expect(page).to have_css('.govuk-inset-text', text: "To publish this step by step you need to")
   end
@@ -806,7 +800,10 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  alias_method :and_there_should_be_no_publish_button, :then_there_should_be_no_publish_button
+  def and_I_cannot_publish_or_schedule_the_step_by_step
+    then_there_should_be_no_publish_button
+    and_there_should_be_no_schedule_button
+  end
 
   def then_there_should_be_no_discard_changes_button
     within(".app-side__actions") do
