@@ -239,7 +239,7 @@ RSpec.feature "Managing step by step pages" do
     when_I_view_the_step_by_step_page
     then_I_should_see "Step by steps cannot be published until all steps have content."
     and_I_should_see_an_inset_prompt
-    and_the_prompt_should_contain "Add content to all your steps"
+    and_the_prompt_should_contain_link_to_steps_section "Add content to all your steps"
     and_there_should_be_no_publish_button
     and_there_should_be_no_schedule_button
   end
@@ -629,9 +629,9 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_css('.govuk-inset-text', text: "To publish this step by step you need to")
   end
 
-  def and_the_prompt_should_contain(prompt)
+  def and_the_prompt_should_contain_link_to_steps_section(prompt)
     within('.govuk-inset-text') do
-      expect(page).to have_content prompt
+      expect(page).to have_link(prompt, href: '#steps')
     end
   end
 
