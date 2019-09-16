@@ -65,18 +65,15 @@
       </div>
     <% end %>
 
-    <%= render "govuk_publishing_components/components/summary_list", @step_by_step_page_presenter.sidebar_settings %>
-
-    <%= render "govuk_publishing_components/components/summary_list", @step_by_step_page_presenter.secondary_links_settings do %>
-      <p class="govuk-body">Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.</p>
-
-      <p class="govuk-body">We use it for content which:</p>
-
-      <ul class="govuk-list govuk-list--bullet">
-        <li>helps you to complete a task in the journey, but is not the primary piece of content you need to visit to complete that task</li>
-        <li>is optional and not useful enough to be included in the step by step</li>
-      </ul>
-    <% end %>
+    <%= render "govuk_publishing_components/components/summary_list", {
+      title: "Where to show this step by step",
+      id: "where-to-show",
+      borderless: true,
+      items: [
+        @step_by_step_page_presenter.sidebar_settings,
+        @step_by_step_page_presenter.secondary_links_settings
+      ]
+    }  %>
   </div>
 
   <div class="govuk-grid-column-one-third">
