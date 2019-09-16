@@ -1,6 +1,6 @@
 <% unless @step_by_step_page.steps_have_content? %>
   <%= render "govuk_publishing_components/components/inset_text" do %>
     <h2 class="govuk-heading-m">To publish this step by step you need to</h2>
-    <p class="govuk-body">Add content to all your steps</p>
+    <%= link_to('Add content to all your steps', '#steps', class: 'govuk-link govuk-link--no-visited-state') %>
   <% end %>
 <% end %>
