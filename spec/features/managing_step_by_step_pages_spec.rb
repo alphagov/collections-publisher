@@ -47,8 +47,7 @@ RSpec.feature "Managing step by step pages" do
     and_I_can_see_a_steps_overview_section_with_no_steps
     and_I_cannot_check_for_broken_links
     and_I_cannot_reorder_the_steps
-    and_I_can_see_a_sidebar_settings_section_with_link "Edit"
-    and_I_can_see_a_secondary_links_section_with_link "Edit"
+    and_I_can_see_a_where_to_show_section_with_links "Edit"
     and_I_can_see_a_metadata_section
   end
 
@@ -60,8 +59,7 @@ RSpec.feature "Managing step by step pages" do
     and_I_can_see_a_steps_overview_section
     and_I_can_edit_and_delete_steps
     and_I_can_reorder_the_steps
-    and_I_can_see_a_sidebar_settings_section_with_link "Edit"
-    and_I_can_see_a_secondary_links_section_with_link "Edit"
+    and_I_can_see_a_where_to_show_section_with_links "Edit"
     and_I_can_see_a_metadata_section
   end
 
@@ -194,8 +192,7 @@ RSpec.feature "Managing step by step pages" do
       and_I_can_see_a_steps_overview_section
       but_I_cannot_edit_or_delete_steps
       and_I_cannot_reorder_the_steps
-      and_I_can_see_a_sidebar_settings_section_with_link "View"
-      and_I_can_see_a_secondary_links_section_with_link "View"
+      and_I_can_see_a_where_to_show_section_with_links "Edit"
       then_I_can_preview_the_step_by_step
       and_the_steps_can_be_checked_for_broken_links
     end
@@ -450,16 +447,10 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to_not have_link("Reorder", exact: true)
   end
 
-  def and_I_can_see_a_sidebar_settings_section_with_link(link_text)
-    within(".gem-c-summary-list#sidebar-settings") do
-      expect(page).to have_content "Sidebar settings"
+  def and_I_can_see_a_where_to_show_section_with_links(link_text)
+    within(".gem-c-summary-list#where-to-show") do
+      expect(page).to have_content "Where to show this step by step"
       expect(page).to have_link(link_text, :href => step_by_step_page_navigation_rules_path(@step_by_step_page))
-    end
-  end
-
-  def and_I_can_see_a_secondary_links_section_with_link(link_text)
-    within(".gem-c-summary-list#secondary-links") do
-      expect(page).to have_content "Secondary links"
       expect(page).to have_link(link_text, :href => step_by_step_page_secondary_content_links_path(@step_by_step_page))
     end
   end
