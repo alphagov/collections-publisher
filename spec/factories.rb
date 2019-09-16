@@ -11,6 +11,7 @@ FactoryBot.define do
     introduction { "Find out the steps to become amazing" }
     description { "How to be amazing - find out the steps to become amazing" }
     status { "draft" }
+    draft_updated_at { 3.hours.ago }
 
     factory :step_by_step_page_with_steps do
       after(:create) do |step_by_step_page|
@@ -21,7 +22,6 @@ FactoryBot.define do
   end
 
   factory :published_step_by_step_page, parent: :step_by_step_page_with_steps do
-    draft_updated_at { 3.hours.ago }
     published_at { 3.hours.ago }
     status { "published" }
   end
