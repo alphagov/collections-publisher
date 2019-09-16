@@ -78,7 +78,10 @@ class StepByStepPage < ApplicationRecord
   end
 
   def mark_as_unscheduled
-    update_attribute(:status, "draft")
+    update(status: "draft",
+           scheduled_at: nil,
+           update_type: nil,
+           public_change_note: nil)
   end
 
   def self.validate_redirect(redirect_url)
