@@ -104,7 +104,7 @@ module StepNavSteps
   alias_method :given_there_is_a_step_that_has_no_broken_links, :given_there_is_a_step_by_step_page_with_a_link_report
 
   def given_there_is_a_draft_step_by_step_page_with_secondary_content_and_navigation_rules
-    @step_by_step_page = create(:step_by_step_page_with_secondary_content_and_navigation_rules, draft_updated_at: 1.day.ago)
+    @step_by_step_page = create(:step_by_step_page_with_secondary_content_and_navigation_rules)
     expect(@step_by_step_page.status).to be_draft
   end
 

@@ -13,7 +13,7 @@ FactoryBot.define do
     status { "draft" }
     draft_updated_at { 3.hours.ago }
 
-    factory :step_by_step_page_with_steps do
+    factory :step_by_step_page_with_steps, aliases: [:draft_step_by_step_page] do
       after(:create) do |step_by_step_page|
         create(:step, step_by_step_page: step_by_step_page)
         create(:or_step, step_by_step_page: step_by_step_page)
@@ -26,13 +26,7 @@ FactoryBot.define do
     status { "published" }
   end
 
-  factory :draft_step_by_step_page, parent: :step_by_step_page_with_steps do
-    draft_updated_at { 1.day.ago }
-    status { "draft" }
-  end
-
   factory :scheduled_step_by_step_page, parent: :step_by_step_page_with_steps do
-    draft_updated_at { 3.hours.ago }
     scheduled_at { 3.hours.from_now }
     status { "scheduled" }
   end
