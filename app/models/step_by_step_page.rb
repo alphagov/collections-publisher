@@ -131,6 +131,10 @@ class StepByStepPage < ApplicationRecord
     steps.map(&:links_last_checked_date).reject(&:blank?).max
   end
 
+  def should_show_required_prepublish_actions?
+    has_draft? && !scheduled_for_publishing? && !can_be_published?
+  end
+
   def links_checked_since_last_update?
     links_checked? && links_last_checked_date > draft_updated_at
   end

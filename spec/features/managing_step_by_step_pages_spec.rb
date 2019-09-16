@@ -300,6 +300,15 @@ RSpec.feature "Managing step by step pages" do
     and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
+  scenario "Publishing/scheduling a step by step does not prompt to check for broken links" do
+    given_there_is_a_step_that_has_no_broken_links
+    when_I_view_the_step_by_step_page
+    then_there_should_be_no_inset_prompt
+    and_when_I_click_button "Publish"
+    then_I_am_told_that_it_is_published
+    and_there_should_continue_to_be_no_inset_prompt
+  end
+
   def and_it_has_change_notes
     create(:internal_change_note, step_by_step_page_id: @step_by_step_page.id)
   end
@@ -660,6 +669,12 @@ RSpec.feature "Managing step by step pages" do
   end
 
   alias_method :then_I_should_see_an_inset_prompt, :and_I_should_see_an_inset_prompt
+
+  def then_there_should_be_no_inset_prompt
+    expect(page).not_to have_css('.govuk-inset-text', text: "To publish this step by step you need to")
+  end
+
+  alias_method :and_there_should_continue_to_be_no_inset_prompt, :then_there_should_be_no_inset_prompt
 
   def and_the_prompt_should_contain_link_to_steps_section(prompt)
     within('.govuk-inset-text') do

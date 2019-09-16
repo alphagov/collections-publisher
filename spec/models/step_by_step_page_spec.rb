@@ -213,6 +213,33 @@ RSpec.describe StepByStepPage do
     end
   end
 
+  describe 'should_show_required_prepublish_actions?' do
+    it 'should return false if step by step is scheduled' do
+      step_by_step_with_step = create(:step_by_step_page, status: 'scheduled', scheduled_at: 1.day.from_now)
+
+      expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be false
+    end
+
+    it 'should return false if the status of the step by step is published' do
+      step_by_step_with_step = create(:published_step_by_step_page)
+
+      expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be false
+    end
+
+    it 'should return false if step by step is in draft but has no issues blocking its publication' do
+      step_by_step_with_step = create(:draft_step_by_step_page)
+      create(:link_report, batch_id: 1, step_id: step_by_step_with_step.steps.first.id)
+
+      expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be false
+    end
+
+    it 'should return true if step by step is in draft and cannot be published' do
+      step_by_step_with_step = create(:draft_step_by_step_page)
+
+      expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be true
+    end
+  end
+
   describe 'links_checked?' do
     it 'returns true if links have been checked' do
       step_by_step_with_step = create(:step_by_step_page)
