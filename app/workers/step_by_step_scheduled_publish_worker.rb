@@ -12,16 +12,18 @@ class StepByStepScheduledPublishWorker
     if publish_now?(step_nav)
       step_nav.with_lock do
         StepNavPublisher.publish(step_nav)
-        step_nav.mark_as_published
         generate_internal_change_note(step_nav)
+        step_nav.mark_as_published
       end
     end
   end
 
   def generate_internal_change_note(step_nav)
+    change_note_text = "Published on schedule"
+    change_note_text << " with change note: #{step_nav.public_change_note}" if step_nav.public_change_note.present?
     change_note = step_nav.internal_change_notes.new(
       author: "Scheduled publishing",
-      description: "Published on schedule",
+      description: change_note_text,
     )
     change_note.save!
   end
