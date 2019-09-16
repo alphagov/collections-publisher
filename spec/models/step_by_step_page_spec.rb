@@ -336,7 +336,11 @@ RSpec.describe StepByStepPage do
   describe '#can_be_published?' do
     let(:step_by_step_page) { create(:published_step_by_step_page) }
 
-    it 'can be published if it has a draft, is not scheduled for publishing and all steps have content' do
+    before do
+      allow(step_by_step_page).to receive(:links_checked?) { true }
+    end
+
+    it 'can be published if it has a draft, is not scheduled, all steps have content and links have been checked' do
       step_by_step_page.mark_draft_updated
 
       expect(step_by_step_page.can_be_published?).to be true
@@ -364,6 +368,13 @@ RSpec.describe StepByStepPage do
     it 'cannot be published if all steps do not have content' do
       create(:step, step_by_step_page: step_by_step_page, contents: "")
       step_by_step_page.mark_draft_updated
+
+      expect(step_by_step_page.can_be_published?).to be false
+    end
+
+    it 'cannot be published if links have not been checked' do
+      step_by_step_page.mark_draft_updated
+      allow(step_by_step_page).to receive(:links_checked?) { false }
 
       expect(step_by_step_page.can_be_published?).to be false
     end
