@@ -203,6 +203,27 @@ RSpec.describe StepByStepPage do
     end
   end
 
+  describe 'links_checked_since_last_update?' do
+    let(:step_by_step_with_step) { create(:step_by_step_page_with_steps) }
+
+    it 'returns false if links have never been checked' do
+      expect(step_by_step_with_step.links_checked_since_last_update?).to be false
+    end
+
+    it 'returns false if content changed since links were last checked' do
+      create(:link_report, batch_id: 1, step_id: step_by_step_with_step.steps.last.id, created_at: 1.day.ago)
+      step_by_step_with_step.mark_draft_updated
+
+      expect(step_by_step_with_step.links_checked_since_last_update?).to be false
+    end
+
+    it 'returns true if links were checked more recently than content changed' do
+      create(:link_report, batch_id: 1, step_id: step_by_step_with_step.steps.last.id, created_at: 1.minute.ago)
+
+      expect(step_by_step_with_step.links_checked_since_last_update?).to be true
+    end
+  end
+
   describe 'links_checked?' do
     it 'returns true if links have been checked' do
       step_by_step_with_step = create(:step_by_step_page)
@@ -337,10 +358,10 @@ RSpec.describe StepByStepPage do
     let(:step_by_step_page) { create(:published_step_by_step_page) }
 
     before do
-      allow(step_by_step_page).to receive(:links_checked?) { true }
+      allow(step_by_step_page).to receive(:links_checked_since_last_update?) { true }
     end
 
-    it 'can be published if it has a draft, is not scheduled, all steps have content and links have been checked' do
+    it 'can be published if it has a draft, is not scheduled, all steps have content and links have been checked since last update' do
       step_by_step_page.mark_draft_updated
 
       expect(step_by_step_page.can_be_published?).to be true
@@ -372,9 +393,9 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_page.can_be_published?).to be false
     end
 
-    it 'cannot be published if links have not been checked' do
+    it 'cannot be published if step by step updated since links were last checked' do
       step_by_step_page.mark_draft_updated
-      allow(step_by_step_page).to receive(:links_checked?) { false }
+      allow(step_by_step_page).to receive(:links_checked_since_last_update?) { false }
 
       expect(step_by_step_page.can_be_published?).to be false
     end

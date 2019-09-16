@@ -77,12 +77,12 @@ module StepNavSteps
   end
 
   def given_there_is_a_published_step_by_step_page_with_unpublished_changes
-    @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: Time.zone.now, status: "draft")
+    @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: 1.day.ago, status: "draft")
     expect(@step_by_step_page.status).to be_draft
   end
 
   def given_I_am_assigned_to_a_published_step_by_step_page_with_unpublished_changes
-    @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: Time.zone.now, assigned_to: stub_user.name)
+    @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: 1.day.ago, assigned_to: stub_user.name)
   end
 
   def given_there_is_a_scheduled_step_by_step_page
@@ -108,6 +108,18 @@ module StepNavSteps
     step = create(:step)
     create(:link_report, step_id: step.id)
     @step_by_step_page = create(:step_by_step_with_unpublished_changes, steps: [step], slug: 'step-by-step-with-unpublished-changes')
+  end
+
+  def given_a_step_by_step_has_been_updated_after_links_last_checked
+    link_checker_api_get_batch(id: 1, links: [link_checker_api_link_report_success])
+    step = create(:step)
+    create(:link_report, step_id: step.id)
+    @step_by_step_page = create(
+      :step_by_step_with_unpublished_changes,
+      steps: [step],
+      slug: 'step-by-step-with-recent-unpublished-changes',
+      draft_updated_at: Time.zone.now
+    )
   end
 
   def given_there_is_a_draft_step_by_step_page_with_secondary_content_and_navigation_rules

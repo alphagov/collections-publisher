@@ -5,7 +5,7 @@
       <%= link_to('Add at least one step', '#steps', class: 'govuk-link govuk-link--no-visited-state') %>
     <% elsif !@step_by_step_page.steps_have_content? %>
       <%= link_to('Add content to all your steps', '#steps', class: 'govuk-link govuk-link--no-visited-state') %>
-    <% elsif !@step_by_step_page.links_checked? %>
+    <% elsif !@step_by_step_page.links_checked_since_last_update? %>
       <%= link_to "Check for broken links", '#steps', class: 'govuk-link govuk-link--no-visited-state' %>
     <% end %>
   <% end %>
