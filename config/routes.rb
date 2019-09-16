@@ -16,7 +16,6 @@ Rails.application.routes.draw do
     post :unpublish
     post :unschedule
     post :revert
-    get  'publish-or-delete', to: 'publish_or_delete'
     get 'internal-change-notes', to: 'interal_change_notes'
     post 'internal-change-notes', to: 'internal_change_notes#create'
     post :check_links

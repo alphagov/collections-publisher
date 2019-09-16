@@ -80,11 +80,11 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
           <%= render "govuk_publishing_components/components/button", {
-            text: "Schedule to publish",
+            text: "Schedule",
           } %>
         </div>
         <div class="govuk-grid-column-full govuk-!-margin-top-3">
-          <%= link_to "Cancel", step_by_step_page_publish_or_delete_path(@step_by_step_page), class: "govuk-link" %>
+          <%= link_to "Cancel", @step_by_step_page, class: "govuk-link" %>
         </div>
       </div>
     <% end %>
