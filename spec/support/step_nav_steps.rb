@@ -122,6 +122,19 @@ module StepNavSteps
     )
   end
 
+  def given_a_step_by_step_has_an_empty_step_added_after_links_last_checked
+    link_checker_api_get_batch(id: 1, links: [link_checker_api_link_report_success])
+    @step_by_step_page = create(
+      :step_by_step_with_unpublished_changes,
+      slug: 'step-by-step-with-link-report-and-empty-step-added-since-links-checked',
+      draft_updated_at: Time.zone.now
+    )
+
+    step_with_link_report = create(:step, step_by_step_page: @step_by_step_page)
+    create(:link_report, step_id: step_with_link_report.id)
+    create(:step, contents: "", step_by_step_page: @step_by_step_page)
+  end
+
   def given_there_is_a_draft_step_by_step_page_with_secondary_content_and_navigation_rules
     @step_by_step_page = create(:step_by_step_page_with_secondary_content_and_navigation_rules)
     expect(@step_by_step_page.status).to be_draft

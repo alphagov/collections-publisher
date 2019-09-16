@@ -1,12 +1,25 @@
 <% unless @step_by_step_page.can_be_published? %>
   <%= render "govuk_publishing_components/components/inset_text" do %>
     <h2 class="govuk-heading-m">To publish this step by step you need to</h2>
-    <% if @step_by_step_page.steps.empty? %>
-      <%= link_to('Add at least one step', '#steps', class: 'govuk-link govuk-link--no-visited-state') %>
-    <% elsif !@step_by_step_page.steps_have_content? %>
-      <%= link_to('Add content to all your steps', '#steps', class: 'govuk-link govuk-link--no-visited-state') %>
-    <% elsif !@step_by_step_page.links_checked_since_last_update? %>
-      <%= link_to "Check for broken links", '#steps', class: 'govuk-link govuk-link--no-visited-state' %>
-    <% end %>
+
+    <ul class="govuk-list">
+      <% if @step_by_step_page.steps.empty? %>
+        <li>
+          <%= link_to('Add at least one step', '#steps', class: 'govuk-link govuk-link--no-visited-state') %>
+        </li>
+      <% end %>
+
+      <% if @step_by_step_page.steps.any? && !@step_by_step_page.steps_have_content? %>
+        <li>
+          <%= link_to('Add content to all your steps', '#steps', class: 'govuk-link govuk-link--no-visited-state') %>
+        </li>
+      <% end %>
+
+      <% if @step_by_step_page.steps.any? && !@step_by_step_page.links_checked_since_last_update? %>
+        <li>
+          <%= link_to "Check for broken links", '#steps', class: 'govuk-link govuk-link--no-visited-state' %>
+        </li>
+      <% end %>
+    </ul>
   <% end %>
 <% end %>
