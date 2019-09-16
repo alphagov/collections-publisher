@@ -102,3 +102,7 @@
   }
 }
 // scss-lint:enable IdSelector
+
+.gem-c-inset-text {
+  background-color: govuk-colour("light-grey", $legacy: "grey-4");
+}
