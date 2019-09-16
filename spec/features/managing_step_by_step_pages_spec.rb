@@ -268,6 +268,15 @@ RSpec.feature "Managing step by step pages" do
     then_the_step_should_confirm_it_has_multiple_broken_links
   end
 
+  scenario "Step by step doesn't have any steps" do
+    given_there_is_a_draft_step_by_step_page_with_no_steps
+    when_I_view_the_step_by_step_page
+    then_I_should_see_an_inset_prompt
+    and_the_prompt_should_contain_link_to_steps_section "Add at least one step"
+    and_there_should_be_no_publish_button
+    and_there_should_be_no_schedule_button
+  end
+
   def and_it_has_change_notes
     create(:internal_change_note, step_by_step_page_id: @step_by_step_page.id)
   end
