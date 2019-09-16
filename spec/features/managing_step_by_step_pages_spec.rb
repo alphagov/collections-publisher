@@ -92,7 +92,8 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_the_step_by_step_page
     and_I_see_an_unpublish_button
     and_I_see_a_view_on_govuk_link
-    and_there_should_be_a_change_note "First published by Test author"
+    when_I_visit_the_history_page
+    then_there_should_be_a_change_note "First published by #{stub_user.name}"
   end
 
   scenario "User unpublishes a step by step page with a valid redirect url" do
@@ -163,9 +164,11 @@ RSpec.feature "Managing step by step pages" do
     given_I_am_assigned_to_a_published_step_by_step_page_with_unpublished_changes
     and_I_visit_the_publish_page
     and_I_publish_the_page
+    when_I_visit_the_history_page
     then_there_should_be_a_change_note "Published by #{stub_user.name}"
     when_I_view_the_step_by_step_page
     and_I_delete_the_first_step
+    when_I_visit_the_history_page
     then_there_should_be_a_change_note "Draft saved by #{stub_user.name}"
   end
 
@@ -184,7 +187,8 @@ RSpec.feature "Managing step by step pages" do
       when_I_submit_the_form
       then_I_should_see "has been scheduled to publish"
       and_the_step_by_step_should_have_the_status "Scheduled"
-      and_there_should_be_a_change_note "Scheduled by Test author for publishing at 10:26am on 20 April 2030"
+      when_I_visit_the_history_page
+      then_there_should_be_a_change_note "Scheduled by Test author for publishing at 10:26am on 20 April 2030"
       and_the_step_by_step_is_not_editable
       when_I_view_the_step_by_step_page
       then_I_can_see_a_summary_section
@@ -238,7 +242,8 @@ RSpec.feature "Managing step by step pages" do
       when_I_unschedule_publishing
       then_I_should_see "has been unscheduled"
       and_the_step_by_step_should_have_the_status "Draft"
-      and_there_should_be_a_change_note "Publishing was unscheduled by Test author."
+      when_I_visit_the_history_page
+      then_there_should_be_a_change_note "Publishing was unscheduled by #{stub_user.name}."
     end
 
     scenario "User tries using invalid values for schedule date and time" do
@@ -673,12 +678,13 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_content(status)
   end
 
-  def and_there_should_be_a_change_note(change_note)
+  def when_I_visit_the_history_page
     visit step_by_step_page_internal_change_notes_path(@step_by_step_page)
-    expect(page).to have_content(change_note)
   end
 
-  alias_method :then_there_should_be_a_change_note, :and_there_should_be_a_change_note
+  def then_there_should_be_a_change_note(change_note)
+    expect(page).to have_content(change_note)
+  end
 
   def then_I_see_an_unschedule_button
     within(".app-side__actions") do
