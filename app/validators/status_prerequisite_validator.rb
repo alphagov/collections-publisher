@@ -1,5 +1,11 @@
 class StatusPrerequisiteValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
+    if value == "2i_approved"
+      return true if can_be_2i_approved?(record)
+
+      record.errors[attribute] << "#{value}, requires a draft, a reviewer and for status to be in_review"
+    end
+
     if value == "in_review"
       return true if can_be_in_review?(record)
 
@@ -33,5 +39,10 @@ private
 
   def can_be_submitted_for_2i?(record)
     record.has_draft? && record.review_requester_id.present?
+  end
+
+  def can_be_2i_approved?(record)
+    record.has_draft? &&
+      record.status_was == "in_review"
   end
 end
