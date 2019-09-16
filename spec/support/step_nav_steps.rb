@@ -56,6 +56,8 @@ module StepNavSteps
     @step_by_step_page = create(:step_by_step_page)
   end
 
+  alias_method :given_there_is_a_draft_step_by_step_page_with_no_steps, :given_there_is_a_step_by_step_page
+
   def given_there_is_a_step_by_step_page_with_steps
     @step_by_step_page = create(:step_by_step_page_with_steps)
   end
