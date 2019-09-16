@@ -319,6 +319,15 @@ RSpec.feature "Managing step by step pages" do
     and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
+  scenario "Multiple required actions are listed in the inset prompt" do
+    given_a_step_by_step_has_an_empty_step_added_after_links_last_checked
+    when_I_view_the_step_by_step_page
+    then_I_should_see_an_inset_prompt
+    and_the_prompt_should_contain_link_to_steps_section "Add content to all your steps"
+    and_the_prompt_should_contain_link_to_steps_section "Check for broken links"
+    and_I_cannot_publish_or_schedule_the_step_by_step
+  end
+
   def and_it_has_change_notes
     create(:internal_change_note, step_by_step_page_id: @step_by_step_page.id)
   end
