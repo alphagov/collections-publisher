@@ -304,6 +304,15 @@ RSpec.feature "Managing step by step pages" do
     and_there_should_be_no_schedule_button
   end
 
+  scenario "Step by step has not been checked for broken links" do
+    given_there_is_a_draft_step_by_step_page
+    when_I_view_the_step_by_step_page
+    then_I_should_see_an_inset_prompt
+    and_the_prompt_should_contain_link_to_steps_section "Check for broken links"
+    and_there_should_be_no_publish_button
+    and_there_should_be_no_schedule_button
+  end
+
   def and_it_has_change_notes
     create(:internal_change_note, step_by_step_page_id: @step_by_step_page.id)
   end
