@@ -306,7 +306,7 @@ RSpec.describe StepByStepPage do
   end
 
   describe '#can_be_published?' do
-    let(:step_by_step_page) { create(:step_by_step_page_with_steps) }
+    let(:step_by_step_page) { create(:published_step_by_step_page) }
 
     it 'can be published if it has a draft, is not scheduled for publishing and all steps have content' do
       step_by_step_page.mark_draft_updated
