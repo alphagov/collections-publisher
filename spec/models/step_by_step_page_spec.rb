@@ -119,6 +119,17 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_page.errors.full_messages).to eq(["Slug has already been taken."])
     end
 
+    it 'does not allow the reviewer to be the same as the review requester' do
+      user_uid = SecureRandom.uuid
+      step_by_step_page.review_requester_id = user_uid
+      step_by_step_page.reviewer_id = user_uid
+
+      step_by_step_page.save
+
+      expect(step_by_step_page).not_to be_valid
+      expect(step_by_step_page.errors).to have_key(:reviewer_id)
+    end
+
     describe '#status' do
       it 'requires a status' do
         step_by_step_page.status = ''
@@ -256,6 +267,23 @@ RSpec.describe StepByStepPage do
       step_by_step_page.mark_as_published
 
       expect(step_by_step_page.assigned_to).to be nil
+    end
+
+    it 'should unassign the review requester' do
+      stub_user = create(:user)
+      step_by_step_page.review_requester_id = stub_user.uid
+      step_by_step_page.mark_as_published
+
+      expect(step_by_step_page.review_requester_id).to be nil
+    end
+
+    it 'should unassign the reviewer' do
+      stub_user = create(:user)
+      step_by_step_page.review_requester_id = stub_user.uid
+      step_by_step_page.reviewer_id = stub_user.uid
+      step_by_step_page.mark_as_published
+
+      expect(step_by_step_page.reviewer_id).to be nil
     end
 
     it 'should reset published date' do

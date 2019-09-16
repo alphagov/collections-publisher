@@ -22,6 +22,10 @@ private
     controller_name
   end
 
+  def require_2i_reviewer_permissions!
+    authorise_user!("2i reviewer")
+  end
+
   def require_gds_editor_permissions!
     authorise_user!("GDS Editor")
   end

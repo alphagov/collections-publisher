@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :step_by_step_pages, path: 'step-by-step-pages' do
     post :check_links
+    post 'claim-2i-review', to: 'review#claim_2i_review'
     get 'internal-change-notes', to: 'interal_change_notes'
     post 'internal-change-notes', to: 'internal_change_notes#create'
     get 'navigation-rules', to: 'navigation_rules#edit'

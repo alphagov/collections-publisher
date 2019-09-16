@@ -3,7 +3,21 @@ class ReviewController < ApplicationController
 
   before_action :require_gds_editor_permissions!
   before_action :require_unreleased_feature_permissions!
+  before_action :require_2i_reviewer_permissions!, only: %i(claim_2i_review)
   before_action :set_step_by_step_page
+
+  def claim_2i_review
+    status = "in_review"
+
+    if @step_by_step_page.update(
+      reviewer_id: current_user.uid,
+      status: status
+    )
+      generate_change_note(status)
+
+      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully claimed for review."
+    end
+  end
 
   def submit_for_2i
     if request.post?
@@ -24,7 +38,7 @@ class ReviewController < ApplicationController
 
 private
 
-  def generate_change_note(status, change_note)
+  def generate_change_note(status, change_note = nil)
     description = "#{status.humanize} by #{current_user.name}"
     description << "\n\n#{change_note}" if change_note.present?
 

@@ -7,6 +7,36 @@ RSpec.describe StatusPrerequisiteValidator do
     allow(Services.publishing_api).to receive(:lookup_content_id)
   end
 
+  context "#in_review" do
+    let(:error_message) { "in_review, requires a draft, a reviewer and for status to be submitted_for_2i" }
+
+    it "does not allow status to be in_review if reviewer_id is missing" do
+      step_by_step_page.reviewer_id = nil
+      step_by_step_page.status = "in_review"
+
+      expect(step_by_step_page).not_to be_valid
+      expect(step_by_step_page.errors.messages[:status]).to eq([error_message])
+    end
+
+    it "does not allow status to be in_review if there is no draft" do
+      allow(step_by_step_page).to receive(:has_draft?).and_return(false)
+      step_by_step_page.reviewer_id = SecureRandom.uuid
+      step_by_step_page.status = "in_review"
+
+      expect(step_by_step_page).not_to be_valid
+      expect(step_by_step_page.errors.messages[:status]).to eq([error_message])
+    end
+
+    it "does not allow status to be in_review if the current status is not submitted_for_2i" do
+      allow(step_by_step_page).to receive(:has_draft?).and_return(true)
+      step_by_step_page.reviewer_id = SecureRandom.uuid
+      step_by_step_page.status = "in_review"
+
+      expect(step_by_step_page).not_to be_valid
+      expect(step_by_step_page.errors.messages[:status]).to eq([error_message])
+    end
+  end
+
   context "#scheduled" do
     let(:error_message) { "scheduled, requires a draft and scheduled_at date to be present" }
 

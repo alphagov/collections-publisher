@@ -1,5 +1,11 @@
 class StatusPrerequisiteValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
+    if value == "in_review"
+      return true if can_be_in_review?(record)
+
+      record.errors[attribute] << "#{value}, requires a draft, a reviewer and for status to be submitted_for_2i"
+    end
+
     if value == "scheduled"
       return true if can_be_scheduled?(record)
 
@@ -14,6 +20,12 @@ class StatusPrerequisiteValidator < ActiveModel::EachValidator
   end
 
 private
+
+  def can_be_in_review?(record)
+    record.has_draft? &&
+      record.reviewer_id.present? &&
+      record.status_was == "submitted_for_2i"
+  end
 
   def can_be_scheduled?(record)
     record.has_draft? && record.scheduled_at.present?
