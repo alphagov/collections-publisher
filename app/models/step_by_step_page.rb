@@ -86,7 +86,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def can_be_published?
-    has_draft? && !scheduled_for_publishing? && steps_have_content?
+    has_draft? && !scheduled_for_publishing? && steps_have_content? && links_checked?
   end
 
   def can_be_unpublished?

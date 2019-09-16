@@ -26,6 +26,12 @@ FactoryBot.define do
     status { "published" }
   end
 
+  factory :step_by_step_with_unpublished_changes, parent: :step_by_step_page_with_steps do
+    published_at { 3.hours.ago }
+    draft_updated_at { 2.hours.ago }
+    status { "draft" }
+  end
+
   factory :scheduled_step_by_step_page, parent: :step_by_step_page_with_steps do
     scheduled_at { 3.hours.from_now }
     status { "scheduled" }

@@ -103,6 +103,13 @@ module StepNavSteps
 
   alias_method :given_there_is_a_step_that_has_no_broken_links, :given_there_is_a_step_by_step_page_with_a_link_report
 
+  def given_there_is_a_step_by_step_page_with_unpublished_changes_whose_links_have_been_checked
+    link_checker_api_get_batch(id: 1, links: [link_checker_api_link_report_success])
+    step = create(:step)
+    create(:link_report, step_id: step.id)
+    @step_by_step_page = create(:step_by_step_with_unpublished_changes, steps: [step], slug: 'step-by-step-with-unpublished-changes')
+  end
+
   def given_there_is_a_draft_step_by_step_page_with_secondary_content_and_navigation_rules
     @step_by_step_page = create(:step_by_step_page_with_secondary_content_and_navigation_rules)
     expect(@step_by_step_page.status).to be_draft

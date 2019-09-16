@@ -85,9 +85,9 @@ RSpec.feature "Managing step by step pages" do
   end
 
   scenario "User publishes a page" do
-    given_there_is_a_draft_step_by_step_page
+    given_there_is_a_step_by_step_page_with_a_link_report
     when_I_view_the_step_by_step_page
-    and_when_I_click_button "Publish"
+    when_I_click_button "Publish"
     then_I_am_told_that_it_is_published
     then_I_see_the_step_by_step_page
     and_I_see_an_unpublish_button
@@ -151,7 +151,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   scenario "User publishes changes to a published step by step page" do
-    given_there_is_a_published_step_by_step_page_with_unpublished_changes
+    given_there_is_a_step_by_step_page_with_unpublished_changes_whose_links_have_been_checked
     when_I_view_the_step_by_step_page
     and_when_I_click_button "Publish"
     then_I_should_see_a_publish_form_with_changenotes
@@ -646,6 +646,8 @@ RSpec.feature "Managing step by step pages" do
   def and_I_should_see_an_inset_prompt
     expect(page).to have_css('.govuk-inset-text', text: "To publish this step by step you need to")
   end
+
+  alias_method :then_I_should_see_an_inset_prompt, :and_I_should_see_an_inset_prompt
 
   def and_the_prompt_should_contain_link_to_steps_section(prompt)
     within('.govuk-inset-text') do
