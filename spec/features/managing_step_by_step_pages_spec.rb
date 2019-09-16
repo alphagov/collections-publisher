@@ -39,8 +39,8 @@ RSpec.feature "Managing step by step pages" do
     then_I_see_the_new_step_by_step_page
   end
 
-  scenario "User visits an existing step by step page" do
-    given_there_is_a_step_by_step_page
+  scenario "User visits a step by step page with no steps" do
+    given_there_is_a_draft_step_by_step_page_with_no_steps
     when_I_view_the_step_by_step_page
     then_I_can_see_a_summary_section
     and_I_can_edit_the_summary_section
@@ -51,7 +51,7 @@ RSpec.feature "Managing step by step pages" do
     and_I_can_see_a_metadata_section
   end
 
-  scenario "User visits an existing step by step page with steps" do
+  scenario "User visits a step by step page with steps" do
     given_there_is_a_step_by_step_page_with_steps
     when_I_view_the_step_by_step_page
     then_I_can_see_a_summary_section
