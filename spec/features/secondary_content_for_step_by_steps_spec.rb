@@ -94,7 +94,7 @@ RSpec.feature "Managing secondary content for step by step pages" do
   end
 
   def and_I_cannot_see_any_secondary_content_listed
-    expect(find('tbody')).to have_content('No seconday links have been added yet.')
+    expect(find('tbody')).to have_content('No secondary links have been added yet.')
   end
 
   def setup_publishing_api_request_expectations
