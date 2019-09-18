@@ -185,7 +185,7 @@ RSpec.describe StepByStepPagesController do
       expect(step_by_step_page.status).to be_draft
     end
 
-    it "creates and internal change note" do
+    it "creates an internal change note" do
       step_by_step_page = create(:scheduled_step_by_step_page, slug: 'how-to-be-fantastic')
 
       unschedule_publishing(step_by_step_page)
