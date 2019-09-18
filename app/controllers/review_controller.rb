@@ -3,7 +3,7 @@ class ReviewController < ApplicationController
 
   before_action :require_gds_editor_permissions!
   before_action :require_unreleased_feature_permissions!
-  before_action :require_2i_reviewer_permissions!, only: %i(approve_2i_review claim_2i_review)
+  before_action :require_2i_reviewer_permissions!, only: %i(approve_2i_review claim_2i_review request_change_2i_review)
   before_action :set_step_by_step_page
 
   def approve_2i_review
@@ -30,6 +30,20 @@ class ReviewController < ApplicationController
       generate_change_note(status)
 
       redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully claimed for review."
+    end
+  end
+
+  def request_change_2i_review
+    status = "draft"
+
+    if @step_by_step_page.update(
+      reviewer_id: nil,
+      review_requester_id: nil,
+      status: status
+    )
+      generate_change_note("Changes requested", params[:requested_change])
+
+      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Changes to the step by step page were requested."
     end
   end
 
