@@ -145,6 +145,7 @@ class StepByStepPagesController < ApplicationController
   def check_links
     set_current_page_as_step_by_step
     @step_by_step_page.steps.each(&:request_broken_links)
+    redirect_to @step_by_step_page, notice: "Links are currently being checked. Please refresh the page to check progress. When all links have been checked, you'll see a message below each step."
   end
 
   def internal_change_notes

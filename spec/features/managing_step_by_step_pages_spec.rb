@@ -271,6 +271,24 @@ RSpec.feature "Managing step by step pages" do
     and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
+  scenario "Checking for broken links" do
+    stub_link_checker_api_create_batch(
+      uris: [
+        "http://example.com/good",
+        "https://www.gov.uk/good/stuff",
+        "https://www.gov.uk/also/good/stuff",
+        "https://www.gov.uk/not/as/great"
+      ],
+      webhook_uri: Plek.new.external_url_for("collections-publisher") + "/link_report"
+    )
+    stub_link_checker_api_get_batch(id: 0)
+
+    given_there_is_a_step_by_step_page_with_steps
+    when_I_view_the_step_by_step_page
+    when_I_click_button "Check for broken links"
+    then_I_should_see "Links are currently being checked."
+  end
+
   scenario "A step has not been tested for broken links" do
     given_there_is_a_step_that_has_not_been_tested_for_broken_links
     when_I_view_the_step_by_step_page
