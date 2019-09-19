@@ -82,7 +82,7 @@ Create a new field in the database to store a value of `status` that allows valu
 - scheduled
 - submitted_for_2i
 - in_review
-- 2i_approved
+- approved_2i
 
 
 "draft" and "unpublished changes" mean the same thing in regards to their position in the publishing workflow, so if they are consolidated it won't be necessary to keep track of separate publication and workflow states. The presence of a `published_at` date can be used to determine if something has been previously published, as it is now.
@@ -97,11 +97,11 @@ That means the 2i workflow can be simplified.
 |Makes changes to step-by-step           |draft           |draft               |
 |Submit for 2i                           |draft           |submitted_for_2i    |
 |Claim Review                            |submitted_for_2i|in_review           |
-|2i Approved                             |in_review       |2i_approved         |
+|2i Approved                             |in_review       |approved_2i         |
 |2i Requests changes                     |in_review       |draft               |
-|Publish                                 |2i_approved     |published           |
-|Schedule                                |2i_approved     |scheduled           |
-|Unschedule                              |scheduled       |2i_approved         |
+|Publish                                 |approved_2i     |published           |
+|Schedule                                |approved_2i     |scheduled           |
+|Unschedule                              |scheduled       |approved_2i         |
 
 
 ### Other actions
