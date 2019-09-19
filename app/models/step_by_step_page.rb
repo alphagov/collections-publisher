@@ -49,6 +49,10 @@ class StepByStepPage < ApplicationRecord
     update_attribute(:draft_updated_at, nil)
   end
 
+  def mark_as_approved_2i
+    update_attribute(:status, "approved_2i")
+  end
+
   def mark_as_published
     now = Time.zone.now
     update(

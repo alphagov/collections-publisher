@@ -291,6 +291,16 @@ RSpec.describe StepByStepPage do
     end
   end
 
+  describe "#mark_as_approved_2i" do
+    it "changes the status to approved_2i" do
+      step_by_step_with_step = create(:step_by_step_page_with_steps)
+      expect(step_by_step_with_step.status).to eq "draft"
+
+      step_by_step_with_step.mark_as_approved_2i
+      expect(step_by_step_with_step.status).to eq "approved_2i"
+    end
+  end
+
   describe "publishing" do
     let(:step_by_step_page) { create(:step_by_step_page) }
 
