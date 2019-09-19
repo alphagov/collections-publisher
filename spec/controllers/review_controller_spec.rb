@@ -10,31 +10,30 @@ RSpec.describe ReviewController do
 
     describe "submit for 2i" do
       describe "GET submit for 2i page" do
+        required_permissions = ["signin", "GDS Editor", "Unreleased feature"]
+
         it "can be accessed by users with GDS editor and Unreleased feature permissions" do
-          stub_user.permissions = ["signin", "GDS Editor", "Unreleased feature"]
+          stub_user.permissions = required_permissions
           get :submit_for_2i, params: { step_by_step_page_id: step_by_step_page.id }
 
           expect(response.status).to eq(200)
         end
 
-        it "cannot be accessed by users with only GDS editor permissions" do
-          stub_user.permissions << "GDS Editor"
-          get :submit_for_2i, params: { step_by_step_page_id: step_by_step_page.id }
+        (required_permissions - %w(signin)).each do |required_permission|
+          it "cannot be accessed by users without the #{required_permission} permission" do
+            stub_user.permissions = required_permissions
+            stub_user.permissions.delete(required_permission)
+            get :submit_for_2i, params: { step_by_step_page_id: step_by_step_page.id }
 
-          expect(response.status).to eq(403)
-        end
-
-        it "cannot be accessed by users with neither GDS editor and Unreleased feature permissions" do
-          stub_user.permissions = %w(signin)
-          get :submit_for_2i, params: { step_by_step_page_id: step_by_step_page.id }
-
-          expect(response.status).to eq(403)
+            expect(response.status).to eq(403)
+          end
         end
       end
 
       describe "POST submit for 2i" do
         before do
-          stub_user.permissions = ["signin", "GDS Editor", "Unreleased feature"]
+          required_permissions = ["signin", "GDS Editor", "Unreleased feature"]
+          stub_user.permissions = required_permissions
           stub_user.name = "Firstname Lastname"
         end
 
@@ -71,6 +70,124 @@ RSpec.describe ReviewController do
       end
     end
 
+    describe "POST approve 2i review" do
+      let(:user) { create(:user) }
+      let(:reviewer_user) { create(:user) }
+
+      let(:step_by_step_page) do
+        create(
+          :draft_step_by_step_page,
+          review_requester_id: user.uid,
+          status: "submitted_for_2i"
+        )
+      end
+
+      before do
+        step_by_step_page.update_attributes(:status => 'in_review', :reviewer_id => reviewer_user.uid)
+      end
+
+      required_permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
+
+      it "can be accessed by users with GDS editor, Unreleased feature and 2i reviewer permissions" do
+        stub_user.permissions = required_permissions
+        post :approve_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
+
+        expect(response).to redirect_to step_by_step_page_path(step_by_step_page)
+      end
+
+      (required_permissions - %w(signin)).each do |required_permission|
+        it "cannot be accessed by users without the #{required_permission} permission" do
+          stub_user.permissions = required_permissions
+          stub_user.permissions.delete(required_permission)
+          post :approve_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
+
+          expect(response.status).to eq(403)
+        end
+      end
+
+      it "sets status to 2i_approved removes reviewer_id and review_requester_id" do
+        stub_user.permissions = required_permissions
+        post :approve_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
+
+        step_by_step_page.reload
+
+        expect(step_by_step_page.status).to eq("2i_approved")
+        expect(step_by_step_page.reviewer_id).to be_nil
+        expect(step_by_step_page.review_requester_id).to be_nil
+      end
+
+      it "creates an internal change note" do
+        stub_user.permissions = required_permissions
+        stub_user.name = "Firstname Lastname"
+
+        expected_change_note = "2i approved by Firstname Lastname"
+
+        post :approve_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
+        step_by_step_page.reload
+
+        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_change_note
+      end
+    end
+
+    describe "POST request change after 2i review" do
+      let(:user) { create(:user) }
+      let(:reviewer_user) { create(:user) }
+
+      let(:step_by_step_page) do
+        create(
+          :draft_step_by_step_page,
+          review_requester_id: user.uid,
+          status: "submitted_for_2i"
+        )
+      end
+
+      before do
+        step_by_step_page.update_attributes(:status => 'in_review', :reviewer_id => reviewer_user.uid)
+      end
+
+      required_permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
+
+      it "can be accessed by users with GDS editor, Unreleased feature and 2i reviewer permissions" do
+        stub_user.permissions = required_permissions
+        post :request_change_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
+
+        expect(response).to redirect_to step_by_step_page_path(step_by_step_page)
+      end
+
+      (required_permissions - %w(signin)).each do |required_permission|
+        it "cannot be accessed by users without the #{required_permission} permission" do
+          stub_user.permissions = required_permissions
+          stub_user.permissions.delete(required_permission)
+          post :request_change_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
+
+          expect(response.status).to eq(403)
+        end
+      end
+
+      it "sets status to draft, removes reviewer_id and review_requester_id" do
+        stub_user.permissions = required_permissions
+        post :request_change_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
+
+        step_by_step_page.reload
+
+        expect(step_by_step_page.status).to eq("draft")
+        expect(step_by_step_page.reviewer_id).to be_nil
+        expect(step_by_step_page.review_requester_id).to be_nil
+      end
+
+      it "creates an internal change note" do
+        stub_user.permissions = required_permissions
+        stub_user.name = "Firstname Lastname"
+
+        expected_change_note = "Changes requested by Firstname Lastname\n\nSome change request"
+
+        post :request_change_2i_review, params: { step_by_step_page_id: step_by_step_page.id, requested_change: "Some change request" }
+        step_by_step_page.reload
+
+        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_change_note
+      end
+    end
+
     describe "POST claim 2i review" do
       let(:user) { create(:user) }
 
@@ -82,36 +199,27 @@ RSpec.describe ReviewController do
         )
       end
 
+      required_permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
+
       it "can be accessed by users with GDS editor, Unreleased feature and 2i reviewer permissions" do
-        stub_user.permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
+        stub_user.permissions = required_permissions
         post :claim_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
 
         expect(response).to redirect_to step_by_step_page_path(step_by_step_page)
       end
 
-      it "cannot be accessed by users with only GDS editor permissions" do
-        stub_user.permissions << "GDS Editor"
-        post :claim_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
+      (required_permissions - %w(signin)).each do |required_permission|
+        it "cannot be accessed by users without the #{required_permission} permission" do
+          stub_user.permissions = required_permissions
+          stub_user.permissions.delete(required_permission)
+          post :claim_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
 
-        expect(response.status).to eq(403)
-      end
-
-      it "cannot be accessed by users with only GDS editor and Unreleased feature permissions" do
-        stub_user.permissions = ["signin", "GDS Editor", "Unreleased feature"]
-        post :claim_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
-
-        expect(response.status).to eq(403)
-      end
-
-      it "cannot be accessed by users with only signin permissions" do
-        stub_user.permissions = %w(signin)
-        post :claim_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
-
-        expect(response.status).to eq(403)
+          expect(response.status).to eq(403)
+        end
       end
 
       it "sets status to in_review" do
-        stub_user.permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
+        stub_user.permissions = required_permissions
         post :claim_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
 
         step_by_step_page.reload
@@ -121,7 +229,7 @@ RSpec.describe ReviewController do
       end
 
       it "creates an internal change note" do
-        stub_user.permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
+        stub_user.permissions = required_permissions
         stub_user.name = "Firstname Lastname"
 
         expected_change_note = "In review by Firstname Lastname"
