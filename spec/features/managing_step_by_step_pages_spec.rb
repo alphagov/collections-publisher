@@ -35,6 +35,7 @@ RSpec.feature "Managing step by step pages" do
     and_I_fill_in_the_form
     and_I_see_a_page_created_success_notice
     and_I_see_I_saved_it_last
+    and_I_can_preview_the_step_by_step
     when_I_visit_the_step_by_step_pages_index
     then_I_see_the_new_step_by_step_page
   end
@@ -880,6 +881,8 @@ RSpec.feature "Managing step by step pages" do
       expect(page).to have_link("Preview")
     end
   end
+
+  alias_method :and_I_can_preview_the_step_by_step, :then_I_can_preview_the_step_by_step
 
   def and_the_steps_can_be_checked_for_broken_links
     expect(page).to have_button("Check for broken links")
