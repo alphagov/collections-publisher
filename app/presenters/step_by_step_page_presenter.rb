@@ -57,10 +57,29 @@ class StepByStepPagePresenter
     params
   end
 
+  def steps_section_config
+    steps_section_config = {
+      title: "Steps",
+      id: "steps",
+      borderless: true
+    }
+
+    if step_by_step_page.can_be_edited? && step_by_step_page.steps.any?
+      steps_section_config.merge!(edit: {
+        link_text: "Reorder",
+        href: step_by_step_page_reorder_path(step_by_step_page),
+        data_attributes: {
+          gtm: "reorder-steps"
+        }
+      })
+    end
+
+    steps_section_config
+  end
+
   def sidebar_settings
     {
-      title: "Sidebar settings",
-      id: "sidebar-settings",
+      field: "Sidebar settings",
       edit: {
         link_text: step_by_step_page.can_be_edited? ? "Edit" : "View",
         href: step_by_step_page_navigation_rules_path(step_by_step_page),
@@ -73,8 +92,7 @@ class StepByStepPagePresenter
 
   def secondary_links_settings
     {
-      title: "Secondary links",
-      id: "secondary-links",
+      field: "Secondary links",
       edit: {
         link_text: step_by_step_page.can_be_edited? ? "Edit" : "View",
         href: step_by_step_page_secondary_content_links_path(step_by_step_page),

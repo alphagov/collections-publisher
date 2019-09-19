@@ -7,12 +7,49 @@
 }
 
 .app-side__actions {
+  @include govuk-font(19);
+
   .govuk-button {
     width: 100%;
     margin-bottom: govuk-spacing(3);
   }
 
-  .govuk-button:last-child {
+  > .govuk-button:last-child {
     margin-bottom: 0;
+  }
+
+  > .app-side__form:last-child .govuk-button {
+    margin-bottom: 0;
+  }
+
+  .govuk-link {
+    margin-bottom: govuk-spacing(3);
+  }
+
+  .govuk-section-break {
+    clear: both;
+  }
+
+  .app-link--destructive {
+    display: block;
+    color: $govuk-error-colour;
+
+    &:link,
+    &:visited {
+      color: $govuk-error-colour;
+    }
+
+    &:hover,
+    &:active {
+      color: govuk-colour("bright-red");
+    }
+
+    &:focus {
+      @include govuk-focused-text;
+    }
+  }
+
+  .app-link--right {
+    float: right;
   }
 }

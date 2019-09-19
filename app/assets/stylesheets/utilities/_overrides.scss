@@ -28,17 +28,6 @@
   }
 }
 
-.govuk-tag {
-  &.govuk-tag--warning {
-    background-color: govuk-colour("yellow", $legacy: "yellow");
-    color: govuk-colour("black", $legacy: "black");
-  }
-
-  &.govuk-tag--success {
-    background-color: govuk-colour("green", $legacy: "green");
-  }
-}
-
 .gem-c-select {
   &.govuk-form-group {
     margin-bottom: 10px;
@@ -99,4 +88,21 @@
       white-space: nowrap;
     }
   }
+}
+
+// scss-lint:disable IdSelector
+.gem-c-summary-list#steps {
+  .govuk-summary-list__key {
+    width: 10%;
+    font-weight: normal;
+  }
+
+  .govuk-summary-list__value {
+    width: 70%;
+  }
+}
+// scss-lint:enable IdSelector
+
+.gem-c-inset-text {
+  background-color: govuk-colour("light-grey", $legacy: "grey-4");
 }

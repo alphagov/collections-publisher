@@ -40,4 +40,36 @@ RSpec.describe StepByStepPagePresenter do
       expect(subject).to eq(summary_with_links_checked)
     end
   end
+
+  describe "#steps_section_config" do
+    subject { described_class.new(step_nav).steps_section_config }
+
+    context "step by step with no steps" do
+      let(:step_nav) { create(:step_by_step_page) }
+
+      it "should return a hash" do
+        expect(subject[:id]).to eq 'steps'
+      end
+
+      it "should not have reorder link" do
+        expect(subject[:edit]).to be_nil
+      end
+    end
+
+    context "step by step with steps, but not editable" do
+      let(:step_nav) { create(:scheduled_step_by_step_page) }
+
+      it "should not have reorder link" do
+        expect(subject[:edit]).to be_nil
+      end
+    end
+
+    context "step by step with steps and editable" do
+      let(:step_nav) { create(:step_by_step_page_with_steps) }
+
+      it "should have reorder link" do
+        expect(subject[:edit][:link_text]).to eq 'Reorder'
+      end
+    end
+  end
 end

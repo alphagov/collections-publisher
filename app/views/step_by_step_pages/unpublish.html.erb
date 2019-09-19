@@ -20,7 +20,7 @@
 
 <%= render 'shared/steps/heading',
   step_nav: @step_by_step_page.title,
-  action: 'Unpublish step by step'
+  action: 'Unpublish'
 %>
 
 <%= render "govuk_publishing_components/components/error_alert", {
@@ -43,7 +43,7 @@
 
       <div class="form-group">
         <%= render "govuk_publishing_components/components/button", {
-          text: "Unpublish step by step",
+          text: "Unpublish",
           data_attributes: {
             module: "confirm",
             message: "This will remove ‘#{@step_by_step_page.title}’ from the website.\n\n Are you sure?"

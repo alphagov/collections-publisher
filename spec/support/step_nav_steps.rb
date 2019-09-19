@@ -56,6 +56,8 @@ module StepNavSteps
     @step_by_step_page = create(:step_by_step_page)
   end
 
+  alias_method :given_there_is_a_draft_step_by_step_page_with_no_steps, :given_there_is_a_step_by_step_page
+
   def given_there_is_a_step_by_step_page_with_steps
     @step_by_step_page = create(:step_by_step_page_with_steps)
   end
@@ -75,12 +77,12 @@ module StepNavSteps
   end
 
   def given_there_is_a_published_step_by_step_page_with_unpublished_changes
-    @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: Time.zone.now, status: "draft")
+    @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: 1.day.ago, status: "draft")
     expect(@step_by_step_page.status).to be_draft
   end
 
   def given_I_am_assigned_to_a_published_step_by_step_page_with_unpublished_changes
-    @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: Time.zone.now, assigned_to: stub_user.name)
+    @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: 1.day.ago, assigned_to: stub_user.name)
   end
 
   def given_there_is_a_scheduled_step_by_step_page
@@ -91,17 +93,7 @@ module StepNavSteps
   def given_there_is_a_step_by_step_page_with_a_link_report
     link_checker_api_get_batch(
       id: 1,
-      links: [
-        {
-          "uri": "https://www.gov.uk/",
-          "status": "ok",
-          "checked": "2017-04-12T18:47:16Z",
-          "errors": [],
-          "warnings": [],
-          "problem_summary": "null",
-          "suggested_fix": "null"
-        }
-      ]
+      links: [link_checker_api_link_report_success]
     )
 
     step = create(:step)
@@ -109,8 +101,42 @@ module StepNavSteps
     @step_by_step_page = create(:step_by_step_page, steps: [step], slug: "step-by-step-with-link-report")
   end
 
+  alias_method :given_there_is_a_step_that_has_no_broken_links, :given_there_is_a_step_by_step_page_with_a_link_report
+
+  def given_there_is_a_step_by_step_page_with_unpublished_changes_whose_links_have_been_checked
+    link_checker_api_get_batch(id: 1, links: [link_checker_api_link_report_success])
+    step = create(:step)
+    create(:link_report, step_id: step.id)
+    @step_by_step_page = create(:step_by_step_with_unpublished_changes, steps: [step], slug: 'step-by-step-with-unpublished-changes')
+  end
+
+  def given_a_step_by_step_has_been_updated_after_links_last_checked
+    link_checker_api_get_batch(id: 1, links: [link_checker_api_link_report_success])
+    step = create(:step)
+    create(:link_report, step_id: step.id)
+    @step_by_step_page = create(
+      :step_by_step_with_unpublished_changes,
+      steps: [step],
+      slug: 'step-by-step-with-recent-unpublished-changes',
+      draft_updated_at: Time.zone.now
+    )
+  end
+
+  def given_a_step_by_step_has_an_empty_step_added_after_links_last_checked
+    link_checker_api_get_batch(id: 1, links: [link_checker_api_link_report_success])
+    @step_by_step_page = create(
+      :step_by_step_with_unpublished_changes,
+      slug: 'step-by-step-with-link-report-and-empty-step-added-since-links-checked',
+      draft_updated_at: Time.zone.now
+    )
+
+    step_with_link_report = create(:step, step_by_step_page: @step_by_step_page)
+    create(:link_report, step_id: step_with_link_report.id)
+    create(:step, contents: "", step_by_step_page: @step_by_step_page)
+  end
+
   def given_there_is_a_draft_step_by_step_page_with_secondary_content_and_navigation_rules
-    @step_by_step_page = create(:step_by_step_page_with_secondary_content_and_navigation_rules, draft_updated_at: 1.day.ago)
+    @step_by_step_page = create(:step_by_step_page_with_secondary_content_and_navigation_rules)
     expect(@step_by_step_page.status).to be_draft
   end
 
@@ -124,5 +150,49 @@ module StepNavSteps
       create(:draft_step_by_step_page, title: "A draft step nav", slug: "a-draft-step-nav"),
       create(:published_step_by_step_page, title: "A published step nav", slug: "a-published-step-nav")
     ]
+  end
+
+  def given_there_is_a_step_that_has_not_been_tested_for_broken_links
+    @step_by_step_page = create(:step_by_step_page)
+    create(:step, step_by_step_page: @step_by_step_page)
+  end
+
+  def given_there_is_a_step_with_a_broken_link
+    @step_by_step_page = create(:step_by_step_page)
+    step = create(:step, step_by_step_page: @step_by_step_page)
+    link_checker_api_get_batch(
+      id: 1,
+      links: [link_checker_api_link_report_fail]
+    )
+    create(:link_report, step_id: step.id)
+  end
+
+  def given_there_is_a_step_with_multiple_broken_links
+    @step_by_step_page = create(:step_by_step_page)
+    step = create(:step, step_by_step_page: @step_by_step_page)
+    link_checker_api_get_batch(
+      id: 1,
+      links: [link_checker_api_link_report_fail, link_checker_api_link_report_fail]
+    )
+    create(:link_report, step_id: step.id)
+  end
+
+  def link_checker_api_link_report_success
+    {
+      "uri": "https://www.gov.uk/",
+      "status": "ok",
+      "checked": "2017-04-12T18:47:16Z",
+      "errors": [],
+      "warnings": [],
+      "problem_summary": "null",
+      "suggested_fix": "null"
+    }
+  end
+
+  def link_checker_api_link_report_fail
+    {
+      "uri": "https://www.gov.uk/foo",
+      "status": "broken"
+    }
   end
 end

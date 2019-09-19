@@ -203,6 +203,54 @@ RSpec.describe StepByStepPage do
     end
   end
 
+  describe 'links_checked_since_last_update?' do
+    let(:step_by_step_with_step) { create(:step_by_step_page_with_steps) }
+
+    it 'returns false if links have never been checked' do
+      expect(step_by_step_with_step.links_checked_since_last_update?).to be false
+    end
+
+    it 'returns false if content changed since links were last checked' do
+      create(:link_report, batch_id: 1, step_id: step_by_step_with_step.steps.last.id, created_at: 1.day.ago)
+      step_by_step_with_step.mark_draft_updated
+
+      expect(step_by_step_with_step.links_checked_since_last_update?).to be false
+    end
+
+    it 'returns true if links were checked more recently than content changed' do
+      create(:link_report, batch_id: 1, step_id: step_by_step_with_step.steps.last.id, created_at: 1.minute.ago)
+
+      expect(step_by_step_with_step.links_checked_since_last_update?).to be true
+    end
+  end
+
+  describe 'should_show_required_prepublish_actions?' do
+    it 'should return false if step by step is scheduled' do
+      step_by_step_with_step = create(:step_by_step_page, status: 'scheduled', scheduled_at: 1.day.from_now)
+
+      expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be false
+    end
+
+    it 'should return false if the status of the step by step is published' do
+      step_by_step_with_step = create(:published_step_by_step_page)
+
+      expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be false
+    end
+
+    it 'should return false if step by step is in draft but has no issues blocking its publication' do
+      step_by_step_with_step = create(:draft_step_by_step_page)
+      create(:link_report, batch_id: 1, step_id: step_by_step_with_step.steps.first.id)
+
+      expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be false
+    end
+
+    it 'should return true if step by step is in draft and cannot be published' do
+      step_by_step_with_step = create(:draft_step_by_step_page)
+
+      expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be true
+    end
+  end
+
   describe 'links_checked?' do
     it 'returns true if links have been checked' do
       step_by_step_with_step = create(:step_by_step_page)
@@ -334,9 +382,13 @@ RSpec.describe StepByStepPage do
   end
 
   describe '#can_be_published?' do
-    let(:step_by_step_page) { create(:step_by_step_page_with_steps) }
+    let(:step_by_step_page) { create(:published_step_by_step_page) }
 
-    it 'can be published if it has a draft, is not scheduled for publishing and all steps have content' do
+    before do
+      allow(step_by_step_page).to receive(:links_checked_since_last_update?) { true }
+    end
+
+    it 'can be published if it has a draft, is not scheduled, all steps have content and links have been checked since last update' do
       step_by_step_page.mark_draft_updated
 
       expect(step_by_step_page.can_be_published?).to be true
@@ -364,6 +416,13 @@ RSpec.describe StepByStepPage do
     it 'cannot be published if all steps do not have content' do
       create(:step, step_by_step_page: step_by_step_page, contents: "")
       step_by_step_page.mark_draft_updated
+
+      expect(step_by_step_page.can_be_published?).to be false
+    end
+
+    it 'cannot be published if step by step updated since links were last checked' do
+      step_by_step_page.mark_draft_updated
+      allow(step_by_step_page).to receive(:links_checked_since_last_update?) { false }
 
       expect(step_by_step_page.can_be_published?).to be false
     end

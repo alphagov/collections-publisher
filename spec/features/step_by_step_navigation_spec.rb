@@ -44,11 +44,11 @@ RSpec.feature "Managing step by step navigation" do
 
   def then_I_see_the_step_by_step_page
     expect(page).to have_content("Your navigation choices have been saved")
-    expect(page).to have_link("Choose navigation")
+    expect(page).to have_link("Edit Sidebar settings")
   end
 
   def then_I_visit_the_navigation_steps_page_again
-    click_on("Choose navigation")
+    click_on("Edit Sidebar settings")
   end
 
   def and_I_see_my_selected_preferences

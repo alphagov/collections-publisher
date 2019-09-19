@@ -94,11 +94,11 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_create_a_new_step
-    click_on "Add a new step"
+    click_on "Add step"
   end
 
   def and_I_edit_the_first_step
-    within("table") do
+    within(".gem-c-summary-list#steps") do
       click_on "Edit", match: :first
     end
   end
@@ -121,7 +121,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_can_see_the_first_step
-    expect(page).to have_css("th", text: "Check how awesome you are")
+    expect(page).to have_css(".govuk-summary-list__value", text: "Check how awesome you are")
   end
 
   def and_I_delete_the_first_step
@@ -133,7 +133,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_the_step_is_deleted
-    expect(page).not_to have_css("th", text: "Check how awesome you are")
+    expect(page).not_to have_css(".govuk-summary-list__value", text: "Check how awesome you are")
   end
 
   def then_I_can_see_the_edit_page
@@ -198,8 +198,8 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_see_the_steps_updated_on_the_step_by_step_details_page
-    expect(page).to have_css("table > tbody > tr:nth-child(1) > th:nth-child(2)", text: "Dress like the Fonz")
-    expect(page).to have_css("table > tbody > tr:nth-child(2) > th:nth-child(2)", text: "Check how awesome you are")
+    expect(page).to have_css(".gem-c-summary-list#steps .govuk-summary-list__row:nth-child(1) .govuk-summary-list__value", text: "Dress like the Fonz")
+    expect(page).to have_css(".gem-c-summary-list#steps .govuk-summary-list__row:nth-child(2) .govuk-summary-list__value", text: "Check how awesome you are")
   end
 
   def and_I_write_a_change_note

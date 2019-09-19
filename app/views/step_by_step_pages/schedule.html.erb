@@ -25,8 +25,6 @@
   action: 'Schedule publish'
 %>
 
-<%= render 'nav', step_by_step_page: @step_by_step_page, active: "schedule" %>
-
 <% if @step_by_step_page.errors.any? %>
   <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
 <% end %>
@@ -39,7 +37,7 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
           <%= render "govuk_publishing_components/components/button", {
-            text: "Continue"
+            text: "Continue",
           } %>
         </div>
         <div class="govuk-grid-column-full govuk-!-margin-top-3">
