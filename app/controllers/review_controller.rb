@@ -7,7 +7,7 @@ class ReviewController < ApplicationController
   before_action :set_step_by_step_page
 
   def approve_2i_review
-    status = "2i_approved"
+    status = "approved_2i"
 
     if @step_by_step_page.update(
       review_requester_id: nil,
@@ -16,7 +16,7 @@ class ReviewController < ApplicationController
     )
       generate_change_note(status)
 
-      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully 2i_approved."
+      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully approved_2i."
     end
   end
 

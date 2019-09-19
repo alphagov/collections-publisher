@@ -105,13 +105,13 @@ RSpec.describe ReviewController do
         end
       end
 
-      it "sets status to 2i_approved removes reviewer_id and review_requester_id" do
+      it "sets status to approved_2i removes reviewer_id and review_requester_id" do
         stub_user.permissions = required_permissions
         post :approve_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
 
         step_by_step_page.reload
 
-        expect(step_by_step_page.status).to eq("2i_approved")
+        expect(step_by_step_page.status).to eq("approved_2i")
         expect(step_by_step_page.reviewer_id).to be_nil
         expect(step_by_step_page.review_requester_id).to be_nil
       end
@@ -120,7 +120,7 @@ RSpec.describe ReviewController do
         stub_user.permissions = required_permissions
         stub_user.name = "Firstname Lastname"
 
-        expected_change_note = "2i approved by Firstname Lastname"
+        expected_change_note = "Approved 2i by Firstname Lastname"
 
         post :approve_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
         step_by_step_page.reload

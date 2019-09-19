@@ -1,6 +1,6 @@
 class StatusPrerequisiteValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    if value == "2i_approved"
+    if value == "approved_2i"
       return true if can_be_2i_approved?(record)
 
       record.errors[attribute] << "#{value}, requires a draft, a reviewer and for status to be in_review"
