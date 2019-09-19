@@ -14,7 +14,6 @@ Rails.application.routes.draw do
     put 'navigation-rules', to: 'navigation_rules#update'
     get :publish
     post :publish
-    get 'publish-or-delete', to: 'publish_or_delete'
     get :reorder
     post :reorder
     post :revert
