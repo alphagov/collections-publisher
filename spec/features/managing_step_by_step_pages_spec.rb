@@ -17,29 +17,6 @@ RSpec.feature "Managing step by step pages" do
     stub_default_publishing_api_put_intent
   end
 
-  scenario "User visits the index page" do
-    given_there_is_a_step_by_step_page
-    when_I_visit_the_step_by_step_pages_index
-    then_I_see_the_step_by_step_page
-  end
-
-  scenario "User filters results on index page" do
-    given_there_are_step_by_step_pages
-    when_I_visit_the_step_by_step_pages_index
-    and_I_filter_by_title_and_status
-    then_I_should_see_a_filtered_list_of_step_by_steps
-  end
-
-  scenario "User creates a new step by step page" do
-    when_I_visit_the_new_step_by_step_form
-    and_I_fill_in_the_form
-    and_I_see_a_page_created_success_notice
-    and_I_see_I_saved_it_last
-    and_I_can_preview_the_step_by_step
-    when_I_visit_the_step_by_step_pages_index
-    then_I_see_the_new_step_by_step_page
-  end
-
   scenario "User visits a step by step page with no steps" do
     given_there_is_a_draft_step_by_step_page_with_no_steps
     when_I_view_the_step_by_step_page
@@ -64,25 +41,11 @@ RSpec.feature "Managing step by step pages" do
     and_I_can_see_a_metadata_section
   end
 
-  scenario "Validation fails" do
-    when_I_visit_the_new_step_by_step_form
-    and_I_fill_in_the_form_with_invalid_data
-    then_I_see_a_validation_error
-  end
-
-  scenario "The slug has already been taken" do
-    given_there_is_a_step_by_step_page_with_steps
-    when_I_visit_the_new_step_by_step_form
-    and_the_slug_has_been_taken
-    and_I_fill_in_the_form_with_a_taken_slug
-    then_I_see_a_slug_already_taken_error
-  end
-
-  scenario "User edits step by step information when there is a step" do
-    given_there_is_a_step_by_step_page_with_steps
+  scenario "User edits step by step information" do
+    given_there_is_a_step_by_step_page
     when_I_edit_the_step_by_step_page
     and_I_fill_in_the_edit_form
-    then_I_see_the_new_step_by_step_page
+    then_the_step_by_step_information_should_have_updated
   end
 
   scenario "User publishes a page" do
@@ -426,10 +389,6 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_content("Step by step page was successfully unpublished.")
   end
 
-  def and_I_see_a_page_created_success_notice
-    expect(page).to have_content("Step by step page was successfully created.")
-  end
-
   def when_I_view_the_step_by_step_page
     visit step_by_step_page_path(@step_by_step_page)
   end
@@ -531,17 +490,9 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def and_I_fill_in_the_form
-    fill_in "Title", with: "How to bake a cake"
-    fill_in "Slug", with: "how-to-bake-a-cake"
-    fill_in "Introduction", with: "Learn how you can bake a cake"
-    fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
-
-    click_on "Save"
-  end
-
   def and_I_fill_in_the_edit_form
     fill_in "Title", with: "How to bake a cake"
+    fill_in "Slug", with: "how-to-bake-a-cake"
     fill_in "Introduction", with: "Learn how you can bake a cake"
     fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
 
@@ -549,17 +500,13 @@ RSpec.feature "Managing step by step pages" do
     click_on "Save"
   end
 
-  def and_I_fill_in_the_form_with_a_taken_slug
-    fill_in "Title", with: "How to bake a cake"
-    fill_in "Slug", with: @step_by_step_page.slug
-    fill_in "Introduction", with: "Learn how you can bake a cake"
-    fill_in "Meta description", with: "How to bake a cake - learn how you can bake a cake"
-
-    click_on "Save"
-  end
-
-  def then_I_see_the_new_step_by_step_page
-    expect(page).to have_content("How to bake a cake")
+  def then_the_step_by_step_information_should_have_updated
+    within ".gem-c-summary-list#content" do
+      expect(page).to have_content("Title How to bake a cake")
+      expect(page).to have_content("Slug how-to-bake-a-cake")
+      expect(page).to have_content("Introduction Learn how you can bake a cake")
+      expect(page).to have_content("Description How to bake a cake - learn how you can bake a cake")
+    end
   end
 
   def then_I_see_delete_and_publish_buttons
@@ -584,35 +531,6 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def and_I_fill_in_the_form_with_invalid_data
-    fill_in "Title", with: ""
-    fill_in "Slug", with: ""
-    fill_in "Introduction", with: ""
-    fill_in "Meta description", with: ""
-    click_on "Save"
-  end
-
-  def then_I_see_a_validation_error
-    expect(page).to have_content("Title can't be blank")
-    expect(page).to have_content("Slug can't be blank")
-    expect(page).to have_content("Introduction can't be blank")
-    expect(page).to have_content("Description can't be blank")
-  end
-
-  def and_the_slug_has_been_taken
-    expect(
-      Services.publishing_api
-    ).to(
-      receive(:lookup_content_id)
-      .with(base_path: "/#{@step_by_step_page.slug}", with_drafts: true)
-      .and_return("A-TAKEN-CONTENT-ID")
-    )
-  end
-
-  def then_I_see_a_slug_already_taken_error
-    expect(page).to have_content("Slug has already been taken")
-  end
-
   def and_I_publish_the_page
     click_on "Publish"
   end
@@ -633,13 +551,6 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_see_a_page_reverted_success_notice
     expect(page).to have_content("Draft successfully discarded.")
-  end
-
-  def and_I_see_I_saved_it_last
-    within(".gem-c-metadata") do
-      expect(page).to have_content("Status: Draft")
-      expect(page).to have_content("by Test author")
-    end
   end
 
   def and_I_visit_the_scheduling_page
@@ -894,14 +805,6 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def then_I_can_preview_the_step_by_step
-    within(".app-side__actions") do
-      expect(page).to have_link("Preview")
-    end
-  end
-
-  alias_method :and_I_can_preview_the_step_by_step, :then_I_can_preview_the_step_by_step
-
   def and_the_steps_can_be_checked_for_broken_links
     expect(page).to have_button("Check for broken links")
   end
@@ -924,19 +827,5 @@ RSpec.feature "Managing step by step pages" do
 
   def first_step_summary
     find(".gem-c-summary-list#steps .govuk-summary-list__row:first-child .govuk-summary-list__value")
-  end
-
-  def and_I_filter_by_title_and_status
-    fill_in "title_or_url", with: "step nav"
-    select "Draft", from: "status"
-    click_on "Filter"
-  end
-
-  def then_I_should_see_a_filtered_list_of_step_by_steps
-    within(".govuk-table__body") do
-      expect(page).to have_xpath(".//tr", :count => 1)
-      expect(page).to have_content("A draft step nav")
-      expect(page).to_not have_content("A published step nav")
-    end
   end
 end

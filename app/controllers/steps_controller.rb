@@ -25,9 +25,10 @@ class StepsController < ApplicationController
   def update
     if step.update(step_params)
       update_downstream
-      flash.now[:notice] = 'Step was successfully updated.'
+      redirect_to edit_step_by_step_page_step_path(:id => @step[:id]), notice: 'Step was successfully updated.'
+    else
+      render :edit
     end
-    render :edit
   end
 
   def destroy
