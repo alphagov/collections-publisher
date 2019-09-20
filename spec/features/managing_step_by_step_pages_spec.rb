@@ -230,8 +230,7 @@ RSpec.feature "Managing step by step pages" do
   scenario "A step doesn't have any content" do
     given_there_is_a_step_by_step_page_with_steps_missing_content
     when_I_view_the_step_by_step_page
-    then_I_should_see "Step by steps cannot be published until all steps have content."
-    and_I_should_see_an_inset_prompt
+    then_I_should_see_an_inset_prompt
     and_the_prompt_should_contain_link_to_steps_section "Add content to all your steps"
     and_I_cannot_publish_or_schedule_the_step_by_step
   end
