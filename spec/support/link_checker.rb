@@ -1,4 +1,8 @@
+require 'gds_api/test_helpers/link_checker_api'
+
 module LinkChecker
+  include GdsApi::TestHelpers::LinkCheckerApi
+
   def stub_link_checker_report_success(step)
     link_checker_api_get_batch(
       id: 1,

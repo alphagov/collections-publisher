@@ -141,6 +141,10 @@ class StepByStepPage < ApplicationRecord
     has_draft? && !scheduled_for_publishing? && !can_be_published?
   end
 
+  def broken_links_found?
+    steps.any?(&:broken_links?)
+  end
+
   def links_checked_since_last_update?
     links_checked? && links_last_checked_date > draft_updated_at
   end
