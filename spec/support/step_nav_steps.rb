@@ -100,6 +100,12 @@ module StepNavSteps
 
   alias_method :given_there_is_a_step_that_has_no_broken_links, :given_there_is_a_step_by_step_page_with_a_link_report
 
+  def given_there_is_a_step_by_step_page_with_broken_links
+    step = create(:step)
+    stub_link_checker_report_broken_link(step)
+    @step_by_step_page = create(:step_by_step_page, steps: [step], slug: "step-by-step-with-broken-links")
+  end
+
   def given_there_is_a_step_by_step_page_with_unpublished_changes_whose_links_have_been_checked
     step = create(:step)
     stub_link_checker_report_success(step)
