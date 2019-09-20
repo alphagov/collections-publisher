@@ -15,8 +15,6 @@
         class: %w(govuk-link govuk-link--no-visited-state app-link--right)
       %>
     <% elsif @step_by_step_page.can_be_published? %>
-      <p class="govuk-body">Before publishing check for broken links.</p>
-      <p class="govuk-body">After publishing add this step by step to a mainstream browse category and a taxonomy topic.</p>
       <% if @step_by_step_page.has_been_published? %>
         <%= render "govuk_publishing_components/components/button", {
           text: "Publish",
@@ -32,9 +30,6 @@
         step_by_step_page_schedule_path(@step_by_step_page),
         class: %w(govuk-link govuk-link--no-visited-state app-link--right)
       %>
-    <% elsif !@step_by_step_page.steps_have_content? %>
-      <p class="govuk-body">Step by steps cannot be published until all steps have content.</p>
-      <%= preview_link %>
     <% elsif @step_by_step_page.has_draft? %>
       <%= preview_link %>
     <% end %>
