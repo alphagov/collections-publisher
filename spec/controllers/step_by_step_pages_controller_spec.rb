@@ -211,14 +211,14 @@ RSpec.describe StepByStepPagesController do
       stub_publishing_api_for_scheduling
     end
 
-    it "clears Scheduled status and sets it back to Draft" do
+    it "clears scheduled status and sets it back to approved_2i" do
       step_by_step_page = create(:scheduled_step_by_step_page, slug: "how-to-be-fantastic")
 
       unschedule_publishing(step_by_step_page)
 
       expect(step_by_step_page.scheduled_at).to eq nil
       expect(step_by_step_page.scheduled_for_publishing?).to be false
-      expect(step_by_step_page.status).to be_draft
+      expect(step_by_step_page.status).to be_approved_2i
     end
 
     it "creates an internal change note" do

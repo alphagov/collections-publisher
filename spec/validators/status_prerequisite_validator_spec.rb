@@ -38,7 +38,7 @@ RSpec.describe StatusPrerequisiteValidator do
   end
 
   context "#approved_2i" do
-    let(:error_message) { "approved_2i, requires a draft, a reviewer and for status to be in_review" }
+    let(:error_message) { "approved_2i, requires a draft, a reviewer and for status to be in_review or scheduled" }
 
     it "does not allow status to be approved_2i if there is no draft" do
       allow(step_by_step_page).to receive(:has_draft?).and_return(false)
@@ -48,7 +48,7 @@ RSpec.describe StatusPrerequisiteValidator do
       expect(step_by_step_page.errors.messages[:status]).to eq([error_message])
     end
 
-    it "does not allow status to be approved_2i if the current status is not in_review" do
+    it "does not allow status to be approved_2i if the current status is not in_review or scheduled" do
       allow(step_by_step_page).to receive(:has_draft?).and_return(true)
       step_by_step_page.status = "approved_2i"
 
@@ -58,7 +58,15 @@ RSpec.describe StatusPrerequisiteValidator do
 
     it "allows status to be approved_2i if the current status is in_review and there is a draft" do
       allow(step_by_step_page).to receive(:has_draft?).and_return(true)
-      allow(step_by_step_page).to receive(:status_was). and_return("in_review")
+      allow(step_by_step_page).to receive(:status_was).and_return("in_review")
+      step_by_step_page.status = "approved_2i"
+
+      expect(step_by_step_page).to be_valid
+    end
+
+    it "allows status to be approved_2i if the current status is scheduled and there is a draft" do
+      allow(step_by_step_page).to receive(:has_draft?).and_return(true)
+      allow(step_by_step_page).to receive(:status_was).and_return("scheduled")
       step_by_step_page.status = "approved_2i"
 
       expect(step_by_step_page).to be_valid
