@@ -187,6 +187,14 @@ module StepNavSteps
     expect(page).to have_content("How to bake a cake")
   end
 
+  def then_I_can_submit_the_step_by_step_for_2i_review
+    within(".app-side__actions") do
+      expect(page).to have_link("Submit for 2i review")
+    end
+  end
+
+  alias_method :and_I_can_submit_the_step_by_step_for_2i_review, :then_I_can_submit_the_step_by_step_for_2i_review
+
   def then_I_can_preview_the_step_by_step
     within(".app-side__actions") do
       expect(page).to have_link("Preview")

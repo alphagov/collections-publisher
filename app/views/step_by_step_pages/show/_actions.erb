@@ -31,6 +31,10 @@
         class: %w(govuk-link govuk-link--no-visited-state app-link--right)
       %>
     <% elsif @step_by_step_page.has_draft? %>
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Submit for 2i review",
+        href: step_by_step_page_submit_for_2i_path(@step_by_step_page)
+      } %>
       <%= preview_link %>
     <% end %>
 

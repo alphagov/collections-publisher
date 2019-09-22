@@ -18,6 +18,7 @@ RSpec.feature "Create new step by step page" do
     and_I_fill_in_the_form
     and_I_see_a_page_created_success_notice
     and_I_see_I_saved_it_last
+    and_I_can_submit_the_step_by_step_for_2i_review
     and_I_can_preview_the_step_by_step
     when_I_visit_the_step_by_step_pages_index
     then_I_see_the_new_step_by_step_page
