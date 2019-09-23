@@ -65,8 +65,8 @@ class StepByStepPage < ApplicationRecord
   def mark_as_unpublished
     update(
       published_at: nil,
-      draft_updated_at: nil,
-      status: "draft",
+      draft_updated_at: Time.zone.now,
+      status: "approved_2i",
     )
   end
 

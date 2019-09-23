@@ -359,12 +359,15 @@ RSpec.describe StepByStepPage do
     end
 
     it "should reset published date" do
-      step_by_step_page.mark_as_unpublished
+      nowish = Time.zone.now
+      Timecop.freeze do
+        step_by_step_page.mark_as_unpublished
 
-      expect(step_by_step_page.published_at).to be nil
-      expect(step_by_step_page.has_been_published?).to be false
-      expect(step_by_step_page.draft_updated_at).to be nil
-      expect(step_by_step_page.has_draft?).to be false
+        expect(step_by_step_page.published_at).to be nil
+        expect(step_by_step_page.has_been_published?).to be false
+        expect(step_by_step_page.draft_updated_at).to be_within(1.second).of nowish
+        expect(step_by_step_page.has_draft?).to be true
+      end
     end
 
     it "should have a deterministically generated hex string" do

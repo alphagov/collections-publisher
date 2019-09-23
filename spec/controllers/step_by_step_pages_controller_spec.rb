@@ -105,13 +105,13 @@ RSpec.describe StepByStepPagesController do
       stub_publishing_api
     end
 
-    it "sets status to draft" do
+    it "sets status to approved_2i" do
       step_by_step_page = create(:published_step_by_step_page, slug: "a-step-by-step")
       post :unpublish, params: { step_by_step_page_id: step_by_step_page.id, redirect_url: "/somewhere" }
 
       step_by_step_page.reload
 
-      expect(step_by_step_page.status).to be_draft
+      expect(step_by_step_page.status).to be_approved_2i
       expect(step_by_step_page.review_requester_id).to be_nil
       expect(step_by_step_page.reviewer_id).to be_nil
     end
