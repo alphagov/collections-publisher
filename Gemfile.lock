@@ -156,12 +156,12 @@ GEM
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.3)
-    jasmine (3.4.0)
-      jasmine-core (~> 3.4.0)
+    jasmine (3.5.0)
+      jasmine-core (~> 3.5.0)
       phantomjs
       rack (>= 1.2.1)
       rake
-    jasmine-core (3.4.0)
+    jasmine-core (3.5.0)
     jasmine_selenium_runner (3.0.0)
       jasmine (~> 3.0)
       selenium-webdriver (~> 3.8)
@@ -416,7 +416,7 @@ DEPENDENCIES
   govuk_publishing_components (~> 21.0)
   govuk_sidekiq (~> 3.0)
   govuk_test
-  jasmine (~> 3.4)
+  jasmine (~> 3.5)
   jasmine_selenium_runner (~> 3)
   mysql2
   nokogiri
