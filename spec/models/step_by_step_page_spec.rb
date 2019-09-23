@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe StepByStepPage do
+  include LinkChecker
+
   before do
     allow(Services.publishing_api).to receive(:lookup_content_id)
   end
@@ -239,7 +241,7 @@ RSpec.describe StepByStepPage do
 
     it 'should return false if step by step is in draft but has no issues blocking its publication' do
       step_by_step_with_step = create(:draft_step_by_step_page)
-      create(:link_report, batch_id: 1, step_id: step_by_step_with_step.steps.first.id)
+      stub_link_checker_report_success(step_by_step_with_step.steps.first)
 
       expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be false
     end
@@ -248,6 +250,28 @@ RSpec.describe StepByStepPage do
       step_by_step_with_step = create(:draft_step_by_step_page)
 
       expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be true
+    end
+  end
+
+  describe 'broken_links_found?' do
+    let(:step_by_step_page) { create(:step_by_step_page_with_steps) }
+
+    it 'returns false if links have not been checked' do
+      allow(step_by_step_page).to receive(:links_checked?).and_return(false)
+
+      expect(step_by_step_page.broken_links_found?).to be false
+    end
+
+    it 'returns false if links have been checked and there were no broken links' do
+      stub_link_checker_report_success(step_by_step_page.steps.first)
+
+      expect(step_by_step_page.broken_links_found?).to be false
+    end
+
+    it 'returns true if broken links were found' do
+      stub_link_checker_report_multiple_broken_links(step_by_step_page.steps.first)
+
+      expect(step_by_step_page.broken_links_found?).to be true
     end
   end
 
@@ -388,7 +412,7 @@ RSpec.describe StepByStepPage do
       allow(step_by_step_page).to receive(:links_checked_since_last_update?) { true }
     end
 
-    it 'can be published if it has a draft, is not scheduled, all steps have content and links have been checked since last update' do
+    it 'can be published if it has a draft, is not scheduled, all steps have content, links have been checked since last update and there are no broken links' do
       step_by_step_page.mark_draft_updated
 
       expect(step_by_step_page.can_be_published?).to be true
@@ -423,6 +447,13 @@ RSpec.describe StepByStepPage do
     it 'cannot be published if step by step updated since links were last checked' do
       step_by_step_page.mark_draft_updated
       allow(step_by_step_page).to receive(:links_checked_since_last_update?) { false }
+
+      expect(step_by_step_page.can_be_published?).to be false
+    end
+
+    it 'cannot be published if broken links were found when links were checked' do
+      step_by_step_page.mark_draft_updated
+      stub_link_checker_report_broken_link(step_by_step_page.steps.first)
 
       expect(step_by_step_page.can_be_published?).to be false
     end

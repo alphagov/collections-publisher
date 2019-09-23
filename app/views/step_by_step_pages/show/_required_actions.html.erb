@@ -15,9 +15,15 @@
         </li>
       <% end %>
 
-      <% if @step_by_step_page.steps.any? && !@step_by_step_page.links_checked_since_last_update? %>
+      <% if @step_by_step_page.steps.any? && !@step_by_step_page.links_checked_since_last_update? && !@step_by_step_page.broken_links_found? %>
         <li>
           <%= link_to "Check for broken links", '#steps', class: 'govuk-link govuk-link--no-visited-state' %>
+        </li>
+      <% end %>
+
+      <% if @step_by_step_page.broken_links_found? %>
+        <li>
+          <%= link_to "Fix broken links", '#steps', class: 'govuk-link govuk-link--no-visited-state' %>
         </li>
       <% end %>
     </ul>
