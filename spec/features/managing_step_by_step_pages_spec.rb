@@ -122,6 +122,7 @@ RSpec.feature "Managing step by step pages" do
     then_I_should_see_a_publish_form_with_changenotes
     and_when_I_click_the_publish_button_in_the_publish_form
     then_I_am_told_that_it_is_published
+    and_I_cannot_preview_the_step_by_step
   end
 
   scenario "User publishes and then makes more changes to a step by step page" do

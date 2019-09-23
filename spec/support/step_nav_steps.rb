@@ -186,4 +186,12 @@ module StepNavSteps
   end
 
   alias_method :and_I_can_preview_the_step_by_step, :then_I_can_preview_the_step_by_step
+
+  def then_I_cannot_preview_the_step_by_step
+    within(".app-side__actions") do
+      expect(page).not_to have_link("Preview")
+    end
+  end
+
+  alias_method :and_I_cannot_preview_the_step_by_step, :then_I_cannot_preview_the_step_by_step
 end
