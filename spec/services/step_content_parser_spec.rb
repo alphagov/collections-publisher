@@ -256,7 +256,10 @@ RSpec.describe StepContentParser do
           - [A very expensive speed boat](/i-love-speed-boats)
           * [Spending money](/spending-money)£5000 or so
           - [A dishwasher](http://dishwashers.org/bargain-basement)
+          - [I am a broken link]( ftp: / gov .uk)
           - And I'm a healthy bullet (although I eat ice cream everyday)
+
+          [And I am also broken]()
 
           You have to remember them all!
         HEREDOC
@@ -305,9 +308,16 @@ RSpec.describe StepContentParser do
                 "href": "http://dishwashers.org/bargain-basement",
               },
               {
+                "text": "[I am a broken link]( ftp: / gov .uk)",
+              },
+              {
                 "text": "And I'm a healthy bullet (although I eat ice cream everyday)",
               },
             ],
+          },
+          {
+            "type": "paragraph",
+            "text": "[And I am also broken]()",
           },
           {
             "type": "paragraph",
@@ -356,7 +366,7 @@ RSpec.describe StepContentParser do
         %w(
           /all-the-prizes
           /bargain-basement
-        )
+        ),
       )
     end
 

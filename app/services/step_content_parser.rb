@@ -87,16 +87,17 @@ private
 
   def link_content(section)
     section.map do |line|
-      if line.scan(/\[/).empty?
-        { "text": line[2..-1] }
-      elsif /\[(?<text>(.+))\]\((?<href>(.+))\)((?<context>.*))$/ =~ line
+      payload = {}
+      if /\[(?<text>(.+))\]\((?<href>(.+))\)((?<context>.*))$/ =~ line && safely_parse_path(href)
         payload = {
           "text": text,
           "href": href,
         }
         payload[:context] = context.strip unless context.blank?
-        payload
+      else
+        payload[:text] = line[2..-1]
       end
+      payload
     end
   end
 end
