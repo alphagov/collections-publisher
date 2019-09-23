@@ -45,10 +45,6 @@ RSpec.feature "Managing step by step navigation" do
     click_on "Save"
   end
 
-  def and_I_should_be_on_the_step_by_step_page
-    expect(current_url).to end_with step_by_step_page_path(@step_by_step_page)
-  end
-
   def and_I_click_the_sidebar_settings_link
     click_on("Edit Sidebar settings")
   end

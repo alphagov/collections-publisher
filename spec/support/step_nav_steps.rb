@@ -175,6 +175,14 @@ module StepNavSteps
     end
   end
 
+  alias_method :and_I_can_see_a_success_message, :then_I_can_see_a_success_message
+
+  def then_I_should_be_on_the_step_by_step_page
+    expect(current_url).to end_with step_by_step_page_path(@step_by_step_page)
+  end
+
+  alias_method :and_I_should_be_on_the_step_by_step_page, :then_I_should_be_on_the_step_by_step_page
+
   def then_I_see_the_new_step_by_step_page
     expect(page).to have_content("How to bake a cake")
   end
