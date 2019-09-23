@@ -16,4 +16,8 @@ module CommonFeatureSteps
   def and_I_submit_the_form
     find("input[type=submit]").click
   end
+
+  def given_I_can_access_unreleased_features
+    stub_user.permissions << "Unreleased feature"
+  end
 end

@@ -30,10 +30,6 @@ RSpec.feature "Reviewing step by step pages" do
     and_I_can_see_additional_comments_in_the_change_note
   end
 
-  def given_I_can_access_unreleased_features
-    stub_user.permissions << "Unreleased feature"
-  end
-
   def when_I_visit_the_submit_for_2i_page
     visit step_by_step_page_submit_for_2i_path(@step_by_step_page)
   end
