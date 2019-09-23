@@ -35,7 +35,7 @@
     <% elsif !@step_by_step_page.steps_have_content? %>
       <p class="govuk-body">Step by steps cannot be published until all steps have content.</p>
       <%= preview_link %>
-    <% else %>
+    <% elsif @step_by_step_page.has_draft? %>
       <%= preview_link %>
     <% end %>
 
