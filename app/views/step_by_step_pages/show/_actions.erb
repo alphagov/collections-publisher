@@ -31,7 +31,7 @@
         class: %w(govuk-link govuk-link--no-visited-state app-link--right)
       %>
     <% elsif @step_by_step_page.has_draft? %>
-      <% if current_user.has_permission? "Unreleased feature" %>
+      <% if !@step_by_step_page.status.submitted_for_2i? && (current_user.has_permission? "Unreleased feature") %>
         <%= render "govuk_publishing_components/components/button", {
           text: "Submit for 2i review",
           href: step_by_step_page_submit_for_2i_path(@step_by_step_page)

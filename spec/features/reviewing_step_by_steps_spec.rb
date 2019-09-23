@@ -15,6 +15,8 @@ RSpec.feature "Reviewing step by step pages" do
     when_I_visit_the_submit_for_2i_page
     and_I_submit_the_form
     then_I_see_a_submitted_for_2i_success_notice
+    and_I_see_a_not_yet_claimed_for_2i_prompt
+    and_I_cannot_see_a_submit_for_2i_button
     when_I_view_internal_change_notes
     then_I_can_see_an_automated_change_note
   end
@@ -25,6 +27,8 @@ RSpec.feature "Reviewing step by step pages" do
     and_I_fill_in_additional_comments
     and_I_submit_the_form
     then_I_see_a_submitted_for_2i_success_notice
+    and_I_see_a_not_yet_claimed_for_2i_prompt
+    and_I_cannot_see_a_submit_for_2i_button
     when_I_view_internal_change_notes
     then_I_can_see_an_automated_change_note
     and_I_can_see_additional_comments_in_the_change_note
@@ -48,6 +52,16 @@ RSpec.feature "Reviewing step by step pages" do
 
   def then_I_see_a_submitted_for_2i_success_notice
     expect(page).to have_content("Step by step page was successfully submitted for 2i")
+  end
+
+  def and_I_see_a_not_yet_claimed_for_2i_prompt
+    expect(page).to have_css(".govuk-inset-text", text: "Not yet claimed for 2i")
+  end
+
+  def and_I_cannot_see_a_submit_for_2i_button
+    within(".app-side__actions") do
+      expect(page).to_not have_css("a", text: "Submit for 2i review")
+    end
   end
 
   def then_I_can_see_an_automated_change_note

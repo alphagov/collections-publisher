@@ -1,3 +1,9 @@
+<% if @step_by_step_page.status.submitted_for_2i? %>
+  <%= render "govuk_publishing_components/components/inset_text" do %>
+    <p class="govuk-body">Not yet claimed for 2i</p>
+  <% end %>
+<% end %>
+
 <% if @step_by_step_page.should_show_required_prepublish_actions? %>
   <%= render "govuk_publishing_components/components/inset_text" do %>
     <h2 class="govuk-heading-m">To publish this step by step you need to</h2>
