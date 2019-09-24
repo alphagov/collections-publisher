@@ -9,6 +9,7 @@ RSpec.feature "Create new step by step page" do
 
   before do
     given_I_am_a_GDS_editor
+    given_I_can_access_unreleased_features
     setup_publishing_api
     stub_default_publishing_api_put_intent
   end
@@ -18,6 +19,7 @@ RSpec.feature "Create new step by step page" do
     and_I_fill_in_the_form
     and_I_see_a_page_created_success_notice
     and_I_see_I_saved_it_last
+    and_I_can_submit_the_step_by_step_for_2i_review
     and_I_can_preview_the_step_by_step
     when_I_visit_the_step_by_step_pages_index
     then_I_see_the_new_step_by_step_page

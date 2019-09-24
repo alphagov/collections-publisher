@@ -171,6 +171,11 @@ module StepNavSteps
     stub_link_checker_report_multiple_broken_links(step)
   end
 
+  def given_there_is_a_step_by_step_that_has_been_submitted_for_2i
+    @review_requester = create(:user, name: "Original Author")
+    @step_by_step_page = create(:step_by_step_page_submitted_for_2i, review_requester_id: @review_requester.uid)
+  end
+
   def then_I_can_see_a_success_message(message)
     within(".gem-c-success-alert") do
       expect(page).to have_content message
@@ -187,6 +192,12 @@ module StepNavSteps
 
   def then_I_see_the_new_step_by_step_page
     expect(page).to have_content("How to bake a cake")
+  end
+
+  def and_I_can_submit_the_step_by_step_for_2i_review
+    within(".app-side__actions") do
+      expect(page).to have_link("Submit for 2i review")
+    end
   end
 
   def then_I_can_preview_the_step_by_step
