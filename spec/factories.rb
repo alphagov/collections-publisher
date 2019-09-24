@@ -66,6 +66,11 @@ FactoryBot.define do
     end
   end
 
+  factory :step_by_step_page_submitted_for_2i, parent: :step_by_step_page_with_steps do
+    status { "submitted_for_2i" }
+    # must pass `review_requester_id` when invoking
+  end
+
   factory :step do
     title { "Check how awesome you are" }
     logic { "number" }
