@@ -39,15 +39,7 @@ class StepContentParser
   end
 
   def base_paths(step_text)
-    paths = relative_paths(step_text).map do |path|
-      begin
-        uri = URI.parse(path)
-        uri.path
-      rescue URI::InvalidURIError
-        nil
-      end
-    end
-    paths.compact
+    relative_paths(step_text).map { |path| safely_parse_path(path) }.compact
   end
 
   def all_paths(step_text)
@@ -55,6 +47,15 @@ class StepContentParser
   end
 
 private
+
+  def safely_parse_path(path)
+    begin
+      uri = URI.parse(path)
+      uri.path
+    rescue URI::InvalidURIError
+      nil
+    end
+  end
 
   def relative_paths(content)
     all_links_in_content(content).select { |href| href[0] =~ /^\/[a-z0-9]+.*/i if href.any? }.flatten
