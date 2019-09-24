@@ -1,5 +1,5 @@
 class MainstreamBrowsePagePresenter < TagPresenter
-private # rubocop:disable Layout/IndentationWidth
+private
 
   GDS_CONTENT_ID = "af07d5a5-df63-4ddc-9383-6a666845ebe9".freeze
 
