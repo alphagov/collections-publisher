@@ -343,6 +343,23 @@ RSpec.describe StepContentParser do
       )
     end
 
+    it "rejects invalid URLs" do
+      step_text = <<~HEREDOC
+        [All the prizes](/all-the-prizes)
+        - [A link with a space prefix]( /foo)
+        - [A link with a space suffix](/i-love-speed-boats )
+        - [An invalid link](ftp:/ gov . uk)
+        - [A dishwasher](/bargain-basement)
+      HEREDOC
+
+      expect(subject.base_paths(step_text)).to eq(
+        %w(
+          /all-the-prizes
+          /bargain-basement
+        )
+      )
+    end
+
     it "can cope with multiple links per line" do
       step_text = "[Find driving instructor training courses](/find-driving-instructor-training)[Revise and practise for your test](/adi-part-1-test/revision-practice)"
 
