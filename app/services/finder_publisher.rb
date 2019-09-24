@@ -23,7 +23,7 @@ private
   def send_to_publishing_api
     Services.publishing_api.put_content(
       content_id,
-      content_item
+      content_item,
     )
     Services.publishing_api.publish(content_id)
   end

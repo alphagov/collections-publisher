@@ -4,7 +4,7 @@ class ListsController < ApplicationController
 
   def index
     @lists = @tag.lists.ordered
-    render 'start_curating_lists' unless @lists.any?
+    render "start_curating_lists" unless @lists.any?
   end
 
   def edit
@@ -17,9 +17,9 @@ class ListsController < ApplicationController
 
     if list.save
       @tag.mark_as_dirty!
-      flash[:success] = 'List created'
+      flash[:success] = "List created"
     else
-      flash[:danger] = 'Could not create your list'
+      flash[:danger] = "Could not create your list"
     end
 
     redirect_to tag_lists_path(@tag)
@@ -48,9 +48,9 @@ class ListsController < ApplicationController
     respond_to do |format|
       format.html {
         if saved
-          flash[:success] = 'List updated'
+          flash[:success] = "List updated"
         else
-          flash[:danger] = 'Could not save your list'
+          flash[:danger] = "Could not save your list"
         end
 
         redirect_to tag_lists_path(@tag)
@@ -72,6 +72,6 @@ private
   end
 
   def active_navigation_item
-    @tag.is_a?(MainstreamBrowsePage) ? 'mainstream_browse_pages' : 'topics'
+    @tag.is_a?(MainstreamBrowsePage) ? "mainstream_browse_pages" : "topics"
   end
 end

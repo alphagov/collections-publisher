@@ -29,6 +29,6 @@ RSpec.describe ApplicationHelper do
   end
 
   def draft_origin_url
-    Plek.new.external_url_for('draft-origin')
+    Plek.new.external_url_for("draft-origin")
   end
 end

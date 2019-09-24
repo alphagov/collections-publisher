@@ -5,10 +5,10 @@ class JwtHelper
   end
 
   def self.jwt_token(auth_bypass_id)
-    JWT.encode({ 'sub' => auth_bypass_id }, jwt_auth_secret, 'HS256')
+    JWT.encode({ "sub" => auth_bypass_id }, jwt_auth_secret, "HS256")
   end
 
   def self.jwt_auth_secret
-    ENV['JWT_AUTH_SECRET']
+    ENV["JWT_AUTH_SECRET"]
   end
 end

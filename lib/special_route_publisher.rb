@@ -1,4 +1,4 @@
-require 'gds_api/publishing_api/special_route_publisher'
+require "gds_api/publishing_api/special_route_publisher"
 
 class SpecialRoutePublisher
   def initialize(publisher_options)
@@ -14,7 +14,7 @@ class SpecialRoutePublisher
         type: route_type,
         public_updated_at: Time.zone.now.iso8601,
         update_type: "major",
-      )
+      ),
     )
   end
 
@@ -32,7 +32,7 @@ class SpecialRoutePublisher
           title: "Prepare for Brexit if you live in the UK",
           description: "How Brexit affects you - visiting Europe, buying things, studying, family law.",
         },
-      ]
+      ],
     }
   end
 end

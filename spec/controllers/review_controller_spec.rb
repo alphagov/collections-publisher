@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe ReviewController do
   describe "#submit_for_2i" do
@@ -61,7 +61,7 @@ RSpec.describe ReviewController do
 
             post :submit_for_2i, params: {
               step_by_step_page_id: step_by_step_page.id,
-              additional_comments: additional_comments
+              additional_comments: additional_comments,
             }
 
             expect(step_by_step_page.internal_change_notes.first.description).to include(additional_comments)
@@ -78,12 +78,12 @@ RSpec.describe ReviewController do
         create(
           :draft_step_by_step_page,
           review_requester_id: user.uid,
-          status: "submitted_for_2i"
+          status: "submitted_for_2i",
         )
       end
 
       before do
-        step_by_step_page.update_attributes(:status => 'in_review', :reviewer_id => reviewer_user.uid)
+        step_by_step_page.update_attributes(:status => "in_review", :reviewer_id => reviewer_user.uid)
       end
 
       required_permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
@@ -137,12 +137,12 @@ RSpec.describe ReviewController do
         create(
           :draft_step_by_step_page,
           review_requester_id: user.uid,
-          status: "submitted_for_2i"
+          status: "submitted_for_2i",
         )
       end
 
       before do
-        step_by_step_page.update_attributes(:status => 'in_review', :reviewer_id => reviewer_user.uid)
+        step_by_step_page.update_attributes(:status => "in_review", :reviewer_id => reviewer_user.uid)
       end
 
       required_permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
@@ -195,7 +195,7 @@ RSpec.describe ReviewController do
         create(
           :draft_step_by_step_page,
           review_requester_id: user.uid,
-          status: "submitted_for_2i"
+          status: "submitted_for_2i",
         )
       end
 

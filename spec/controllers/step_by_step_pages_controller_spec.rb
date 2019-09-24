@@ -1,5 +1,5 @@
-require 'rails_helper'
-require 'gds_api/test_helpers/publishing_api_v2'
+require "rails_helper"
+require "gds_api/test_helpers/publishing_api_v2"
 require "gds_api/test_helpers/publishing_api"
 
 RSpec.describe StepByStepPagesController do
@@ -49,7 +49,7 @@ RSpec.describe StepByStepPagesController do
   end
 
   describe "#publish" do
-    context 'first publish' do
+    context "first publish" do
       it "generates an internal change note stating that this is the first publication" do
         stub_publishing_api
 
@@ -60,7 +60,7 @@ RSpec.describe StepByStepPagesController do
       end
     end
 
-    context 'major updates' do
+    context "major updates" do
       let(:step_by_step_page) { create(:published_step_by_step_page) }
 
       it "generates an internal change note with change note text" do
@@ -74,7 +74,7 @@ RSpec.describe StepByStepPagesController do
       end
     end
 
-    context 'minor updates' do
+    context "minor updates" do
       let(:step_by_step_page) { create(:published_step_by_step_page) }
 
       it "generates an internal change note without change note text" do
@@ -108,8 +108,8 @@ RSpec.describe StepByStepPagesController do
     def schedule_with_public_change_note
       post :schedule_datetime, params: {
         step_by_step_page_id: step_by_step_page.id,
-        update_type: 'major',
-        change_note: 'This is a public change note.',
+        update_type: "major",
+        change_note: "This is a public change note.",
       }
     end
 
@@ -127,15 +127,15 @@ RSpec.describe StepByStepPagesController do
     it "sets session variables for update type and public change note" do
       schedule_with_public_change_note
 
-      expect(session[:update_type]).to eq 'major'
-      expect(session[:public_change_note]).to eq 'This is a public change note.'
+      expect(session[:update_type]).to eq "major"
+      expect(session[:public_change_note]).to eq "This is a public change note."
     end
 
     it "sets `scheduled_at` to a datetime" do
       schedule_for_future
 
-      expect(step_by_step_page.scheduled_at.class.name).to eq 'Time'
-      expect(format_full_date_and_time(step_by_step_page.scheduled_at)).to eq '10:26am on 20 April 2030'
+      expect(step_by_step_page.scheduled_at.class.name).to eq "Time"
+      expect(format_full_date_and_time(step_by_step_page.scheduled_at)).to eq "10:26am on 20 April 2030"
     end
 
     it "sets the status to Scheduled" do
@@ -150,7 +150,7 @@ RSpec.describe StepByStepPagesController do
       schedule_with_public_change_note
       schedule_for_future
 
-      payload = hash_including(update_type: 'major', change_note: 'This is a public change note.')
+      payload = hash_including(update_type: "major", change_note: "This is a public change note.")
       expect(Services.publishing_api).to have_received(:put_content).with(step_by_step_page.content_id, payload)
     end
 
@@ -176,7 +176,7 @@ RSpec.describe StepByStepPagesController do
     end
 
     it "clears Scheduled status and sets it back to Draft" do
-      step_by_step_page = create(:scheduled_step_by_step_page, slug: 'how-to-be-fantastic')
+      step_by_step_page = create(:scheduled_step_by_step_page, slug: "how-to-be-fantastic")
 
       unschedule_publishing(step_by_step_page)
 
@@ -186,7 +186,7 @@ RSpec.describe StepByStepPagesController do
     end
 
     it "creates an internal change note" do
-      step_by_step_page = create(:scheduled_step_by_step_page, slug: 'how-to-be-fantastic')
+      step_by_step_page = create(:scheduled_step_by_step_page, slug: "how-to-be-fantastic")
 
       unschedule_publishing(step_by_step_page)
 
@@ -224,7 +224,7 @@ RSpec.describe StepByStepPagesController do
         "3" => "draft",
         "2" => "published",
         "1" => "superseded",
-      }
+      },
     }
   end
 
@@ -235,7 +235,7 @@ RSpec.describe StepByStepPagesController do
   def stub_publishing_api
     allow(Services.publishing_api).to receive(:lookup_content_ids).with(
       base_paths: [base_path(step_by_step_page.slug)],
-      with_drafts: true
+      with_drafts: true,
     ).and_return({})
 
     stub_any_publishing_api_put_content

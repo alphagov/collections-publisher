@@ -1,12 +1,12 @@
-require 'securerandom'
+require "securerandom"
 
 class Tag < ApplicationRecord
   include AASM
   include ActiveModel::Dirty
   ORDERING_TYPES = %w(alphabetical curated).freeze
 
-  belongs_to :parent, class_name: 'Tag'
-  has_many :children, class_name: 'Tag', foreign_key: :parent_id
+  belongs_to :parent, class_name: "Tag"
+  has_many :children, class_name: "Tag", foreign_key: :parent_id
 
   has_many :tag_associations, foreign_key: :from_tag_id
   has_many :reverse_tag_associations, foreign_key: :to_tag_id,
@@ -24,8 +24,8 @@ class Tag < ApplicationRecord
 
   before_validation :generate_content_id, on: :create
 
-  scope :only_parents, -> { where('parent_id IS NULL') }
-  scope :only_children, -> { where('parent_id IS NOT NULL') }
+  scope :only_parents, -> { where("parent_id IS NULL") }
+  scope :only_children, -> { where("parent_id IS NOT NULL") }
 
   # The links last sent to the content-store.
   serialize :published_groups, JSON
@@ -131,7 +131,7 @@ class Tag < ApplicationRecord
   end
 
   def full_slug
-    @full_slug ||= [parent.try(:slug), slug].compact.join('/')
+    @full_slug ||= [parent.try(:slug), slug].compact.join("/")
   end
 
   def dependent_tags
@@ -146,7 +146,7 @@ private
 
   def parent_is_not_a_child
     if parent.present? && parent.parent_id.present?
-      errors.add(:parent, 'is a child tag')
+      errors.add(:parent, "is a child tag")
     end
   end
 
@@ -156,7 +156,7 @@ private
 
   def cannot_change_slug
     if slug_changed? && !new_record?
-      errors.add(:slug, 'cannot change a slug once saved')
+      errors.add(:slug, "cannot change a slug once saved")
     end
   end
 end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Tabs", type: :view do
   it "does not render anything if no data is passed" do
@@ -9,12 +9,12 @@ RSpec.describe "Tabs", type: :view do
     render "components/tabs", tabs: [
       {
         label: "First section",
-        href: "/page1"
+        href: "/page1",
       },
       {
         label: "Second section",
-        href: "/page2"
-      }
+        href: "/page2",
+      },
     ]
 
     assert_select ".govuk-tabs"

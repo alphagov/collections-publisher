@@ -13,7 +13,7 @@ class StepByStepPageReverter
       introduction: introduction,
       description: description,
       draft_updated_at: step_by_step_page.published_at,
-      status: "published"
+      status: "published",
     )
 
     step_by_step_page.steps = steps
@@ -29,7 +29,7 @@ private
   end
 
   def slug
-    payload_from_publishing_api[:base_path].tr('/', '')
+    payload_from_publishing_api[:base_path].tr("/", "")
   end
 
   def description
@@ -121,8 +121,8 @@ private
 
   def set_navigation_states
     step_by_step_page.navigation_rules.each do |rule|
-      rule.update_attribute(:include_in_links, 'conditionally') if pages_related_to_step_nav.include?(rule.content_id)
-      rule.update_attribute(:include_in_links, 'never') unless pages_part_of_or_related_to_step_nav.include?(rule.content_id)
+      rule.update_attribute(:include_in_links, "conditionally") if pages_related_to_step_nav.include?(rule.content_id)
+      rule.update_attribute(:include_in_links, "never") unless pages_part_of_or_related_to_step_nav.include?(rule.content_id)
     end
   end
 

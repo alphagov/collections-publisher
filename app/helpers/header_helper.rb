@@ -9,10 +9,10 @@ module HeaderHelper
       title: title,
       breadcrumbs: breadcrumbs,
       page_title: page_title || title,
-      active_item: active_item.try(:title) || active_item
+      active_item: active_item.try(:title) || active_item,
     }
 
-    render layout: 'shared/header', locals: locals do
+    render layout: "shared/header", locals: locals do
       yield if block_given?
     end
   end
@@ -22,7 +22,7 @@ module HeaderHelper
 
     title = "#{icon tag.sort_mode} #{tag.title_including_parent}"
     title = "#{title}: #{mode}" if mode
-    title = title + ' ' + labels_for_tag(tag)
+    title = title + " " + labels_for_tag(tag)
 
     header title, breadcrumbs: breadcrumbs, page_title: tag.title_including_parent do
       yield if block_given?
@@ -32,7 +32,7 @@ module HeaderHelper
   def auto_link(object)
     if object.is_a?(ActiveRecord::Base)
       link_to object.title, object
-    elsif object.to_s.starts_with?('<a href')
+    elsif object.to_s.starts_with?("<a href")
       raw object
     else
       link_to object.to_s.humanize, object.to_sym

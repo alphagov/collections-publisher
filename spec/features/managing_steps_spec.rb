@@ -11,7 +11,7 @@ RSpec.feature "Managing step by step pages" do
       setup_publishing_api
     end
 
-    context 'and I would like to create and manage steps on a step by step page' do
+    context "and I would like to create and manage steps on a step by step page" do
       scenario "User creates a step" do
         given_there_is_a_step_by_step_page
         when_I_visit_the_step_by_step_page
@@ -39,13 +39,13 @@ RSpec.feature "Managing step by step pages" do
       end
     end
 
-    context 'and I would like to reorder the steps on a step by step page' do
+    context "and I would like to reorder the steps on a step by step page" do
       before do
         allow(Services.publishing_api).to(
           receive(:lookup_content_id).with(
             base_path: "/how-to-be-the-amazing-1",
-            with_drafts: true
-          )
+            with_drafts: true,
+          ),
         )
       end
 
@@ -155,19 +155,19 @@ RSpec.feature "Managing step by step pages" do
     allow(Services.publishing_api).to receive(:put_content)
 
     mocked_content_ids = {
-      '/good/stuff' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e1',
-      '/also/good/stuff' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e2',
-      '/not/as/great' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e3'
+      "/good/stuff" => "fd6b1901d-b925-47c5-b1ca-1e52197097e1",
+      "/also/good/stuff" => "fd6b1901d-b925-47c5-b1ca-1e52197097e2",
+      "/not/as/great" => "fd6b1901d-b925-47c5-b1ca-1e52197097e3",
     }
 
     mocked_content_ids.each do |base_path, content_id|
       publishing_api_has_item(
-        content_item(content_id, base_path)
+        content_item(content_id, base_path),
       )
     end
 
     allow(Services.publishing_api).to(
-      receive(:lookup_content_ids).and_return(mocked_content_ids)
+      receive(:lookup_content_ids).and_return(mocked_content_ids),
     )
   end
 
@@ -175,7 +175,7 @@ RSpec.feature "Managing step by step pages" do
     {
       content_id: content_id,
       base_path: base_path,
-      title: 'BLAH BLAH'
+      title: "BLAH BLAH",
     }
   end
 

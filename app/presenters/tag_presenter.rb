@@ -5,16 +5,16 @@ class TagPresenter
     case tag
     when MainstreamBrowsePage
       case tag.state
-      when 'published', 'draft'
+      when "published", "draft"
         MainstreamBrowsePagePresenter.new(tag)
-      when 'archived'
+      when "archived"
         ArchivedTagPresenter.new(tag)
       end
     when Topic
       case tag.state
-      when 'published', 'draft'
+      when "published", "draft"
         TopicPresenter.new(tag)
-      when 'archived'
+      when "archived"
         ArchivedTagPresenter.new(tag)
       end
     else
@@ -37,20 +37,20 @@ class TagPresenter
       schema_name: format,
       title: @tag.title,
       description: @tag.description,
-      locale: 'en',
+      locale: "en",
       public_updated_at: @tag.updated_at.iso8601,
       publishing_app: "collections-publisher",
       rendering_app: "collections",
       routes: routes,
       redirects: RedirectRoutePresenter.new(@tag).routes,
       details: details,
-      update_type: 'minor',
+      update_type: "minor",
     }
   end
 
   def render_links_for_publishing_api
     {
-      links: links
+      links: links,
     }
   end
 

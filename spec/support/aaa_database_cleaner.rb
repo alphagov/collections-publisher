@@ -1,4 +1,4 @@
-require 'database_cleaner'
+require "database_cleaner"
 
 # This file is named aaa_... to ensure it gets run before any other support
 # bits that may create entries in the DB.

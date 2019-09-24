@@ -1,13 +1,13 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe TopicsController do
-  describe 'POST #publish' do
+  describe "POST #publish" do
     it "disallows normal users to publish topics" do
       topic = create(:topic)
 
       post :publish, params: { id: topic.content_id }
 
-      expect(response.code).to eq('403')
+      expect(response.code).to eq("403")
     end
 
     it "allows only GDS Editors to publish topics" do
@@ -19,7 +19,7 @@ RSpec.describe TopicsController do
 
       post :publish, params: { id: topic.content_id }
 
-      expect(response.code).to eq('302')
+      expect(response.code).to eq("302")
     end
   end
 end

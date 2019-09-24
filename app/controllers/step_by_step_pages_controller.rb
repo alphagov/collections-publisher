@@ -1,7 +1,7 @@
 class StepByStepPagesController < ApplicationController
   include PublishingApiHelper
   include TimeOptionsHelper
-  layout 'admin_layout'
+  layout "admin_layout"
 
   before_action :require_gds_editor_permissions!
   before_action :set_step_by_step_page, only: %i[show edit update destroy]
@@ -27,7 +27,7 @@ class StepByStepPagesController < ApplicationController
         step.update_attribute(:position, step_data["position"])
       end
       update_downstream
-      redirect_to @step_by_step_page, notice: 'Steps were successfully reordered.'
+      redirect_to @step_by_step_page, notice: "Steps were successfully reordered."
     end
   end
 
@@ -38,7 +38,7 @@ class StepByStepPagesController < ApplicationController
     @step_by_step_page = StepByStepPage.new(create_params)
     if @step_by_step_page.save
       update_downstream
-      redirect_to @step_by_step_page, notice: 'Step by step page was successfully created.'
+      redirect_to @step_by_step_page, notice: "Step by step page was successfully created."
     else
       render :new
     end
@@ -47,7 +47,7 @@ class StepByStepPagesController < ApplicationController
   def update
     if @step_by_step_page.update(step_by_step_page_params)
       update_downstream
-      redirect_to step_by_step_page_path, notice: 'Step by step page was successfully updated.'
+      redirect_to step_by_step_page_path, notice: "Step by step page was successfully updated."
     else
       render :edit
     end
@@ -56,7 +56,7 @@ class StepByStepPagesController < ApplicationController
   def destroy
     if @step_by_step_page.destroy
       discard_draft
-      redirect_to step_by_step_pages_path, notice: 'Step by step page was successfully deleted.'
+      redirect_to step_by_step_pages_path, notice: "Step by step page was successfully deleted."
     else
       render :edit
     end
@@ -114,9 +114,9 @@ class StepByStepPagesController < ApplicationController
       redirect_url = params.delete("redirect_url")
       if StepByStepPage.validate_redirect(redirect_url)
         unpublish_page(redirect_url)
-        redirect_to @step_by_step_page, notice: 'Step by step page was successfully unpublished.'
+        redirect_to @step_by_step_page, notice: "Step by step page was successfully unpublished."
       else
-        flash[:alert] = 'Redirect path is invalid. Step by step page has not been unpublished.'
+        flash[:alert] = "Redirect path is invalid. Step by step page has not been unpublished."
       end
     end
   end
@@ -136,7 +136,7 @@ class StepByStepPagesController < ApplicationController
     if request.post?
       discard_draft
       revert_page
-      redirect_to @step_by_step_page, notice: 'Draft successfully discarded.'
+      redirect_to @step_by_step_page, notice: "Draft successfully discarded."
     else
       render :edit
     end
@@ -221,7 +221,7 @@ private
   def generate_internal_change_note(note_description)
     change_note = @step_by_step_page.internal_change_notes.new(
       author: current_user.name,
-      description: note_description
+      description: note_description,
     )
     change_note.save!
   end

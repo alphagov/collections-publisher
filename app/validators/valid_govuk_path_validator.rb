@@ -1,6 +1,6 @@
 class ValidGovukPathValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    raise URI::InvalidURIError unless value.starts_with?('/')
+    raise URI::InvalidURIError unless value.starts_with?("/")
 
     Services.content_store.content_item(value)
   rescue GdsApi::ContentStore::ItemNotFound, GdsApi::InvalidUrl, URI::InvalidURIError

@@ -30,22 +30,22 @@ RSpec.feature "Browse hierarchy" do
   end
 
   def given_there_is_a_browse_page_with_a_child_page
-    @parent = create(:mainstream_browse_page, :published, slug: 'citizenship', title: 'Citizenship')
-    @child = create(:mainstream_browse_page, :published, parent: @parent, slug: 'voting')
+    @parent = create(:mainstream_browse_page, :published, slug: "citizenship", title: "Citizenship")
+    @child = create(:mainstream_browse_page, :published, parent: @parent, slug: "voting")
   end
 
   def then_I_can_see_that_the_new_child_page_is_created
-    click_on 'Citizenship'
-    expect(page).to have_content('Benefits')
+    click_on "Citizenship"
+    expect(page).to have_content("Benefits")
 
-    click_on 'Benefits'
-    expect(page).to have_content('Benefits description.')
+    click_on "Benefits"
+    expect(page).to have_content("Benefits description.")
   end
 
   def then_I_can_see_that_the_new_parent_page_is_created
-    expect(page).to have_content('Benefits')
-    click_on 'Benefits'
-    expect(page).to have_content('Benefits description.')
+    expect(page).to have_content("Benefits")
+    click_on "Benefits"
+    expect(page).to have_content("Benefits description.")
   end
 
   def when_I_create_a_new_top_level_page
@@ -56,16 +56,16 @@ RSpec.feature "Browse hierarchy" do
 
   def when_I_create_a_child_page
     visit mainstream_browse_pages_path
-    click_on 'Citizenship'
-    click_on 'Add child page'
+    click_on "Citizenship"
+    click_on "Add child page"
     fill_in_browse_form
   end
 
   def fill_in_browse_form
-    fill_in 'Slug', with: 'benefits'
-    fill_in 'Title', with: 'Benefits'
-    fill_in 'Description', with: 'Benefits description.'
-    click_on 'Create'
+    fill_in "Slug", with: "benefits"
+    fill_in "Title", with: "Benefits"
+    fill_in "Description", with: "Benefits description."
+    click_on "Create"
 
     @content_id = extract_content_id_from(current_path)
   end

@@ -8,7 +8,7 @@ class TopicsController < ApplicationController
 
   def show
     @topic = find_topic
-    render 'archived_topic' if @topic.archived?
+    render "archived_topic" if @topic.archived?
   end
 
   def edit
@@ -23,7 +23,7 @@ class TopicsController < ApplicationController
       redirect_to topic, success: "Specialist sector updated"
     else
       @topic = topic
-      render 'edit'
+      render "edit"
     end
   end
 
@@ -60,9 +60,9 @@ class TopicsController < ApplicationController
     @archival.tag = find_topic
 
     if @archival.archive_or_remove
-      redirect_to topics_path, success: 'The topic has been archived or removed.'
+      redirect_to topics_path, success: "The topic has been archived or removed."
     else
-      render 'propose_archive'
+      render "propose_archive"
     end
   end
 
@@ -85,7 +85,7 @@ private
   def protect_archived_tags!
     topic = find_topic
     if topic.archived?
-      flash[:danger] = 'You cannot modify an archived topic.'
+      flash[:danger] = "You cannot modify an archived topic."
       redirect_to topic
     end
   end

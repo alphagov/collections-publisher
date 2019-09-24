@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe MainstreamBrowsePagesController do
   let(:attributes) { attributes_for(:mainstream_browse_page) }
@@ -8,10 +8,10 @@ RSpec.describe MainstreamBrowsePagesController do
     stub_user.permissions << "GDS Editor"
   end
 
-  describe 'GET new' do
+  describe "GET new" do
     let(:browse_page) { create(:mainstream_browse_page) }
 
-    it 'does not allow users without GDS Editor permissions access' do
+    it "does not allow users without GDS Editor permissions access" do
       stub_user.permissions = %w(signin)
 
       get :new, params: { parent_id: browse_page.id }
@@ -20,7 +20,7 @@ RSpec.describe MainstreamBrowsePagesController do
     end
   end
 
-  describe 'PUT update' do
+  describe "PUT update" do
     before do
       allow(MainstreamBrowsePagePresenter).to receive(:new)
         .with(mainstream_browse_page).and_return(presenter)

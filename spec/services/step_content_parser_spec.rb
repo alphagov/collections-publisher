@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe StepContentParser do
   subject { described_class.new }
@@ -11,8 +11,8 @@ RSpec.describe StepContentParser do
         expect(subject.parse(step_text)).to eq([
           {
             "type": "paragraph",
-            "text": "This is a paragraph."
-          }
+            "text": "This is a paragraph.",
+          },
         ])
       end
 
@@ -26,12 +26,12 @@ RSpec.describe StepContentParser do
         expect(subject.parse(step_text)).to eq([
           {
             "type": "paragraph",
-            "text": "These are all the right notes"
+            "text": "These are all the right notes",
           },
           {
             "type": "paragraph",
-            "text": "Just not necessarily in the right order"
-          }
+            "text": "Just not necessarily in the right order",
+          },
         ])
       end
 
@@ -53,20 +53,20 @@ RSpec.describe StepContentParser do
         expect(subject.parse(step_text)).to eq([
           {
             "type": "paragraph",
-            "text": "Ladies and gentlemen:"
+            "text": "Ladies and gentlemen:",
           },
           {
             "type": "paragraph",
-            "text": "Grieg's piano concerto."
+            "text": "Grieg's piano concerto.",
           },
           {
             "type": "paragraph",
-            "text": "By Grieg"
+            "text": "By Grieg",
           },
           {
             "type": "paragraph",
-            "text": "Conducted by Mr Andrew Preview"
-          }
+            "text": "Conducted by Mr Andrew Preview",
+          },
         ])
       end
     end
@@ -86,14 +86,14 @@ RSpec.describe StepContentParser do
               "contents": [
                 {
                   "text": "Apply for a provisional driving licence",
-                  "href": "/apply-provisional-licence"
+                  "href": "/apply-provisional-licence",
                 },
                 {
                   "text": "Check that you can drive",
-                  "href": "/vehicles-can-drive"
-                }
-              ]
-            }
+                  "href": "/vehicles-can-drive",
+                },
+              ],
+            },
           ])
         end
 
@@ -110,21 +110,21 @@ RSpec.describe StepContentParser do
               "contents": [
                 {
                   "text": "A speed boat",
-                  "href": "/speed-boat"
+                  "href": "/speed-boat",
                 },
                 {
                   "text": "Spending money",
                   "href": "/spending-money",
-                  "context": "£5000 or so"
-                }
-              ]
-            }
+                  "context": "£5000 or so",
+                },
+              ],
+            },
           ])
         end
       end
 
       context 'and using "-" character for bullet points' do
-        it 'parses lists without links' do
+        it "parses lists without links" do
           step_text = <<~HEREDOC
             - Apply for a provisional driving licence
           HEREDOC
@@ -135,10 +135,10 @@ RSpec.describe StepContentParser do
               "style": "choice",
               "contents": [
                 {
-                  "text": "Apply for a provisional driving licence"
-                }
-              ]
-            }
+                  "text": "Apply for a provisional driving licence",
+                },
+              ],
+            },
           ])
         end
 
@@ -155,14 +155,14 @@ RSpec.describe StepContentParser do
               "contents": [
                 {
                   "text": "Apply for a provisional driving licence",
-                  "href": "/apply-provisional-licence"
+                  "href": "/apply-provisional-licence",
                 },
                 {
                   "text": "Check that you can drive",
-                  "href": "/vehicles-can-drive"
-                }
-              ]
-            }
+                  "href": "/vehicles-can-drive",
+                },
+              ],
+            },
           ])
         end
 
@@ -179,15 +179,15 @@ RSpec.describe StepContentParser do
               "contents": [
                 {
                   "text": "A speed boat",
-                  "href": "/speed-boat"
+                  "href": "/speed-boat",
                 },
                 {
                   "text": "Spending money",
                   "href": "/spending-money",
-                  "context": "£5000 or so"
-                }
-              ]
-            }
+                  "context": "£5000 or so",
+                },
+              ],
+            },
           ])
         end
       end
@@ -206,14 +206,14 @@ RSpec.describe StepContentParser do
             "contents": [
               {
                 "text": "Open the box",
-                "href": "/open-the-box"
+                "href": "/open-the-box",
               },
               {
                 "text": "Keep the money",
-                "href": "/keep-the-money"
-              }
-            ]
-          }
+                "href": "/keep-the-money",
+              },
+            ],
+          },
         ])
       end
 
@@ -229,15 +229,15 @@ RSpec.describe StepContentParser do
             "contents": [
               {
                 "text": "A cuddly toy",
-                "href": "/cuddly-toy"
+                "href": "/cuddly-toy",
               },
               {
                 "text": "Brucie bonus",
                 "href": "/brucie-bonus",
-                "context": "Mystery prize"
-              }
-            ]
-          }
+                "context": "Mystery prize",
+              },
+            ],
+          },
         ])
       end
     end
@@ -264,32 +264,32 @@ RSpec.describe StepContentParser do
         expect(subject.parse(step_text)).to eq([
           {
             "type": "paragraph",
-            "text": "There are several prizes on offer on today's Generation Game conveyor belt including:"
+            "text": "There are several prizes on offer on today's Generation Game conveyor belt including:",
           },
           {
             "type": "list",
             "contents": [
               {
                 "text": "A cuddly toy",
-                "href": "/cuddly-toy"
+                "href": "/cuddly-toy",
               },
               {
                 "text": "Brucie bonus",
                 "href": "/brucie-bonus",
-                "context": "Mystery prize"
-              }
-            ]
+                "context": "Mystery prize",
+              },
+            ],
           },
           {
             "type": "paragraph",
-            "text": "If you get the mystery prize, this may be one of several things:"
+            "text": "If you get the mystery prize, this may be one of several things:",
           },
           {
             "type": "list",
             "style": "choice",
             "contents": [
               {
-                "text": "A speed boat"
+                "text": "A speed boat",
               },
               {
                 "text": "A very expensive speed boat",
@@ -298,21 +298,21 @@ RSpec.describe StepContentParser do
               {
                 "text": "Spending money",
                 "href": "/spending-money",
-                "context": "£5000 or so"
+                "context": "£5000 or so",
               },
               {
                 "text": "A dishwasher",
-                "href": "http://dishwashers.org/bargain-basement"
+                "href": "http://dishwashers.org/bargain-basement",
               },
               {
-                "text": "And I'm a healthy bullet (although I eat ice cream everyday)"
-              }
-            ]
+                "text": "And I'm a healthy bullet (although I eat ice cream everyday)",
+              },
+            ],
           },
           {
             "type": "paragraph",
-            "text": "You have to remember them all!"
-          }
+            "text": "You have to remember them all!",
+          },
         ])
       end
     end
@@ -339,7 +339,7 @@ RSpec.describe StepContentParser do
           /all-the-prizes
           /i-love-speed-boats
           /spending-money
-        )
+        ),
       )
     end
 
@@ -350,7 +350,7 @@ RSpec.describe StepContentParser do
         %w(
           /find-driving-instructor-training
           /adi-part-1-test/revision-practice
-        )
+        ),
       )
     end
 
@@ -366,7 +366,7 @@ RSpec.describe StepContentParser do
           /all-the-prizes
           /i-love-speed-boats
           /spending-money
-        )
+        ),
       )
     end
 
@@ -383,7 +383,7 @@ RSpec.describe StepContentParser do
         %w(
           /the-only/Server-Relative/path/in-here
           /apart-from-this-one
-        )
+        ),
       )
     end
   end
@@ -393,15 +393,15 @@ RSpec.describe StepContentParser do
       step_text = "Paragraphs are separated by empty lines.\r\n\r\nUse non-bulleted lists for tasks. Add any costs after the link:\r\n\r\n[task name](/link) £10 to £20\r\n[task name](/link)\r\n\r\nOnly use bullets to show when a task has a number of options to choose from:\r\n\r\n- [download form option 1](/link)\r\n- [download form option 2](/link)\r\n- bullet with no link"
 
       expect(
-        subject.parse(step_text)
+        subject.parse(step_text),
       ).to eql([
         {
           "type": "paragraph",
-          "text": "Paragraphs are separated by empty lines."
+          "text": "Paragraphs are separated by empty lines.",
         },
         {
           "type": "paragraph",
-          "text": "Use non-bulleted lists for tasks. Add any costs after the link:"
+          "text": "Use non-bulleted lists for tasks. Add any costs after the link:",
         },
         {
           "type": "list",
@@ -409,17 +409,17 @@ RSpec.describe StepContentParser do
             {
               "text": "task name",
               "href": "/link",
-              "context": "£10 to £20"
+              "context": "£10 to £20",
             },
             {
               "text": "task name",
-              "href": "/link"
-            }
-          ]
+              "href": "/link",
+            },
+          ],
         },
         {
           "type": "paragraph",
-          "text": "Only use bullets to show when a task has a number of options to choose from:"
+          "text": "Only use bullets to show when a task has a number of options to choose from:",
         },
         {
           "type": "list",
@@ -434,10 +434,10 @@ RSpec.describe StepContentParser do
               "href": "/link",
             },
             {
-              "text": "bullet with no link"
-            }
-          ]
-        }
+              "text": "bullet with no link",
+            },
+          ],
+        },
       ])
     end
 
@@ -461,25 +461,25 @@ RSpec.describe StepContentParser do
           /brucie-bonus
           /i-love-speed-boats/big-ones
           /spending-money
-        )
+        ),
       )
     end
   end
 
-  describe '.all_paths' do
-    context 'when there are no links in the text' do
-      test_text = 'Lorem ipsum dolores'
-      it 'should return an empty array' do
+  describe ".all_paths" do
+    context "when there are no links in the text" do
+      test_text = "Lorem ipsum dolores"
+      it "should return an empty array" do
         expect(subject.all_paths(test_text)).to be_empty
       end
     end
-    context 'when there is one relative and one absolute path' do
+    context "when there is one relative and one absolute path" do
       test_text = "[Learn to drive](/learn-to-drive)\n[Google it](https://www.google.com)"
-      it 'should return an array of URLs' do
+      it "should return an array of URLs" do
         links = subject.all_paths(test_text)
         expect(links).to all(start_with("https:"))
       end
-      it 'should have a length of two' do
+      it "should have a length of two" do
         links = subject.all_paths(test_text)
         expect(links.length).to eql 2
       end

@@ -1,13 +1,13 @@
-require_relative 'boot'
+require_relative "boot"
 
-require 'active_job/railtie'
-require 'active_model/railtie'
-require 'active_record/railtie'
-require 'action_controller/railtie'
-require 'action_view/railtie'
-require 'sprockets/railtie'
+require "active_job/railtie"
+require "active_model/railtie"
+require "active_record/railtie"
+require "action_controller/railtie"
+require "action_view/railtie"
+require "sprockets/railtie"
 
-require 'tilt/erubi'
+require "tilt/erubi"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -22,7 +22,7 @@ module CollectionsPublisher
     config.time_zone = "London"
 
     unless Rails.env.production?
-      ENV['JWT_AUTH_SECRET'] = '123'
+      ENV["JWT_AUTH_SECRET"] = "123"
     end
   end
 end

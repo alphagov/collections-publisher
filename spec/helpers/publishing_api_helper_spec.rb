@@ -10,7 +10,7 @@ RSpec.describe PublishingApiHelper do
           "3" => "draft",
           "2" => "published",
           "1" => "superseded",
-        }
+        },
       )
     end
 

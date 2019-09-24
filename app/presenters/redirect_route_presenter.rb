@@ -8,7 +8,7 @@ class RedirectRoutePresenter
       {
         path: route.from_base_path,
         destination: route.to_base_path,
-        type: 'exact'
+        type: "exact",
       }
     end
   end

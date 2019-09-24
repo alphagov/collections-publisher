@@ -124,7 +124,7 @@ RSpec.feature "Managing topics" do
         description: "Living in the UK",
         schema_name: "topic",
         document_type: "topic",
-      )
+      ),
     )
 
     assert_publishing_api_patch_links(@content_id)
@@ -139,7 +139,7 @@ RSpec.feature "Managing topics" do
         title: "Citizenship in the UK",
         document_type: "topic",
         schema_name: "topic",
-      )
+      ),
     )
 
     assert_publishing_api_patch_links(@page.content_id)
@@ -151,8 +151,8 @@ RSpec.feature "Managing topics" do
     assert_publishing_api_put_content(
       @content_id,
       request_json_includes(
-        description: "A new description"
-      )
+        description: "A new description",
+      ),
     )
   end
 

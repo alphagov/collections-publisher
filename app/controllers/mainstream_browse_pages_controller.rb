@@ -8,7 +8,7 @@ class MainstreamBrowsePagesController < ApplicationController
 
   def show
     @browse_page = find_browse_page
-    render 'archived_browse_page' if @browse_page.archived?
+    render "archived_browse_page" if @browse_page.archived?
   end
 
   def edit
@@ -42,7 +42,7 @@ class MainstreamBrowsePagesController < ApplicationController
       redirect_to browse_page
     else
       @browse_page = browse_page
-      render 'new'
+      render "new"
     end
   end
 
@@ -61,9 +61,9 @@ class MainstreamBrowsePagesController < ApplicationController
     @archival.tag = find_browse_page
 
     if @archival.archive_or_remove
-      redirect_to mainstream_browse_pages_path, success: 'The mainstream browse page has been archived or removed.'
+      redirect_to mainstream_browse_pages_path, success: "The mainstream browse page has been archived or removed."
     else
-      render 'propose_archive'
+      render "propose_archive"
     end
   end
 
@@ -108,7 +108,7 @@ private
   def protect_archived_browse_pages!
     browse_page = find_browse_page
     if browse_page.archived?
-      flash[:danger] = 'You cannot modify an archived mainstream browse page.'
+      flash[:danger] = "You cannot modify an archived mainstream browse page."
       redirect_to browse_page
     end
   end

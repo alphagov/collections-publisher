@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe StepLinksForRules do
   let(:step_page) { create(:step_by_step_page_with_steps) }
@@ -6,24 +6,24 @@ RSpec.describe StepLinksForRules do
   let(:base_paths) { ["/good/stuff", "/also/good/stuff", "/not/as/great"] }
   let(:base_paths_return_data) do
     {
-      '/good/stuff' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e1',
-      '/also/good/stuff' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e2',
-      '/not/as/great' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e3'
+      "/good/stuff" => "fd6b1901d-b925-47c5-b1ca-1e52197097e1",
+      "/also/good/stuff" => "fd6b1901d-b925-47c5-b1ca-1e52197097e2",
+      "/not/as/great" => "fd6b1901d-b925-47c5-b1ca-1e52197097e3",
     }
   end
 
   before do
     publishing_api_receives_request_to_lookup_content_id(
-      base_path: "/how-to-be-the-amazing-1"
+      base_path: "/how-to-be-the-amazing-1",
     )
   end
 
-  context 'when a step page has no rules' do
-    it 'has no navigation rules' do
+  context "when a step page has no rules" do
+    it "has no navigation rules" do
       expect(step_page.navigation_rules.count).to eql(0)
     end
 
-    it 'adds new navigation rules alphabetically' do
+    it "adds new navigation rules alphabetically" do
       setup_test_with_publishing_api_requests
 
       described_class.new(step_by_step_page: step_page).call
@@ -38,7 +38,7 @@ RSpec.describe StepLinksForRules do
     end
   end
 
-  context 'when a step page has rules' do
+  context "when a step page has rules" do
     before do
       setup_test_with_publishing_api_requests
       described_class.new(step_by_step_page: step_page).call
@@ -46,17 +46,17 @@ RSpec.describe StepLinksForRules do
 
     it "has 3 rules" do
       expect(
-        step_page.navigation_rules.size
+        step_page.navigation_rules.size,
       ).to eql(3)
     end
 
-    context 'and there are new links added to the content' do
-      it 'adds the missing rules' do
+    context "and there are new links added to the content" do
+      it "adds the missing rules" do
         first_step.contents << "\n[An Amazing Magic Link](/amazing-magic-link)"
         first_step.save!
 
         base_path_data = {
-          '/amazing-magic-link' => 'fd6b1901d-A747-47c5-b1ca-1e52197097e3'
+          "/amazing-magic-link" => "fd6b1901d-A747-47c5-b1ca-1e52197097e3",
         }
 
         amazing_content_item = basic_content_item(
@@ -69,34 +69,34 @@ RSpec.describe StepLinksForRules do
 
         publishing_api_receives_request_to_lookup_content_ids(
           base_paths: base_paths << base_path_data.keys.first,
-          return_data: base_paths_return_data.merge(base_path_data)
+          return_data: base_paths_return_data.merge(base_path_data),
         )
 
         publishing_api_receives_get_content_id_request(
-          content_items: initial_content_items << amazing_content_item
+          content_items: initial_content_items << amazing_content_item,
         )
 
         described_class.new(step_by_step_page: step_page).call
 
         expect(
-          step_page.navigation_rules.size
+          step_page.navigation_rules.size,
         ).to eql(4)
       end
 
-      it 'keeps the state of the existing rules' do
+      it "keeps the state of the existing rules" do
         rule = step_page.navigation_rules.first
         rule_content_id = rule.content_id
 
-        rule.update_attribute(:include_in_links, 'conditionally')
-        expect(rule.reload.include_in_links).to eq('conditionally')
+        rule.update_attribute(:include_in_links, "conditionally")
+        expect(rule.reload.include_in_links).to eq("conditionally")
 
         publishing_api_receives_request_to_lookup_content_ids(
           base_paths: base_paths,
-          return_data: base_paths_return_data
+          return_data: base_paths_return_data,
         )
 
         publishing_api_receives_get_content_id_request(
-          content_items: initial_content_items
+          content_items: initial_content_items,
         )
 
         described_class.new(step_by_step_page: step_page).call
@@ -104,12 +104,12 @@ RSpec.describe StepLinksForRules do
         expect { rule.reload }.to raise_error ActiveRecord::RecordNotFound
 
         new_rule = NavigationRule.find_by(content_id: rule_content_id)
-        expect(new_rule.include_in_links).to eq('conditionally')
+        expect(new_rule.include_in_links).to eq("conditionally")
       end
     end
 
-    context 'when the links are removed from the content' do
-      it 'removes the rules for those links' do
+    context "when the links are removed from the content" do
+      it "removes the rules for those links" do
         first_step.update_attribute(:contents, "Hello World")
         second_step = step_page.steps.second
 
@@ -118,22 +118,22 @@ RSpec.describe StepLinksForRules do
         publishing_api_receives_request_to_lookup_content_ids(
           base_paths: [base_paths.first],
           return_data: {
-            '/good/stuff' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e1',
-          }
+            "/good/stuff" => "fd6b1901d-b925-47c5-b1ca-1e52197097e1",
+          },
         )
 
         publishing_api_receives_get_content_id_request(
-          content_items: [initial_content_items.first]
+          content_items: [initial_content_items.first],
         )
 
         expect(
-          step_page.navigation_rules.count
+          step_page.navigation_rules.count,
         ).to eql(3)
 
         described_class.new(step_by_step_page: step_page).call
 
         expect(
-          step_page.navigation_rules.count
+          step_page.navigation_rules.count,
         ).to eql(1)
       end
     end
@@ -142,11 +142,11 @@ RSpec.describe StepLinksForRules do
   def setup_test_with_publishing_api_requests
     publishing_api_receives_request_to_lookup_content_ids(
       base_paths: base_paths,
-      return_data: base_paths_return_data
+      return_data: base_paths_return_data,
     )
 
     publishing_api_receives_get_content_id_request(
-      content_items: initial_content_items
+      content_items: initial_content_items,
     )
   end
 
@@ -154,20 +154,20 @@ RSpec.describe StepLinksForRules do
     allow(Services.publishing_api).to(
       receive(:lookup_content_id).with(
         base_path: base_path,
-        with_drafts: true
-      )
+        with_drafts: true,
+      ),
     )
   end
 
   def publishing_api_receives_request_to_lookup_content_ids(base_paths:, return_data: nil)
     expectation = expect(Services.publishing_api).to receive(:lookup_content_ids).with(
       base_paths: base_paths,
-      with_drafts: true
+      with_drafts: true,
     )
 
     if return_data
       expectation.and_return(
-        return_data
+        return_data,
       )
     end
   end
@@ -175,7 +175,7 @@ RSpec.describe StepLinksForRules do
   def publishing_api_receives_get_content_id_request(content_items:)
     content_items.each do |content_item|
       expect(Services.publishing_api).to(
-        receive(:get_content).with(content_item[:content_id])
+        receive(:get_content).with(content_item[:content_id]),
       ).and_return(content_item)
     end
   end
@@ -184,22 +184,22 @@ RSpec.describe StepLinksForRules do
     [
       basic_content_item(
         title: "Good Stuff",
-        base_path: '/good/stuff',
-        content_id: 'fd6b1901d-b925-47c5-b1ca-1e52197097e1',
+        base_path: "/good/stuff",
+        content_id: "fd6b1901d-b925-47c5-b1ca-1e52197097e1",
         publishing_app: "publisher",
         schema_name: "guide",
       ),
       basic_content_item(
         title: "Also Good Stuff",
-        base_path: '/also/good/stuff',
-        content_id: 'fd6b1901d-b925-47c5-b1ca-1e52197097e2',
+        base_path: "/also/good/stuff",
+        content_id: "fd6b1901d-b925-47c5-b1ca-1e52197097e2",
         publishing_app: "publisher",
         schema_name: "guide",
       ),
       basic_content_item(
         title: "Not as Great",
-        base_path: '/not/as/great',
-        content_id: 'fd6b1901d-b925-47c5-b1ca-1e52197097e3',
+        base_path: "/not/as/great",
+        content_id: "fd6b1901d-b925-47c5-b1ca-1e52197097e3",
         publishing_app: "publisher",
         schema_name: "guide",
       ),

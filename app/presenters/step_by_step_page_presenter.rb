@@ -16,7 +16,7 @@ class StepByStepPagePresenter
 
     if step_by_step_page.links_checked?
       items.merge!(
-        "Links checked" => format_full_date_and_time(step_by_step_page.links_last_checked_date)
+        "Links checked" => format_full_date_and_time(step_by_step_page.links_last_checked_date),
       )
     end
     items
@@ -30,28 +30,28 @@ class StepByStepPagePresenter
       items: [
         {
           field: "Title",
-          value: step_by_step_page.title
+          value: step_by_step_page.title,
         },
         {
           field: "Slug",
-          value: step_by_step_page.slug
+          value: step_by_step_page.slug,
         },
         {
           field: "Introduction",
-          value: step_by_step_page.introduction
+          value: step_by_step_page.introduction,
         },
         {
           field: "Description",
-          value: step_by_step_page.description
-        }
-      ]
+          value: step_by_step_page.description,
+        },
+      ],
     }
     if step_by_step_page.can_be_edited?
       params.merge!(edit: {
         href: edit_step_by_step_page_path(step_by_step_page),
         data_attributes: {
-          gtm: "edit-title-summary-body"
-        }
+          gtm: "edit-title-summary-body",
+        },
       })
     end
     params
@@ -61,7 +61,7 @@ class StepByStepPagePresenter
     steps_section_config = {
       title: "Steps",
       id: "steps",
-      borderless: true
+      borderless: true,
     }
 
     if step_by_step_page.can_be_edited? && step_by_step_page.steps.any?
@@ -69,8 +69,8 @@ class StepByStepPagePresenter
         link_text: "Reorder",
         href: step_by_step_page_reorder_path(step_by_step_page),
         data_attributes: {
-          gtm: "reorder-steps"
-        }
+          gtm: "reorder-steps",
+        },
       })
     end
 
@@ -84,9 +84,9 @@ class StepByStepPagePresenter
         link_text: step_by_step_page.can_be_edited? ? "Edit" : "View",
         href: step_by_step_page_navigation_rules_path(step_by_step_page),
         data_attributes: {
-          gtm: "edit-sidebar-settings"
-        }
-      }
+          gtm: "edit-sidebar-settings",
+        },
+      },
     }
   end
 
@@ -97,9 +97,9 @@ class StepByStepPagePresenter
         link_text: step_by_step_page.can_be_edited? ? "Edit" : "View",
         href: step_by_step_page_secondary_content_links_path(step_by_step_page),
         data_attributes: {
-          gtm: "edit-secondary-links"
-        }
-      }
+          gtm: "edit-secondary-links",
+        },
+      },
     }
   end
 

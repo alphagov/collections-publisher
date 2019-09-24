@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe StepByStepFilter::Options do
   it "returns filter options with the default selected" do
@@ -7,7 +7,7 @@ RSpec.describe StepByStepFilter::Options do
     all_option = {
       text: "All",
       data_attributes: {
-        show: "all"
+        show: "all",
       },
       selected: true,
     }
@@ -19,7 +19,7 @@ RSpec.describe StepByStepFilter::Options do
         text: status.humanize,
         value: status,
         data_attributes: {
-          show: status
+          show: status,
         },
         selected: false,
       }
@@ -34,7 +34,7 @@ RSpec.describe StepByStepFilter::Options do
     all_option = {
       text: "All",
       data_attributes: {
-        show: "all"
+        show: "all",
       },
       selected: false,
     }
@@ -45,7 +45,7 @@ RSpec.describe StepByStepFilter::Options do
       text: "Scheduled",
       value: "scheduled",
       data_attributes: {
-        show: "scheduled"
+        show: "scheduled",
       },
       selected: true,
     }
@@ -59,9 +59,9 @@ RSpec.describe StepByStepFilter::Options do
         text: status.humanize,
         value: status,
         data_attributes: {
-          show: status
+          show: status,
         },
-        selected: false
+        selected: false,
       }
 
       expect(subject).to include(status_option)

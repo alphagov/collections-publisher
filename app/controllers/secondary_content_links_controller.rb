@@ -1,5 +1,5 @@
 class SecondaryContentLinksController < ApplicationController
-  layout 'admin_layout'
+  layout "admin_layout"
   before_action :require_gds_editor_permissions!
 
   def create
@@ -8,7 +8,7 @@ class SecondaryContentLinksController < ApplicationController
     if @secondary_content_link.save
       update_downstream
 
-      redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id), notice: 'Secondary content was successfully linked.'
+      redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id), notice: "Secondary content was successfully linked."
     else
       flash[:alert] = @error if @error
       redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id)
@@ -19,7 +19,7 @@ class SecondaryContentLinksController < ApplicationController
     if secondary_content_link.destroy
       update_downstream
 
-      redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id), notice: 'Secondary content link was successfully deleted.'
+      redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id), notice: "Secondary content link was successfully deleted."
     else
       redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id)
     end
@@ -60,7 +60,7 @@ private
       title: content_item["title"],
       content_id: content_id,
       publishing_app: content_item["publishing_app"],
-      schema_name: content_item["schema_name"]
+      schema_name: content_item["schema_name"],
     }
   end
 end

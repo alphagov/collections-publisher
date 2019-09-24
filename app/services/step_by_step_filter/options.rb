@@ -6,18 +6,18 @@ module StepByStepFilter
           text: status.humanize,
           value: status,
           data_attributes: {
-            show: status
+            show: status,
           },
-          selected: selected.present? && selected == status
+          selected: selected.present? && selected == status,
         }
       end
 
       statuses.unshift(
         text: "All",
         data_attributes: {
-          show: "all"
+          show: "all",
         },
-        selected: selected.blank?
+        selected: selected.blank?,
       )
     end
   end

@@ -21,18 +21,18 @@ class StepContentParser
       if standard_list?(section)
         {
           "type": "list",
-          "contents": link_content(section)
+          "contents": link_content(section),
         }
       elsif bulleted_list?(section)
         {
           "type": "list",
           "style": "choice",
-          "contents": link_content(section)
+          "contents": link_content(section),
         }
       else
         {
           "type": "paragraph",
-          "text": section.join
+          "text": section.join,
         }
       end
     end
@@ -86,7 +86,7 @@ private
       elsif /\[(?<text>(.+))\]\((?<href>(.+))\)((?<context>.*))$/ =~ line
         payload = {
           "text": text,
-          "href": href
+          "href": href,
         }
         payload[:context] = context.strip unless context.blank?
         payload

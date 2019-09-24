@@ -1,30 +1,30 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe TopicPresenter do
   describe "rendering for publishing-api" do
     context "for a top-level topic" do
       let(:topic) {
-        create(:topic, :slug => 'working-at-sea',
-          :title => 'Working at sea',
-          :description => 'The sea, the sky, the sea, the sky...')
+        create(:topic, :slug => "working-at-sea",
+          :title => "Working at sea",
+          :description => "The sea, the sky, the sea, the sky...")
       }
       let(:presenter) { TopicPresenter.new(topic) }
       let(:presented_data) { presenter.render_for_publishing_api }
       let(:rendered_links) { presenter.render_links_for_publishing_api }
 
       it "includes the base fields" do
-        expect(presented_data).to include(:schema_name => 'topic',
-          :document_type => 'topic',
-          :title => 'Working at sea',
-          :description => 'The sea, the sky, the sea, the sky...',
-          :locale => 'en',
-          :publishing_app => 'collections-publisher',
-          :rendering_app => 'collections',
+        expect(presented_data).to include(:schema_name => "topic",
+          :document_type => "topic",
+          :title => "Working at sea",
+          :description => "The sea, the sky, the sea, the sky...",
+          :locale => "en",
+          :publishing_app => "collections-publisher",
+          :rendering_app => "collections",
           :redirects => [])
       end
 
       it "is valid against the schema" do
-        expect(presented_data).to be_valid_against_schema('topic')
+        expect(presented_data).to be_valid_against_schema("topic")
       end
 
       it "returns the base_path for the topic" do
@@ -66,12 +66,12 @@ RSpec.describe TopicPresenter do
     end
 
     context "for a subtopic" do
-      let(:parent) { create(:topic, :slug => 'oil-and-gas') }
+      let(:parent) { create(:topic, :slug => "oil-and-gas") }
       let(:topic) {
         create(:topic, :parent => parent,
-          :slug => 'offshore',
-          :title => 'Offshore',
-          :description => 'Oil rigs, pipelines etc.')
+          :slug => "offshore",
+          :title => "Offshore",
+          :description => "Oil rigs, pipelines etc.")
       }
       let(:presenter) { TopicPresenter.new(topic) }
       let(:presented_data) { presenter.render_for_publishing_api }
@@ -82,18 +82,18 @@ RSpec.describe TopicPresenter do
       end
 
       it "includes the base fields" do
-        expect(presented_data).to include(:schema_name => 'topic',
-          :document_type => 'topic',
-          :title => 'Offshore',
-          :description => 'Oil rigs, pipelines etc.',
-          :locale => 'en',
-          :publishing_app => 'collections-publisher',
-          :rendering_app => 'collections',
+        expect(presented_data).to include(:schema_name => "topic",
+          :document_type => "topic",
+          :title => "Offshore",
+          :description => "Oil rigs, pipelines etc.",
+          :locale => "en",
+          :publishing_app => "collections-publisher",
+          :rendering_app => "collections",
           :redirects => [])
       end
 
       it "is valid against the schema" do
-        expect(presented_data).to be_valid_against_schema('topic')
+        expect(presented_data).to be_valid_against_schema("topic")
       end
 
       it "sets public_updated_at based on the topic update time" do

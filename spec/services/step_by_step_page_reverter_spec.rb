@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe StepByStepPageReverter do
   describe "#repopulate_from_publishing_api" do
@@ -9,7 +9,7 @@ RSpec.describe StepByStepPageReverter do
     before do
       allow(Services.publishing_api).to receive(:lookup_content_ids).and_return({})
       allow(Services.publishing_api).to receive(:get_content).with("42ce66de-04f3-4192-bf31-8394538e0734").and_return(
-        secondary_content_item
+        secondary_content_item,
       )
       subject.repopulate_from_publishing_api
       step_by_step_page.reload
@@ -77,13 +77,13 @@ RSpec.describe StepByStepPageReverter do
         expect(step_by_step_page.steps.size).to eq(steps.size)
       end
 
-      it 'saves the step title for each step' do
+      it "saves the step title for each step" do
         expect(step_by_step_page.steps[0].title).to eq("Step one of the step by step")
         expect(step_by_step_page.steps[1].title).to eq("Step two of the step by step")
         expect(step_by_step_page.steps[2].title).to eq("Step three of the step by step")
       end
 
-      it 'saves the logic for each step' do
+      it "saves the logic for each step" do
         expect(step_by_step_page.steps[1].logic).to eq("number")
         expect(step_by_step_page.steps[2].logic).to eq("or")
         expect(step_by_step_page.steps[3].logic).to eq("and")
@@ -105,37 +105,37 @@ RSpec.describe StepByStepPageReverter do
         it "saves the contents of a paragraph" do
           expect(step_by_step_page.steps[0].contents).to eq(
             "A paragraph of text in the first step.\r\n\r\n" \
-            "A second paragraph of text in the first step."
+            "A second paragraph of text in the first step.",
           )
         end
 
         it "saves the contents of a list with links" do
           expect(step_by_step_page.steps[1].contents).to eq(
-            "[The first item in the list for step two](/first-item-in-list-of-step-two)"
+            "[The first item in the list for step two](/first-item-in-list-of-step-two)",
           )
         end
 
         it "saves the contents of a bulleted list with links" do
           expect(step_by_step_page.steps[2].contents).to eq(
-            "- [The first item in the bulleted list for step three](/guidance/first-item-in-bulleted-list-of-step-three)"
+            "- [The first item in the bulleted list for step three](/guidance/first-item-in-bulleted-list-of-step-three)",
           )
         end
 
         it "saves the contents of a bulleted list with just text" do
           expect(step_by_step_page.steps[4].contents).to eq(
-            "- A list of text in the fifth step."
+            "- A list of text in the fifth step.",
           )
         end
 
         it "saves the contents of a list with links and context" do
           expect(step_by_step_page.steps[5].contents).to eq(
-            "[The first item in the list for step six with context](/first-item-in-list-of-step-six-with-context) £23"
+            "[The first item in the list for step six with context](/first-item-in-list-of-step-six-with-context) £23",
           )
         end
 
         it "saves the contents of a bulleted list with links and context" do
           expect(step_by_step_page.steps[6].contents).to eq(
-            "- [The first item in the bulleted list for step seven with context](/first-item-in-list-of-step-seven-with-context) £62 to £75"
+            "- [The first item in the bulleted list for step seven with context](/first-item-in-list-of-step-seven-with-context) £62 to £75",
           )
         end
 
@@ -147,7 +147,7 @@ RSpec.describe StepByStepPageReverter do
             "[The second item in the list for step eight](/second-item-in-list-of-step-eight)\r\n\r\n" \
             "A third paragraph of text in the eighth step.\r\n\r\n" \
             "- [The first item in the bulleted list for step eight with context](/first-item-in-bulleted-list-of-step-eight-with-context) £100\r\n" \
-            "- [The second item in the bulleted list for step eight](/second-item-in-bulleted-list-of-step-eight)"
+            "- [The second item in the bulleted list for step eight](/second-item-in-bulleted-list-of-step-eight)",
           )
         end
       end
@@ -166,13 +166,13 @@ RSpec.describe StepByStepPageReverter do
             "/first-item-in-list-of-step-eight-with-context",
             "/second-item-in-list-of-step-eight",
             "/first-item-in-bulleted-list-of-step-eight-with-context",
-            "/second-item-in-bulleted-list-of-step-eight"
+            "/second-item-in-bulleted-list-of-step-eight",
           ],
-          with_drafts: true
+          with_drafts: true,
         ).and_return(
           "/first-item-in-list-of-step-two" => "a1156b8f-2a46-4fe1-8871-652abce9c925",
           "/guidance/first-item-in-bulleted-list-of-step-three" => "eca3f3dd-3296-4b86-8dc8-42f91fe0cb6e",
-          "/first-item-in-list-of-step-four" => "8d35443d-7bf1-4f51-b9b1-e398e1d44030"
+          "/first-item-in-list-of-step-four" => "8d35443d-7bf1-4f51-b9b1-e398e1d44030",
         )
 
         allow(Services.publishing_api).to receive(:get_content).with("a1156b8f-2a46-4fe1-8871-652abce9c925").and_return(
@@ -181,7 +181,7 @@ RSpec.describe StepByStepPageReverter do
           "content_id" => "a1156b8f-2a46-4fe1-8871-652abce9c925",
           "publishing_app" => "publisher",
           "rendering_app" => "frontend",
-          "schema_name" => "transaction"
+          "schema_name" => "transaction",
         )
         allow(Services.publishing_api).to receive(:get_content).with("eca3f3dd-3296-4b86-8dc8-42f91fe0cb6e").and_return(
           "base_path" => "/guidance/first-item-in-bulleted-list-of-step-three",
@@ -189,7 +189,7 @@ RSpec.describe StepByStepPageReverter do
           "content_id" => "eca3f3dd-3296-4b86-8dc8-42f91fe0cb6e",
           "publishing_app" => "publisher",
           "rendering_app" => "frontend",
-          "schema_name" => "transaction"
+          "schema_name" => "transaction",
         )
         allow(Services.publishing_api).to receive(:get_content).with("8d35443d-7bf1-4f51-b9b1-e398e1d44030").and_return(
           "base_path" => "/first-item-in-list-of-step-four",
@@ -197,7 +197,7 @@ RSpec.describe StepByStepPageReverter do
           "content_id" => "8d35443d-7bf1-4f51-b9b1-e398e1d44030",
           "publishing_app" => "publisher",
           "rendering_app" => "frontend",
-          "schema_name" => "transaction"
+          "schema_name" => "transaction",
         )
 
         updater = described_class.new(step_by_step_page, payload_from_publishing_api(step_by_step_page.content_id))
@@ -281,8 +281,8 @@ RSpec.describe StepByStepPageReverter do
           "introduction": [
             {
               "content_type": "text/govspeak",
-              "content": "An introduction to the step by step journey."
-            }
+              "content": "An introduction to the step by step journey.",
+            },
           ],
           "steps": [
             {
@@ -290,14 +290,14 @@ RSpec.describe StepByStepPageReverter do
               "contents": [
                 {
                   "type": "paragraph",
-                  "text": "A paragraph of text in the first step."
+                  "text": "A paragraph of text in the first step.",
                 },
                 {
                   "type": "paragraph",
-                  "text": "A second paragraph of text in the first step."
-                }
+                  "text": "A second paragraph of text in the first step.",
+                },
               ],
-              "optional": false
+              "optional": false,
             },
             {
               "title": "Step two of the step by step",
@@ -307,12 +307,12 @@ RSpec.describe StepByStepPageReverter do
                   "contents": [
                     {
                       "text": "The first item in the list for step two",
-                      "href": "/first-item-in-list-of-step-two"
-                    }
-                  ]
-                }
+                      "href": "/first-item-in-list-of-step-two",
+                    },
+                  ],
+                },
               ],
-              "optional": false
+              "optional": false,
             },
             {
               "title": "Step three of the step by step",
@@ -323,13 +323,13 @@ RSpec.describe StepByStepPageReverter do
                   "contents": [
                     {
                       "text": "The first item in the bulleted list for step three",
-                      "href": "/guidance/first-item-in-bulleted-list-of-step-three"
-                    }
-                  ]
-                }
+                      "href": "/guidance/first-item-in-bulleted-list-of-step-three",
+                    },
+                  ],
+                },
               ],
               "optional": true,
-              "logic": "or"
+              "logic": "or",
             },
             {
               "title": "Step four of the step by step",
@@ -339,21 +339,21 @@ RSpec.describe StepByStepPageReverter do
                   "contents": [
                     {
                       "text": "The first item in the list for step four",
-                      "href": "/first-item-in-list-of-step-four"
+                      "href": "/first-item-in-list-of-step-four",
                     },
                     {
                       "text": "The second item in the list for step four",
-                      "href": "/second-item-in-list-of-step-four"
+                      "href": "/second-item-in-list-of-step-four",
                     },
                     {
                       "text": "The third item in the list for step four",
-                      "href": "https://www.external.link/third-item-in-list-of-step-four"
-                    }
-                  ]
-                }
+                      "href": "https://www.external.link/third-item-in-list-of-step-four",
+                    },
+                  ],
+                },
               ],
               "optional": false,
-              "logic": "and"
+              "logic": "and",
             },
             {
               "title": "Step five of the step by step",
@@ -363,10 +363,10 @@ RSpec.describe StepByStepPageReverter do
                   "style": "choice",
                   "contents": [
                     {
-                      "text": "A list of text in the fifth step."
-                    }
-                  ]
-                }
+                      "text": "A list of text in the fifth step.",
+                    },
+                  ],
+                },
               ],
               "optional": false,
             },
@@ -379,12 +379,12 @@ RSpec.describe StepByStepPageReverter do
                     {
                       "text": "The first item in the list for step six with context",
                       "href": "/first-item-in-list-of-step-six-with-context",
-                      "context": "£23"
-                    }
-                  ]
-                }
+                      "context": "£23",
+                    },
+                  ],
+                },
               ],
-              "optional": false
+              "optional": false,
             },
             {
               "title": "Step seven of the step by step",
@@ -396,23 +396,23 @@ RSpec.describe StepByStepPageReverter do
                     {
                       "text": "The first item in the bulleted list for step seven with context",
                       "href": "/first-item-in-list-of-step-seven-with-context",
-                      "context": "£62 to £75"
-                    }
-                  ]
-                }
+                      "context": "£62 to £75",
+                    },
+                  ],
+                },
               ],
-              "optional": false
+              "optional": false,
             },
             {
               "title": "Step eight of the step by step",
               "contents": [
                 {
                   "type": "paragraph",
-                  "text": "A paragraph of text in the eighth step."
+                  "text": "A paragraph of text in the eighth step.",
                 },
                 {
                   "type": "paragraph",
-                  "text": "A second paragraph of text in the eighth step."
+                  "text": "A second paragraph of text in the eighth step.",
                 },
                 {
                   "type": "list",
@@ -420,17 +420,17 @@ RSpec.describe StepByStepPageReverter do
                     {
                       "text": "The first item in the list for step eight with context",
                       "href": "/first-item-in-list-of-step-eight-with-context",
-                      "context": "£100"
+                      "context": "£100",
                     },
                     {
                       "text": "The second item in the list for step eight",
-                      "href": "/second-item-in-list-of-step-eight"
-                    }
-                  ]
+                      "href": "/second-item-in-list-of-step-eight",
+                    },
+                  ],
                 },
                 {
                   "type": "paragraph",
-                  "text": "A third paragraph of text in the eighth step."
+                  "text": "A third paragraph of text in the eighth step.",
                 },
                 {
                   "type": "list",
@@ -439,19 +439,19 @@ RSpec.describe StepByStepPageReverter do
                     {
                       "text": "The first item in the bulleted list for step eight with context",
                       "href": "/first-item-in-bulleted-list-of-step-eight-with-context",
-                      "context": "£100"
+                      "context": "£100",
                     },
                     {
                       "text": "The second item in the bulleted list for step eight",
-                      "href": "/second-item-in-bulleted-list-of-step-eight"
-                    }
-                  ]
+                      "href": "/second-item-in-bulleted-list-of-step-eight",
+                    },
+                  ],
                 },
               ],
-              "optional": false
-            }
-          ]
-        }
+              "optional": false,
+            },
+          ],
+        },
       },
       "document_type": "step_by_step_nav",
       "first_published_at": "2017-11-01T15:31:15Z",
@@ -464,8 +464,8 @@ RSpec.describe StepByStepPageReverter do
       "routes": [
         {
           "path": "/an-existing-step-by-step",
-          "type": "exact"
-        }
+          "type": "exact",
+        },
       ],
       "schema_name": "step_by_step_nav",
       "title": "An existing step by step that has previously been published",
@@ -482,7 +482,7 @@ RSpec.describe StepByStepPageReverter do
         "1": "superseded",
         "2": "superseded",
         "3": "superseded",
-        "4": "superseded"
+        "4": "superseded",
       },
       "links": {
         "pages_related_to_step_nav": %w(
@@ -503,7 +503,7 @@ RSpec.describe StepByStepPageReverter do
         ),
       },
       "warnings": {
-      }
+      },
     }
   end
 
@@ -519,7 +519,7 @@ RSpec.describe StepByStepPageReverter do
       "content_id" => "42ce66de-04f3-4192-bf31-8394538e0734",
       "publishing_app" => "publisher",
       "rendering_app" => "frontend",
-      "schema_name" => "transaction"
+      "schema_name" => "transaction",
     }
   end
 end

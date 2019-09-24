@@ -14,6 +14,6 @@ module CommonFeatureSteps
   end
 
   def and_I_submit_the_form
-    find('input[type=submit]').click
+    find("input[type=submit]").click
   end
 end

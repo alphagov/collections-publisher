@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe StepByStepFilter::Results do
   before do
@@ -9,7 +9,7 @@ RSpec.describe StepByStepFilter::Results do
     create(
       :draft_step_by_step_page,
       title: "draft step by step",
-      slug: "draft-step-by-step"
+      slug: "draft-step-by-step",
     )
   end
 
@@ -17,14 +17,14 @@ RSpec.describe StepByStepFilter::Results do
     create(
       :scheduled_step_by_step_page,
       title: "scheduled step by step",
-      slug: "scheduled-step-by-step"
+      slug: "scheduled-step-by-step",
     )
   end
 
   context "filter by status" do
     it "returns a list of step by steps with a status of draft" do
       filter_params = {
-        status: "draft"
+        status: "draft",
       }
       results = described_class.new(filter_params).call
 
@@ -34,7 +34,7 @@ RSpec.describe StepByStepFilter::Results do
 
     it "returns a list of step by steps with a status of scheduled" do
       filter_params = {
-        status: "scheduled"
+        status: "scheduled",
       }
       results = described_class.new(filter_params).call
 
@@ -44,7 +44,7 @@ RSpec.describe StepByStepFilter::Results do
 
     it "returns nothing if there are no matches" do
       filter_params = {
-        status: "published"
+        status: "published",
       }
       results = described_class.new(filter_params).call
 
@@ -55,7 +55,7 @@ RSpec.describe StepByStepFilter::Results do
   context "filter by title" do
     it "matches on the whole title" do
       filter_params = {
-        title_or_url: "scheduled step by step"
+        title_or_url: "scheduled step by step",
       }
       results = described_class.new(filter_params).call
 
@@ -66,7 +66,7 @@ RSpec.describe StepByStepFilter::Results do
     context "partial titles" do
       it "matches on beginning of title" do
         filter_params = {
-          title_or_url: "scheduled"
+          title_or_url: "scheduled",
         }
         results = described_class.new(filter_params).call
 
@@ -76,7 +76,7 @@ RSpec.describe StepByStepFilter::Results do
 
       it "matches on end of title" do
         filter_params = {
-          title_or_url: "by step"
+          title_or_url: "by step",
         }
         results = described_class.new(filter_params).call
 
@@ -88,7 +88,7 @@ RSpec.describe StepByStepFilter::Results do
   context "filter by slug" do
     it "matches on slug" do
       filter_params = {
-        title_or_url: "draft-step-by-step"
+        title_or_url: "draft-step-by-step",
       }
       results = described_class.new(filter_params).call
 
@@ -98,7 +98,7 @@ RSpec.describe StepByStepFilter::Results do
 
     it "matches on base_path" do
       filter_params = {
-        title_or_url: "/draft-step-by-step"
+        title_or_url: "/draft-step-by-step",
       }
       results = described_class.new(filter_params).call
 
@@ -108,7 +108,7 @@ RSpec.describe StepByStepFilter::Results do
 
     it "matches on full url" do
       filter_params = {
-        title_or_url: "http://wwww.gov.uk/draft-step-by-step"
+        title_or_url: "http://wwww.gov.uk/draft-step-by-step",
       }
       results = described_class.new(filter_params).call
 
@@ -120,7 +120,7 @@ RSpec.describe StepByStepFilter::Results do
   it "filters by status and title" do
     filter_params = {
       status: "scheduled",
-      title_or_url: "by step"
+      title_or_url: "by step",
     }
     results = described_class.new(filter_params).call
 
@@ -131,7 +131,7 @@ RSpec.describe StepByStepFilter::Results do
   it "filters by status and slug" do
     filter_params = {
       status: "scheduled",
-      title_or_url: "scheduled-step-by-step"
+      title_or_url: "scheduled-step-by-step",
     }
     results = described_class.new(filter_params).call
 
@@ -142,7 +142,7 @@ RSpec.describe StepByStepFilter::Results do
   it "returns nothing if no step by steps with status and title exist" do
     filter_params = {
       status: "published",
-      title_or_url: "scheduled-step-by-step"
+      title_or_url: "scheduled-step-by-step",
     }
     results = described_class.new(filter_params).call
 
@@ -153,7 +153,7 @@ RSpec.describe StepByStepFilter::Results do
     it "returns all step by steps if none of the filters params have a value" do
       filter_params = {
         status: "",
-        title_or_url: ""
+        title_or_url: "",
       }
       results = described_class.new(filter_params).call
 
@@ -173,14 +173,14 @@ RSpec.describe StepByStepFilter::Results do
         :scheduled_step_by_step_page,
         title: "new scheduled step by step",
         slug: "new-scheduled-step-by-step",
-        scheduled_at: 4.hours.from_now
+        scheduled_at: 4.hours.from_now,
       )
     end
 
     it "returns results ordered by title by default" do
       filter_params = {
         status: "scheduled",
-        title_or_url: "scheduled"
+        title_or_url: "scheduled",
       }
       results = described_class.new(filter_params).call
 
@@ -193,7 +193,7 @@ RSpec.describe StepByStepFilter::Results do
       filter_params = {
         status: "scheduled",
         title_or_url: "scheduled",
-        order_by: "scheduled_at"
+        order_by: "scheduled_at",
       }
       results = described_class.new(filter_params).call
 
@@ -206,7 +206,7 @@ RSpec.describe StepByStepFilter::Results do
       filter_params = {
         status: "scheduled",
         title_or_url: "scheduled",
-        order_by: "foo"
+        order_by: "foo",
       }
       results = described_class.new(filter_params).call
 

@@ -2,7 +2,7 @@ class RootTopicPresenter
   GDS_CONTENT_ID = "af07d5a5-df63-4ddc-9383-6a666845ebe9".freeze
 
   def initialize(options)
-    @state = options['state']
+    @state = options["state"]
   end
 
   def content_id
@@ -10,7 +10,7 @@ class RootTopicPresenter
   end
 
   def draft?
-    @state == 'draft'
+    @state == "draft"
   end
 
   def archived?
@@ -19,11 +19,11 @@ class RootTopicPresenter
 
   def render_for_publishing_api
     {
-      base_path: '/topic',
+      base_path: "/topic",
       schema_name: "topic",
       document_type: "topic",
       title: "Topics",
-      locale: 'en',
+      locale: "en",
       public_updated_at: public_updated_at,
       publishing_app: "collections-publisher",
       rendering_app: "collections",
@@ -31,13 +31,13 @@ class RootTopicPresenter
       details: {
         internal_name: "Topic index page",
       },
-      update_type: 'minor',
+      update_type: "minor",
     }
   end
 
   def render_links_for_publishing_api
     {
-      links: links
+      links: links,
     }
   end
 
@@ -67,7 +67,7 @@ private
   def links
     {
       "children" => topics.map(&:content_id),
-      "primary_publishing_organisation" => [GDS_CONTENT_ID]
+      "primary_publishing_organisation" => [GDS_CONTENT_ID],
     }
   end
 end

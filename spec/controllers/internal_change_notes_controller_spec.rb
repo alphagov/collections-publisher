@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe InternalChangeNotesController, type: :controller do
   before do
@@ -28,14 +28,14 @@ RSpec.describe InternalChangeNotesController, type: :controller do
           "3" => "published",
           "2" => "superseded",
           "1" => "superseded",
-        }
+        },
       )
 
       post :create, params: {
         step_by_step_page_id: published_step_by_step_page.id,
         internal_change_note: {
-          description: "Another change note"
-        }
+          description: "Another change note",
+        },
       }
 
       change_notes = published_step_by_step_page.internal_change_notes

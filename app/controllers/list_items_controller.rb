@@ -12,9 +12,9 @@ class ListItemsController < ApplicationController
     respond_to do |format|
       format.html {
         if saved
-          flash[:success] = 'Content added'
+          flash[:success] = "Content added"
         else
-          flash[:danger] = 'Could not add that list item to your list'
+          flash[:danger] = "Could not add that list item to your list"
         end
 
         redirect_to tag_lists_path(@tag)

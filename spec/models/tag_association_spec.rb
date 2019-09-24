@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe TagAssociation do
   let!(:mainstream_browse_page_parent) { create(:mainstream_browse_page) }

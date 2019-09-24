@@ -1,5 +1,5 @@
 class StepsController < ApplicationController
-  layout 'admin_layout'
+  layout "admin_layout"
   before_action :require_gds_editor_permissions!
 
   def new
@@ -12,7 +12,7 @@ class StepsController < ApplicationController
     if @step.save
       update_downstream
 
-      redirect_to step_by_step_page_path(step_by_step_page.id), notice: 'Step was successfully created.'
+      redirect_to step_by_step_page_path(step_by_step_page.id), notice: "Step was successfully created."
     else
       render :new
     end
@@ -25,7 +25,7 @@ class StepsController < ApplicationController
   def update
     if step.update(step_params)
       update_downstream
-      redirect_to step_by_step_page_path(step_by_step_page.id), notice: 'Step was successfully updated.'
+      redirect_to step_by_step_page_path(step_by_step_page.id), notice: "Step was successfully updated."
     else
       render :edit
     end
@@ -35,7 +35,7 @@ class StepsController < ApplicationController
     if step.destroy
       update_downstream
 
-      redirect_to step_by_step_page_path(step_by_step_page.id), notice: 'Step was successfully deleted.'
+      redirect_to step_by_step_page_path(step_by_step_page.id), notice: "Step was successfully deleted."
     else
       redirect_to step_by_step_page_path
     end
