@@ -256,7 +256,10 @@ RSpec.describe StepContentParser do
           - [A very expensive speed boat](/i-love-speed-boats)
           * [Spending money](/spending-money)£5000 or so
           - [A dishwasher](http://dishwashers.org/bargain-basement)
+          - [I am a broken link]( ftp: / gov .uk)
           - And I'm a healthy bullet (although I eat ice cream everyday)
+
+          [And I am also broken]()
 
           You have to remember them all!
         HEREDOC
@@ -305,9 +308,16 @@ RSpec.describe StepContentParser do
                 "href": "http://dishwashers.org/bargain-basement",
               },
               {
+                "text": "[I am a broken link]( ftp: / gov .uk)",
+              },
+              {
                 "text": "And I'm a healthy bullet (although I eat ice cream everyday)",
               },
             ],
+          },
+          {
+            "type": "paragraph",
+            "text": "[And I am also broken]()",
           },
           {
             "type": "paragraph",
@@ -339,6 +349,23 @@ RSpec.describe StepContentParser do
           /all-the-prizes
           /i-love-speed-boats
           /spending-money
+        ),
+      )
+    end
+
+    it "rejects invalid URLs" do
+      step_text = <<~HEREDOC
+        [All the prizes](/all-the-prizes)
+        - [A link with a space prefix]( /foo)
+        - [A link with a space suffix](/i-love-speed-boats )
+        - [An invalid link](ftp:/ gov . uk)
+        - [A dishwasher](/bargain-basement)
+      HEREDOC
+
+      expect(subject.base_paths(step_text)).to eq(
+        %w(
+          /all-the-prizes
+          /bargain-basement
         ),
       )
     end
