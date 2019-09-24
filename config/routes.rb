@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     get :reorder
     post :reorder
     post :revert
+    post "revert-to-draft", to: "review#revert_to_draft"
     get :schedule
     post :schedule
     post "schedule-datetime", to: "schedule_datetime"
