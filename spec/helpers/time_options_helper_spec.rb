@@ -44,7 +44,7 @@ RSpec.describe TimeOptionsHelper do
 
   describe "#format_full_date_and_time" do
     it "formats the date and time correctly" do
-      datetime = Time.new(2030, 4, 20, 10, 26, 0, '+01:00') # London timezone
+      datetime = Time.new(2030, 4, 20, 10, 26, 0, "+01:00") # London timezone
       expect(helper.format_full_date_and_time(datetime)).to eq("10:26am on 20 April 2030")
     end
   end
@@ -60,7 +60,7 @@ RSpec.describe TimeOptionsHelper do
     let(:default_day) { Time.current.tomorrow.day }
     let(:default_month) { Time.current.tomorrow.month }
     let(:default_year) { Time.current.tomorrow.year }
-    let(:default_time) { '9:00am' }
+    let(:default_time) { "9:00am" }
 
     context "with no params" do
       it "should fall back to default placeholder values" do
@@ -74,28 +74,28 @@ RSpec.describe TimeOptionsHelper do
     context "with all params" do
       it "should override the default datetime" do
         schedule_datetime = default_datetime_placeholder(
-          day: '30',
-          month: '12',
-          year: '2030',
-          time: '13:00'
+          day: "30",
+          month: "12",
+          year: "2030",
+          time: "13:00",
         )
-        expect(schedule_datetime[:day]).to eq '30'
-        expect(schedule_datetime[:month]).to eq '12'
-        expect(schedule_datetime[:year]).to eq '2030'
-        expect(schedule_datetime[:time]).to eq '13:00'
+        expect(schedule_datetime[:day]).to eq "30"
+        expect(schedule_datetime[:month]).to eq "12"
+        expect(schedule_datetime[:year]).to eq "2030"
+        expect(schedule_datetime[:time]).to eq "13:00"
       end
     end
 
     context "with some params" do
       it "should override those params and fall back to defaults for others" do
         schedule_datetime = default_datetime_placeholder(
-          day: '7',
-          time: '3:14pm'
+          day: "7",
+          time: "3:14pm",
         )
-        expect(schedule_datetime[:day]).to eq '7'
+        expect(schedule_datetime[:day]).to eq "7"
         expect(schedule_datetime[:month]).to eq default_month
         expect(schedule_datetime[:year]).to eq default_year
-        expect(schedule_datetime[:time]).to eq '3:14pm'
+        expect(schedule_datetime[:time]).to eq "3:14pm"
       end
     end
   end

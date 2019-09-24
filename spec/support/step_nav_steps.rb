@@ -6,9 +6,9 @@ module StepNavSteps
     stub_any_publishing_api_discard_draft
     allow(Services.publishing_api).to receive(:lookup_content_id)
     allow(Services.publishing_api).to receive(:lookup_content_ids).and_return(
-      '/good/stuff' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e1',
-      '/also/good/stuff' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e2',
-      '/not/as/great' => 'fd6b1901d-b925-47c5-b1ca-1e52197097e3'
+      "/good/stuff" => "fd6b1901d-b925-47c5-b1ca-1e52197097e1",
+      "/also/good/stuff" => "fd6b1901d-b925-47c5-b1ca-1e52197097e2",
+      "/not/as/great" => "fd6b1901d-b925-47c5-b1ca-1e52197097e3",
     )
     allow(Services.publishing_api).to receive(:get_content).with("fd6b1901d-b925-47c5-b1ca-1e52197097e1").and_return(
       "base_path" => "/first-item-in-list-of-step-one",
@@ -16,7 +16,7 @@ module StepNavSteps
       "content_id" => "fd6b1901d-b925-47c5-b1ca-1e52197097e1",
       "publishing_app" => "publisher",
       "rendering_app" => "frontend",
-      "schema_name" => "transaction"
+      "schema_name" => "transaction",
     )
     allow(Services.publishing_api).to receive(:get_content).with("fd6b1901d-b925-47c5-b1ca-1e52197097e2").and_return(
       "base_path" => "/first-item-in-list-of-step-two",
@@ -24,7 +24,7 @@ module StepNavSteps
       "content_id" => "fd6b1901d-b925-47c5-b1ca-1e52197097e2",
       "publishing_app" => "publisher",
       "rendering_app" => "frontend",
-      "schema_name" => "transaction"
+      "schema_name" => "transaction",
     )
     allow(Services.publishing_api).to receive(:get_content).with("fd6b1901d-b925-47c5-b1ca-1e52197097e3").and_return(
       "base_path" => "/first-item-in-list-of-step-three",
@@ -32,13 +32,13 @@ module StepNavSteps
       "content_id" => "fd6b1901d-b925-47c5-b1ca-1e52197097e3",
       "publishing_app" => "publisher",
       "rendering_app" => "frontend",
-      "schema_name" => "transaction"
+      "schema_name" => "transaction",
     )
 
     stub_any_publishing_api_publish
     stub_any_publishing_api_unpublish
     allow(Services.publishing_api).to receive(:get_content).and_return(
-      state_history: { "1" => "published" }
+      state_history: { "1" => "published" },
     )
   end
 
@@ -109,7 +109,7 @@ module StepNavSteps
   def given_there_is_a_step_by_step_page_with_unpublished_changes_whose_links_have_been_checked
     step = create(:step)
     stub_link_checker_report_success(step)
-    @step_by_step_page = create(:step_by_step_with_unpublished_changes, steps: [step], slug: 'step-by-step-with-unpublished-changes')
+    @step_by_step_page = create(:step_by_step_with_unpublished_changes, steps: [step], slug: "step-by-step-with-unpublished-changes")
   end
 
   def given_a_step_by_step_has_been_updated_after_links_last_checked
@@ -118,16 +118,16 @@ module StepNavSteps
     @step_by_step_page = create(
       :step_by_step_with_unpublished_changes,
       steps: [step],
-      slug: 'step-by-step-with-recent-unpublished-changes',
-      draft_updated_at: Time.zone.now
+      slug: "step-by-step-with-recent-unpublished-changes",
+      draft_updated_at: Time.zone.now,
     )
   end
 
   def given_a_step_by_step_has_an_empty_step_added_after_links_last_checked
     @step_by_step_page = create(
       :step_by_step_with_unpublished_changes,
-      slug: 'step-by-step-with-link-report-and-empty-step-added-since-links-checked',
-      draft_updated_at: Time.zone.now
+      slug: "step-by-step-with-link-report-and-empty-step-added-since-links-checked",
+      draft_updated_at: Time.zone.now,
     )
 
     step_with_link_report = create(:step, step_by_step_page: @step_by_step_page)
@@ -148,7 +148,7 @@ module StepNavSteps
   def given_there_are_step_by_step_pages
     @step_by_step_pages = [
       create(:draft_step_by_step_page, title: "A draft step nav", slug: "a-draft-step-nav"),
-      create(:published_step_by_step_page, title: "A published step nav", slug: "a-published-step-nav")
+      create(:published_step_by_step_page, title: "A published step nav", slug: "a-published-step-nav"),
     ]
   end
 
@@ -170,7 +170,7 @@ module StepNavSteps
   end
 
   def then_I_can_see_a_success_message(message)
-    within('.gem-c-success-alert') do
+    within(".gem-c-success-alert") do
       expect(page).to have_content message
     end
   end

@@ -17,11 +17,11 @@ module TimeOptionsHelper
   end
 
   def format_full_date_and_time(datetime)
-    datetime.strftime('%-l:%M%P on %-d %B %Y')
+    datetime.strftime("%-l:%M%P on %-d %B %Y")
   end
 
   def format_full_date(datetime)
-    datetime.strftime('%-d %B %Y')
+    datetime.strftime("%-d %B %Y")
   end
 
   def default_datetime_placeholder(

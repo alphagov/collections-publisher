@@ -32,7 +32,7 @@ private
         ],
         public_updated_at: Time.now.iso8601,
         update_type: "minor",
-      }
+      },
     }
   end
 end

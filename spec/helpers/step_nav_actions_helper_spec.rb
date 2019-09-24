@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe StepNavActionsHelper do
   let(:step_by_step_page) { create(:draft_step_by_step_page) }

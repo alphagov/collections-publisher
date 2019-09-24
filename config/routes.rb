@@ -1,17 +1,17 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root to: redirect('/step-by-step-pages', status: 302)
+  root to: redirect("/step-by-step-pages", status: 302)
 
-  resources :step_by_step_pages, path: 'step-by-step-pages' do
+  resources :step_by_step_pages, path: "step-by-step-pages" do
     post :check_links
-    post 'approve-2i-review', to: 'review#approve_2i_review'
-    post 'claim-2i-review', to: 'review#claim_2i_review'
-    post 'request-change-2i-review', to: 'review#request_change_2i_review'
-    get 'internal-change-notes', to: 'interal_change_notes'
-    post 'internal-change-notes', to: 'internal_change_notes#create'
-    get 'navigation-rules', to: 'navigation_rules#edit'
-    put 'navigation-rules', to: 'navigation_rules#update'
+    post "approve-2i-review", to: "review#approve_2i_review"
+    post "claim-2i-review", to: "review#claim_2i_review"
+    post "request-change-2i-review", to: "review#request_change_2i_review"
+    get "internal-change-notes", to: "interal_change_notes"
+    post "internal-change-notes", to: "internal_change_notes#create"
+    get "navigation-rules", to: "navigation_rules#edit"
+    put "navigation-rules", to: "navigation_rules#update"
     get :publish
     post :publish
     get :reorder
@@ -19,18 +19,18 @@ Rails.application.routes.draw do
     post :revert
     get :schedule
     post :schedule
-    post 'schedule-datetime', to: 'schedule_datetime'
-    get 'submit-for-2i', to: 'review#submit_for_2i'
-    post 'submit-for-2i', to: 'review#submit_for_2i'
+    post "schedule-datetime", to: "schedule_datetime"
+    get "submit-for-2i", to: "review#submit_for_2i"
+    post "submit-for-2i", to: "review#submit_for_2i"
     get :unpublish
     post :unpublish
     post :unschedule
 
-    resources :secondary_content_links, path: 'secondary-content-links'
+    resources :secondary_content_links, path: "secondary-content-links"
     resources :steps
   end
 
-  resources :mainstream_browse_pages, path: 'mainstream-browse-pages',
+  resources :mainstream_browse_pages, path: "mainstream-browse-pages",
                                       except: :destroy do
     member do
       post :publish
@@ -40,7 +40,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :topics, path: 'specialist-sector-pages', except: :destroy do
+  resources :topics, path: "specialist-sector-pages", except: :destroy do
     member do
       post :publish
       get :propose_archive
@@ -57,24 +57,24 @@ Rails.application.routes.draw do
   end
 
   # Legacy route, may have been bookmarked by user.
-  get '/topics/:tag_id/lists', to: redirect { |params, _request|
+  get "/topics/:tag_id/lists", to: redirect { |params, _request|
     "/tags/#{params[:tag_id]}/lists"
   }
 
-  post '/link_report', to: 'link_report#update'
+  post "/link_report", to: "link_report#update"
 
   mount GovukAdminTemplate::Engine, at: "/style-guide"
   mount GovukPublishingComponents::Engine, at: "/component-guide"
 
   class SidekiqAccessContraint
     def matches?(request)
-      user = request.env['warden'].user
+      user = request.env["warden"].user
       user && user.has_permission?("Sidekiq Monitoring")
     end
   end
 
-  require 'sidekiq/web'
+  require "sidekiq/web"
   mount Sidekiq::Web,
-        at: '/sidekiq',
+        at: "/sidekiq",
         constraints: SidekiqAccessContraint.new
 end

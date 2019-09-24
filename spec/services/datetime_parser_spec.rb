@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe DatetimeParser do
   let(:valid_date) { { day: "10", month: "01", year: "2019" } }

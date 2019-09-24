@@ -41,7 +41,7 @@ class StepByStepPage < ApplicationRecord
   def mark_draft_updated
     update(
       draft_updated_at: Time.zone.now,
-      status: "draft"
+      status: "draft",
     )
   end
 
@@ -58,7 +58,7 @@ class StepByStepPage < ApplicationRecord
       assigned_to: nil,
       review_requester_id: nil,
       reviewer_id: nil,
-      status: "published"
+      status: "published",
     )
   end
 
@@ -66,7 +66,7 @@ class StepByStepPage < ApplicationRecord
     update(
       published_at: nil,
       draft_updated_at: nil,
-      status: "draft"
+      status: "draft",
     )
   end
 
@@ -127,7 +127,7 @@ class StepByStepPage < ApplicationRecord
   # See: http://ruby-doc.org/stdlib-1.9.3/libdoc/securerandom/rdoc/SecureRandom.html#uuid-method
   def auth_bypass_id
     @auth_bypass_id ||= begin
-      ary = Digest::SHA256.hexdigest(content_id.to_s).unpack('NnnnnN')
+      ary = Digest::SHA256.hexdigest(content_id.to_s).unpack("NnnnnN")
       ary[2] = (ary[2] & 0x0fff) | 0x4000
       ary[3] = (ary[3] & 0x3fff) | 0x8000
       "%08x-%04x-%04x-%04x-%04x%08x" % ary

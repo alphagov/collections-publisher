@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Autocomplete component", type: :view do
   it "should not render when no data is given" do
@@ -19,7 +19,7 @@ RSpec.describe "Autocomplete component", type: :view do
     assert_select ".app-c-autocomplete", count: 1
     random_id = nil
     assert_select ".app-c-autocomplete label", count: 1, text: "bar" do |label|
-      random_id = label[0]['for']
+      random_id = label[0]["for"]
     end
     assert_select ".app-c-autocomplete input[name='foo'][id='#{random_id}']", count: 1
   end
@@ -28,7 +28,7 @@ RSpec.describe "Autocomplete component", type: :view do
     render_component(
       name: "foo",
       label: { text: "bar" },
-      id: "baz"
+      id: "baz",
     )
 
     assert_select ".app-c-autocomplete", count: 1
@@ -42,8 +42,8 @@ RSpec.describe "Autocomplete component", type: :view do
       name: "foo",
       label: { text: "Countries" },
       input: {
-        options: ["United Kingdom", "United States"]
-      }
+        options: ["United Kingdom", "United States"],
+      },
     )
 
     assert_select ".govuk-label", text: "Countries", for: "basic-autocomplete"
@@ -60,8 +60,8 @@ RSpec.describe "Autocomplete component", type: :view do
       label: { text: "Countries" },
       input: {
         options: ["United Kingdom", "United States"],
-        value: "Spain"
-      }
+        value: "Spain",
+      },
     )
 
     assert_select ".app-c-autocomplete input[value='Spain'][name='foo'][id='foo'][list='foo-list']", count: 1
@@ -77,8 +77,8 @@ RSpec.describe "Autocomplete component", type: :view do
       label: { text: "Label" },
       error_items: [
         { text: "Something wrong with A" },
-        { text: "Also something wrong with B" }
-      ]
+        { text: "Also something wrong with B" },
+      ],
     )
 
     assert_select ".app-c-autocomplete .gem-c-error-message", count: 1 do |error|

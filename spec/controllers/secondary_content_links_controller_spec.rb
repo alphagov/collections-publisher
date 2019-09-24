@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe SecondaryContentLinksController do
   let(:step_by_step_page) { create_step_by_step_page }

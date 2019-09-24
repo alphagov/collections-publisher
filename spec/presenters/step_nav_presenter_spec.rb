@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe StepNavPresenter do
   include GovukContentSchemaTestHelpers
@@ -45,7 +45,7 @@ RSpec.describe StepNavPresenter do
     it "detects pages for navigation" do
       step_nav_with_navigation = create(:step_by_step_page_with_navigation_rules)
       rule1 = step_nav_with_navigation.navigation_rules.first
-      rule1.include_in_links = 'conditionally'
+      rule1.include_in_links = "conditionally"
       rule1.save
 
       step_nav_with_navigation.reload
@@ -76,7 +76,7 @@ RSpec.describe StepNavPresenter do
 
         presented = subject.render_for_publishing_api
         expected_access_limited_tokens = {
-          auth_bypass_ids: %w(123)
+          auth_bypass_ids: %w(123),
         }
 
         expect(presented[:access_limited]).to eq(expected_access_limited_tokens)
@@ -94,7 +94,7 @@ RSpec.describe StepNavPresenter do
     describe "smartanswers" do
       before do
         allow(Services.publishing_api).to receive(:lookup_content_id)
-        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return('/a-smartanswer/y' => '2fcc4688-89b5-4e71-802d-d95c69fe458a')
+        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return("/a-smartanswer/y" => "2fcc4688-89b5-4e71-802d-d95c69fe458a")
       end
 
       let(:step_nav_with_smartanswer) { create(:step_by_step_page_with_smartanswer_navigation_rules) }
@@ -104,14 +104,14 @@ RSpec.describe StepNavPresenter do
         presented = subject.render_for_publishing_api
 
         expect(presented[:links][:pages_part_of_step_nav].count).to eq(3)
-        expect(presented[:links][:pages_part_of_step_nav]).to include('2fcc4688-89b5-4e71-802d-d95c69fe458a')
+        expect(presented[:links][:pages_part_of_step_nav]).to include("2fcc4688-89b5-4e71-802d-d95c69fe458a")
       end
 
       it "doesn't add the content_id of the smartanswer done page if include_in_links is 'conditionally'" do
         allow(StepNavPublisher).to receive(:lookup_content_ids).and_return([])
 
         rule = step_nav_with_smartanswer.navigation_rules.select(&:smartanswer?).first
-        rule.include_in_links = 'conditionally'
+        rule.include_in_links = "conditionally"
         rule.save
 
         step_nav_with_smartanswer.reload
@@ -124,17 +124,17 @@ RSpec.describe StepNavPresenter do
 
     describe "service done pages" do
       it "adds the content_id of the service done page to pages_part_of_step_nav" do
-        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return('/done/good/stuff' => 'cd47dd79-393f-4ead-9c1c-c85e3f1b3423')
+        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return("/done/good/stuff" => "cd47dd79-393f-4ead-9c1c-c85e3f1b3423")
 
         presented = subject.render_for_publishing_api
 
         expect(presented[:links][:pages_part_of_step_nav].count).to eq(3)
-        expect(presented[:links][:pages_part_of_step_nav]).to include('cd47dd79-393f-4ead-9c1c-c85e3f1b3423')
+        expect(presented[:links][:pages_part_of_step_nav]).to include("cd47dd79-393f-4ead-9c1c-c85e3f1b3423")
       end
 
       it "doesn't add the content_id of the service done page if include_in_links is 'conditionally'" do
         rule = step_nav.navigation_rules.first
-        rule.include_in_links = 'conditionally'
+        rule.include_in_links = "conditionally"
         rule.save
 
         step_nav.reload
@@ -161,7 +161,7 @@ RSpec.describe StepNavPresenter do
       end
 
       it "adds the content id of the smartanswer done page to pages_secondary_to_step_nav" do
-        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return('/a-smartanswer/y' => '2fcc4688-89b5-4e71-802d-d95c69fe458a')
+        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return("/a-smartanswer/y" => "2fcc4688-89b5-4e71-802d-d95c69fe458a")
 
         build(
           :secondary_content_link,
@@ -173,11 +173,11 @@ RSpec.describe StepNavPresenter do
 
         presented = subject.render_for_publishing_api
         expect(presented[:links][:pages_secondary_to_step_nav].count).to eq(2)
-        expect(presented[:links][:pages_secondary_to_step_nav]).to include('2fcc4688-89b5-4e71-802d-d95c69fe458a')
+        expect(presented[:links][:pages_secondary_to_step_nav]).to include("2fcc4688-89b5-4e71-802d-d95c69fe458a")
       end
 
       it "adds the content id of a service done page to pages_secondary_to_step_nav" do
-        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return('/done/service-start-page' => '2fcc4688-89b5-4e71-802d-d95c69fe458a')
+        allow(StepNavPublisher).to receive(:lookup_content_ids).and_return("/done/service-start-page" => "2fcc4688-89b5-4e71-802d-d95c69fe458a")
 
         build(
           :secondary_content_link,
@@ -189,7 +189,7 @@ RSpec.describe StepNavPresenter do
 
         presented = subject.render_for_publishing_api
         expect(presented[:links][:pages_secondary_to_step_nav].count).to eq(2)
-        expect(presented[:links][:pages_secondary_to_step_nav]).to include('2fcc4688-89b5-4e71-802d-d95c69fe458a')
+        expect(presented[:links][:pages_secondary_to_step_nav]).to include("2fcc4688-89b5-4e71-802d-d95c69fe458a")
       end
     end
   end

@@ -3,7 +3,7 @@ class StepByStepScheduledPublishWorker
   sidekiq_options retry: 5
 
   sidekiq_retries_exhausted do |msg, _e|
-    GovukError.notify(msg['error_message'])
+    GovukError.notify(msg["error_message"])
   end
 
   def perform(id)

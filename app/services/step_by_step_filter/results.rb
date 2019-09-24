@@ -38,7 +38,7 @@ module StepByStepFilter
     end
 
     def slug_from_title_or_url
-      title_or_url.split('/').last
+      title_or_url.split("/").last
     end
   end
 end

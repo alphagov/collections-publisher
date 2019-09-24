@@ -1,26 +1,26 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe MainstreamBrowsePagePresenter do
   describe "#links" do
     it "includes the parent in the links" do
       browse_page = create(
         :mainstream_browse_page,
-        parent: create(:mainstream_browse_page, content_id: "9bb05887-d741-4a98-95b2-2c45dfc31556")
+        parent: create(:mainstream_browse_page, content_id: "9bb05887-d741-4a98-95b2-2c45dfc31556"),
       )
 
       presenter = MainstreamBrowsePagePresenter.new(browse_page)
 
       expect(
-        presenter.render_links_for_publishing_api[:links]["parent"]
+        presenter.render_links_for_publishing_api[:links]["parent"],
       ).to eql(%w(9bb05887-d741-4a98-95b2-2c45dfc31556))
     end
   end
 
   describe "rendering for publishing-api" do
     let(:browse_page) {
-      create(:mainstream_browse_page, :slug => 'benefits',
-        :title => 'Benefits',
-        :description => 'All about benefits')
+      create(:mainstream_browse_page, :slug => "benefits",
+        :title => "Benefits",
+        :description => "All about benefits")
     }
     let(:presenter) { MainstreamBrowsePagePresenter.new(browse_page) }
     let(:presented_data) { presenter.render_for_publishing_api }
@@ -30,13 +30,13 @@ RSpec.describe MainstreamBrowsePagePresenter do
     end
 
     it "includes the base fields" do
-      expect(presented_data).to include(:schema_name => 'mainstream_browse_page',
-        :document_type => 'mainstream_browse_page',
-        :title => 'Benefits',
-        :description => 'All about benefits',
-        :locale => 'en',
-        :publishing_app => 'collections-publisher',
-        :rendering_app => 'collections',
+      expect(presented_data).to include(:schema_name => "mainstream_browse_page",
+        :document_type => "mainstream_browse_page",
+        :title => "Benefits",
+        :description => "All about benefits",
+        :locale => "en",
+        :publishing_app => "collections-publisher",
+        :rendering_app => "collections",
         :redirects => [])
     end
 
@@ -56,7 +56,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
     end
 
     it "is valid against the schema" do
-      expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+      expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
     end
 
     describe "linking to related topics" do
@@ -70,7 +70,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
       context "without linked topics" do
         it "returns an empty array" do
           expect(rendered_links[:links]["related_topics"]).to eq(
-            []
+            [],
           )
         end
       end
@@ -92,7 +92,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
         end
       end
     end
@@ -153,7 +153,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
         it "it has self as active browse page" do
           expect(rendered_links[:links]["active_top_level_browse_page"]).to eq(
-            [top_level_page_1.content_id]
+            [top_level_page_1.content_id],
           )
         end
 
@@ -172,7 +172,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
         end
       end
 
@@ -188,7 +188,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
         end
       end
 
@@ -198,7 +198,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
         it "includes the parent top-level browse page" do
           expect(rendered_links[:links]["active_top_level_browse_page"]).to eq([
-            top_level_page_1.content_id
+            top_level_page_1.content_id,
           ])
         end
 
@@ -217,7 +217,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
         end
       end
 
@@ -234,7 +234,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
         end
       end
     end
@@ -271,7 +271,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
         end
       end
 
@@ -288,7 +288,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema('mainstream_browse_page')
+          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
         end
       end
     end

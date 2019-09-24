@@ -15,7 +15,7 @@ RSpec.describe StepByStepPagePresenter do
       {
         "Status" => "Draft",
         "Last saved" => format_full_date_and_time(time_now),
-        "Created" => format_full_date_and_time(time_now)
+        "Created" => format_full_date_and_time(time_now),
       }
     }
 
@@ -34,7 +34,7 @@ RSpec.describe StepByStepPagePresenter do
     it "has additional metadata showing when links were checked" do
       create(:link_report, step: step_nav.steps.first)
       summary_with_links_checked = default_summary.merge(
-        "Links checked" => format_full_date_and_time(time_now)
+        "Links checked" => format_full_date_and_time(time_now),
       )
 
       expect(subject).to eq(summary_with_links_checked)
@@ -48,7 +48,7 @@ RSpec.describe StepByStepPagePresenter do
       let(:step_nav) { create(:step_by_step_page) }
 
       it "should return a hash" do
-        expect(subject[:id]).to eq 'steps'
+        expect(subject[:id]).to eq "steps"
       end
 
       it "should not have reorder link" do
@@ -68,7 +68,7 @@ RSpec.describe StepByStepPagePresenter do
       let(:step_nav) { create(:step_by_step_page_with_steps) }
 
       it "should have reorder link" do
-        expect(subject[:edit][:link_text]).to eq 'Reorder'
+        expect(subject[:edit][:link_text]).to eq "Reorder"
       end
     end
   end

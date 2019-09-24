@@ -124,7 +124,7 @@ RSpec.feature "Managing browse pages" do
         description: "Living in the UK",
         document_type: "mainstream_browse_page",
         schema_name: "mainstream_browse_page",
-      )
+      ),
     )
 
     assert_publishing_api_patch_links(@content_id)
@@ -137,8 +137,8 @@ RSpec.feature "Managing browse pages" do
       @page.content_id,
       request_json_includes(
         title: "Citizenship in the UK",
-        document_type: "mainstream_browse_page"
-      )
+        document_type: "mainstream_browse_page",
+      ),
     )
 
     assert_publishing_api_patch_links(@page.content_id)
@@ -150,8 +150,8 @@ RSpec.feature "Managing browse pages" do
     assert_publishing_api_put_content(
       @content_id,
       request_json_includes(
-        description: "A new description"
-      )
+        description: "A new description",
+      ),
     )
   end
 

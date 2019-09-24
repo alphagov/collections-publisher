@@ -3,7 +3,7 @@ class InternalChangeNotesController < ApplicationController
 
   def create
     InternalChangeNote.create(required_fields.merge(other_fields))
-    redirect_to step_by_step_page_internal_change_notes_path, notice: 'Change note was successfully added.'
+    redirect_to step_by_step_page_internal_change_notes_path, notice: "Change note was successfully added."
   end
 
 private
@@ -19,7 +19,7 @@ private
   def other_fields
     fields = {
       step_by_step_page_id: step_by_step_page.id,
-      author: current_user.name
+      author: current_user.name,
     }
 
     fields[:edition_number] = latest_edition_number(step_by_step_page.content_id) if save_edition_number?

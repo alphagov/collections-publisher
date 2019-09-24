@@ -1,5 +1,5 @@
-require 'rails_helper'
-require 'gds_api/test_helpers/content_store'
+require "rails_helper"
+require "gds_api/test_helpers/content_store"
 
 RSpec.feature "Archiving topic tags" do
   include CommonFeatureSteps
@@ -52,8 +52,8 @@ RSpec.feature "Archiving topic tags" do
   end
 
   def when_I_redirect_the_topic_to_a_successor_topic
-    select 'The Successor Topic', from: "topic_archival_form_successor"
-    click_button 'Archive and redirect to a specialist sector'
+    select "The Successor Topic", from: "topic_archival_form_successor"
+    click_button "Archive and redirect to a specialist sector"
   end
 
   def when_I_visit_the_topic_edit_page
@@ -65,7 +65,7 @@ RSpec.feature "Archiving topic tags" do
   end
 
   def then_I_see_that_archived_topics_cannot_be_modified
-    expect(page).to have_content 'You cannot modify an archived topic.'
+    expect(page).to have_content "You cannot modify an archived topic."
   end
 
   def given_there_is_an_archived_topic
@@ -73,23 +73,23 @@ RSpec.feature "Archiving topic tags" do
   end
 
   def given_there_is_a_published_topic
-    @topic = create(:topic, :published, slug: 'bar', parent: create(:topic, slug: 'foo'))
+    @topic = create(:topic, :published, slug: "bar", parent: create(:topic, slug: "foo"))
   end
 
   def given_there_is_a_draft_topic
-    @topic = create(:topic, :draft, slug: 'bar', parent: create(:topic, slug: 'foo'))
+    @topic = create(:topic, :draft, slug: "bar", parent: create(:topic, slug: "foo"))
   end
 
   def and_there_is_a_topic_that_can_be_used_as_a_replacement
-    create(:topic, :published, title: 'The Successor Topic')
+    create(:topic, :published, title: "The Successor Topic")
   end
 
   def when_I_click_the_remove_button
-    click_link 'Remove'
+    click_link "Remove"
   end
 
   def and_I_go_to_the_archive_page
-    click_link 'Archive'
+    click_link "Archive"
   end
 
   def then_the_tag_is_archived
@@ -97,12 +97,12 @@ RSpec.feature "Archiving topic tags" do
   end
 
   def then_I_see_that_I_cannot_edit_the_page
-    expect(page).to have_content 'You cannot modify an archived topic.'
+    expect(page).to have_content "You cannot modify an archived topic."
   end
 
   def when_I_submit_an_invalid_base_path_as_redirect
-    content_store_does_not_have_item('/not-here')
-    fill_in "topic_archival_form[successor_path]", with: '/not-here'
+    content_store_does_not_have_item("/not-here")
+    fill_in "topic_archival_form[successor_path]", with: "/not-here"
     click_button "Archive and redirect to a page"
   end
 

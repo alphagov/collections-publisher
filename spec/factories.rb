@@ -159,7 +159,7 @@ FactoryBot.define do
   end
 
   factory :list_item do
-    title { 'A list item title' }
+    title { "A list item title" }
   end
 
   factory :tag do

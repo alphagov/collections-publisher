@@ -1,5 +1,5 @@
-require 'rails_helper'
-require 'gds_api/test_helpers/publishing_api'
+require "rails_helper"
+require "gds_api/test_helpers/publishing_api"
 
 RSpec.describe StepNavPublisher do
   include GdsApi::TestHelpers::PublishingApi
@@ -14,7 +14,7 @@ RSpec.describe StepNavPublisher do
 
   context ".update" do
     it "sends the rendered step nav to the publishing api" do
-      allow(StepNavPublisher).to receive(:lookup_content_ids).and_return('/foo' => 'a-content-id')
+      allow(StepNavPublisher).to receive(:lookup_content_ids).and_return("/foo" => "a-content-id")
       StepNavPublisher.update(step_nav)
       expect(Services.publishing_api).to have_received(:put_content)
     end

@@ -1,5 +1,5 @@
-require 'rails_helper'
-require 'gds_api/test_helpers/content_store'
+require "rails_helper"
+require "gds_api/test_helpers/content_store"
 
 RSpec.feature "Archiving mainstream browse page tags" do
   include CommonFeatureSteps
@@ -51,8 +51,8 @@ RSpec.feature "Archiving mainstream browse page tags" do
   end
 
   def when_I_redirect_the_mainstream_browse_page_to_a_successor_mainstream_browse_page
-    select 'The Successor Mainstream Browse Page', from: "mainstream_browse_page_archival_form_successor"
-    click_button 'Archive and redirect to a mainstream browse page'
+    select "The Successor Mainstream Browse Page", from: "mainstream_browse_page_archival_form_successor"
+    click_button "Archive and redirect to a mainstream browse page"
   end
 
   def when_I_visit_the_mainstream_browse_page_edit_page
@@ -64,7 +64,7 @@ RSpec.feature "Archiving mainstream browse page tags" do
   end
 
   def then_I_see_that_archived_mainstream_browse_pages_cannot_be_modified
-    expect(page).to have_content 'You cannot modify an archived mainstream browse page.'
+    expect(page).to have_content "You cannot modify an archived mainstream browse page."
   end
 
   def given_there_is_an_archived_mainstream_browse_page
@@ -72,23 +72,23 @@ RSpec.feature "Archiving mainstream browse page tags" do
   end
 
   def given_there_is_a_published_mainstream_browse_page
-    @mainstream_browse_page = create(:mainstream_browse_page, :published, slug: 'bar', parent: create(:mainstream_browse_page, slug: 'foo'))
+    @mainstream_browse_page = create(:mainstream_browse_page, :published, slug: "bar", parent: create(:mainstream_browse_page, slug: "foo"))
   end
 
   def given_there_is_a_draft_mainstream_browse_page
-    @mainstream_browse_page = create(:mainstream_browse_page, :draft, slug: 'bar', parent: create(:mainstream_browse_page, slug: 'foo'))
+    @mainstream_browse_page = create(:mainstream_browse_page, :draft, slug: "bar", parent: create(:mainstream_browse_page, slug: "foo"))
   end
 
   def and_there_is_a_mainstream_browse_page_that_can_be_used_as_a_replacement
-    create(:mainstream_browse_page, :published, title: 'The Successor Mainstream Browse Page')
+    create(:mainstream_browse_page, :published, title: "The Successor Mainstream Browse Page")
   end
 
   def when_I_click_the_remove_button
-    click_link 'Remove mainstream browse page'
+    click_link "Remove mainstream browse page"
   end
 
   def and_I_go_to_the_archive_page
-    click_link 'Archive mainstream browse page'
+    click_link "Archive mainstream browse page"
   end
 
   def then_the_tag_is_archived
@@ -96,12 +96,12 @@ RSpec.feature "Archiving mainstream browse page tags" do
   end
 
   def then_I_see_that_I_cannot_edit_the_page
-    expect(page).to have_content 'You cannot modify an archived mainstream browse page.'
+    expect(page).to have_content "You cannot modify an archived mainstream browse page."
   end
 
   def when_I_submit_an_invalid_base_path_as_redirect
-    content_store_does_not_have_item('/not-here')
-    fill_in "mainstream_browse_page_archival_form[successor_path]", with: '/not-here'
+    content_store_does_not_have_item("/not-here")
+    fill_in "mainstream_browse_page_archival_form[successor_path]", with: "/not-here"
     click_button "Archive and redirect to a page"
   end
 

@@ -1,11 +1,11 @@
-require 'services'
-require 'gds_api/test_helpers/publishing_api_v2'
+require "services"
+require "gds_api/test_helpers/publishing_api_v2"
 
 module PublishingApiHelpers
   include GdsApi::TestHelpers::PublishingApiV2
 
   def assert_publishing_api_not_published(content_id)
-    url = Plek.current.find('publishing-api') + "/v2/content/#{content_id}/publish"
+    url = Plek.current.find("publishing-api") + "/v2/content/#{content_id}/publish"
     assert_not_requested(:post, url)
   end
 

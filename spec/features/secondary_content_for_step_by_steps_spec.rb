@@ -55,22 +55,22 @@ RSpec.feature "Managing secondary content for step by step pages" do
     expect_update_worker
 
     fill_in "base_path", with: base_path
-    find('button[type=submit]').click
+    find("button[type=submit]").click
   end
 
   def and_I_try_to_add_secondary_content_with_a_broken_link
     fill_in "base_path", with: broken_base_path
-    find('button[type=submit]').click
+    find("button[type=submit]").click
   end
 
   def and_I_delete_secondary_content
     expect_update_worker
 
-    find('.govuk-button--warning').click
+    find(".govuk-button--warning").click
   end
 
   def and_I_click_the_secondary_links_edit_link
-    click_on 'Edit Secondary links'
+    click_on "Edit Secondary links"
   end
 
   def when_I_visit_the_secondary_content_page
@@ -91,24 +91,24 @@ RSpec.feature "Managing secondary content for step by step pages" do
   end
 
   def then_I_can_see_the_existing_secondary_content_listed
-    expect(find('tbody')).to have_content(@step_by_step_page.secondary_content_links.first.title)
+    expect(find("tbody")).to have_content(@step_by_step_page.secondary_content_links.first.title)
   end
 
   def and_I_can_see_the_new_secondary_content_listed
-    expect(find('tbody')).to have_content(base_path)
+    expect(find("tbody")).to have_content(base_path)
   end
 
   def and_I_cannot_see_any_secondary_content_listed
-    expect(find('tbody')).to have_content('No secondary links have been added yet.')
+    expect(find("tbody")).to have_content("No secondary links have been added yet.")
   end
 
   def setup_publishing_api_request_expectations
     allow(Services.publishing_api).to(
-      receive(:lookup_content_id).and_return(content_id)
+      receive(:lookup_content_id).and_return(content_id),
     )
 
     allow(Services.publishing_api).to(
-      receive(:get_content).with(content_id).and_return(content_item)
+      receive(:get_content).with(content_id).and_return(content_item),
     )
   end
 

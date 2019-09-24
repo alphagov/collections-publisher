@@ -4,7 +4,7 @@ module ApplicationHelper
   end
 
   def content_tagger_url
-    Plek.new.external_url_for('content-tagger')
+    Plek.new.external_url_for("content-tagger")
   end
 
   def preview_url(slug, auth_bypass_id: nil)

@@ -1,21 +1,21 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe NavigationRule do
   let(:step_by_step_page) { create(:step_by_step_page) }
 
   it { belong_to :step_by_step_page }
 
-  describe '#valid?' do
+  describe "#valid?" do
     before do
       allow(Services.publishing_api).to receive(:lookup_content_id)
     end
 
-    context 'without a step_by_step_page' do
-      it 'is invalid' do
+    context "without a step_by_step_page" do
+      it "is invalid" do
         resource = described_class.new(
-          title: 'A Title',
-          base_path: '/a-base-path',
-          content_id: 'A-CONTENT-ID-BOOM',
+          title: "A Title",
+          base_path: "/a-base-path",
+          content_id: "A-CONTENT-ID-BOOM",
         )
 
         expect(resource).to_not be_valid
@@ -23,11 +23,11 @@ RSpec.describe NavigationRule do
       end
     end
 
-    context 'without a title' do
-      it 'is invalid' do
+    context "without a title" do
+      it "is invalid" do
         resource = described_class.new(
-          base_path: '/a-base-path',
-          content_id: 'A-CONTENT-ID-BOOM',
+          base_path: "/a-base-path",
+          content_id: "A-CONTENT-ID-BOOM",
           step_by_step_page: step_by_step_page,
         )
 
@@ -36,11 +36,11 @@ RSpec.describe NavigationRule do
       end
     end
 
-    context 'without a base_path' do
-      it 'is invalid' do
+    context "without a base_path" do
+      it "is invalid" do
         resource = described_class.new(
-          title: 'A Title',
-          content_id: 'A-CONTENT-ID-BOOM',
+          title: "A Title",
+          content_id: "A-CONTENT-ID-BOOM",
           step_by_step_page: step_by_step_page,
         )
 
@@ -49,11 +49,11 @@ RSpec.describe NavigationRule do
       end
     end
 
-    context 'without a content_id' do
-      it 'is invalid' do
+    context "without a content_id" do
+      it "is invalid" do
         resource = described_class.new(
-          title: 'A Title',
-          base_path: '/a-base-path',
+          title: "A Title",
+          base_path: "/a-base-path",
           step_by_step_page: step_by_step_page,
         )
 
@@ -62,12 +62,12 @@ RSpec.describe NavigationRule do
       end
     end
 
-    context 'without a publishing_app' do
-      it 'is invalid' do
+    context "without a publishing_app" do
+      it "is invalid" do
         resource = described_class.new(
-          title: 'A Title',
-          base_path: '/a-base-path',
-          content_id: 'A-CONTENT-ID-BOOM',
+          title: "A Title",
+          base_path: "/a-base-path",
+          content_id: "A-CONTENT-ID-BOOM",
           step_by_step_page: step_by_step_page,
         )
 
@@ -76,14 +76,14 @@ RSpec.describe NavigationRule do
       end
     end
 
-    context 'without a schema_name' do
-      it 'is invalid' do
+    context "without a schema_name" do
+      it "is invalid" do
         resource = described_class.new(
-          title: 'A Title',
-          base_path: '/a-base-path',
-          content_id: 'A-CONTENT-ID-BOOM',
+          title: "A Title",
+          base_path: "/a-base-path",
+          content_id: "A-CONTENT-ID-BOOM",
           step_by_step_page: step_by_step_page,
-          publishing_app: 'transaction',
+          publishing_app: "transaction",
         )
 
         expect(resource).to_not be_valid
@@ -91,15 +91,15 @@ RSpec.describe NavigationRule do
       end
     end
 
-    context 'with valid attributes' do
-      it 'is valid' do
+    context "with valid attributes" do
+      it "is valid" do
         resource = described_class.new(
-          title: 'A Title',
-          base_path: '/a-base-path',
-          content_id: 'A-CONTENT-ID-BOOM',
+          title: "A Title",
+          base_path: "/a-base-path",
+          content_id: "A-CONTENT-ID-BOOM",
           step_by_step_page: step_by_step_page,
-          publishing_app: 'publisher',
-          schema_name: 'transaction'
+          publishing_app: "publisher",
+          schema_name: "transaction",
         )
 
         expect(resource).to be_valid
@@ -108,44 +108,44 @@ RSpec.describe NavigationRule do
     end
   end
 
-  describe '#smartanswer?' do
+  describe "#smartanswer?" do
     before do
       allow(Services.publishing_api).to receive(:lookup_content_id)
     end
 
-    it 'is a smartanswer start page' do
+    it "is a smartanswer start page" do
       resource = described_class.new(
-        title: 'A Title',
-        base_path: '/a-base-path',
-        content_id: 'A-CONTENT-ID-BOOM',
+        title: "A Title",
+        base_path: "/a-base-path",
+        content_id: "A-CONTENT-ID-BOOM",
         step_by_step_page: step_by_step_page,
-        publishing_app: 'smartanswers',
-        schema_name: 'transaction'
+        publishing_app: "smartanswers",
+        schema_name: "transaction",
       )
 
       expect(resource.smartanswer?).to be true
     end
 
-    it 'is not a smartanswer start page' do
+    it "is not a smartanswer start page" do
       resource = described_class.new(
-        title: 'A Title',
-        base_path: '/a-base-path',
-        content_id: 'A-CONTENT-ID-BOOM',
+        title: "A Title",
+        base_path: "/a-base-path",
+        content_id: "A-CONTENT-ID-BOOM",
         step_by_step_page: step_by_step_page,
-        publishing_app: 'publisher',
-        schema_name: 'transaction'
+        publishing_app: "publisher",
+        schema_name: "transaction",
       )
 
       expect(resource.smartanswer?).to be false
     end
   end
 
-  describe '#display_text' do
+  describe "#display_text" do
     let(:resource) {
       described_class.new(
-        title: 'A Title',
-        base_path: '/a-base-path',
-        content_id: 'A-CONTENT-ID-BOOM',
+        title: "A Title",
+        base_path: "/a-base-path",
+        content_id: "A-CONTENT-ID-BOOM",
       )
     }
     it "returns 'Always show navigation' if the value always" do

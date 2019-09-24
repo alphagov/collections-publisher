@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe StatusPrerequisiteValidator do
   let(:step_by_step_page) { build(:step_by_step_page) }

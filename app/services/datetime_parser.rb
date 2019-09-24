@@ -23,7 +23,7 @@ class DatetimeParser
       raw_date[:month].to_i,
       raw_date[:day].to_i,
       time[:hour],
-      time[:minute]
+      time[:minute],
     )
   end
 

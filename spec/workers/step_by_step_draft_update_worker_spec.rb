@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe StepByStepDraftUpdateWorker do
   before do
@@ -20,45 +20,45 @@ RSpec.describe StepByStepDraftUpdateWorker do
     end
   end
 
-  describe '#update_assigned_to' do
+  describe "#update_assigned_to" do
     let(:step_by_step_page) { create(:step_by_step_page_with_steps, assigned_to: "Old author") }
-    context 'when a guide is a new draft' do
-      it 'should assign the draft to the current user' do
+    context "when a guide is a new draft" do
+      it "should assign the draft to the current user" do
         described_class.new.perform(step_by_step_page.id, @current_user.name)
         expect(StepByStepPage.find(step_by_step_page.id).assigned_to).to eql "New author"
       end
     end
-    context 'when a guide is a draft that has already been updated' do
+    context "when a guide is a draft that has already been updated" do
       before do
         step_by_step_page.mark_draft_updated
       end
-      it 'should be assigned to the new author' do
+      it "should be assigned to the new author" do
         described_class.new.perform(step_by_step_page.id, @current_user.name)
         expect(StepByStepPage.find(step_by_step_page.id).assigned_to).to eql "New author"
       end
     end
-    context 'when a guide is a draft and its assignee is the current user' do
+    context "when a guide is a draft and its assignee is the current user" do
       let(:step_by_step_page) { create(:step_by_step_page_with_steps, assigned_to: "New author") }
-      it 'keeps the same assignee' do
+      it "keeps the same assignee" do
         described_class.new.perform(step_by_step_page.id, @current_user.name)
         expect(step_by_step_page.assigned_to_changed?).to be false
       end
     end
   end
 
-  describe '#generate_internal_change_note' do
+  describe "#generate_internal_change_note" do
     let(:step_by_step_page) { create(:step_by_step_page_with_steps) }
-    context 'when the guide is a new draft' do
+    context "when the guide is a new draft" do
       it 'generates a note that says "Draft saved by New author"' do
         described_class.new.perform(step_by_step_page.id, @current_user.name)
-        expect(step_by_step_page.internal_change_notes.first.description).to eql 'Draft saved by New author'
+        expect(step_by_step_page.internal_change_notes.first.description).to eql "Draft saved by New author"
       end
     end
-    context 'when the guide is a draft that has already been updated' do
+    context "when the guide is a draft that has already been updated" do
       before do
         step_by_step_page.mark_draft_updated
       end
-      it 'should generate a change note' do
+      it "should generate a change note" do
         described_class.new.perform(step_by_step_page.id, @current_user.name)
         expect(step_by_step_page.internal_change_notes.count).to eql 1
       end

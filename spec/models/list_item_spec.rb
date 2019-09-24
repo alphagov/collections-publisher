@@ -8,13 +8,13 @@ RSpec.describe ListItem do
         tag.content_id,
         items: [
           { base_path: "/some-link", title: "The Title" },
-          { base_path: "/some-other-link", title: "Another Title" }
-        ]
+          { base_path: "/some-other-link", title: "Another Title" },
+        ],
       )
 
       list_item = create(:list_item, base_path: "/some-link", list: create(:list, tag: tag))
 
-      expect(list_item.display_title).to eql('The Title')
+      expect(list_item.display_title).to eql("The Title")
     end
 
     it "falls back to the cached title" do
@@ -23,7 +23,7 @@ RSpec.describe ListItem do
       tag = create(:topic, slug: "my-tag-slug")
       list_item = create(:list_item, base_path: "/some-link", title: "My persisted title", list: create(:list, tag: tag))
 
-      expect(list_item.display_title).to eql('My persisted title')
+      expect(list_item.display_title).to eql("My persisted title")
     end
   end
 end

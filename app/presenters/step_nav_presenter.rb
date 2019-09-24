@@ -40,7 +40,7 @@ private
       rendering_app: "collections",
       routes: routes,
       schema_name: "step_by_step_nav",
-      title: step_nav.title
+      title: step_nav.title,
     }
   end
 
@@ -55,7 +55,7 @@ private
   end
 
   def routes
-    [{ path: base_path, type: 'exact' }]
+    [{ path: base_path, type: "exact" }]
   end
 
   def details
@@ -65,11 +65,11 @@ private
         introduction: [
           {
             content_type: "text/govspeak",
-            content: step_nav.introduction
-          }
+            content: step_nav.introduction,
+          },
         ],
-        steps: steps
-      }
+        steps: steps,
+      },
     }
   end
 
@@ -126,7 +126,7 @@ private
   end
 
   def base_paths_for_navigation_rules
-    step_nav.navigation_rules.select { |rule| rule.include_in_links == 'always' }.map do |rule|
+    step_nav.navigation_rules.select { |rule| rule.include_in_links == "always" }.map do |rule|
       done_page_base_path(rule)
     end
   end

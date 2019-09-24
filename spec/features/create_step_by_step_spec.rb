@@ -76,11 +76,11 @@ RSpec.feature "Create new step by step page" do
 
   def and_the_slug_has_been_taken
     expect(
-      Services.publishing_api
+      Services.publishing_api,
     ).to(
       receive(:lookup_content_id)
       .with(base_path: "/#{@step_by_step_page.slug}", with_drafts: true)
-      .and_return("A-TAKEN-CONTENT-ID")
+      .and_return("A-TAKEN-CONTENT-ID"),
     )
   end
 

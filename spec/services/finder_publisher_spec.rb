@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe FinderPublisher do
   before do
@@ -13,7 +13,7 @@ RSpec.describe FinderPublisher do
 
       subject = described_class.new(finder_item)
 
-      expect(subject.content_item).to be_valid_against_schema('finder')
+      expect(subject.content_item).to be_valid_against_schema("finder")
     end
   end
 
@@ -31,7 +31,7 @@ RSpec.describe FinderPublisher do
     it "unpublishes the finder" do
       file_path = "#{Rails.root}/lib/finders/organisation_content.json"
       content_item = JSON.parse(File.read(file_path))
-      content_id = content_item['content_id']
+      content_id = content_item["content_id"]
       options = { type: "gone" }
 
       described_class.new(content_item).unpublish(options)

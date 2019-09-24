@@ -3,7 +3,7 @@ namespace :users do
   task remove_edit_taxonomy_permission: :environment do
     User.transaction do
       User.all.each do |user|
-        permission = 'Edit Taxonomy'
+        permission = "Edit Taxonomy"
         Rails.logger.info "Removing '#{permission}' permission from #{user.email}"
         result = PermissionRemover.run(permission: permission, user: user)
         raise "Unable to save user record, aborting" if result == PermissionRemover::FAILURE

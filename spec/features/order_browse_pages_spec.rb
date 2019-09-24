@@ -34,37 +34,37 @@ RSpec.feature "Order browse pages" do
   end
 
   def when_I_navigate_to_the_child_ordering_page
-    click_on 'Pizzas'
-    click_on 'Manage child ordering'
+    click_on "Pizzas"
+    click_on "Manage child ordering"
   end
 
   def and_I_select_curated_ordering
-    select 'curated', from: 'Child ordering'
+    select "curated", from: "Child ordering"
   end
 
   def and_I_submit_an_ordering
-    fill_in @four_seasons.slug.to_s, with: '1'
-    fill_in @pepperoni.slug.to_s, with: '0'
-    click_on 'Save'
+    fill_in @four_seasons.slug.to_s, with: "1"
+    fill_in @pepperoni.slug.to_s, with: "0"
+    click_on "Save"
   end
 
   def then_I_see_my_curated_ordering
-    titles = page.all('.tags-list tbody td:first-child').map(&:text)
+    titles = page.all(".tags-list tbody td:first-child").map(&:text)
     expect(titles).to eq([
-      'Pepperoni',
-      'Four seasons',
+      "Pepperoni",
+      "Four seasons",
     ])
   end
 
   def and_I_select_alphabetical_ordering
-    select 'alphabetical', from: 'Child ordering'
+    select "alphabetical", from: "Child ordering"
   end
 
   def then_I_see_the_alphabetical_order
-    titles = page.all('.tags-list tbody td:first-child').map(&:text)
+    titles = page.all(".tags-list tbody td:first-child").map(&:text)
     expect(titles).to eq([
-      'Four seasons',
-      'Pepperoni',
+      "Four seasons",
+      "Pepperoni",
     ])
   end
 end

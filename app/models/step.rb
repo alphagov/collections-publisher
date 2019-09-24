@@ -30,7 +30,7 @@ private
     return [] if batch_link_report.blank?
 
     batch_link_report.links.keep_if do |link|
-      link.fetch('status') == 'broken'
+      link.fetch("status") == "broken"
     end
   end
 

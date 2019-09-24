@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe TagArchiver do
-  describe '#archive' do
+  describe "#archive" do
     before do
       stub_any_publishing_api_call
 
@@ -46,7 +46,7 @@ RSpec.describe TagArchiver do
     end
 
     it "creates redirects for the suffixes" do
-      tag = create(:topic, :published, slug: 'bar', parent: create(:topic, slug: 'foo'))
+      tag = create(:topic, :published, slug: "bar", parent: create(:topic, slug: "foo"))
       successor = create(:topic)
 
       TagArchiver.new(tag, successor).archive
@@ -60,7 +60,7 @@ RSpec.describe TagArchiver do
 
     it "redirects to the base path when the successor is a parent topic" do
       tag = create(:topic, :published, parent: create(:topic))
-      successor = create(:topic, slug: 'foo')
+      successor = create(:topic, slug: "foo")
 
       TagArchiver.new(tag, successor).archive
 
@@ -73,7 +73,7 @@ RSpec.describe TagArchiver do
 
     it "redirects to the suffixes when the successor is a child topic" do
       tag = create(:topic, :published, parent: create(:topic))
-      successor = create(:topic, slug: 'bar', parent: create(:topic, slug: 'foo'))
+      successor = create(:topic, slug: "bar", parent: create(:topic, slug: "foo"))
 
       TagArchiver.new(tag, successor).archive
 
@@ -95,8 +95,8 @@ RSpec.describe TagArchiver do
     it "doesn't have side effects when a API call fails" do
       tag = create(:topic, :published, parent: create(:topic))
 
-      expect(Services.publishing_api).to receive(:put_content).and_raise('publishing API call failed')
-      expect { TagArchiver.new(tag, build(:topic)).archive }.to raise_error('publishing API call failed')
+      expect(Services.publishing_api).to receive(:put_content).and_raise("publishing API call failed")
+      expect { TagArchiver.new(tag, build(:topic)).archive }.to raise_error("publishing API call failed")
       tag.reload
 
       expect(tag.archived?).to be(false)

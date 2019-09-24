@@ -139,7 +139,7 @@ RSpec.feature "Managing step by step pages" do
 
   context "Scheduling" do
     before do
-      stub_publishing_api_destroy_intent('/how-to-be-the-amazing-1')
+      stub_publishing_api_destroy_intent("/how-to-be-the-amazing-1")
     end
 
     scenario "User schedules publishing without a public change note" do
@@ -242,9 +242,9 @@ RSpec.feature "Managing step by step pages" do
         "http://example.com/good",
         "https://www.gov.uk/good/stuff",
         "https://www.gov.uk/also/good/stuff",
-        "https://www.gov.uk/not/as/great"
+        "https://www.gov.uk/not/as/great",
       ],
-      webhook_uri: Plek.new.external_url_for("collections-publisher") + "/link_report"
+      webhook_uri: Plek.new.external_url_for("collections-publisher") + "/link_report",
     )
     stub_link_checker_api_get_batch(id: 0)
 
@@ -355,11 +355,11 @@ RSpec.feature "Managing step by step pages" do
           introduction: [
             {
               content_type: "text/govspeak",
-              content: "An introduction to the step by step journey."
-            }
+              content: "An introduction to the step by step journey.",
+            },
           ],
-          steps: []
-        }
+          steps: [],
+        },
       },
       state_history: { "1" => "published" },
       links: {},
@@ -441,20 +441,20 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_can_see_a_steps_overview_section_with_no_steps
-    expect(page).not_to have_css('.gem-c-summary-list#steps .govuk-summary-list__row')
-    expect(page).to have_content('No steps have been added yet.')
+    expect(page).not_to have_css(".gem-c-summary-list#steps .govuk-summary-list__row")
+    expect(page).to have_content("No steps have been added yet.")
   end
 
   def and_I_cannot_check_for_broken_links
-    expect(page).not_to have_link('Check for broken links')
+    expect(page).not_to have_link("Check for broken links")
   end
 
   def and_I_can_see_a_steps_overview_section
-    within('.gem-c-summary-list#steps') do
+    within(".gem-c-summary-list#steps") do
       expect(page).to have_selector(".govuk-heading-m", text: "Steps")
-      expect(page).to have_css('.govuk-summary-list__row', count: 2)
-      expect(page).to have_step_text_in_row(row: 1, text: 'Check how awesome you are')
-      expect(page).to have_step_text_in_row(row: 2, text: 'Dress like the Fonz')
+      expect(page).to have_css(".govuk-summary-list__row", count: 2)
+      expect(page).to have_step_text_in_row(row: 1, text: "Check how awesome you are")
+      expect(page).to have_step_text_in_row(row: 2, text: "Dress like the Fonz")
     end
   end
 
@@ -463,14 +463,14 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_can_edit_and_delete_steps
-    all('.gem-c-summary-list#steps .govuk-summary-list__actions').each do |step|
+    all(".gem-c-summary-list#steps .govuk-summary-list__actions").each do |step|
       expect(step).to have_link("Edit")
       expect(step).to have_link("Delete")
     end
   end
 
   def but_I_cannot_edit_or_delete_steps
-    all('.gem-c-summary-list#steps .govuk-summary-list__actions').each do |step|
+    all(".gem-c-summary-list#steps .govuk-summary-list__actions").each do |step|
       expect(step).not_to have_link("Edit")
       expect(step).not_to have_link("Delete")
     end
@@ -591,46 +591,46 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_fill_in_the_changenote_form
-    choose 'Yes'
-    fill_in 'change_note', with: 'We made some changes'
+    choose "Yes"
+    fill_in "change_note", with: "We made some changes"
   end
 
   def and_I_fill_in_the_scheduling_form
-    fill_in 'schedule[date][year]', with: "2030"
-    fill_in 'schedule[date][month]', with: "04"
-    fill_in 'schedule[date][day]', with: "20"
-    fill_in 'schedule[time]', with: "10:26am"
+    fill_in "schedule[date][year]", with: "2030"
+    fill_in "schedule[date][month]", with: "04"
+    fill_in "schedule[date][day]", with: "20"
+    fill_in "schedule[time]", with: "10:26am"
   end
 
   def and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
-    fill_in 'schedule[date][year]', with: yesterday.year
-    fill_in 'schedule[date][month]', with: yesterday.month
-    fill_in 'schedule[date][day]', with: yesterday.day
-    fill_in 'schedule[time]', with: "10:26am"
+    fill_in "schedule[date][year]", with: yesterday.year
+    fill_in "schedule[date][month]", with: yesterday.month
+    fill_in "schedule[date][day]", with: yesterday.day
+    fill_in "schedule[time]", with: "10:26am"
   end
 
   def and_I_fill_in_the_scheduling_form_with_nonsense_data
-    fill_in 'schedule[date][year]', with: Time.current.year
-    fill_in 'schedule[date][month]', with: ""
-    fill_in 'schedule[date][day]', with: Time.current.day
-    fill_in 'schedule[time]', with: "foo"
+    fill_in "schedule[date][year]", with: Time.current.year
+    fill_in "schedule[date][month]", with: ""
+    fill_in "schedule[date][day]", with: Time.current.day
+    fill_in "schedule[time]", with: "foo"
   end
 
   def then_inputs_should_have_tomorrows_date
     tomorrow = Time.current.tomorrow
-    expect(find_field('schedule[date][year]').value).to eq tomorrow.year.to_s
-    expect(find_field('schedule[date][month]').value).to eq tomorrow.month.to_s
-    expect(find_field('schedule[date][day]').value).to eq tomorrow.day.to_s
-    expect(find_field('schedule[time]').value).to eq "9:00am"
+    expect(find_field("schedule[date][year]").value).to eq tomorrow.year.to_s
+    expect(find_field("schedule[date][month]").value).to eq tomorrow.month.to_s
+    expect(find_field("schedule[date][day]").value).to eq tomorrow.day.to_s
+    expect(find_field("schedule[time]").value).to eq "9:00am"
   end
 
   def and_I_can_still_see_the_date_and_time_values_I_entered
-    expect(find_field('schedule[date][day]').value).to eq yesterday.day.to_s
-    expect(find_field('schedule[time]').value).to eq "10:26am"
+    expect(find_field("schedule[date][day]").value).to eq yesterday.day.to_s
+    expect(find_field("schedule[time]").value).to eq "10:26am"
   end
 
   def when_I_submit_the_form
-    click_on 'Schedule'
+    click_on "Schedule"
   end
 
   def and_there_should_be_no_schedule_button
@@ -638,25 +638,25 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_should_see_an_inset_prompt
-    expect(page).to have_css('.govuk-inset-text', text: "To publish this step by step you need to")
+    expect(page).to have_css(".govuk-inset-text", text: "To publish this step by step you need to")
   end
 
   alias_method :then_I_should_see_an_inset_prompt, :and_I_should_see_an_inset_prompt
 
   def then_there_should_be_no_inset_prompt
-    expect(page).not_to have_css('.govuk-inset-text', text: "To publish this step by step you need to")
+    expect(page).not_to have_css(".govuk-inset-text", text: "To publish this step by step you need to")
   end
 
   alias_method :and_there_should_continue_to_be_no_inset_prompt, :then_there_should_be_no_inset_prompt
 
   def and_the_prompt_should_contain_link_to_steps_section(prompt)
-    within('.govuk-inset-text') do
-      expect(page).to have_link(prompt, href: '#steps')
+    within(".govuk-inset-text") do
+      expect(page).to have_link(prompt, href: "#steps")
     end
   end
 
   def and_the_prompt_should_not_contain(prompt)
-    within('.govuk-inset-text') do
+    within(".govuk-inset-text") do
       expect(page).not_to have_content prompt
     end
   end
@@ -664,13 +664,13 @@ RSpec.feature "Managing step by step pages" do
   def then_I_should_see(content, scope = nil)
     scope_selector = case scope
                      when :at_the_top_of_the_page
-                       '.gem-c-error-summary'
+                       ".gem-c-error-summary"
                      when :within_the_date_component
-                       'form > .govuk-form-group:not(.app-c-autocomplete)'
+                       "form > .govuk-form-group:not(.app-c-autocomplete)"
                      when :within_the_time_component
-                       'form > .app-c-autocomplete'
+                       "form > .app-c-autocomplete"
                      else
-                       'body'
+                       "body"
                      end
     within scope_selector do
       expect(page).to have_content content
@@ -700,7 +700,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def when_I_unschedule_publishing
-    click_on 'Unschedule'
+    click_on "Unschedule"
   end
 
   def and_the_step_by_step_is_not_editable
@@ -736,7 +736,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def then_I_can_see_the_steps
-    expect(find('.gem-c-summary-list#steps .govuk-summary-list__row:nth-child(1) .govuk-summary-list__value')).to have_content(@step_by_step_page.steps.first.title)
+    expect(find(".gem-c-summary-list#steps .govuk-summary-list__row:nth-child(1) .govuk-summary-list__value")).to have_content(@step_by_step_page.steps.first.title)
   end
 
   def and_I_cannot_edit_any_steps
@@ -784,7 +784,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def then_I_can_see_the_existing_secondary_links
-    expect(find('tbody')).to have_content(@step_by_step_page.secondary_content_links.first.title)
+    expect(find("tbody")).to have_content(@step_by_step_page.secondary_content_links.first.title)
   end
 
   def and_I_cannot_add_secondary_content_link

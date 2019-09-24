@@ -1,5 +1,5 @@
 class ReviewController < ApplicationController
-  layout 'admin_layout'
+  layout "admin_layout"
 
   before_action :require_gds_editor_permissions!
   before_action :require_unreleased_feature_permissions!
@@ -12,7 +12,7 @@ class ReviewController < ApplicationController
     if @step_by_step_page.update(
       review_requester_id: nil,
       reviewer_id: nil,
-      status: status
+      status: status,
     )
       generate_change_note(status)
 
@@ -25,7 +25,7 @@ class ReviewController < ApplicationController
 
     if @step_by_step_page.update(
       reviewer_id: current_user.uid,
-      status: status
+      status: status,
     )
       generate_change_note(status)
 
@@ -39,7 +39,7 @@ class ReviewController < ApplicationController
     if @step_by_step_page.update(
       reviewer_id: nil,
       review_requester_id: nil,
-      status: status
+      status: status,
     )
       generate_change_note("Changes requested", params[:requested_change])
 
@@ -53,7 +53,7 @@ class ReviewController < ApplicationController
 
       if @step_by_step_page.update(
         review_requester_id: current_user.uid,
-        status: status
+        status: status,
       )
         generate_change_note(status, params[:additional_comments])
 
@@ -72,7 +72,7 @@ private
 
     @step_by_step_page.internal_change_notes.create(
       author: current_user.name,
-      description: description
+      description: description,
     )
   end
 

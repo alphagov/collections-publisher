@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.feature "Managing browse pages" do
   include CommonFeatureSteps
@@ -32,15 +32,15 @@ RSpec.feature "Managing browse pages" do
       items: [
         { base_path: "/naturalisation", title: "Naturalisation", content_id: @linked_item_content_id1 },
         { base_path: "/marriage", title: "Marriage", content_id: @linked_item_content_id2 },
-      ]
+      ],
     )
   end
 
   def then_I_see_the_top_level_pages
-    titles = page.all('.tags-list tbody td:first-child').map(&:text)
+    titles = page.all(".tags-list tbody td:first-child").map(&:text)
     expect(titles).to eq([
-      'Citizenship',
-      'Money and Tax',
+      "Citizenship",
+      "Money and Tax",
     ])
   end
 
@@ -49,19 +49,19 @@ RSpec.feature "Managing browse pages" do
   end
 
   def then_I_see_the_child_pages
-    child_titles = page.all('.children .tags-list tbody td:first-child').map(&:text)
+    child_titles = page.all(".children .tags-list tbody td:first-child").map(&:text)
     expect(child_titles).to eq([
-      'British citizenship',
-      'Voting',
+      "British citizenship",
+      "Voting",
     ])
   end
 
   def when_I_click_on_a_child_page
-    click_on 'British citizenship'
+    click_on "British citizenship"
   end
 
   def then_I_see_the_documents_tagged_to_it
-    tagged_document_titles = page.all('.tagged-document').map(&:text)
+    tagged_document_titles = page.all(".tagged-document").map(&:text)
     expect(tagged_document_titles).to eq(%w(
       Naturalisation
       Marriage

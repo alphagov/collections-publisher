@@ -1,13 +1,13 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe TagsController do
-  describe 'POST #publish_lists' do
+  describe "POST #publish_lists" do
     it "disallows normal users to publish lists for mainstream browse pages" do
       mainstream_browse_page = create(:mainstream_browse_page)
 
       post :publish_lists, params: { tag_id: mainstream_browse_page.content_id }
 
-      expect(response.code).to eq('403')
+      expect(response.code).to eq("403")
     end
 
     it "allows only GDS Editors to publish lists for mainstream browse pages" do
@@ -17,7 +17,7 @@ RSpec.describe TagsController do
 
       post :publish_lists, params: { tag_id: mainstream_browse_page.content_id }
 
-      expect(response.code).to eq('302')
+      expect(response.code).to eq("302")
     end
 
     it "allows non-GDS Editors to publish lists for topic pages" do
@@ -26,7 +26,7 @@ RSpec.describe TagsController do
 
       post :publish_lists, params: { tag_id: topic.content_id }
 
-      expect(response.code).to eq('302')
+      expect(response.code).to eq("302")
     end
   end
 end

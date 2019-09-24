@@ -18,7 +18,7 @@ namespace :publishing_api do
     PublishOrganisationsApiRoute.new.publish
   end
 
-  desc 'Publish finders to the publishing API'
+  desc "Publish finders to the publishing API"
   task publish_finders: :environment do
     Dir[Rails.root + "lib/finders/*.json"].each do |file_path|
       puts "Publishing #{file_path}"
@@ -28,7 +28,7 @@ namespace :publishing_api do
     end
   end
 
-  desc 'Unpublish organisations content finder'
+  desc "Unpublish organisations content finder"
   task unpublish_org_finder: :environment do
     file_path = "#{Rails.root}/lib/finders/organisation_content.json"
 
@@ -50,15 +50,15 @@ namespace :publishing_api do
   desc "Publish special routes"
   task publish_special_routes: :environment do
     publishing_api = GdsApi::PublishingApiV2.new(
-      Plek.new.find('publishing-api'),
-      bearer_token: ENV['PUBLISHING_API_BEARER_TOKEN'] || 'example'
+      Plek.new.find("publishing-api"),
+      bearer_token: ENV["PUBLISHING_API_BEARER_TOKEN"] || "example",
     )
 
     logger = Logger.new(STDOUT)
 
     publisher = SpecialRoutePublisher.new(
       logger: logger,
-      publishing_api: publishing_api
+      publishing_api: publishing_api,
     )
 
     SpecialRoutePublisher.routes.each do |route_type, routes_for_type|
@@ -76,13 +76,13 @@ namespace :publishing_api do
 
     publisher = SpecialRoutePublisher.new(
       logger: logger,
-      publishing_api: publishing_api
+      publishing_api: publishing_api,
     )
 
     SpecialRoutePublisher.routes.each do |_, routes_for_type|
       routes_for_type.each do |route|
         options = {
-          type: "gone"
+          type: "gone",
         }
 
         publisher.unpublish(route[:content_id], options)
@@ -95,16 +95,16 @@ namespace :publishing_api do
     MainstreamBrowsePage.all.each do |page|
       Services.publishing_api.patch_links(
         page.content_id,
-        MainstreamBrowsePagePresenter.new(page).render_links_for_publishing_api
+        MainstreamBrowsePagePresenter.new(page).render_links_for_publishing_api,
       )
 
       puts "Patching links for #{page.content_id}..."
     end
 
-    root_page = RootBrowsePagePresenter.new('state' => 'published')
+    root_page = RootBrowsePagePresenter.new("state" => "published")
     Services.publishing_api.patch_links(
       root_page.content_id,
-      root_page.render_links_for_publishing_api
+      root_page.render_links_for_publishing_api,
     )
     puts "Links patched for root page..."
   end
@@ -114,16 +114,16 @@ namespace :publishing_api do
     Topic.all.each do |page|
       Services.publishing_api.patch_links(
         page.content_id,
-        TopicPresenter.new(page).render_links_for_publishing_api
+        TopicPresenter.new(page).render_links_for_publishing_api,
       )
 
       puts "Patching links for #{page.content_id}..."
     end
 
-    root_page = RootTopicPresenter.new('state' => 'published')
+    root_page = RootTopicPresenter.new("state" => "published")
     Services.publishing_api.patch_links(
       root_page.content_id,
-      root_page.render_links_for_publishing_api
+      root_page.render_links_for_publishing_api,
     )
     puts "Links patched for root page..."
   end
