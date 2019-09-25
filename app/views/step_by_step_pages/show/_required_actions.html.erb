@@ -29,3 +29,9 @@
     </ul>
   <% end %>
 <% end %>
+
+<% if @step_by_step_page.status.submitted_for_2i? %>
+  <%= render "govuk_publishing_components/components/inset_text" do %>
+    <p class="govuk-body">Not yet claimed for 2i</p>
+  <% end %>
+<% end %>
