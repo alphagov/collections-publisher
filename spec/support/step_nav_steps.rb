@@ -1,3 +1,5 @@
+require "rails_helper"
+
 module StepNavSteps
   include LinkChecker
 
