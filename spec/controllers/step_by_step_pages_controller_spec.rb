@@ -115,6 +115,17 @@ RSpec.describe StepByStepPagesController do
       expect(step_by_step_page.review_requester_id).to be_nil
       expect(step_by_step_page.reviewer_id).to be_nil
     end
+
+    it "generates an internal change note stating Unpublished" do
+      step_by_step_page = create(:published_step_by_step_page, slug: "a-step-by-step")
+      post :unpublish, params: { step_by_step_page_id: step_by_step_page.id, redirect_url: "/somewhere" }
+
+      step_by_step_page.reload
+
+      expected_headline = "Unpublished"
+      expect(step_by_step_page.internal_change_notes.last.headline).to eq expected_headline
+      expect(step_by_step_page.internal_change_notes.last.description).to be_nil
+    end
   end
 
   describe "#schedule" do

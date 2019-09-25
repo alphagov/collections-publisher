@@ -198,6 +198,7 @@ private
       Rails.logger.info "Unpublishing #{@step_by_step_page.content_id} failed"
     end
     @step_by_step_page.mark_as_unpublished
+    generate_internal_change_note("Unpublished")
   end
 
   def unschedule_publishing
