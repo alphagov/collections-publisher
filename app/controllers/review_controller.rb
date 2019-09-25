@@ -27,7 +27,7 @@ class ReviewController < ApplicationController
       reviewer_id: current_user.uid,
       status: status,
     )
-      generate_change_note(status)
+      generate_change_note("Claimed for review")
 
       redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully claimed for review."
     end
