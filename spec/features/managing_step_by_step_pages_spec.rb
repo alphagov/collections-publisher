@@ -57,7 +57,7 @@ RSpec.feature "Managing step by step pages" do
     and_I_see_an_unpublish_button
     and_I_see_a_view_on_govuk_link
     when_I_visit_the_history_page
-    then_there_should_be_a_change_note "First published by #{stub_user.name}"
+    then_there_should_be_a_change_note "First published"
   end
 
   scenario "User unpublishes a step by step page with a valid redirect url" do
@@ -130,11 +130,11 @@ RSpec.feature "Managing step by step pages" do
     and_I_visit_the_publish_page
     and_I_publish_the_page
     when_I_visit_the_history_page
-    then_there_should_be_a_change_note "Published by #{stub_user.name}"
+    then_there_should_be_a_change_note "Published"
     when_I_view_the_step_by_step_page
     and_I_delete_the_first_step
     when_I_visit_the_history_page
-    then_there_should_be_a_change_note "Draft saved by #{stub_user.name}"
+    then_there_should_be_a_change_note "Draft saved"
   end
 
   context "Scheduling" do
@@ -153,7 +153,7 @@ RSpec.feature "Managing step by step pages" do
       then_I_should_see "has been scheduled to publish"
       and_the_step_by_step_should_have_the_status "Scheduled"
       when_I_visit_the_history_page
-      then_there_should_be_a_change_note "Scheduled by Test author for publishing at 10:26am on 20 April 2030"
+      then_there_should_be_a_change_note "Scheduled at 10:26am on 20 April 2030"
       and_the_step_by_step_is_not_editable
       when_I_view_the_step_by_step_page
       then_I_can_see_a_summary_section
@@ -178,7 +178,7 @@ RSpec.feature "Managing step by step pages" do
       then_I_should_see "has been scheduled to publish"
       and_the_step_by_step_should_have_the_status "Scheduled"
       when_I_visit_the_history_page
-      then_there_should_be_a_change_note "Scheduled by Test author for publishing at 10:26am on 20 April 2030 with change note: We made some changes"
+      then_there_should_be_a_change_note "Scheduled at 10:26am on 20 April 2030 with change note: We made some changes"
     end
 
     scenario "User tries to schedule publishing for date in the past" do
@@ -209,7 +209,7 @@ RSpec.feature "Managing step by step pages" do
       then_I_should_see "has been unscheduled"
       and_the_step_by_step_should_have_the_status "Draft"
       when_I_visit_the_history_page
-      then_there_should_be_a_change_note "Publishing was unscheduled by #{stub_user.name}."
+      then_there_should_be_a_change_note "Publishing was unscheduled"
     end
 
     scenario "User tries using invalid values for schedule date and time" do

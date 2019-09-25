@@ -65,7 +65,7 @@ RSpec.feature "Reviewing step by step pages" do
   end
 
   def then_I_can_see_an_automated_change_note
-    expect(page).to have_content("Submitted for 2i by #{stub_user.name}")
+    expect(page).to have_content("Submitted for 2i")
   end
 
   def and_I_can_see_additional_comments_in_the_change_note

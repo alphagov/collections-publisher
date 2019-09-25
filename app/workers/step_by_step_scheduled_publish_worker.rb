@@ -21,7 +21,7 @@ class StepByStepScheduledPublishWorker
   def generate_internal_change_note(step_nav)
     change_note = step_nav.internal_change_notes.new(
       author: "Scheduled publishing",
-      description: "Published on schedule",
+      headline: "Published on schedule",
     )
     change_note.save!
   end

@@ -19,6 +19,7 @@ private
   def other_fields
     fields = {
       step_by_step_page_id: step_by_step_page.id,
+      headline: "Internal note",
       author: current_user.name,
     }
 

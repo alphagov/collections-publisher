@@ -17,6 +17,8 @@ RSpec.describe InternalChangeNotesController, type: :controller do
       post :create, params: { step_by_step_page_id: 0, internal_change_note: { description: "Test description" } }
       expect(InternalChangeNote.first.author).to eql "Test author"
       expect(InternalChangeNote.first.edition_number).to be nil
+      expect(InternalChangeNote.first.headline).to eql "Internal note"
+      expect(InternalChangeNote.first.description).to eql "Test description"
     end
 
     it "saves a change note with an edition_number for a published version" do

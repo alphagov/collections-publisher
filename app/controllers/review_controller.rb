@@ -81,12 +81,10 @@ class ReviewController < ApplicationController
 private
 
   def generate_change_note(status, change_note = nil)
-    description = "#{status.humanize} by #{current_user.name}"
-    description << "\n\n#{change_note}" if change_note.present?
-
     @step_by_step_page.internal_change_notes.create(
       author: current_user.name,
-      description: description,
+      headline: status.humanize,
+      description: change_note,
     )
   end
 

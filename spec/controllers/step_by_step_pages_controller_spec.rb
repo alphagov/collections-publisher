@@ -55,8 +55,9 @@ RSpec.describe StepByStepPagesController do
 
         post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor" }
 
-        expected_description = "First published by Name Surname"
-        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
+        expected_headline = "First published"
+        expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
+        expect(step_by_step_page.internal_change_notes.first.description).to be_nil
       end
     end
 
@@ -69,7 +70,9 @@ RSpec.describe StepByStepPagesController do
         change_note_text = "Testing major change note"
         post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "major", change_note: change_note_text }
 
-        expected_description = "Published by Name Surname with change note: #{change_note_text}"
+        expected_headline = "Published"
+        expected_description = "With change note: #{change_note_text}"
+        expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
         expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
       end
     end
@@ -81,8 +84,9 @@ RSpec.describe StepByStepPagesController do
         stub_publishing_api
         post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor", change_note: "" }
 
-        expected_description = "Published by Name Surname"
-        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
+        expected_description = "Published"
+        expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_description
+        expect(step_by_step_page.internal_change_notes.first.description).to be_nil
       end
     end
 
@@ -90,7 +94,7 @@ RSpec.describe StepByStepPagesController do
       create(:internal_change_note, step_by_step_page_id: step_by_step_page.id)
 
       stub_publishing_api
-      post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor", change_note: "" }
+      post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor", headline: "" }
 
       expect(step_by_step_page.internal_change_notes.first.edition_number).to eq(3)
     end
@@ -157,7 +161,9 @@ RSpec.describe StepByStepPagesController do
     it "creates an internal change note for minor change" do
       schedule_for_future
 
-      expected_description = "Scheduled by Name Surname for publishing at 10:26am on 20 April 2030"
+      expected_headline = "Scheduled"
+      expected_description = "Scheduled at 10:26am on 20 April 2030"
+      expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
       expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
     end
 
@@ -165,7 +171,9 @@ RSpec.describe StepByStepPagesController do
       schedule_with_public_change_note
       schedule_for_future
 
-      expected_description = "Scheduled by Name Surname for publishing at 10:26am on 20 April 2030 with change note: This is a public change note."
+      expected_headline = "Scheduled"
+      expected_description = "Scheduled at 10:26am on 20 April 2030 with change note: This is a public change note."
+      expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
       expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
     end
   end
@@ -190,8 +198,8 @@ RSpec.describe StepByStepPagesController do
 
       unschedule_publishing(step_by_step_page)
 
-      expected_description = "Publishing was unscheduled by Name Surname."
-      expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
+      expected_headline = "Publishing was unscheduled"
+      expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
     end
   end
 
