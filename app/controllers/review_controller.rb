@@ -64,6 +64,20 @@ class ReviewController < ApplicationController
     end
   end
 
+  def revert_to_draft
+    status = "draft"
+
+    if @step_by_step_page.update(
+      reviewer_id: nil,
+      review_requester_id: nil,
+      status: status,
+    )
+      generate_change_note("Reverted to draft")
+
+      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully reverted to draft."
+    end
+  end
+
 private
 
   def generate_change_note(status, change_note = nil)
