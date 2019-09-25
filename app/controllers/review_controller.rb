@@ -41,7 +41,7 @@ class ReviewController < ApplicationController
       review_requester_id: nil,
       status: status,
     )
-      generate_change_note("Changes requested", params[:requested_change])
+      generate_change_note("2i changes requested", params[:requested_change])
 
       redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Changes to the step by step page were requested."
     end

@@ -179,7 +179,7 @@ RSpec.describe ReviewController do
         stub_user.permissions = required_permissions
         stub_user.name = "Firstname Lastname"
 
-        expected_headline = "Changes requested"
+        expected_headline = "2i changes requested"
         expected_change_note = "Some change request"
 
         post :request_change_2i_review, params: { step_by_step_page_id: step_by_step_page.id, requested_change: "Some change request" }
