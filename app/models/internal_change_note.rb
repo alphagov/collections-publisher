@@ -1,5 +1,5 @@
 class InternalChangeNote < ApplicationRecord
-  validates :author, :description, presence: true
+  validates :author, :headline, presence: true
   belongs_to :step_by_step_page
 
   def readable_created_date
