@@ -198,7 +198,7 @@ RSpec.describe StepByStepPagesController do
 
       unschedule_publishing(step_by_step_page)
 
-      expected_headline = "Publishing was unscheduled"
+      expected_headline = "Scheduled publishing stopped"
       expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
     end
   end

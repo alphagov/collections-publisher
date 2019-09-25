@@ -209,7 +209,7 @@ RSpec.feature "Managing step by step pages" do
       then_I_should_see "has been unscheduled"
       and_the_step_by_step_should_have_the_status "Draft"
       when_I_visit_the_history_page
-      then_there_should_be_a_change_note "Publishing was unscheduled"
+      then_there_should_be_a_change_note "Scheduled publishing stopped"
     end
 
     scenario "User tries using invalid values for schedule date and time" do
