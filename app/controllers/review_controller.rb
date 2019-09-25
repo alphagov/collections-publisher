@@ -14,7 +14,7 @@ class ReviewController < ApplicationController
       reviewer_id: nil,
       status: status,
     )
-      generate_change_note(status)
+      generate_change_note("2i approved")
 
       redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully approved_2i."
     end

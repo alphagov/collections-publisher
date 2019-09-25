@@ -120,7 +120,7 @@ RSpec.describe ReviewController do
         stub_user.permissions = required_permissions
         stub_user.name = "Firstname Lastname"
 
-        expected_change_note = "Approved 2i"
+        expected_change_note = "2i approved"
 
         post :approve_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
         step_by_step_page.reload
