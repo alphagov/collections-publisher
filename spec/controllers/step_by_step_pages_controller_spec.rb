@@ -161,7 +161,7 @@ RSpec.describe StepByStepPagesController do
     it "creates an internal change note for minor change" do
       schedule_for_future
 
-      expected_headline = "Scheduled"
+      expected_headline = "Scheduled to publish"
       expected_description = "Scheduled at 10:26am on 20 April 2030"
       expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
       expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
@@ -171,7 +171,7 @@ RSpec.describe StepByStepPagesController do
       schedule_with_public_change_note
       schedule_for_future
 
-      expected_headline = "Scheduled"
+      expected_headline = "Scheduled to publish"
       expected_description = "Scheduled at 10:26am on 20 April 2030 with change note: This is a public change note."
       expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
       expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description

@@ -95,7 +95,7 @@ class StepByStepPagesController < ApplicationController
         render :schedule_datetime
       elsif @step_by_step_page.update_attributes(scheduled_at: scheduled_at)
         schedule_to_publish(session[:update_type], session[:public_change_note])
-        note_headline = "Scheduled"
+        note_headline = "Scheduled to publish"
         note_description = "Scheduled at #{format_full_date_and_time(scheduled_at)}"
         note_description << " with change note: #{session[:public_change_note]}" if session[:public_change_note].present?
         generate_internal_change_note(note_headline, note_description)
