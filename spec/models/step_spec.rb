@@ -57,6 +57,23 @@ RSpec.describe Step do
       step = create(:step, step_by_step_page: step_by_step_page)
       expect(step.position).to eq 3
     end
+
+    it "should update step positions when a step is deleted" do
+      step_by_step_page = create(:step_by_step_page_with_steps)
+      expect(step_by_step_page.steps.count).to eq 2
+      original_step_one = step_by_step_page.steps.first
+      original_step_two = step_by_step_page.steps.last
+      expect(original_step_one.position).to eq 1
+      expect(original_step_two.position).to eq 2
+
+      original_step_one.destroy
+      step_by_step_page.reload
+      original_step_two.reload
+
+      expect(original_step_two.position).to eq 1
+      expect(step_by_step_page.steps.first).to eq original_step_two
+      expect(step_by_step_page.steps.count).to eq 1
+    end
   end
 
   describe "broken_links" do
