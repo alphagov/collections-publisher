@@ -1,16 +1,11 @@
 require "rails_helper"
 
 RSpec.describe StepLinksForRules do
+  include StepLinkFixtures
+
   let(:step_page) { create(:step_by_step_page_with_steps) }
   let(:first_step) { step_page.steps.first }
-  let(:base_paths) { ["/good/stuff", "/also/good/stuff", "/not/as/great"] }
-  let(:base_paths_return_data) do
-    {
-      "/good/stuff" => "fd6b1901d-b925-47c5-b1ca-1e52197097e1",
-      "/also/good/stuff" => "fd6b1901d-b925-47c5-b1ca-1e52197097e2",
-      "/not/as/great" => "fd6b1901d-b925-47c5-b1ca-1e52197097e3",
-    }
-  end
+  let(:base_paths) { step_link_fixtures_return_data.keys }
 
   before do
     publishing_api_receives_request_to_lookup_content_id(
@@ -69,11 +64,11 @@ RSpec.describe StepLinksForRules do
 
         publishing_api_receives_request_to_lookup_content_ids(
           base_paths: base_paths << base_path_data.keys.first,
-          return_data: base_paths_return_data.merge(base_path_data),
+          return_data: step_link_fixtures_return_data.merge(base_path_data),
         )
 
         publishing_api_receives_get_content_id_request(
-          content_items: initial_content_items << amazing_content_item,
+          content_items: step_link_fixtures_content_items << amazing_content_item,
         )
 
         described_class.new(step_by_step_page: step_page).call
@@ -92,11 +87,11 @@ RSpec.describe StepLinksForRules do
 
         publishing_api_receives_request_to_lookup_content_ids(
           base_paths: base_paths,
-          return_data: base_paths_return_data,
+          return_data: step_link_fixtures_return_data,
         )
 
         publishing_api_receives_get_content_id_request(
-          content_items: initial_content_items,
+          content_items: step_link_fixtures_content_items,
         )
 
         described_class.new(step_by_step_page: step_page).call
@@ -123,7 +118,7 @@ RSpec.describe StepLinksForRules do
         )
 
         publishing_api_receives_get_content_id_request(
-          content_items: [initial_content_items.first],
+          content_items: [step_link_fixtures_content_items.first],
         )
 
         expect(
@@ -141,78 +136,12 @@ RSpec.describe StepLinksForRules do
 
   def setup_test_with_publishing_api_requests
     publishing_api_receives_request_to_lookup_content_ids(
-      base_paths: base_paths,
-      return_data: base_paths_return_data,
+      base_paths: step_link_fixtures_return_data.keys,
+      return_data: step_link_fixtures_return_data,
     )
 
     publishing_api_receives_get_content_id_request(
-      content_items: initial_content_items,
+      content_items: step_link_fixtures_content_items,
     )
-  end
-
-  def publishing_api_receives_request_to_lookup_content_id(base_path:)
-    allow(Services.publishing_api).to(
-      receive(:lookup_content_id).with(
-        base_path: base_path,
-        with_drafts: true,
-      ),
-    )
-  end
-
-  def publishing_api_receives_request_to_lookup_content_ids(base_paths:, return_data: nil)
-    expectation = expect(Services.publishing_api).to receive(:lookup_content_ids).with(
-      base_paths: base_paths,
-      with_drafts: true,
-    )
-
-    if return_data
-      expectation.and_return(
-        return_data,
-      )
-    end
-  end
-
-  def publishing_api_receives_get_content_id_request(content_items:)
-    content_items.each do |content_item|
-      expect(Services.publishing_api).to(
-        receive(:get_content).with(content_item[:content_id]),
-      ).and_return(content_item)
-    end
-  end
-
-  def initial_content_items
-    [
-      basic_content_item(
-        title: "Good Stuff",
-        base_path: "/good/stuff",
-        content_id: "fd6b1901d-b925-47c5-b1ca-1e52197097e1",
-        publishing_app: "publisher",
-        schema_name: "guide",
-      ),
-      basic_content_item(
-        title: "Also Good Stuff",
-        base_path: "/also/good/stuff",
-        content_id: "fd6b1901d-b925-47c5-b1ca-1e52197097e2",
-        publishing_app: "publisher",
-        schema_name: "guide",
-      ),
-      basic_content_item(
-        title: "Not as Great",
-        base_path: "/not/as/great",
-        content_id: "fd6b1901d-b925-47c5-b1ca-1e52197097e3",
-        publishing_app: "publisher",
-        schema_name: "guide",
-      ),
-    ]
-  end
-
-  def basic_content_item(title:, base_path:, content_id:, publishing_app:, schema_name:)
-    {
-      "title": title,
-      "base_path": base_path,
-      "content_id": content_id,
-      "publishing_app": publishing_app,
-      "schema_name": schema_name,
-    }.with_indifferent_access
   end
 end
