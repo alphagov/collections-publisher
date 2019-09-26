@@ -57,7 +57,7 @@ RSpec.feature "Managing step by step pages" do
     and_I_see_an_unpublish_button
     and_I_see_a_view_on_govuk_link
     when_I_visit_the_history_page
-    then_there_should_be_a_change_note "First published"
+    then_there_should_be_a_change_note "Published"
   end
 
   scenario "User unpublishes a step by step page with a valid redirect url" do

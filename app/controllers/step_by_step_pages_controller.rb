@@ -67,9 +67,8 @@ class StepByStepPagesController < ApplicationController
     if request.post?
       @publish_intent = PublishIntent.new(publish_intent_params)
       if @publish_intent.valid?
-        note_headline = publish_note_headline
         publish_page(@publish_intent)
-        generate_internal_change_note(note_headline, publish_note_description)
+        generate_internal_change_note("Published", publish_note_description)
         set_change_note_version
         redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been published."
       end
@@ -212,10 +211,6 @@ private
     payload = Services.publishing_api.get_content(@step_by_step_page.content_id, version: published_version).to_hash
 
     StepByStepPageReverter.new(@step_by_step_page, payload).repopulate_from_publishing_api
-  end
-
-  def publish_note_headline
-    @step_by_step_page.has_been_published? ? "Published" : "First published"
   end
 
   def publish_note_description

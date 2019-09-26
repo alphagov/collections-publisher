@@ -50,12 +50,12 @@ RSpec.describe StepByStepPagesController do
 
   describe "#publish" do
     context "first publish" do
-      it "generates an internal change note stating that this is the first publication" do
+      it "generates an internal change note stating that this is published" do
         stub_publishing_api
 
         post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor" }
 
-        expected_headline = "First published"
+        expected_headline = "Published"
         expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
         expect(step_by_step_page.internal_change_notes.first.description).to be_nil
       end
