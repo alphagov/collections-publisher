@@ -39,6 +39,7 @@ RSpec.feature "Reviewing step by step pages" do
     given_there_is_a_step_by_step_that_has_been_submitted_for_2i
     when_I_view_the_step_by_step_page
     and_I_claim_the_step_by_step_for_2i
+    then_I_see_a_claimed_for_2i_prompt
     and_I_cannot_see_a_claim_for_2i_button
   end
 
@@ -72,6 +73,10 @@ RSpec.feature "Reviewing step by step pages" do
 
   def and_I_see_a_not_yet_claimed_for_2i_prompt
     expect(page).to have_css(".govuk-inset-text", text: "Not yet claimed for 2i")
+  end
+
+  def then_I_see_a_claimed_for_2i_prompt
+    expect(page).to have_css(".govuk-inset-text", text: "The 2i reviewer is #{stub_user.name}")
   end
 
   def and_I_cannot_see_a_submit_for_2i_button
