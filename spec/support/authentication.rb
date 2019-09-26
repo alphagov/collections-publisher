@@ -21,6 +21,10 @@ module AuthenticationFeatureHelpers
     @stub_user ||= FactoryBot.create(:user)
   end
 
+  def login_as_user(user)
+    GDS::SSO.test_user = user
+  end
+
   def login_as_stub_user
     GDS::SSO.test_user = stub_user
   end

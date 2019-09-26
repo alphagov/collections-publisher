@@ -70,6 +70,15 @@ FactoryBot.define do
     status { "submitted_for_2i" }
   end
 
+  factory :step_by_step_page_claimed_for_2i, parent: :step_by_step_page_submitted_for_2i do
+    status { "submitted_for_2i" }
+    review_requester_id { SecureRandom.uuid }
+
+    after(:create) do |step_by_step_page|
+      step_by_step_page.update_attributes!(status: "in_review")
+    end
+  end
+
   factory :step do
     title { "Check how awesome you are" }
     logic { "number" }
