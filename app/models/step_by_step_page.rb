@@ -143,7 +143,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def should_show_required_prepublish_actions?
-    has_draft? && !scheduled_for_publishing? && !can_be_published?
+    (has_draft? && !scheduled_for_publishing? && !can_be_published?) || status.in_review?
   end
 
   def broken_links_found?

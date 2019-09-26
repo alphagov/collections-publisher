@@ -257,6 +257,13 @@ RSpec.describe StepByStepPage do
 
       expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be true
     end
+
+    it "should return true if step by step is in review" do
+      step_by_step_with_step = create(:step_by_step_page)
+      allow(step_by_step_page).to receive(:status).and_return("in_review")
+
+      expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be true
+    end
   end
 
   describe "broken_links_found?" do

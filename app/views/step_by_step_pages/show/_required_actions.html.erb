@@ -26,6 +26,18 @@
           <%= link_to "Fix broken links", '#steps', class: 'govuk-link govuk-link--no-visited-state' %>
         </li>
       <% end %>
+
+      <% if @step_by_step_page.status.in_review? %>
+        <% if current_user.id == @step_by_step_page.reviewer_id %>
+          <li>
+            <p class="govuk-body">2i approve it</p>
+          </li>
+        <% else %>
+          <li>
+            <p class="govuk-body">get 2i approval</p>
+          </li>
+        <% end %>
+      <% end %>
     </ul>
   <% end %>
 <% end %>
