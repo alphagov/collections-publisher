@@ -137,6 +137,7 @@ class StepByStepPagesController < ApplicationController
     if request.post?
       discard_draft
       revert_page
+      generate_internal_change_note("Draft discarded")
       redirect_to @step_by_step_page, notice: "Draft successfully discarded."
     else
       render :edit

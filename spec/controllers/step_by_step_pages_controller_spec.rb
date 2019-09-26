@@ -232,7 +232,7 @@ RSpec.describe StepByStepPagesController do
   end
 
   describe "#revert" do
-    it "reverts the step by step page to the published version" do
+    before do
       allow(Services.publishing_api).to receive(:discard_draft)
 
       allow(Services.publishing_api).to receive(:get_content)
@@ -240,10 +240,20 @@ RSpec.describe StepByStepPagesController do
         .and_return(content_item(step_by_step_page))
 
       allow_any_instance_of(StepByStepPageReverter).to receive(:repopulate_from_publishing_api)
+    end
 
+    it "reverts the step by step page to the published version" do
       expect(Services.publishing_api).to receive(:get_content).with(step_by_step_page.content_id, version: 2)
 
       post :revert, params: { step_by_step_page_id: step_by_step_page.id }
+    end
+
+    it "generates an internal change note stating Draft discarded" do
+      post :revert, params: { step_by_step_page_id: step_by_step_page.id, redirect_url: "/somewhere" }
+
+      expected_headline = "Draft discarded"
+      expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
+      expect(step_by_step_page.internal_change_notes.first.description).to be_nil
     end
   end
 
