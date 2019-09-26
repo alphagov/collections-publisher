@@ -5,6 +5,7 @@ require "gds_api/test_helpers/publishing_api"
 RSpec.feature "Managing step by step pages" do
   include CommonFeatureSteps
   include NavigationSteps
+  include StepLinkFixtures
   include StepNavSteps
   include GdsApi::TestHelpers::LinkCheckerApi
   include GdsApi::TestHelpers::PublishingApi
@@ -135,6 +136,13 @@ RSpec.feature "Managing step by step pages" do
     and_I_delete_the_first_step
     when_I_visit_the_history_page
     then_there_should_be_a_change_note "Draft saved"
+  end
+
+  scenario "User adds a step after reordering other steps", js: true do
+    given_there_is_a_step_by_step_page_with_steps
+    and_I_have_reordered_the_steps
+    when_I_add_a_step
+    then_my_new_step_should_be_the_last_step_in_the_list_of_steps
   end
 
   context "Scheduling" do
@@ -546,6 +554,34 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_am_told_that_it_is_published
     expect(page).to have_content("has been published")
+  end
+
+  def and_I_have_reordered_the_steps
+    publishing_api_receives_get_content_id_request(
+      content_items: step_link_fixtures_content_items,
+    )
+    visit step_by_step_page_reorder_path(@step_by_step_page)
+    find(".js-reorder:first-child .js-down").click
+    click_button "Save"
+    expect(page).to have_content "Steps were successfully reordered."
+    and_I_should_be_on_the_step_by_step_page
+  end
+
+  def when_I_add_a_step
+    publishing_api_receives_get_content_id_request(
+      content_items: step_link_fixtures_content_items,
+    )
+    click_link "Add step"
+    fill_in "Step title", with: "Newly added step"
+    click_button "Save step"
+    expect(page).to have_content "Step was successfully created."
+    expect(page).to have_css("#steps .govuk-summary-list__row", text: "Newly added step")
+  end
+
+  def then_my_new_step_should_be_the_last_step_in_the_list_of_steps
+    rows = all("#steps .govuk-summary-list__row")
+    found_at_position = rows.index { |row| row.has_content? "Newly added step" } + 1
+    expect(found_at_position).to eq(rows.count), "Expected 'Newly added step' to appear in row #{rows.count}. Found in row #{found_at_position}"
   end
 
   def and_I_delete_the_first_step

@@ -3,6 +3,7 @@ class Step < ApplicationRecord
   validates_presence_of :step_by_step_page
   validates :title, :logic, presence: true
   has_many :link_reports, :dependent => :destroy
+  after_create :set_step_position
 
   def broken_links?
     broken_links.present? && broken_links.any?
@@ -48,5 +49,9 @@ private
 
   def most_recent_batch
     LinkReport.where(step_id: self.id).last
+  end
+
+  def set_step_position
+    update!(position: step_by_step_page.steps.count)
   end
 end
