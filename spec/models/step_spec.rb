@@ -40,6 +40,42 @@ RSpec.describe Step do
       expect(step_item.errors).to have_key(:logic)
     end
   end
+
+  describe "position" do
+    it "should default to position 1 if it is the first step to have been added" do
+      step_by_step_page = create(:step_by_step_page)
+      expect(step_by_step_page.steps.count).to eq 0
+
+      step = create(:step, step_by_step_page: step_by_step_page)
+      expect(step.position).to eq 1
+    end
+
+    it "should increment if there are existing steps" do
+      step_by_step_page = create(:step_by_step_page_with_steps)
+      expect(step_by_step_page.steps.count).to eq 2
+
+      step = create(:step, step_by_step_page: step_by_step_page)
+      expect(step.position).to eq 3
+    end
+
+    it "should update step positions when a step is deleted" do
+      step_by_step_page = create(:step_by_step_page_with_steps)
+      expect(step_by_step_page.steps.count).to eq 2
+      original_step_one = step_by_step_page.steps.first
+      original_step_two = step_by_step_page.steps.last
+      expect(original_step_one.position).to eq 1
+      expect(original_step_two.position).to eq 2
+
+      original_step_one.destroy
+      step_by_step_page.reload
+      original_step_two.reload
+
+      expect(original_step_two.position).to eq 1
+      expect(step_by_step_page.steps.first).to eq original_step_two
+      expect(step_by_step_page.steps.count).to eq 1
+    end
+  end
+
   describe "broken_links" do
     it "should return nothing if there are no link reports yet" do
       expect(step_item.broken_links).to be_nil

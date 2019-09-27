@@ -25,6 +25,36 @@ module PublishingApiHelpers
     url = PUBLISHING_API_V2_ENDPOINT + "/linked/"
     stub_request(:get, %r[#{url}]).to_return(status: 200, body: [].to_json)
   end
+
+  def publishing_api_receives_request_to_lookup_content_id(base_path:)
+    allow(Services.publishing_api).to(
+      receive(:lookup_content_id).with(
+        base_path: base_path,
+        with_drafts: true,
+      ),
+    )
+  end
+
+  def publishing_api_receives_request_to_lookup_content_ids(base_paths:, return_data: nil)
+    expectation = expect(Services.publishing_api).to receive(:lookup_content_ids).with(
+      base_paths: base_paths,
+      with_drafts: true,
+    )
+
+    if return_data
+      expectation.and_return(
+        return_data,
+      )
+    end
+  end
+
+  def publishing_api_receives_get_content_id_request(content_items:)
+    content_items.each do |content_item|
+      expect(Services.publishing_api).to(
+        receive(:get_content).with(content_item[:content_id]),
+      ).and_return(content_item)
+    end
+  end
 end
 
 RSpec.configure do |config|

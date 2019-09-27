@@ -158,6 +158,12 @@ class StepByStepPage < ApplicationRecord
     internal_change_notes.where(edition_number: nil).delete_all
   end
 
+  def make_step_positions_sequential
+    steps.sort_by(&:position).each.with_index(1) do |step, index|
+      step.update_attributes!(position: index)
+    end
+  end
+
 private
 
   def generate_content_id
