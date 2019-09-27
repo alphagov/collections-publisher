@@ -151,7 +151,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def links_checked_since_last_update?
-    links_checked? && links_last_checked_date > draft_updated_at
+    (links_checked? && links_last_checked_date > draft_updated_at) || status.approved_2i?
   end
 
   def links_checked?

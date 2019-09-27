@@ -224,6 +224,12 @@ RSpec.describe StepByStepPage do
 
       expect(step_by_step_with_step.links_checked_since_last_update?).to be true
     end
+
+    it "returns true if the status is approved_2i" do
+      step_by_step_with_step.mark_as_approved_2i
+
+      expect(step_by_step_with_step.links_checked_since_last_update?).to be true
+    end
   end
 
   describe "should_show_required_prepublish_actions?" do
