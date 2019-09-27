@@ -50,13 +50,14 @@ RSpec.describe StepByStepPagesController do
 
   describe "#publish" do
     context "first publish" do
-      it "generates an internal change note stating that this is the first publication" do
+      it "generates an internal change note stating that this is published" do
         stub_publishing_api
 
         post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor" }
 
-        expected_description = "First published by Name Surname"
-        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
+        expected_headline = "Published"
+        expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
+        expect(step_by_step_page.internal_change_notes.first.description).to be_nil
       end
     end
 
@@ -69,7 +70,9 @@ RSpec.describe StepByStepPagesController do
         change_note_text = "Testing major change note"
         post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "major", change_note: change_note_text }
 
-        expected_description = "Published by Name Surname with change note: #{change_note_text}"
+        expected_headline = "Published"
+        expected_description = "With change note: #{change_note_text}"
+        expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
         expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
       end
     end
@@ -81,8 +84,9 @@ RSpec.describe StepByStepPagesController do
         stub_publishing_api
         post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor", change_note: "" }
 
-        expected_description = "Published by Name Surname"
-        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
+        expected_description = "Published"
+        expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_description
+        expect(step_by_step_page.internal_change_notes.first.description).to be_nil
       end
     end
 
@@ -90,9 +94,37 @@ RSpec.describe StepByStepPagesController do
       create(:internal_change_note, step_by_step_page_id: step_by_step_page.id)
 
       stub_publishing_api
-      post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor", change_note: "" }
+      post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor", headline: "" }
 
       expect(step_by_step_page.internal_change_notes.first.edition_number).to eq(3)
+    end
+  end
+
+  describe "#unpublish" do
+    before :each do
+      stub_publishing_api
+    end
+
+    it "sets status to draft" do
+      step_by_step_page = create(:published_step_by_step_page, slug: "a-step-by-step")
+      post :unpublish, params: { step_by_step_page_id: step_by_step_page.id, redirect_url: "/somewhere" }
+
+      step_by_step_page.reload
+
+      expect(step_by_step_page.status).to be_draft
+      expect(step_by_step_page.review_requester_id).to be_nil
+      expect(step_by_step_page.reviewer_id).to be_nil
+    end
+
+    it "generates an internal change note stating Unpublished" do
+      step_by_step_page = create(:published_step_by_step_page, slug: "a-step-by-step")
+      post :unpublish, params: { step_by_step_page_id: step_by_step_page.id, redirect_url: "/somewhere" }
+
+      step_by_step_page.reload
+
+      expected_headline = "Unpublished"
+      expect(step_by_step_page.internal_change_notes.last.headline).to eq expected_headline
+      expect(step_by_step_page.internal_change_notes.last.description).to be_nil
     end
   end
 
@@ -157,7 +189,9 @@ RSpec.describe StepByStepPagesController do
     it "creates an internal change note for minor change" do
       schedule_for_future
 
-      expected_description = "Scheduled by Name Surname for publishing at 10:26am on 20 April 2030"
+      expected_headline = "Scheduled to publish"
+      expected_description = "Scheduled at 10:26am on 20 April 2030"
+      expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
       expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
     end
 
@@ -165,7 +199,9 @@ RSpec.describe StepByStepPagesController do
       schedule_with_public_change_note
       schedule_for_future
 
-      expected_description = "Scheduled by Name Surname for publishing at 10:26am on 20 April 2030 with change note: This is a public change note."
+      expected_headline = "Scheduled to publish"
+      expected_description = "Scheduled at 10:26am on 20 April 2030 with change note: This is a public change note."
+      expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
       expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
     end
   end
@@ -190,13 +226,13 @@ RSpec.describe StepByStepPagesController do
 
       unschedule_publishing(step_by_step_page)
 
-      expected_description = "Publishing was unscheduled by Name Surname."
-      expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
+      expected_headline = "Scheduled publishing stopped"
+      expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
     end
   end
 
   describe "#revert" do
-    it "reverts the step by step page to the published version" do
+    before do
       allow(Services.publishing_api).to receive(:discard_draft)
 
       allow(Services.publishing_api).to receive(:get_content)
@@ -204,10 +240,20 @@ RSpec.describe StepByStepPagesController do
         .and_return(content_item(step_by_step_page))
 
       allow_any_instance_of(StepByStepPageReverter).to receive(:repopulate_from_publishing_api)
+    end
 
+    it "reverts the step by step page to the published version" do
       expect(Services.publishing_api).to receive(:get_content).with(step_by_step_page.content_id, version: 2)
 
       post :revert, params: { step_by_step_page_id: step_by_step_page.id }
+    end
+
+    it "generates an internal change note stating Draft discarded" do
+      post :revert, params: { step_by_step_page_id: step_by_step_page.id, redirect_url: "/somewhere" }
+
+      expected_headline = "Draft discarded"
+      expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
+      expect(step_by_step_page.internal_change_notes.first.description).to be_nil
     end
   end
 
@@ -240,6 +286,7 @@ RSpec.describe StepByStepPagesController do
 
     stub_any_publishing_api_put_content
     stub_any_publishing_api_publish
+    stub_any_publishing_api_unpublish
   end
 
   def stub_publishing_api_for_scheduling

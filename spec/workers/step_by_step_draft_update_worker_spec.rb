@@ -49,9 +49,9 @@ RSpec.describe StepByStepDraftUpdateWorker do
   describe "#generate_internal_change_note" do
     let(:step_by_step_page) { create(:step_by_step_page_with_steps) }
     context "when the guide is a new draft" do
-      it 'generates a note that says "Draft saved by New author"' do
+      it 'generates a note that says "Draft saved"' do
         described_class.new.perform(step_by_step_page.id, @current_user.name)
-        expect(step_by_step_page.internal_change_notes.first.description).to eql "Draft saved by New author"
+        expect(step_by_step_page.internal_change_notes.first.headline).to eql "Draft saved"
       end
     end
     context "when the guide is a draft that has already been updated" do

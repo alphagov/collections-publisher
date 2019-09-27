@@ -34,7 +34,7 @@ class StepByStepDraftUpdateWorker
   def generate_internal_change_note
     change_note = step_by_step_page.internal_change_notes.new(
       author: @current_user,
-      description: "Draft saved by #{@current_user}",
+      headline: "Draft saved",
     )
     change_note.save
   end

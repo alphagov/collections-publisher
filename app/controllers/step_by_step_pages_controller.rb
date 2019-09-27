@@ -67,9 +67,8 @@ class StepByStepPagesController < ApplicationController
     if request.post?
       @publish_intent = PublishIntent.new(publish_intent_params)
       if @publish_intent.valid?
-        note_description = publish_note_description
         publish_page(@publish_intent)
-        generate_internal_change_note(note_description)
+        generate_internal_change_note("Published", publish_note_description)
         set_change_note_version
         redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been published."
       end
@@ -95,9 +94,10 @@ class StepByStepPagesController < ApplicationController
         render :schedule_datetime
       elsif @step_by_step_page.update_attributes(scheduled_at: scheduled_at)
         schedule_to_publish(session[:update_type], session[:public_change_note])
-        note_description = "Scheduled by #{current_user.name} for publishing at #{format_full_date_and_time(scheduled_at)}"
+        note_headline = "Scheduled to publish"
+        note_description = "Scheduled at #{format_full_date_and_time(scheduled_at)}"
         note_description << " with change note: #{session[:public_change_note]}" if session[:public_change_note].present?
-        generate_internal_change_note(note_description)
+        generate_internal_change_note(note_headline, note_description)
         set_change_note_version
         redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been scheduled to publish."
       end
@@ -125,8 +125,8 @@ class StepByStepPagesController < ApplicationController
     set_current_page_as_step_by_step
     @step_by_step_page.update(scheduled_at: nil)
     unschedule_publishing
-    note_description = "Publishing was unscheduled by #{current_user.name}."
-    generate_internal_change_note(note_description)
+    note_headline = "Scheduled publishing stopped"
+    generate_internal_change_note(note_headline)
     set_change_note_version
     redirect_to @step_by_step_page, notice: "Publishing of '#{@step_by_step_page.title}' has been unscheduled."
   end
@@ -136,6 +136,7 @@ class StepByStepPagesController < ApplicationController
     if request.post?
       discard_draft
       revert_page
+      generate_internal_change_note("Draft discarded")
       redirect_to @step_by_step_page, notice: "Draft successfully discarded."
     else
       render :edit
@@ -197,6 +198,7 @@ private
       Rails.logger.info "Unpublishing #{@step_by_step_page.content_id} failed"
     end
     @step_by_step_page.mark_as_unpublished
+    generate_internal_change_note("Unpublished")
   end
 
   def unschedule_publishing
@@ -212,15 +214,13 @@ private
   end
 
   def publish_note_description
-    return "First published by #{current_user.name}" unless @step_by_step_page.has_been_published?
-
-    custom_note = " with change note: #{@publish_intent.change_note}" unless @publish_intent.change_note.empty?
-    "Published by #{current_user.name}#{custom_note}"
+    "With change note: #{@publish_intent.change_note}" unless @publish_intent.change_note.empty?
   end
 
-  def generate_internal_change_note(note_description)
+  def generate_internal_change_note(note_headline, note_description = nil)
     change_note = @step_by_step_page.internal_change_notes.new(
       author: current_user.name,
+      headline: note_headline,
       description: note_description,
     )
     change_note.save!

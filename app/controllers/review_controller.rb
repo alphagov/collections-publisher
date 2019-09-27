@@ -14,7 +14,7 @@ class ReviewController < ApplicationController
       reviewer_id: nil,
       status: status,
     )
-      generate_change_note(status)
+      generate_change_note("2i approved")
 
       redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully approved_2i."
     end
@@ -27,7 +27,7 @@ class ReviewController < ApplicationController
       reviewer_id: current_user.uid,
       status: status,
     )
-      generate_change_note(status)
+      generate_change_note("Claimed for review")
 
       redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully claimed for review."
     end
@@ -41,7 +41,7 @@ class ReviewController < ApplicationController
       review_requester_id: nil,
       status: status,
     )
-      generate_change_note("Changes requested", params[:requested_change])
+      generate_change_note("2i changes requested", params[:requested_change])
 
       redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Changes to the step by step page were requested."
     end
@@ -81,12 +81,10 @@ class ReviewController < ApplicationController
 private
 
   def generate_change_note(status, change_note = nil)
-    description = "#{status.humanize} by #{current_user.name}"
-    description << "\n\n#{change_note}" if change_note.present?
-
     @step_by_step_page.internal_change_notes.create(
       author: current_user.name,
-      description: description,
+      headline: status.humanize,
+      description: change_note,
     )
   end
 

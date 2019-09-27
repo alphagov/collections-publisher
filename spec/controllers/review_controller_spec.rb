@@ -48,12 +48,12 @@ RSpec.describe ReviewController do
 
         describe "internal change notes" do
           it "creates an internal change note" do
-            expected_change_note = "Submitted for 2i by Firstname Lastname"
+            expected_change_note = "Submitted for 2i"
 
             post :submit_for_2i, params: { step_by_step_page_id: step_by_step_page.id }
             step_by_step_page.reload
 
-            expect(step_by_step_page.internal_change_notes.first.description).to eq expected_change_note
+            expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_change_note
           end
 
           it "records the additional comments in the internal change note" do
@@ -120,12 +120,12 @@ RSpec.describe ReviewController do
         stub_user.permissions = required_permissions
         stub_user.name = "Firstname Lastname"
 
-        expected_change_note = "Approved 2i by Firstname Lastname"
+        expected_change_note = "2i approved"
 
         post :approve_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
         step_by_step_page.reload
 
-        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_change_note
+        expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_change_note
       end
     end
 
@@ -179,11 +179,13 @@ RSpec.describe ReviewController do
         stub_user.permissions = required_permissions
         stub_user.name = "Firstname Lastname"
 
-        expected_change_note = "Changes requested by Firstname Lastname\n\nSome change request"
+        expected_headline = "2i changes requested"
+        expected_change_note = "Some change request"
 
         post :request_change_2i_review, params: { step_by_step_page_id: step_by_step_page.id, requested_change: "Some change request" }
         step_by_step_page.reload
 
+        expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
         expect(step_by_step_page.internal_change_notes.first.description).to eq expected_change_note
       end
     end
@@ -232,12 +234,12 @@ RSpec.describe ReviewController do
         stub_user.permissions = required_permissions
         stub_user.name = "Firstname Lastname"
 
-        expected_change_note = "In review by Firstname Lastname"
+        expected_change_note = "Claimed for review"
 
         post :claim_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
         step_by_step_page.reload
 
-        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_change_note
+        expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_change_note
       end
     end
 
@@ -291,12 +293,12 @@ RSpec.describe ReviewController do
         stub_user.permissions = required_permissions
         stub_user.name = "Firstname Lastname"
 
-        expected_change_note = "Reverted to draft by Firstname Lastname"
+        expected_change_note = "Reverted to draft"
 
         post :revert_to_draft, params: { step_by_step_page_id: step_by_step_page.id }
         step_by_step_page.reload
 
-        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_change_note
+        expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_change_note
       end
     end
   end

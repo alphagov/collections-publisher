@@ -24,7 +24,7 @@ RSpec.describe StepByStepScheduledPublishWorker do
     step_by_step_page = create(:scheduled_step_by_step_page, scheduled_at: future_datetime)
     Timecop.travel future_datetime do
       described_class.new.perform(step_by_step_page.id)
-      expect(step_by_step_page.internal_change_notes.first.description).to eq("Published on schedule")
+      expect(step_by_step_page.internal_change_notes.first.headline).to eq("Published on schedule")
     end
   end
 
