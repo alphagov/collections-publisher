@@ -13,6 +13,9 @@ class StepByStepPage < ApplicationRecord
   has_many :internal_change_notes, -> { order(created_at: :desc) }
   has_many :secondary_content_links, -> { order(title: :asc) }, dependent: :destroy
 
+  belongs_to :reviewer, primary_key: "uid", class_name: "User", optional: true
+  belongs_to :review_requester, primary_key: "uid", class_name: "User", optional: true
+
   validates :title, :slug, :introduction, :description, presence: true
   validates :scheduled_at, in_future: true
   validates :slug, format: { with: /\A([a-z0-9]+-)*[a-z0-9]+\z/ }, uniqueness: true
