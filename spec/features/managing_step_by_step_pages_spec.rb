@@ -14,6 +14,7 @@ RSpec.feature "Managing step by step pages" do
 
   before do
     given_I_am_a_GDS_editor
+    given_I_can_access_unreleased_features
     setup_publishing_api
     stub_default_publishing_api_put_intent
   end
@@ -50,7 +51,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   scenario "User publishes a page" do
-    given_there_is_a_step_by_step_page_with_a_link_report
+    given_there_is_an_approved_2i_step_by_step_page_with_a_link_report
     when_I_view_the_step_by_step_page
     when_I_click_button "Publish"
     then_I_am_told_that_it_is_published
@@ -59,6 +60,14 @@ RSpec.feature "Managing step by step pages" do
     and_I_see_a_view_on_govuk_link
     when_I_visit_the_history_page
     then_there_should_be_a_change_note "Published"
+  end
+
+  scenario "User cannot publish a page if it's not 2i approved" do
+    given_there_is_a_step_by_step_page_with_a_link_report
+    when_I_view_the_step_by_step_page
+    then_there_should_be_no_publish_button
+    # to be updated once Claim for review is done
+    # and_I_should_see_an_inset_prompt
   end
 
   scenario "User unpublishes a step by step page with a valid redirect url" do
@@ -117,7 +126,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   scenario "User publishes changes to a published step by step page" do
-    given_there_is_a_step_by_step_page_with_unpublished_changes_whose_links_have_been_checked
+    given_there_is_an_approved_2i_step_by_step_page_with_unpublished_changes_whose_links_have_been_checked
     when_I_view_the_step_by_step_page
     and_when_I_click_button "Publish"
     then_I_should_see_a_publish_form_with_changenotes
@@ -233,6 +242,14 @@ RSpec.feature "Managing step by step pages" do
       and_I_should_see "Enter a valid date", :within_the_date_component
       and_I_should_see "Enter a valid time", :within_the_time_component
     end
+
+    scenario "User cannot schedule a page if it's not 2i approved" do
+      given_there_is_a_step_by_step_page_with_a_link_report
+      when_I_view_the_step_by_step_page
+      then_there_should_be_no_schedule_button
+      # to be updated once Claim for review is done
+      # and_I_should_see_an_inset_prompt
+    end
   end
 
   scenario "A step doesn't have any content" do
@@ -328,12 +345,51 @@ RSpec.feature "Managing step by step pages" do
   end
 
   scenario "Publishing/scheduling a step by step does not prompt to check for broken links" do
-    given_there_is_a_step_that_has_no_broken_links
+    given_there_is_an_approved_2i_step_that_has_no_broken_links
     when_I_view_the_step_by_step_page
     then_there_should_be_no_inset_prompt
     and_when_I_click_button "Publish"
     then_I_am_told_that_it_is_published
     and_there_should_continue_to_be_no_inset_prompt
+  end
+
+  context "No Unreleased feature permissions" do
+    before do
+      stub_user.permissions = ["signin", "GDS Editor"]
+      setup_publishing_api
+      stub_default_publishing_api_put_intent
+    end
+
+    scenario "User publishes a page" do
+      given_there_is_a_step_by_step_page_with_a_link_report
+      when_I_view_the_step_by_step_page
+      when_I_click_button "Publish"
+      then_I_am_told_that_it_is_published
+      then_I_see_the_step_by_step_page
+      and_I_see_an_unpublish_button
+      and_I_see_a_view_on_govuk_link
+      when_I_visit_the_history_page
+      then_there_should_be_a_change_note "Published"
+    end
+
+    scenario "Publishing/scheduling a step by step does not prompt to check for broken links" do
+      given_there_is_an_approved_2i_step_that_has_no_broken_links
+      when_I_view_the_step_by_step_page
+      then_there_should_be_no_inset_prompt
+      and_when_I_click_button "Publish"
+      then_I_am_told_that_it_is_published
+      and_there_should_continue_to_be_no_inset_prompt
+    end
+
+    scenario "User publishes changes to a published step by step page" do
+      given_there_is_a_step_by_step_page_with_unpublished_changes_whose_links_have_been_checked
+      when_I_view_the_step_by_step_page
+      and_when_I_click_button "Publish"
+      then_I_should_see_a_publish_form_with_changenotes
+      and_when_I_click_the_publish_button_in_the_publish_form
+      then_I_am_told_that_it_is_published
+      and_I_cannot_preview_the_step_by_step
+    end
   end
 
   def and_it_has_change_notes
@@ -836,6 +892,12 @@ RSpec.feature "Managing step by step pages" do
   def then_there_should_be_no_publish_button
     within(".app-side__actions") do
       expect(page).to_not have_link("Publish")
+    end
+  end
+
+  def then_there_should_be_no_schedule_button
+    within(".app-side__actions") do
+      expect(page).to_not have_link("Schedule")
     end
   end
 

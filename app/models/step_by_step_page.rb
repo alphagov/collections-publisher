@@ -52,6 +52,10 @@ class StepByStepPage < ApplicationRecord
     update_attribute(:draft_updated_at, nil)
   end
 
+  def mark_as_approved_2i
+    update_attribute(:status, "approved_2i")
+  end
+
   def mark_as_published
     now = Time.zone.now
     update(
@@ -68,8 +72,8 @@ class StepByStepPage < ApplicationRecord
   def mark_as_unpublished
     update(
       published_at: nil,
-      draft_updated_at: nil,
-      status: "draft",
+      draft_updated_at: Time.zone.now,
+      status: "approved_2i",
     )
   end
 
@@ -78,7 +82,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def mark_as_unscheduled
-    update_attribute(:status, "draft")
+    update_attribute(:status, "approved_2i")
   end
 
   def self.validate_redirect(redirect_url)
@@ -142,7 +146,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def should_show_required_prepublish_actions?
-    has_draft? && !scheduled_for_publishing? && !can_be_published?
+    (has_draft? && !scheduled_for_publishing? && !can_be_published?) || status.in_review?
   end
 
   def broken_links_found?
@@ -150,7 +154,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def links_checked_since_last_update?
-    links_checked? && links_last_checked_date > draft_updated_at
+    (links_checked? && links_last_checked_date > draft_updated_at) || status.approved_2i?
   end
 
   def links_checked?

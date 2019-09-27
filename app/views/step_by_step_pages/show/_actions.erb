@@ -33,7 +33,7 @@
         class: %w(govuk-link govuk-link--no-visited-state app-link--right)
       %>
     <% elsif @step_by_step_page.has_draft? %>
-      <% if !@step_by_step_page.status.submitted_for_2i? &&
+      <% if @step_by_step_page.status.draft? &&
         (current_user.has_permission? "Unreleased feature") # remove this line when the feature flag is removed %>
         <%= render "govuk_publishing_components/components/button", {
           text: "Submit for 2i review",

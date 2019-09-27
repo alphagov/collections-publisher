@@ -247,6 +247,12 @@ RSpec.describe StepByStepPage do
 
       expect(step_by_step_with_step.links_checked_since_last_update?).to be true
     end
+
+    it "returns true if the status is approved_2i" do
+      step_by_step_with_step.mark_as_approved_2i
+
+      expect(step_by_step_with_step.links_checked_since_last_update?).to be true
+    end
   end
 
   describe "should_show_required_prepublish_actions?" do
@@ -271,6 +277,13 @@ RSpec.describe StepByStepPage do
 
     it "should return true if step by step is in draft and cannot be published" do
       step_by_step_with_step = create(:draft_step_by_step_page)
+
+      expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be true
+    end
+
+    it "should return true if step by step is in review" do
+      step_by_step_with_step = create(:step_by_step_page)
+      allow(step_by_step_page).to receive(:status).and_return("in_review")
 
       expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be true
     end
@@ -311,6 +324,16 @@ RSpec.describe StepByStepPage do
       step_by_step_with_step = create(:step_by_step_page)
 
       expect(step_by_step_with_step.links_checked?).to be false
+    end
+  end
+
+  describe "#mark_as_approved_2i" do
+    it "changes the status to approved_2i" do
+      step_by_step_with_step = create(:step_by_step_page_with_steps)
+      expect(step_by_step_with_step.status).to eq "draft"
+
+      step_by_step_with_step.mark_as_approved_2i
+      expect(step_by_step_with_step.status).to eq "approved_2i"
     end
   end
 
@@ -382,12 +405,15 @@ RSpec.describe StepByStepPage do
     end
 
     it "should reset published date" do
-      step_by_step_page.mark_as_unpublished
+      nowish = Time.zone.now
+      Timecop.freeze do
+        step_by_step_page.mark_as_unpublished
 
-      expect(step_by_step_page.published_at).to be nil
-      expect(step_by_step_page.has_been_published?).to be false
-      expect(step_by_step_page.draft_updated_at).to be nil
-      expect(step_by_step_page.has_draft?).to be false
+        expect(step_by_step_page.published_at).to be nil
+        expect(step_by_step_page.has_been_published?).to be false
+        expect(step_by_step_page.draft_updated_at).to be_within(1.second).of nowish
+        expect(step_by_step_page.has_draft?).to be true
+      end
     end
 
     it "should have a deterministically generated hex string" do

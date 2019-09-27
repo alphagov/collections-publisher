@@ -3,13 +3,13 @@ class StatusPrerequisiteValidator < ActiveModel::EachValidator
     if value == "approved_2i"
       return true if can_be_2i_approved?(record)
 
-      record.errors[attribute] << "#{value}, requires a draft, a reviewer and for status to be in_review"
+      record.errors[attribute] << "#{value}, requires a draft, a reviewer and for status to be in_review, scheduled, published or approved_2i"
     end
 
     if value == "in_review"
       return true if can_be_in_review?(record)
 
-      record.errors[attribute] << "#{value}, requires a draft, a reviewer and for status to be submitted_for_2i"
+      record.errors[attribute] << "#{value}, requires a draft, a reviewer and for status to be submitted_for_2i or in_review"
     end
 
     if value == "scheduled"
@@ -30,7 +30,10 @@ private
   def can_be_in_review?(record)
     record.has_draft? &&
       record.reviewer_id.present? &&
-      record.status_was == "submitted_for_2i"
+      (
+        record.status_was == "submitted_for_2i" ||
+        record.status_was == "in_review"
+      )
   end
 
   def can_be_scheduled?(record)
@@ -42,7 +45,7 @@ private
   end
 
   def can_be_2i_approved?(record)
-    record.has_draft? &&
-      record.status_was == "in_review"
+    allowed_previous_statuses = %w(in_review scheduled published approved_2i)
+    record.has_draft? && allowed_previous_statuses.include?(record.status_was)
   end
 end
