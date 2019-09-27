@@ -20,6 +20,29 @@ RSpec.describe StepByStepPage do
     end
   end
 
+  describe "associations" do
+    let(:stub_user) { create(:user, name: "Author Name") }
+
+    before do
+      step_by_step_page.review_requester_id = stub_user.uid
+    end
+
+    it "should allow return of review requester name" do
+      step_by_step_page.save
+
+      expect(step_by_step_page.review_requester.name).to eq stub_user.name
+    end
+
+    it "should allow return of reviewer name" do
+      reviewer_user = create(:user, name: "Reviewer Name")
+      step_by_step_page.reviewer_id = reviewer_user.uid
+
+      step_by_step_page.save
+
+      expect(step_by_step_page.reviewer.name).to eq reviewer_user.name
+    end
+  end
+
   describe "validations" do
     it "is created with valid attributes" do
       expect(step_by_step_page).to be_valid
