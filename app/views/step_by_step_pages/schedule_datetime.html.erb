@@ -15,7 +15,7 @@
 %>
 
 <% legend = capture do %>
-  <span class="govuk-heading-s govuk-!-margin-bottom-0">Date</span>
+  <span class="govuk-heading-s govuk-!-margin-bottom-0"><%= t("step_by_step_pages.schedule_datetime.date.label") %></span>
 <% end %>
 
 <%= render 'shared/steps/step_breadcrumb', links: links %>
@@ -37,7 +37,7 @@
       <%= render "govuk_publishing_components/components/date_input", {
         legend_text: legend,
         name: "schedule[date]",
-        hint: "For example, 01 08 2027",
+        hint: t("step_by_step_pages.schedule_datetime.date.hint"),
         id: "date",
         error_items: issues_for(:date),
         items: [
@@ -63,7 +63,7 @@
         id: "time",
         name: "schedule[time]",
         label: {
-          text: "Time",
+          text: t("step_by_step_pages.schedule_datetime.date.label"),
           bold: true,
         },
         input: {

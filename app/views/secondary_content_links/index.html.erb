@@ -50,13 +50,9 @@
 
             <%= render "govuk_publishing_components/components/input", {
               label: {
-                text: "Base Path"
+                text: t("secondary_content_links.index.base_path.label")
               },
-              hint: capture do %>
-                For example:
-                <a href="https://www.gov.uk/pay-vat" target="_blank" class="govuk-link">https://www.gov.uk/pay-vat</a>
-                or <a href="https://www.gov.uk/bank-holidays" class="govuk-link" target="_blank">/bank-holidays</a>
-              <% end,
+              hint: t("secondary_content_links.index.base_path.hint"),
               name: "base_path"
             } %>
           </div>
