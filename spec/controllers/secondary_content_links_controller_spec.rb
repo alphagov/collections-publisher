@@ -39,6 +39,22 @@ RSpec.describe SecondaryContentLinksController do
       expect(step_by_step_page.secondary_content_links.first.title).to eq("A Title")
     end
 
+    it "adds a new secondary content link if the base_path has a leading or trailing space" do
+      stub_user.permissions << "GDS Editor"
+
+      allow(Services.publishing_api).to receive(:lookup_content_id).and_return("a-content-id")
+      allow(Services.publishing_api).to receive(:get_content)
+        .with("a-content-id")
+        .and_return(content_item)
+      allow(Services.publishing_api).to receive(:put_content)
+      allow(Services.publishing_api).to receive(:lookup_content_ids).and_return([])
+
+      post :create, params: { step_by_step_page_id: step_by_step_page.id, base_path: " /base_path " }
+      expect(step_by_step_page.secondary_content_links.first.base_path).to eq("/base_path")
+      expect(step_by_step_page.secondary_content_links.first.content_id).to eq("a-content-id")
+      expect(step_by_step_page.secondary_content_links.first.title).to eq("A Title")
+    end
+
     it "returns an error if the base_path does not exist" do
       stub_user.permissions << "GDS Editor"
 
