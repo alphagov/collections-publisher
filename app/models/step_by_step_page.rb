@@ -24,6 +24,7 @@ class StepByStepPage < ApplicationRecord
   validates :status, status_prerequisite: true
   validate :reviewer_is_not_same_as_review_requester
 
+  before_validation :strip_slug_spaces
   before_validation :generate_content_id, on: :create
   before_destroy :discard_notes
 
@@ -175,6 +176,10 @@ private
 
   def generate_content_id
     self.content_id ||= SecureRandom.uuid
+  end
+
+  def strip_slug_spaces
+    self.slug.gsub!(/^\s+|\s+$/, "")
   end
 
   def reviewer_is_not_same_as_review_requester

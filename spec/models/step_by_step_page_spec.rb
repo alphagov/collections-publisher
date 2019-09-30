@@ -78,6 +78,15 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_page.errors).to have_key(:description)
     end
 
+    it "removes spaces from start and end of slug" do
+      step_by_step_page.slug = " a-slug "
+
+      step_by_step_page.save
+
+      expect(step_by_step_page).to be_valid
+      expect(step_by_step_page.slug).to eq "a-slug"
+    end
+
     it "must have a scheduled_at value that is nil or in the future" do
       valid_values = [
         nil,
