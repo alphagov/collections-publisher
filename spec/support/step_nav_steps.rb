@@ -1,4 +1,5 @@
 require "rails_helper"
+require "support/common_feature_steps"
 require "support/link_checker"
 
 module StepNavSteps
