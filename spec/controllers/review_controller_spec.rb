@@ -127,6 +127,20 @@ RSpec.describe ReviewController do
 
         expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_change_note
       end
+
+      it "creates an internal change note with additional comments" do
+        stub_user.permissions = required_permissions
+        stub_user.name = "Firstname Lastname"
+
+        expected_headline = "2i approved"
+        expected_change_note = "Approved provided you fix the typo in the first step"
+
+        post :approve_2i_review, params: { step_by_step_page_id: step_by_step_page.id, additional_comment: "Approved provided you fix the typo in the first step" }
+        step_by_step_page.reload
+
+        expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
+        expect(step_by_step_page.internal_change_notes.first.description).to eq expected_change_note
+      end
     end
 
     describe "POST request change after 2i review" do
