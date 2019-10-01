@@ -8,7 +8,6 @@ RSpec.feature "Contextual action buttons for step by step pages" do
   before do
     given_I_am_a_GDS_editor
     given_I_can_access_unreleased_features
-    given_there_are_review_users
     setup_publishing_api
   end
 
@@ -48,6 +47,17 @@ RSpec.feature "Contextual action buttons for step by step pages" do
     scenario "show the relevant actions to the step by step 2i reviewer" do
       given_there_is_a_step_by_step_that_has_been_claimed_for_2i
       and_I_am_the_reviewer
+      when_I_visit_the_step_by_step_page
+      then_there_should_be_no_primary_action
+      and_the_secondary_action_should_be "Preview"
+      and_there_should_be_tertiary_actions_to %w(Delete)
+    end
+  end
+
+  context "Step by step has been claimed for 2i" do
+    scenario "show the relevant actions to the step by step author" do
+      given_there_is_a_step_by_step_that_has_been_claimed_for_2i
+      and_I_am_the_step_by_step_author
       when_I_visit_the_step_by_step_page
       then_there_should_be_no_primary_action
       and_the_secondary_action_should_be "Preview"
