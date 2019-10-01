@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     post "approve-2i-review", to: "review#approve_2i_review"
     post :check_links
     post "claim-2i-review", to: "review#claim_2i_review"
-    get "internal-change-notes", to: "interal_change_notes"
+    get "internal-change-notes"
     post "internal-change-notes", to: "internal_change_notes#create"
     get "navigation-rules", to: "navigation_rules#edit"
     put "navigation-rules", to: "navigation_rules#update"
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     post "revert-to-draft", to: "review#revert_to_draft"
     get :schedule
     post :schedule
-    post "schedule-datetime", to: "schedule_datetime"
+    post "schedule-datetime"
     get "submit-for-2i", to: "review#submit_for_2i"
     post "submit-for-2i", to: "review#submit_for_2i"
     get :unpublish
