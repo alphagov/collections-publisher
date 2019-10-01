@@ -3,8 +3,18 @@ class ReviewController < ApplicationController
 
   before_action :require_gds_editor_permissions!
   before_action :require_unreleased_feature_permissions!
-  before_action :require_2i_reviewer_permissions!, only: %i(approve_2i_review claim_2i_review request_change_2i_review)
+  before_action :require_2i_reviewer_permissions!, only: %i(
+    approve_2i_review
+    claim_2i_review
+    request_change_2i_review
+    show_approve_2i_review_form
+    show_request_change_2i_review_form
+  )
   before_action :set_step_by_step_page
+
+  def show_approve_2i_review_form
+    render :submit_2i_verdict, locals: { approved: true }
+  end
 
   def approve_2i_review
     status = "approved_2i"
@@ -17,6 +27,8 @@ class ReviewController < ApplicationController
       generate_change_note("2i approved", params[:additional_comment])
 
       redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully 2i approved."
+    else
+      render :submit_2i_verdict, locals: { approved: true }, status: :unprocessable_entity
     end
   end
 
@@ -33,6 +45,10 @@ class ReviewController < ApplicationController
     end
   end
 
+  def show_request_change_2i_review_form
+    render :submit_2i_verdict, locals: { approved: false }
+  end
+
   def request_change_2i_review
     status = "draft"
 
@@ -44,6 +60,8 @@ class ReviewController < ApplicationController
       generate_change_note("2i changes requested", params[:requested_change])
 
       redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Changes to the step by step page were requested."
+    else
+      render :submit_2i_verdict, locals: { approved: false }, status: :unprocessable_entity
     end
   end
 

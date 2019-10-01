@@ -1,0 +1,33 @@
+<%
+  title = 'TBC'
+  links = [
+    {
+      text: 'Step by step publisher',
+      href: step_by_step_pages_path
+    },
+    {
+      text: @step_by_step_page.title,
+      href: step_by_step_page_path(@step_by_step_page)
+    },
+    {
+      text: title
+    }
+  ]
+%>
+
+<%= render 'shared/steps/step_breadcrumb', links: links %>
+
+<%= render 'shared/steps/heading',
+  step_nav: @step_by_step_page.title,
+  action: title
+%>
+
+<% if @step_by_step_page.errors.any? %>
+  <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
+<% end %>
+
+<div class="row">
+  <div class="col-md-7">
+    TBC
+  </div>
+</div>

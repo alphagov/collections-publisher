@@ -88,6 +88,44 @@ RSpec.describe ReviewController do
 
       required_permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
 
+      describe "GET approve 2i review" do
+        it "can be accessed by the reviewer, if they have GDS editor, Unreleased feature and 2i reviewer permissions" do
+          stub_user.permissions = required_permissions
+          get :show_request_change_2i_review_form, params: { step_by_step_page_id: step_by_step_page.id }
+
+          expect(response.status).to eq(200)
+        end
+
+        (required_permissions - %w(signin)).each do |required_permission|
+          it "cannot be accessed by users without the #{required_permission} permission" do
+            stub_user.permissions = required_permissions
+            stub_user.permissions.delete(required_permission)
+            get :show_request_change_2i_review_form, params: { step_by_step_page_id: step_by_step_page.id }
+
+            expect(response.status).to eq(403)
+          end
+        end
+      end
+
+      describe "GET request change after 2i review" do
+        it "can be accessed by the reviewer, if they have GDS editor, Unreleased feature and 2i reviewer permissions" do
+          stub_user.permissions = required_permissions
+          get :show_approve_2i_review_form, params: { step_by_step_page_id: step_by_step_page.id }
+
+          expect(response.status).to eq(200)
+        end
+
+        (required_permissions - %w(signin)).each do |required_permission|
+          it "cannot be accessed by users without the #{required_permission} permission" do
+            stub_user.permissions = required_permissions
+            stub_user.permissions.delete(required_permission)
+            get :show_approve_2i_review_form, params: { step_by_step_page_id: step_by_step_page.id }
+
+            expect(response.status).to eq(403)
+          end
+        end
+      end
+
       describe "POST approve 2i review" do
         it "can be accessed by users with GDS editor, Unreleased feature and 2i reviewer permissions" do
           stub_user.permissions = required_permissions
