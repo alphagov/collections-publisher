@@ -5,7 +5,7 @@
 <%= render 'govuk_publishing_components/components/layout_for_admin',
   product_name: "Collections Publisher",
   environment: GovukPublishingComponents::AppHelpers::Environment.current_acceptance_environment,
-  browser_title: yield(:page_title) do %>
+  browser_title: yield(:page_title).presence || yield(:title) do %>
 
   <%= render "govuk_publishing_components/components/skip_link" %>
   <%= render "govuk_publishing_components/components/layout_header", {
