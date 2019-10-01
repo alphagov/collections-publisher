@@ -33,25 +33,6 @@
         }
       ]
     } %>
-
-    <%= render "govuk_publishing_components/components/radio", {
-      name: "step[optional]",
-      heading: t("steps.optional.heading"),
-      heading_size: "s",
-      hint: t("steps.optional.hint"),
-      items: [
-        {
-          value: "false",
-          text: "essential",
-          checked: !step.optional.present? || !step.optional
-        },
-        {
-          value: "true",
-          text: "optional",
-          checked: step.optional
-        }
-      ]
-    } %>
   </div>
 </div>
 
