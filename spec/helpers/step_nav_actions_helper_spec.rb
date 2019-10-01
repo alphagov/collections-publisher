@@ -12,6 +12,22 @@ RSpec.describe StepNavActionsHelper do
     allow(Services.publishing_api).to receive(:lookup_content_id)
   end
 
+  describe "#can_submit_for_2i?" do
+    it "returns false if not in draft status" do
+      step_by_step_page.status = "published"
+      expect(helper.can_submit_for_2i?(step_by_step_page, user)).to be false
+    end
+
+    it "returns false if author doesn't have permissions" do
+      expect(helper.can_submit_for_2i?(step_by_step_page, user)).to be false
+    end
+
+    it "returns true if in draft and if author has permissions" do
+      user.permissions << "Unreleased feature"
+      expect(helper.can_submit_for_2i?(step_by_step_page, user)).to be true
+    end
+  end
+
   describe "#can_review?" do
     it "returns false if the step-by-step has not been submitted for 2i" do
       expect(helper.can_review?(step_by_step_page, user)).to be false
