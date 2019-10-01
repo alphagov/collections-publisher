@@ -21,8 +21,8 @@ module AuthenticationFeatureHelpers
     @stub_user ||= FactoryBot.create(:user)
   end
 
-  def login_as_stub_user
-    GDS::SSO.test_user = stub_user
+  def login_as_user(user = stub_user)
+    GDS::SSO.test_user = user
   end
 end
 
@@ -34,6 +34,6 @@ RSpec.configure do |config|
 
   config.include AuthenticationFeatureHelpers, :type => :feature
   config.before(:each, type: :feature) do
-    login_as_stub_user
+    login_as_user
   end
 end

@@ -46,4 +46,8 @@
   <%= render "govuk_publishing_components/components/inset_text" do %>
     <p class="govuk-body">Not yet claimed for 2i</p>
   <% end %>
+<% elsif @step_by_step_page.status.in_review? %>
+  <%= render "govuk_publishing_components/components/inset_text" do %>
+    <p class="govuk-body">The 2i reviewer is <%= @step_by_step_page.reviewer.name %></p>
+  <% end %>
 <% end %>
