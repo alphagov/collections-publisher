@@ -1,5 +1,5 @@
 <%
-  title = 'TBC'
+  title = 'Approve step by step'
   links = [
     {
       text: 'Step by step publisher',
@@ -26,8 +26,26 @@
   <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
 <% end %>
 
-<div class="row">
-  <div class="col-md-7">
-    TBC
+<%= form_tag do %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= render "govuk_publishing_components/components/textarea", {
+        label: {
+          text: "Add a note (optional)"
+        },
+        name: "additional_comment",
+      } %>
+    </div>
   </div>
-</div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Yes, approve 2i"
+      } %>
+    </div>
+    <div class="govuk-grid-column-full govuk-!-margin-top-3">
+      <%= link_to "Cancel", @step_by_step_page, class: "govuk-link" %>
+    </div>
+  </div>
+<% end %>

@@ -86,10 +86,6 @@ RSpec.feature "Managing step by step pages" do
     visit step_by_step_page_reorder_path(@step_by_step_page)
   end
 
-  def when_I_visit_the_change_notes_tab
-    visit step_by_step_page_internal_change_notes_path(@step_by_step_page)
-  end
-
   def and_I_create_a_new_step
     click_on "Add step"
   end

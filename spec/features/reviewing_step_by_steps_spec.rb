@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.feature "Reviewing step by step pages" do
   include CommonFeatureSteps
+  include NavigationSteps
   include StepNavSteps
 
   before do
@@ -43,6 +44,16 @@ RSpec.feature "Reviewing step by step pages" do
     and_I_cannot_see_a_claim_for_2i_button
   end
 
+  scenario "2i reviewer approves step by step" do
+    given_there_is_a_step_by_step_that_has_been_claimed_for_2i
+    and_I_am_the_reviewer
+    when_I_visit_the_step_by_step_page
+    and_I_approve_the_step_by_step_with_an_optional_note
+    then_I_can_see_a_success_message "Step by step page was successfully 2i approved. Please let the author know."
+    and_the_step_by_step_status_should_be "Approved 2i"
+    and_I_should_see_my_optional_note_in_the_change_notes
+  end
+
   def when_I_visit_the_submit_for_2i_page
     visit step_by_step_page_submit_for_2i_path(@step_by_step_page)
   end
@@ -53,6 +64,23 @@ RSpec.feature "Reviewing step by step pages" do
 
   def when_I_view_the_step_by_step_page
     visit step_by_step_page_path(@step_by_step_page)
+  end
+
+  def and_I_approve_the_step_by_step_with_an_optional_note
+    click_link "Approve"
+    expect(page).to have_css(".govuk-caption-l", text: "Approve step by step")
+    fill_in "additional_comment", with: "Please fix typo before publishing"
+    click_button "Yes, approve 2i"
+  end
+
+  def and_I_should_see_my_optional_note_in_the_change_notes
+    when_I_visit_the_change_notes_tab
+    expect(page).to have_content "2i approved"
+    expect(page).to have_content "Please fix typo before publishing"
+  end
+
+  def and_the_step_by_step_status_should_be(status)
+    expect(page).to have_css(".gem-c-metadata", text: "Status: #{status}")
   end
 
   def and_I_submit_the_form
