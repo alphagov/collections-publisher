@@ -27,9 +27,9 @@
       <% if @step_by_step_page.can_be_edited? %>
         <%= render "govuk_publishing_components/components/input", {
           label: {
-            text: "Slug"
+            text: t("step_by_step_pages.form.slug.label")
           },
-          hint: "No slashes",
+          hint: t("step_by_step_pages.form.slug.hint"),
           name: "step_by_step_page[slug]",
           value: step_by_step_page.slug
         } %>

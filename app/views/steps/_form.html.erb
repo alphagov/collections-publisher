@@ -36,9 +36,9 @@
 
     <%= render "govuk_publishing_components/components/radio", {
       name: "step[optional]",
-      heading: "Is this step optional?",
+      heading: t("steps.optional.heading"),
       heading_size: "s",
-      hint: "You must select one of these so that user activity is tracked correctly in Google Analytics.",
+      hint: t("steps.optional.hint"),
       items: [
         {
           value: "false",
