@@ -75,4 +75,34 @@ RSpec.describe StepNavActionsHelper do
       expect(helper.can_submit_for_2i?(step_by_step_page, user)).to be true
     end
   end
+
+  describe "#can_submit_2i_review?" do
+    it "returns false if the step by step is not in review" do
+      step_by_step_page.status = "submitted_for_2i"
+      step_by_step_page.review_requester_id = user.uid
+      expect(helper.can_submit_2i_review?(step_by_step_page, user)).to be false
+    end
+
+    it "returns false if the current user is not the reviewer" do
+      step_by_step_page.status = "in_review"
+      step_by_step_page.review_requester_id = user.uid
+      step_by_step_page.reviewer_id = reviewer_user.uid
+      expect(helper.can_submit_2i_review?(step_by_step_page, second_reviewer_user)).to be false
+    end
+
+    it "returns false if the step by step is in review and the current user is the reviewer but they don't have permissions" do
+      step_by_step_page.status = "in_review"
+      step_by_step_page.review_requester_id = user.uid
+      step_by_step_page.reviewer_id = reviewer_user.uid
+      reviewer_user.permissions = reviewer_user.permissions - ["Unreleased feature"]
+      expect(helper.can_submit_2i_review?(step_by_step_page, reviewer_user)).to be false
+    end
+
+    it "returns true if the step by step is in review and the current user is the reviewer and they have permissions" do
+      step_by_step_page.status = "in_review"
+      step_by_step_page.review_requester_id = user.uid
+      step_by_step_page.reviewer_id = reviewer_user.uid
+      expect(helper.can_submit_2i_review?(step_by_step_page, reviewer_user)).to be true
+    end
+  end
 end
