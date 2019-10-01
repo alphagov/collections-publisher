@@ -1,5 +1,5 @@
 <%
-  title = 'Approve step by step'
+  title = approved ? 'Approve step by step' : 'Request changes to step by step'
   links = [
     {
       text: 'Step by step publisher',
@@ -31,9 +31,9 @@
     <div class="govuk-grid-column-two-thirds">
       <%= render "govuk_publishing_components/components/textarea", {
         label: {
-          text: "Add a note (optional)"
+          text: approved ? "Describe changes required" : "Add a note (optional)"
         },
-        name: "additional_comment",
+        name: approved ? "additional_comment" : "requested_change",
       } %>
     </div>
   </div>
@@ -41,7 +41,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <%= render "govuk_publishing_components/components/button", {
-        text: "Yes, approve 2i"
+        text: approved ? "Yes, approve 2i" : "Send change request"
       } %>
     </div>
     <div class="govuk-grid-column-full govuk-!-margin-top-3">

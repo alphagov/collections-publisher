@@ -54,6 +54,16 @@ RSpec.feature "Reviewing step by step pages" do
     and_I_should_see_my_optional_note_in_the_change_notes
   end
 
+  scenario "2i reviewer requests changes to a step by step" do
+    given_there_is_a_step_by_step_that_has_been_claimed_for_2i
+    and_I_am_the_reviewer
+    when_I_visit_the_step_by_step_page
+    and_I_request_changes_to_the_step_by_step
+    then_I_can_see_a_success_message "Changes to the step by step page were requested. Please let the author know."
+    and_the_step_by_step_status_should_be "Draft"
+    and_I_should_see_my_requested_changes_in_the_change_notes
+  end
+
   def when_I_visit_the_submit_for_2i_page
     visit step_by_step_page_submit_for_2i_path(@step_by_step_page)
   end
@@ -73,10 +83,23 @@ RSpec.feature "Reviewing step by step pages" do
     click_button "Yes, approve 2i"
   end
 
+  def and_I_request_changes_to_the_step_by_step
+    click_link "Request changes"
+    expect(page).to have_css(".govuk-caption-l", text: "Request changes to step by step")
+    fill_in "requested_change", with: "Too many typos to publish"
+    click_button "Send change request"
+  end
+
   def and_I_should_see_my_optional_note_in_the_change_notes
     when_I_visit_the_change_notes_tab
     expect(page).to have_content "2i approved"
     expect(page).to have_content "Please fix typo before publishing"
+  end
+
+  def and_I_should_see_my_requested_changes_in_the_change_notes
+    when_I_visit_the_change_notes_tab
+    expect(page).to have_content "2i changes requested"
+    expect(page).to have_content "Too many typos to publish"
   end
 
   def and_the_step_by_step_status_should_be(status)
