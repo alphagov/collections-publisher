@@ -84,6 +84,7 @@ RSpec.describe ReviewController do
 
       before do
         step_by_step_page.update_attributes(:status => "in_review", :reviewer_id => reviewer_user.uid)
+        stub_user.uid = reviewer_user.uid
       end
 
       required_permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
@@ -104,6 +105,14 @@ RSpec.describe ReviewController do
 
             expect(response.status).to eq(403)
           end
+        end
+
+        it "cannot be accessed by users other than the reviewer, even with the necessary permissions" do
+          stub_user.permissions = required_permissions
+          stub_user.uid = SecureRandom.uuid
+          get :approve_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
+
+          expect(response.status).to eq(403)
         end
       end
 
