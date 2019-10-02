@@ -14,6 +14,7 @@ RSpec.feature "Managing step by step pages" do
 
   before do
     given_I_am_a_GDS_editor
+    given_there_are_review_users
     given_I_can_access_unreleased_features
     setup_publishing_api
     stub_default_publishing_api_put_intent
@@ -62,12 +63,13 @@ RSpec.feature "Managing step by step pages" do
     then_there_should_be_a_change_note "Published"
   end
 
-  scenario "User cannot publish a page if it's not 2i approved" do
-    given_there_is_a_step_by_step_page_with_a_link_report
+  scenario "User cannot publish or schedule a page if it's not 2i approved" do
+    given_there_is_a_step_by_step_that_has_been_claimed_for_2i
     when_I_view_the_step_by_step_page
     then_there_should_be_no_publish_button
-    # to be updated once Claim for review is done
-    # and_I_should_see_an_inset_prompt
+    and_there_should_be_no_schedule_button
+    and_I_should_see_an_inset_prompt
+    and_inset_prompt_should_say "get 2i approval"
   end
 
   scenario "User unpublishes a step by step page with a valid redirect url" do
@@ -152,6 +154,18 @@ RSpec.feature "Managing step by step pages" do
     and_I_have_reordered_the_steps
     when_I_add_a_step
     then_my_new_step_should_be_the_last_step_in_the_list_of_steps
+  end
+
+  context "Logged in as a reviewer" do
+    scenario "Reviewer cannot publish or schedule a page if it's not 2i approved" do
+      given_there_is_a_step_by_step_that_has_been_claimed_for_2i
+      and_I_am_the_reviewer
+      when_I_view_the_step_by_step_page
+      then_there_should_be_no_publish_button
+      and_there_should_be_no_schedule_button
+      and_I_should_see_an_inset_prompt
+      and_inset_prompt_should_say "2i approve it"
+    end
   end
 
   context "Scheduling" do
@@ -241,14 +255,6 @@ RSpec.feature "Managing step by step pages" do
       and_I_should_see "Enter a valid time", :at_the_top_of_the_page
       and_I_should_see "Enter a valid date", :within_the_date_component
       and_I_should_see "Enter a valid time", :within_the_time_component
-    end
-
-    scenario "User cannot schedule a page if it's not 2i approved" do
-      given_there_is_a_step_by_step_page_with_a_link_report
-      when_I_view_the_step_by_step_page
-      then_there_should_be_no_schedule_button
-      # to be updated once Claim for review is done
-      # and_I_should_see_an_inset_prompt
     end
   end
 
@@ -733,6 +739,10 @@ RSpec.feature "Managing step by step pages" do
   end
 
   alias_method :then_I_should_see_an_inset_prompt, :and_I_should_see_an_inset_prompt
+
+  def and_inset_prompt_should_say(text)
+    expect(page).to have_css(".govuk-inset-text", text: text)
+  end
 
   def then_there_should_be_no_inset_prompt
     expect(page).not_to have_css(".govuk-inset-text", text: "To publish this step by step you need to")

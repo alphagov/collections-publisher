@@ -28,7 +28,7 @@
       <% end %>
 
       <% if @step_by_step_page.status.in_review? %>
-        <% if current_user.id == @step_by_step_page.reviewer_id %>
+        <% if current_user.uid == @step_by_step_page.reviewer_id %>
           <li>
             <p class="govuk-body">2i approve it</p>
           </li>
