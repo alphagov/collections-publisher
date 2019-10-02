@@ -37,6 +37,15 @@ en:
       heading: Is this step optional?
       hint: You must select one of these so that user activity is tracked correctly in Google Analytics.
   secondary_content_links:
+    guidance_markdown: |
+      ##What is secondary content?
+
+      Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.
+
+      We use it for content which:
+
+      - helps you to complete a task in the journey, but is not the primary piece of content you need to visit to complete that task
+      - is optional and not useful enough to be included in the step by step
     index:
       base_path:
         label: Base Path
