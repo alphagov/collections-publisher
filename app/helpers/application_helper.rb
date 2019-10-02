@@ -20,4 +20,14 @@ module ApplicationHelper
   def published_url(slug)
     "#{Plek.new.website_root}/#{slug}"
   end
+
+  def markdown_to_html(markdown)
+    raw(Kramdown::Document.new(markdown).to_html)
+  end
+
+  def render_markdown(content)
+    render "govuk_publishing_components/components/govspeak" do
+      markdown_to_html(content)
+    end
+  end
 end
