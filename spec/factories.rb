@@ -98,7 +98,6 @@ FactoryBot.define do
 
     factory :or_step do
       title { "Dress like the Fonz" }
-      optional { "true" }
       logic { "or" }
       position { 2 }
       contents {
