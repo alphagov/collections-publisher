@@ -20,8 +20,8 @@ en:
         label: Slug
         hint: No slashes
     reorder:
-      instructions: Use the up/down buttons on the right to reorder steps, or click and hold on a step to reorder using drag and drop.
-      automatically_updated: Step numbers will be automatically updated on save.
+      instructions_markdown: Use the up/down buttons on the right to reorder steps, or click and hold on a step to reorder using drag and drop.
+      automatically_updated_markdown: Step numbers will be automatically updated on save.
     change_notes:
       title: Notify users about this change?
       label: Public change note

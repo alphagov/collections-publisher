@@ -23,8 +23,8 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body"><%= t("step_by_step_pages.reorder.instructions") %></p>
-    <p class="govuk-body"><%= t("step_by_step_pages.reorder.automatically_updated") %></p>
+    <%= render_markdown t("step_by_step_pages.reorder.instructions_markdown") %>
+    <%= render_markdown t("step_by_step_pages.reorder.automatically_updated_markdown") %>
 
     <%
       step_number = 1
