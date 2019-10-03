@@ -79,12 +79,4 @@ RSpec.feature "Contextual action buttons for step by step pages" do
   def action_html
     find(".app-side__actions").native.inner_html.strip
   end
-
-  def and_I_am_the_step_by_step_author
-    login_as_user @review_requester
-  end
-
-  def and_I_am_the_reviewer
-    login_as_user @reviewer
-  end
 end

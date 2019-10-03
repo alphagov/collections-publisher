@@ -212,6 +212,14 @@ module StepNavSteps
 
   alias_method :and_I_can_see_a_success_message, :then_I_can_see_a_success_message
 
+  def and_I_am_the_step_by_step_author
+    login_as_user @review_requester
+  end
+
+  def and_I_am_the_reviewer
+    login_as_user @reviewer
+  end
+
   def then_I_should_be_on_the_step_by_step_page
     expect(current_url).to end_with step_by_step_page_path(@step_by_step_page)
   end
