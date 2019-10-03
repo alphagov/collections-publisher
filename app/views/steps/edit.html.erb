@@ -14,11 +14,7 @@
   ]
 %>
 
-<% content_for :back_link do %>
-  <%= render "govuk_publishing_components/components/back_link", {
-    href: @step_by_step_page
-  } %>
-<% end %>
+<%= render 'shared/steps/step_breadcrumb', links: links %>
 
 <%= render 'shared/steps/page_title', links: links %>
 
