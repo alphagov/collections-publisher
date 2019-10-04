@@ -44,6 +44,13 @@ RSpec.feature "Reviewing step by step pages" do
     and_I_cannot_see_a_claim_for_2i_button
   end
 
+  scenario "User without 2i reviewer permission cannot claim step by step for 2i review" do
+    given_there_is_a_step_by_step_that_has_been_submitted_for_2i
+    and_I_am_a_non_2i_user
+    when_I_view_the_step_by_step_page
+    and_I_cannot_see_a_claim_for_2i_button
+  end
+
   scenario "2i reviewer approves step by step" do
     given_there_is_a_step_by_step_that_has_been_claimed_for_2i
     and_I_am_the_reviewer

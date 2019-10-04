@@ -193,6 +193,7 @@ module StepNavSteps
   def given_there_is_a_step_by_step_that_has_been_submitted_for_2i
     @review_requester = create(:user, name: "Original Author", permissions: required_permissions_for_2i)
     @reviewer = create(:user, name: "Reviewer", permissions: required_permissions_for_2i)
+    @non_2i_user = create(:user, name: "Reviewer", permissions: required_permissions_for_2i - ["2i reviewer"])
     @step_by_step_page = create(:step_by_step_page_submitted_for_2i, review_requester_id: @review_requester.uid)
   end
 
@@ -208,6 +209,10 @@ module StepNavSteps
 
   def and_I_am_the_reviewer
     login_as_user @reviewer
+  end
+
+  def and_I_am_a_non_2i_user
+    login_as_user @non_2i_user
   end
 
   def then_I_should_be_on_the_step_by_step_page
