@@ -31,7 +31,7 @@
     <div class="govuk-grid-column-two-thirds">
       <%= render "govuk_publishing_components/components/textarea", {
         label: {
-          text: approved ? "Describe changes required" : "Add a note (optional)"
+          text: approved ? "Add a note (optional)" : "Describe changes required"
         },
         name: approved ? "additional_comment" : "requested_change",
       } %>
