@@ -20,6 +20,7 @@ module CollectionsPublisher
     # -- all .rb files in that directory are automatically loaded.
 
     config.time_zone = "London"
+    config.action_view.raise_on_missing_translations = true
 
     unless Rails.env.production?
       ENV["JWT_AUTH_SECRET"] = "123"

@@ -1,12 +1,12 @@
-<%= GovukPublishingComponents::AppHelpers::TableHelper.helper(self, "Documents list", { sortable: true, caption_classes: "govuk-visually-hidden" }) do |t| %>
+<%= GovukPublishingComponents::AppHelpers::TableHelper.helper(self, "Documents list", { sortable: true, caption_classes: "govuk-visually-hidden" }) do |table| %>
 
-  <%= t.head do %>
-    <%= t.header "Title" %>
-    <%= t.header "Status" %>
-    <%= t.header "Last updated" %>
+  <%= table.head do %>
+    <%= table.header "Title" %>
+    <%= table.header "Status" %>
+    <%= table.header "Last updated" %>
   <% end %>
 
-  <%= t.body do %>
+  <%= table.body do %>
     <% @step_by_step_pages.each do |step_by_step_page| %>
 
       <% preview_link = capture do %>
@@ -19,8 +19,8 @@
         <% end %>
       <% end %>
 
-      <%= t.row do %>
-        <%= t.cell render "govuk_publishing_components/components/document_list", {
+      <%= table.row do %>
+        <%= table.cell render "govuk_publishing_components/components/document_list", {
           items: [
             {
               link: {
@@ -34,8 +34,8 @@
           ]
         } %>
 
-        <%= t.cell step_by_step_page.status.humanize %>
-        <%= t.cell format_full_date(step_by_step_page.updated_at) %>
+        <%= table.cell t("step_by_step_page.statuses.#{step_by_step_page.status}") %>
+        <%= table.cell format_full_date(step_by_step_page.updated_at) %>
       <% end %>
     <% end %>
   <% end %>
