@@ -192,25 +192,15 @@ module StepNavSteps
 
   def given_there_is_a_step_by_step_that_has_been_submitted_for_2i
     @review_requester = create(:user, name: "Original Author", permissions: required_permissions_for_2i)
+    @reviewer = create(:user, name: "Reviewer", permissions: required_permissions_for_2i)
     @step_by_step_page = create(:step_by_step_page_submitted_for_2i, review_requester_id: @review_requester.uid)
   end
 
   def given_there_is_a_step_by_step_that_has_been_claimed_for_2i
-    @step_by_step_page = create(:step_by_step_page_claimed_for_2i, review_requester_id: @review_requester.uid, reviewer_id: @reviewer.uid)
-  end
-
-  def given_there_are_review_users
     @review_requester = create(:user, name: "Original Author", permissions: required_permissions_for_2i)
     @reviewer = create(:user, name: "Reviewer", permissions: required_permissions_for_2i)
+    @step_by_step_page = create(:step_by_step_page_claimed_for_2i, review_requester_id: @review_requester.uid, reviewer_id: @reviewer.uid)
   end
-
-  def then_I_can_see_a_success_message(message)
-    within(".gem-c-success-alert") do
-      expect(page).to have_content message
-    end
-  end
-
-  alias_method :and_I_can_see_a_success_message, :then_I_can_see_a_success_message
 
   def and_I_am_the_step_by_step_author
     login_as_user @review_requester
@@ -225,6 +215,10 @@ module StepNavSteps
   end
 
   alias_method :and_I_should_be_on_the_step_by_step_page, :then_I_should_be_on_the_step_by_step_page
+
+  def when_I_visit_the_change_notes_tab
+    visit step_by_step_page_internal_change_notes_path(@step_by_step_page)
+  end
 
   def then_I_see_the_new_step_by_step_page
     expect(page).to have_content("How to bake a cake")

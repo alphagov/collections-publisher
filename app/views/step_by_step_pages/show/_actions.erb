@@ -44,6 +44,16 @@
           text: "Submit for 2i review",
           href: step_by_step_page_submit_for_2i_path(@step_by_step_page)
         } %>
+      <% elsif can_submit_2i_review?(@step_by_step_page, current_user) %>
+        <%= render "govuk_publishing_components/components/button", {
+          text: "Approve",
+          href: step_by_step_page_approve_2i_review_path(@step_by_step_page)
+        } %>
+        <%= render "govuk_publishing_components/components/button", {
+          text: "Request changes",
+          href: step_by_step_page_request_change_2i_review_path(@step_by_step_page),
+          secondary: true
+        } %>
       <% end %>
       <%= preview_link %>
     <% end %>

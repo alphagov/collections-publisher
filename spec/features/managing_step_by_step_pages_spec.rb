@@ -14,7 +14,6 @@ RSpec.feature "Managing step by step pages" do
 
   before do
     given_I_am_a_GDS_editor
-    given_there_are_review_users
     given_I_can_access_unreleased_features
     setup_publishing_api
     stub_default_publishing_api_put_intent

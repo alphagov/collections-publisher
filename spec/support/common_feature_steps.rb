@@ -28,4 +28,12 @@ module CommonFeatureSteps
   def required_permissions_for_2i
     ["signin", "GDS Editor", "2i reviewer", "Unreleased feature"]
   end
+
+  def then_I_can_see_a_success_message(message)
+    within(".gem-c-success-alert") do
+      expect(page).to have_content message
+    end
+  end
+
+  alias_method :and_I_can_see_a_success_message, :then_I_can_see_a_success_message
 end

@@ -1,0 +1,51 @@
+<%
+  title = approved ? 'Approve step by step' : 'Request changes to step by step'
+  links = [
+    {
+      text: 'Step by step publisher',
+      href: step_by_step_pages_path
+    },
+    {
+      text: @step_by_step_page.title,
+      href: step_by_step_page_path(@step_by_step_page)
+    },
+    {
+      text: title
+    }
+  ]
+%>
+
+<%= render 'shared/steps/step_breadcrumb', links: links %>
+
+<%= render 'shared/steps/heading',
+  step_nav: @step_by_step_page.title,
+  action: title
+%>
+
+<% if @step_by_step_page.errors.any? %>
+  <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
+<% end %>
+
+<%= form_tag do %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= render "govuk_publishing_components/components/textarea", {
+        label: {
+          text: approved ? "Describe changes required" : "Add a note (optional)"
+        },
+        name: approved ? "additional_comment" : "requested_change",
+      } %>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <%= render "govuk_publishing_components/components/button", {
+        text: approved ? "Yes, approve 2i" : "Send change request"
+      } %>
+    </div>
+    <div class="govuk-grid-column-full govuk-!-margin-top-3">
+      <%= link_to "Cancel", @step_by_step_page, class: "govuk-link" %>
+    </div>
+  </div>
+<% end %>

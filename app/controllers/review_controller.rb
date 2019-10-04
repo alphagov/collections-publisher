@@ -1,10 +1,26 @@
 class ReviewController < ApplicationController
   layout "admin_layout"
 
+  before_action :set_step_by_step_page
   before_action :require_gds_editor_permissions!
   before_action :require_unreleased_feature_permissions!
-  before_action :require_2i_reviewer_permissions!, only: %i(approve_2i_review claim_2i_review request_change_2i_review)
-  before_action :set_step_by_step_page
+  before_action :require_2i_reviewer_permissions!, only: %i(
+    approve_2i_review
+    claim_2i_review
+    request_change_2i_review
+    show_approve_2i_review_form
+    show_request_change_2i_review_form
+  )
+  before_action :require_user_to_be_the_2i_reviewer!, only: %i(
+    approve_2i_review
+    request_change_2i_review
+    show_approve_2i_review_form
+    show_request_change_2i_review_form
+  )
+
+  def show_approve_2i_review_form
+    render :submit_2i_verdict, locals: { approved: true }
+  end
 
   def approve_2i_review
     status = "approved_2i"
@@ -14,9 +30,11 @@ class ReviewController < ApplicationController
       reviewer_id: nil,
       status: status,
     )
-      generate_change_note("2i approved")
+      generate_change_note("2i approved", params[:additional_comment])
 
-      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully approved_2i."
+      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully 2i approved. Please let the author know."
+    else
+      render :submit_2i_verdict, locals: { approved: true }, status: :unprocessable_entity
     end
   end
 
@@ -33,6 +51,10 @@ class ReviewController < ApplicationController
     end
   end
 
+  def show_request_change_2i_review_form
+    render :submit_2i_verdict, locals: { approved: false }
+  end
+
   def request_change_2i_review
     status = "draft"
 
@@ -43,7 +65,9 @@ class ReviewController < ApplicationController
     )
       generate_change_note("2i changes requested", params[:requested_change])
 
-      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Changes to the step by step page were requested."
+      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Changes to the step by step page were requested. Please let the author know."
+    else
+      render :submit_2i_verdict, locals: { approved: false }, status: :unprocessable_entity
     end
   end
 
@@ -90,5 +114,9 @@ private
 
   def set_step_by_step_page
     @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
+  end
+
+  def require_user_to_be_the_2i_reviewer!
+    render "shared/forbidden", status: :forbidden unless current_user.uid == @step_by_step_page.reviewer_id
   end
 end
