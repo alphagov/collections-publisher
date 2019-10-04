@@ -68,7 +68,7 @@ RSpec.feature "Managing step by step pages" do
     then_there_should_be_no_publish_button
     and_there_should_be_no_schedule_button
     and_I_should_see_an_inset_prompt
-    and_inset_prompt_should_say "get 2i approval"
+    and_inset_prompt_should_say "Get 2i approval"
   end
 
   scenario "User unpublishes a step by step page with a valid redirect url" do
