@@ -44,9 +44,9 @@ en:
 
       We use it for content which:
 
-      - helps you to complete a task in the journey, but is not the primary piece of content you need to visit to complete that task
+      - could help you complete a task but is not the main piece of content included in the step by step
       - is optional and not useful enough to be included in the step by step
     index:
       base_path:
-        label: Base Path
+        label: Add new secondary link
         hint: "For example: https://www.gov.uk/pay-vat or /bank-holidays"
