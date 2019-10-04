@@ -1,11 +1,11 @@
 class StepByStepPage < ApplicationRecord
   STATUSES = %w(
-    approved_2i
     draft
-    in_review
-    published
-    scheduled
     submitted_for_2i
+    in_review
+    approved_2i
+    scheduled
+    published
   ).freeze
 
   has_many :navigation_rules, -> { order(title: :asc) }, dependent: :destroy
