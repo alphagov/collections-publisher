@@ -3,7 +3,7 @@ en:
     statuses:
       draft: Draft
       submitted_for_2i: Submitted for 2i
-      in_review: In review
+      in_review: In 2i review
       approved_2i: Approved 2i
       scheduled: Scheduled
       published: Published
