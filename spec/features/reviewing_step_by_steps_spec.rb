@@ -79,6 +79,7 @@ RSpec.feature "Reviewing step by step pages" do
   def and_I_approve_the_step_by_step_with_an_optional_note
     click_link "Approve"
     expect(page).to have_css(".govuk-caption-l", text: "Approve step by step")
+    expect(page).to have_css(".govuk-label", text: "Add a note (optional)")
     fill_in "additional_comment", with: "Please fix typo before publishing"
     click_button "Yes, approve 2i"
   end
@@ -86,6 +87,7 @@ RSpec.feature "Reviewing step by step pages" do
   def and_I_request_changes_to_the_step_by_step
     click_link "Request changes"
     expect(page).to have_css(".govuk-caption-l", text: "Request changes to step by step")
+    expect(page).to have_css(".govuk-label", text: "Describe changes required")
     fill_in "requested_change", with: "Too many typos to publish"
     click_button "Send change request"
   end
