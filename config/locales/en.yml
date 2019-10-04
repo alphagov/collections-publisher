@@ -48,5 +48,5 @@ en:
       - is optional and not useful enough to be included in the step by step
     index:
       base_path:
-        label: Base Path
+        label: Add new secondary link
         hint: "For example: https://www.gov.uk/pay-vat or /bank-holidays"

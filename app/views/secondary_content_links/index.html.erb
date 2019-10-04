@@ -35,17 +35,13 @@
           <div class="govuk-grid-column-full">
             <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
 
-            <%= render "govuk_publishing_components/components/heading", {
-              text: "Add new secondary link",
-              margin_bottom: 5
-            } %>
-
             <%= render "govuk_publishing_components/components/input", {
               label: {
                 text: t("secondary_content_links.index.base_path.label")
               },
               hint: t("secondary_content_links.index.base_path.hint"),
-              name: "base_path"
+              name: "base_path",
+              heading_size: "m"
             } %>
           </div>
         </div>
