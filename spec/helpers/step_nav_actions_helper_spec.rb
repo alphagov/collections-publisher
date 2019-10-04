@@ -7,6 +7,7 @@ RSpec.describe StepNavActionsHelper do
   let(:user) { create(:user) }
   let(:reviewer_user) { create(:user, permissions: required_permissions_for_2i) }
   let(:second_reviewer_user) { create(:user, permissions: required_permissions_for_2i) }
+  let(:non_2i_user) { create(:user, permissions: required_permissions_for_2i - ["2i reviewer"]) }
 
   before do
     allow(Services.publishing_api).to receive(:lookup_content_id)
@@ -57,6 +58,12 @@ RSpec.describe StepNavActionsHelper do
       step_by_step_page.review_requester_id = user.uid
       step_by_step_page.reviewer_id = reviewer_user.uid
       expect(helper.can_review?(step_by_step_page, reviewer_user)).to be false
+    end
+
+    it "returns false if the reviewer is not a 2i reviewer" do
+      step_by_step_page.status = "submitted_for_2i"
+      step_by_step_page.review_requester_id = user.uid
+      expect(helper.can_review?(step_by_step_page, non_2i_user)).to be false
     end
   end
 
