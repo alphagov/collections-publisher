@@ -15,12 +15,24 @@
       html_for: "status",
       bold: true
     } %>
+    <%
+      statuses = StepByStepPage::STATUSES.map do |status|
+        {
+          text: I18n.t!("step_by_step_page.statuses.#{status}"),
+          value: status,
+          data_attributes: { show: status },
+          selected: params[:status] == status,
+        }
+      end
+
+      statuses.unshift(text: "All", data_attributes: { show: "all" })
+    %>
     <%= render "govuk_publishing_components/components/select", {
       id: "status",
       name: "status",
       label: "",
       full_width: true,
-      options: StepByStepFilter::Options.statuses(params[:status])
+      options: statuses
     } %>
   </div>
 

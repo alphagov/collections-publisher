@@ -79,9 +79,9 @@ class ReviewController < ApplicationController
         review_requester_id: current_user.uid,
         status: status,
       )
-        generate_change_note(status, params[:additional_comments])
+        generate_change_note(I18n.t!("step_by_step_page.statuses.#{status}"), params[:additional_comments])
 
-        redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully #{status.humanize.downcase}."
+        redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully submitted for 2i review."
       else
         render :submit_for_2i
       end
@@ -104,10 +104,10 @@ class ReviewController < ApplicationController
 
 private
 
-  def generate_change_note(status, change_note = nil)
+  def generate_change_note(headline, change_note = nil)
     @step_by_step_page.internal_change_notes.create(
       author: current_user.name,
-      headline: status.humanize,
+      headline: headline,
       description: change_note,
     )
   end
