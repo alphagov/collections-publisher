@@ -261,7 +261,7 @@ RSpec.feature "Managing step by step pages" do
     given_there_is_a_step_by_step_page_with_steps_missing_content
     when_I_view_the_step_by_step_page
     then_I_should_see_an_inset_prompt
-    and_the_prompt_should_contain_link_to_steps_section "Add content to all your steps"
+    and_the_prompt_should_contain_prompt_text "Add content to all your steps"
     and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
@@ -311,7 +311,7 @@ RSpec.feature "Managing step by step pages" do
     given_there_is_a_draft_step_by_step_page_with_no_steps
     when_I_view_the_step_by_step_page
     then_I_should_see_an_inset_prompt
-    and_the_prompt_should_contain_link_to_steps_section "Add at least one step"
+    and_the_prompt_should_contain_prompt_text "Add at least one step"
     and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
@@ -319,7 +319,7 @@ RSpec.feature "Managing step by step pages" do
     given_there_is_a_draft_step_by_step_page
     when_I_view_the_step_by_step_page
     then_I_should_see_an_inset_prompt
-    and_the_prompt_should_contain_link_to_steps_section "Check for broken links"
+    and_the_prompt_should_contain_prompt_text "Check for broken links"
     and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
@@ -327,7 +327,7 @@ RSpec.feature "Managing step by step pages" do
     given_there_is_a_step_by_step_page_with_broken_links_and_unpublished_changes
     when_I_view_the_step_by_step_page
     then_I_should_see_an_inset_prompt
-    and_the_prompt_should_contain_link_to_steps_section "Fix broken links"
+    and_the_prompt_should_contain_prompt_text "Fix broken links"
     and_the_prompt_should_not_contain "Check for broken links"
     and_I_cannot_publish_or_schedule_the_step_by_step
   end
@@ -336,7 +336,7 @@ RSpec.feature "Managing step by step pages" do
     given_a_step_by_step_has_been_updated_after_links_last_checked
     when_I_view_the_step_by_step_page
     then_I_should_see_an_inset_prompt
-    and_the_prompt_should_contain_link_to_steps_section "Check for broken links"
+    and_the_prompt_should_contain_prompt_text "Check for broken links"
     and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
@@ -344,8 +344,8 @@ RSpec.feature "Managing step by step pages" do
     given_a_step_by_step_has_an_empty_step_added_after_links_last_checked
     when_I_view_the_step_by_step_page
     then_I_should_see_an_inset_prompt
-    and_the_prompt_should_contain_link_to_steps_section "Add content to all your steps"
-    and_the_prompt_should_contain_link_to_steps_section "Check for broken links"
+    and_the_prompt_should_contain_prompt_text "Add content to all your steps"
+    and_the_prompt_should_contain_prompt_text "Check for broken links"
     and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
@@ -749,9 +749,9 @@ RSpec.feature "Managing step by step pages" do
 
   alias_method :and_there_should_continue_to_be_no_inset_prompt, :then_there_should_be_no_inset_prompt
 
-  def and_the_prompt_should_contain_link_to_steps_section(prompt)
+  def and_the_prompt_should_contain_prompt_text(prompt)
     within(".govuk-inset-text") do
-      expect(page).to have_link(prompt, href: "#steps")
+      expect(page).to have_content prompt
     end
   end
 
