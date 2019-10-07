@@ -58,11 +58,11 @@ private
   end
 
   def relative_paths(content)
-    all_links_in_content(content).select { |href| href[0] =~ /^\/[a-z0-9]+.*/i if href.any? }.flatten
+    all_links_in_content(content).select { |href| href.match(/^\/[a-z0-9]+.*/i) }
   end
 
   def external_links(content)
-    all_links_in_content(content).flatten - relative_paths(content)
+    all_links_in_content(content) - relative_paths(content)
   end
 
   def internal_links(content)
@@ -70,7 +70,7 @@ private
   end
 
   def all_links_in_content(content)
-    content.scan(LINK_REGEX)
+    content.scan(LINK_REGEX).flatten
   end
 
   def prefix_govuk(path_to_prefix)
