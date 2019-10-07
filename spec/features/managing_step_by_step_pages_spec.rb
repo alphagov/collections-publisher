@@ -485,7 +485,7 @@ RSpec.feature "Managing step by step pages" do
       expect(page).to have_content "Title #{@step_by_step_page.title}"
       expect(page).to have_content "Slug #{@step_by_step_page.slug}"
       expect(page).to have_content "Introduction #{@step_by_step_page.introduction}"
-      expect(page).to have_content "Description #{@step_by_step_page.description}"
+      expect(page).to have_content "Meta description #{@step_by_step_page.description}"
     end
   end
 
@@ -583,7 +583,7 @@ RSpec.feature "Managing step by step pages" do
       expect(page).to have_content("Title How to bake a cake")
       expect(page).to have_content("Slug how-to-bake-a-cake")
       expect(page).to have_content("Introduction Learn how you can bake a cake")
-      expect(page).to have_content("Description How to bake a cake - learn how you can bake a cake")
+      expect(page).to have_content("Meta description How to bake a cake - learn how you can bake a cake")
     end
   end
 

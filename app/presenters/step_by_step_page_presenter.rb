@@ -41,7 +41,7 @@ class StepByStepPagePresenter
           value: step_by_step_page.introduction,
         },
         {
-          field: "Description",
+          field: "Meta description",
           value: step_by_step_page.description,
         },
       ],
