@@ -20,6 +20,7 @@ RSpec.describe LinkReport, type: :model do
             "https://www.gov.uk/not/as/great",
           ],
           webhook_uri: "https://collections-publisher.test.gov.uk/link_report",
+          checked_within: 0,
         )
         link_report.create_record
         expect(LinkReport.find_by(batch_id: 0)).to be

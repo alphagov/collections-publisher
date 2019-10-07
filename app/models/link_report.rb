@@ -20,6 +20,7 @@ private
       Services.link_checker_api.create_batch(
         batch_of_links,
         webhook_uri: Plek.new.external_url_for("collections-publisher") + "/link_report",
+        checked_within: 0,
       )
     end
   end

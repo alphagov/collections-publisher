@@ -274,6 +274,7 @@ RSpec.feature "Managing step by step pages" do
         "https://www.gov.uk/not/as/great",
       ],
       webhook_uri: Plek.new.external_url_for("collections-publisher") + "/link_report",
+      checked_within: 0,
     )
     stub_link_checker_api_get_batch(id: 0)
 
