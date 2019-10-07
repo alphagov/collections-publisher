@@ -5,6 +5,8 @@ RSpec.describe StepNavPublisher do
   include GdsApi::TestHelpers::PublishingApi
 
   let(:step_nav) { create(:step_by_step_page_with_steps) }
+  let(:review_requester_user) { create(:user) }
+  let(:reviewer_user) { create(:user) }
 
   before do
     stub_any_publishing_api_call
@@ -27,6 +29,40 @@ RSpec.describe StepNavPublisher do
         content_id = /[0-9a-f]{5,40}/ # changes on each test run, as does Array value below
         payload = hash_including(:access_limited => { :auth_bypass_ids => instance_of(Array) })
         expect(Services.publishing_api).to have_received(:put_content).with(content_id, payload)
+      end
+    end
+
+    context "step by step being edited" do
+      let(:step_nav) { create(:step_by_step_page_with_steps) }
+
+      it "does not revert to draft if a step by step in submitted_for_2i state is edited" do
+        step_nav.update_attributes(status: "submitted_for_2i", review_requester_id: review_requester_user.uid, reviewer_id: reviewer_user.uid)
+        StepNavPublisher.update(step_nav)
+        expect(step_nav.status).to eq "submitted_for_2i"
+      end
+
+      it "does not revert to draft if a step by step in in_review state is edited" do
+        step_nav.update_attributes(status: "in_review", review_requester_id: review_requester_user.uid, reviewer_id: reviewer_user.uid)
+        StepNavPublisher.update(step_nav)
+        expect(step_nav.status).to eq "in_review"
+      end
+
+      it "reverts to draft if a step by step in approved_2i state is edited" do
+        step_nav.update_attributes(status: "approved_2i", review_requester_id: review_requester_user.uid, reviewer_id: reviewer_user.uid)
+        StepNavPublisher.update(step_nav)
+        expect(step_nav.status).to eq "draft"
+      end
+
+      it "reverts to draft if a step by step in published state is edited" do
+        step_nav.update_attributes(status: "published")
+        StepNavPublisher.update(step_nav)
+        expect(step_nav.status).to eq "draft"
+      end
+
+      it "reverts to draft if a step by step in scheduled state is edited" do
+        step_nav.update_attributes(status: "scheduled")
+        StepNavPublisher.update(step_nav)
+        expect(step_nav.status).to eq "draft"
       end
     end
   end
