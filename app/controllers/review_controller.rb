@@ -32,7 +32,7 @@ class ReviewController < ApplicationController
     )
       generate_change_note("2i approved", params[:additional_comment])
 
-      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully 2i approved. Please let the author know."
+      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Step by step page was successfully 2i approved. Please let the author know. This app has not sent any notifications."
     else
       render :submit_2i_verdict, locals: { approved: true }, status: :unprocessable_entity
     end
@@ -65,7 +65,7 @@ class ReviewController < ApplicationController
     )
       generate_change_note("2i changes requested", params[:requested_change])
 
-      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Changes to the step by step page were requested. Please let the author know."
+      redirect_to step_by_step_page_path(@step_by_step_page.id), notice: "Changes to the step by step page were requested. Please let the author know. This app has not sent any notifications."
     else
       render :submit_2i_verdict, locals: { approved: false }, status: :unprocessable_entity
     end

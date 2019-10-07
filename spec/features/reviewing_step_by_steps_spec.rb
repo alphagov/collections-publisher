@@ -56,7 +56,7 @@ RSpec.feature "Reviewing step by step pages" do
     and_I_am_the_reviewer
     when_I_visit_the_step_by_step_page
     and_I_approve_the_step_by_step_with_an_optional_note
-    then_I_can_see_a_success_message "Step by step page was successfully 2i approved. Please let the author know."
+    then_I_can_see_a_success_message "Step by step page was successfully 2i approved. Please let the author know. This app has not sent any notifications."
     and_the_step_by_step_status_should_be "Approved 2i"
     and_I_should_see_my_optional_note_in_the_change_notes
   end
@@ -66,7 +66,7 @@ RSpec.feature "Reviewing step by step pages" do
     and_I_am_the_reviewer
     when_I_visit_the_step_by_step_page
     and_I_request_changes_to_the_step_by_step
-    then_I_can_see_a_success_message "Changes to the step by step page were requested. Please let the author know."
+    then_I_can_see_a_success_message "Changes to the step by step page were requested. Please let the author know. This app has not sent any notifications."
     and_the_step_by_step_status_should_be "Draft"
     and_I_should_see_my_requested_changes_in_the_change_notes
   end
