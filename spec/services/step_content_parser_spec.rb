@@ -335,7 +335,7 @@ RSpec.describe StepContentParser do
       expect(subject.base_paths(step_text)).to eq([])
     end
 
-    it "rejects fully qualified urls" do
+    it "rejects fully qualified urls that are not GOV.UK" do
       step_text = <<~HEREDOC
         [All the prizes](/all-the-prizes)
         - [A gondola trip for two](https://gondolier-r-us.com/default.asp)
@@ -349,6 +349,24 @@ RSpec.describe StepContentParser do
           /all-the-prizes
           /i-love-speed-boats
           /spending-money
+        ),
+      )
+    end
+
+    it "allows fully qualified GOV.UK urls" do
+      step_text = <<~HEREDOC
+        - [Insecure link         ](http://gov.uk/insecure-link)
+        - [Secure link           ](https://gov.uk/secure-link)
+        - [Insecure link with www](http://www.gov.uk/insecure-link-with-www)
+        - [Secure link with www  ](https://www.gov.uk/secure-link-with-www)
+      HEREDOC
+
+      expect(subject.base_paths(step_text)).to eq(
+        %w(
+          /insecure-link
+          /secure-link
+          /insecure-link-with-www
+          /secure-link-with-www
         ),
       )
     end
