@@ -75,6 +75,16 @@ RSpec.feature "Contextual action buttons for step by step pages" do
     end
   end
 
+  context "Step by step has been scheduled" do
+    scenario "show the relevant actions to the step by step author" do
+      given_there_is_a_scheduled_step_by_step_page
+      when_I_visit_the_step_by_step_page
+      then_there_should_be_no_primary_action
+      and_there_should_be_secondary_actions_to %w(Preview)
+      and_there_should_be_tertiary_actions_to %w(Unschedule)
+    end
+  end
+
   def then_the_primary_action_should_be(action_text)
     expect(page).to have_css(primary_action_selector, count: 1)
     expect(page).to have_css(primary_action_selector, text: action_text), "Couldn't find '#{action_text}' as a primary action in: \n #{action_html}"
