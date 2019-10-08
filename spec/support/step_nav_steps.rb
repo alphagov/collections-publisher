@@ -238,6 +238,7 @@ module StepNavSteps
   def then_I_can_preview_the_step_by_step
     within(".app-side__actions") do
       expect(page).to have_link("Preview")
+      expect(find_link("Preview")[:target]).to eq("_blank")
     end
   end
 
