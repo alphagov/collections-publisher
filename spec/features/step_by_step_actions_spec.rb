@@ -67,12 +67,12 @@ RSpec.feature "Contextual action buttons for step by step pages" do
   end
 
   def then_the_primary_action_should_be(action_text)
-    custom_error = "Couldn't find '#{action_text}' as a primary action in: \n #{action_html}"
-    expect(page).to have_css(".app-side__actions .gem-c-button:not(.gem-c-button--secondary)", text: action_text), custom_error
+    expect(page).to have_css(primary_action_selector, count: 1)
+    expect(page).to have_css(primary_action_selector, text: action_text), "Couldn't find '#{action_text}' as a primary action in: \n #{action_html}"
   end
 
   def then_there_should_be_no_primary_action
-    expect(page).not_to have_css(".app-side__actions .gem-c-button:not(.gem-c-button--secondary)")
+    expect(page).not_to have_css(primary_action_selector)
   end
 
   def and_the_secondary_action_should_be(action_text)
@@ -85,6 +85,10 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       custom_error = "Couldn't find '#{action_text}' as a tertiary action in: \n #{action_html}"
       expect(page).to have_css(".app-side__actions .govuk-link", text: action_text), custom_error
     end
+  end
+
+  def primary_action_selector
+    ".app-side__actions .gem-c-button:not(.gem-c-button--secondary)"
   end
 
   def action_html
