@@ -25,7 +25,7 @@ class StepsController < ApplicationController
   def update
     if step.update(step_params)
       update_downstream
-      redirect_to step_by_step_page_path(step_by_step_page.id), notice: "Step was successfully updated."
+      redirect_to edit_step_by_step_page_step_path(step_by_step_page.id), notice: "Step was successfully updated."
     else
       render :edit
     end

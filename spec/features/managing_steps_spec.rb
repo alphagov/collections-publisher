@@ -26,7 +26,7 @@ RSpec.feature "Managing step by step pages" do
         when_I_visit_the_step_by_step_page
         and_I_edit_the_first_step
         and_I_fill_the_edit_form_and_submit
-        then_I_should_be_on_the_step_by_step_page
+        then_I_should_still_be_on_the_edit_step_page
         and_I_can_see_a_success_message "Step was successfully updated."
       end
 
@@ -206,5 +206,10 @@ RSpec.feature "Managing step by step pages" do
       expect(page).to have_css(".govuk-accordion__section-heading", text: "Current version", count: 1)
       expect(page).to have_css(".govuk-accordion__section-content", text: "I've changed this step by step!", count: 1)
     end
+  end
+
+  def then_I_should_still_be_on_the_edit_step_page
+    edit_step_path = edit_step_by_step_page_step_path(@step_by_step_page.id, @step_by_step_page.steps.first.id)
+    expect(current_url).to end_with edit_step_path
   end
 end
