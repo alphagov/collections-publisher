@@ -28,7 +28,7 @@ $dark-grey-2: #6f777b;
   margin: 0 0 govuk-spacing(2);
   color: $black;
   word-wrap: break-word;
-  background-color: govuk-colour("light-grey", $legacy: "grey-4");
+  background-color: govuk-colour("light-grey");
 }
 
 // hide up button in first row and down button in last row
@@ -164,7 +164,7 @@ $dark-grey-2: #6f777b;
   .js-reorder {
     padding: 20px;
     border: 1px solid $dark-grey-2;
-    background-color: govuk-colour("white", $legacy: "white");
+    background-color: govuk-colour("white");
   }
 
   .step-by-step-reorder__step-title {
