@@ -95,6 +95,16 @@ RSpec.feature "Contextual action buttons for step by step pages" do
     end
   end
 
+  context "Step by step has been edited since it was published" do
+    scenario "show the relevant actions to the step by step author" do
+      given_there_is_a_published_step_by_step_page_with_unpublished_changes
+      when_I_visit_the_step_by_step_page
+      then_the_primary_action_should_be "Submit for 2i review"
+      and_there_should_be_secondary_actions_to %w(Preview)
+      and_there_should_be_tertiary_actions_to ["Discard changes", "Unpublish", "View on GOV.UK"]
+    end
+  end
+
   def then_the_primary_action_should_be(action_text)
     expect(page).to have_css(primary_action_selector, count: 1)
     expect(page).to have_css(primary_action_selector, text: action_text), "Couldn't find '#{action_text}' as a primary action in: \n #{action_html}"
