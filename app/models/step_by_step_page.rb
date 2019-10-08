@@ -25,10 +25,11 @@ class StepByStepPage < ApplicationRecord
   validate :reviewer_is_not_same_as_review_requester
 
   before_validation :strip_slug_spaces
-  before_validation :generate_content_id, on: :create
   before_destroy :discard_notes
 
   scope :by_title, -> { order(:title) }
+
+  attribute :content_id, :string, default: -> { SecureRandom.uuid }
 
   def has_been_published?
     published_at.present?
@@ -174,10 +175,6 @@ class StepByStepPage < ApplicationRecord
   end
 
 private
-
-  def generate_content_id
-    self.content_id ||= SecureRandom.uuid
-  end
 
   def strip_slug_spaces
     self.slug.gsub!(/^\s+|\s+$/, "")
