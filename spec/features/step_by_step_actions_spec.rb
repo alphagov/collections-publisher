@@ -85,6 +85,16 @@ RSpec.feature "Contextual action buttons for step by step pages" do
     end
   end
 
+  context "Step by step has been published" do
+    scenario "show the relevant actions to the step by step author" do
+      given_there_is_a_published_step_by_step_page
+      when_I_visit_the_step_by_step_page
+      then_there_should_be_no_primary_action
+      and_there_should_be_no_secondary_action
+      and_there_should_be_tertiary_actions_to ["Unpublish", "View on GOV.UK"]
+    end
+  end
+
   def then_the_primary_action_should_be(action_text)
     expect(page).to have_css(primary_action_selector, count: 1)
     expect(page).to have_css(primary_action_selector, text: action_text), "Couldn't find '#{action_text}' as a primary action in: \n #{action_html}"
@@ -99,6 +109,10 @@ RSpec.feature "Contextual action buttons for step by step pages" do
     actions.each do |action_text|
       expect(page).to have_css(secondary_action_selector, text: action_text), "Couldn't find '#{action_text}' as a secondary action in: \n #{action_html}"
     end
+  end
+
+  def and_there_should_be_no_secondary_action
+    expect(page).not_to have_css(secondary_action_selector)
   end
 
   def and_there_should_be_tertiary_actions_to(actions)
