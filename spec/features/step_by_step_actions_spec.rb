@@ -16,7 +16,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       given_there_is_a_step_by_step_page_with_a_link_report
       when_I_visit_the_step_by_step_page
       then_the_primary_action_should_be "Submit for 2i review"
-      and_the_secondary_action_should_be "Preview"
+      and_there_should_be_secondary_actions_to %w(Preview)
       and_there_should_be_tertiary_actions_to %w(Delete)
     end
   end
@@ -30,7 +30,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       and_I_am_the_step_by_step_author
       when_I_visit_the_step_by_step_page
       then_there_should_be_no_primary_action
-      and_the_secondary_action_should_be "Preview"
+      and_there_should_be_secondary_actions_to %w(Preview)
       and_there_should_be_tertiary_actions_to %w(Delete)
     end
 
@@ -38,7 +38,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       and_I_am_the_reviewer
       when_I_visit_the_step_by_step_page
       then_the_primary_action_should_be "Claim for 2i review"
-      and_the_secondary_action_should_be "Preview"
+      and_there_should_be_secondary_actions_to %w(Preview)
       and_there_should_be_tertiary_actions_to %w(Delete)
     end
   end
@@ -52,7 +52,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       and_I_am_the_step_by_step_author
       when_I_visit_the_step_by_step_page
       then_there_should_be_no_primary_action
-      and_the_secondary_action_should_be "Preview"
+      and_there_should_be_secondary_actions_to %w(Preview)
       and_there_should_be_tertiary_actions_to %w(Delete)
     end
 
@@ -60,8 +60,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       and_I_am_the_reviewer
       when_I_visit_the_step_by_step_page
       then_the_primary_action_should_be "Approve"
-      and_the_secondary_action_should_be "Request changes"
-      and_the_secondary_action_should_be "Preview"
+      and_there_should_be_secondary_actions_to ["Request changes", "Preview"]
       and_there_should_be_tertiary_actions_to %w(Delete)
     end
   end
@@ -75,9 +74,11 @@ RSpec.feature "Contextual action buttons for step by step pages" do
     expect(page).not_to have_css(primary_action_selector)
   end
 
-  def and_the_secondary_action_should_be(action_text)
-    custom_error = "Couldn't find '#{action_text}' as a secondary action in: \n #{action_html}"
-    expect(page).to have_css(".app-side__actions .gem-c-button--secondary", text: action_text), custom_error
+  def and_there_should_be_secondary_actions_to(actions)
+    expect(page).to have_css(secondary_action_selector, count: actions.count)
+    actions.each do |action_text|
+      expect(page).to have_css(secondary_action_selector, text: action_text), "Couldn't find '#{action_text}' as a secondary action in: \n #{action_html}"
+    end
   end
 
   def and_there_should_be_tertiary_actions_to(actions_text)
@@ -89,6 +90,10 @@ RSpec.feature "Contextual action buttons for step by step pages" do
 
   def primary_action_selector
     ".app-side__actions .gem-c-button:not(.gem-c-button--secondary)"
+  end
+
+  def secondary_action_selector
+    ".app-side__actions .gem-c-button--secondary"
   end
 
   def action_html
