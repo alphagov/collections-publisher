@@ -81,10 +81,10 @@ RSpec.feature "Contextual action buttons for step by step pages" do
     end
   end
 
-  def and_there_should_be_tertiary_actions_to(actions_text)
-    actions_text.each do |action_text|
-      custom_error = "Couldn't find '#{action_text}' as a tertiary action in: \n #{action_html}"
-      expect(page).to have_css(".app-side__actions .govuk-link", text: action_text), custom_error
+  def and_there_should_be_tertiary_actions_to(actions)
+    expect(page).to have_css(tertiary_action_selector, count: actions.count)
+    actions.each do |action_text|
+      expect(page).to have_css(tertiary_action_selector, text: action_text), "Couldn't find '#{action_text}' as a tertiary action in: \n #{action_html}"
     end
   end
 
@@ -94,6 +94,10 @@ RSpec.feature "Contextual action buttons for step by step pages" do
 
   def secondary_action_selector
     ".app-side__actions .gem-c-button--secondary"
+  end
+
+  def tertiary_action_selector
+    ".app-side__actions .govuk-link"
   end
 
   def action_html
