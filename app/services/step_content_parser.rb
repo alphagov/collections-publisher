@@ -12,6 +12,8 @@ class StepContentParser
   # matches [Link text](url)
   LINK_REGEX = /\[[^\[\]]+\]\(([^)]+)/.freeze
 
+  GOVUK_DOMAIN_REGEX = /^(https?:\/\/)?(www\.)?gov\.uk\//.freeze
+
   def parse(step_text)
     sections = step_text.rstrip.delete("\r").split("\n\n").map do |section|
       section.lines.map(&:chomp)
@@ -58,11 +60,13 @@ private
   end
 
   def relative_paths(content)
-    all_links_in_content(content).select { |href| href[0] =~ /^\/[a-z0-9]+.*/i if href.any? }.flatten
+    all_links_in_content(content)
+      .map { |url| strip_govuk_prefix(url) }
+      .select { |href| href.match(/^\/[a-z0-9]+.*/i) }
   end
 
   def external_links(content)
-    all_links_in_content(content).flatten - relative_paths(content)
+    all_links_in_content(content) - relative_paths(content)
   end
 
   def internal_links(content)
@@ -70,11 +74,15 @@ private
   end
 
   def all_links_in_content(content)
-    content.scan(LINK_REGEX)
+    content.scan(LINK_REGEX).flatten
   end
 
   def prefix_govuk(path_to_prefix)
     "https://www.gov.uk" + path_to_prefix
+  end
+
+  def strip_govuk_prefix(url)
+    url.sub(GOVUK_DOMAIN_REGEX, "/")
   end
 
   def standard_list?(section)
