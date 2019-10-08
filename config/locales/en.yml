@@ -40,10 +40,6 @@ en:
         hint: For example, 01 08 2027
       time:
         label: Time
-  steps:
-    optional:
-      heading: Is this step optional?
-      hint: You must select one of these so that user activity is tracked correctly in Google Analytics.
   secondary_content_links:
     guidance_markdown: |
       ##What is secondary content?

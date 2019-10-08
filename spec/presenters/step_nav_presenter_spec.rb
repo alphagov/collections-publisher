@@ -25,17 +25,6 @@ RSpec.describe StepNavPresenter do
       expect(presented[:routes]).to eq([{ path: "/how-to-be-the-amazing-1", type: "exact" }])
     end
 
-    it "copes with optional properties" do
-      presented = subject.render_for_publishing_api
-      steps = presented[:details][:step_by_step_nav][:steps]
-
-      expect(steps[0][:optional]).to be false
-      expect(steps[1][:optional]).to be true
-
-      expect(steps[0][:logic]).to be nil
-      expect(steps[1][:logic]).to eq "or"
-    end
-
     it "presents edition links correctly" do
       presented = subject.render_for_publishing_api
       expect(presented[:links][:pages_part_of_step_nav].count).to eq(2)

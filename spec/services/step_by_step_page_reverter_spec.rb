@@ -89,12 +89,6 @@ RSpec.describe StepByStepPageReverter do
         expect(step_by_step_page.steps[3].logic).to eq("and")
       end
 
-      it "saves whether the step is optional" do
-        expect(step_by_step_page.steps[1].optional).to be false
-        expect(step_by_step_page.steps[2].optional).to be true
-        expect(step_by_step_page.steps[3].optional).to be false
-      end
-
       it "saves the position of the step" do
         expect(step_by_step_page.steps[0].position).to eq(1)
         expect(step_by_step_page.steps[1].position).to eq(2)
@@ -297,7 +291,6 @@ RSpec.describe StepByStepPageReverter do
                   "text": "A second paragraph of text in the first step.",
                 },
               ],
-              "optional": false,
             },
             {
               "title": "Step two of the step by step",
@@ -312,7 +305,6 @@ RSpec.describe StepByStepPageReverter do
                   ],
                 },
               ],
-              "optional": false,
             },
             {
               "title": "Step three of the step by step",
@@ -328,7 +320,6 @@ RSpec.describe StepByStepPageReverter do
                   ],
                 },
               ],
-              "optional": true,
               "logic": "or",
             },
             {
@@ -352,7 +343,6 @@ RSpec.describe StepByStepPageReverter do
                   ],
                 },
               ],
-              "optional": false,
               "logic": "and",
             },
             {
@@ -368,7 +358,6 @@ RSpec.describe StepByStepPageReverter do
                   ],
                 },
               ],
-              "optional": false,
             },
             {
               "title": "Step six of the step by step",
@@ -384,7 +373,6 @@ RSpec.describe StepByStepPageReverter do
                   ],
                 },
               ],
-              "optional": false,
             },
             {
               "title": "Step seven of the step by step",
@@ -401,7 +389,6 @@ RSpec.describe StepByStepPageReverter do
                   ],
                 },
               ],
-              "optional": false,
             },
             {
               "title": "Step eight of the step by step",
@@ -448,7 +435,6 @@ RSpec.describe StepByStepPageReverter do
                   ],
                 },
               ],
-              "optional": false,
             },
           ],
         },

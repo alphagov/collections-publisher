@@ -79,7 +79,6 @@ private
         title: step.title,
         contents: step_content_parser.parse(step.contents),
       }.tap do |optional_content|
-        optional_content[:optional] = !! step.optional # if it's nil return false.
         optional_content[:logic] = step.logic if %w(and or).include?(step.logic)
       end
     end

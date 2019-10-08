@@ -51,7 +51,7 @@ private
       Step.new(
         title: step[:title],
         logic: logic(step),
-        optional: step[:optional],
+        optional: nil,
         position: index + 1,
         contents: contents(step[:contents]),
       )

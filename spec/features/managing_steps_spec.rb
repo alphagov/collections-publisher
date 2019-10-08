@@ -132,7 +132,6 @@ RSpec.feature "Managing step by step pages" do
   def and_I_fill_in_the_form_with_content
     fill_in "Step title", with: "Buy Mary Berry's 'Simple Cakes' book"
     choose "number"
-    choose "essential"
     fill_in "Content, tasks and links in this step", with: "* [Booky booky book book.com](http://bbbb.com)\n* [Words inside cardboard.com](http://wic.com)"
   end
 
