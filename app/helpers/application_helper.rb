@@ -15,6 +15,7 @@ module ApplicationHelper
     payload = {
       "sub" => step_by_step_page.auth_bypass_id,
       "iss" => user.uid,
+      "draft_asset_manager_access" => true,
       "content_id" => step_by_step_page.content_id,
     }
     token = JWT.encode(payload, ENV["JWT_AUTH_SECRET"], "HS256")

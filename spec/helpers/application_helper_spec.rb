@@ -23,7 +23,7 @@ RSpec.describe ApplicationHelper do
         allow(step_nav).to receive(:content_id) { "42" }
         allow(user).to receive(:uid) { "7" }
 
-        expected_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpc3MiOiI3IiwiY29udGVudF9pZCI6IjQyIn0.AA-b058Pq1aB2JM0FtmLeozRnsM6sVZfMWRcdlHg7xM"
+        expected_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpc3MiOiI3IiwiZHJhZnRfYXNzZXRfbWFuYWdlcl9hY2Nlc3MiOnRydWUsImNvbnRlbnRfaWQiOiI0MiJ9.k2HXvt9nsPEXOns7SxEz8u6ky-Pna_6AFuZpStPFB3E"
         expected_url = "#{expected_step_nav_preview_url}?token=#{expected_token}"
 
         expect(helper.step_by_step_preview_url(step_nav, user)).to eq(expected_url)
