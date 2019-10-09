@@ -12,10 +12,8 @@ module ApplicationHelper
   end
 
   def step_by_step_preview_url(step_by_step_page)
-    JwtHelper.access_limited_preview_url(
-      draft_govuk_url("/#{step_by_step_page.slug}"),
-      step_by_step_page.auth_bypass_id,
-    )
+    token = JWT.encode({ "sub" => step_by_step_page.auth_bypass_id }, ENV["JWT_AUTH_SECRET"], "HS256")
+    "#{draft_govuk_url("/#{step_by_step_page.slug}")}?token=#{token}"
   end
 
   def published_url(slug)
