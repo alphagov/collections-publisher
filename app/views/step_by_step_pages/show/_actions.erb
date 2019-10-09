@@ -1,6 +1,6 @@
 <% preview_link = render "govuk_publishing_components/components/button", {
   text: "Preview",
-  href: preview_url(@step_by_step_page.slug, auth_bypass_id: @step_by_step_page.auth_bypass_id),
+  href: step_by_step_preview_url(@step_by_step_page),
   target: "_blank",
   secondary: true
 } %>
