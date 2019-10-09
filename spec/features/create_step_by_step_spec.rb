@@ -9,7 +9,6 @@ RSpec.feature "Create new step by step page" do
 
   before do
     given_I_am_a_GDS_editor
-    given_I_can_access_unreleased_features
     setup_publishing_api
     stub_default_publishing_api_put_intent
   end

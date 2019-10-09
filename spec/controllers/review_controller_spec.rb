@@ -10,9 +10,9 @@ RSpec.describe ReviewController do
 
     describe "submit for 2i" do
       describe "GET submit for 2i page" do
-        required_permissions = ["signin", "GDS Editor", "Unreleased feature"]
+        required_permissions = ["signin", "GDS Editor"]
 
-        it "can be accessed by users with GDS editor and Unreleased feature permissions" do
+        it "can be accessed by users with GDS editor permission" do
           stub_user.permissions = required_permissions
           get :submit_for_2i, params: { step_by_step_page_id: step_by_step_page.id }
 
@@ -32,7 +32,7 @@ RSpec.describe ReviewController do
 
       describe "POST submit for 2i" do
         before do
-          required_permissions = ["signin", "GDS Editor", "Unreleased feature"]
+          required_permissions = ["signin", "GDS Editor"]
           stub_user.permissions = required_permissions
           stub_user.name = "Firstname Lastname"
         end
@@ -87,10 +87,10 @@ RSpec.describe ReviewController do
         stub_user.uid = reviewer_user.uid
       end
 
-      required_permissions = ["signin", "GDS Editor", "Unreleased feature", "2i reviewer"]
+      required_permissions = ["signin", "GDS Editor", "2i reviewer"]
 
       describe "GET approve 2i review" do
-        it "can be accessed by the reviewer, if they have GDS editor, Unreleased feature and 2i reviewer permissions" do
+        it "can be accessed by the reviewer, if they have GDS editor and 2i reviewer permissions" do
           stub_user.permissions = required_permissions
           get :show_request_change_2i_review_form, params: { step_by_step_page_id: step_by_step_page.id }
 
@@ -117,7 +117,7 @@ RSpec.describe ReviewController do
       end
 
       describe "GET request change after 2i review" do
-        it "can be accessed by the reviewer, if they have GDS editor, Unreleased feature and 2i reviewer permissions" do
+        it "can be accessed by the reviewer, if they have GDS editor and 2i reviewer permissions" do
           stub_user.permissions = required_permissions
           get :show_approve_2i_review_form, params: { step_by_step_page_id: step_by_step_page.id }
 
@@ -136,7 +136,7 @@ RSpec.describe ReviewController do
       end
 
       describe "POST approve 2i review" do
-        it "can be accessed by users with GDS editor, Unreleased feature and 2i reviewer permissions" do
+        it "can be accessed by users with GDS editor and 2i reviewer permissions" do
           stub_user.permissions = required_permissions
           post :approve_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
 
@@ -192,7 +192,7 @@ RSpec.describe ReviewController do
       end
 
       describe "POST request change after 2i review" do
-        it "can be accessed by users with GDS editor, Unreleased feature and 2i reviewer permissions" do
+        it "can be accessed by users with GDS editor and 2i reviewer permissions" do
           stub_user.permissions = required_permissions
           post :request_change_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
 
@@ -236,7 +236,7 @@ RSpec.describe ReviewController do
       end
 
       describe "POST claim 2i review" do
-        it "can be accessed by users with GDS editor, Unreleased feature and 2i reviewer permissions" do
+        it "can be accessed by users with GDS editor and 2i reviewer permissions" do
           stub_user.permissions = required_permissions
           post :claim_2i_review, params: { step_by_step_page_id: step_by_step_page.id }
 
@@ -277,7 +277,7 @@ RSpec.describe ReviewController do
       end
 
       describe "POST revert to draft" do
-        it "can be accessed by users with GDS Editor and Unreleased feature permissions" do
+        it "can be accessed by users with GDS Editor permissions" do
           stub_user.permissions = required_permissions
           post :revert_to_draft, params: { step_by_step_page_id: step_by_step_page.id }
 

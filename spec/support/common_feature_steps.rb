@@ -17,16 +17,12 @@ module CommonFeatureSteps
     find("input[type=submit]").click
   end
 
-  def given_I_can_access_unreleased_features
-    stub_user.permissions << "Unreleased feature"
-  end
-
   def given_I_am_a_2i_reviewer
     stub_user.permissions << "2i reviewer"
   end
 
   def required_permissions_for_2i
-    ["signin", "GDS Editor", "2i reviewer", "Unreleased feature"]
+    ["signin", "GDS Editor", "2i reviewer"]
   end
 
   def then_I_can_see_a_success_message(message)

@@ -15,9 +15,7 @@
         method: :post,
         class: %w(govuk-link govuk-link--no-visited-state app-link--right)
       %>
-    <% elsif
-      @step_by_step_page.can_be_published? && !(current_user.has_permission? "Unreleased feature") || # remove this line when the feature flag is removed
-      @step_by_step_page.status.approved_2i? && (current_user.has_permission? "Unreleased feature") %>
+    <% elsif @step_by_step_page.can_be_published? %>
       <% if @step_by_step_page.has_been_published? %>
         <%= render "govuk_publishing_components/components/button", {
           text: "Publish",
@@ -40,7 +38,7 @@
             text: "Claim for 2i review"
           } %>
         <% end %>
-      <% elsif can_submit_for_2i?(@step_by_step_page, current_user) %>
+      <% elsif @step_by_step_page.status.draft? %>
         <%= render "govuk_publishing_components/components/button", {
           text: "Submit for 2i review",
           href: step_by_step_page_submit_for_2i_path(@step_by_step_page)
