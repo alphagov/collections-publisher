@@ -60,6 +60,16 @@ RSpec.feature "Managing step by step pages" do
     then_there_should_be_a_change_note "Published"
   end
 
+  scenario "User reverts an approved page to draft" do
+    given_there_is_an_approved_2i_step_by_step_page_with_a_link_report
+    when_I_view_the_step_by_step_page
+    when_I_click_button "Revert to draft"
+    then_I_see_the_step_by_step_page
+    then_I_see_a_reverted_success_notice
+    when_I_visit_the_history_page
+    then_there_should_be_a_change_note "Reverted to draft"
+  end
+
   scenario "User cannot publish or schedule a page if it's not 2i approved" do
     given_there_is_a_step_by_step_that_has_been_claimed_for_2i
     when_I_view_the_step_by_step_page
@@ -640,6 +650,10 @@ RSpec.feature "Managing step by step pages" do
 
   def then_I_see_a_page_reverted_success_notice
     expect(page).to have_content("Draft successfully discarded.")
+  end
+
+  def then_I_see_a_reverted_success_notice
+    expect(page).to have_content("Step by step page was successfully reverted to draft.")
   end
 
   def and_I_visit_the_scheduling_page

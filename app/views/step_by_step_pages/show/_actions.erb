@@ -59,6 +59,10 @@
       <%= preview_link %>
     <% end %>
 
+    <% if @step_by_step_page.status.approved_2i? %>
+      <%= link_to 'Revert to draft', { controller: "review", action: "revert_to_draft", step_by_step_page_id: @step_by_step_page.id }, method: :post, data: { confirm: 'This will remove existing 2i approval. Do you want to revert to draft?' }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
+    <% end %>
+
     <% if @step_by_step_page.can_discard_changes? %>
       <%= link_to 'Discard changes', { action: "revert", step_by_step_page_id: @step_by_step_page.id }, method: :post, data: { confirm: 'This will delete your draft. Do you want to discard your changes?' }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
     <% end %>
