@@ -1,7 +1,7 @@
 <%
   links = [
     {
-      text: 'Step by step publisher',
+      text: 'Step by steps',
       href: step_by_step_pages_path
     },
     {
@@ -9,26 +9,21 @@
       href: step_by_step_page_path(@step_by_step_page)
     },
     {
-      text: 'Schedule'
+      text: 'Set a date and time to publish'
     }
   ]
 %>
 
-<% legend = capture do %>
-  <span class="govuk-heading-s govuk-!-margin-bottom-0"><%= t("step_by_step_pages.schedule_datetime.date.label") %></span>
-<% end %>
-
-<%= render 'shared/steps/step_breadcrumb', links: links %>
-
-<%= render 'shared/steps/heading',
-  step_nav: @step_by_step_page.title,
-  action: 'Set a date and time to publish'
-%>
-
-<%= render 'nav', step_by_step_page: @step_by_step_page, active: "schedule" %>
+<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :title, @step_by_step_page.title %>
+<% content_for :context, "Set a date and time to publish" %>
 
 <% if @step_by_step_page.errors.any? %>
   <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
+<% end %>
+
+<% legend = capture do %>
+  <span class="govuk-heading-s govuk-!-margin-bottom-0"><%= t("step_by_step_pages.schedule_datetime.date.label") %></span>
 <% end %>
 
 <div class="row">

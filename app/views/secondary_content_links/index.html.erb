@@ -1,7 +1,7 @@
 <%
   links = [
     {
-      text: 'Step by step publisher',
+      text: 'Step by steps',
       href: step_by_step_pages_path
     },
     {
@@ -14,12 +14,9 @@
   ]
 %>
 
-<%= render 'shared/steps/step_breadcrumb', links: links %>
-
-<%= render 'shared/steps/heading',
-  step_nav: @step_by_step_page.title,
-  action: 'Secondary links'
-%>
+<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :title, @step_by_step_page.title %>
+<% content_for :context, 'Secondary links' %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">

@@ -1,7 +1,7 @@
 <%
   links = [
     {
-      text: 'Step by step publisher',
+      text: 'Step by steps',
       href: step_by_step_pages_path
     },
     {
@@ -9,18 +9,13 @@
       href: @step_by_step_page
     },
     {
-      text: 'Title and intro'
+      text: 'Content'
     }
   ]
 %>
 
-<%= render 'shared/steps/step_breadcrumb', links: links %>
-
-<%= render 'shared/steps/page_title', links: links %>
-
-<%= render 'shared/steps/heading',
-  step_nav: @step_by_step_page.title,
-  action: 'Title and intro'
-%>
+<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :title, @step_by_step_page.title %>
+<% content_for :context, 'Content' %>
 
 <%= render 'form', step_by_step_page: @step_by_step_page %>
