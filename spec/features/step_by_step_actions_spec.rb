@@ -71,7 +71,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       when_I_visit_the_step_by_step_page
       then_the_primary_action_should_be "Publish"
       and_there_should_be_secondary_actions_to %w(Preview)
-      and_there_should_be_tertiary_actions_to %w(Schedule Delete)
+      and_there_should_be_tertiary_actions_to ["Revert to draft", "Schedule", "Delete"]
     end
   end
 
