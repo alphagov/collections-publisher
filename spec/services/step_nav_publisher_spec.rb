@@ -47,10 +47,10 @@ RSpec.describe StepNavPublisher do
         expect(step_nav.status).to eq "in_review"
       end
 
-      it "reverts to draft if a step by step in approved_2i state is edited" do
+      it "does not revert to draft if a step by step in approved_2i state is edited" do
         step_nav.update_attributes(status: "approved_2i", review_requester_id: review_requester_user.uid, reviewer_id: reviewer_user.uid)
         StepNavPublisher.update(step_nav)
-        expect(step_nav.status).to eq "draft"
+        expect(step_nav.status).to eq "approved_2i"
       end
 
       it "reverts to draft if a step by step in published state is edited" do
