@@ -1,5 +1,6 @@
 class StepNavPublisher
   def self.update(step_by_step_page, publish_intent = PublishIntent.minor_update)
+    step_by_step_page.refresh_auth_bypass_id if step_by_step_page.status == "published"
     step_by_step_page.mark_draft_updated unless %w(submitted_for_2i in_review approved_2i).include?(step_by_step_page.status)
     presenter = StepNavPresenter.new(step_by_step_page)
     payload = presenter.render_for_publishing_api(publish_intent)

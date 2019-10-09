@@ -88,6 +88,10 @@ class StepByStepPage < ApplicationRecord
     update_attribute(:status, "approved_2i")
   end
 
+  def refresh_auth_bypass_id
+    update_attribute(:auth_bypass_id, SecureRandom.uuid)
+  end
+
   def self.validate_redirect(redirect_url)
     regex = /\A\/([a-z0-9]+-)*[a-z0-9]+\z/
     redirect_url =~ regex

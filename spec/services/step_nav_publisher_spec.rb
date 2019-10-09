@@ -35,6 +35,10 @@ RSpec.describe StepNavPublisher do
     context "step by step being edited" do
       let(:step_nav) { create(:step_by_step_page_with_steps) }
 
+      before do
+        allow(SecureRandom).to receive(:uuid).and_return("bd814775-304c-46d0-919f-f9e0f6cba4e9")
+      end
+
       it "does not revert to draft if a step by step in submitted_for_2i state is edited" do
         step_nav.update_attributes(status: "submitted_for_2i", review_requester_id: review_requester_user.uid, reviewer_id: reviewer_user.uid)
         StepNavPublisher.update(step_nav)
@@ -63,6 +67,17 @@ RSpec.describe StepNavPublisher do
         step_nav.update_attributes(status: "scheduled")
         StepNavPublisher.update(step_nav)
         expect(step_nav.status).to eq "draft"
+      end
+
+      it "does not change the auth_bypass_id when step by step in draft state is edited" do
+        StepNavPublisher.update(step_nav)
+        expect(step_nav.auth_bypass_id).to eq "33ac75d8-4adf-48a7-acb2-bbf4e7f644a3"
+      end
+
+      it "changes the auth_bypass_id when step by step in published state is edited" do
+        step_nav.update_attributes(status: "published")
+        StepNavPublisher.update(step_nav)
+        expect(step_nav.auth_bypass_id).to eq "bd814775-304c-46d0-919f-f9e0f6cba4e9"
       end
     end
   end
