@@ -23,10 +23,14 @@ RSpec.describe ApplicationHelper do
         allow(step_nav).to receive(:content_id) { "42" }
         allow(user).to receive(:uid) { "7" }
 
-        expected_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpc3MiOiI3IiwiZHJhZnRfYXNzZXRfbWFuYWdlcl9hY2Nlc3MiOnRydWUsImNvbnRlbnRfaWQiOiI0MiJ9.k2HXvt9nsPEXOns7SxEz8u6ky-Pna_6AFuZpStPFB3E"
-        expected_url = "#{expected_step_nav_preview_url}?token=#{expected_token}"
+        # The generated token stores the time it was created, so its hash would vary on each test run.
+        # We therefore need to mock time so that we can test against a predictable value.
+        Timecop.travel Time.zone.local(2020, 1, 1, 10, 0, 0) do
+          expected_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpc3MiOiI3IiwiaWF0IjoxNTc3ODcyODAwLCJleHAiOjE1ODA1NTEyMDAsImRyYWZ0X2Fzc2V0X21hbmFnZXJfYWNjZXNzIjp0cnVlLCJjb250ZW50X2lkIjoiNDIifQ.UhWJHvsnyEFhG3wGo0LkEWo0kkjHRxFn8pav9dHfA3Y"
+          expected_url = "#{expected_step_nav_preview_url}?token=#{expected_token}"
 
-        expect(helper.step_by_step_preview_url(step_nav, user)).to eq(expected_url)
+          expect(helper.step_by_step_preview_url(step_nav, user)).to eq(expected_url)
+        end
       end
     end
   end

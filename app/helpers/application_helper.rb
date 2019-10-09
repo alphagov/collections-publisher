@@ -15,6 +15,8 @@ module ApplicationHelper
     payload = {
       "sub" => step_by_step_page.auth_bypass_id,
       "iss" => user.uid,
+      "iat" => Time.zone.now.to_i,
+      "exp" => 1.month.from_now.to_i,
       "draft_asset_manager_access" => true,
       "content_id" => step_by_step_page.content_id,
     }
