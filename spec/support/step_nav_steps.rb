@@ -90,6 +90,7 @@ module StepNavSteps
 
   def given_I_am_assigned_to_a_published_step_by_step_page_with_unpublished_changes
     @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: 1.day.ago, assigned_to: stub_user.name)
+    @step_by_step_page.mark_as_approved_2i
   end
 
   def given_there_is_a_scheduled_step_by_step_page
@@ -124,6 +125,7 @@ module StepNavSteps
     step = create(:step)
     stub_link_checker_report_success(step)
     @step_by_step_page = create(:step_by_step_with_unpublished_changes, steps: [step], slug: "step-by-step-with-unpublished-changes")
+    @step_by_step_page.mark_as_approved_2i
   end
 
   def given_there_is_an_approved_2i_step_by_step_page_with_unpublished_changes_whose_links_have_been_checked
@@ -156,9 +158,9 @@ module StepNavSteps
     create(:step, contents: "", step_by_step_page: @step_by_step_page)
   end
 
-  def given_there_is_a_draft_step_by_step_page_with_secondary_content_and_navigation_rules
+  def given_there_is_a_2i_approved_step_by_step_page_with_secondary_content_and_navigation_rules
     @step_by_step_page = create(:step_by_step_page_with_secondary_content_and_navigation_rules)
-    expect(@step_by_step_page.status).to be_draft
+    @step_by_step_page.mark_as_approved_2i
   end
 
   def given_there_is_a_step_by_step_page_with_steps_missing_content

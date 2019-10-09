@@ -16,6 +16,8 @@ RSpec.describe StepByStepPagesController do
     allow(Services.publishing_api).to receive(:get_content)
       .with(step_by_step_page.content_id)
       .and_return(content_item(step_by_step_page))
+
+    step_by_step_page.mark_as_approved_2i
   end
 
   describe "GET Step by step index page" do
@@ -49,6 +51,27 @@ RSpec.describe StepByStepPagesController do
   end
 
   describe "#publish" do
+    context "2i approval" do
+      it "cannot be published when step by step is not in `approved_2i` state" do
+        stub_publishing_api
+        step_by_step_page.mark_draft_updated
+
+        post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor" }
+        step_by_step_page.reload
+
+        expect(step_by_step_page.status).not_to be_published
+      end
+
+      it "can be published when step by step is approved" do
+        stub_publishing_api
+
+        post :publish, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor" }
+        step_by_step_page.reload
+
+        expect(step_by_step_page.status).to be_published
+      end
+    end
+
     context "first publish" do
       it "generates an internal change note stating that this is published" do
         stub_publishing_api
@@ -203,6 +226,21 @@ RSpec.describe StepByStepPagesController do
       expected_description = "Scheduled at 10:26am on 20 April 2030 with change note: This is a public change note."
       expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
       expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
+    end
+
+    context "2i approval" do
+      it "cannot be scheduled when step by step is not approved" do
+        step_by_step_page.mark_draft_updated
+        schedule_for_future
+
+        expect(step_by_step_page.status).not_to be_scheduled
+      end
+
+      it "can be scheduled when step by step is approved" do
+        schedule_for_future
+
+        expect(step_by_step_page.status).to be_scheduled
+      end
     end
   end
 

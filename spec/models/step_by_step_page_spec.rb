@@ -277,9 +277,17 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be false
     end
 
-    it "should return false if step by step is in draft but has no issues blocking its publication" do
+    it "should return true if step by step is in draft but has no issues blocking its publication" do
       step_by_step_with_step = create(:draft_step_by_step_page)
       stub_link_checker_report_success(step_by_step_with_step.steps.first)
+
+      expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be true
+    end
+
+    it "should return false if step by step is 2i approved and has no issues blocking its publication" do
+      step_by_step_with_step = create(:draft_step_by_step_page)
+      stub_link_checker_report_success(step_by_step_with_step.steps.first)
+      step_by_step_with_step.status = "approved_2i"
 
       expect(step_by_step_with_step.should_show_required_prepublish_actions?).to be false
     end
@@ -470,8 +478,9 @@ RSpec.describe StepByStepPage do
       allow(step_by_step_page).to receive(:links_checked_since_last_update?) { true }
     end
 
-    it "can be published if it has a draft, is not scheduled, all steps have content, links have been checked since last update and there are no broken links" do
+    it "can be published if it has a draft, is not scheduled, all steps have content, links have been checked since last update, there are no broken links and it is 2i approved" do
       step_by_step_page.mark_draft_updated
+      step_by_step_page.status = "approved_2i"
 
       expect(step_by_step_page.can_be_published?).to be true
     end
@@ -512,6 +521,13 @@ RSpec.describe StepByStepPage do
     it "cannot be published if broken links were found when links were checked" do
       step_by_step_page.mark_draft_updated
       stub_link_checker_report_broken_link(step_by_step_page.steps.first)
+
+      expect(step_by_step_page.can_be_published?).to be false
+    end
+
+    it "cannot be published if it is not 2i approved" do
+      step_by_step_page.mark_draft_updated
+      step_by_step_page.status = "in_review"
 
       expect(step_by_step_page.can_be_published?).to be false
     end

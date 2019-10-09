@@ -181,7 +181,7 @@ RSpec.feature "Managing step by step pages" do
     end
 
     scenario "User schedules publishing without a public change note" do
-      given_there_is_a_draft_step_by_step_page_with_secondary_content_and_navigation_rules
+      given_there_is_a_2i_approved_step_by_step_page_with_secondary_content_and_navigation_rules
       and_I_visit_the_scheduling_page
       then_I_should_see_a_publish_form_with_changenotes
       and_when_I_click_button "Continue"
@@ -205,7 +205,7 @@ RSpec.feature "Managing step by step pages" do
     end
 
     scenario "User schedules publishing with a public change note" do
-      given_there_is_a_draft_step_by_step_page_with_secondary_content_and_navigation_rules
+      given_there_is_an_approved_2i_step_by_step_page_with_a_link_report
       and_I_visit_the_scheduling_page
       then_I_should_see_a_publish_form_with_changenotes
       and_I_fill_in_the_changenote_form
@@ -220,7 +220,7 @@ RSpec.feature "Managing step by step pages" do
     end
 
     scenario "User tries to schedule publishing for date in the past" do
-      given_there_is_a_draft_step_by_step_page
+      given_there_is_an_approved_2i_step_by_step_page_with_a_link_report
       and_I_visit_the_scheduling_page
       then_I_should_see_a_publish_form_with_changenotes
       and_when_I_click_button "Continue"
@@ -251,7 +251,7 @@ RSpec.feature "Managing step by step pages" do
     end
 
     scenario "User tries using invalid values for schedule date and time" do
-      given_there_is_a_draft_step_by_step_page
+      given_there_is_an_approved_2i_step_by_step_page_with_a_link_report
       and_I_visit_the_scheduling_page
       then_I_should_see_a_publish_form_with_changenotes
       and_when_I_click_button "Continue"
@@ -375,7 +375,7 @@ RSpec.feature "Managing step by step pages" do
     end
 
     scenario "User publishes a page" do
-      given_there_is_a_step_by_step_page_with_a_link_report
+      given_there_is_an_approved_2i_step_by_step_page_with_a_link_report
       when_I_view_the_step_by_step_page
       when_I_click_button "Publish"
       then_I_am_told_that_it_is_published

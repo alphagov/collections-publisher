@@ -5,6 +5,7 @@ class StepByStepPagesController < ApplicationController
 
   before_action :require_gds_editor_permissions!
   before_action :set_step_by_step_page, only: %i[show edit update destroy]
+  before_action :require_to_be_2i_approved, only: %i[publish schedule schedule_datetime]
 
   def index
     @step_by_step_pages = StepByStepFilter::Results.new(filter_params).call
@@ -245,5 +246,12 @@ private
 
   def set_current_page_as_step_by_step
     @step_by_step_page = StepByStepPage.find(params[:step_by_step_page_id])
+  end
+
+  def require_to_be_2i_approved
+    set_current_page_as_step_by_step
+    unless @step_by_step_page.status.approved_2i?
+      redirect_to @step_by_step_page, notice: "Step by step must be 2i approved before you can #{action_name} this step by step."
+    end
   end
 end
