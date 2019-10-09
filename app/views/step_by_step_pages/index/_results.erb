@@ -11,7 +11,7 @@
 
       <% preview_link = capture do %>
         <% if step_by_step_page.has_draft? %>
-          <%= link_to "/#{step_by_step_page.slug}", step_by_step_preview_url(step_by_step_page), target: "_blank", class: "govuk-link" %>
+          <%= link_to "/#{step_by_step_page.slug}", step_by_step_preview_url(step_by_step_page, current_user), target: "_blank", class: "govuk-link" %>
         <% elsif step_by_step_page.status.published? %>
           <%= link_to "/#{step_by_step_page.slug}", published_url(step_by_step_page.slug), target: "_blank", class: "govuk-link" %>
         <% else %>

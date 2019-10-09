@@ -11,8 +11,12 @@ module ApplicationHelper
     Plek.find("draft-origin", external: true) + path
   end
 
-  def step_by_step_preview_url(step_by_step_page)
-    token = JWT.encode({ "sub" => step_by_step_page.auth_bypass_id }, ENV["JWT_AUTH_SECRET"], "HS256")
+  def step_by_step_preview_url(step_by_step_page, user)
+    payload = {
+      "sub" => step_by_step_page.auth_bypass_id,
+      "iss" => user.uid,
+    }
+    token = JWT.encode(payload, ENV["JWT_AUTH_SECRET"], "HS256")
     "#{draft_govuk_url("/#{step_by_step_page.slug}")}?token=#{token}"
   end
 
