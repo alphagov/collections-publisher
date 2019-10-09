@@ -1,22 +1,17 @@
 <%
   links = [
     {
-      text: 'Step by step publisher',
+      text: 'Step by steps',
       href: step_by_step_pages_path
     },
     {
-      text: 'Create new'
+      text: 'Create a new step by step'
     }
   ]
 %>
 
-<%= render 'shared/steps/step_breadcrumb', links: links %>
-
-<%= render 'shared/steps/page_title', links: links %>
-
-<%= render "govuk_publishing_components/components/heading", {
-  text: "Create a new step by step navigation",
-  margin_bottom: 6
-} %>
+<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :title, 'Create a new step by step' %>
+<% content_for :context, 'Step by step' %>
 
 <%= render 'form', step_by_step_page: @step_by_step_page %>

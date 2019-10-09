@@ -30,7 +30,7 @@ RSpec.feature "Managing step by step navigation" do
   end
 
   def and_I_should_see_all_pages_included_in_navigation
-    expect(page).to have_css(".govuk-caption-l", text: "Choose on-page side navigation")
+    expect(page).to have_css(".govuk-caption-l", text: "Sidebar settings")
     expect(page).to have_css("h1", text: @step_by_step_page.title)
 
     expect(page).to have_link("Also good stuff", href: "https://draft-origin.test.gov.uk/also/good/stuff")

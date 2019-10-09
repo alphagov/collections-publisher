@@ -2,7 +2,7 @@
   title = approved ? 'Approve step by step' : 'Request changes to step by step'
   links = [
     {
-      text: 'Step by step publisher',
+      text: 'Step by steps',
       href: step_by_step_pages_path
     },
     {
@@ -15,12 +15,9 @@
   ]
 %>
 
-<%= render 'shared/steps/step_breadcrumb', links: links %>
-
-<%= render 'shared/steps/heading',
-  step_nav: @step_by_step_page.title,
-  action: title
-%>
+<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :title, @step_by_step_page.title %>
+<% content_for :context, title %>
 
 <% if @step_by_step_page.errors.any? %>
   <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
