@@ -36,6 +36,44 @@ en:
       meta_description:
         label: Meta description
         guidance: "Meta description is shown in the GOV.UK search results. It should explain what the step by step helps the user do, or what it is. Keep it under 160 characters."
+    step:
+      title:
+        label: Step title
+        guidance: "Step title should start with a verb. For example: 'Check you're eligible'"
+      step_label:
+        label: Step label
+        number:
+          label: number
+          hint: "Use ‘number’ to show order of the steps"
+        and:
+          label: and
+          hint: "Use ‘and’ to show when you can (or need) to complete more than one step simultaneously."
+        or:
+          label: or
+          hint: "Use ‘or’ to show when there is an alternative way to complete a step or task."
+      view_broken_links: "View broken links"
+      content:
+        label: "Content, tasks and links"
+        guidance_title: "Describing a step"
+        guidance: |
+          A step can be a task or a group of related tasks. A task is an action the user needs to do, for example Check if you need to apply for a licence. Link the whole sentence - not just the action - and do not add a full stop.
+
+          Start a step with an action and explain the context in the link where possible, for example ‘Check what age you can drive’. Keep it short.
+
+          [The content patterns guidance](https://gov-uk.atlassian.net/wiki/spaces/MS/pages/416317515/Step+and+task+content+patterns)
+
+          ### Formatting
+
+          Links should be task focused. You cannot link only part of a sentence.
+
+          `[Task name](/link)`
+
+          For example: `[book your theory test](/book-theory-test)`
+
+          Only use bullets to show different ways you can perform the same task or different variables that change how you complete the task. Do not use bullets to list tasks that are all essential
+
+          `- [download option 1](/link)`
+          `- [download option 2](/link)`
     reorder:
       instructions_markdown: Use the up/down buttons on the right to reorder steps, or click and hold on a step to reorder using drag and drop.
       automatically_updated_markdown: Step numbers will be automatically updated on save.
