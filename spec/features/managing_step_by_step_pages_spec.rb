@@ -766,14 +766,12 @@ RSpec.feature "Managing step by step pages" do
     then_there_should_be_no_reorder_steps_tab
 
     when_I_view_the_step_by_step_page
-    then_I_can_see_the_steps
-    and_I_cannot_edit_any_steps
+    then_I_can_see_the_step_by_step_details
+    and_I_can_see_the_steps
+    and_I_cannot_edit_details_or_steps
     and_I_cannot_delete_any_steps
     and_I_cannot_add_new_steps
 
-    when_I_edit_the_step_by_step_page
-    then_I_can_see_the_step_by_step_details
-    and_I_cannot_edit_the_step_by_step_details
 
     when_I_visit_the_navigation_rules_page
     then_I_see_pages_included_in_navigation
@@ -794,11 +792,11 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to_not have_link("Reorder steps", :href => step_by_step_page_reorder_path(@step_by_step_page))
   end
 
-  def then_I_can_see_the_steps
+  def and_I_can_see_the_steps
     expect(find(".gem-c-summary-list#steps .govuk-summary-list__row:nth-child(1) .govuk-summary-list__value")).to have_content(@step_by_step_page.steps.first.title)
   end
 
-  def and_I_cannot_edit_any_steps
+  def and_I_cannot_edit_details_or_steps
     expect(page).to_not have_button("Edit")
   end
 
@@ -815,14 +813,6 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_content("how-to-be-the-amazing-1")
     expect(page).to have_content("Find out the steps to become amazing")
     expect(page).to have_content("How to be amazing - find out the steps to become amazing")
-  end
-
-  def and_I_cannot_edit_the_step_by_step_details
-    expect(page).to_not have_field("step_by_step_page[title]")
-    expect(page).to_not have_field("step_by_step_page[slug]")
-    expect(page).to_not have_field("step_by_step_page[introduction]")
-    expect(page).to_not have_field("step_by_step_page[description]")
-    expect(page).to_not have_css("button", text: "Save")
   end
 
   def when_I_visit_the_navigation_rules_page

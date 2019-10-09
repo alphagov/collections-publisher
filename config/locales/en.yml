@@ -24,9 +24,18 @@ en:
           - bullet with no links
   step_by_step_pages:
     form:
+      title:
+        label: Title
+        guidance: "Add step by step after your title unless it will be inappropriate or make the title excessively long. Keep it under 85 characters"
       slug:
         label: Slug
-        hint: No slashes
+        guidance: "Slug is the link for your step by step. It should be lowercase and you should use hyphens to separate words. For example: get-driving-license"
+      introduction:
+        label: Introduction
+        guidance: "The introduction explains what the step by step helps the user do, or what it is. Keep it short. Tell users if it is not relevant to them. Do not include any important information in here that doesn’t exist elsewhere."
+      meta_description:
+        label: Meta description
+        guidance: "Meta description is shown in the GOV.UK search results. It should explain what the step by step helps the user do, or what it is. Keep it under 160 characters."
     reorder:
       instructions_markdown: Use the up/down buttons on the right to reorder steps, or click and hold on a step to reorder using drag and drop.
       automatically_updated_markdown: Step numbers will be automatically updated on save.
