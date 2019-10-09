@@ -8,7 +8,6 @@ RSpec.feature "Reviewing step by step pages" do
   before do
     given_I_am_a_GDS_editor
     given_I_am_a_2i_reviewer
-    given_I_can_access_unreleased_features
     setup_publishing_api
   end
 
