@@ -203,6 +203,12 @@ module StepNavSteps
     @step_by_step_page = create(:step_by_step_page_claimed_for_2i, review_requester_id: @review_requester.uid, reviewer_id: @reviewer.uid)
   end
 
+  def given_there_is_a_step_by_step_that_has_been_2i_approved
+    @review_requester = create(:user, name: "Original Author", permissions: required_permissions_for_2i)
+    @reviewer = create(:user, name: "Reviewer", permissions: required_permissions_for_2i)
+    @step_by_step_page = create(:step_by_step_page_2i_approved, review_requester_id: @review_requester.uid, reviewer_id: @reviewer.uid)
+  end
+
   def and_I_am_the_step_by_step_author
     login_as_user @review_requester
   end

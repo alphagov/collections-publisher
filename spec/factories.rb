@@ -79,6 +79,12 @@ FactoryBot.define do
     end
   end
 
+  factory :step_by_step_page_2i_approved, parent: :step_by_step_page_claimed_for_2i do
+    after(:create) do |step_by_step_page|
+      step_by_step_page.update_attributes!(status: "approved_2i")
+    end
+  end
+
   factory :step do
     title { "Check how awesome you are" }
     logic { "number" }
