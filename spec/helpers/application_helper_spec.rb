@@ -20,9 +20,10 @@ RSpec.describe ApplicationHelper do
     describe "#step_by_step_preview_url" do
       it "appends a valid JWT token in the querystring" do
         allow(step_nav).to receive(:auth_bypass_id) { "123" }
+        allow(step_nav).to receive(:content_id) { "42" }
         allow(user).to receive(:uid) { "7" }
 
-        expected_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpc3MiOiI3In0.45sHWgIyB3qb1d7Rty2J4j1gQp6i-mLO5m2rduqrQxI"
+        expected_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpc3MiOiI3IiwiY29udGVudF9pZCI6IjQyIn0.AA-b058Pq1aB2JM0FtmLeozRnsM6sVZfMWRcdlHg7xM"
         expected_url = "#{expected_step_nav_preview_url}?token=#{expected_token}"
 
         expect(helper.step_by_step_preview_url(step_nav, user)).to eq(expected_url)
