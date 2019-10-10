@@ -36,7 +36,7 @@
             <% if @step_by_step_page.navigation_rules.present? %>
               <% @step_by_step_page.navigation_rules.each do |navigation_rule| %>
                 <tr class="govuk-table__row">
-                  <td class="govuk-table__cell"><%= link_to(navigation_rule.title, preview_url(navigation_rule.base_path), class: "govuk-link") %></td>
+                  <td class="govuk-table__cell"><%= link_to(navigation_rule.title, draft_govuk_url(navigation_rule.base_path), class: "govuk-link") %></td>
                   <td class="govuk-table__cell"><%= navigation_rule.base_path %></td>
                   <td class="govuk-table__cell">
                     <% if @step_by_step_page.can_be_edited? %>

@@ -7,14 +7,21 @@ module ApplicationHelper
     Plek.new.external_url_for("content-tagger")
   end
 
-  def preview_url(slug, auth_bypass_id: nil)
-    url = "#{Plek.new.external_url_for('draft-origin')}/#{slug.sub(/^\//, '')}"
+  def draft_govuk_url(path)
+    Plek.find("draft-origin", external: true) + path
+  end
 
-    if auth_bypass_id.present?
-      url = JwtHelper.access_limited_preview_url(url, auth_bypass_id)
-    end
-
-    url
+  def step_by_step_preview_url(step_by_step_page, user)
+    payload = {
+      "sub" => step_by_step_page.auth_bypass_id,
+      "iss" => user.uid,
+      "iat" => Time.zone.now.to_i,
+      "exp" => 1.month.from_now.to_i,
+      "draft_asset_manager_access" => true,
+      "content_id" => step_by_step_page.content_id,
+    }
+    token = JWT.encode(payload, ENV["JWT_AUTH_SECRET"], "HS256")
+    "#{draft_govuk_url("/#{step_by_step_page.slug}")}?token=#{token}"
   end
 
   def published_url(slug)
