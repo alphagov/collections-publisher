@@ -45,9 +45,15 @@
 <% if @step_by_step_page.status.submitted_for_2i? %>
   <%= render "govuk_publishing_components/components/inset_text" do %>
     <p class="govuk-body">Not yet claimed for 2i</p>
+    <% if current_user.permissions.include?("2i reviewer") %>
+      <%= link_to "See guidance for doing 2i review.", step_by_step_page_guidance_path(@step_by_step_page) %>
+    <% end %>
   <% end %>
 <% elsif @step_by_step_page.status.in_review? %>
   <%= render "govuk_publishing_components/components/inset_text" do %>
     <p class="govuk-body">The 2i reviewer is <%= @step_by_step_page.reviewer.name %></p>
+    <% if current_user.permissions.include?("2i reviewer") %>
+      <%= link_to "The 2i reviewer is #{@step_by_step_page.reviewer.name}. See guidance for doing 2i review.", step_by_step_page_guidance_path(@step_by_step_page) %>
+    <% end %>
   <% end %>
 <% end %>

@@ -162,6 +162,11 @@ class StepByStepPagesController < ApplicationController
     @parser.issues_for(namespace).map { |error| { text: error } }
   end
 
+  def guidance
+    set_current_page_as_step_by_step
+    render :guidance
+  end
+
 private
 
   def discard_draft

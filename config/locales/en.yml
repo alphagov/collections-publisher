@@ -86,3 +86,92 @@ en:
       base_path:
         label: Add new secondary link
         hint: "For example: https://www.gov.uk/pay-vat or /bank-holidays"
+  guidance:
+    new_step_by_step:
+      shared:
+        title:
+          Add step by step after your title unless it will be inappropriate or make the title excessively long. Keep it under 85 characters
+        slug:
+          "Slug is the link for your step by step. It should be lowercase and you should use hyphens to separate words. For example: get-driving-license"
+        introduction:
+          The introduction explains what the step by step helps the user do, or what it is. Keep it short. Tell users if it is not relevant to them. Do not include any important information in here that doesn’t exist elsewhere.
+        meta_description:
+          Meta description is shown in the GOV.UK search results. It should explain what the step by step helps the user do, or what it is. Keep it under 160 characters.
+    new_step:
+      shared:
+        step_title:
+          "Step title should start with a verb. For example: 'Check you're eligible'"
+        step_label: |
+          Use ‘number’
+          Use ‘and’ to show when you can (or need) to complete more than one step simultaneously.
+          Use ‘or’ to show when there is an alternative way to complete a step or task.
+        content,_tasks_and_links: |
+          ## Describing a step
+          A step can be a task or a group of related tasks. A task is an action the user needs to do, for example Check if you need to apply for a licence. Link the whole sentence - not just the action -  and do not add a full stop.
+          Start a step with an action and explain the context in the link where possible, for example 'Check what age you can drive'. Keep it short.
+
+          ## The content patterns guidance.
+
+          ## Formatting
+          Links should be task focused. You cannot link only part of a sentence.
+          
+          `[Task name](/link)` For example: `[book your theory test](/book-theory-test)`
+
+          Only use bullets to show different ways you can perform the same task or different variables that change how you complete the task. Do not use bullets to list tasks that are all essential
+
+          - `[download option 1](/link)`
+          - `[download option 2](/link)`
+    reorder_steps:
+      revewer_2i:
+        Step order
+      shared:
+        Steps and tasks should be listed in the order in which users need to complete them.
+      origin:
+        Use the up/down buttons on the right to reorder steps, or click and hold on a step to reorder using drag and drop.
+        Step numbers will be automatically updated on save.
+    sidebar_settings:
+      shared:
+        Showing or hiding the sidebar:
+
+        Always show navigation:
+          Sidebar will always show on the piece of content. Choose this option if the content is about a task that is always completed as part of the step by step journey. For example, booking a theory driving test is always part of the wider journey of learning to drive.
+
+        Show navigation if users comes from step by step: |
+          Sidebar will only show if you clicked on a link in the step by step to get there For example: If the page is part of multiple user journeys and showing step by steps risks limiting the way the page is used'.
+
+        Never show navigation:
+          Chose this option when you're linking to a page that it would never be appropriate for the step by step side bar to appear on.
+    secondary_links:
+      reviewer_2i:
+        Secondary links
+      shared:
+        Secondary links: |
+          Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.
+
+          We use it for content which:
+
+            - could help you complete a task but is not the main piece of content included in the step by step.
+            - is optional and not useful enough to be included in the step by step
+      origin:
+        Add new secondary link:
+          "[Remove the phrase “Base Path” so the only thing left is 'For example: https://www.gov.uk/pay-vat or /bank-holidays']"
+    change_notes:
+      origin:
+        internal_notes:
+          "Add a summary of your changes and why. For example: what’s been added, removed or replaced. Provide any context that helps understand what you’ve done. For example: a link to zendesk and trello ticket if there’s one."
+        submit_for_2i:
+          "Add a summary of your changes and why. For example: what’s been added, removed or replaced. Provide any context that helps understand what you’ve done. For example: a link to zendesk and trello ticket if there’s one."
+        request_changes:
+          Explain why the draft hasn't been approved. What needs to change and why.
+        change_note_when_Publishing_old_step_by_step_(if_users_should_be_notified):
+          Describe the change for users. This change note will be emailed to subscribers.
+    summary_page:
+      origin:
+        sidebar_settings:
+          Choose to hide the sidebar on certain pages.
+
+        secondary_links:
+          Choose additional pages to show the step by step sidebar.
+
+        tags:
+          Tag the step by step to the GOV.UK taxonomy and mainstream browse pages.
