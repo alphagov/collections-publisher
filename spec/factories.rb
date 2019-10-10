@@ -12,6 +12,7 @@ FactoryBot.define do
     description { "How to be amazing - find out the steps to become amazing" }
     status { "draft" }
     draft_updated_at { 3.hours.ago }
+    auth_bypass_id { "33ac75d8-4adf-48a7-acb2-bbf4e7f644a3" }
 
     factory :step_by_step_page_with_steps, aliases: [:draft_step_by_step_page] do
       after(:create) do |step_by_step_page|

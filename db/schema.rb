@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_27_080905) do
+ActiveRecord::Schema.define(version: 2019_10_09_091313) do
 
   create_table "internal_change_notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "author"
@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_080905) do
     t.string "status", null: false
     t.string "review_requester_id"
     t.string "reviewer_id"
+    t.string "auth_bypass_id", null: false
     t.index ["content_id"], name: "index_step_by_step_pages_on_content_id", unique: true
     t.index ["review_requester_id"], name: "fk_rails_d4fb625ca0"
     t.index ["reviewer_id"], name: "fk_rails_7247412df6"
