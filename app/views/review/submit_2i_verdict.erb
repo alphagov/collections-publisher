@@ -23,26 +23,31 @@
   <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
 <% end %>
 
+<%
+  review_phrase = "2i_review_#{approved ? 'approved' : 'request_changes'}"
+  textarea_name = approved ? "additional_comment" : "requested_change"
+  button_text = approved ? "Yes, approve 2i" : "Send change request"
+%>
+
 <%= form_tag do %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+  <%= render "govuk_publishing_components/components/contextual_guidance", {
+    html_for: "additional-comments",
+    title: t("step_by_step_pages.#{review_phrase}.title"),
+    content: t("step_by_step_pages.#{review_phrase}.guidance")
+  } do %>
       <%= render "govuk_publishing_components/components/textarea", {
         label: {
-          text: approved ? "Add a note (optional)" : "Describe changes required"
+          text: t("step_by_step_pages.#{review_phrase}.label")
         },
-        name: approved ? "additional_comment" : "requested_change",
+        id: "additional-comments",
+        name: textarea_name,
       } %>
-    </div>
-  </div>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
       <%= render "govuk_publishing_components/components/button", {
-        text: approved ? "Yes, approve 2i" : "Send change request"
+        text: button_text,
+        margin_bottom: true
       } %>
-    </div>
-    <div class="govuk-grid-column-full govuk-!-margin-top-3">
-      <%= link_to "Cancel", @step_by_step_page, class: "govuk-link" %>
-    </div>
-  </div>
+
+      <%= tag.p link_to("Cancel", @step_by_step_page, class: "govuk-link"), class: "govuk-body" %>
+    <% end %>
 <% end %>
