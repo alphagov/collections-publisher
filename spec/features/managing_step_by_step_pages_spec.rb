@@ -27,6 +27,7 @@ RSpec.feature "Managing step by step pages" do
     and_I_cannot_check_for_broken_links
     and_I_cannot_reorder_the_steps
     and_I_can_see_a_where_to_show_section_with_links "Edit"
+    and_I_can_see_a_tags_section_with_links "Edit"
     and_I_can_see_a_metadata_section
   end
 
@@ -39,6 +40,7 @@ RSpec.feature "Managing step by step pages" do
     and_I_can_edit_and_delete_steps
     and_I_can_reorder_the_steps
     and_I_can_see_a_where_to_show_section_with_links "Edit"
+    and_I_can_see_a_tags_section_with_links "Edit"
     and_I_can_see_a_metadata_section
   end
 
@@ -199,6 +201,7 @@ RSpec.feature "Managing step by step pages" do
       but_I_cannot_edit_or_delete_steps
       and_I_cannot_reorder_the_steps
       and_I_can_see_a_where_to_show_section_with_links "Edit"
+      and_I_can_see_a_tags_section_with_links "Edit"
       then_I_can_preview_the_step_by_step
       and_the_steps_can_be_checked_for_broken_links
     end
@@ -526,6 +529,13 @@ RSpec.feature "Managing step by step pages" do
       expect(page).to have_content "Where to show this step by step"
       expect(page).to have_link(link_text, :href => step_by_step_page_navigation_rules_path(@step_by_step_page))
       expect(page).to have_link(link_text, :href => step_by_step_page_secondary_content_links_path(@step_by_step_page))
+    end
+  end
+
+  def and_I_can_see_a_tags_section_with_links(link_text)
+    within(".gem-c-summary-list#tags") do
+      expect(page).to have_content "Tags"
+      expect(page).to have_link(link_text, :href => "#{Plek.find('content-tagger', external: true)}/taggings/#{@step_by_step_page.content_id}")
     end
   end
 
