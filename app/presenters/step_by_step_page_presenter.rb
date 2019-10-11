@@ -103,6 +103,21 @@ class StepByStepPagePresenter
     }
   end
 
+  def tags_section
+    {
+      borderless: true,
+      id: "tags",
+      title: "Tags",
+      edit: {
+        link_text: "Edit",
+        href: "#{Plek.find('content-tagger', external: true)}/taggings/#{step_by_step_page.content_id}",
+        data_attributes: {
+          gtm: "edit-topics",
+        },
+      },
+    }
+  end
+
   def last_saved
     last_saved_time = format_full_date_and_time(step_by_step_page.updated_at)
     return "#{last_saved_time} by #{step_by_step_page.assigned_to}" if assigned?
