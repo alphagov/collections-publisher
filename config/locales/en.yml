@@ -43,7 +43,7 @@ en:
         guidance: |
           A step can be a task or a group of related tasks. A task is an action the user needs to do, for example Check if you need to apply for a licence. Link the whole sentence - not just the action - and do not add a full stop.
 
-          Start a step with an action and explain the context in the link where possible, for example ‘Check what age you can drive’. Keep it short.
+          Start a step with an action and keep it short, for example ‘Check what age you can drive’.
 
           [The content patterns guidance](https://gov-uk.atlassian.net/wiki/spaces/MS/pages/416317515/Step+and+task+content+patterns)
 
