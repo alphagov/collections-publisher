@@ -1,34 +1,47 @@
+<%= render "shared/steps/form_errors", resource: step %>
+
+<%= render "govuk_publishing_components/components/contextual_guidance", {
+  html_for: "step-title",
+  title: t("step_by_step_pages.step.title.label"),
+  content: t("step_by_step_pages.step.title.guidance")
+} do %>
+  <%= render "govuk_publishing_components/components/input", {
+    label: {
+      text: t("step_by_step_pages.step.title.label"),
+      bold: true
+    },
+    id: "step-title",
+    name: "step[title]",
+    value: step.title
+  } %>
+<% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render "shared/steps/form_errors", resource: step %>
-
-    <%= render "govuk_publishing_components/components/input", {
-      label: {
-        text: "Step title",
-        bold: true
-      },
-      name: "step[title]",
-      value: step.title
-    } %>
-
     <%= render "govuk_publishing_components/components/radio", {
       name: "step[logic]",
-      heading: "Step label",
+      heading: t("step_by_step_pages.step.step_label.label"),
       heading_size: "s",
       items: [
         {
           value: "number",
-          text: "number",
+          text: t("step_by_step_pages.step.step_label.number.label"),
+          hint_text: t("step_by_step_pages.step.step_label.number.hint"),
+          bold: true,
           checked: !step.logic.present? || step.logic == "number"
         },
         {
           value: "and",
-          text: "and",
+          text: t("step_by_step_pages.step.step_label.and.label"),
+          hint_text: t("step_by_step_pages.step.step_label.and.hint"),
+          bold: true,
           checked: step.logic == "and"
         },
         {
           value: "or",
-          text: "or",
+          text: t("step_by_step_pages.step.step_label.or.label"),
+          hint_text: t("step_by_step_pages.step.step_label.or.hint"),
+          bold: true,
           checked: step.logic == "or"
         }
       ]
@@ -40,7 +53,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <%= render "govuk_publishing_components/components/details", {
-        title: "View broken links"
+        title: t("step_by_step_pages.step.view_broken_links")
       } do %>
           <% step.broken_links.each.with_index do |link, index| %>
             <dl class="govuk-summary-list">
@@ -91,32 +104,28 @@
   </div>
 <% end %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "components/markdown_editor", {
-      label: {
-        text: "Content, tasks and links in this step",
-        bold: true
-      },
-      textarea: {
-        name: "step[contents]",
-        id: "step-content",
-        rows: 20,
-        value: step.contents
-      }
-    } %>
-  </div>
-  <div class="govuk-grid-column-one-third">
-    <%= render 'shared/steps/markdown_help' %>
-  </div>
-</div>
+<%= render "govuk_publishing_components/components/contextual_guidance", {
+  html_for: "step-content",
+  title: t("step_by_step_pages.step.content.guidance_title"),
+  content: render_markdown(t("step_by_step_pages.step.content.guidance"))
+} do %>
+  <%= render "components/markdown_editor", {
+    label: {
+      text: t("step_by_step_pages.step.content.label"),
+      bold: true
+    },
+    textarea: {
+      name: "step[contents]",
+      id: "step-content",
+      rows: 20,
+      value: step.contents
+    }
+  } %>
+<% end %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <%= render "govuk_publishing_components/components/button", {
-      text: "Save step",
-      margin_bottom: true
-    } %>
-    <%= tag.p (link_to 'Return to overview', @step_by_step_page, class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>
-  </div>
-</div>
+<%= render "govuk_publishing_components/components/button", {
+  text: "Save step",
+  margin_bottom: true
+} %>
+
+<%= tag.p (link_to 'Return to overview', @step_by_step_page, class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>
