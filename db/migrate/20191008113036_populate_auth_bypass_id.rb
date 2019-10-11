@@ -4,7 +4,7 @@ class PopulateAuthBypassId < ActiveRecord::Migration[5.2]
   def up
     StepByStepPage.find_each do |step_by_step|
       auth_bypass_id = generate_legacy_auth_bypass_id(step_by_step.content_id)
-      step_by_step.update(auth_bypass_id: auth_bypass_id)
+      step_by_step.update_column(:auth_bypass_id, auth_bypass_id)
     end
   end
 
