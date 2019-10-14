@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     post "approve-2i-review", to: "review#approve_2i_review"
     post :check_links
     post "claim-2i-review", to: "review#claim_2i_review"
+    get :guidance
     get "internal-change-notes"
     post "internal-change-notes", to: "internal_change_notes#create"
     get "navigation-rules", to: "navigation_rules#edit"
