@@ -90,14 +90,13 @@ en:
 
   secondary_content_links:
     guidance_markdown: |
-      ##What is secondary content?
-
       Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.
 
       We use it for content which:
 
       - could help you complete a task but is not the main piece of content included in the step by step
       - is optional and not useful enough to be included in the step by step
+
     index:
       base_path:
         label: Add new secondary link
