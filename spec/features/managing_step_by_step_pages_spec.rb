@@ -272,6 +272,7 @@ RSpec.feature "Managing step by step pages" do
     when_I_view_the_step_by_step_page
     then_I_should_see_an_inset_prompt
     and_the_prompt_should_contain_prompt_text "Add content to all your steps"
+    and_the_prompt_should_contain_prompt_text "Get 2i approval"
     and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
@@ -357,6 +358,7 @@ RSpec.feature "Managing step by step pages" do
     then_I_should_see_an_inset_prompt
     and_the_prompt_should_contain_prompt_text "Add content to all your steps"
     and_the_prompt_should_contain_prompt_text "Check for broken links"
+    and_the_prompt_should_contain_prompt_text "Get 2i approval"
     and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
