@@ -30,7 +30,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       when_I_visit_the_step_by_step_page
       then_there_should_be_no_primary_action
       and_there_should_be_secondary_actions_to %w(Preview)
-      and_there_should_be_tertiary_actions_to %w(Delete)
+      and_there_should_be_tertiary_actions_to ["Revert to draft", "Delete"]
     end
 
     scenario "show the relevant actions to the step by step 2i reviewer" do
@@ -53,7 +53,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       when_I_visit_the_step_by_step_page
       then_there_should_be_no_primary_action
       and_there_should_be_secondary_actions_to %w(Preview)
-      and_there_should_be_tertiary_actions_to %w(Delete)
+      and_there_should_be_tertiary_actions_to ["Revert to draft", "Delete"]
     end
 
     scenario "show the relevant actions to the step by step 2i reviewer" do
