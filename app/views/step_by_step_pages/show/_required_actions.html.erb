@@ -38,6 +38,12 @@
           </li>
         <% end %>
       <% end %>
+
+      <% if @step_by_step_page.status.draft? || @step_by_step_page.status.submitted_for_2i? %>
+        <li>
+          <p class="govuk-body">Get 2i approval</p>
+        </li>
+      <% end %>
     </ul>
   <% end %>
 <% end %>
