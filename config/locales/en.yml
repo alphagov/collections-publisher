@@ -117,7 +117,7 @@ en:
         step_title:
           "Step title should start with a verb. For example: 'Check you're eligible'"
         step_label: |
-          Use ‘number’
+          Use ‘number’ to show order of the steps
           Use ‘and’ to show when you can (or need) to complete more than one step simultaneously.
           Use ‘or’ to show when there is an alternative way to complete a step or task.
         content,_tasks_and_links: |
