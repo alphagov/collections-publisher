@@ -9,7 +9,7 @@
         </li>
       <% end %>
 
-      <% if @step_by_step_page.steps.any? && !@step_by_step_page.steps_have_content? %>
+      <% if !@step_by_step_page.steps_have_content? %>
         <li>
           Add content to all your steps
         </li>
