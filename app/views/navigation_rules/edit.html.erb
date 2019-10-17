@@ -21,67 +21,70 @@
 <%= render 'shared/steps/form_notice', message: notice, status: "success" %>
 
 <div class="govuk-grid-row">
-    <%= form_for(step_by_step_page_navigation_rules_path(@step_by_step_page), method: :put) do |form| %>
-      <div class="govuk-grid-column-full">
-        <table class="govuk-table table-stepnav-rules" data-module="filterable-table">
-          <thead class="govuk-table__head">
-            <tr>
-              <th class="govuk-table__header" scope="col">Page title</th>
-              <th class="govuk-table__header" scope="col">Path</th>
-              <th class="govuk-table__header" scope="col">Sidebar content of page</th>
-            </tr>
-          </thead>
+  <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
+    <%= render_markdown t("sidebar_settings.guidance_markdown") %>
+  </div>
+</div>
 
-          <tbody class="govuk-table__body">
-            <% if @step_by_step_page.navigation_rules.present? %>
-              <% @step_by_step_page.navigation_rules.each do |navigation_rule| %>
-                <tr class="govuk-table__row">
-                  <td class="govuk-table__cell"><%= link_to(navigation_rule.title, draft_govuk_url(navigation_rule.base_path), class: "govuk-link") %></td>
-                  <td class="govuk-table__cell"><%= navigation_rule.base_path %></td>
-                  <td class="govuk-table__cell">
-                    <% if @step_by_step_page.can_be_edited? %>
-                      <%= render "govuk_publishing_components/components/select", {
-                        id: "navigation_rules[#{navigation_rule.content_id}]",
-                        label: "",
-                        options: [
-                          {
-                            text: navigation_rule.display_text("always"),
-                            value: "always",
-                            selected: true
-                          },
-                          {
-                            text: navigation_rule.display_text("conditionally"),
-                            value: "conditionally",
-                          },
-                          {
-                            text: navigation_rule.display_text("never"),
-                            value: "never"
-                          }
-                        ].each{ |item| item[:selected] = item[:value] == navigation_rule.include_in_links }
-                      } %>
-                    <% else %>
-                      <%= tag.p navigation_rule.display_text(navigation_rule.include_in_links), id: "navigation_rules[#{navigation_rule.content_id}]" %>
-                    <% end %>
-                  </td>
-                </tr>
-              <% end %>
-            <% else %>
+<div class="govuk-grid-row">
+  <%= form_for(step_by_step_page_navigation_rules_path(@step_by_step_page), method: :put) do |form| %>
+    <div class="govuk-grid-column-full">
+      <table class="govuk-table table-stepnav-rules">
+        <thead class="govuk-table__head">
+          <tr>
+            <th class="govuk-table__header" scope="col">Page title</th>
+            <th class="govuk-table__header" scope="col">Path</th>
+            <th class="govuk-table__header" scope="col">Sidebar content of page</th>
+          </tr>
+        </thead>
+
+        <tbody class="govuk-table__body">
+          <% if @step_by_step_page.navigation_rules.present? %>
+            <% @step_by_step_page.navigation_rules.each do |navigation_rule| %>
               <tr class="govuk-table__row">
-                <td class="govuk-table__cell" colspan="3">
-                  <p class="govuk-hint">No links exist</p>
-                </tr>
+                <td class="govuk-table__cell"><%= link_to(navigation_rule.title, draft_govuk_url(navigation_rule.base_path), class: "govuk-link") %></td>
+                <td class="govuk-table__cell"><%= navigation_rule.base_path %></td>
+                <td class="govuk-table__cell">
+                  <% if @step_by_step_page.can_be_edited? %>
+                    <%= render "govuk_publishing_components/components/select", {
+                      id: "navigation_rules[#{navigation_rule.content_id}]",
+                      label: "",
+                      options: [
+                        {
+                          text: navigation_rule.display_text("always"),
+                          value: "always",
+                          selected: true
+                        },
+                        {
+                          text: navigation_rule.display_text("conditionally"),
+                          value: "conditionally",
+                        },
+                        {
+                          text: navigation_rule.display_text("never"),
+                          value: "never"
+                        }
+                      ].each{ |item| item[:selected] = item[:value] == navigation_rule.include_in_links }
+                    } %>
+                  <% else %>
+                    <%= tag.p navigation_rule.display_text(navigation_rule.include_in_links), id: "navigation_rules[#{navigation_rule.content_id}]" %>
+                  <% end %>
+                </td>
               </tr>
             <% end %>
-          </tbody>
-        </table>
-      </div>
-      <% if @step_by_step_page.navigation_rules.present? && @step_by_step_page.can_be_edited?%>
-        <div class="govuk-grid-column-full">
-          <%= render "govuk_publishing_components/components/button", {
-            text: "Save"
-          } %>
-        </div>
-      <% end %>
+          <% else %>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell" colspan="3">
+                <p class="govuk-hint">No links exist</p>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <% if @step_by_step_page.navigation_rules.present? && @step_by_step_page.can_be_edited?%>
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Save"
+      } %>
     <% end %>
-  </div>
+  <% end %>
 </div>

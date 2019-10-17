@@ -19,41 +19,32 @@
 <% content_for :context, 'Secondary links' %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <%= render_markdown t("secondary_content_links.guidance_markdown") %>
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-!-margin-bottom-6">
+      <%= render_markdown t("secondary_content_links.guidance_markdown") %>
+    </div>
+
+    <% if @step_by_step_page.can_be_edited? %>
+      <%= form_for(@secondary_content_link, url: step_by_step_page_secondary_content_links_path) do |form| %>
+        <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
+
+        <%= render "govuk_publishing_components/components/input", {
+          label: {
+            text: t("secondary_content_links.index.base_path.label")
+          },
+          hint: t("secondary_content_links.index.base_path.hint"),
+          name: "base_path",
+          heading_size: "m"
+        } %>
+        <%= render "govuk_publishing_components/components/button", {
+          text: "Add secondary link"
+        } %>
+      <% end %>
+    <% end %>
   </div>
 </div>
 
-<% if @step_by_step_page.can_be_edited? %>
-  <div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
-    <div class="govuk-grid-column-full">
-      <%= form_for(@secondary_content_link, url: step_by_step_page_secondary_content_links_path) do |form| %>
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-full">
-            <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
-
-            <%= render "govuk_publishing_components/components/input", {
-              label: {
-                text: t("secondary_content_links.index.base_path.label")
-              },
-              hint: t("secondary_content_links.index.base_path.hint"),
-              name: "base_path",
-              heading_size: "m"
-            } %>
-          </div>
-        </div>
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-full">
-            <%= render "govuk_publishing_components/components/button", {
-              text: "Add secondary link"
-            } %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  </div>
-  <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
-<% end %>
+<hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
 <div class="govuk-grid-row secondary-links govuk-!-margin-top-6">
   <div class="govuk-grid-column-full">
@@ -90,7 +81,7 @@
         <tr class="govuk-table__row">
           <td class="govuk-table__cell" colspan="3">
             <p class="govuk-hint">No secondary links have been added yet.</p>
-          </tr>
+          </td>
         </tr>
       <% end %>
     </tbody>

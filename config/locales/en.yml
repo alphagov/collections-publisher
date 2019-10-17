@@ -72,16 +72,31 @@ en:
         hint: For example, 01 08 2027
       time:
         label: Time
+  sidebar_settings:
+    guidance_markdown: |
+      ## Showing or hiding the sidebar
+
+      ### Always show navigation
+
+      Sidebar will always show on the piece of content. Choose this option if the content is about a task that is always completed as part of the step by step journey. For example, booking a theory driving test is always part of the wider journey of learning to drive.
+
+      ### Show navigation if users comes from step by step
+
+      Sidebar will only show if you clicked on a link in the step by step to get there For example: If the page is part of multiple user journeys and showing step by steps risks limiting the way the page is used'.
+
+      ### Never show navigation
+
+      Chose this option when you're linking to a page that it would never be appropriate for the step by step side bar to appear on.
+
   secondary_content_links:
     guidance_markdown: |
-      ##What is secondary content?
-
       Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.
 
       We use it for content which:
 
       - could help you complete a task but is not the main piece of content included in the step by step
       - is optional and not useful enough to be included in the step by step
+
     index:
       base_path:
         label: Add new secondary link
