@@ -110,7 +110,6 @@ class StepByStepPage < ApplicationRecord
       !scheduled_for_publishing? &&
       steps_have_content? &&
       links_checked_since_last_update? &&
-      !broken_links_found? &&
       status.approved_2i?
   end
 

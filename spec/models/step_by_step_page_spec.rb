@@ -513,13 +513,6 @@ RSpec.describe StepByStepPage do
       expect(step_by_step_page.can_be_published?).to be false
     end
 
-    it "cannot be published if broken links were found when links were checked" do
-      step_by_step_page.mark_draft_updated
-      stub_link_checker_report_broken_link(step_by_step_page.steps.first)
-
-      expect(step_by_step_page.can_be_published?).to be false
-    end
-
     it "cannot be published if it is not 2i approved" do
       step_by_step_page.mark_draft_updated
       step_by_step_page.status = "in_review"
