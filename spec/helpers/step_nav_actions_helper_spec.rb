@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe StepNavActionsHelper do
   include CommonFeatureSteps
+  include LinkChecker
 
   let(:step_by_step_page) { create(:draft_step_by_step_page) }
   let(:user) { create(:user) }
@@ -70,6 +71,44 @@ RSpec.describe StepNavActionsHelper do
       step_by_step_page.review_requester_id = user.uid
       step_by_step_page.reviewer_id = reviewer_user.uid
       expect(helper.can_submit_2i_review?(step_by_step_page, reviewer_user)).to be true
+    end
+  end
+
+  describe "#must_check_for_broken_links?" do
+    it "returns false if there aren't any steps" do
+      step_by_step_page = create(:step_by_step_page)
+
+      expect(helper.must_check_for_broken_links?(step_by_step_page)).to be false
+    end
+
+    context "steps with links" do
+      it "returns true if there are internal links and link checker hasn't been run" do
+        step_by_step_page = create(:draft_step_by_step_page)
+
+        expect(helper.must_check_for_broken_links?(step_by_step_page)).to be true
+      end
+
+      it "returns true if there are external links and link checker hasn't been run" do
+        step_by_step_page = create(:step_by_step_page)
+        create(:step, step_by_step_page: step_by_step_page, contents: "- [Good stuff](http://foo.co.uk/good/stuff)")
+
+        expect(helper.must_check_for_broken_links?(step_by_step_page)).to be true
+      end
+
+      it "returns true if link checker hasn't been run since the last update" do
+        step_by_step_page = create(:draft_step_by_step_page)
+        stub_link_checker_report_success(step_by_step_page.steps.first)
+        create(:link_report, step: step_by_step_page.steps.first, created_at: 1.day.ago)
+
+        expect(helper.must_check_for_broken_links?(step_by_step_page)).to be true
+      end
+
+      it "returns false if link checker has been run and there are no broken links" do
+        step_by_step_page = create(:draft_step_by_step_page)
+        stub_link_checker_report_success(step_by_step_page.steps.first)
+
+        expect(helper.must_check_for_broken_links?(step_by_step_page)).to be false
+      end
     end
   end
 end

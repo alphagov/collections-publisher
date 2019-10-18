@@ -9,6 +9,12 @@ module StepNavActionsHelper
       step_by_step_page.reviewer_id == user.uid
   end
 
+  def must_check_for_broken_links?(step_by_step_page)
+    step_by_step_page.steps.any? &&
+      !step_by_step_page.links_checked_since_last_update? &&
+      !step_by_step_page.broken_links_found?
+  end
+
 private
 
   def can_claim_first_review?(step_by_step_page, user)

@@ -15,7 +15,7 @@
         </li>
       <% end %>
 
-      <% if @step_by_step_page.steps.any? && !@step_by_step_page.links_checked_since_last_update? && !@step_by_step_page.broken_links_found? %>
+      <% if must_check_for_broken_links?(@step_by_step_page) %>
         <li>
           Check for broken links
         </li>
