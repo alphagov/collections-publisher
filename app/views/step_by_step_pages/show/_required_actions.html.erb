@@ -21,12 +21,6 @@
         </li>
       <% end %>
 
-      <% if @step_by_step_page.broken_links_found? %>
-        <li>
-          Fix broken links
-        </li>
-      <% end %>
-
       <% if @step_by_step_page.status.in_review? %>
         <% if current_user.uid == @step_by_step_page.reviewer_id %>
           <li>
