@@ -46,7 +46,7 @@ private
 
   def optional_fields
     fields = {}
-    fields[:access_limited] = access_limited_tokens if step_nav.has_draft?
+    fields[:auth_bypass_ids] = [step_nav.auth_bypass_id] if step_nav.has_draft?
     fields
   end
 
@@ -102,10 +102,6 @@ private
 
   def secondary_to_step_nav_links
     step_nav.secondary_content_links.pluck(:content_id) + done_page_content_ids(base_paths_for_secondary_content_links)
-  end
-
-  def access_limited_tokens
-    { auth_bypass_ids: [step_nav.auth_bypass_id] }
   end
 
   def done_page_content_ids(base_paths)
