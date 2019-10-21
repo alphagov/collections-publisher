@@ -64,11 +64,9 @@ RSpec.describe StepNavPresenter do
         step_nav.mark_draft_updated
 
         presented = subject.render_for_publishing_api
-        expected_access_limited_tokens = {
-          auth_bypass_ids: %w(123),
-        }
+        expected_auth_bypass_ids = %w(123)
 
-        expect(presented[:access_limited]).to eq(expected_access_limited_tokens)
+        expect(presented[:auth_bypass_ids]).to eq(expected_auth_bypass_ids)
       end
 
       it "doesn't add an access limiting token when publishing" do
