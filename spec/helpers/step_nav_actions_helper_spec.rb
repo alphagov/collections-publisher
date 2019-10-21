@@ -118,4 +118,42 @@ RSpec.describe StepNavActionsHelper do
       end
     end
   end
+
+  describe "#can_revert_to_draft?" do
+    let(:step_by_step_page) { create(:step_by_step_page) }
+
+    allowed_statuses = %w[submitted_for_2i in_review approved_2i]
+    user_restricted_statuses = allowed_statuses - %w[approved_2i]
+    disallowed_statuses = StepByStepPage::STATUSES - allowed_statuses
+
+    it "can revert to draft if it is approved 2i" do
+      step_by_step_page.status = "approved_2i"
+
+      expect(can_revert_to_draft?(step_by_step_page, user)).to be true
+    end
+
+    user_restricted_statuses.each do |user_restricted_status|
+      it "can revert to draft if it is #{user_restricted_status.humanize.downcase} and the user is a review requester" do
+        step_by_step_page.status = user_restricted_status
+        step_by_step_page.review_requester_id = user.uid
+
+        expect(can_revert_to_draft?(step_by_step_page, user)).to be true
+      end
+
+      it "cannot revert to draft if it is #{user_restricted_status.humanize.downcase} and the user is not a review requester" do
+        step_by_step_page.status = user_restricted_status
+        step_by_step_page.review_requester_id = reviewer_user.uid
+
+        expect(can_revert_to_draft?(step_by_step_page, user)).to be false
+      end
+    end
+
+    disallowed_statuses.each do |disallowed_status|
+      it "cannot revert to draft it is #{disallowed_status.humanize.downcase}" do
+        step_by_step_page.status = disallowed_status
+
+        expect(can_revert_to_draft?(step_by_step_page, user)).to be false
+      end
+    end
+  end
 end

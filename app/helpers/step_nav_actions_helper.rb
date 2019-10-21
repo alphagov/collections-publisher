@@ -15,6 +15,13 @@ module StepNavActionsHelper
       !step_by_step_page.links_checked_since_last_update?
   end
 
+  def can_revert_to_draft?(step_by_step_page, user)
+    return true if step_by_step_page.status.approved_2i?
+
+    %w[submitted_for_2i in_review].include?(step_by_step_page.status) &&
+      step_by_step_page.review_requester_id == user.uid
+  end
+
 private
 
   def can_claim_first_review?(step_by_step_page, user)
