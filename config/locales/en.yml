@@ -64,21 +64,7 @@ en:
       time:
         label: Time
   sidebar_settings:
-    guidance_markdown: |
-      ## Showing or hiding the sidebar
-
-      ### Always show navigation
-
-      Sidebar will always show on the piece of content. Choose this option if the content is about a task that is always completed as part of the step by step journey. For example, booking a theory driving test is always part of the wider journey of learning to drive.
-
-      ### Show navigation if users comes from step by step
-
-      Sidebar will only show if you clicked on a link in the step by step to get there For example: If the page is part of multiple user journeys and showing step by steps risks limiting the way the page is used'.
-
-      ### Never show navigation
-
-      Chose this option when you're linking to a page that it would never be appropriate for the step by step side bar to appear on.
-
+    header: Showing or hiding the sidebar
   secondary_content_links:
     guidance_markdown: |
       Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.
@@ -133,26 +119,24 @@ en:
           `- [download option 1](/link)`
 
           `- [download option 2](/link)`
-    reorder_steps:
-      revewer_2i:
-        Step order
-      shared:
+    reorder:
+      header: Order of steps
+      order:
         Steps and tasks should be listed in the order in which users need to complete them.
-      origin:
-        Use the up/down buttons on the right to reorder steps, or click and hold on a step to reorder using drag and drop.
-        Step numbers will be automatically updated on save.
     sidebar_settings:
-      shared:
-        Showing or hiding the sidebar:
+      header: Sidebar settings
+      guidance_markdown: |
+        ### Always show navigation
 
-        Always show navigation:
-          Sidebar will always show on the piece of content. Choose this option if the content is about a task that is always completed as part of the step by step journey. For example, booking a theory driving test is always part of the wider journey of learning to drive.
+        Sidebar will always show on the piece of content. Choose this option if the content is about a task that is always completed as part of the step by step journey. For example, booking a theory driving test is always part of the wider journey of learning to drive.
 
-        Show navigation if users comes from step by step: |
-          Sidebar will only show if you clicked on a link in the step by step to get there For example: If the page is part of multiple user journeys and showing step by steps risks limiting the way the page is used'.
+        ### Show navigation if users comes from step by step
 
-        Never show navigation:
-          Chose this option when you're linking to a page that it would never be appropriate for the step by step side bar to appear on.
+        Sidebar will only show if you clicked on a link in the step by step to get there For example: If the page is part of multiple user journeys and showing step by steps risks limiting the way the page is used'.
+
+        ### Never show navigation
+
+        Chose this option when you're linking to a page that it would never be appropriate for the step by step side bar to appear on.
     secondary_links:
       reviewer_2i:
         Secondary links
