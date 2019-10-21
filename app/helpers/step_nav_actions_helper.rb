@@ -12,8 +12,7 @@ module StepNavActionsHelper
   def must_check_for_broken_links?(step_by_step_page)
     step_by_step_page.steps.any? &&
       contains_links?(step_by_step_page) &&
-      !step_by_step_page.links_checked_since_last_update? &&
-      !step_by_step_page.broken_links_found?
+      !step_by_step_page.links_checked_since_last_update?
   end
 
 private

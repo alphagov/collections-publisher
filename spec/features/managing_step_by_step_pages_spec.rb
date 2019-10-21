@@ -342,15 +342,6 @@ RSpec.feature "Managing step by step pages" do
     and_I_cannot_publish_or_schedule_the_step_by_step
   end
 
-  scenario "Step by step contains broken links" do
-    given_there_is_a_step_by_step_page_with_broken_links_and_unpublished_changes
-    when_I_view_the_step_by_step_page
-    then_I_should_see_an_inset_prompt
-    and_the_prompt_should_contain_prompt_text "Fix broken links"
-    and_the_prompt_should_not_contain "Check for broken links"
-    and_I_cannot_publish_or_schedule_the_step_by_step
-  end
-
   scenario "Step by step has been updated since it was last checked for broken links" do
     given_a_step_by_step_has_been_updated_after_links_last_checked
     when_I_view_the_step_by_step_page

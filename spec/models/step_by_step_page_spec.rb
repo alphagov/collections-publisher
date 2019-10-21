@@ -306,28 +306,6 @@ RSpec.describe StepByStepPage do
     end
   end
 
-  describe "broken_links_found?" do
-    let(:step_by_step_page) { create(:step_by_step_page_with_steps) }
-
-    it "returns false if links have not been checked" do
-      allow(step_by_step_page).to receive(:links_checked?).and_return(false)
-
-      expect(step_by_step_page.broken_links_found?).to be false
-    end
-
-    it "returns false if links have been checked and there were no broken links" do
-      stub_link_checker_report_success(step_by_step_page.steps.first)
-
-      expect(step_by_step_page.broken_links_found?).to be false
-    end
-
-    it "returns true if broken links were found" do
-      stub_link_checker_report_multiple_broken_links(step_by_step_page.steps.first)
-
-      expect(step_by_step_page.broken_links_found?).to be true
-    end
-  end
-
   describe "links_checked?" do
     it "returns true if links have been checked" do
       step_by_step_with_step = create(:step_by_step_page)
@@ -509,13 +487,6 @@ RSpec.describe StepByStepPage do
     it "cannot be published if step by step updated since links were last checked" do
       step_by_step_page.mark_draft_updated
       allow(step_by_step_page).to receive(:links_checked_since_last_update?) { false }
-
-      expect(step_by_step_page.can_be_published?).to be false
-    end
-
-    it "cannot be published if broken links were found when links were checked" do
-      step_by_step_page.mark_draft_updated
-      stub_link_checker_report_broken_link(step_by_step_page.steps.first)
 
       expect(step_by_step_page.can_be_published?).to be false
     end

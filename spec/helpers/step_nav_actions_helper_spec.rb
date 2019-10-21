@@ -110,9 +110,9 @@ RSpec.describe StepNavActionsHelper do
         expect(helper.must_check_for_broken_links?(step_by_step_page)).to be true
       end
 
-      it "returns false if link checker has been run and there are no broken links" do
+      it "returns false if link checker has been run since the last update" do
         step_by_step_page = create(:draft_step_by_step_page)
-        stub_link_checker_report_success(step_by_step_page.steps.first)
+        stub_link_checker_report_broken_link(step_by_step_page.steps.first)
 
         expect(helper.must_check_for_broken_links?(step_by_step_page)).to be false
       end
