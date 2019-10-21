@@ -138,23 +138,7 @@ en:
 
           - could help you complete a task but is not the main piece of content included in the step by step.
           - is optional and not useful enough to be included in the step by step
-    change_notes:
-      origin:
-        internal_notes:
-          "Add a summary of your changes and why. For example: what’s been added, removed or replaced. Provide any context that helps understand what you’ve done. For example: a link to zendesk and trello ticket if there’s one."
-        submit_for_2i:
-          "Add a summary of your changes and why. For example: what’s been added, removed or replaced. Provide any context that helps understand what you’ve done. For example: a link to zendesk and trello ticket if there’s one."
-        request_changes:
-          Explain why the draft hasn't been approved. What needs to change and why.
-        change_note_when_Publishing_old_step_by_step_(if_users_should_be_notified):
-          Describe the change for users. This change note will be emailed to subscribers.
     summary_page:
-      origin:
-        sidebar_settings:
-          Choose to hide the sidebar on certain pages.
-
-        secondary_links:
-          Choose additional pages to show the step by step sidebar.
-
-        tags:
-          Tag the step by step to the GOV.UK taxonomy and mainstream browse pages.
+      sidebar_settings: Choose to hide the sidebar on certain pages.
+      secondary_links: Choose additional pages to show the step by step sidebar.
+      tags: Tag the step by step to the GOV.UK taxonomy and mainstream browse pages.
