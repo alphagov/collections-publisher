@@ -66,14 +66,6 @@ en:
   sidebar_settings:
     header: Showing or hiding the sidebar
   secondary_content_links:
-    guidance_markdown: |
-      Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.
-
-      We use it for content which:
-
-      - could help you complete a task but is not the main piece of content included in the step by step
-      - is optional and not useful enough to be included in the step by step
-
     index:
       base_path:
         label: Add new secondary link
@@ -137,20 +129,15 @@ en:
         ### Never show navigation
 
         Chose this option when you're linking to a page that it would never be appropriate for the step by step side bar to appear on.
-    secondary_links:
-      reviewer_2i:
-        Secondary links
-      shared:
-        Secondary links: |
-          Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.
+    secondary_content_links:
+      header: Secondary links
+      guidance_markdown: |
+        Secondary content is content which is not linked to in the step by step, but has the step by step sidebar showing on it.
 
-          We use it for content which:
+        We use it for content which:
 
-            - could help you complete a task but is not the main piece of content included in the step by step.
-            - is optional and not useful enough to be included in the step by step
-      origin:
-        Add new secondary link:
-          "[Remove the phrase “Base Path” so the only thing left is 'For example: https://www.gov.uk/pay-vat or /bank-holidays']"
+          - could help you complete a task but is not the main piece of content included in the step by step.
+          - is optional and not useful enough to be included in the step by step
     change_notes:
       origin:
         internal_notes:
