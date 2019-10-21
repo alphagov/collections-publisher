@@ -371,6 +371,20 @@ RSpec.describe StepContentParser do
       )
     end
 
+    it "allows GOV.UK urls without protocols" do
+      step_text = <<~HEREDOC
+        - [Link without www ](gov.uk/link)
+        - [Link with www    ](www.gov.uk/link-with-www)
+      HEREDOC
+
+      expect(subject.base_paths(step_text)).to eq(
+        %w(
+          /link
+          /link-with-www
+        ),
+      )
+    end
+
     it "rejects invalid URLs" do
       step_text = <<~HEREDOC
         [All the prizes](/all-the-prizes)
@@ -518,15 +532,15 @@ RSpec.describe StepContentParser do
         expect(subject.all_paths(test_text)).to be_empty
       end
     end
-    context "when there is one relative and one absolute path" do
-      test_text = "[Learn to drive](/learn-to-drive)\n[Google it](https://www.google.com)"
+    context "when there is one relative, one absolute path with protocol and one absolute path without protocol" do
+      test_text = "[Learn to drive](/learn-to-drive)\n[Google it](https://www.google.com)\n[Random page](www.gov.uk/random)"
       it "should return an array of URLs" do
         links = subject.all_paths(test_text)
         expect(links).to all(start_with("https:"))
       end
-      it "should have a length of two" do
+      it "should have a length of three" do
         links = subject.all_paths(test_text)
-        expect(links.length).to eql 2
+        expect(links.length).to eql 3
       end
     end
   end

@@ -66,7 +66,7 @@ private
   end
 
   def external_links(content)
-    all_links_in_content(content) - relative_paths(content)
+    all_links_in_content(content).reject { |href| href.match?(GOVUK_DOMAIN_REGEX) } - relative_paths(content)
   end
 
   def internal_links(content)
