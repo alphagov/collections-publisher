@@ -25,14 +25,10 @@
 <%= form_tag do %>
   <%= render "step_by_step_pages/change_notes" %>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-      <%= render "govuk_publishing_components/components/button", {
-        text: "Publish"
-      } %>
-    </div>
-    <div class="govuk-grid-column-full govuk-!-margin-top-3">
-      <%= link_to 'Cancel', @step_by_step_page, class: "govuk-link" %>
-    </div>
-  </div>
+  <%= render "govuk_publishing_components/components/button", {
+    text: "Publish",
+    margin_bottom: true
+  } %>
+
+  <%= tag.p link_to('Cancel', @step_by_step_page, class: "govuk-link"), class: "govuk-body" %>
 <% end %>

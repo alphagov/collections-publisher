@@ -62,10 +62,29 @@ en:
     reorder:
       instructions_markdown: Use the up/down buttons on the right to reorder steps, or click and hold on a step to reorder using drag and drop.
       automatically_updated_markdown: Step numbers will be automatically updated on save.
+    internal_change_notes:
+      label: Internal note
+      guidance: |
+        Add a summary of your changes and why. For example: what’s been added, removed or replaced.
+        Provide any context that helps understand what you’ve done. For example: a link to zendesk and trello ticket if there’s one.
     change_notes:
       title: Notify users about this change?
       label: Public change note
       hint: Describe the change for users. This change note will be emailed to subscribers.
+    submit_for_2i:
+      label: Additional comments (optional)
+      title: Submit for 2i
+      guidance: |
+        Add a summary of your changes and why. For example: what’s been added, removed or replaced.
+        Provide any context that helps understand what you’ve done. For example: a link to zendesk and trello ticket if there’s one.
+    2i_review_approved:
+      label: Add a note (optional)
+      title: Approve step by step
+      guidance: Leave a note if something needs to be changed before publishing.
+    2i_review_request_changes:
+      label: Describe changes required
+      title: Request changes to step by step
+      guidance: Explain why the draft hasn't been approved. What needs to change and why.
     schedule_datetime:
       date:
         label: Date
@@ -129,7 +148,7 @@ en:
 
           ## Formatting
           Links should be task focused. You cannot link only part of a sentence.
-          
+
           `[Task name](/link)` For example: `[book your theory test](/book-theory-test)`
 
           Only use bullets to show different ways you can perform the same task or different variables that change how you complete the task. Do not use bullets to list tasks that are all essential

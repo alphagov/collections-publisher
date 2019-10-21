@@ -20,25 +20,31 @@
 
 <%= render 'nav', step_by_step_page: @step_by_step_page, active: "internal-change-notes" %>
 
+<%= form_for(@internal_change_note, url: step_by_step_page_internal_change_notes_path) do |form| %>
+  <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
+  <%= render "govuk_publishing_components/components/contextual_guidance", {
+    html_for: "internal-change-note-description",
+    title: t("step_by_step_pages.internal_change_notes.label"),
+    content: t("step_by_step_pages.internal_change_notes.guidance")
+  } do %>
+    <%= render "govuk_publishing_components/components/textarea", {
+      label: {
+        text: t("step_by_step_pages.internal_change_notes.label"),
+        bold: true
+      },
+      id: "internal-change-note-description",
+      name: "internal_change_note[description]"
+    } %>
+  <% end %>
+
+  <%= render "govuk_publishing_components/components/button", {
+    text: "Add internal note",
+    margin_bottom: true
+  } %>
+<% end %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_for(@internal_change_note, url: step_by_step_page_internal_change_notes_path) do |form| %>
-      <%= render "shared/steps/form_errors", resource: @step_by_step_page %>
-
-      <%= render "govuk_publishing_components/components/textarea", {
-        label: {
-          text: "Internal note",
-          bold: true
-        },
-        name: "internal_change_note[description]"
-      } %>
-
-      <%= render "govuk_publishing_components/components/button", {
-        text: "Add internal note",
-        margin_bottom: true
-      } %>
-    <% end %>
-
     <%= render "govuk_publishing_components/components/accordion", {
       items: @step_by_step_page.internal_change_notes
         .group_by { |edition| edition.edition_number }
