@@ -371,6 +371,20 @@ RSpec.describe StepContentParser do
       )
     end
 
+    it "allows GOV.UK urls without protocols" do
+      step_text = <<~HEREDOC
+        - [Link without www ](gov.uk/link)
+        - [Link with www    ](www.gov.uk/link-with-www)
+      HEREDOC
+
+      expect(subject.base_paths(step_text)).to eq(
+        %w(
+          /link
+          /link-with-www
+        ),
+      )
+    end
+
     it "rejects invalid URLs" do
       step_text = <<~HEREDOC
         [All the prizes](/all-the-prizes)
