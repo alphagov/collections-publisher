@@ -44,6 +44,13 @@ RSpec.feature "Managing step by step pages" do
     and_I_can_see_a_metadata_section
   end
 
+  scenario "User visits a step by step page with steps with no links" do
+    given_there_is_a_step_by_step_page_with_steps_without_links
+    when_I_view_the_step_by_step_page
+    then_I_should_see_an_inset_prompt
+    and_the_prompt_should_not_contain "Check for broken links"
+  end
+
   scenario "User edits step by step information" do
     given_there_is_a_step_by_step_page
     when_I_edit_the_step_by_step_page

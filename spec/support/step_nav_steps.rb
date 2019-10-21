@@ -168,6 +168,11 @@ module StepNavSteps
     create(:step, step_by_step_page: @step_by_step_page, contents: "")
   end
 
+  def given_there_is_a_step_by_step_page_with_steps_without_links
+    @step_by_step_page = create(:step_by_step_page)
+    create(:step, step_by_step_page: @step_by_step_page, contents: "content here but no links")
+  end
+
   def given_there_are_step_by_step_pages
     @step_by_step_pages = [
       create(:draft_step_by_step_page, title: "A draft step nav", slug: "a-draft-step-nav"),
