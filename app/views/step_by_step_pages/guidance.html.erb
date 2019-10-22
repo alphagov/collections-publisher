@@ -29,4 +29,15 @@
 
       <h2 class="govuk-heading-s"><%= t("step_by_step_pages.form.meta_description.label") %></h2>
       <p class="govuk-body"><%= t("guidance.new_step_by_step.meta_description") %></p>
+
+    <h3 class="govuk-heading-m"><%= t("guidance.new_step.header") %></h3>
+      <h2 class="govuk-heading-s"><%= t("step_by_step_pages.step.title.label") %></h2>
+      <p class="govuk-body"><%= t("guidance.new_step.step_title") %></p>
+
+      <h2 class="govuk-heading-s"><%= t("step_by_step_pages.step.step_label.label") %></h2>
+      <p class="govuk-body"><%= t("guidance.new_step.step_label.number") %>
+        <%= t("guidance.new_step.step_label.and") %>
+        <%= t("guidance.new_step.step_label.or") %></p>
+
+      <p class="govuk-body"><%= render_markdown(t("guidance.new_step.content_tasks_links_markdown")) %></p>
 </div>

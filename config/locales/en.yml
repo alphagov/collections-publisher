@@ -104,29 +104,35 @@ en:
       meta_description:
         Meta description is shown in the GOV.UK search results. It should explain what the step by step helps the user do, or what it is. Keep it under 160 characters.
     new_step:
-      shared:
+        header: New step
         step_title:
           "Step title should start with a verb. For example: 'Check you're eligible'"
-        step_label: |
-          Use ‘number’
-          Use ‘and’ to show when you can (or need) to complete more than one step simultaneously.
-          Use ‘or’ to show when there is an alternative way to complete a step or task.
-        content,_tasks_and_links: |
-          ## Describing a step
-          A step can be a task or a group of related tasks. A task is an action the user needs to do, for example Check if you need to apply for a licence. Link the whole sentence - not just the action -  and do not add a full stop.
-          Start a step with an action and explain the context in the link where possible, for example 'Check what age you can drive'. Keep it short.
+        step_label:
+          number: Use ‘number’ to show order of the steps".
+          and: Use ‘and’ to show when you can (or need) to complete more than one step simultaneously.
+          or: Use ‘or’ to show when there is an alternative way to complete a step or task.
+        content_tasks_links_markdown: |
+          #### Describing a step
 
-          ## The content patterns guidance.
+          A step can be a task or a group of related tasks. A task is an action the user needs to do, for example Check if you need to apply for a licence. Link the whole sentence - not just the action - and do not add a full stop.
 
-          ## Formatting
+          Start a step with an action and keep it short, for example ‘Check what age you can drive’.
+
+          [The content patterns guidance](https://gov-uk.atlassian.net/wiki/spaces/MS/pages/416317515/Step+and+task+content+patterns)
+
+          #### Formatting
+
           Links should be task focused. You cannot link only part of a sentence.
 
-          `[Task name](/link)` For example: `[book your theory test](/book-theory-test)`
+          `[Task name](/link)`
+
+          For example: `[book your theory test](/book-theory-test)`
 
           Only use bullets to show different ways you can perform the same task or different variables that change how you complete the task. Do not use bullets to list tasks that are all essential
 
-          - `[download option 1](/link)`
-          - `[download option 2](/link)`
+          `- [download option 1](/link)`
+
+          `- [download option 2](/link)`
     reorder_steps:
       revewer_2i:
         Step order
