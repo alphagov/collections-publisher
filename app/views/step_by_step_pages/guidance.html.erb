@@ -15,34 +15,38 @@
 %>
 <%= render 'shared/steps/step_breadcrumb', links: links %>
 
-<% guidance = t("guidance") %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h3 class="govuk-heading-m"><%= guidance.keys[0].to_s.titleize %></h3>
-    <% guidance[:new_step_by_step][:shared].each do |title, content| %>
-      <h2 class="govuk-heading-s"><%= title.to_s.titleize %></h2>
-      <p class="govuk-body"><%= content %></p>
-    <% end %>
+    <h3 class="govuk-heading-m"><%= t("guidance.new_step_by_step.header") %></h3>
+      <h2 class="govuk-heading-s"><%= t("step_by_step_pages.form.title.label") %></h2>
+      <p class="govuk-body"><%= t("guidance.new_step_by_step.title") %></p>
 
-    <h3 class="govuk-heading-m"><%= guidance.keys[1].to_s.titleize %></h3>
-    <% guidance[:new_step][:shared].each do |title, content| %>
-      <% if content %><h2 class="govuk-heading-s"><%= title.to_s.titleize %></h2><% end %>
-      <p class="govuk-body"><%= render_markdown(content) %></p>
-    <% end %>
+      <h2 class="govuk-heading-s"><%= t("step_by_step_pages.form.slug.label") %></h2>
+      <p class="govuk-body"><%= t("guidance.new_step_by_step.slug") %></p>
 
-    <h3 class="govuk-heading-m"><%= guidance.keys[2].to_s.titleize %></h3>
-    <h2 class="govuk-heading-s"><%= guidance[:reorder_steps][:revewer_2i].to_s.titleize %></h2>
-    <p class="govuk-body"><%= guidance[:reorder_steps][:shared] %></p>
+      <h2 class="govuk-heading-s"><%= t("step_by_step_pages.form.introduction.label") %></h2>
+      <p class="govuk-body"><%= t("guidance.new_step_by_step.introduction") %></p>
 
-    <h3 class="govuk-heading-m"><%= guidance.keys[3].to_s.titleize %></h3>
-    <% guidance[:sidebar_settings][:shared].each do |title, content| %>
-      <% if content %><h2 class="govuk-heading-s"><%= title.to_s.titleize %></h2><% end %>
-      <p class="govuk-body"><%= content %></p>
-    <% end %>
+      <h2 class="govuk-heading-s"><%= t("step_by_step_pages.form.meta_description.label") %></h2>
+      <p class="govuk-body"><%= t("guidance.new_step_by_step.meta_description") %></p>
 
-    <% guidance[:secondary_links][:shared].each do |title, content| %>
-      <h3 class="govuk-heading-m"><%= title.to_s.titleize %></h3>
-      <p class="govuk-body"><%= render_markdown(content) %></p>
-    <% end %>
-  </div>
+    <h3 class="govuk-heading-m"><%= t("guidance.new_step.header") %></h3>
+      <h2 class="govuk-heading-s"><%= t("step_by_step_pages.step.title.label") %></h2>
+      <p class="govuk-body"><%= t("guidance.new_step.step_title") %></p>
+
+      <h2 class="govuk-heading-s"><%= t("step_by_step_pages.step.step_label.label") %></h2>
+      <p class="govuk-body"><%= t("guidance.new_step.step_label.number") %>
+        <%= t("guidance.new_step.step_label.and") %>
+        <%= t("guidance.new_step.step_label.or") %></p>
+
+      <p class="govuk-body"><%= render_markdown(t("guidance.new_step.content_tasks_links_markdown")) %></p>
+
+    <h3 class="govuk-heading-m"><%= t("guidance.reorder.header") %></h3>
+      <p class="govuk-body"><%= t("guidance.reorder.order") %></p>
+
+    <h3 class="govuk-heading-m"><%= t("guidance.sidebar_settings.header") %></h3>
+      <p class="govuk-body"><%= render_markdown(t("guidance.sidebar_settings.guidance_markdown")) %></p>
+
+    <h3 class="govuk-heading-m"><%= t("guidance.secondary_content_links.header") %></h3>
+      <p class="govuk-body"><%= render_markdown(t("guidance.secondary_content_links.guidance_markdown")) %></p>
 </div>

@@ -3,7 +3,7 @@
 <%= render "govuk_publishing_components/components/contextual_guidance", {
   html_for: "step-title",
   title: t("step_by_step_pages.step.title.label"),
-  content: t("step_by_step_pages.step.title.guidance")
+  content: t("guidance.new_step.step_title")
 } do %>
   <%= render "govuk_publishing_components/components/input", {
     label: {
@@ -26,21 +26,21 @@
         {
           value: "number",
           text: t("step_by_step_pages.step.step_label.number.label"),
-          hint_text: t("step_by_step_pages.step.step_label.number.hint"),
+          hint_text: t("guidance.new_step.step_label.number"),
           bold: true,
           checked: !step.logic.present? || step.logic == "number"
         },
         {
           value: "and",
           text: t("step_by_step_pages.step.step_label.and.label"),
-          hint_text: t("step_by_step_pages.step.step_label.and.hint"),
+          hint_text: t("guidance.new_step.step_label.and"),
           bold: true,
           checked: step.logic == "and"
         },
         {
           value: "or",
           text: t("step_by_step_pages.step.step_label.or.label"),
-          hint_text: t("step_by_step_pages.step.step_label.or.hint"),
+          hint_text: t("guidance.new_step.step_label.or"),
           bold: true,
           checked: step.logic == "or"
         }
@@ -106,12 +106,11 @@
 
 <%= render "govuk_publishing_components/components/contextual_guidance", {
   html_for: "step-content",
-  title: t("step_by_step_pages.step.content.guidance_title"),
-  content: render_markdown(t("step_by_step_pages.step.content.guidance"))
+  content: render_markdown(t("guidance.new_step.content_tasks_links_markdown"))
 } do %>
   <%= render "components/markdown_editor", {
     label: {
-      text: t("step_by_step_pages.step.content.label"),
+      text: t("step_by_step_pages.step.content_tasks_links.label"),
       bold: true
     },
     textarea: {
