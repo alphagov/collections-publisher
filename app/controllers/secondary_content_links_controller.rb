@@ -6,7 +6,7 @@ class SecondaryContentLinksController < ApplicationController
     @secondary_content_link = step_by_step_page.secondary_content_links.new(content_item)
 
     if @secondary_content_link.save
-      update_downstream
+      StepByStepUpdater.call(step_by_step_page, current_user)
 
       redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id), notice: "Secondary content was successfully linked."
     else
@@ -17,7 +17,7 @@ class SecondaryContentLinksController < ApplicationController
 
   def destroy
     if secondary_content_link.destroy
-      update_downstream
+      StepByStepUpdater.call(step_by_step_page, current_user)
 
       redirect_to step_by_step_page_secondary_content_links_path(step_by_step_page.id), notice: "Secondary content link was successfully deleted."
     else
@@ -38,10 +38,6 @@ private
 
   def secondary_content_link
     @secondary_content_link ||= step_by_step_page.secondary_content_links.find(params[:id])
-  end
-
-  def update_downstream
-    StepByStepDraftUpdateWorker.perform_async(step_by_step_page.id, current_user.name)
   end
 
   def content_item
