@@ -26,8 +26,8 @@ RSpec.feature "Managing step by step pages" do
     and_I_can_see_a_steps_overview_section_with_no_steps
     and_I_cannot_check_for_broken_links
     and_I_cannot_reorder_the_steps
-    and_I_can_see_a_where_to_show_section_with_links "Edit"
-    and_I_can_see_a_tags_section_with_links "Edit"
+    and_I_can_see_a_where_to_show_section_with_links "Change"
+    and_I_can_see_a_tags_section_with_links "Change"
     and_I_can_see_a_metadata_section
   end
 
@@ -39,8 +39,8 @@ RSpec.feature "Managing step by step pages" do
     and_I_can_see_a_steps_overview_section
     and_I_can_edit_and_delete_steps
     and_I_can_reorder_the_steps
-    and_I_can_see_a_where_to_show_section_with_links "Edit"
-    and_I_can_see_a_tags_section_with_links "Edit"
+    and_I_can_see_a_where_to_show_section_with_links "Change"
+    and_I_can_see_a_tags_section_with_links "Change"
     and_I_can_see_a_metadata_section
   end
 
@@ -207,8 +207,8 @@ RSpec.feature "Managing step by step pages" do
       and_I_can_see_a_steps_overview_section
       but_I_cannot_edit_or_delete_steps
       and_I_cannot_reorder_the_steps
-      and_I_can_see_a_where_to_show_section_with_links "Edit"
-      and_I_can_see_a_tags_section_with_links "Edit"
+      and_I_can_see_a_where_to_show_section_with_links "Change"
+      and_I_can_see_a_tags_section_with_links "Change"
       then_I_can_preview_the_step_by_step
       and_the_steps_can_be_checked_for_broken_links
     end
@@ -463,13 +463,13 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_can_edit_the_summary_section
     within_summary_section do
-      expect(page).to have_link("Edit", :href => edit_step_by_step_page_path(@step_by_step_page))
+      expect(page).to have_link("Change", :href => edit_step_by_step_page_path(@step_by_step_page))
     end
   end
 
   def but_I_cannot_edit_the_summary_section
     within_summary_section do
-      expect(page).not_to have_link("Edit")
+      expect(page).not_to have_link("Change")
     end
   end
 
@@ -504,14 +504,14 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_can_edit_and_delete_steps
     all(".gem-c-summary-list#steps .govuk-summary-list__actions").each do |step|
-      expect(step).to have_link("Edit")
+      expect(step).to have_link("Change")
       expect(step).to have_link("Delete")
     end
   end
 
   def but_I_cannot_edit_or_delete_steps
     all(".gem-c-summary-list#steps .govuk-summary-list__actions").each do |step|
-      expect(step).not_to have_link("Edit")
+      expect(step).not_to have_link("Change")
       expect(step).not_to have_link("Delete")
     end
   end
@@ -807,7 +807,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_I_cannot_edit_details_or_steps
-    expect(page).to_not have_button("Edit")
+    expect(page).to_not have_button("Change")
   end
 
   def and_I_cannot_delete_any_steps
