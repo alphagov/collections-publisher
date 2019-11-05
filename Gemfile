@@ -28,7 +28,7 @@ group :development, :test do
   gem "database_cleaner"
   gem "factory_bot_rails"
   gem "govuk-content-schema-test-helpers"
-  gem "govuk-lint", "~> 4.1.0"
+  gem "govuk-lint", "~> 4.2.0"
   gem "govuk_test"
   gem "jasmine", "~> 3.5"
   gem "jasmine_selenium_runner", "~> 3", require: false
