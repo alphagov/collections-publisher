@@ -8,7 +8,7 @@ The Collections Publisher publishes:
 
 These pages are then served by the [collections app](https://github.com/alphagov/collections).
 
-![Screenshot of Collections Publisher](docs/screenshot.jpg)
+![Screenshot of Collections Publisher](docs/screenshot.png)
 
 ## Live examples
 
@@ -32,7 +32,7 @@ It has these features:
 
 Left, a [curated mainstream browse page](https://www.gov.uk/browse/childcare-parenting/childcare), right, an [uncurated browse page](https://www.gov.uk/browse/justice/prisons-probation).
 
-![Screenshot of step by step navigation page](docs/screenshot-step-by-step-pages.png)
+![Screenshot of a step by step navigation page](docs/screenshot-step-by-step-page.png)
 
 Example of a [step by step navigation page](https://www.gov.uk/learn-to-drive-a-car).
 
