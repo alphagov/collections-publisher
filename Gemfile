@@ -11,7 +11,7 @@ gem "uglifier", "~> 4.1"
 
 # GDS managed dependencies
 gem "gds-api-adapters", "~> 60.1"
-gem "gds-sso", "~> 14.1"
+gem "gds-sso", "~> 14.2"
 gem "govuk_admin_template", "~> 6.7"
 gem "govuk_app_config", "~> 2.0"
 gem "govuk_publishing_components", "~> 21.5"
