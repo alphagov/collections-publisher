@@ -92,7 +92,7 @@ RSpec.feature "Managing step by step pages" do
 
   def and_I_edit_the_first_step
     within(".gem-c-summary-list#steps") do
-      click_on "Edit", match: :first
+      click_on "Change", match: :first
     end
   end
 

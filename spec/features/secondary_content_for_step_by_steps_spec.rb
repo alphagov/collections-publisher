@@ -70,7 +70,7 @@ RSpec.feature "Managing secondary content for step by step pages" do
   end
 
   def and_I_click_the_secondary_links_edit_link
-    click_on "Edit Secondary links"
+    click_on "Change Secondary links"
   end
 
   def when_I_visit_the_secondary_content_page
