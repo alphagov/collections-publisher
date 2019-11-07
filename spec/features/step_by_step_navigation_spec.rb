@@ -46,7 +46,7 @@ RSpec.feature "Managing step by step navigation" do
   end
 
   def and_I_click_the_sidebar_settings_link
-    click_on("Edit Sidebar settings")
+    click_on("Change Sidebar settings")
   end
 
   alias_method :and_when_I_visit_the_navigation_steps_page_again, :and_I_click_the_sidebar_settings_link

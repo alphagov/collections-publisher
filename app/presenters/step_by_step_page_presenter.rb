@@ -84,7 +84,7 @@ class StepByStepPagePresenter
       field: "Sidebar settings",
       value:  tag.span(I18n.t("guidance.summary_page.sidebar_settings"), class: "govuk-hint"),
       edit: {
-        link_text: step_by_step_page.can_be_edited? ? "Edit" : "View",
+        link_text: step_by_step_page.can_be_edited? ? "Change" : "View",
         href: step_by_step_page_navigation_rules_path(step_by_step_page),
         data_attributes: {
           gtm: "edit-sidebar-settings",
@@ -98,7 +98,7 @@ class StepByStepPagePresenter
       field: "Secondary links",
       value: tag.span(I18n.t("guidance.summary_page.secondary_links"), class: "govuk-hint"),
       edit: {
-        link_text: step_by_step_page.can_be_edited? ? "Edit" : "View",
+        link_text: step_by_step_page.can_be_edited? ? "Change" : "View",
         href: step_by_step_page_secondary_content_links_path(step_by_step_page),
         data_attributes: {
           gtm: "edit-secondary-links",
@@ -114,7 +114,7 @@ class StepByStepPagePresenter
       title: "Tags",
       block: tag.span(I18n.t("guidance.summary_page.tags"), class: "govuk-hint"),
       edit: {
-        link_text: "Edit",
+        link_text: "Change",
         href: "#{Plek.find('content-tagger', external: true)}/taggings/#{step_by_step_page.content_id}",
         data_attributes: {
           gtm: "edit-topics",
