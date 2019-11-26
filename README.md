@@ -48,20 +48,6 @@ This application uses the [sidekiq](http://sidekiq.org/) message queue for backg
   - used for the publishing workflow of `mainstream_browse_page`s, `topic`s, curated lists and `step_by_step_page`s.
   - Publishing API sends data onto [Rummager](https://github.com/alphagov/rummager) for search indexing `topic`, `mainstream_browse_page` and `step_by_step_page` pages.
 
-
-### Running the application
-
-```
-bundle exec rails server
-```
-
-Ensure the dependencies are satisfied before
-running. If you are using the development VM, run the app using bowler:
-
-```
-cd /var/govuk/govuk-puppet/development-vm && bundle exec bowl collections-publisher
-```
-
 ### Running the test suite
 
 The test suite includes testing against
