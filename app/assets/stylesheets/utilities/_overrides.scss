@@ -98,7 +98,11 @@
   }
 
   .govuk-summary-list__value {
-    width: 70%;
+    width: 65%;
+  }
+
+  .govuk-summary-list__actions {
+    width: 25%;
   }
 }
 // scss-lint:enable IdSelector
