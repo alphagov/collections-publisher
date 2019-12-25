@@ -127,7 +127,7 @@ GEM
       sentry-raven (>= 2.7.1, < 2.12.0)
       statsd-ruby (~> 1.4.0)
       unicorn (>= 5.4, < 5.6)
-    govuk_publishing_components (21.16.2)
+    govuk_publishing_components (21.16.3)
       gds-api-adapters
       govuk_app_config
       kramdown
@@ -369,7 +369,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.10)
     timecop (0.9.1)
-    tzinfo (1.2.5)
+    tzinfo (1.2.6)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
