@@ -27,7 +27,7 @@ RSpec.describe StepNavPublisher do
       it "defines :auth_bypass_ids in the publishing-api payload" do
         step_nav.mark_draft_updated
         StepNavPublisher.update(step_nav)
-        payload = hash_including(:auth_bypass_ids => instance_of(Array))
+        payload = hash_including(auth_bypass_ids: instance_of(Array))
         expect(Services.publishing_api).to have_received(:put_content).with(step_nav.content_id, payload)
       end
     end

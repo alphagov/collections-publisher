@@ -191,9 +191,7 @@ FactoryBot.define do
     end
 
     trait :published do
-      after :create do |tag|
-        tag.publish!
-      end
+      after :create, &:publish!
     end
 
     trait :archived do

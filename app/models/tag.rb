@@ -94,7 +94,7 @@ class Tag < ApplicationRecord
   end
 
   def mark_as_dirty!
-    update_columns(:dirty => true)
+    update_columns(dirty: true)
   end
 
   def web_url

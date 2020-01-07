@@ -5,8 +5,8 @@ RSpec.feature "Access control" do
   include NavigationSteps
 
   scenario "Non-GDS editor can't navigate to browse pages" do
-    given_I_am_not_a_GDS_editor
-    when_I_visit_the_browse_pages_index
+    given_i_am_not_a_gds_editor
+    when_i_visit_the_browse_pages_index
     then_i_am_informed_i_dont_have_access
   end
 

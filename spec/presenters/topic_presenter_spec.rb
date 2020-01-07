@@ -4,23 +4,23 @@ RSpec.describe TopicPresenter do
   describe "rendering for publishing-api" do
     context "for a top-level topic" do
       let(:topic) {
-        create(:topic, :slug => "working-at-sea",
-          :title => "Working at sea",
-          :description => "The sea, the sky, the sea, the sky...")
+        create(:topic, slug: "working-at-sea",
+          title: "Working at sea",
+          description: "The sea, the sky, the sea, the sky...")
       }
       let(:presenter) { TopicPresenter.new(topic) }
       let(:presented_data) { presenter.render_for_publishing_api }
       let(:rendered_links) { presenter.render_links_for_publishing_api }
 
       it "includes the base fields" do
-        expect(presented_data).to include(:schema_name => "topic",
-          :document_type => "topic",
-          :title => "Working at sea",
-          :description => "The sea, the sky, the sea, the sky...",
-          :locale => "en",
-          :publishing_app => "collections-publisher",
-          :rendering_app => "collections",
-          :redirects => [])
+        expect(presented_data).to include(schema_name: "topic",
+          document_type: "topic",
+          title: "Working at sea",
+          description: "The sea, the sky, the sea, the sky...",
+          locale: "en",
+          publishing_app: "collections-publisher",
+          rendering_app: "collections",
+          redirects: [])
       end
 
       it "is valid against the schema" do
@@ -41,7 +41,7 @@ RSpec.describe TopicPresenter do
 
       it "includes the base route" do
         expect(presented_data[:routes]).to eq([
-          { :path => "/topic/working-at-sea", :type => "exact" },
+          { path: "/topic/working-at-sea", type: "exact" },
         ])
       end
 
@@ -51,8 +51,8 @@ RSpec.describe TopicPresenter do
         end
 
         it "includes links to all its child topics in title order" do
-          bravo = create(:topic, :parent => topic, :title => "Bravo")
-          alpha = create(:topic, :parent => topic, :title => "Alpha")
+          bravo = create(:topic, parent: topic, title: "Bravo")
+          alpha = create(:topic, parent: topic, title: "Alpha")
           expect(rendered_links[:links]).to have_key("children")
           expect(rendered_links[:links]["children"]).to eq([alpha, bravo].map(&:content_id))
         end
@@ -66,12 +66,12 @@ RSpec.describe TopicPresenter do
     end
 
     context "for a subtopic" do
-      let(:parent) { create(:topic, :slug => "oil-and-gas") }
+      let(:parent) { create(:topic, slug: "oil-and-gas") }
       let(:topic) {
-        create(:topic, :parent => parent,
-          :slug => "offshore",
-          :title => "Offshore",
-          :description => "Oil rigs, pipelines etc.")
+        create(:topic, parent: parent,
+          slug: "offshore",
+          title: "Offshore",
+          description: "Oil rigs, pipelines etc.")
       }
       let(:presenter) { TopicPresenter.new(topic) }
       let(:presented_data) { presenter.render_for_publishing_api }
@@ -82,14 +82,14 @@ RSpec.describe TopicPresenter do
       end
 
       it "includes the base fields" do
-        expect(presented_data).to include(:schema_name => "topic",
-          :document_type => "topic",
-          :title => "Offshore",
-          :description => "Oil rigs, pipelines etc.",
-          :locale => "en",
-          :publishing_app => "collections-publisher",
-          :rendering_app => "collections",
-          :redirects => [])
+        expect(presented_data).to include(schema_name: "topic",
+          document_type: "topic",
+          title: "Offshore",
+          description: "Oil rigs, pipelines etc.",
+          locale: "en",
+          publishing_app: "collections-publisher",
+          rendering_app: "collections",
+          redirects: [])
       end
 
       it "is valid against the schema" do
@@ -106,9 +106,9 @@ RSpec.describe TopicPresenter do
 
       it "includes routes for latest, and email_signups in addition to base route" do
         expect(presented_data[:routes]).to eq([
-          { :path => "/topic/oil-and-gas/offshore", :type => "exact" },
-          { :path => "/topic/oil-and-gas/offshore/latest", :type => "exact" },
-          { :path => "/topic/oil-and-gas/offshore/email-signup", :type => "exact" },
+          { path: "/topic/oil-and-gas/offshore", type: "exact" },
+          { path: "/topic/oil-and-gas/offshore/latest", type: "exact" },
+          { path: "/topic/oil-and-gas/offshore/email-signup", type: "exact" },
         ])
       end
 

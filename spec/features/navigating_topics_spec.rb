@@ -3,20 +3,20 @@ require "rails_helper"
 RSpec.feature "Navigating topics" do
   scenario "User navigates topic pages" do
     given_there_are_topics_with_children
-    when_I_visit_the_topics_page
-    then_I_should_see_topics_in_alphabetical_order
-    when_I_visit_a_topic_page
+    when_i_visit_the_topics_page
+    then_i_should_see_topics_in_alphabetical_order
+    when_i_visit_a_topic_page
 
     given_topic_page_has_links
-    when_I_visit_a_subtopic_page_without_lists
-    then_I_should_see_that_the_items_have_not_been_curated
+    when_i_visit_a_subtopic_page_without_lists
+    then_i_should_see_that_the_items_have_not_been_curated
 
-    and_I_see_the_linked_items_of_this_page
+    and_i_see_the_linked_items_of_this_page
 
-    when_I_go_to_the_parent_page
-    and_I_visit_a_subtopic_with_lists
-    then_I_see_curated_lists
-    and_I_see_the_linked_items_of_this_page
+    when_i_go_to_the_parent_page
+    and_i_visit_a_subtopic_with_lists
+    then_i_see_curated_lists
+    and_i_see_the_linked_items_of_this_page
   end
 
   def given_there_are_topics_with_children
@@ -26,11 +26,11 @@ RSpec.feature "Navigating topics" do
     @paye = create(:topic, parent: @business_tax, title: "PAYE")
   end
 
-  def when_I_visit_the_topics_page
+  def when_i_visit_the_topics_page
     visit topics_path
   end
 
-  def then_I_should_see_topics_in_alphabetical_order
+  def then_i_should_see_topics_in_alphabetical_order
     titles = page.all(".tags-list tbody td:first-child").map(&:text)
     expect(titles).to eq([
       "Business Tax",
@@ -42,7 +42,7 @@ RSpec.feature "Navigating topics" do
     expect(first_words_of_titles).to eq(%w(PAYE VAT))
   end
 
-  def when_I_visit_a_topic_page
+  def when_i_visit_a_topic_page
     click_on "Business Tax"
   end
 
@@ -55,7 +55,7 @@ RSpec.feature "Navigating topics" do
     )
   end
 
-  def when_I_visit_a_subtopic_page_without_lists
+  def when_i_visit_a_subtopic_page_without_lists
     publishing_api_has_linked_items(
       @paye.content_id,
       items: [
@@ -65,21 +65,21 @@ RSpec.feature "Navigating topics" do
     click_on "PAYE"
   end
 
-  def then_I_should_see_that_the_items_have_not_been_curated
+  def then_i_should_see_that_the_items_have_not_been_curated
     expect(page).to have_content "Links for this tag have not been curated into lists"
   end
 
-  def and_I_see_the_linked_items_of_this_page
+  def and_i_see_the_linked_items_of_this_page
     expect(page).to have_content "A link that only exists in Publishing API."
   end
 
-  def when_I_go_to_the_parent_page
+  def when_i_go_to_the_parent_page
     within ".breadcrumb" do
       click_on "Business Tax"
     end
   end
 
-  def and_I_visit_a_subtopic_with_lists
+  def and_i_visit_a_subtopic_with_lists
     publishing_api_has_linked_items(
       @vat_topic.content_id,
       items: [
@@ -90,7 +90,7 @@ RSpec.feature "Navigating topics" do
     click_on "VAT"
   end
 
-  def then_I_see_curated_lists
+  def then_i_see_curated_lists
     expect(page).to have_content "Links for this tag have been curated into lists"
   end
 end

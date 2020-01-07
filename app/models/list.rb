@@ -4,7 +4,7 @@ class List < ApplicationRecord
 
   scope :ordered, -> { order(:index) }
 
-  validates :tag, :presence => true
+  validates :tag, presence: true
 
   def tagged_list_items
     @tagged_list_items ||= list_items_with_tagging_status.select(&:tagged?)

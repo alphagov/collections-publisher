@@ -10,7 +10,7 @@ RSpec.describe ListPublisher do
 
       ListPublisher.new(topic).perform
 
-      expect(topic.published_groups).to eql([{ "name"=>"A Listname", "contents"=>[] }])
+      expect(topic.published_groups).to eql([{ "name" => "A Listname", "contents" => [] }])
     end
 
     it "sends the updated information to the content-store" do

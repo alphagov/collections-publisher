@@ -88,7 +88,7 @@ module StepNavSteps
     expect(@step_by_step_page.status).to be_draft
   end
 
-  def given_I_am_assigned_to_a_published_step_by_step_page_with_unpublished_changes
+  def given_i_am_assigned_to_a_published_step_by_step_page_with_unpublished_changes
     @step_by_step_page = create(:published_step_by_step_page, draft_updated_at: 1.day.ago, assigned_to: stub_user.name)
     @step_by_step_page.mark_as_approved_2i
   end
@@ -210,52 +210,52 @@ module StepNavSteps
     @step_by_step_page = create(:step_by_step_page_2i_approved, review_requester_id: @review_requester.uid, reviewer_id: @reviewer.uid)
   end
 
-  def and_I_am_the_step_by_step_author
+  def and_i_am_the_step_by_step_author
     login_as_user @review_requester
   end
 
-  def and_I_am_the_reviewer
+  def and_i_am_the_reviewer
     login_as_user @reviewer
   end
 
-  def and_I_am_a_non_2i_user
+  def and_i_am_a_non_2i_user
     login_as_user @non_2i_user
   end
 
-  def then_I_should_be_on_the_step_by_step_page
+  def then_i_should_be_on_the_step_by_step_page
     expect(current_url).to end_with step_by_step_page_path(@step_by_step_page)
   end
 
-  alias_method :and_I_should_be_on_the_step_by_step_page, :then_I_should_be_on_the_step_by_step_page
+  alias_method :and_i_should_be_on_the_step_by_step_page, :then_i_should_be_on_the_step_by_step_page
 
-  def when_I_visit_the_change_notes_tab
+  def when_i_visit_the_change_notes_tab
     visit step_by_step_page_internal_change_notes_path(@step_by_step_page)
   end
 
-  def then_I_see_the_new_step_by_step_page
+  def then_i_see_the_new_step_by_step_page
     expect(page).to have_content("How to bake a cake")
   end
 
-  def and_I_can_submit_the_step_by_step_for_2i_review
+  def and_i_can_submit_the_step_by_step_for_2i_review
     within(".app-side__actions") do
       expect(page).to have_link("Submit for 2i review")
     end
   end
 
-  def then_I_can_preview_the_step_by_step
+  def then_i_can_preview_the_step_by_step
     within(".app-side__actions") do
       expect(page).to have_link("Preview")
       expect(find_link("Preview")[:target]).to eq("_blank")
     end
   end
 
-  alias_method :and_I_can_preview_the_step_by_step, :then_I_can_preview_the_step_by_step
+  alias_method :and_i_can_preview_the_step_by_step, :then_i_can_preview_the_step_by_step
 
-  def then_I_cannot_preview_the_step_by_step
+  def then_i_cannot_preview_the_step_by_step
     within(".app-side__actions") do
       expect(page).not_to have_link("Preview")
     end
   end
 
-  alias_method :and_I_cannot_preview_the_step_by_step, :then_I_cannot_preview_the_step_by_step
+  alias_method :and_i_cannot_preview_the_step_by_step, :then_i_cannot_preview_the_step_by_step
 end

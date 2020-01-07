@@ -11,7 +11,7 @@ RSpec.describe Tag do
 
   describe "validations" do
     let(:tag) { build(:tag) }
-    let(:parent) { create(:tag, :slug => "parent") }
+    let(:parent) { create(:tag, slug: "parent") }
 
     it "is created with valid attributes" do
       expect(tag).to be_valid
@@ -24,7 +24,7 @@ RSpec.describe Tag do
       tag.content_id = duplicate.content_id
 
       expect {
-        tag.save :validate => false
+        tag.save validate: false
       }.to raise_error(ActiveRecord::RecordNotUnique)
     end
 
@@ -73,7 +73,7 @@ RSpec.describe Tag do
 
         it "is valid when the slug has been taken by a tag with a different parent" do
           different_parent = create(:tag)
-          create(:tag, :slug => "passports", :parent => different_parent)
+          create(:tag, slug: "passports", parent: different_parent)
 
           tag.parent = parent
           tag.slug = "passports"
@@ -81,7 +81,7 @@ RSpec.describe Tag do
         end
 
         it "is invalid when the slug has been taken by a tag with the same parent" do
-          create(:tag, slug: "passports", :parent => parent)
+          create(:tag, slug: "passports", parent: parent)
 
           tag.parent = parent
           tag.slug = "passports"
@@ -197,7 +197,7 @@ RSpec.describe Tag do
 
   describe "dirty tracking" do
     describe "mark_as_dirty!" do
-      let(:tag) { create(:tag, :title => "Title") }
+      let(:tag) { create(:tag, title: "Title") }
 
       it "sets the dirty flag" do
         tag.mark_as_dirty!
@@ -219,8 +219,8 @@ RSpec.describe Tag do
 
   describe "lists association" do
     let(:tag) { create(:tag) }
-    let!(:list1) { create(:list, :tag => tag) }
-    let!(:list2) { create(:list, :tag => tag) }
+    let!(:list1) { create(:list, tag: tag) }
+    let!(:list2) { create(:list, tag: tag) }
     let!(:list3) { create(:list) }
 
     it "returns all lists for the tag" do
@@ -244,14 +244,14 @@ RSpec.describe Tag do
   end
 
   describe "#uncurated_tagged_documents" do
-    let(:tag) { create(:tag, :slug => "a-tag") }
-    let(:subtag) { create(:tag, :parent => tag, :slug => "a-subtag") }
+    let(:tag) { create(:tag, slug: "a-tag") }
+    let(:subtag) { create(:tag, parent: tag, slug: "a-subtag") }
 
     it "returns items for all content that's been tagged to the tag, but isn't in a list" do
-      list1 = create(:list, :tag => subtag)
-      create(:list_item, :list => list1, :base_path => "/content-page-1")
-      list2 = create(:list, :tag => subtag)
-      create(:list_item, :list => list2, :base_path => "/content-page-3")
+      list1 = create(:list, tag: subtag)
+      create(:list_item, list: list1, base_path: "/content-page-1")
+      list2 = create(:list, tag: subtag)
+      create(:list_item, list: list2, base_path: "/content-page-3")
 
       publishing_api_has_linked_items(
         subtag.content_id,

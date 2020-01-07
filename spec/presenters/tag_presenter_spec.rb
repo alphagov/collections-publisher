@@ -34,10 +34,10 @@ RSpec.describe TagPresenter do
 
   describe "#render_for_publishing_api" do
     let(:tag) do
-      create(:topic, :parent => create(:tag, :slug => "oil-and-gas"),
-        :slug => "offshore",
-        :title => "Offshore",
-        :description => "Oil rigs, pipelines etc.")
+      create(:topic, parent: create(:tag, slug: "oil-and-gas"),
+        slug: "offshore",
+        title: "Offshore",
+        description: "Oil rigs, pipelines etc.")
     end
 
     it "is valid against the schema without lists" do
@@ -52,7 +52,7 @@ RSpec.describe TagPresenter do
 
       # We need to "publish" these lists.
       allow_any_instance_of(List).to receive(:tagged_list_items).and_return(
-        [OpenStruct.new(:base_path => "/oil-rig-safety-requirements")],
+        [OpenStruct.new(base_path: "/oil-rig-safety-requirements")],
       )
       tag.update!(published_groups: GroupsPresenter.new(tag).groups, dirty: false)
 

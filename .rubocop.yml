@@ -11,68 +11,12 @@ AllCops:
     - bin/**/*
     - tmp/**/*
 
-# In this project we sometimes still use the old hash syntax (:key => "value")
-HashSyntax:
-  Enabled: false
-
-# In features we sometimes use weird method names.
-MethodName:
-  Exclude:
-    - spec/features/**/*
-    - spec/support/**/*
-
-# Following this cop sometimes makes things harder to read
-IfUnlessModifier:
-  Enabled: false
-
-Style/SymbolProc:
-  Exclude:
-    # Enabling the cop make the factories less readable.
-    - 'spec/factories.rb'
-
-# Temporarily disabled.
-#
-# These cops will generate noisy diffs when they are run with --auto-correct,
-# so we don't want them turned on for files with a lot of violations. They
-# are still active for other files.
-
-Layout/BlockEndNewline:
-  Exclude:
-    - 'spec/presenters/mainstream_browse_page_presenter_spec.rb'
-
-Layout/ClosingParenthesisIndentation:
-  Exclude:
-    - 'app/services/draft_tag_remover.rb'
-    - 'spec/notifiers/publishing_api_notifier_spec.rb'
-    - 'spec/presenters/mainstream_browse_page_presenter_spec.rb'
-    - 'spec/presenters/tag_presenter_spec.rb'
-
-Layout/IndentFirstArgument:
-  Exclude:
-    - 'spec/presenters/groups_presenter_spec.rb'
-
-Layout/MultilineBlockLayout:
-  Exclude:
-    - 'spec/presenters/mainstream_browse_page_presenter_spec.rb'
-
-Layout/SpaceAroundOperators:
-  Exclude:
-    - 'spec/services/list_publisher_spec.rb'
-
-Layout/SpaceInsideParens:
-  Exclude:
-    - 'spec/features/listing_browse_pages_spec.rb'
-
 Metrics/BlockLength:
   Exclude:
     - 'config/routes.rb'
     - 'lib/tasks/**/*.rake'
     - 'spec/**/*_spec.rb'
     - 'spec/factories.rb'
-
-Style/ExpandPathArguments:
-  Exclude:
-    - spec/rails_helper.rb
 
 Rails/InverseOf:
   Enabled: false

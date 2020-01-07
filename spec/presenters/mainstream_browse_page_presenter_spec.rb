@@ -18,9 +18,9 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
   describe "rendering for publishing-api" do
     let(:browse_page) {
-      create(:mainstream_browse_page, :slug => "benefits",
-        :title => "Benefits",
-        :description => "All about benefits")
+      create(:mainstream_browse_page, slug: "benefits",
+        title: "Benefits",
+        description: "All about benefits")
     }
     let(:presenter) { MainstreamBrowsePagePresenter.new(browse_page) }
     let(:presented_data) { presenter.render_for_publishing_api }
@@ -30,14 +30,14 @@ RSpec.describe MainstreamBrowsePagePresenter do
     end
 
     it "includes the base fields" do
-      expect(presented_data).to include(:schema_name => "mainstream_browse_page",
-        :document_type => "mainstream_browse_page",
-        :title => "Benefits",
-        :description => "All about benefits",
-        :locale => "en",
-        :publishing_app => "collections-publisher",
-        :rendering_app => "collections",
-        :redirects => [])
+      expect(presented_data).to include(schema_name: "mainstream_browse_page",
+        document_type: "mainstream_browse_page",
+        title: "Benefits",
+        description: "All about benefits",
+        locale: "en",
+        publishing_app: "collections-publisher",
+        rendering_app: "collections",
+        redirects: [])
     end
 
     it "sets public_updated_at based on the browse page update time" do
@@ -50,8 +50,8 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
     it "includes the necessary routes" do
       expect(presented_data[:routes]).to eq([
-        { :path => "/browse/benefits", :type => "exact" },
-        { :path => "/browse/benefits.json", :type => "exact" },
+        { path: "/browse/benefits", type: "exact" },
+        { path: "/browse/benefits.json", type: "exact" },
       ])
     end
 
@@ -64,7 +64,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
       let(:rendered_links)      { presenter.render_links_for_publishing_api }
 
       before :each do
-        browse_page.update!(:parent => parent_browse_page)
+        browse_page.update!(parent: parent_browse_page)
       end
 
       context "without linked topics" do
@@ -76,8 +76,8 @@ RSpec.describe MainstreamBrowsePagePresenter do
       end
 
       context "with some linked topics" do
-        let(:alpha) { create(:topic, :title => "Alpha") }
-        let(:bravo) { create(:topic, :title => "Bravo") }
+        let(:alpha) { create(:topic, title: "Alpha") }
+        let(:bravo) { create(:topic, title: "Bravo") }
 
         before :each do
           browse_page.topics = [bravo, alpha]
@@ -103,7 +103,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
       let(:organisation) { "af07d5a5-df63-4ddc-9383-6a666845ebe9" }
 
       before :each do
-        browse_page.update!(:parent => parent_browse_page)
+        browse_page.update!(parent: parent_browse_page)
       end
 
       it "includes Government Digital Service content id" do
@@ -112,40 +112,52 @@ RSpec.describe MainstreamBrowsePagePresenter do
     end
 
     describe "linking to related pages" do
-      let!(:top_level_page_1) { create(
-        :mainstream_browse_page,
-        :title => "Top-level page 1",
-        :child_ordering => "alphabetical",
-      )}
-      let!(:top_level_page_2) { create(
-        :mainstream_browse_page,
-        :title => "Top-level page 2",
-        :child_ordering => "curated",
-      )}
+      let!(:top_level_page_1) {
+        create(
+          :mainstream_browse_page,
+          title: "Top-level page 1",
+          child_ordering: "alphabetical",
+      )
+      }
+      let!(:top_level_page_2) {
+        create(
+          :mainstream_browse_page,
+          title: "Top-level page 2",
+          child_ordering: "curated",
+      )
+      }
 
-      let!(:second_level_page_B) { create(
-        :mainstream_browse_page,
-        :title => "Second-level page B",
-        :parent => top_level_page_1,
-      )}
-      let!(:second_level_page_A) { create(
-        :mainstream_browse_page,
-        :title => "Second-level page A",
-        :parent => top_level_page_1,
-      )}
+      let!(:second_level_page_B) {
+        create(
+          :mainstream_browse_page,
+          title: "Second-level page B",
+          parent: top_level_page_1,
+      )
+      }
+      let!(:second_level_page_A) {
+        create(
+          :mainstream_browse_page,
+          title: "Second-level page A",
+          parent: top_level_page_1,
+      )
+      }
 
-      let!(:second_level_page_C) { create(
-        :mainstream_browse_page,
-        :title => "Second-level page C",
-        :parent => top_level_page_2,
-        :index => 1,
-      )}
-      let!(:second_level_page_D) { create(
-        :mainstream_browse_page,
-        :title => "Second-level page D",
-        :parent => top_level_page_2,
-        :index => 0,
-      )}
+      let!(:second_level_page_C) {
+        create(
+          :mainstream_browse_page,
+          title: "Second-level page C",
+          parent: top_level_page_2,
+          index: 1,
+      )
+      }
+      let!(:second_level_page_D) {
+        create(
+          :mainstream_browse_page,
+          title: "Second-level page D",
+          parent: top_level_page_2,
+          index: 0,
+      )
+      }
 
       context "for a top-level browse page with children in alphabetical order" do
         let(:presenter) { MainstreamBrowsePagePresenter.new(top_level_page_1) }
@@ -240,23 +252,29 @@ RSpec.describe MainstreamBrowsePagePresenter do
     end
 
     describe "returning the order of relative second level browse pages" do
-      let!(:top_level_page) { create(
-        :mainstream_browse_page,
-        :title => "Top-level page",
-        :child_ordering => "curated",
-      )}
+      let!(:top_level_page) {
+        create(
+          :mainstream_browse_page,
+          title: "Top-level page",
+          child_ordering: "curated",
+      )
+      }
 
-      let!(:second_level_page_1) { create(
-        :mainstream_browse_page,
-        :title => "Second-level page",
-        :parent => top_level_page,
-      )}
+      let!(:second_level_page_1) {
+        create(
+          :mainstream_browse_page,
+          title: "Second-level page",
+          parent: top_level_page,
+      )
+      }
 
-      let!(:second_level_page_2) { create(
-        :mainstream_browse_page,
-        :title => "Another second-level page",
-        :parent => top_level_page,
-      )}
+      let!(:second_level_page_2) {
+        create(
+          :mainstream_browse_page,
+          title: "Another second-level page",
+          parent: top_level_page,
+      )
+      }
 
       context "for a top level page" do
         let(:presenter) { MainstreamBrowsePagePresenter.new(top_level_page) }

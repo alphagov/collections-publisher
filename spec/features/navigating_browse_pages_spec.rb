@@ -5,18 +5,18 @@ RSpec.feature "Managing browse pages" do
   include NavigationSteps
 
   before do
-    given_I_am_a_GDS_editor
+    given_i_am_a_gds_editor
     and_external_services_are_stubbed
   end
 
   scenario "Viewing browse page" do
     given_there_are_browse_pages
-    when_I_visit_the_browse_pages_index
-    then_I_see_the_top_level_pages
-    when_I_click_on_a_browse_page
-    then_I_see_the_child_pages
-    when_I_click_on_a_child_page
-    then_I_see_the_documents_tagged_to_it
+    when_i_visit_the_browse_pages_index
+    then_i_see_the_top_level_pages
+    when_i_click_on_a_browse_page
+    then_i_see_the_child_pages
+    when_i_click_on_a_child_page
+    then_i_see_the_documents_tagged_to_it
   end
 
   def given_there_are_browse_pages
@@ -36,7 +36,7 @@ RSpec.feature "Managing browse pages" do
     )
   end
 
-  def then_I_see_the_top_level_pages
+  def then_i_see_the_top_level_pages
     titles = page.all(".tags-list tbody td:first-child").map(&:text)
     expect(titles).to eq([
       "Citizenship",
@@ -44,11 +44,11 @@ RSpec.feature "Managing browse pages" do
     ])
   end
 
-  def when_I_click_on_a_browse_page
+  def when_i_click_on_a_browse_page
     click_on "Citizenship"
   end
 
-  def then_I_see_the_child_pages
+  def then_i_see_the_child_pages
     child_titles = page.all(".children .tags-list tbody td:first-child").map(&:text)
     expect(child_titles).to eq([
       "British citizenship",
@@ -56,11 +56,11 @@ RSpec.feature "Managing browse pages" do
     ])
   end
 
-  def when_I_click_on_a_child_page
+  def when_i_click_on_a_child_page
     click_on "British citizenship"
   end
 
-  def then_I_see_the_documents_tagged_to_it
+  def then_i_see_the_documents_tagged_to_it
     tagged_document_titles = page.all(".tagged-document").map(&:text)
     expect(tagged_document_titles).to eq(%w(
       Naturalisation

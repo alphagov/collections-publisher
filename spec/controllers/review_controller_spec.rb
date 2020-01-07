@@ -83,7 +83,7 @@ RSpec.describe ReviewController do
       end
 
       before do
-        step_by_step_page.update(:status => "in_review", :reviewer_id => reviewer_user.uid)
+        step_by_step_page.update(status: "in_review", reviewer_id: reviewer_user.uid)
         stub_user.uid = reviewer_user.uid
       end
 
