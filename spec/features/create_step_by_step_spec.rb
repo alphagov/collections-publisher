@@ -10,7 +10,7 @@ RSpec.feature "Create new step by step page" do
   before do
     given_I_am_a_GDS_editor
     setup_publishing_api
-    stub_default_publishing_api_put_intent
+    stub_any_publishing_api_put_intent
   end
 
   scenario "User creates a new step by step page" do

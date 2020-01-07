@@ -156,7 +156,7 @@ RSpec.feature "Managing step by step pages" do
     }
 
     mocked_content_ids.each do |base_path, content_id|
-      publishing_api_has_item(
+      stub_publishing_api_has_item(
         content_item(content_id, base_path),
       )
     end

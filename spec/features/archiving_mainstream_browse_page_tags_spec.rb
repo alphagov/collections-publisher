@@ -100,7 +100,7 @@ RSpec.feature "Archiving mainstream browse page tags" do
   end
 
   def when_I_submit_an_invalid_base_path_as_redirect
-    content_store_does_not_have_item("/not-here")
+    stub_content_store_does_not_have_item("/not-here")
     fill_in "mainstream_browse_page_archival_form[successor_path]", with: "/not-here"
     click_button "Archive and redirect to a page"
   end

@@ -19,7 +19,7 @@ RSpec.describe TopicArchivalForm do
 
   describe "#successor_path" do
     it "is not valid if the URL returns a 404 status code" do
-      content_store_does_not_have_item("/not-here")
+      stub_content_store_does_not_have_item("/not-here")
 
       form = TopicArchivalForm.new(successor_path: "/not-here")
 
@@ -39,7 +39,7 @@ RSpec.describe TopicArchivalForm do
     end
 
     it "is valid if the URL returns 200" do
-      content_store_has_item("/existing-item")
+      stub_content_store_has_item("/existing-item")
 
       form = TopicArchivalForm.new(successor_path: "/existing-item")
 

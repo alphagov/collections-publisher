@@ -4,7 +4,7 @@ module LinkChecker
   include GdsApi::TestHelpers::LinkCheckerApi
 
   def stub_link_checker_report_success(step)
-    link_checker_api_get_batch(
+    stub_link_checker_api_get_batch(
       id: 1,
       links: [link_checker_api_link_report_success],
     )
@@ -12,7 +12,7 @@ module LinkChecker
   end
 
   def stub_link_checker_report_broken_link(step)
-    link_checker_api_get_batch(
+    stub_link_checker_api_get_batch(
       id: 1,
       links: [link_checker_api_link_report_fail],
     )
@@ -20,7 +20,7 @@ module LinkChecker
   end
 
   def stub_link_checker_report_multiple_broken_links(step)
-    link_checker_api_get_batch(
+    stub_link_checker_api_get_batch(
       id: 1,
       links: [link_checker_api_link_report_fail, link_checker_api_link_report_fail],
     )
