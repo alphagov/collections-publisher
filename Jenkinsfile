@@ -8,7 +8,6 @@ node {
       sh("yarn install")
     },
     sassLint: false,
-    rubyLintDiff: false,
     rubyLintDirs: "",
     publishingE2ETests: true,
     brakeman: true
