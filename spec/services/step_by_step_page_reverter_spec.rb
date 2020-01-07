@@ -36,7 +36,7 @@ RSpec.describe StepByStepPageReverter do
     end
 
     it "does not change the created_at time" do
-      created_at = Time.parse("2018-01-10T00:00:00Z")
+      created_at = Time.zone.parse("2018-01-10T00:00:00Z")
       step_by_step = create(:step_by_step_page, created_at: created_at)
 
       updater = described_class.new(step_by_step, payload_from_publishing_api(step_by_step.content_id, base_path: "/base-path-1"))
@@ -47,7 +47,7 @@ RSpec.describe StepByStepPageReverter do
     end
 
     it "does not change the published at time" do
-      published_at = Time.parse("2018-01-10T00:00:00Z")
+      published_at = Time.zone.parse("2018-01-10T00:00:00Z")
       step_by_step = create(:published_step_by_step_page, published_at: published_at)
 
       updater = described_class.new(step_by_step, payload_from_publishing_api(step_by_step.content_id, base_path: "/base-path-1"))
@@ -58,7 +58,7 @@ RSpec.describe StepByStepPageReverter do
     end
 
     it "sets the draft_updated_at time to published_at time of the step by step" do
-      published_at = Time.parse("2018-01-10T10:00:00Z")
+      published_at = Time.zone.parse("2018-01-10T10:00:00Z")
       step_by_step = create(:published_step_by_step_page, published_at: published_at)
 
       updater = described_class.new(step_by_step, payload_from_publishing_api(step_by_step.content_id, base_path: "/base-path-1"))

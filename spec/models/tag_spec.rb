@@ -237,9 +237,9 @@ RSpec.describe Tag do
     it "deletes lists when the tag is deleted" do
       tag.destroy
 
-      expect(List.find_by_id(list1.id)).not_to be
-      expect(List.find_by_id(list2.id)).not_to be
-      expect(List.find_by_id(list3.id)).to be
+      expect(List.find_by(id: list1.id)).not_to be
+      expect(List.find_by(id: list2.id)).not_to be
+      expect(List.find_by(id: list3.id)).to be
     end
   end
 

@@ -19,7 +19,7 @@ class MainstreamBrowsePagesController < ApplicationController
   def update
     browse_page = find_browse_page
 
-    if browse_page.update_attributes(browse_page_params)
+    if browse_page.update(browse_page_params)
       TagBroadcaster.broadcast(browse_page)
       redirect_to browse_page
     else

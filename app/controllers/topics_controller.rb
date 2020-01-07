@@ -18,7 +18,7 @@ class TopicsController < ApplicationController
   def update
     topic = find_topic
 
-    if topic.update_attributes(topic_params)
+    if topic.update(topic_params)
       TagBroadcaster.broadcast(topic)
       redirect_to topic, success: "Specialist sector updated"
     else

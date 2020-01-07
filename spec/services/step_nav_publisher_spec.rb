@@ -42,7 +42,7 @@ RSpec.describe StepNavPublisher do
         content_id = "bd814775-304c-46d0-919f-f9e0f6cba4e9"
         allow(SecureRandom).to receive(:uuid).and_return(content_id)
 
-        step_nav.update_attributes(status: "published")
+        step_nav.update(status: "published")
         StepNavPublisher.update(step_nav)
         expect(step_nav.auth_bypass_id).to eq content_id
       end

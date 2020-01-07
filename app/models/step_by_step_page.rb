@@ -155,7 +155,7 @@ class StepByStepPage < ApplicationRecord
 
   def make_step_positions_sequential
     steps.sort_by(&:position).each.with_index(1) do |step, index|
-      step.update_attributes!(position: index)
+      step.update!(position: index)
     end
   end
 

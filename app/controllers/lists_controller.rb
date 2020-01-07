@@ -41,7 +41,7 @@ class ListsController < ApplicationController
 
   def update
     list = @tag.lists.find(params[:id])
-    saved = list.update_attributes(list_params)
+    saved = list.update(list_params)
 
     @tag.mark_as_dirty! if saved
 
@@ -59,7 +59,7 @@ class ListsController < ApplicationController
         if saved
           render json: { errors: [] }
         else
-          render json: { errors: list.errors.to_json }, status: 422
+          render json: { errors: list.errors.to_json }, status: :unprocessable_entity
         end
       }
     end

@@ -101,7 +101,7 @@ private
           "text": text,
           "href": href,
         }
-        payload[:context] = context.strip unless context.blank?
+        payload[:context] = context.strip if context.present?
       else
         payload[:text] = line[2..-1]
       end

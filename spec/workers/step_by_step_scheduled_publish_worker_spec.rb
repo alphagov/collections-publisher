@@ -6,7 +6,7 @@ RSpec.describe StepByStepScheduledPublishWorker do
     allow(StepNavPublisher).to receive(:publish)
   end
 
-  let(:future_datetime) { Time.now + 1.hour }
+  let(:future_datetime) { Time.zone.now + 1.hour }
 
   it "publishes the step by step" do
     step_by_step_page = create(:scheduled_step_by_step_page, scheduled_at: future_datetime)

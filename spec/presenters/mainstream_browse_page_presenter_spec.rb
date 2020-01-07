@@ -64,7 +64,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
       let(:rendered_links)      { presenter.render_links_for_publishing_api }
 
       before :each do
-        browse_page.update_attributes!(:parent => parent_browse_page)
+        browse_page.update!(:parent => parent_browse_page)
       end
 
       context "without linked topics" do
@@ -103,7 +103,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
       let(:organisation) { "af07d5a5-df63-4ddc-9383-6a666845ebe9" }
 
       before :each do
-        browse_page.update_attributes!(:parent => parent_browse_page)
+        browse_page.update!(:parent => parent_browse_page)
       end
 
       it "includes Government Digital Service content id" do

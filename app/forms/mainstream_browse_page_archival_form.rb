@@ -30,7 +30,7 @@ private
       Struct.new("RedirectToPath", :base_path, :subroutes)
       Struct::RedirectToPath.new(successor_path, [])
     else
-      MainstreamBrowsePage.find_by_id(successor)
+      MainstreamBrowsePage.find_by(id: successor)
     end
   end
 

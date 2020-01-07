@@ -1,4 +1,4 @@
-class NavigationRule < ActiveRecord::Base
+class NavigationRule < ApplicationRecord
   belongs_to :step_by_step_page
 
   validates :title, :base_path, :content_id, :step_by_step_page_id, :publishing_app, :schema_name, presence: true
