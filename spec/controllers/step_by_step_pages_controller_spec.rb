@@ -1,9 +1,7 @@
 require "rails_helper"
-require "gds_api/test_helpers/publishing_api_v2"
 require "gds_api/test_helpers/publishing_api"
 
 RSpec.describe StepByStepPagesController do
-  include GdsApi::TestHelpers::PublishingApiV2
   include GdsApi::TestHelpers::PublishingApi
   include TimeOptionsHelper
 
@@ -156,7 +154,7 @@ RSpec.describe StepByStepPagesController do
 
     before :each do
       stub_publishing_api_for_scheduling
-      stub_default_publishing_api_put_intent
+      stub_any_publishing_api_put_intent
       stub_publishing_api
     end
 
