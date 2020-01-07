@@ -14,7 +14,7 @@ module StatusHelper
     labels << draft_tag if tag.draft?
     labels << dirty_tag if tag.dirty?
     labels << archived_tag if tag.archived?
-    raw labels.join(" ")
+    sanitize labels.join(" ")
   end
 
   def dirty_tag
