@@ -9,6 +9,7 @@ AllCops:
     - db/**/*
     - config.ru
     - bin/**/*
+    - tmp/**/*
 
 # In this project we sometimes still use the old hash syntax (:key => "value")
 HashSyntax:
