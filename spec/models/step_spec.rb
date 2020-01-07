@@ -85,7 +85,7 @@ RSpec.describe Step do
 
     it "should return an empty array if there are link reports, but all the links work" do
       create(:link_report, batch_id: 2, step_id: step_item.id)
-      link_checker_api_get_batch(
+      stub_link_checker_api_get_batch(
         id: 2,
         links: [
           {
@@ -105,7 +105,7 @@ RSpec.describe Step do
     end
 
     it "should return a batch report if there is one with a matching id and it contains a broken link" do
-      link_checker_api_get_batch(
+      stub_link_checker_api_get_batch(
         id: 2,
         links: [
           {
@@ -136,7 +136,7 @@ RSpec.describe Step do
     end
 
     it "should contain one item if there are link reports and at least one is broken" do
-      link_checker_api_get_batch(
+      stub_link_checker_api_get_batch(
         id: 2,
         links: [
           {

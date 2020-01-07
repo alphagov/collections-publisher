@@ -12,7 +12,7 @@ RSpec.describe LinkReport, type: :model do
       it "should create a record with the right batch_id" do
         step = create(:step)
         link_report = create(:link_report, step: step)
-        link_checker_api_create_batch(
+        stub_link_checker_api_create_batch(
           uris: [
             "http://example.com/good",
             "https://www.gov.uk/good/stuff",
