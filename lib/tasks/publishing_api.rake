@@ -30,7 +30,7 @@ namespace :publishing_api do
 
   desc "Unpublish organisations content finder"
   task unpublish_org_finder: :environment do
-    file_path = "#{Rails.root}/lib/finders/organisation_content.json"
+    file_path = Rails.root.join("lib", "finders", "organisation_content.json")
 
     content_item = JSON.parse(File.read(file_path))
 
