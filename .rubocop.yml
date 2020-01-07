@@ -73,3 +73,9 @@ Metrics/BlockLength:
 Style/ExpandPathArguments:
   Exclude:
     - spec/rails_helper.rb
+
+Rails/InverseOf:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
