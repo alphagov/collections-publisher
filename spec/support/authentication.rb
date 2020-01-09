@@ -1,9 +1,9 @@
 module AuthenticationControllerHelpers
   def login_as(user)
     request.env["warden"] = double(
-      :authenticate! => true,
-      :authenticated? => true,
-      :user => user,
+      authenticate!: true,
+      authenticated?: true,
+      user: user,
     )
   end
 
@@ -27,12 +27,12 @@ module AuthenticationFeatureHelpers
 end
 
 RSpec.configure do |config|
-  config.include AuthenticationControllerHelpers, :type => :controller
+  config.include AuthenticationControllerHelpers, type: :controller
   config.before(:each, type: :controller) do
     login_as_stub_user
   end
 
-  config.include AuthenticationFeatureHelpers, :type => :feature
+  config.include AuthenticationFeatureHelpers, type: :feature
   config.before(:each, type: :feature) do
     login_as_user
   end

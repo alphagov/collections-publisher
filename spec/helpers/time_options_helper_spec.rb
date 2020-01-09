@@ -51,7 +51,7 @@ RSpec.describe TimeOptionsHelper do
 
   describe "#format_full_date" do
     it "formats the date correctly" do
-      date = Time.new(2030, 4, 20)
+      date = Time.zone.local(2030, 4, 20)
       expect(helper.format_full_date(date)).to eq("20 April 2030")
     end
   end

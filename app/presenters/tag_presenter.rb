@@ -73,8 +73,8 @@ private
   # potentially extended in subclasses
   def details
     {
-      :groups => categorized_groups,
-      :internal_name => tag.title_including_parent,
+      groups: categorized_groups,
+      internal_name: tag.title_including_parent,
     }
   end
 

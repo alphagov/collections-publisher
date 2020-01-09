@@ -13,172 +13,172 @@ RSpec.feature "Managing step by step pages" do
   let(:yesterday) { Time.current - 1.day }
 
   before do
-    given_I_am_a_GDS_editor
+    given_i_am_a_gds_editor
     setup_publishing_api
     stub_any_publishing_api_put_intent
   end
 
   scenario "User visits a step by step page with no steps" do
     given_there_is_a_draft_step_by_step_page_with_no_steps
-    when_I_view_the_step_by_step_page
-    then_I_can_see_a_summary_section
-    and_I_can_edit_the_summary_section
-    and_I_can_see_a_steps_overview_section_with_no_steps
-    and_I_cannot_check_for_broken_links
-    and_I_cannot_reorder_the_steps
-    and_I_can_see_a_where_to_show_section_with_links "Change"
-    and_I_can_see_a_tags_section_with_links "Change"
-    and_I_can_see_a_metadata_section
+    when_i_view_the_step_by_step_page
+    then_i_can_see_a_summary_section
+    and_i_can_edit_the_summary_section
+    and_i_can_see_a_steps_overview_section_with_no_steps
+    and_i_cannot_check_for_broken_links
+    and_i_cannot_reorder_the_steps
+    and_i_can_see_a_where_to_show_section_with_links "Change"
+    and_i_can_see_a_tags_section_with_links "Change"
+    and_i_can_see_a_metadata_section
   end
 
   scenario "User visits a step by step page with steps" do
     given_there_is_a_step_by_step_page_with_steps
-    when_I_view_the_step_by_step_page
-    then_I_can_see_a_summary_section
-    and_I_can_edit_the_summary_section
-    and_I_can_see_a_steps_overview_section
-    and_I_can_edit_and_delete_steps
-    and_I_can_reorder_the_steps
-    and_I_can_see_a_where_to_show_section_with_links "Change"
-    and_I_can_see_a_tags_section_with_links "Change"
-    and_I_can_see_a_metadata_section
+    when_i_view_the_step_by_step_page
+    then_i_can_see_a_summary_section
+    and_i_can_edit_the_summary_section
+    and_i_can_see_a_steps_overview_section
+    and_i_can_edit_and_delete_steps
+    and_i_can_reorder_the_steps
+    and_i_can_see_a_where_to_show_section_with_links "Change"
+    and_i_can_see_a_tags_section_with_links "Change"
+    and_i_can_see_a_metadata_section
   end
 
   scenario "User visits a step by step page with steps with no links" do
     given_there_is_a_step_by_step_page_with_steps_without_links
-    when_I_view_the_step_by_step_page
-    then_I_should_see_an_inset_prompt
+    when_i_view_the_step_by_step_page
+    then_i_should_see_an_inset_prompt
     and_the_prompt_should_not_contain "Check for broken links"
   end
 
   scenario "User edits step by step information" do
     given_there_is_a_step_by_step_page
-    when_I_edit_the_step_by_step_page
-    and_I_fill_in_the_edit_form
+    when_i_edit_the_step_by_step_page
+    and_i_fill_in_the_edit_form
     then_the_step_by_step_information_should_have_updated
   end
 
   scenario "User publishes a page" do
     given_there_is_an_approved_2i_step_by_step_page_with_a_link_report
-    when_I_view_the_step_by_step_page
-    when_I_click_button "Publish"
-    then_I_am_told_that_it_is_published
-    then_I_see_the_step_by_step_page
-    when_I_visit_the_history_page
+    when_i_view_the_step_by_step_page
+    when_i_click_button "Publish"
+    then_i_am_told_that_it_is_published
+    then_i_see_the_step_by_step_page
+    when_i_visit_the_history_page
     then_there_should_be_a_change_note "Published"
   end
 
   scenario "User reverts an approved page to draft" do
     given_there_is_an_approved_2i_step_by_step_page_with_a_link_report
-    when_I_view_the_step_by_step_page
-    when_I_click_button "Revert to draft"
-    then_I_see_the_step_by_step_page
-    then_I_see_a_reverted_success_notice
-    when_I_visit_the_history_page
+    when_i_view_the_step_by_step_page
+    when_i_click_button "Revert to draft"
+    then_i_see_the_step_by_step_page
+    then_i_see_a_reverted_success_notice
+    when_i_visit_the_history_page
     then_there_should_be_a_change_note "Reverted to draft"
   end
 
   scenario "User cannot publish or schedule a page if it's not 2i approved" do
     given_there_is_a_step_by_step_that_has_been_claimed_for_2i
-    when_I_view_the_step_by_step_page
+    when_i_view_the_step_by_step_page
     then_there_should_be_no_publish_button
     and_there_should_be_no_schedule_button
-    and_I_should_see_an_inset_prompt
+    and_i_should_see_an_inset_prompt
     and_inset_prompt_should_say "Get 2i approval"
   end
 
   scenario "User unpublishes a step by step page with a valid redirect url" do
     given_there_is_a_published_step_by_step_page
-    when_I_view_the_step_by_step_page
-    and_I_want_to_unpublish_the_page
-    and_I_fill_in_the_form_with_a_valid_url
+    when_i_view_the_step_by_step_page
+    and_i_want_to_unpublish_the_page
+    and_i_fill_in_the_form_with_a_valid_url
     then_the_page_is_unpublished
-    and_I_see_a_success_notice
+    and_i_see_a_success_notice
   end
 
   scenario "User unpublishes a step by step page with an invalid redirect url" do
     given_there_is_a_published_step_by_step_page
-    when_I_view_the_step_by_step_page
-    and_I_want_to_unpublish_the_page
-    and_I_fill_in_the_form_with_an_invalid_url
-    then_I_see_that_the_url_isnt_valid
-    and_I_fill_in_the_form_with_an_empty_url
-    then_I_see_that_the_url_isnt_valid
+    when_i_view_the_step_by_step_page
+    and_i_want_to_unpublish_the_page
+    and_i_fill_in_the_form_with_an_invalid_url
+    then_i_see_that_the_url_isnt_valid
+    and_i_fill_in_the_form_with_an_empty_url
+    then_i_see_that_the_url_isnt_valid
   end
 
   scenario "User deletes a step" do
     given_there_is_a_step_by_step_page_with_steps
-    when_I_view_the_step_by_step_page
-    and_I_delete_the_first_step
-    and_I_see_a_step_deleted_success_notice
+    when_i_view_the_step_by_step_page
+    and_i_delete_the_first_step
+    and_i_see_a_step_deleted_success_notice
   end
 
   scenario "User deletes a step that has an existing link report" do
     given_there_is_a_step_by_step_page_with_a_link_report
-    when_I_view_the_step_by_step_page
-    and_I_delete_the_first_step
-    and_I_see_a_step_deleted_success_notice
+    when_i_view_the_step_by_step_page
+    and_i_delete_the_first_step
+    and_i_see_a_step_deleted_success_notice
   end
 
   scenario "User deletes a draft step by step guide without change notes" do
     given_there_is_a_step_by_step_page
-    when_I_view_the_step_by_step_page
-    and_I_delete_the_draft
-    then_I_see_a_step_by_step_deleted_success_notice
+    when_i_view_the_step_by_step_page
+    and_i_delete_the_draft
+    then_i_see_a_step_by_step_deleted_success_notice
   end
 
   scenario "User deletes a draft step by step guide with change notes" do
     given_there_is_a_step_by_step_page
     and_it_has_change_notes
-    when_I_view_the_step_by_step_page
-    and_I_delete_the_draft
-    then_I_see_a_step_by_step_deleted_success_notice
+    when_i_view_the_step_by_step_page
+    and_i_delete_the_draft
+    then_i_see_a_step_by_step_deleted_success_notice
   end
 
   scenario "User reverts a step by step page" do
     given_there_is_a_published_step_by_step_page_with_unpublished_changes
-    when_I_view_the_step_by_step_page
-    when_I_want_to_revert_the_page
-    then_I_see_a_page_reverted_success_notice
+    when_i_view_the_step_by_step_page
+    when_i_want_to_revert_the_page
+    then_i_see_a_page_reverted_success_notice
   end
 
   scenario "User publishes changes to a published step by step page" do
     given_there_is_an_approved_2i_step_by_step_page_with_unpublished_changes_whose_links_have_been_checked
-    when_I_view_the_step_by_step_page
-    and_when_I_click_button "Publish"
-    then_I_should_see_a_publish_form_with_changenotes
-    and_when_I_click_the_publish_button_in_the_publish_form
-    then_I_am_told_that_it_is_published
-    and_I_cannot_preview_the_step_by_step
+    when_i_view_the_step_by_step_page
+    and_when_i_click_button "Publish"
+    then_i_should_see_a_publish_form_with_changenotes
+    and_when_i_click_the_publish_button_in_the_publish_form
+    then_i_am_told_that_it_is_published
+    and_i_cannot_preview_the_step_by_step
   end
 
   scenario "User publishes and then makes more changes to a step by step page" do
-    given_I_am_assigned_to_a_published_step_by_step_page_with_unpublished_changes
-    and_I_visit_the_publish_page
-    and_I_publish_the_page
-    when_I_visit_the_history_page
+    given_i_am_assigned_to_a_published_step_by_step_page_with_unpublished_changes
+    and_i_visit_the_publish_page
+    and_i_publish_the_page
+    when_i_visit_the_history_page
     then_there_should_be_a_change_note "Published"
-    when_I_view_the_step_by_step_page
-    and_I_delete_the_first_step
-    when_I_visit_the_history_page
+    when_i_view_the_step_by_step_page
+    and_i_delete_the_first_step
+    when_i_visit_the_history_page
     then_there_should_be_a_change_note "Draft saved"
   end
 
   scenario "User adds a step after reordering other steps", js: true do
     given_there_is_a_step_by_step_page_with_steps
-    and_I_have_reordered_the_steps
-    when_I_add_a_step
+    and_i_have_reordered_the_steps
+    when_i_add_a_step
     then_my_new_step_should_be_the_last_step_in_the_list_of_steps
   end
 
   context "Logged in as a reviewer" do
     scenario "Reviewer cannot publish or schedule a page if it's not 2i approved" do
       given_there_is_a_step_by_step_that_has_been_claimed_for_2i
-      and_I_am_the_reviewer
-      when_I_view_the_step_by_step_page
+      and_i_am_the_reviewer
+      when_i_view_the_step_by_step_page
       then_there_should_be_no_publish_button
       and_there_should_be_no_schedule_button
-      and_I_should_see_an_inset_prompt
+      and_i_should_see_an_inset_prompt
       and_inset_prompt_should_say "2i approve it"
     end
   end
@@ -190,97 +190,97 @@ RSpec.feature "Managing step by step pages" do
 
     scenario "User schedules publishing without a public change note" do
       given_there_is_a_2i_approved_step_by_step_page_with_secondary_content_and_navigation_rules
-      and_I_visit_the_scheduling_page
-      then_I_should_see_a_publish_form_with_changenotes
-      and_when_I_click_button "Continue"
+      and_i_visit_the_scheduling_page
+      then_i_should_see_a_publish_form_with_changenotes
+      and_when_i_click_button "Continue"
       then_inputs_should_have_tomorrows_date
-      and_I_fill_in_the_scheduling_form
-      when_I_submit_the_form
-      then_I_should_see "has been scheduled to publish"
+      and_i_fill_in_the_scheduling_form
+      when_i_submit_the_form
+      then_i_should_see "has been scheduled to publish"
       and_the_step_by_step_should_have_the_status "Scheduled"
-      when_I_visit_the_history_page
+      when_i_visit_the_history_page
       then_there_should_be_a_change_note "Scheduled at 10:26am on 20 April 2030"
       and_the_step_by_step_is_not_editable
-      when_I_view_the_step_by_step_page
-      then_I_can_see_a_summary_section
-      but_I_cannot_edit_the_summary_section
-      and_I_can_see_a_steps_overview_section
-      but_I_cannot_edit_or_delete_steps
-      and_I_cannot_reorder_the_steps
-      and_I_can_see_a_where_to_show_section_with_links "Change"
-      and_I_can_see_a_tags_section_with_links "Change"
-      then_I_can_preview_the_step_by_step
+      when_i_view_the_step_by_step_page
+      then_i_can_see_a_summary_section
+      but_i_cannot_edit_the_summary_section
+      and_i_can_see_a_steps_overview_section
+      but_i_cannot_edit_or_delete_steps
+      and_i_cannot_reorder_the_steps
+      and_i_can_see_a_where_to_show_section_with_links "Change"
+      and_i_can_see_a_tags_section_with_links "Change"
+      then_i_can_preview_the_step_by_step
       and_the_steps_can_be_checked_for_broken_links
     end
 
     scenario "User schedules publishing with a public change note" do
       given_there_is_an_approved_2i_step_by_step_page_with_a_link_report
-      and_I_visit_the_scheduling_page
-      then_I_should_see_a_publish_form_with_changenotes
-      and_I_fill_in_the_changenote_form
-      and_when_I_click_button "Continue"
+      and_i_visit_the_scheduling_page
+      then_i_should_see_a_publish_form_with_changenotes
+      and_i_fill_in_the_changenote_form
+      and_when_i_click_button "Continue"
       then_inputs_should_have_tomorrows_date
-      and_I_fill_in_the_scheduling_form
-      when_I_submit_the_form
-      then_I_should_see "has been scheduled to publish"
+      and_i_fill_in_the_scheduling_form
+      when_i_submit_the_form
+      then_i_should_see "has been scheduled to publish"
       and_the_step_by_step_should_have_the_status "Scheduled"
-      when_I_visit_the_history_page
+      when_i_visit_the_history_page
       then_there_should_be_a_change_note "Scheduled at 10:26am on 20 April 2030 with change note: We made some changes"
     end
 
     scenario "User tries to schedule publishing for date in the past" do
       given_there_is_an_approved_2i_step_by_step_page_with_a_link_report
-      and_I_visit_the_scheduling_page
-      then_I_should_see_a_publish_form_with_changenotes
-      and_when_I_click_button "Continue"
+      and_i_visit_the_scheduling_page
+      then_i_should_see_a_publish_form_with_changenotes
+      and_when_i_click_button "Continue"
       then_inputs_should_have_tomorrows_date
-      and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
-      when_I_submit_the_form
-      then_I_should_see "Scheduled at can't be in the past"
-      and_I_can_still_see_the_date_and_time_values_I_entered
+      and_i_fill_in_the_scheduling_form_with_a_date_in_the_past
+      when_i_submit_the_form
+      then_i_should_see "Scheduled at can't be in the past"
+      and_i_can_still_see_the_date_and_time_values_i_entered
       and_the_step_by_step_should_have_the_status "Draft"
     end
 
     scenario "User tries to schedule publishing for an already scheduled step by step" do
       given_there_is_a_scheduled_step_by_step_page
-      when_I_view_the_step_by_step_page
-      then_I_should_see "Scheduled to be published at"
+      when_i_view_the_step_by_step_page
+      then_i_should_see "Scheduled to be published at"
       and_there_should_be_no_schedule_button
     end
 
     scenario "User unschedules publishing" do
       given_there_is_a_scheduled_step_by_step_page
-      when_I_view_the_step_by_step_page
-      then_I_see_an_unschedule_button
-      when_I_unschedule_publishing
-      then_I_should_see "has been unscheduled"
+      when_i_view_the_step_by_step_page
+      then_i_see_an_unschedule_button
+      when_i_unschedule_publishing
+      then_i_should_see "has been unscheduled"
       and_the_step_by_step_should_have_the_status "Draft"
-      when_I_visit_the_history_page
+      when_i_visit_the_history_page
       then_there_should_be_a_change_note "Scheduled publishing stopped"
     end
 
     scenario "User tries using invalid values for schedule date and time" do
       given_there_is_an_approved_2i_step_by_step_page_with_a_link_report
-      and_I_visit_the_scheduling_page
-      then_I_should_see_a_publish_form_with_changenotes
-      and_when_I_click_button "Continue"
+      and_i_visit_the_scheduling_page
+      then_i_should_see_a_publish_form_with_changenotes
+      and_when_i_click_button "Continue"
       then_inputs_should_have_tomorrows_date
-      and_I_fill_in_the_scheduling_form_with_nonsense_data
-      when_I_submit_the_form
-      then_I_should_see "Enter a valid date", :at_the_top_of_the_page
-      and_I_should_see "Enter a valid time", :at_the_top_of_the_page
-      and_I_should_see "Enter a valid date", :within_the_date_component
-      and_I_should_see "Enter a valid time", :within_the_time_component
+      and_i_fill_in_the_scheduling_form_with_nonsense_data
+      when_i_submit_the_form
+      then_i_should_see "Enter a valid date", :at_the_top_of_the_page
+      and_i_should_see "Enter a valid time", :at_the_top_of_the_page
+      and_i_should_see "Enter a valid date", :within_the_date_component
+      and_i_should_see "Enter a valid time", :within_the_time_component
     end
   end
 
   scenario "A step doesn't have any content" do
     given_there_is_a_step_by_step_page_with_steps_missing_content
-    when_I_view_the_step_by_step_page
-    then_I_should_see_an_inset_prompt
+    when_i_view_the_step_by_step_page
+    then_i_should_see_an_inset_prompt
     and_the_prompt_should_contain_prompt_text "Add content to all your steps"
     and_the_prompt_should_contain_prompt_text "Get 2i approval"
-    and_I_cannot_publish_or_schedule_the_step_by_step
+    and_i_cannot_publish_or_schedule_the_step_by_step
   end
 
   scenario "Checking for broken links" do
@@ -297,75 +297,75 @@ RSpec.feature "Managing step by step pages" do
     stub_link_checker_api_get_batch(id: 0)
 
     given_there_is_a_step_by_step_page_with_steps
-    when_I_view_the_step_by_step_page
-    when_I_click_button "Check for broken links"
-    then_I_should_see "Links are currently being checked."
+    when_i_view_the_step_by_step_page
+    when_i_click_button "Check for broken links"
+    then_i_should_see "Links are currently being checked."
   end
 
   scenario "A step has not been tested for broken links" do
     given_there_is_a_step_that_has_not_been_tested_for_broken_links
-    when_I_view_the_step_by_step_page
+    when_i_view_the_step_by_step_page
     then_the_step_should_have_no_broken_link_summary
   end
 
   scenario "A step contains no broken links" do
     given_there_is_a_step_that_has_no_broken_links
-    when_I_view_the_step_by_step_page
+    when_i_view_the_step_by_step_page
     then_the_step_should_confirm_it_has_no_broken_links
   end
 
   scenario "A step contains a single broken link" do
     given_there_is_a_step_with_a_broken_link
-    when_I_view_the_step_by_step_page
+    when_i_view_the_step_by_step_page
     then_the_step_should_confirm_it_has_one_broken_link
   end
 
   scenario "A step contains multiple broken links" do
     given_there_is_a_step_with_multiple_broken_links
-    when_I_view_the_step_by_step_page
+    when_i_view_the_step_by_step_page
     then_the_step_should_confirm_it_has_multiple_broken_links
   end
 
   scenario "Step by step doesn't have any steps" do
     given_there_is_a_draft_step_by_step_page_with_no_steps
-    when_I_view_the_step_by_step_page
-    then_I_should_see_an_inset_prompt
+    when_i_view_the_step_by_step_page
+    then_i_should_see_an_inset_prompt
     and_the_prompt_should_contain_prompt_text "Add at least one step"
-    and_I_cannot_publish_or_schedule_the_step_by_step
+    and_i_cannot_publish_or_schedule_the_step_by_step
   end
 
   scenario "Step by step has not been checked for broken links" do
     given_there_is_a_draft_step_by_step_page
-    when_I_view_the_step_by_step_page
-    then_I_should_see_an_inset_prompt
+    when_i_view_the_step_by_step_page
+    then_i_should_see_an_inset_prompt
     and_the_prompt_should_contain_prompt_text "Check for broken links"
-    and_I_cannot_publish_or_schedule_the_step_by_step
+    and_i_cannot_publish_or_schedule_the_step_by_step
   end
 
   scenario "Step by step has been updated since it was last checked for broken links" do
     given_a_step_by_step_has_been_updated_after_links_last_checked
-    when_I_view_the_step_by_step_page
-    then_I_should_see_an_inset_prompt
+    when_i_view_the_step_by_step_page
+    then_i_should_see_an_inset_prompt
     and_the_prompt_should_contain_prompt_text "Check for broken links"
-    and_I_cannot_publish_or_schedule_the_step_by_step
+    and_i_cannot_publish_or_schedule_the_step_by_step
   end
 
   scenario "Multiple required actions are listed in the inset prompt" do
     given_a_step_by_step_has_an_empty_step_added_after_links_last_checked
-    when_I_view_the_step_by_step_page
-    then_I_should_see_an_inset_prompt
+    when_i_view_the_step_by_step_page
+    then_i_should_see_an_inset_prompt
     and_the_prompt_should_contain_prompt_text "Add content to all your steps"
     and_the_prompt_should_contain_prompt_text "Check for broken links"
     and_the_prompt_should_contain_prompt_text "Get 2i approval"
-    and_I_cannot_publish_or_schedule_the_step_by_step
+    and_i_cannot_publish_or_schedule_the_step_by_step
   end
 
   scenario "Publishing/scheduling a step by step does not prompt to check for broken links" do
     given_there_is_an_approved_2i_step_that_has_no_broken_links
-    when_I_view_the_step_by_step_page
+    when_i_view_the_step_by_step_page
     then_there_should_be_no_inset_prompt
-    and_when_I_click_button "Publish"
-    then_I_am_told_that_it_is_published
+    and_when_i_click_button "Publish"
+    then_i_am_told_that_it_is_published
     and_there_should_continue_to_be_no_inset_prompt
   end
 
@@ -373,19 +373,19 @@ RSpec.feature "Managing step by step pages" do
     create(:internal_change_note, step_by_step_page_id: @step_by_step_page.id)
   end
 
-  def and_I_visit_the_index_page
-    when_I_visit_the_step_by_step_pages_index
+  def and_i_visit_the_index_page
+    when_i_visit_the_step_by_step_pages_index
   end
 
-  def and_I_visit_the_publish_page
+  def and_i_visit_the_publish_page
     visit step_by_step_page_publish_path(@step_by_step_page)
   end
 
-  def and_I_want_to_unpublish_the_page
+  def and_i_want_to_unpublish_the_page
     click_on "Unpublish"
   end
 
-  def when_I_want_to_revert_the_page
+  def when_i_want_to_revert_the_page
     allow(Services.publishing_api).to receive(:get_content).and_return(
       base_path: "/#{@step_by_step_page.slug}",
       title: "A step by step",
@@ -408,50 +408,50 @@ RSpec.feature "Managing step by step pages" do
     click_on "Discard changes"
   end
 
-  def and_I_fill_in_the_form_with_a_valid_url
+  def and_i_fill_in_the_form_with_a_valid_url
     fill_in "Redirect to", with: "/micro-pigs-can-grow-to-the-size-of-godzilla"
     click_on "Unpublish"
   end
 
-  def and_I_fill_in_the_form_with_an_empty_url
+  def and_i_fill_in_the_form_with_an_empty_url
     fill_in "Redirect to", with: ""
     click_on "Unpublish"
   end
 
-  def and_I_fill_in_the_form_with_an_invalid_url
+  def and_i_fill_in_the_form_with_an_invalid_url
     fill_in "Redirect to", with: "!"
     click_on "Unpublish"
   end
 
-  def and_I_delete_the_draft
+  def and_i_delete_the_draft
     click_on "Delete"
   end
 
-  def then_I_see_a_step_by_step_deleted_success_notice
+  def then_i_see_a_step_by_step_deleted_success_notice
     expect(page).to have_content("Step by step page was successfully deleted.")
   end
 
-  def then_I_see_that_the_url_isnt_valid
+  def then_i_see_that_the_url_isnt_valid
     expect(page).to have_content("Redirect path is invalid. Step by step page has not been unpublished.")
   end
 
-  def and_I_see_a_success_notice
+  def and_i_see_a_success_notice
     expect(page).to have_content("Step by step page was successfully unpublished.")
   end
 
-  def when_I_view_the_step_by_step_page
+  def when_i_view_the_step_by_step_page
     visit step_by_step_page_path(@step_by_step_page)
   end
 
-  def when_I_edit_the_step_by_step_page
+  def when_i_edit_the_step_by_step_page
     visit edit_step_by_step_page_path(@step_by_step_page)
   end
 
-  def then_I_see_the_step_by_step_page
+  def then_i_see_the_step_by_step_page
     expect(page).to have_content("How to be amazing")
   end
 
-  def then_I_can_see_a_summary_section
+  def then_i_can_see_a_summary_section
     within_summary_section do
       expect(page).to have_content "Content"
       expect(page).to have_content "Title #{@step_by_step_page.title}"
@@ -461,13 +461,13 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def and_I_can_edit_the_summary_section
+  def and_i_can_edit_the_summary_section
     within_summary_section do
-      expect(page).to have_link("Change", :href => edit_step_by_step_page_path(@step_by_step_page))
+      expect(page).to have_link("Change", href: edit_step_by_step_page_path(@step_by_step_page))
     end
   end
 
-  def but_I_cannot_edit_the_summary_section
+  def but_i_cannot_edit_the_summary_section
     within_summary_section do
       expect(page).not_to have_link("Change")
     end
@@ -480,16 +480,16 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def and_I_can_see_a_steps_overview_section_with_no_steps
+  def and_i_can_see_a_steps_overview_section_with_no_steps
     expect(page).not_to have_css(".gem-c-summary-list#steps .govuk-summary-list__row")
     expect(page).to have_content("No steps have been added yet.")
   end
 
-  def and_I_cannot_check_for_broken_links
+  def and_i_cannot_check_for_broken_links
     expect(page).not_to have_link("Check for broken links")
   end
 
-  def and_I_can_see_a_steps_overview_section
+  def and_i_can_see_a_steps_overview_section
     within(".gem-c-summary-list#steps") do
       expect(page).to have_selector(".govuk-heading-m", text: "Steps")
       expect(page).to have_css(".govuk-summary-list__row", count: 2)
@@ -502,44 +502,44 @@ RSpec.feature "Managing step by step pages" do
     have_selector(".govuk-summary-list__row:nth-child(#{row}) .govuk-summary-list__value", text: text)
   end
 
-  def and_I_can_edit_and_delete_steps
+  def and_i_can_edit_and_delete_steps
     all(".gem-c-summary-list#steps .govuk-summary-list__actions").each do |step|
       expect(step).to have_link("Change")
       expect(step).to have_link("Delete")
     end
   end
 
-  def but_I_cannot_edit_or_delete_steps
+  def but_i_cannot_edit_or_delete_steps
     all(".gem-c-summary-list#steps .govuk-summary-list__actions").each do |step|
       expect(step).not_to have_link("Change")
       expect(step).not_to have_link("Delete")
     end
   end
 
-  def and_I_can_reorder_the_steps
+  def and_i_can_reorder_the_steps
     expect(page).to have_link("Reorder", href: step_by_step_page_reorder_path(@step_by_step_page))
   end
 
-  def and_I_cannot_reorder_the_steps
+  def and_i_cannot_reorder_the_steps
     expect(page).to_not have_link("Reorder", exact: true)
   end
 
-  def and_I_can_see_a_where_to_show_section_with_links(link_text)
+  def and_i_can_see_a_where_to_show_section_with_links(link_text)
     within(".gem-c-summary-list#where-to-show") do
       expect(page).to have_content "Where to show this step by step"
-      expect(page).to have_link(link_text, :href => step_by_step_page_navigation_rules_path(@step_by_step_page))
-      expect(page).to have_link(link_text, :href => step_by_step_page_secondary_content_links_path(@step_by_step_page))
+      expect(page).to have_link(link_text, href: step_by_step_page_navigation_rules_path(@step_by_step_page))
+      expect(page).to have_link(link_text, href: step_by_step_page_secondary_content_links_path(@step_by_step_page))
     end
   end
 
-  def and_I_can_see_a_tags_section_with_links(link_text)
+  def and_i_can_see_a_tags_section_with_links(link_text)
     within(".gem-c-summary-list#tags") do
       expect(page).to have_content "Tags"
-      expect(page).to have_link(link_text, :href => "#{Plek.find('content-tagger', external: true)}/taggings/#{@step_by_step_page.content_id}")
+      expect(page).to have_link(link_text, href: "#{Plek.find('content-tagger', external: true)}/taggings/#{@step_by_step_page.content_id}")
     end
   end
 
-  def and_I_can_see_a_metadata_section
+  def and_i_can_see_a_metadata_section
     within(".gem-c-metadata") do
       expect(page).to have_content("Status: Draft")
       expect(page).to have_content("Last saved")
@@ -547,7 +547,7 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def and_I_fill_in_the_edit_form
+  def and_i_fill_in_the_edit_form
     fill_in "Title", with: "How to bake a cake"
     fill_in "Slug", with: "how-to-bake-a-cake"
     fill_in "Introduction", with: "Learn how you can bake a cake"
@@ -566,7 +566,7 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def then_I_see_delete_and_publish_buttons
+  def then_i_see_delete_and_publish_buttons
     within(".app-side__actions") do
       expect(page).to have_css("a", text: "Delete")
       expect(page).to have_css("a", text: "Publish")
@@ -574,15 +574,15 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def and_I_publish_the_page
+  def and_i_publish_the_page
     click_on "Publish"
   end
 
-  def then_I_am_told_that_it_is_published
+  def then_i_am_told_that_it_is_published
     expect(page).to have_content("has been published")
   end
 
-  def and_I_have_reordered_the_steps
+  def and_i_have_reordered_the_steps
     publishing_api_receives_get_content_id_request(
       content_items: step_link_fixtures_content_items,
     )
@@ -590,10 +590,10 @@ RSpec.feature "Managing step by step pages" do
     find(".js-reorder:first-child .js-down").click
     click_button "Save"
     expect(page).to have_content "Steps were successfully reordered."
-    and_I_should_be_on_the_step_by_step_page
+    and_i_should_be_on_the_step_by_step_page
   end
 
-  def when_I_add_a_step
+  def when_i_add_a_step
     publishing_api_receives_get_content_id_request(
       content_items: step_link_fixtures_content_items,
     )
@@ -610,31 +610,31 @@ RSpec.feature "Managing step by step pages" do
     expect(found_at_position).to eq(rows.count), "Expected 'Newly added step' to appear in row #{rows.count}. Found in row #{found_at_position}"
   end
 
-  def and_I_delete_the_first_step
+  def and_i_delete_the_first_step
     within(".gem-c-summary-list#steps .govuk-summary-list__row:first-child") do
       click_on "Delete"
     end
   end
 
-  def and_I_see_a_step_deleted_success_notice
+  def and_i_see_a_step_deleted_success_notice
     expect(page).to have_content("Step was successfully deleted.")
   end
 
-  def then_I_see_a_page_reverted_success_notice
+  def then_i_see_a_page_reverted_success_notice
     expect(page).to have_content("Draft successfully discarded.")
   end
 
-  def then_I_see_a_reverted_success_notice
+  def then_i_see_a_reverted_success_notice
     expect(page).to have_content("Step by step page was successfully reverted to draft.")
   end
 
-  def and_I_visit_the_scheduling_page
+  def and_i_visit_the_scheduling_page
     visit step_by_step_page_schedule_path(@step_by_step_page)
   end
 
-  alias_method :when_I_visit_the_scheduling_page, :and_I_visit_the_scheduling_page
+  alias_method :when_i_visit_the_scheduling_page, :and_i_visit_the_scheduling_page
 
-  def when_I_click_button(button_text)
+  def when_i_click_button(button_text)
     begin
       click_button button_text, exact: true
     rescue Capybara::ElementNotFound
@@ -643,38 +643,38 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  alias_method :and_when_I_click_button, :when_I_click_button
+  alias_method :and_when_i_click_button, :when_i_click_button
 
-  def and_when_I_click_the_publish_button_in_the_publish_form
+  def and_when_i_click_the_publish_button_in_the_publish_form
     click_button "Publish", exact: true
   end
 
-  def then_I_should_see_a_publish_form_with_changenotes
+  def then_i_should_see_a_publish_form_with_changenotes
     expect(page).to have_content("Notify users about this change?")
     expect(page).to have_css('input[type="radio"][name="update_type"]', count: 2)
     expect(page).to have_css('textarea[name="change_note"]')
   end
 
-  def and_I_fill_in_the_changenote_form
+  def and_i_fill_in_the_changenote_form
     choose "Yes"
     fill_in "change_note", with: "We made some changes"
   end
 
-  def and_I_fill_in_the_scheduling_form
+  def and_i_fill_in_the_scheduling_form
     fill_in "schedule[date][year]", with: "2030"
     fill_in "schedule[date][month]", with: "04"
     fill_in "schedule[date][day]", with: "20"
     fill_in "schedule[time]", with: "10:26am"
   end
 
-  def and_I_fill_in_the_scheduling_form_with_a_date_in_the_past
+  def and_i_fill_in_the_scheduling_form_with_a_date_in_the_past
     fill_in "schedule[date][year]", with: yesterday.year
     fill_in "schedule[date][month]", with: yesterday.month
     fill_in "schedule[date][day]", with: yesterday.day
     fill_in "schedule[time]", with: "10:26am"
   end
 
-  def and_I_fill_in_the_scheduling_form_with_nonsense_data
+  def and_i_fill_in_the_scheduling_form_with_nonsense_data
     fill_in "schedule[date][year]", with: Time.current.year
     fill_in "schedule[date][month]", with: ""
     fill_in "schedule[date][day]", with: Time.current.day
@@ -689,12 +689,12 @@ RSpec.feature "Managing step by step pages" do
     expect(find_field("schedule[time]").value).to eq "9:00am"
   end
 
-  def and_I_can_still_see_the_date_and_time_values_I_entered
+  def and_i_can_still_see_the_date_and_time_values_i_entered
     expect(find_field("schedule[date][day]").value).to eq yesterday.day.to_s
     expect(find_field("schedule[time]").value).to eq "10:26am"
   end
 
-  def when_I_submit_the_form
+  def when_i_submit_the_form
     click_on "Schedule"
   end
 
@@ -702,11 +702,11 @@ RSpec.feature "Managing step by step pages" do
     expect(page).not_to have_link("Schedule")
   end
 
-  def and_I_should_see_an_inset_prompt
+  def and_i_should_see_an_inset_prompt
     expect(page).to have_css(".govuk-inset-text", text: "To publish this step by step you need to")
   end
 
-  alias_method :then_I_should_see_an_inset_prompt, :and_I_should_see_an_inset_prompt
+  alias_method :then_i_should_see_an_inset_prompt, :and_i_should_see_an_inset_prompt
 
   def and_inset_prompt_should_say(text)
     expect(page).to have_css(".govuk-inset-text", text: text)
@@ -730,7 +730,7 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def then_I_should_see(content, scope = nil)
+  def then_i_should_see(content, scope = nil)
     scope_selector = case scope
                      when :at_the_top_of_the_page
                        ".gem-c-error-summary"
@@ -746,14 +746,14 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  alias_method :and_I_should_see, :then_I_should_see
+  alias_method :and_i_should_see, :then_i_should_see
 
   def and_the_step_by_step_should_have_the_status(status)
     visit step_by_step_pages_url
     expect(page).to have_content(status)
   end
 
-  def when_I_visit_the_history_page
+  def when_i_visit_the_history_page
     visit step_by_step_page_internal_change_notes_path(@step_by_step_page)
   end
 
@@ -761,75 +761,75 @@ RSpec.feature "Managing step by step pages" do
     expect(page).to have_content(change_note)
   end
 
-  def then_I_see_an_unschedule_button
+  def then_i_see_an_unschedule_button
     within(".app-side__actions") do
       expect(page).to_not have_css("a", text: "Schedule")
       expect(page).to have_css("a", text: "Unschedule")
     end
   end
 
-  def when_I_unschedule_publishing
+  def when_i_unschedule_publishing
     click_on "Unschedule"
   end
 
   def and_the_step_by_step_is_not_editable
     then_there_should_be_no_reorder_steps_tab
 
-    when_I_view_the_step_by_step_page
-    then_I_can_see_the_step_by_step_details
-    and_I_can_see_the_steps
-    and_I_cannot_edit_details_or_steps
-    and_I_cannot_delete_any_steps
-    and_I_cannot_add_new_steps
+    when_i_view_the_step_by_step_page
+    then_i_can_see_the_step_by_step_details
+    and_i_can_see_the_steps
+    and_i_cannot_edit_details_or_steps
+    and_i_cannot_delete_any_steps
+    and_i_cannot_add_new_steps
 
 
-    when_I_visit_the_navigation_rules_page
-    then_I_see_pages_included_in_navigation
+    when_i_visit_the_navigation_rules_page
+    then_i_see_pages_included_in_navigation
     but_there_is_no_select_component
 
-    when_I_visit_the_secondary_content_page
-    then_I_can_see_the_existing_secondary_links
-    and_I_cannot_add_secondary_content_link
-    and_I_cannot_delete_secondary_content_links
+    when_i_visit_the_secondary_content_page
+    then_i_can_see_the_existing_secondary_links
+    and_i_cannot_add_secondary_content_link
+    and_i_cannot_delete_secondary_content_links
 
-    when_I_view_the_step_by_step_page
+    when_i_view_the_step_by_step_page
     then_there_should_be_no_publish_button
     then_there_should_be_no_discard_changes_button
     then_there_should_be_no_unpublish_button
   end
 
   def then_there_should_be_no_reorder_steps_tab
-    expect(page).to_not have_link("Reorder steps", :href => step_by_step_page_reorder_path(@step_by_step_page))
+    expect(page).to_not have_link("Reorder steps", href: step_by_step_page_reorder_path(@step_by_step_page))
   end
 
-  def and_I_can_see_the_steps
+  def and_i_can_see_the_steps
     expect(find(".gem-c-summary-list#steps .govuk-summary-list__row:nth-child(1) .govuk-summary-list__value")).to have_content(@step_by_step_page.steps.first.title)
   end
 
-  def and_I_cannot_edit_details_or_steps
+  def and_i_cannot_edit_details_or_steps
     expect(page).to_not have_button("Change")
   end
 
-  def and_I_cannot_delete_any_steps
+  def and_i_cannot_delete_any_steps
     expect(page).to_not have_button("Delete")
   end
 
-  def and_I_cannot_add_new_steps
+  def and_i_cannot_add_new_steps
     expect(page).to_not have_button("Add a new step")
   end
 
-  def then_I_can_see_the_step_by_step_details
+  def then_i_can_see_the_step_by_step_details
     expect(page).to have_content("How to be amazing")
     expect(page).to have_content("how-to-be-the-amazing-1")
     expect(page).to have_content("Find out the steps to become amazing")
     expect(page).to have_content("How to be amazing - find out the steps to become amazing")
   end
 
-  def when_I_visit_the_navigation_rules_page
+  def when_i_visit_the_navigation_rules_page
     visit step_by_step_page_navigation_rules_path(@step_by_step_page)
   end
 
-  def then_I_see_pages_included_in_navigation
+  def then_i_see_pages_included_in_navigation
     expect(page).to have_link("Also good stuff", href: "https://draft-origin.test.gov.uk/also/good/stuff")
     expect(page).to have_content("Always show navigation")
   end
@@ -838,20 +838,20 @@ RSpec.feature "Managing step by step pages" do
     expect(page).not_to have_css("select")
   end
 
-  def when_I_visit_the_secondary_content_page
+  def when_i_visit_the_secondary_content_page
     visit step_by_step_page_secondary_content_links_path(@step_by_step_page)
   end
 
-  def then_I_can_see_the_existing_secondary_links
+  def then_i_can_see_the_existing_secondary_links
     expect(find("tbody")).to have_content(@step_by_step_page.secondary_content_links.first.title)
   end
 
-  def and_I_cannot_add_secondary_content_link
+  def and_i_cannot_add_secondary_content_link
     expect(page).to_not have_css("h2", text: "Add new secondary link")
     expect(page).to_not have_css("button", text: "Add secondary link")
   end
 
-  def and_I_cannot_delete_secondary_content_links
+  def and_i_cannot_delete_secondary_content_links
     within("tbody") do
       expect(page).to_not have_css("button", text: "Delete")
     end
@@ -869,7 +869,7 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def and_I_cannot_publish_or_schedule_the_step_by_step
+  def and_i_cannot_publish_or_schedule_the_step_by_step
     then_there_should_be_no_publish_button
     and_there_should_be_no_schedule_button
   end

@@ -76,13 +76,13 @@ FactoryBot.define do
     review_requester_id { SecureRandom.uuid }
 
     after(:create) do |step_by_step_page|
-      step_by_step_page.update_attributes!(status: "in_review")
+      step_by_step_page.update!(status: "in_review")
     end
   end
 
   factory :step_by_step_page_2i_approved, parent: :step_by_step_page_claimed_for_2i do
     after(:create) do |step_by_step_page|
-      step_by_step_page.update_attributes!(status: "approved_2i")
+      step_by_step_page.update!(status: "approved_2i")
     end
   end
 
@@ -191,9 +191,7 @@ FactoryBot.define do
     end
 
     trait :published do
-      after :create do |tag|
-        tag.publish!
-      end
+      after :create, &:publish!
     end
 
     trait :archived do

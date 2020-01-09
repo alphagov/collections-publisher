@@ -10,8 +10,8 @@ RSpec.feature "Curating topic contents" do
   describe "Curating the content for a topic" do
     before :each do
       # Given a number of content items tagged to a topic
-      oil_and_gas = create(:topic, :published, :slug => "oil-and-gas", :title => "Oil and Gas")
-      topic = create(:topic, :published, :slug => "offshore", :title => "Offshore", :parent => oil_and_gas)
+      oil_and_gas = create(:topic, :published, slug: "oil-and-gas", title: "Oil and Gas")
+      topic = create(:topic, :published, slug: "offshore", title: "Offshore", parent: oil_and_gas)
 
       publishing_api_has_linked_items(
         topic.content_id,
@@ -24,17 +24,17 @@ RSpec.feature "Curating topic contents" do
       )
     end
 
-    it "with javascript", :js => true do
+    it "with javascript", js: true do
       page.driver.browser.manage.window.resize_to(1366, 1000)
       # When I arrange the content of that topic into lists
       visit_topic_list_curation_page
 
       within "#new-list" do
-        fill_in "Name", :with => "Oil rigs"
+        fill_in "Name", with: "Oil rigs"
         click_on "Create"
       end
 
-      expect(page).to have_selector("h4", :text => "Oil rigs")
+      expect(page).to have_selector("h4", text: "Oil rigs")
 
       link_with_title("Oil rig staffing").drag_to droptarget_for_list("Oil rigs")
       wait_for_ajax
@@ -48,11 +48,11 @@ RSpec.feature "Curating topic contents" do
       end
 
       within "#new-list" do
-        fill_in "Name", :with => "Piping"
+        fill_in "Name", with: "Piping"
         click_on "Create"
       end
 
-      expect(page).to have_selector(".list h4", :text => "Piping")
+      expect(page).to have_selector(".list h4", text: "Piping")
 
       link_with_title("Undersea piping restrictions").drag_to droptarget_for_list("Piping")
       wait_for_ajax
@@ -129,28 +129,28 @@ RSpec.feature "Curating topic contents" do
       expect(page).to have_content("currently displayed in alphabetical order")
 
       within "#new-list" do
-        fill_in "Name", :with => "Oil rigs"
+        fill_in "Name", with: "Oil rigs"
         click_on "Create"
       end
 
       within :xpath, xpath_section_for("Oil rigs") do
-        fill_in "Base Path", :with => "/oil-rig-safety-requirements"
-        fill_in "Index", :with => 0
+        fill_in "Base Path", with: "/oil-rig-safety-requirements"
+        fill_in "Index", with: 0
         click_on "Add"
 
-        fill_in "Base Path", :with => "/oil-rig-staffing"
-        fill_in "Index", :with => 1
+        fill_in "Base Path", with: "/oil-rig-staffing"
+        fill_in "Index", with: 1
         click_on "Add"
       end
 
       within "#new-list" do
-        fill_in "Name", :with => "Piping"
+        fill_in "Name", with: "Piping"
         click_on "Create"
       end
 
       within :xpath, xpath_section_for("Piping") do
-        fill_in "Base Path", :with => "/undersea-piping-restrictions"
-        fill_in "Index", :with => 0
+        fill_in "Base Path", with: "/undersea-piping-restrictions"
+        fill_in "Index", with: 0
         click_on "Add"
       end
 
@@ -207,8 +207,8 @@ RSpec.feature "Curating topic contents" do
 
   it "curating draft tags" do
     # Given a number of content items tagged to a draft topic
-    oil_and_gas = create(:topic, :published, :slug => "oil-and-gas", :title => "Oil and Gas")
-    topic = create(:topic, :draft, :slug => "offshore", :title => "Offshore", :parent => oil_and_gas)
+    oil_and_gas = create(:topic, :published, slug: "oil-and-gas", title: "Oil and Gas")
+    topic = create(:topic, :draft, slug: "offshore", title: "Offshore", parent: oil_and_gas)
 
     publishing_api_has_linked_items(
       topic.content_id,
@@ -221,15 +221,15 @@ RSpec.feature "Curating topic contents" do
     visit_topic_list_curation_page
 
     # And I should not be able to publish the draft topic
-    expect(page).not_to have_selector("button", :text => "Publish")
-    expect(page).not_to have_selector('input[type="submit"]', :text => "Publish")
+    expect(page).not_to have_selector("button", text: "Publish")
+    expect(page).not_to have_selector('input[type="submit"]', text: "Publish")
     expect(page).not_to have_selector('input[type="submit"][value="Publish"]')
   end
 
   context "with a subtopic which has had content curated" do
     before :each do
-      oil_and_gas = create(:topic, :published, :slug => "oil-and-gas", :title => "Oil and Gas")
-      offshore = create(:topic, :published, :slug => "offshore", :title => "Offshore", :parent => oil_and_gas)
+      oil_and_gas = create(:topic, :published, slug: "oil-and-gas", title: "Oil and Gas")
+      offshore = create(:topic, :published, slug: "offshore", title: "Offshore", parent: oil_and_gas)
 
       publishing_api_has_linked_items(
         offshore.content_id,
@@ -241,13 +241,13 @@ RSpec.feature "Curating topic contents" do
         ],
       )
 
-      oil_rigs = create(:list, :tag => offshore, :name => "Oil rigs", :index => 0)
-      piping = create(:list, :tag => offshore, :name => "Piping", :index => 1)
+      oil_rigs = create(:list, tag: offshore, name: "Oil rigs", index: 0)
+      piping = create(:list, tag: offshore, name: "Piping", index: 1)
 
-      create(:list_item, :list => oil_rigs, :index => 0, :base_path => "/oil-rig-safety-requirements")
-      create(:list_item, :list => oil_rigs, :index => 1, :base_path => "/oil-rig-staffing")
-      create(:list_item, :list => piping, :index => 0, :base_path => "/undersea-piping-restrictions")
-      create(:list_item, :list => piping, :index => 1, :title => "Non-existent", :base_path => "/non-existent")
+      create(:list_item, list: oil_rigs, index: 0, base_path: "/oil-rig-safety-requirements")
+      create(:list_item, list: oil_rigs, index: 1, base_path: "/oil-rig-staffing")
+      create(:list_item, list: piping, index: 0, base_path: "/undersea-piping-restrictions")
+      create(:list_item, list: piping, index: 1, title: "Non-existent", base_path: "/non-existent")
     end
 
     it "viewing the topic curation page" do
@@ -288,7 +288,7 @@ RSpec.feature "Curating topic contents" do
         click_on "Edit name"
       end
 
-      fill_in "Name", :with => "Oil platforms"
+      fill_in "Name", with: "Oil platforms"
       click_on "Update list"
 
       # Then I should see the updated list name

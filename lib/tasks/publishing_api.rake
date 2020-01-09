@@ -3,13 +3,13 @@ require_relative "../special_route_publisher"
 
 namespace :publishing_api do
   desc "Send all tags to the publishing-api, skipping any marked as dirty"
-  task :send_all_tags => :environment do
+  task send_all_tags: :environment do
     TagRepublisher.new.republish_tags(Tag.all)
     RedirectPublisher.new.republish_redirects
   end
 
   desc "Send all published tags to the publishing-api, skipping any marked as dirty"
-  task :send_published_tags => :environment do
+  task send_published_tags: :environment do
     TagRepublisher.new.republish_tags(Tag.published)
   end
 
@@ -30,7 +30,7 @@ namespace :publishing_api do
 
   desc "Unpublish organisations content finder"
   task unpublish_org_finder: :environment do
-    file_path = "#{Rails.root}/lib/finders/organisation_content.json"
+    file_path = Rails.root.join("lib", "finders", "organisation_content.json")
 
     content_item = JSON.parse(File.read(file_path))
 

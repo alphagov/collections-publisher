@@ -4,20 +4,20 @@ module CommonFeatureSteps
     publishing_api_has_no_linked_items
   end
 
-  def given_I_am_a_GDS_editor
+  def given_i_am_a_gds_editor
     stub_user.permissions << "GDS Editor"
     stub_user.name = "Test author"
   end
 
-  def given_I_am_not_a_GDS_editor
+  def given_i_am_not_a_gds_editor
     stub_user.permissions = %w(signin)
   end
 
-  def and_I_submit_the_form
+  def and_i_submit_the_form
     find("input[type=submit]").click
   end
 
-  def given_I_am_a_2i_reviewer
+  def given_i_am_a_2i_reviewer
     stub_user.permissions << "2i reviewer"
   end
 
@@ -25,11 +25,11 @@ module CommonFeatureSteps
     ["signin", "GDS Editor", "2i reviewer"]
   end
 
-  def then_I_can_see_a_success_message(message)
+  def then_i_can_see_a_success_message(message)
     within(".gem-c-success-alert") do
       expect(page).to have_content message
     end
   end
 
-  alias_method :and_I_can_see_a_success_message, :then_I_can_see_a_success_message
+  alias_method :and_i_can_see_a_success_message, :then_i_can_see_a_success_message
 end

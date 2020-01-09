@@ -367,7 +367,7 @@ RSpec.describe StepByStepPage do
     end
 
     it "should reset scheduled date" do
-      step_by_step_page.scheduled_at = Date.today
+      step_by_step_page.scheduled_at = Time.zone.today
 
       step_by_step_page.mark_as_published
 
@@ -414,7 +414,7 @@ RSpec.describe StepByStepPage do
     it "should have a status of draft if published and then changes are made" do
       step_by_step_page.mark_as_published
 
-      Timecop.freeze(Date.today + 1) do
+      Timecop.freeze(Time.zone.today + 1) do
         step_by_step_page.mark_draft_updated
         expect(step_by_step_page.status).to be_draft
       end

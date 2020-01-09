@@ -29,7 +29,7 @@ module ApplicationHelper
   end
 
   def markdown_to_html(markdown)
-    raw(Kramdown::Document.new(markdown).to_html)
+    sanitize(Kramdown::Document.new(markdown).to_html)
   end
 
   def render_markdown(content)
