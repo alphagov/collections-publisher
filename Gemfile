@@ -28,7 +28,6 @@ group :development, :test do
   gem "database_cleaner"
   gem "factory_bot_rails"
   gem "govuk-content-schema-test-helpers"
-  gem "govuk-lint", "~> 4.3.0"
   gem "govuk_test"
   gem "jasmine", "~> 3.5"
   gem "jasmine_selenium_runner", "~> 3", require: false
@@ -37,6 +36,7 @@ group :development, :test do
   gem "pry-byebug"
   gem "rspec-rails"
   gem "rubocop-govuk"
+  gem "scss_lint-govuk"
   gem "shoulda-matchers", "~> 4.1"
   gem "timecop"
   gem "webmock", require: false
