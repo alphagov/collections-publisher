@@ -122,7 +122,7 @@ GEM
       sentry-raven (>= 2.7.1, < 2.12.0)
       statsd-ruby (~> 1.4.0)
       unicorn (>= 5.4, < 5.6)
-    govuk_publishing_components (21.17.0)
+    govuk_publishing_components (21.19.0)
       gds-api-adapters
       govuk_app_config
       kramdown
@@ -150,7 +150,7 @@ GEM
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    i18n (1.7.0)
+    i18n (1.8.1)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.4)
     jasmine (3.5.0)
@@ -169,7 +169,7 @@ GEM
     json-schema (2.8.0)
       addressable (>= 2.4)
     jwt (2.2.1)
-    kgio (2.11.2)
+    kgio (2.11.3)
     kramdown (2.1.0)
     link_header (0.0.8)
     logstash-event (1.2.02)
@@ -262,7 +262,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
     rainbow (3.0.0)
-    raindrops (0.19.0)
+    raindrops (0.19.1)
     rake (13.0.1)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
@@ -414,7 +414,7 @@ DEPENDENCIES
   govuk-content-schema-test-helpers
   govuk_admin_template (~> 6.7)
   govuk_app_config (~> 2.0)
-  govuk_publishing_components (~> 21.17)
+  govuk_publishing_components (~> 21.19)
   govuk_sidekiq (~> 3.0)
   govuk_test
   jasmine (~> 3.5)
