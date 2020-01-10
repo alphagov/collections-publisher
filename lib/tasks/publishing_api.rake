@@ -14,7 +14,7 @@ namespace :publishing_api do
   end
 
   desc "Publish the /api/organisations prefix route"
-  task :publish_organisations_api_route do
+  task publish_organisations_api_route: :environment do
     PublishOrganisationsApiRoute.new.publish
   end
 
@@ -30,7 +30,7 @@ namespace :publishing_api do
 
   desc "Unpublish organisations content finder"
   task unpublish_org_finder: :environment do
-    file_path = Rails.root.join("lib", "finders", "organisation_content.json")
+    file_path = Rails.root.join("lib/finders/organisation_content.json")
 
     content_item = JSON.parse(File.read(file_path))
 
