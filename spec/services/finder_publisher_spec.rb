@@ -8,7 +8,7 @@ RSpec.describe FinderPublisher do
   end
 
   it "publishes valid finders" do
-    Dir[Rails.root.join("lib", "finders", "*.json")].each do |file_path|
+    Dir[Rails.root.join("lib/finders/*.json")].each do |file_path|
       finder_item = JSON.parse(File.read(file_path))
 
       subject = described_class.new(finder_item)
@@ -29,7 +29,7 @@ RSpec.describe FinderPublisher do
 
   describe "#unpublish" do
     it "unpublishes the finder" do
-      file_path = Rails.root.join("lib", "finders", "organisation_content.json")
+      file_path = Rails.root.join("lib/finders/organisation_content.json")
       content_item = JSON.parse(File.read(file_path))
       content_id = content_item["content_id"]
       options = { type: "gone" }
