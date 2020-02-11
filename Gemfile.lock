@@ -92,7 +92,7 @@ GEM
     faraday (0.17.3)
       multipart-post (>= 1.2, < 3)
     ffi (1.12.2)
-    gds-api-adapters (63.3.0)
+    gds-api-adapters (63.4.0)
       addressable
       link_header
       null_logger
@@ -230,7 +230,7 @@ GEM
     public_suffix (4.0.3)
     puma (4.3.1)
       nio4r (~> 2.0)
-    rack (2.1.2)
+    rack (2.2.2)
     rack-cache (1.11.0)
       rack (>= 0.4)
     rack-protection (2.0.8.1)
@@ -408,7 +408,7 @@ DEPENDENCIES
   byebug
   database_cleaner
   factory_bot_rails
-  gds-api-adapters (~> 63.3)
+  gds-api-adapters (~> 63.4)
   gds-sso (~> 14.2)
   generic_form_builder (~> 0.13)
   govuk-content-schema-test-helpers
