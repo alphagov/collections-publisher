@@ -37,7 +37,7 @@ group :development, :test do
   gem "rspec-rails"
   gem "rubocop-govuk"
   gem "scss_lint-govuk"
-  gem "shoulda-matchers", "~> 4.2"
+  gem "shoulda-matchers", "~> 4.3"
   gem "timecop"
   gem "webmock", require: false
 end
