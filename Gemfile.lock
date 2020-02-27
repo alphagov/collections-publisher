@@ -217,7 +217,7 @@ GEM
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     parallel (1.19.1)
-    parser (2.7.0.2)
+    parser (2.7.0.3)
       ast (~> 2.4.0)
     phantomjs (2.1.1.0)
     plek (3.0.0)
@@ -421,7 +421,7 @@ DEPENDENCIES
   jasmine_selenium_runner (~> 3)
   mysql2
   nokogiri
-  parser (= 2.7.0.2)
+  parser (= 2.7.0.3)
   plek (~> 3.0)
   pry-byebug
   rails (~> 5.2)
