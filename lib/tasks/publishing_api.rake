@@ -2,6 +2,32 @@ require_relative "../publish_organisations_api_route"
 require_relative "../special_route_publisher"
 
 namespace :publishing_api do
+  desc "Publish coronavirus_landing_page to publishing api"
+  task publish_coronavirus_landing_page: :environment do
+    content_id = "774cee22-d896-44c1-a611-e3109cce8eae"
+    params = {
+      base_path: "/coronavirus",
+      publishing_app: "collections-publisher",
+      rendering_app: "collections",
+      public_updated_at: Time.zone.now.iso8601,
+      update_type: "major",
+      schema_name: "edition",
+      document_type: "coronavirus_landing_page",
+      title: "Coronavirus (COVID-19): what you need to do",
+      description: "Find out about the government response to coronavirus (COVID-19) and what you need to do.",
+      details: {},
+      locale: "en",
+      routes: [
+        {
+          path: "/coronavirus",
+          type: "exact",
+        },
+      ],
+    }
+    Services.publishing_api.put_content(content_id, params)
+    Services.publishing_api.publish(content_id)
+  end
+
   desc "Send all tags to the publishing-api, skipping any marked as dirty"
   task send_all_tags: :environment do
     TagRepublisher.new.republish_tags(Tag.all)
