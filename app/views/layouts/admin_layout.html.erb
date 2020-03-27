@@ -29,6 +29,12 @@
         active: active_navigation_item == 'step_by_step_pages' ? 'active' : false,
         user_has_permission_to_see: gds_editor?
       },
+      {
+        text: "Coronavirus page",
+        href: coronavirus_path,
+        active: active_navigation_item == 'coronavirus' ? 'active' : false,
+        user_has_permission_to_see: coronavirus_editor?
+      },
       { text: current_user.name, href: Plek.new.external_url_for("signon") },
       { text: "Log out", href: gds_sign_out_path }
     ].delete_if{ |item| item[:user_has_permission_to_see] == false },
