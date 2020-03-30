@@ -22,6 +22,7 @@ class CoronavirusPagePresenter
       "rendering_app" => "collections",
       "publishing_app" => "collections-publisher",
       "routes" => [{ "path" => BASE_PATH, "type" => "exact" }],
+      "update_type" => "minor",
     }
   end
 end

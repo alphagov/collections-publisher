@@ -16,8 +16,14 @@ class CoronavirusController < ApplicationController
       if valid_content?(corona_content)
         presenter = CoronavirusPagePresenter.new(corona_content)
 
-        Services.publishing_api.put_content(CONTENT_ID, presenter.payload)
-        flash["notice"] = "Draft content updated"
+        with_longer_timeout do
+          begin
+            Services.publishing_api.put_content(CONTENT_ID, presenter.payload)
+            flash["notice"] = "Draft content updated"
+          rescue GdsApi::HTTPGatewayTimeout
+            flash["alert"] = "Updating the draft timed out - please try again"
+          end
+        end
       end
     else
       flash["alert"] = "Error received from Github - #{response.code}"
@@ -39,6 +45,17 @@ class CoronavirusController < ApplicationController
   end
 
 private
+
+  def with_longer_timeout
+    prior_timeout = Services.publishing_api.client.options[:timeout]
+    Services.publishing_api.client.options[:timeout] = 10
+
+    begin
+      yield
+    ensure
+      Services.publishing_api.client.options[:timeout] = prior_timeout
+    end
+  end
 
   def update_type
     major_update? ? "major" : "minor"
