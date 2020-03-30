@@ -34,6 +34,7 @@ RSpec.describe CoronavirusPagePresenter do
         "routes" => [
           { "path" => "/coronavirus", "type" => "exact" },
         ],
+        "update_type" => "minor",
       },
     )
   end
