@@ -1,29 +1,48 @@
 <% content_for :title, "Publish gov.uk/coronavirus content" %>
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-three-quarters">
-    <div>
-      <p class="govuk-body">Updating coronavirus landing page content:</p>
-      <ol class="govuk-list govuk-list--number">
-        <li>Update the <a href="https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_landing_page.yml">coronavirus content on Github</a></li>
-        <li>Get it reviewed and approved</li>
-        <li>Update the draft and check that it's OK</li>
-        <li>Publish!</li>
-      </ol>
-    </div>
-
+  <div class="govuk-grid-column-three-quarters">    
+    <%= render "govuk_publishing_components/components/heading", {
+      text: "1. Update Github",
+      padding: true
+    } %>
+    <p class="govuk-body">
+       Update the <a href="https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_landing_page.yml">coronavirus content on Github</a>.
+    </p>
+    
+    <%= render "govuk_publishing_components/components/heading", {
+      text: "2. Get changes reviewed and merged",
+      padding: true
+    } %>
+    <p class="govuk-body">
+      Get the changes approved and merged into master.
+    </p>
+    
+    <%= render "govuk_publishing_components/components/heading", {
+      text: "3. Update draft",
+      padding: true
+    } %>
     <%= form_with(url: coronavirus_update_draft_path) do %>
       <%= render "govuk_publishing_components/components/button", {
           text: "Update draft",
           margin_bottom: true
       } %>
-      <%= render "govuk_publishing_components/components/button", {
-        text: "Preview",
-        href: draft_govuk_url("/coronavirus"),
-        target: "_blank",
-        secondary: true
-      } %>
     <% end %>
 
+    <%= render "govuk_publishing_components/components/heading", {
+      text: "4. Preview changes",
+      padding: true
+    } %>
+    <%= render "govuk_publishing_components/components/button", {
+      text: "Preview",
+      href: draft_govuk_url("/coronavirus"),
+      target: "_blank",
+      secondary: true
+    } %>
+    
+    <%= render "govuk_publishing_components/components/heading", {
+      text: "5. Publish changes to production",
+      padding: true
+    } %>
     <%= form_with(url: coronavirus_publish_path) do %>
       <%= render "govuk_publishing_components/components/radio", {
         name: "update-type",
@@ -46,12 +65,17 @@
           text: "Publish",
           margin_bottom: true
       } %>
-      <%= render "govuk_publishing_components/components/button", {
+    <% end %>
+
+    <%= render "govuk_publishing_components/components/heading", {
+      text: "6. Check live",
+      padding: true
+    } %>
+    <%= render "govuk_publishing_components/components/button", {
         text: "View live version",
         href: published_url("coronavirus"),
         target: "_blank",
         secondary: true
       } %>
-    <% end %>
   </div>
 </div>
