@@ -1,5 +1,6 @@
 require_relative "../publish_organisations_api_route"
 require_relative "../special_route_publisher"
+require_relative "../../app/presenters/coronavirus_page_presenter"
 
 namespace :publishing_api do
   desc "Publish coronavirus_landing_page to publishing api"
@@ -25,6 +26,30 @@ namespace :publishing_api do
     }
     Services.publishing_api.put_content(content_id, params)
     Services.publishing_api.publish(content_id)
+  end
+
+  desc "Publish coronavirus business hub page to publishing api"
+  task publish_coronavirus_business_page: :environment do
+    url = "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_business_page.yml".freeze
+    response = RestClient.get(url)
+    if response.code == 200
+      corona_content = YAML.safe_load(response.body)["content"]
+      payload = CoronavirusPagePresenter.new(corona_content).payload
+      content_id = "09944b84-02ba-4742-a696-9e562fc9b29d"
+      params = {
+          "base_path" => "/coronavirus/business",
+          "routes" => [
+            {
+              "path" => "/coronavirus/business",
+              "type" => "exact",
+            },
+          ],
+        }
+      Services.publishing_api.put_content(content_id, payload.merge(params))
+      Services.publishing_api.publish(content_id)
+    else
+      puts "Failed to pull content from github. Restclient response: #{response.code}"
+    end
   end
 
   desc "Send all tags to the publishing-api, skipping any marked as dirty"
