@@ -28,14 +28,14 @@ namespace :publishing_api do
     Services.publishing_api.publish(content_id)
   end
 
-  desc "Publish coronavirus business hub page to publishing api"
-  task publish_coronavirus_business_page: :environment do
+  desc "Update draft of coronavirus business hub page"
+  task coronavirus_business_page_update_draft: :environment do
     url = "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_business_page.yml".freeze
     response = RestClient.get(url)
     if response.code == 200
       corona_content = YAML.safe_load(response.body)["content"]
       payload = CoronavirusPagePresenter.new(corona_content).payload
-      content_id = "09944b84-02ba-4742-a696-9e562fc9b29d"
+      business_page_content_id = "09944b84-02ba-4742-a696-9e562fc9b29d"
       params = {
           "base_path" => "/coronavirus/business-support",
           "routes" => [
@@ -45,11 +45,16 @@ namespace :publishing_api do
             },
           ],
         }
-      Services.publishing_api.put_content(content_id, payload.merge(params))
-      Services.publishing_api.publish(content_id)
+      Services.publishing_api.put_content(business_page_content_id, payload.merge(params))
     else
       puts "Failed to pull content from github. Restclient response: #{response.code}"
     end
+  end
+
+  desc "Publish latest coronavirus business hub page draft to live"
+  task coronavirus_business_page_publish: :environment do
+    business_page_content_id = "09944b84-02ba-4742-a696-9e562fc9b29d"
+    Services.publishing_api.publish(business_page_content_id)
   end
 
   desc "Send all tags to the publishing-api, skipping any marked as dirty"
