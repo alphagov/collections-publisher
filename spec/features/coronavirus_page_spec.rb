@@ -101,7 +101,7 @@ RSpec.feature "Publish updates to Coronavirus landing page" do
   end
 
   def and_i_see_an_alert
-    expect(page).to have_text("Invalid content - please recheck Github and add title, stay_at_home, guidance, announcements_label, announcements, nhs_banner, sections, topic_section, notifications.")
+    expect(page).to have_text("Invalid content - please recheck GitHub and add title, stay_at_home, guidance, announcements_label, announcements, nhs_banner, sections, topic_section, notifications.")
   end
 
   def and_i_see_a_draft_updated_message
