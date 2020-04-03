@@ -37,10 +37,10 @@ namespace :publishing_api do
       payload = CoronavirusPagePresenter.new(corona_content).payload
       content_id = "09944b84-02ba-4742-a696-9e562fc9b29d"
       params = {
-          "base_path" => "/coronavirus/business",
+          "base_path" => "/coronavirus/business-support",
           "routes" => [
             {
-              "path" => "/coronavirus/business",
+              "path" => "/coronavirus/business-support",
               "type" => "exact",
             },
           ],
