@@ -26,7 +26,7 @@ class CoronavirusController < ApplicationController
         end
       end
     else
-      flash["alert"] = "Error received from Github - #{response.code}"
+      flash["alert"] = "Error received from GitHub - #{response.code}"
     end
 
     redirect_to coronavirus_path
@@ -70,7 +70,7 @@ private
 
     missing_keys = (required_landing_page_keys - content.keys)
     if missing_keys.any?
-      flash["alert"] = "Invalid content - please recheck Github and add #{missing_keys.join(', ')}."
+      flash["alert"] = "Invalid content - please recheck GitHub and add #{missing_keys.join(', ')}."
       return false
     end
 
