@@ -28,6 +28,27 @@ namespace :publishing_api do
     Services.publishing_api.publish(content_id)
   end
 
+  desc "Toggle the daily coronavirus livestream"
+  task :coronavirus_livestream, %i[enabled? date] => :environment do |_task, args|
+    url = "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_landing_page.yml".freeze
+    response = RestClient.get(url)
+    if response.code == 200
+      content_id = "774cee22-d896-44c1-a611-e3109cce8eae"
+      enabled = args[:enabled?] == "true"
+      corona_content = YAML.safe_load(response.body)["content"]
+      payload = CoronavirusPagePresenter.new(corona_content).payload
+      params = {
+          "date" => args[:date],
+          "show_video" => enabled,
+        }
+
+      payload["details"]["live_stream"].merge!(params)
+      Services.publishing_api.put_content(content_id, payload)
+    else
+      puts "Failed to pull content from GitHub. Response: #{response.code}"
+    end
+  end
+
   desc "Update draft of coronavirus business hub page"
   task coronavirus_business_page_update_draft: :environment do
     url = "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_business_page.yml".freeze
