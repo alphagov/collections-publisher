@@ -11,7 +11,9 @@ RSpec.describe CoronavirusPagePresenter do
     }
   }
 
-  subject { described_class.new(content) }
+  let(:landing_page_path) { "/coronavirus" }
+
+  subject { described_class.new(content, landing_page_path) }
 
   it "presents the payload correctly" do
     presented = subject.payload
@@ -19,7 +21,7 @@ RSpec.describe CoronavirusPagePresenter do
 
     expect(presented).to eq(
       {
-        "base_path" => "/coronavirus",
+        "base_path" => landing_page_path,
         "title" => "coronavirus",
         "description" => "details about the coronavirus response",
         "document_type" => "coronavirus_landing_page",
@@ -32,7 +34,7 @@ RSpec.describe CoronavirusPagePresenter do
         "rendering_app" => "collections",
         "publishing_app" => "collections-publisher",
         "routes" => [
-          { "path" => "/coronavirus", "type" => "exact" },
+          { "path" => landing_page_path, "type" => "exact" },
         ],
         "update_type" => "minor",
       },

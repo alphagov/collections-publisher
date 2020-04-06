@@ -1,0 +1,10 @@
+<%= render "govuk_publishing_components/components/heading", {
+  text: "6. Check live",
+  padding: true
+} %>
+<%= render "govuk_publishing_components/components/button", {
+    text: "View live version",
+    href: published_url(path),
+    target: "_blank",
+    secondary: true
+  } %>
