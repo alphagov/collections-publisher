@@ -1,0 +1,14 @@
+<div class="govuk-!-padding-bottom-2">
+  <%= render "govuk_publishing_components/components/heading", {
+    text: "4. Preview changes",
+    padding: true
+  } %>
+  <div class="govuk-!-padding-bottom-3">
+    <%= render "govuk_publishing_components/components/button", {
+      text: "Preview",
+      href: draft_govuk_url(path),
+      target: "_blank",
+      secondary: true
+    } %>
+  </div>
+</div>

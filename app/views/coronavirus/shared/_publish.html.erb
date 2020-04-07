@@ -1,0 +1,28 @@
+<div class="govuk-!-padding-bottom-4">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: "5. Publish changes to production",
+      padding: true
+    } %>
+    <%= form_with(url: path) do %>
+      <%= render "govuk_publishing_components/components/radio", {
+        name: "update-type",
+        heading: "Update type",
+        heading_size: "s",
+        small: true,
+        items: [
+          {
+            value: "minor",
+            text: "Minor",
+            checked: true
+          },
+          {
+            value: "major",
+            text: "Major"
+          }
+        ]
+      } %>
+      <%= render "govuk_publishing_components/components/button", {
+          text: "Publish",
+      } %>
+    <% end %>
+</div>

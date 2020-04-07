@@ -1,0 +1,12 @@
+<div class="govuk-!-padding-bottom-6">
+  <%= render "govuk_publishing_components/components/heading", {
+    text: "3. Update draft",
+    padding: true
+  } %>
+  <%= form_with(url: path) do %>
+    <%= render "govuk_publishing_components/components/button", {
+        text: "Update draft",
+        margin_bottom: false
+    } %>
+  <% end %>
+</div>
