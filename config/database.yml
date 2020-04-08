@@ -14,5 +14,8 @@ test: &test
   database: collections_publisher_test
   url: <%= ENV["DATABASE_URL"].try(:sub, /(development)?$/, 'test')%>
 
+production:
+  <<: *default
+
 cucumber:
   <<: *test
