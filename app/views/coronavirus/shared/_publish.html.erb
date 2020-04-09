@@ -3,7 +3,7 @@
       text: "5. Publish changes to production",
       padding: true
     } %>
-    <%= form_with(url: coronavirus_publish_path(coronavirus_slug: params[:slug])) do %>
+    <%= form_with(url: coronavirus_publish_path(coronavirus_slug: params[:slug]), local: true) do %>
       <%= render "govuk_publishing_components/components/radio", {
         name: "update-type",
         heading: "Update type",
