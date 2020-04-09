@@ -3,13 +3,9 @@ Rails.application.routes.draw do
 
   root to: redirect("/step-by-step-pages", status: 302)
 
-  get "/coronavirus", to: "coronavirus#index"
-  get "/coronavirus/landing", to: "coronavirus#landing"
-  get "/coronavirus/business", to: "coronavirus#business"
-  post "/coronavirus/update_landing", to: "coronavirus#update_landing"
-  post "/coronavirus/update_business", to: "coronavirus#update_business"
-  post "/coronavirus/publish_landing", to: "coronavirus#publish_landing"
-  post "/coronavirus/publish_business", to: "coronavirus#publish_business"
+  resources :coronavirus, only: %i(index show update), param: :slug do
+    post "publish", to: "coronavirus#publish"
+  end
 
   resources :step_by_step_pages, path: "step-by-step-pages" do
     get "approve-2i-review", to: "review#show_approve_2i_review_form"
