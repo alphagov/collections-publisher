@@ -45,23 +45,35 @@ def then_the_business_content_is_sent_to_publishing_api
 end
 
 def i_see_a_landing_page_button
-  expect(page).to have_link("Landing page")
+  expect(page).to have_link("Coronavirus landing page")
 end
 
 def i_see_a_business_page_button
-  expect(page).to have_link("Business page")
+  expect(page).to have_link("Business support page")
 end
 
 def and_i_select_landing_page
-  click_on("Landing page")
+  click_on("Coronavirus landing page")
 end
 
 def and_i_select_business_page
-  click_on("Business page")
+  click_on("Business support page")
 end
 
 def when_i_visit_the_publish_coronavirus_page
   visit "/coronavirus"
+end
+
+def when_i_visit_a_non_existent_page
+  visit "/coronavirus/flimflam"
+end
+
+def then_i_am_redirected_to_the_index_page
+  expect(current_path).to eq("/coronavirus")
+end
+
+def and_i_see_a_message_telling_me_that_the_page_does_not_exist
+  expect(page).to have_text("'flimflam' is not a valid page")
 end
 
 def i_see_an_update_draft_button

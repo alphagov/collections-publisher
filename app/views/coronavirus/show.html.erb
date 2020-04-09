@@ -1,11 +1,11 @@
-<% content_for :title, "Publish coronavirus landing page" %>
-<% content_for :context, "www.gov.uk/coronavirus" %>
+<% content_for :title, "Publish #{page[:name].downcase}" %>
+<% content_for :context, "https://www.gov.uk#{page[:base_path]}" %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <%= render partial: "coronavirus/shared/github" %>
-    <%= render partial: "coronavirus/shared/draft", locals: { path: coronavirus_update_landing_path } %>
-    <%= render partial: "coronavirus/shared/preview", locals: { path: @base_path } %>
-    <%= render partial: "coronavirus/shared/publish", locals: { path: coronavirus_publish_landing_path }%>
+    <%= render partial: "coronavirus/shared/github", locals: { github_url: page[:github_url] } %>
+    <%= render partial: "coronavirus/shared/draft" %>
+    <%= render partial: "coronavirus/shared/preview", locals: { path: page[:base_path] } %>
+    <%= render partial: "coronavirus/shared/publish" %>
     <%= render partial: "coronavirus/shared/live", locals: { path: "coronavirus" } %>
   </div>
 </div>

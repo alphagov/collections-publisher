@@ -1,5 +1,7 @@
 <% content_for :title, "Which coronavirus page do you need to publish?" %>
 
-<p><%= link_to "Landing page", coronavirus_landing_path, class:"govuk-button" %></p>
-
-<p><%= link_to "Business page", coronavirus_business_path, class:"govuk-button" %></p>
+<ul class="govuk-list">
+<% links.each do |link| %>
+  <li><%= link_to link[:title], coronavirus_path(slug: link[:slug]), class:"govuk-button" %></li>
+<% end %>
+</ul>

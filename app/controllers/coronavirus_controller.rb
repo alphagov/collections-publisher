@@ -2,43 +2,46 @@ class CoronavirusController < ApplicationController
   before_action :require_coronavirus_editor_permissions!
   layout "admin_layout"
 
-  def index; end
+  def index
+    links = all_pages_configuration.keys.map do |page|
+      {
+        slug: page.to_s,
+        title: all_pages_configuration[page][:name],
+      }
+    end
 
-  def landing
-    @github_content_url = value_object[:landing][:github_url]
-    @base_path = value_object[:landing][:base_path]
+    render :index, locals: { links: links }
   end
 
-  def business
-    @github_content_url = value_object[:business][:github_url]
-    @base_path = value_object[:business][:base_path]
+  def show
+    if page_config.nil?
+      flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
+      redirect_to coronavirus_index_path
+    else
+      render :show, locals: { page: page_config }
+    end
   end
 
-  def update_landing
-    fetch_content_and_push(:landing)
-    redirect_to coronavirus_landing_path
+  def update
+    if page_config.nil?
+      flash["alert"] = "Page could not be updated because the configuration cannot be found."
+    else
+      fetch_content_and_push
+    end
+
+    redirect_to coronavirus_path
   end
 
-  def update_business
-    fetch_content_and_push(:business)
-    redirect_to coronavirus_business_path
-  end
-
-  def publish_landing
-    publish_page(:landing)
-    redirect_to coronavirus_landing_path
-  end
-
-  def publish_business
-    publish_page(:business)
-    redirect_to coronavirus_business_path
+  def publish
+    publish_page
+    redirect_to coronavirus_path(slug)
   end
 
 private
 
-  def publish_page(type)
+  def publish_page
     begin
-      Services.publishing_api.publish(value_object[type][:content_id], update_type)
+      Services.publishing_api.publish(page_config[:content_id], update_type)
 
       flash["notice"] = "Page published!"
     rescue GdsApi::HTTPConflict
@@ -46,20 +49,18 @@ private
     end
   end
 
-  def fetch_content_and_push(type)
-    page = value_object[type]
-
-    response = RestClient.get(page[:raw_content_url])
+  def fetch_content_and_push
+    response = RestClient.get(page_config[:raw_content_url])
 
     if response.code == 200
       corona_content = YAML.safe_load(response.body)["content"]
 
-      if valid_content?(corona_content, type)
-        presenter = CoronavirusPagePresenter.new(corona_content, page[:base_path])
+      if valid_content?(corona_content, page_type)
+        presenter = CoronavirusPagePresenter.new(corona_content, page_config[:base_path])
 
         with_longer_timeout do
           begin
-            Services.publishing_api.put_content(page[:content_id], presenter.payload)
+            Services.publishing_api.put_content(page_config[:content_id], presenter.payload)
             flash["notice"] = "Draft content updated"
           rescue GdsApi::HTTPGatewayTimeout
             flash["alert"] = "Updating the draft timed out - please try again"
@@ -104,6 +105,18 @@ private
     true
   end
 
+  def page_config
+    all_pages_configuration[page_type]
+  end
+
+  def slug
+    params[:slug] || params[:coronavirus_slug]
+  end
+
+  def page_type
+    slug.to_sym
+  end
+
   def required_landing_page_keys
     %w(
       title
@@ -135,18 +148,24 @@ private
     )
   end
 
-  def value_object
+  def all_pages_configuration
     {
       landing:
-        { content_id: "774cee22-d896-44c1-a611-e3109cce8eae".freeze,
+        {
+          name: "Coronavirus landing page",
+          content_id: "774cee22-d896-44c1-a611-e3109cce8eae".freeze,
           raw_content_url: "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_landing_page.yml".freeze,
           base_path: "/coronavirus",
-          github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_landing_page.yml" },
+          github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_landing_page.yml",
+        },
       business:
-        { content_id: "09944b84-02ba-4742-a696-9e562fc9b29d".freeze,
+        {
+          name: "Business support page",
+          content_id: "09944b84-02ba-4742-a696-9e562fc9b29d".freeze,
           raw_content_url: "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_business_page.yml".freeze,
           base_path: "/coronavirus/business-support",
-          github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_business_page.yml" },
+          github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_business_page.yml",
+        },
     }
   end
 end
