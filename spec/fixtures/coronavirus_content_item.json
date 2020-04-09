@@ -1,0 +1,130 @@
+{
+  "analytics_identifier": null,
+  "base_path": "/coronavirus",
+  "content_id": "774cee22-d896-44c1-a611-e3109cce8eae",
+  "document_type": "coronavirus_landing_page",
+  "first_published_at": "2020-03-20T14:29:42.000+00:00",
+  "locale": "en",
+  "phase": "live",
+  "public_updated_at": "2020-03-30T16:57:50.000+00:00",
+  "publishing_app": "collections-publisher",
+  "publishing_scheduled_at": null,
+  "rendering_app": "collections",
+  "scheduled_publishing_delay_seconds": null,
+  "schema_name": "coronavirus_landing_page",
+  "title": "Coronavirus (COVID-19): what you need to do",
+  "updated_at": "2020-04-16T09:07:05.863Z",
+  "withdrawn_notice": {},
+  "publishing_request_id": "11053-1587028025.549-10.3.3.1-1694",
+  "links": {
+    "suggested_ordered_related_items": [
+      {
+        "content_id": "514a6dd3-b7f2-4e0c-8018-c475840fb013",
+        "title": "Staying at home and away from others (social distancing)",
+        "locale": "en",
+        "api_path": "/api/content/government/publications/full-guidance-on-staying-at-home-and-away-from-others",
+        "base_path": "/government/publications/full-guidance-on-staying-at-home-and-away-from-others",
+        "document_type": "guidance",
+        "public_updated_at": "2020-03-29T13:00:46Z",
+        "schema_name": "publication",
+        "withdrawn": false,
+        "links": {},
+        "api_url": "https://www.gov.uk/api/content/government/publications/full-guidance-on-staying-at-home-and-away-from-others",
+        "web_url": "https://www.gov.uk/government/publications/full-guidance-on-staying-at-home-and-away-from-others"
+      },
+      {
+        "content_id": "c3d303dd-c917-4769-a356-ce3d581e90fd",
+        "title": "COVID-19: guidance for employees, employers and businesses",
+        "locale": "en",
+        "api_path": "/api/content/government/publications/guidance-to-employers-and-businesses-about-covid-19",
+        "base_path": "/government/publications/guidance-to-employers-and-businesses-about-covid-19",
+        "document_type": "guidance",
+        "public_updated_at": "2020-04-07T19:27:20Z",
+        "schema_name": "publication",
+        "withdrawn": false,
+        "links": {},
+        "api_url": "https://www.gov.uk/api/content/government/publications/guidance-to-employers-and-businesses-about-covid-19",
+        "web_url": "https://www.gov.uk/government/publications/guidance-to-employers-and-businesses-about-covid-19"
+      },
+      {
+        "content_id": "bd05a981-f046-4354-aff8-289462984fc5",
+        "title": "COVID-19: track coronavirus cases",
+        "locale": "en",
+        "api_path": "/api/content/government/publications/covid-19-track-coronavirus-cases",
+        "base_path": "/government/publications/covid-19-track-coronavirus-cases",
+        "document_type": "guidance",
+        "public_updated_at": "2020-04-14T15:20:09Z",
+        "schema_name": "publication",
+        "withdrawn": false,
+        "links": {},
+        "api_url": "https://www.gov.uk/api/content/government/publications/covid-19-track-coronavirus-cases",
+        "web_url": "https://www.gov.uk/government/publications/covid-19-track-coronavirus-cases"
+      },
+      {
+        "content_id": "bfc9a804-8786-41ab-b642-06f256eda3ad",
+        "title": "Travel advice: coronavirus (COVID-19)",
+        "locale": "en",
+        "api_path": "/api/content/guidance/travel-advice-novel-coronavirus",
+        "base_path": "/guidance/travel-advice-novel-coronavirus",
+        "document_type": "detailed_guide",
+        "public_updated_at": "2020-04-08T16:03:29Z",
+        "schema_name": "detailed_guide",
+        "withdrawn": false,
+        "links": {},
+        "api_url": "https://www.gov.uk/api/content/guidance/travel-advice-novel-coronavirus",
+        "web_url": "https://www.gov.uk/guidance/travel-advice-novel-coronavirus"
+      },
+      {
+        "content_id": "c957e925-4c4f-4c12-9d60-e639449e907d",
+        "title": "Claim for your employees' wages through the Coronavirus Job Retention Scheme",
+        "locale": "en",
+        "api_path": "/api/content/guidance/claim-for-wage-costs-through-the-coronavirus-job-retention-scheme",
+        "base_path": "/guidance/claim-for-wage-costs-through-the-coronavirus-job-retention-scheme",
+        "document_type": "detailed_guide",
+        "public_updated_at": "2020-04-15T12:39:46Z",
+        "schema_name": "detailed_guide",
+        "withdrawn": false,
+        "links": {},
+        "api_url": "https://www.gov.uk/api/content/guidance/claim-for-wage-costs-through-the-coronavirus-job-retention-scheme",
+        "web_url": "https://www.gov.uk/guidance/claim-for-wage-costs-through-the-coronavirus-job-retention-scheme"
+      }
+    ],
+    "topical_events": [
+      {
+        "content_id": "c4cd0e8a-3ae1-4385-8936-1cfafe5031fb",
+        "title": "Coronavirus (COVID-19): UK government response",
+        "locale": "en",
+        "api_path": "/api/content/government/topical-events/coronavirus-covid-19-uk-government-response",
+        "base_path": "/government/topical-events/coronavirus-covid-19-uk-government-response",
+        "document_type": "topical_event",
+        "public_updated_at": "2020-03-20T08:30:26Z",
+        "schema_name": "placeholder",
+        "withdrawn": false,
+        "links": {},
+        "api_url": "https://www.gov.uk/api/content/government/topical-events/coronavirus-covid-19-uk-government-response",
+        "web_url": "https://www.gov.uk/government/topical-events/coronavirus-covid-19-uk-government-response"
+      }
+    ],
+    "available_translations": [
+      {
+        "title": "Coronavirus (COVID-19): what you need to do",
+        "public_updated_at": "2020-03-30T16:57:50Z",
+        "document_type": "coronavirus_landing_page",
+        "schema_name": "coronavirus_landing_page",
+        "base_path": "/coronavirus",
+        "api_path": "/api/content/coronavirus",
+        "withdrawn": false,
+        "content_id": "774cee22-d896-44c1-a611-e3109cce8eae",
+        "locale": "en",
+        "api_url": "https://www.gov.uk/api/content/coronavirus",
+        "web_url": "https://www.gov.uk/coronavirus",
+        "links": {}
+      }
+    ]
+  },
+  "description": "Find out about the government response to coronavirus (COVID-19) and what you need to do.",
+  "details": {
+    "announcements_label": "Announcements",
+    "live_stream_enabled": false
+  }
+}

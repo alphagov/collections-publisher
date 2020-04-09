@@ -1,3 +1,5 @@
+require_relative "../services/live_stream_updater.rb"
+
 class CoronavirusController < ApplicationController
   before_action :require_coronavirus_editor_permissions!
   layout "admin_layout"
@@ -11,6 +13,27 @@ class CoronavirusController < ApplicationController
     end
 
     render :index, locals: { links: links }
+  end
+
+  def live_stream
+    live_stream = LiveStream.first_or_create
+    @live_stream = LiveStreamUpdater.new(live_stream).resync
+  end
+
+  def publish_live_stream
+    @live_stream = LiveStream.last
+    updater = LiveStreamUpdater.new(@live_stream, params[:on])
+    if updater.updated?
+      if updater.published?
+        flash[:notice] = "Live stream turned #{@live_stream.state ? 'on' : 'off'}"
+        redirect_to coronavirus_live_stream_path
+      else
+        flash["alert"] = "Live stream has not been updated - please try again"
+      end
+    else
+      flash["alert"] = "Content item has not been updated - please try again"
+      redirect_to coronavirus_live_stream_path
+    end
   end
 
   def show
