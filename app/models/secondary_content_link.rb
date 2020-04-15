@@ -3,7 +3,7 @@ class SecondaryContentLink < ApplicationRecord
   validates_presence_of :step_by_step_page
 
   validates :title, :base_path, :content_id, :publishing_app, :schema_name, :step_by_step_page_id, presence: true
-  validates_uniqueness_of :base_path, scope: :step_by_step_page_id
+  validates_uniqueness_of :base_path, scope: :step_by_step_page_id, case_sensitive: false
 
   def smartanswer?
     schema_name == "transaction" && publishing_app == "smartanswers"
