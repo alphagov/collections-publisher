@@ -18,7 +18,7 @@ class StepByStepPage < ApplicationRecord
 
   validates :title, :slug, :introduction, :description, presence: true
   validates :scheduled_at, in_future: true
-  validates :slug, format: { with: /\A([a-z0-9]+-)*[a-z0-9]+\z/ }, uniqueness: true
+  validates :slug, format: { with: /\A([a-z0-9]+-)*[a-z0-9]+\z/ }, uniqueness: { case_sensitive: false }
   validates :slug, slug: true, on: :create
   validates :status, inclusion: { in: STATUSES }, presence: true
   validates :status, status_prerequisite: true
