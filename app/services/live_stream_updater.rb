@@ -42,7 +42,7 @@ private
         response =
           Services.publishing_api.put_content(landing_page_id, live_stream_payload)
         response.code == 200 ? response : object.toggle(:state)
-      rescue GdsApi::HTTPClientError
+      rescue GdsApi::HTTPErrorResponse
         object.toggle(:state)
       end
     end
@@ -54,7 +54,7 @@ private
         response =
           Services.publishing_api.publish(landing_page_id, "minor")
         response.code == 200 ? response : object.toggle(:state)
-      rescue GdsApi::HTTPClientError
+      rescue GdsApi::HTTPErrorResponse
         object.toggle(:state)
       end
     end
