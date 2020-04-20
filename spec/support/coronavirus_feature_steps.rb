@@ -217,3 +217,7 @@ end
 def and_i_see_live_stream_is_off_message
   expect(page).to have_text("Live stream turned off")
 end
+
+def and_i_see_a_link_to_the_landing_page
+  expect(page).to have_link("Check live", href: "https://www.test.gov.uk/coronavirus")
+end
