@@ -6,6 +6,6 @@
     <%= render partial: "coronavirus/shared/draft" %>
     <%= render partial: "coronavirus/shared/preview", locals: { path: page[:base_path] } %>
     <%= render partial: "coronavirus/shared/publish" %>
-    <%= render partial: "coronavirus/shared/live", locals: { path: "coronavirus" } %>
+    <%= render partial: "coronavirus/shared/live", locals: { path: page[:base_path] } %>
   </div>
 </div>

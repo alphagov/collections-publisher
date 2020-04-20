@@ -66,7 +66,8 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       and_i_select_business_page
       i_see_an_update_draft_button
       and_a_preview_button
-      # and_a_publish_button
+      and_a_publish_button
+      and_a_view_live_business_content_button
     end
 
     scenario "Updating draft business page" do

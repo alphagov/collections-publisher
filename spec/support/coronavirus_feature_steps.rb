@@ -145,6 +145,10 @@ def and_a_publish_button
   expect(page).to have_button("Publish")
 end
 
+def and_a_view_live_business_content_button
+  expect(page).to have_link("View live version", href: "https://www.test.gov.uk/coronavirus/business-support")
+end
+
 def and_i_push_a_new_draft_version
   click_on("Update draft")
 end
