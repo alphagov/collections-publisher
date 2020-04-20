@@ -28,6 +28,7 @@ RSpec.describe CoronavirusPagePresenter do
         "schema_name" => "coronavirus_landing_page",
         "details" => {
           "sections" => "some sections",
+          "live_stream_enabled" => false,
         },
         "links" => {},
         "locale" => "en",

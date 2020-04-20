@@ -1,0 +1,25 @@
+<% content_for :title, "Update live stream" %>
+<% content_for :context, "Turn the Number 10 live stream on or off" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <!-- turn livestream on/off buttons -->
+    <div>
+      <% if @live_stream.state %>
+        <%= link_to "Turn it off", coronavirus_publish_live_stream_path(on: false), method: :post, class: "govuk-button govuk-button--warning" %>
+      <% else %>
+        <%= link_to "Turn it on", coronavirus_publish_live_stream_path(on: true), method: :post, class: "govuk-button" %>
+      <% end %>
+    <div>
+    <!-- check live -->
+    <div class="govuk-!-padding-bottom-6">
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Check live",
+        href: "https://www.gov.uk/coronavirus",
+        target: "_blank",
+        secondary: true
+      } %>
+    </div>
+
+  </div>
+</div>

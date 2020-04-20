@@ -15,7 +15,7 @@ class CoronavirusPagePresenter
       "description" => description,
       "document_type" => "coronavirus_landing_page",
       "schema_name" => "coronavirus_landing_page",
-      "details" => details,
+      "details" => details.merge(live_stream_state),
       "links" => {},
       "locale" => "en",
       "rendering_app" => "collections",
@@ -23,5 +23,15 @@ class CoronavirusPagePresenter
       "routes" => [{ "path" => path, "type" => "exact" }],
       "update_type" => "minor",
     }
+  end
+
+  def live_stream_state
+    {
+      "live_stream_enabled" => live_stream.state,
+    }
+  end
+
+  def live_stream
+    LiveStream.first_or_create
   end
 end

@@ -3,9 +3,49 @@ def given_i_am_a_coronavirus_editor
   stub_user.name = "Test author"
 end
 
+def given_the_live_stream_is_turned_off
+  expect(LiveStream.last.state).to be false
+end
+
+def given_the_live_stream_is_turned_on
+  expect(LiveStream.last.state).to be true
+end
+
+def the_payload_is_updated_to_on
+  assert_publishing_api_put_content(
+    "774cee22-d896-44c1-a611-e3109cce8eae",
+    request_json_includes(
+      "details" => {
+        "announcements_label" => "Announcements",
+        "live_stream_enabled" => true,
+      },
+    ),
+  )
+end
+
+def the_payload_is_updated_to_off
+  assert_publishing_api_put_content(
+    "774cee22-d896-44c1-a611-e3109cce8eae",
+    request_json_includes(
+      "details" => {
+        "announcements_label" => "Announcements",
+        "live_stream_enabled" => false,
+      },
+    ),
+  )
+end
+
 def stub_coronavirus_publishing_api
   stub_any_publishing_api_put_content
   stub_any_publishing_api_publish
+end
+
+def stub_live_content_request_stream_off
+  stub_publishing_api_has_item(JSON.parse(live_content_item_live_stream_off))
+end
+
+def stub_live_content_request_stream_on
+  stub_publishing_api_has_item(JSON.parse(live_content_item_live_stream_on))
 end
 
 def stub_github_request
@@ -52,12 +92,28 @@ def i_see_a_business_page_button
   expect(page).to have_link("Business support page")
 end
 
+def i_see_livestream_button
+  expect(page).to have_link("Update live stream")
+end
+
 def and_i_select_landing_page
   click_on("Coronavirus landing page")
 end
 
 def and_i_select_business_page
   click_on("Business support page")
+end
+
+def and_i_select_live_stream
+  click_on("Update live stream")
+end
+
+def and_i_select_turn_on_live_stream
+  click_on("Turn it on")
+end
+
+def and_i_select_turn_off_live_stream
+  click_on("Turn it off")
 end
 
 def when_i_visit_the_publish_coronavirus_page
@@ -111,6 +167,17 @@ def invalid_github_response
   File.read(Rails.root.join + "spec/fixtures/invalid_corona_page.yml")
 end
 
+def live_content_item_live_stream_off
+  File.read(Rails.root.join + "spec/fixtures/coronavirus_content_item.json")
+end
+
+def live_content_item_live_stream_on
+  f = File.read(Rails.root.join + "spec/fixtures/coronavirus_content_item.json")
+  h = JSON.parse(f)
+  h["details"]["live_stream_enabled"] = true
+  h.to_json
+end
+
 def and_i_see_an_alert
   expect(page).to have_text("Invalid content - please recheck GitHub and add title, stay_at_home, guidance, announcements_label, announcements, nhs_banner, sections, topic_section, notifications.")
 end
@@ -141,4 +208,12 @@ end
 
 def and_i_see_a_page_published_message
   expect(page).to have_text("Page published!")
+end
+
+def and_i_see_live_stream_is_on_message
+  expect(page).to have_text("Live stream turned on")
+end
+
+def and_i_see_live_stream_is_off_message
+  expect(page).to have_text("Live stream turned off")
 end

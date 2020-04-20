@@ -1,7 +1,8 @@
-<% content_for :title, "Which coronavirus page do you need to publish?" %>
+<% content_for :title, "What do you need to do?" %>
 
 <ul class="govuk-list">
+<li><%= link_to "Update live stream", coronavirus_live_stream_path, class:"govuk-button" %></li>
 <% links.each do |link| %>
-  <li><%= link_to link[:title], coronavirus_path(slug: link[:slug]), class:"govuk-button" %></li>
+  <li><%= link_to "Publish #{link[:title]}", coronavirus_path(slug: link[:slug]), class:"govuk-button" %></li>
 <% end %>
 </ul>
