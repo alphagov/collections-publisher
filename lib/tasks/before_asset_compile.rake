@@ -1,5 +1,5 @@
+desc "Install dependencies before precompile"
 task before_assets_precompile: :environment do
-  # run a command which starts your packaging
   system("yarn install")
 end
 
