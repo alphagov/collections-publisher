@@ -1,62 +1,7 @@
 require_relative "../publish_organisations_api_route"
 require_relative "../special_route_publisher"
-require_relative "../../app/presenters/coronavirus_page_presenter"
 
 namespace :publishing_api do
-  desc "Publish coronavirus_landing_page to publishing api"
-  task publish_coronavirus_landing_page: :environment do
-    content_id = "774cee22-d896-44c1-a611-e3109cce8eae"
-    params = {
-      base_path: "/coronavirus",
-      publishing_app: "collections-publisher",
-      rendering_app: "collections",
-      public_updated_at: Time.zone.now.iso8601,
-      update_type: "minor",
-      document_type: "coronavirus_landing_page",
-      title: "Coronavirus (COVID-19): what you need to do",
-      description: "Find out about the government response to coronavirus (COVID-19) and what you need to do.",
-      details: {},
-      locale: "en",
-      routes: [
-        {
-          path: "/coronavirus",
-          type: "exact",
-        },
-      ],
-    }
-    Services.publishing_api.put_content(content_id, params)
-    Services.publishing_api.publish(content_id)
-  end
-
-  desc "Update draft of coronavirus business hub page"
-  task coronavirus_business_page_update_draft: :environment do
-    url = "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_business_page.yml".freeze
-    response = RestClient.get(url)
-    if response.code == 200
-      corona_content = YAML.safe_load(response.body)["content"]
-      payload = CoronavirusPagePresenter.new(corona_content).payload
-      business_page_content_id = "09944b84-02ba-4742-a696-9e562fc9b29d"
-      params = {
-          "base_path" => "/coronavirus/business-support",
-          "routes" => [
-            {
-              "path" => "/coronavirus/business-support",
-              "type" => "exact",
-            },
-          ],
-        }
-      Services.publishing_api.put_content(business_page_content_id, payload.merge(params))
-    else
-      puts "Failed to pull content from github. Restclient response: #{response.code}"
-    end
-  end
-
-  desc "Publish latest coronavirus business hub page draft to live"
-  task coronavirus_business_page_publish: :environment do
-    business_page_content_id = "09944b84-02ba-4742-a696-9e562fc9b29d"
-    Services.publishing_api.publish(business_page_content_id)
-  end
-
   desc "Send all tags to the publishing-api, skipping any marked as dirty"
   task send_all_tags: :environment do
     TagRepublisher.new.republish_tags(Tag.all)
