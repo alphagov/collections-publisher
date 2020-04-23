@@ -4,7 +4,7 @@
 } %>
 <%= render "govuk_publishing_components/components/button", {
     text: "View live version",
-    href: published_url(path),
+    href: published_url(path.delete_prefix("/")),
     target: "_blank",
     secondary: true
   } %>

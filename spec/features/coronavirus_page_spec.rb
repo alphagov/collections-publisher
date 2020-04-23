@@ -66,7 +66,8 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       and_i_select_business_page
       i_see_an_update_draft_button
       and_a_preview_button
-      # and_a_publish_button
+      and_a_publish_button
+      and_a_view_live_business_content_button
     end
 
     scenario "Updating draft business page" do
@@ -114,6 +115,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       and_i_select_turn_on_live_stream
       the_payload_is_updated_to_on
       and_i_see_live_stream_is_on_message
+      and_i_see_a_link_to_the_landing_page
     end
 
     scenario "Turn off the live stream" do
