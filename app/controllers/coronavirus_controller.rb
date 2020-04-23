@@ -118,7 +118,7 @@ private
     return false if content.nil?
 
     required_keys =
-      type == :landing ? required_landing_page_keys : required_business_page_keys
+      type == :landing ? required_landing_page_keys : required_hub_page_keys
     missing_keys = (required_keys - content.keys)
     if missing_keys.any?
       flash["alert"] = "Invalid content - please recheck GitHub and add #{missing_keys.join(', ')}."
@@ -155,16 +155,10 @@ private
     )
   end
 
-  def required_business_page_keys
+  def required_hub_page_keys
     %w(
       title
       header_section
-      guidance_section
-      related_links
-      announcements_label
-      announcements
-      other_announcements
-      guidance_section
       sections
       topic_section
       notifications
