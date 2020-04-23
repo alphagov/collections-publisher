@@ -189,6 +189,14 @@ private
           base_path: "/coronavirus/business-support",
           github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_business_page.yml",
         },
+      education:
+        {
+          name: "Education page",
+          content_id: "b350e61d-1db9-4cc2-bb44-fab02882ac25".freeze,
+          raw_content_url: "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_education_page.yml".freeze,
+          base_path: "/coronavirus/education-and-childcare",
+          github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_education_page.yml",
+        },
     }
   end
 end
