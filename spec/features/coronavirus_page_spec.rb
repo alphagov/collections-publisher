@@ -17,7 +17,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       when_i_visit_the_publish_coronavirus_page
       i_see_a_landing_page_button
       i_see_a_business_page_button
-      i_see_livestream_button
     end
 
     scenario "User selects landing page" do
@@ -98,33 +97,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       when_i_visit_a_non_existent_page
       then_i_am_redirected_to_the_index_page
       and_i_see_a_message_telling_me_that_the_page_does_not_exist
-    end
-  end
-
-  context "Live stream updates" do
-    before do
-      given_i_am_a_coronavirus_editor
-      stub_coronavirus_publishing_api
-    end
-
-    scenario "Turn on the live stream" do
-      stub_live_content_request_stream_off
-      when_i_visit_the_publish_coronavirus_page
-      and_i_select_live_stream
-      given_the_live_stream_is_turned_off
-      and_i_select_turn_on_live_stream
-      the_payload_is_updated_to_on
-      and_i_see_live_stream_is_on_message
-      and_i_see_a_link_to_the_landing_page
-    end
-
-    scenario "Turn off the live stream" do
-      stub_live_content_request_stream_on
-      when_i_visit_the_publish_coronavirus_page
-      and_i_select_live_stream
-      and_i_select_turn_off_live_stream
-      the_payload_is_updated_to_off
-      and_i_see_live_stream_is_off_message
     end
   end
 end
