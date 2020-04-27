@@ -65,6 +65,6 @@ RSpec.describe LiveStreamUpdater do
   end
 
   def stub_youtube_link
-    stub_request(:get, live_url )
+    stub_request(:get, live_url)
   end
 end

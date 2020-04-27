@@ -16,9 +16,14 @@ RSpec.describe CoronavirusPagePresenter do
   subject { described_class.new(content, landing_page_path) }
 
   it "presents the payload correctly" do
-    presented = subject.payload
-    expect(presented).to be_valid_against_schema("coronavirus_landing_page")
+    url = "https://www.youtube.com/123"
+    stub_request(:get, url)
 
+    LiveStream.create(url: url)
+    date = subject.todays_date
+    presented = subject.payload
+
+    expect(presented).to be_valid_against_schema("coronavirus_landing_page")
     expect(presented).to eq(
       {
         "base_path" => landing_page_path,
@@ -28,7 +33,10 @@ RSpec.describe CoronavirusPagePresenter do
         "schema_name" => "coronavirus_landing_page",
         "details" => {
           "sections" => "some sections",
-          "live_stream"=>{"video_url"=>nil},
+          "live_stream" => {
+            "video_url" => LiveStream.last.url,
+            "date" => date,
+},
         },
         "links" => {},
         "locale" => "en",

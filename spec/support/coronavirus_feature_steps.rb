@@ -11,7 +11,7 @@ def the_payload_contains_the_valid_url
         "announcements_label" => "Announcements",
         "live_stream" => {
           "video_url" => valid_url,
-          "date" => "1 April 2020",
+          "date" => todays_date,
           "date_text" => "Live streamed",
           "previous_videos" => {
             "url" => "https://www.youtube.com/user/Number10gov/videos",
@@ -24,6 +24,10 @@ end
 
 def stub_publishing_api_live_content_request
   stub_publishing_api_has_item(JSON.parse(live_content_item))
+end
+
+def todays_date
+  DateTime.now.strftime("%-d %B %Y")
 end
 
 def invalid_url
