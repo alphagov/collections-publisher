@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_09_194204) do
+ActiveRecord::Schema.define(version: 2020_04_24_214202) do
 
   create_table "internal_change_notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "author"
@@ -49,9 +49,9 @@ ActiveRecord::Schema.define(version: 2020_04_09_194204) do
   end
 
   create_table "live_streams", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.boolean "state", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "url", null: false
   end
 
   create_table "navigation_rules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
