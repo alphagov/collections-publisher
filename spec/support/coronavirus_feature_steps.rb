@@ -109,14 +109,24 @@ def and_i_select_live_stream
   expect(page).to have_text("Add a new live stream URL")
 end
 
-def i_am_able_to_submit_a_valid_url
+def i_am_able_to_update_draft_content_with_valid_url
   fill_in("url", with: valid_url)
-  click_on("Submit")
+  click_on("Update draft")
+  the_payload_contains_the_valid_url
+end
+
+def and_i_can_publish_the_url
+  click_on("Publish")
+  assert_publishing_api_publish("774cee22-d896-44c1-a611-e3109cce8eae", update_type: "minor")
+end
+
+def and_i_can_check_the_preview
+  expect(page).to have_link("Preview", href: "https://draft-origin.test.gov.uk/coronavirus")
 end
 
 def i_am_able_to_submit_an_invalid_url
   fill_in("url", with: invalid_url)
-  click_on("Submit")
+  click_on("Update draft")
 end
 
 def when_i_visit_the_publish_coronavirus_page
@@ -213,6 +223,10 @@ end
 
 def and_i_see_a_page_published_message
   expect(page).to have_text("Page published!")
+end
+
+def and_i_see_live_stream_is_updated_message
+  expect(page).to have_text("Draft live stream url updated!")
 end
 
 def and_i_see_live_stream_is_published_message

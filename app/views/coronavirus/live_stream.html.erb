@@ -3,14 +3,24 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <div class="govuk-form-group">
-      <%= form_with(url: "publish_live_stream", method: "post", local: true) do %>
+      <%= form_with(url: "update_live_stream", method: "post", local: true) do %>
         <%= label_tag(:url, "URL", class: "govuk-label" ) %>
         <%= text_field_tag(:url, nil,
           class: "govuk-input govuk-!-margin-bottom-6",
           placeholder: "eg. https://www.youtube.com/watch?v=d3ieIwP4FKg"
           ) %>
-        <%= submit_tag("Submit", class: "govuk-button") %>
+        <%= submit_tag("Update draft", class: "govuk-button") %>
       <% end %>
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Preview",
+        href: draft_govuk_url("/coronavirus"),
+        target: "_blank",
+        secondary: true
+      } %>
+      </div>
+      <div>
+        <%= link_to "Publish", coronavirus_publish_live_stream_path, method: :post, class: "govuk-button" %>
+      </div>
       <%= render "govuk_publishing_components/components/button", {
         text: "Check live",
         href: published_url("coronavirus"),

@@ -107,16 +107,17 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       stub_restclient
     end
 
-    scenario "Add a valid livestream url" do
+    scenario "Publish a valid livestream url" do
       when_i_visit_the_publish_coronavirus_page
       and_i_select_live_stream
-      i_am_able_to_submit_a_valid_url
-      the_payload_contains_the_valid_url
-      and_i_see_live_stream_is_published_message
+      i_am_able_to_update_draft_content_with_valid_url
+      and_i_see_live_stream_is_updated_message
+      and_i_can_check_the_preview
+      and_i_can_publish_the_url
       and_i_see_a_link_to_the_landing_page
     end
 
-    scenario "Add an invalid livestream url" do
+    scenario "Adding an invalid livestream url" do
       when_i_visit_the_publish_coronavirus_page
       and_i_select_live_stream
       i_am_able_to_submit_an_invalid_url
