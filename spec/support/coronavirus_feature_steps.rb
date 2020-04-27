@@ -3,49 +3,45 @@ def given_i_am_a_coronavirus_editor
   stub_user.name = "Test author"
 end
 
-def given_the_live_stream_is_turned_off
-  expect(LiveStream.last.state).to be false
-end
-
-def given_the_live_stream_is_turned_on
-  expect(LiveStream.last.state).to be true
-end
-
-def the_payload_is_updated_to_on
+def the_payload_contains_the_valid_url
   assert_publishing_api_put_content(
     "774cee22-d896-44c1-a611-e3109cce8eae",
     request_json_includes(
       "details" => {
         "announcements_label" => "Announcements",
-        "live_stream_enabled" => true,
+        "live_stream" => {
+          "video_url" => valid_url,
+          "date" => "1 April 2020",
+          "date_text" => "Live streamed",
+          "previous_videos" => {
+            "url" => "https://www.youtube.com/user/Number10gov/videos",
+          },
+        },
       },
     ),
   )
 end
 
-def the_payload_is_updated_to_off
-  assert_publishing_api_put_content(
-    "774cee22-d896-44c1-a611-e3109cce8eae",
-    request_json_includes(
-      "details" => {
-        "announcements_label" => "Announcements",
-        "live_stream_enabled" => false,
-      },
-    ),
-  )
+def stub_publishing_api_live_content_request
+  stub_publishing_api_has_item(JSON.parse(live_content_item))
+end
+
+def invalid_url
+  "https://www.yotbe.com/watch?v=UF8mC-T0u6k"
+end
+
+def valid_url
+  "https://www.youtube.com/watch?v=UF8mC-T0u6k"
+end
+
+def stub_restclient
+  stub_request(:get, valid_url)
 end
 
 def stub_coronavirus_publishing_api
   stub_any_publishing_api_put_content
   stub_any_publishing_api_publish
-end
-
-def stub_live_content_request_stream_off
-  stub_publishing_api_has_item(JSON.parse(live_content_item_live_stream_off))
-end
-
-def stub_live_content_request_stream_on
-  stub_publishing_api_has_item(JSON.parse(live_content_item_live_stream_on))
+  stub_publishing_api_live_content_request
 end
 
 def stub_github_request
@@ -106,14 +102,17 @@ end
 
 def and_i_select_live_stream
   click_on("Update live stream")
+  expect(page).to have_text("Add a new live stream URL")
 end
 
-def and_i_select_turn_on_live_stream
-  click_on("Turn it on")
+def i_am_able_to_submit_a_valid_url
+  fill_in("url", with: valid_url)
+  click_on("Submit")
 end
 
-def and_i_select_turn_off_live_stream
-  click_on("Turn it off")
+def i_am_able_to_submit_an_invalid_url
+  fill_in("url", with: invalid_url)
+  click_on("Submit")
 end
 
 def when_i_visit_the_publish_coronavirus_page
@@ -153,6 +152,11 @@ def and_i_push_a_new_draft_version
   click_on("Update draft")
 end
 
+def i_am_able_to_enter_a_new_url
+  expect(page).to have_text("Add a new live stream URL")
+  e
+end
+
 def and_i_push_a_new_draft_version_with_invalid_content
   stub_request(:get, "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_landing_page.yml")
   .to_return(status: 200, body: invalid_github_response)
@@ -171,15 +175,8 @@ def invalid_github_response
   File.read(Rails.root.join + "spec/fixtures/invalid_corona_page.yml")
 end
 
-def live_content_item_live_stream_off
+def live_content_item
   File.read(Rails.root.join + "spec/fixtures/coronavirus_content_item.json")
-end
-
-def live_content_item_live_stream_on
-  f = File.read(Rails.root.join + "spec/fixtures/coronavirus_content_item.json")
-  h = JSON.parse(f)
-  h["details"]["live_stream_enabled"] = true
-  h.to_json
 end
 
 def and_i_see_an_alert
@@ -214,12 +211,16 @@ def and_i_see_a_page_published_message
   expect(page).to have_text("Page published!")
 end
 
-def and_i_see_live_stream_is_on_message
-  expect(page).to have_text("Live stream turned on")
+def and_i_see_live_stream_is_published_message
+  expect(page).to have_text("New live stream url published!")
 end
 
-def and_i_see_live_stream_is_off_message
-  expect(page).to have_text("Live stream turned off")
+def and_i_see_the_error_message
+  expect(page).to have_text("Url is not valid. Please check it and try again.")
+end
+
+def and_nothing_is_sent_publishing_api
+  assert_publishing_api_not_published("774cee22-d896-44c1-a611-e3109cce8eae")
 end
 
 def and_i_see_a_link_to_the_landing_page
