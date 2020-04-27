@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe LiveStream do
-
   describe "validations" do
     let(:bad_url) { "www.youtbe.co.uk/123" }
     let(:good_url) { "https://www.youtube.com/123" }

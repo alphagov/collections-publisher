@@ -1,49 +1,41 @@
 class LiveStreamUpdater
-  def initialize(object, state = nil)
-    @object = object
-    @state = state
+  attr_reader :object
+
+  def initialize
     @content_item = fetch_live_content_item
+    @url = live_url
+    @object = live_stream_object
   end
 
-  def updated?
-    update_object_and_content_item.try(:code) == 200
+  def update?
+    update_content_item.try(:code) == 200
   end
 
-  def published?
+  def publish?
     publish_content_item.try(:code) == 200
-  end
-
-  def resync
-    states_in_sync? ? object : object.toggle(:state)
   end
 
 private
 
-  attr_reader :state, :live_stream, :content_item
-  attr_accessor :object
+  attr_reader :live_stream, :content_item, :url
+  attr_writer :object
 
-  def states_in_sync?
-    live_state == object.state
+  def live_stream_object
+    LiveStream.first_or_create(url: url)
   end
 
-  def live_state
-    content_item["details"]["live_stream_enabled"]
-  end
-
-  def update_object_and_content_item
-    if object.update(state: state)
-      update_content_item
+  def live_url
+    if content_item.has_key?("details")
+      content_item["details"]["live_stream"]["video_url"]
     end
   end
 
   def update_content_item
     with_longer_timeout do
       begin
-        response =
-          Services.publishing_api.put_content(landing_page_id, live_stream_payload)
-        response.code == 200 ? response : object.toggle(:state)
+        Services.publishing_api.put_content(landing_page_id, live_stream_payload)
       rescue GdsApi::HTTPErrorResponse
-        object.toggle(:state)
+        object.update(url: url)
       end
     end
   end
@@ -51,18 +43,20 @@ private
   def publish_content_item
     with_longer_timeout do
       begin
-        response =
-          Services.publishing_api.publish(landing_page_id, "minor")
-        response.code == 200 ? response : object.toggle(:state)
+        Services.publishing_api.publish(landing_page_id, "minor")
       rescue GdsApi::HTTPErrorResponse
-        object.toggle(:state)
+        object.update(url: live_url)
       end
     end
   end
 
   def fetch_live_content_item
-    content = Services.publishing_api.get_content(landing_page_id)
-    JSON.parse(content.raw_response_body)
+    begin
+      content = Services.publishing_api.get_content(landing_page_id)
+      content.to_hash
+    rescue GdsApi::HTTPErrorResponse
+      {}
+    end
   end
 
   def presenter
