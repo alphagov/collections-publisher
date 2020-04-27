@@ -106,7 +106,7 @@ end
 
 def and_i_select_live_stream
   click_on("Update live stream")
-  expect(page).to have_text("Add a new live stream URL")
+  expect(page).to have_text("Update live stream URL")
 end
 
 def i_am_able_to_update_draft_content_with_valid_url
@@ -164,11 +164,6 @@ end
 
 def and_i_push_a_new_draft_version
   click_on("Update draft")
-end
-
-def i_am_able_to_enter_a_new_url
-  expect(page).to have_text("Add a new live stream URL")
-  e
 end
 
 def and_i_push_a_new_draft_version_with_invalid_content
