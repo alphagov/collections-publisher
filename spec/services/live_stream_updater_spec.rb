@@ -25,8 +25,8 @@ RSpec.describe LiveStreamUpdater do
       stub_youtube_link
 
       updater = LiveStreamUpdater.new
-      expect(updater.update?).to be true
-      expect(updater.publish?).to be true
+      expect(updater.update).to be true
+      expect(updater.publish).to be true
     end
   end
 
@@ -37,7 +37,7 @@ RSpec.describe LiveStreamUpdater do
 
       updater = LiveStreamUpdater.new
       stub_any_publishing_api_call_to_return_not_found
-      expect(updater.update?).to be false
+      expect(updater.update).to be false
     end
 
     it "#publish? " do
@@ -45,9 +45,9 @@ RSpec.describe LiveStreamUpdater do
       stub_youtube_link
 
       updater = LiveStreamUpdater.new
-      expect(updater.update?).to be true
+      expect(updater.update).to be true
       stub_any_publishing_api_call_to_return_not_found
-      expect(updater.publish?).to be false
+      expect(updater.publish).to be false
     end
   end
 

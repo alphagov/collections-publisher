@@ -22,7 +22,7 @@ class CoronavirusController < ApplicationController
   def update_live_stream
     @live_stream = LiveStream.last
     if @live_stream.update(url: url_params)
-      if updater.update?
+      if updater.update
         flash[:notice] = "Draft live stream url updated!"
       else
         flash["alert"] = "Live stream url has not been updated - please try again"
@@ -34,7 +34,7 @@ class CoronavirusController < ApplicationController
   end
 
   def publish_live_stream
-    if updater.publish?
+    if updater.publish
       flash[:notice] = "New live stream url published!"
     else
       flash["alert"] = "Live stream url has not been published - please try again"

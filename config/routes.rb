@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root to: redirect("/step-by-step-pages", status: 302)
   get "/coronavirus/live_stream", to: "coronavirus#live_stream"
-  post "/coronavirus/update_live_stream", to: "coronavirus#update_live_stream"
+  put "/coronavirus/update_live_stream", to: "coronavirus#update_live_stream"
   post "/coronavirus/publish_live_stream", to: "coronavirus#publish_live_stream"
 
 

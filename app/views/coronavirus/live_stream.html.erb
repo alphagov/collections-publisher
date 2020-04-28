@@ -21,7 +21,7 @@
           <p>Click on the video, and copy its URL.</p>
         </div>
       </details>
-      <%= form_with(url: "update_live_stream", method: "post", local: true) do %>
+      <%= form_with(url: "update_live_stream", method: "put", local: true) do %>
         <%= label_tag(:url, "YouTube URL", class: "govuk-label" ) %>
         <%= text_field_tag(:url, nil,
           class: "govuk-input govuk-!-margin-bottom-6",

@@ -2,22 +2,21 @@ class LiveStreamUpdater
   attr_reader :object
 
   def initialize
-    @content_item = fetch_live_content_item
     @url = live_url
     @object = live_stream_object
   end
 
-  def update?
+  def update
     update_content_item.try(:code) == 200
   end
 
-  def publish?
+  def publish
     publish_content_item.try(:code) == 200
   end
 
 private
 
-  attr_reader :live_stream, :content_item, :url
+  attr_reader :url
   attr_writer :object
 
   def live_stream_object
@@ -25,8 +24,8 @@ private
   end
 
   def live_url
-    if content_item.has_key?("details")
-      content_item["details"]["live_stream"]["video_url"]
+    if live_content_item.has_key?("details")
+      live_content_item["details"]["live_stream"]["video_url"]
     end
   end
 
@@ -45,29 +44,30 @@ private
       begin
         Services.publishing_api.publish(landing_page_id, "minor")
       rescue GdsApi::HTTPErrorResponse
-        object.update(url: live_url)
+        nil
       end
     end
   end
 
-  def fetch_live_content_item
-    begin
-      content = Services.publishing_api.get_content(landing_page_id)
-      content.to_hash
-    rescue GdsApi::HTTPErrorResponse
-      {}
-    end
+  def live_content_item
+    @live_content_item ||=
+      begin
+        content = Services.publishing_api.get_content(landing_page_id)
+        content.to_hash
+      rescue GdsApi::HTTPErrorResponse
+        {}
+      end
   end
 
   def presenter
-    CoronavirusPagePresenter.new(content_item["details"], "/coronavirus")
+    CoronavirusPagePresenter.new(live_content_item["details"], "/coronavirus")
   end
 
   def live_stream_payload
     presenter.payload.merge(
       {
         "title" => "Coronavirus (COVID-19): what you need to do",
-        "description" => content_item["description"],
+        "description" => live_content_item["description"],
       },
     )
   end
