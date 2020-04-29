@@ -1,5 +1,3 @@
-require_relative "../services/live_stream_updater.rb"
-
 class CoronavirusController < ApplicationController
   before_action :require_coronavirus_editor_permissions!
   layout "admin_layout"
@@ -21,7 +19,7 @@ class CoronavirusController < ApplicationController
 
   def update_live_stream
     @live_stream = LiveStream.last
-    if @live_stream.update(url: url_params)
+    if @live_stream.update(url: url_params, formatted_stream_date: formatted_date)
       if updater.update
         flash[:notice] = "Draft live stream url updated!"
       else
@@ -74,6 +72,10 @@ private
 
   def url_params
     params[:url]
+  end
+
+  def formatted_date
+    DateTime.now.strftime("%-d %B %Y")
   end
 
   def publish_page

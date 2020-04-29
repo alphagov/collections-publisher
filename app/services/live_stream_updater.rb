@@ -2,7 +2,6 @@ class LiveStreamUpdater
   attr_reader :object
 
   def initialize
-    @url = live_url
     @object = live_stream_object
   end
 
@@ -16,24 +15,33 @@ class LiveStreamUpdater
 
 private
 
-  attr_reader :url
   attr_writer :object
 
   def live_stream_object
-    LiveStream.first_or_create(url: url)
+    LiveStream.first_or_create(url: live_url, formatted_stream_date: live_date)
+  end
+
+  def live_stream_content
+    if live_content_item.has_key?("details")
+      live_content_item["details"]["live_stream"]
+    else
+      {}
+    end
   end
 
   def live_url
-    if live_content_item.has_key?("details")
-      live_content_item["details"]["live_stream"]["video_url"]
-    end
+    live_stream_content["video_url"]
+  end
+
+  def live_date
+    live_stream_content["date"]
   end
 
   def update_content_item
     with_longer_timeout do
       Services.publishing_api.put_content(landing_page_id, live_stream_payload)
     rescue GdsApi::HTTPErrorResponse
-      object.update(url: url)
+      object.update(url: live_url, formatted_stream_date: live_date)
     end
   end
 

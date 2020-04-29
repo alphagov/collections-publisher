@@ -7,43 +7,56 @@ RSpec.describe LiveStreamUpdater do
   before do
     stub_any_publishing_api_put_content
     stub_any_publishing_api_publish
+    stub_live_content_request
+    stub_yesterdays_youtube_link
+    stub_todays_youtube_link
   end
 
-  describe "#initialize" do
-    it "finds or creates a livestream object" do
-      stub_live_content_request
-      stub_youtube_link
+  describe "#object" do
+    it "creates live_stream object with data from the live content item" do
+      updater = LiveStreamUpdater.new
+      expect(updater.object.url).to eq yesterdays_link
+      expect(updater.object.formatted_stream_date).to eq yesterdays_date
+    end
 
-      live_stream = LiveStreamUpdater.new.object
-      expect(live_stream.url).to eq live_url
+    it "returns live_stream object from the database if it exists" do
+      LiveStream.create(url: todays_link, formatted_stream_date: todays_date)
+      updater = LiveStreamUpdater.new
+      expect(updater.object.url).to eq todays_link
+      expect(updater.object.formatted_stream_date).to eq todays_date
     end
   end
 
   context "Succesful interaction with publishing api" do
-    it "#update and #publish?" do
-      stub_live_content_request
-      stub_youtube_link
-
+    it "#update and #publish" do
+      LiveStream.create(url: todays_link, formatted_stream_date: todays_date)
       updater = LiveStreamUpdater.new
+
       expect(updater.update).to be true
       expect(updater.publish).to be true
+
+      expect(updater.object.url).to eql todays_link
+      expect(updater.object.formatted_stream_date).to eql todays_date
     end
   end
 
   context "Unsuccesful interaction with publishing api" do
-    it "#update?" do
-      stub_live_content_request
-      stub_youtube_link
-
+    it "#update" do
+      LiveStream.create(url: todays_link, formatted_stream_date: todays_date)
       updater = LiveStreamUpdater.new
+
+      expect(updater.object.url).to eql todays_link
+      expect(updater.object.formatted_stream_date).to eql todays_date
+
       stub_any_publishing_api_call_to_return_not_found
       expect(updater.update).to be false
+
+      # rolls back the livestream database table to match the live content item
+      expect(updater.object.url).to eql yesterdays_link
+      expect(updater.object.formatted_stream_date).to eql yesterdays_date
     end
 
-    it "#publish? " do
-      stub_live_content_request
-      stub_youtube_link
-
+    it "#publish" do
       updater = LiveStreamUpdater.new
       expect(updater.update).to be true
       stub_any_publishing_api_call_to_return_not_found
@@ -55,16 +68,33 @@ RSpec.describe LiveStreamUpdater do
     File.read(Rails.root.join + "spec/fixtures/coronavirus_content_item.json")
   end
 
-  def live_url
+  def yesterdays_link
     h = JSON.parse(live_content_item)
     h["details"]["live_stream"]["video_url"]
+  end
+
+  def yesterdays_date
+    h = JSON.parse(live_content_item)
+    h["details"]["live_stream"]["date"]
+  end
+
+  def todays_link
+    "https://www.youtube.com/watch?yesterdays-link"
+  end
+
+  def todays_date
+    "31 March 2020"
   end
 
   def stub_live_content_request
     stub_publishing_api_has_item(JSON.parse(live_content_item))
   end
 
-  def stub_youtube_link
-    stub_request(:get, live_url)
+  def stub_todays_youtube_link
+    stub_request(:get, todays_link)
+  end
+
+  def stub_yesterdays_youtube_link
+    stub_request(:get, yesterdays_link)
   end
 end

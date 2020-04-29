@@ -29,13 +29,9 @@ class CoronavirusPagePresenter
     {
       "live_stream" => {
         "video_url" => live_stream.url,
-        "date" => todays_date,
+        "date" => live_stream.formatted_stream_date,
       },
     }
-  end
-
-  def todays_date
-    DateTime.now.strftime("%-d %B %Y")
   end
 
   def live_stream
