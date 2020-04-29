@@ -112,7 +112,6 @@ RSpec.describe Tag do
     expect(tag.parent_id).to eq(parent.id)
   end
 
-
   describe "state" do
     let(:tag) { create(:tag) }
 
