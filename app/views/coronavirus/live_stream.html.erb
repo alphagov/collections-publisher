@@ -1,18 +1,57 @@
-<% content_for :title, "Update live stream" %>
-<% content_for :context, "Turn the Number 10 live stream on or off" %>
-
+<% content_for :title, "Update live stream URL" %>
+<% content_for :context, "Make changes to the coronavirus landing page live stream" %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <!-- turn livestream on/off buttons -->
-    <div>
-      <% if @live_stream.state %>
-        <%= link_to "Turn it off", coronavirus_publish_live_stream_path(on: false), method: :post, class: "govuk-button govuk-button--warning" %>
-      <% else %>
-        <%= link_to "Turn it on", coronavirus_publish_live_stream_path(on: true), method: :post, class: "govuk-button" %>
+    <div class="govuk-form-group">
+      <%= render "govuk_publishing_components/components/heading", {
+        text: "1. Add the URL",
+        padding: true
+      } %>
+      <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Help with YouTube
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <p>Every afternoon, No.10 adds a video link to the upcoming press conference to this <a href="https://www.youtube.com/user/Number10gov/">page.</a></p>
+          <p>The video will appear in the 'Uploads' section of the page and is labelled as 'Live'.</p>
+          <p>The video is added at around 4.30pm on weekdays, and 3.30pm on weekends.</p>
+          <p>If the most recent video has yesterday's date, or there is no video labelled 'Live' check again in a few minutes.</p>
+          <p>Click on the video, and copy its URL.</p>
+        </div>
+      </details>
+      <%= form_with(url: "update_live_stream", method: "put", local: true) do %>
+        <%= label_tag(:url, "YouTube URL", class: "govuk-label" ) %>
+        <%= text_field_tag(:url, nil,
+          class: "govuk-input govuk-!-margin-bottom-6",
+          placeholder: "eg. https://www.youtube.com/watch?v=d3ieIwP4FKg"
+          ) %>
+
+        <%= submit_tag("Update draft", class: "govuk-button") %>
       <% end %>
-    <div>
-    <!-- check live -->
-    <div class="govuk-!-padding-bottom-6">
+      <%= render "govuk_publishing_components/components/heading", {
+        text: "2. Preview your changes",
+        padding: true
+      } %>
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Preview",
+        href: draft_govuk_url("/coronavirus"),
+        target: "_blank",
+        secondary: true
+      } %>
+      </div>
+      <%= render "govuk_publishing_components/components/heading", {
+        text: "3. Publish your changes",
+        padding: true
+      } %>
+      <div>
+        <%= link_to "Publish", coronavirus_publish_live_stream_path, method: :post, class: "govuk-button" %>
+      </div>
+      <%= render "govuk_publishing_components/components/heading", {
+        text: "4. Check the live landing page",
+        padding: true
+      } %>
       <%= render "govuk_publishing_components/components/button", {
         text: "Check live",
         href: published_url("coronavirus"),
@@ -20,6 +59,5 @@
         secondary: true
       } %>
     </div>
-
   </div>
 </div>

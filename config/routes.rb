@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   root to: redirect("/step-by-step-pages", status: 302)
+  get "/coronavirus/live_stream", to: "coronavirus#live_stream"
+  put "/coronavirus/update_live_stream", to: "coronavirus#update_live_stream"
+  post "/coronavirus/publish_live_stream", to: "coronavirus#publish_live_stream"
+
 
   resources :coronavirus, only: %i(index show update), param: :slug do
     post "publish", to: "coronavirus#publish"

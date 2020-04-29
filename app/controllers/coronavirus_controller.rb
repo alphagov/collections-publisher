@@ -16,24 +16,30 @@ class CoronavirusController < ApplicationController
   end
 
   def live_stream
-    live_stream = LiveStream.first_or_create
-    @live_stream = LiveStreamUpdater.new(live_stream).resync
+    @live_stream = updater.object
+  end
+
+  def update_live_stream
+    @live_stream = LiveStream.last
+    if @live_stream.update(url: url_params)
+      if updater.update
+        flash[:notice] = "Draft live stream url updated!"
+      else
+        flash["alert"] = "Live stream url has not been updated - please try again"
+      end
+    else
+      flash[:notice] = @live_stream.errors.full_messages.join(", ")
+    end
+    redirect_to coronavirus_live_stream_path
   end
 
   def publish_live_stream
-    @live_stream = LiveStream.last
-    updater = LiveStreamUpdater.new(@live_stream, params[:on])
-    if updater.updated?
-      if updater.published?
-        flash[:notice] = "Live stream turned #{@live_stream.state ? 'on' : 'off'}"
-        redirect_to coronavirus_live_stream_path
-      else
-        flash["alert"] = "Live stream has not been updated - please try again"
-      end
+    if updater.publish
+      flash[:notice] = "New live stream url published!"
     else
-      flash["alert"] = "Content item has not been updated - please try again"
-      redirect_to coronavirus_live_stream_path
+      flash["alert"] = "Live stream url has not been published - please try again"
     end
+    redirect_to coronavirus_live_stream_path
   end
 
   def show
@@ -61,6 +67,14 @@ class CoronavirusController < ApplicationController
   end
 
 private
+
+  def updater
+    LiveStreamUpdater.new
+  end
+
+  def url_params
+    params[:url]
+  end
 
   def publish_page
     begin
