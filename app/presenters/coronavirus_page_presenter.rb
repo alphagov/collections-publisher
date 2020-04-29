@@ -35,6 +35,6 @@ class CoronavirusPagePresenter
   end
 
   def live_stream
-    LiveStream.first_or_create
+    LiveStreamUpdater.new.object
   end
 end
