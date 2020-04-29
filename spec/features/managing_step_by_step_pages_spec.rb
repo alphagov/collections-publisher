@@ -782,7 +782,6 @@ RSpec.feature "Managing step by step pages" do
     and_i_cannot_delete_any_steps
     and_i_cannot_add_new_steps
 
-
     when_i_visit_the_navigation_rules_page
     then_i_see_pages_included_in_navigation
     but_there_is_no_select_component
