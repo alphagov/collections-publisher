@@ -3,7 +3,7 @@ class PublishIntent
 
   attr_accessor :update_type, :change_note
 
-  validates :update_type, presence: true, inclusion: { in: %w(major minor), message: "%<value> must be either major or minor" }
+  validates :update_type, presence: true, inclusion: { in: %w[major minor], message: "%<value> must be either major or minor" }
   validates :change_note, presence: true, if: :major_update?
 
   def self.minor_update

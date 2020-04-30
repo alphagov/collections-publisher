@@ -27,7 +27,7 @@ RSpec.describe StatusPrerequisiteValidator do
       expect(step_by_step_page.errors.messages[:status]).to eq([error_message])
     end
 
-    not_allowed_statuses = %w(draft approved_2i scheduled published)
+    not_allowed_statuses = %w[draft approved_2i scheduled published]
 
     not_allowed_statuses.each do |not_allowed_status|
       it "does not allow status to be in_review if the current is #{not_allowed_status}" do

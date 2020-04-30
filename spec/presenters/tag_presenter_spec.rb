@@ -35,9 +35,9 @@ RSpec.describe TagPresenter do
   describe "#render_for_publishing_api" do
     let(:tag) do
       create(:topic, parent: create(:tag, slug: "oil-and-gas"),
-        slug: "offshore",
-        title: "Offshore",
-        description: "Oil rigs, pipelines etc.")
+                     slug: "offshore",
+                     title: "Offshore",
+                     description: "Oil rigs, pipelines etc.")
     end
 
     it "is valid against the schema without lists" do

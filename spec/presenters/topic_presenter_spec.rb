@@ -5,8 +5,8 @@ RSpec.describe TopicPresenter do
     context "for a top-level topic" do
       let(:topic) {
         create(:topic, slug: "working-at-sea",
-          title: "Working at sea",
-          description: "The sea, the sky, the sea, the sky...")
+                       title: "Working at sea",
+                       description: "The sea, the sky, the sea, the sky...")
       }
       let(:presenter) { TopicPresenter.new(topic) }
       let(:presented_data) { presenter.render_for_publishing_api }
@@ -14,13 +14,13 @@ RSpec.describe TopicPresenter do
 
       it "includes the base fields" do
         expect(presented_data).to include(schema_name: "topic",
-          document_type: "topic",
-          title: "Working at sea",
-          description: "The sea, the sky, the sea, the sky...",
-          locale: "en",
-          publishing_app: "collections-publisher",
-          rendering_app: "collections",
-          redirects: [])
+                                          document_type: "topic",
+                                          title: "Working at sea",
+                                          description: "The sea, the sky, the sea, the sky...",
+                                          locale: "en",
+                                          publishing_app: "collections-publisher",
+                                          rendering_app: "collections",
+                                          redirects: [])
       end
 
       it "is valid against the schema" do
@@ -69,9 +69,9 @@ RSpec.describe TopicPresenter do
       let(:parent) { create(:topic, slug: "oil-and-gas") }
       let(:topic) {
         create(:topic, parent: parent,
-          slug: "offshore",
-          title: "Offshore",
-          description: "Oil rigs, pipelines etc.")
+                       slug: "offshore",
+                       title: "Offshore",
+                       description: "Oil rigs, pipelines etc.")
       }
       let(:presenter) { TopicPresenter.new(topic) }
       let(:presented_data) { presenter.render_for_publishing_api }
@@ -83,13 +83,13 @@ RSpec.describe TopicPresenter do
 
       it "includes the base fields" do
         expect(presented_data).to include(schema_name: "topic",
-          document_type: "topic",
-          title: "Offshore",
-          description: "Oil rigs, pipelines etc.",
-          locale: "en",
-          publishing_app: "collections-publisher",
-          rendering_app: "collections",
-          redirects: [])
+                                          document_type: "topic",
+                                          title: "Offshore",
+                                          description: "Oil rigs, pipelines etc.",
+                                          locale: "en",
+                                          publishing_app: "collections-publisher",
+                                          rendering_app: "collections",
+                                          redirects: [])
       end
 
       it "is valid against the schema" do

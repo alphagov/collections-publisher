@@ -63,6 +63,6 @@ RSpec.feature "Tagging browse pages with topics" do
 
   def then_i_my_browse_page_is_selected
     expect(page).to have_select("mainstream_browse_page_topics",
-                                selected: %w(Alpha))
+                                selected: %w[Alpha])
   end
 end

@@ -39,7 +39,7 @@ RSpec.feature "Navigating topics" do
 
     child_titles = page.all("td.children li").map(&:text)
     first_words_of_titles = child_titles.map(&:split).map(&:first)
-    expect(first_words_of_titles).to eq(%w(PAYE VAT))
+    expect(first_words_of_titles).to eq(%w[PAYE VAT])
   end
 
   def when_i_visit_a_topic_page

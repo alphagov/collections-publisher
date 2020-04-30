@@ -12,15 +12,15 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
       expect(
         presenter.render_links_for_publishing_api[:links]["parent"],
-      ).to eql(%w(9bb05887-d741-4a98-95b2-2c45dfc31556))
+      ).to eql(%w[9bb05887-d741-4a98-95b2-2c45dfc31556])
     end
   end
 
   describe "rendering for publishing-api" do
     let(:browse_page) {
       create(:mainstream_browse_page, slug: "benefits",
-        title: "Benefits",
-        description: "All about benefits")
+                                      title: "Benefits",
+                                      description: "All about benefits")
     }
     let(:presenter) { MainstreamBrowsePagePresenter.new(browse_page) }
     let(:presented_data) { presenter.render_for_publishing_api }
@@ -31,13 +31,13 @@ RSpec.describe MainstreamBrowsePagePresenter do
 
     it "includes the base fields" do
       expect(presented_data).to include(schema_name: "mainstream_browse_page",
-        document_type: "mainstream_browse_page",
-        title: "Benefits",
-        description: "All about benefits",
-        locale: "en",
-        publishing_app: "collections-publisher",
-        rendering_app: "collections",
-        redirects: [])
+                                        document_type: "mainstream_browse_page",
+                                        title: "Benefits",
+                                        description: "All about benefits",
+                                        locale: "en",
+                                        publishing_app: "collections-publisher",
+                                        rendering_app: "collections",
+                                        redirects: [])
     end
 
     it "sets public_updated_at based on the browse page update time" do
@@ -117,14 +117,14 @@ RSpec.describe MainstreamBrowsePagePresenter do
           :mainstream_browse_page,
           title: "Top-level page 1",
           child_ordering: "alphabetical",
-      )
+        )
       }
       let!(:top_level_page_2) {
         create(
           :mainstream_browse_page,
           title: "Top-level page 2",
           child_ordering: "curated",
-      )
+        )
       }
 
       let!(:second_level_page_B) {
@@ -132,14 +132,14 @@ RSpec.describe MainstreamBrowsePagePresenter do
           :mainstream_browse_page,
           title: "Second-level page B",
           parent: top_level_page_1,
-      )
+        )
       }
       let!(:second_level_page_A) {
         create(
           :mainstream_browse_page,
           title: "Second-level page A",
           parent: top_level_page_1,
-      )
+        )
       }
 
       let!(:second_level_page_C) {
@@ -148,7 +148,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
           title: "Second-level page C",
           parent: top_level_page_2,
           index: 1,
-      )
+        )
       }
       let!(:second_level_page_D) {
         create(
@@ -156,7 +156,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
           title: "Second-level page D",
           parent: top_level_page_2,
           index: 0,
-      )
+        )
       }
 
       context "for a top-level browse page with children in alphabetical order" do
@@ -257,7 +257,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
           :mainstream_browse_page,
           title: "Top-level page",
           child_ordering: "curated",
-      )
+        )
       }
 
       let!(:second_level_page_1) {
@@ -265,7 +265,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
           :mainstream_browse_page,
           title: "Second-level page",
           parent: top_level_page,
-      )
+        )
       }
 
       let!(:second_level_page_2) {
@@ -273,7 +273,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
           :mainstream_browse_page,
           title: "Another second-level page",
           parent: top_level_page,
-      )
+        )
       }
 
       context "for a top level page" do

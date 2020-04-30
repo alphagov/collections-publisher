@@ -3,21 +3,21 @@ require "securerandom"
 class Tag < ApplicationRecord
   include AASM
   include ActiveModel::Dirty
-  ORDERING_TYPES = %w(alphabetical curated).freeze
+  ORDERING_TYPES = %w[alphabetical curated].freeze
 
   belongs_to :parent, class_name: "Tag"
   has_many :children, class_name: "Tag", foreign_key: :parent_id
 
   has_many :tag_associations, foreign_key: :from_tag_id
   has_many :reverse_tag_associations, foreign_key: :to_tag_id,
-           class_name: "TagAssociation"
+                                      class_name: "TagAssociation"
 
   has_many :lists
   has_many :list_items, through: :lists
   has_many :redirect_routes
 
   validates :slug, :title, :content_id, presence: true
-  validates :slug, uniqueness: { scope: %w(parent_id), case_sensitive: false }, format: { with: /\A[a-z0-9-]*\z/ }
+  validates :slug, uniqueness: { scope: %w[parent_id], case_sensitive: false }, format: { with: /\A[a-z0-9-]*\z/ }
   validates :child_ordering, inclusion: { in: ORDERING_TYPES }
   validate :parent_is_not_a_child
   validate :cannot_change_slug

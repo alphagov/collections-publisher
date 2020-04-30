@@ -635,12 +635,10 @@ RSpec.feature "Managing step by step pages" do
   alias_method :when_i_visit_the_scheduling_page, :and_i_visit_the_scheduling_page
 
   def when_i_click_button(button_text)
-    begin
-      click_button button_text, exact: true
-    rescue Capybara::ElementNotFound
-      # some button-like things are actually marked up as link
-      click_link button_text, exact: true
-    end
+    click_button button_text, exact: true
+  rescue Capybara::ElementNotFound
+    # some button-like things are actually marked up as link
+    click_link button_text, exact: true
   end
 
   alias_method :and_when_i_click_button, :when_i_click_button

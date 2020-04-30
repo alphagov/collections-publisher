@@ -82,7 +82,7 @@ class StepByStepPagePresenter
   def sidebar_settings
     {
       field: "Sidebar settings",
-      value:  tag.span(I18n.t("guidance.summary_page.sidebar_settings"), class: "govuk-hint"),
+      value: tag.span(I18n.t("guidance.summary_page.sidebar_settings"), class: "govuk-hint"),
       edit: {
         link_text: step_by_step_page.can_be_edited? ? "Change" : "View",
         href: step_by_step_page_navigation_rules_path(step_by_step_page),

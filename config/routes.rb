@@ -6,8 +6,7 @@ Rails.application.routes.draw do
   put "/coronavirus/update_live_stream", to: "coronavirus#update_live_stream"
   post "/coronavirus/publish_live_stream", to: "coronavirus#publish_live_stream"
 
-
-  resources :coronavirus, only: %i(index show update), param: :slug do
+  resources :coronavirus, only: %i[index show update], param: :slug do
     post "publish", to: "coronavirus#publish"
   end
 

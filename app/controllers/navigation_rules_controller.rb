@@ -1,7 +1,7 @@
 class NavigationRulesController < ApplicationController
   layout "admin_layout"
   before_action :require_gds_editor_permissions!
-  before_action :set_step_by_step_page, only: %i(edit update)
+  before_action :set_step_by_step_page, only: %i[edit update]
 
   def edit
     @step_by_step_page.navigation_rules
@@ -11,7 +11,7 @@ class NavigationRulesController < ApplicationController
     navigation_rules = params.delete(:navigation_rules)
 
     navigation_rules.each_pair do |content_id, value|
-      value = %w(always conditionally never).include?(value) ? value : "always"
+      value = %w[always conditionally never].include?(value) ? value : "always"
 
       rule = @step_by_step_page.navigation_rules.find_by(content_id: content_id)
       rule.update_attribute(:include_in_links, value) if rule

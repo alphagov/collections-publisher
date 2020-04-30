@@ -64,7 +64,7 @@ RSpec.describe StepNavPresenter do
         step_nav.mark_draft_updated
 
         presented = subject.render_for_publishing_api
-        expected_auth_bypass_ids = %w(123)
+        expected_auth_bypass_ids = %w[123]
 
         expect(presented[:auth_bypass_ids]).to eq(expected_auth_bypass_ids)
       end
