@@ -38,7 +38,7 @@ def valid_url
   "https://www.youtube.com/watch?v=UF8mC-T0u6k"
 end
 
-def stub_restclient
+def stub_youtube
   stub_request(:get, valid_url)
 end
 
