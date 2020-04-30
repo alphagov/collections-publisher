@@ -15,8 +15,8 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       given_there_is_a_step_by_step_page_with_a_link_report
       when_i_visit_the_step_by_step_page
       then_the_primary_action_should_be "Submit for 2i review"
-      and_there_should_be_secondary_actions_to %w(Preview)
-      and_there_should_be_tertiary_actions_to %w(Delete)
+      and_there_should_be_secondary_actions_to %w[Preview]
+      and_there_should_be_tertiary_actions_to %w[Delete]
     end
   end
 
@@ -29,7 +29,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       and_i_am_the_step_by_step_author
       when_i_visit_the_step_by_step_page
       then_there_should_be_no_primary_action
-      and_there_should_be_secondary_actions_to %w(Preview)
+      and_there_should_be_secondary_actions_to %w[Preview]
       and_there_should_be_tertiary_actions_to ["Revert to draft", "Delete"]
     end
 
@@ -37,8 +37,8 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       and_i_am_the_reviewer
       when_i_visit_the_step_by_step_page
       then_the_primary_action_should_be "Claim for 2i review"
-      and_there_should_be_secondary_actions_to %w(Preview)
-      and_there_should_be_tertiary_actions_to %w(Delete)
+      and_there_should_be_secondary_actions_to %w[Preview]
+      and_there_should_be_tertiary_actions_to %w[Delete]
       and_there_should_be_a_guidance_link
     end
   end
@@ -52,7 +52,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       and_i_am_the_step_by_step_author
       when_i_visit_the_step_by_step_page
       then_there_should_be_no_primary_action
-      and_there_should_be_secondary_actions_to %w(Preview)
+      and_there_should_be_secondary_actions_to %w[Preview]
       and_there_should_be_tertiary_actions_to ["Revert to draft", "Delete"]
     end
 
@@ -61,7 +61,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       when_i_visit_the_step_by_step_page
       then_the_primary_action_should_be "Approve"
       and_there_should_be_secondary_actions_to ["Request changes", "Preview"]
-      and_there_should_be_tertiary_actions_to %w(Delete)
+      and_there_should_be_tertiary_actions_to %w[Delete]
       and_there_should_be_a_guidance_link
     end
   end
@@ -71,7 +71,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       given_there_is_a_step_by_step_that_has_been_2i_approved
       when_i_visit_the_step_by_step_page
       then_the_primary_action_should_be "Publish"
-      and_there_should_be_secondary_actions_to %w(Preview)
+      and_there_should_be_secondary_actions_to %w[Preview]
       and_there_should_be_tertiary_actions_to ["Revert to draft", "Schedule", "Delete"]
     end
   end
@@ -81,8 +81,8 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       given_there_is_a_scheduled_step_by_step_page
       when_i_visit_the_step_by_step_page
       then_there_should_be_no_primary_action
-      and_there_should_be_secondary_actions_to %w(Preview)
-      and_there_should_be_tertiary_actions_to %w(Unschedule)
+      and_there_should_be_secondary_actions_to %w[Preview]
+      and_there_should_be_tertiary_actions_to %w[Unschedule]
     end
   end
 
@@ -101,7 +101,7 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       given_there_is_a_published_step_by_step_page_with_unpublished_changes
       when_i_visit_the_step_by_step_page
       then_the_primary_action_should_be "Submit for 2i review"
-      and_there_should_be_secondary_actions_to %w(Preview)
+      and_there_should_be_secondary_actions_to %w[Preview]
       and_there_should_be_tertiary_actions_to ["Discard changes", "Unpublish", "View on GOV.UK"]
     end
   end

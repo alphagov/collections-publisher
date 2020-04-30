@@ -31,21 +31,17 @@ private
 
   def update_content_item
     with_longer_timeout do
-      begin
-        Services.publishing_api.put_content(landing_page_id, live_stream_payload)
-      rescue GdsApi::HTTPErrorResponse
-        object.update(url: url)
-      end
+      Services.publishing_api.put_content(landing_page_id, live_stream_payload)
+    rescue GdsApi::HTTPErrorResponse
+      object.update(url: url)
     end
   end
 
   def publish_content_item
     with_longer_timeout do
-      begin
-        Services.publishing_api.publish(landing_page_id, "minor")
-      rescue GdsApi::HTTPErrorResponse
-        nil
-      end
+      Services.publishing_api.publish(landing_page_id, "minor")
+    rescue GdsApi::HTTPErrorResponse
+      nil
     end
   end
 

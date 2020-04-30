@@ -19,7 +19,7 @@ RSpec.describe ReviewController do
           expect(response.status).to eq(200)
         end
 
-        (required_permissions - %w(signin)).each do |required_permission|
+        (required_permissions - %w[signin]).each do |required_permission|
           it "cannot be accessed by users without the #{required_permission} permission" do
             stub_user.permissions = required_permissions
             stub_user.permissions.delete(required_permission)
@@ -97,7 +97,7 @@ RSpec.describe ReviewController do
           expect(response.status).to eq(200)
         end
 
-        (required_permissions - %w(signin)).each do |required_permission|
+        (required_permissions - %w[signin]).each do |required_permission|
           it "cannot be accessed by users without the #{required_permission} permission" do
             stub_user.permissions = required_permissions
             stub_user.permissions.delete(required_permission)
@@ -124,7 +124,7 @@ RSpec.describe ReviewController do
           expect(response.status).to eq(200)
         end
 
-        (required_permissions - %w(signin)).each do |required_permission|
+        (required_permissions - %w[signin]).each do |required_permission|
           it "cannot be accessed by users without the #{required_permission} permission" do
             stub_user.permissions = required_permissions
             stub_user.permissions.delete(required_permission)
@@ -143,7 +143,7 @@ RSpec.describe ReviewController do
           expect(response).to redirect_to step_by_step_page_path(step_by_step_page)
         end
 
-        (required_permissions - %w(signin)).each do |required_permission|
+        (required_permissions - %w[signin]).each do |required_permission|
           it "cannot be accessed by users without the #{required_permission} permission" do
             stub_user.permissions = required_permissions
             stub_user.permissions.delete(required_permission)
@@ -199,7 +199,7 @@ RSpec.describe ReviewController do
           expect(response).to redirect_to step_by_step_page_path(step_by_step_page)
         end
 
-        (required_permissions - %w(signin)).each do |required_permission|
+        (required_permissions - %w[signin]).each do |required_permission|
           it "cannot be accessed by users without the #{required_permission} permission" do
             stub_user.permissions = required_permissions
             stub_user.permissions.delete(required_permission)
@@ -243,7 +243,7 @@ RSpec.describe ReviewController do
           expect(response).to redirect_to step_by_step_page_path(step_by_step_page)
         end
 
-        (required_permissions - %w(signin)).each do |required_permission|
+        (required_permissions - %w[signin]).each do |required_permission|
           it "cannot be accessed by users without the #{required_permission} permission" do
             stub_user.permissions = required_permissions
             stub_user.permissions.delete(required_permission)
@@ -284,7 +284,7 @@ RSpec.describe ReviewController do
           expect(response).to redirect_to step_by_step_page_path(step_by_step_page)
         end
 
-        (required_permissions - %w(signin)).each do |required_permission|
+        (required_permissions - %w[signin]).each do |required_permission|
           it "cannot be accessed by users without the #{required_permission} permission" do
             stub_user.permissions = required_permissions
             stub_user.permissions.delete(required_permission)

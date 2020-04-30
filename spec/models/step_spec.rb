@@ -129,7 +129,7 @@ RSpec.describe Step do
             "suggested_fix": "",
           },
         ],
-        )
+      )
       create(:link_report, batch_id: 2, step_id: step_item.id)
       expect(step_item.broken_links).to_not be_empty
       expect(step_item.broken_links?).to be true
@@ -160,7 +160,7 @@ RSpec.describe Step do
             "suggested_fix": "",
           },
         ],
-        )
+      )
       create(:link_report, batch_id: 2, step_id: step_item.id)
       expect(step_item.broken_links.length).to eql 1
       expect(step_item.broken_links?).to be true

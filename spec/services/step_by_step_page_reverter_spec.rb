@@ -471,10 +471,10 @@ RSpec.describe StepByStepPageReverter do
         "4": "superseded",
       },
       "links": {
-        "pages_related_to_step_nav": %w(
+        "pages_related_to_step_nav": %w[
           8d35443d-7bf1-4f51-b9b1-e398e1d44030
-        ),
-        "pages_part_of_step_nav": %w(
+        ],
+        "pages_part_of_step_nav": %w[
           a1156b8f-2a46-4fe1-8871-652abce9c925
           45c23180-968a-47bb-adbc-25d5422015ff
           d6b1901d-b925-47c5-b1ca-1e52197097e2
@@ -483,10 +483,10 @@ RSpec.describe StepByStepPageReverter do
           1788c387-8680-4454-8923-71ad0f632cbb
           2b422e36-85c4-40fb-a40b-5cd40c86c0f8
           2148f116-f909-4976-bb05-cb4899f3272a
-        ),
-        "pages_secondary_to_step_nav": %w(
+        ],
+        "pages_secondary_to_step_nav": %w[
           42ce66de-04f3-4192-bf31-8394538e0734
-        ),
+        ],
       },
       "warnings": {
       },

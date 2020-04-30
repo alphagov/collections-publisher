@@ -10,7 +10,7 @@ module CommonFeatureSteps
   end
 
   def given_i_am_not_a_gds_editor
-    stub_user.permissions = %w(signin)
+    stub_user.permissions = %w[signin]
   end
 
   def and_i_submit_the_form

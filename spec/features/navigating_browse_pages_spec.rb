@@ -62,10 +62,10 @@ RSpec.feature "Managing browse pages" do
 
   def then_i_see_the_documents_tagged_to_it
     tagged_document_titles = page.all(".tagged-document").map(&:text)
-    expect(tagged_document_titles).to eq(%w(
+    expect(tagged_document_titles).to eq(%w[
       Naturalisation
       Marriage
-    ))
+    ])
     expect(page).to have_link(nil, href: "#{Plek.new.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id1}")
     expect(page).to have_link(nil, href: "#{Plek.new.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id2}")
   end

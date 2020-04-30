@@ -26,9 +26,7 @@ class TagPresenter
     @tag = tag
   end
 
-  def content_id
-    tag.content_id
-  end
+  delegate :content_id, to: :tag
 
   def render_for_publishing_api
     {

@@ -1,12 +1,12 @@
 class StepByStepPage < ApplicationRecord
-  STATUSES = %w(
+  STATUSES = %w[
     draft
     submitted_for_2i
     in_review
     approved_2i
     scheduled
     published
-  ).freeze
+  ].freeze
 
   has_many :navigation_rules, -> { order(title: :asc) }, dependent: :destroy
   has_many :steps, -> { order(position: :asc) }, dependent: :destroy
@@ -98,7 +98,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def status
-    (read_attribute("status") || "").inquiry
+    (self["status"] || "").inquiry
   end
 
   def unpublished_changes?
@@ -162,7 +162,7 @@ class StepByStepPage < ApplicationRecord
 private
 
   def strip_slug_spaces
-    self.slug.gsub!(/^\s+|\s+$/, "")
+    slug.gsub!(/^\s+|\s+$/, "")
   end
 
   def reviewer_is_not_same_as_review_requester

@@ -1,6 +1,6 @@
 class Step < ApplicationRecord
   belongs_to :step_by_step_page
-  validates_presence_of :step_by_step_page
+  validates :step_by_step_page, presence: true
   validates :title, :logic, presence: true
   has_many :link_reports, dependent: :destroy
   after_create :set_step_position
@@ -23,7 +23,7 @@ class Step < ApplicationRecord
   end
 
   def request_broken_links
-    LinkReport.new(step_id: self.id).create_record
+    LinkReport.new(step_id: id).create_record
   end
 
 private
@@ -37,11 +37,9 @@ private
   end
 
   def batch_link_report
-    begin
-      @batch_link_report ||= Services.link_checker_api.get_batch(batch_link_report_id)
-    rescue GdsApi::HTTPServerError, GdsApi::HTTPNotFound
-      nil
-    end
+    @batch_link_report ||= Services.link_checker_api.get_batch(batch_link_report_id)
+  rescue GdsApi::HTTPServerError, GdsApi::HTTPNotFound
+    nil
   end
 
   def batch_link_report_id
@@ -49,7 +47,7 @@ private
   end
 
   def most_recent_batch
-    LinkReport.where(step_id: self.id).last
+    LinkReport.where(step_id: id).last
   end
 
   def set_step_position

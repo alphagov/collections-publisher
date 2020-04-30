@@ -51,12 +51,10 @@ class StepContentParser
 private
 
   def safely_parse_path(path)
-    begin
-      uri = URI.parse(path)
-      uri.path
-    rescue URI::InvalidURIError
-      nil
-    end
+    uri = URI.parse(path)
+    uri.path
+  rescue URI::InvalidURIError
+    nil
   end
 
   def relative_paths(content)

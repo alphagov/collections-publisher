@@ -45,7 +45,7 @@ private
   end
 
   def can_be_2i_approved?(record)
-    allowed_previous_statuses = %w(in_review scheduled published approved_2i)
+    allowed_previous_statuses = %w[in_review scheduled published approved_2i]
     record.has_draft? && allowed_previous_statuses.include?(record.status_was)
   end
 end

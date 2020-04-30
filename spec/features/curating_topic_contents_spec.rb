@@ -96,7 +96,7 @@ RSpec.feature "Curating topic contents" do
       # seems to allow all the expectations to run in order.
       visit_topic_list_curation_page
 
-      #Then the curated lists should have been sent to the publishing API
+      # Then the curated lists should have been sent to the publishing API
       assert_publishing_api_put_content(
         content_id,
         request_json_includes(
@@ -178,7 +178,7 @@ RSpec.feature "Curating topic contents" do
       # When I publish the topic
       click_on("Publish changes to GOV.UK")
 
-      #Then the curated lists should have been sent to the publishing API
+      # Then the curated lists should have been sent to the publishing API
       assert_publishing_api_put_content(
         content_id,
         request_json_includes(
@@ -320,7 +320,7 @@ RSpec.feature "Curating topic contents" do
 
       # Then the list should be deleted
       within ".curated-lists" do
-        expect(list_titles_on_page).to eq(%w(Piping))
+        expect(list_titles_on_page).to eq(%w[Piping])
       end
 
       # And the content from the list should appear in the uncategorized section

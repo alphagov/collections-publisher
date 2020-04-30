@@ -14,7 +14,7 @@ RSpec.describe SecondaryContentLinksController do
     end
 
     it "cannot be accessed by users without GDS editor permissions" do
-      stub_user.permissions = %w(signin)
+      stub_user.permissions = %w[signin]
       get :index, params: { step_by_step_page_id: step_by_step_page.id }
 
       expect(response.status).to eq(403)

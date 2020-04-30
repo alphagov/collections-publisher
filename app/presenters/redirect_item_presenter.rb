@@ -5,9 +5,7 @@ class RedirectItemPresenter
     @item = item
   end
 
-  def content_id
-    item.content_id
-  end
+  delegate :content_id, to: :item
 
   def base_path
     item.from_base_path

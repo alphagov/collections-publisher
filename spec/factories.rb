@@ -170,7 +170,7 @@ FactoryBot.define do
 
   factory :user do
     uid { SecureRandom.hex }
-    permissions { %w(signin) }
+    permissions { %w[signin] }
   end
 
   factory :list do

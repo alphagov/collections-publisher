@@ -77,13 +77,11 @@ private
   end
 
   def publish_page
-    begin
-      Services.publishing_api.publish(page_config[:content_id], update_type)
+    Services.publishing_api.publish(page_config[:content_id], update_type)
 
-      flash["notice"] = "Page published!"
-    rescue GdsApi::HTTPConflict
-      flash["alert"] = "Page already published - update the draft first"
-    end
+    flash["notice"] = "Page published!"
+  rescue GdsApi::HTTPConflict
+    flash["alert"] = "Page already published - update the draft first"
   end
 
   def fetch_content_and_push
@@ -96,12 +94,10 @@ private
         presenter = CoronavirusPagePresenter.new(corona_content, page_config[:base_path])
 
         with_longer_timeout do
-          begin
-            Services.publishing_api.put_content(page_config[:content_id], presenter.payload)
-            flash["notice"] = "Draft content updated"
-          rescue GdsApi::HTTPGatewayTimeout
-            flash["alert"] = "Updating the draft timed out - please try again"
-          end
+          Services.publishing_api.put_content(page_config[:content_id], presenter.payload)
+          flash["notice"] = "Draft content updated"
+        rescue GdsApi::HTTPGatewayTimeout
+          flash["alert"] = "Updating the draft timed out - please try again"
         end
       end
     else
@@ -155,7 +151,7 @@ private
   end
 
   def required_landing_page_keys
-    %w(
+    %w[
       title
       meta_description
       stay_at_home
@@ -166,17 +162,17 @@ private
       sections
       topic_section
       notifications
-    )
+    ]
   end
 
   def required_hub_page_keys
-    %w(
+    %w[
       title
       header_section
       sections
       topic_section
       notifications
-    )
+    ]
   end
 
   def all_pages_configuration

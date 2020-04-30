@@ -345,11 +345,11 @@ RSpec.describe StepContentParser do
       HEREDOC
 
       expect(subject.base_paths(step_text)).to eq(
-        %w(
+        %w[
           /all-the-prizes
           /i-love-speed-boats
           /spending-money
-        ),
+        ],
       )
     end
 
@@ -362,12 +362,12 @@ RSpec.describe StepContentParser do
       HEREDOC
 
       expect(subject.base_paths(step_text)).to eq(
-        %w(
+        %w[
           /insecure-link
           /secure-link
           /insecure-link-with-www
           /secure-link-with-www
-        ),
+        ],
       )
     end
 
@@ -378,10 +378,10 @@ RSpec.describe StepContentParser do
       HEREDOC
 
       expect(subject.base_paths(step_text)).to eq(
-        %w(
+        %w[
           /link
           /link-with-www
-        ),
+        ],
       )
     end
 
@@ -395,10 +395,10 @@ RSpec.describe StepContentParser do
       HEREDOC
 
       expect(subject.base_paths(step_text)).to eq(
-        %w(
+        %w[
           /all-the-prizes
           /bargain-basement
-        ),
+        ],
       )
     end
 
@@ -406,10 +406,10 @@ RSpec.describe StepContentParser do
       step_text = "[Find driving instructor training courses](/find-driving-instructor-training)[Revise and practise for your test](/adi-part-1-test/revision-practice)"
 
       expect(subject.base_paths(step_text.chomp)).to eq(
-        %w(
+        %w[
           /find-driving-instructor-training
           /adi-part-1-test/revision-practice
-        ),
+        ],
       )
     end
 
@@ -421,11 +421,11 @@ RSpec.describe StepContentParser do
       HEREDOC
 
       expect(subject.base_paths(step_text)).to eq(
-        %w(
+        %w[
           /all-the-prizes
           /i-love-speed-boats
           /spending-money
-        ),
+        ],
       )
     end
 
@@ -439,10 +439,10 @@ RSpec.describe StepContentParser do
       HEREDOC
 
       expect(subject.base_paths(step_text)).to eq(
-        %w(
+        %w[
           /the-only/Server-Relative/path/in-here
           /apart-from-this-one
-        ),
+        ],
       )
     end
   end
@@ -515,12 +515,12 @@ RSpec.describe StepContentParser do
       HEREDOC
 
       expect(subject.base_paths(step_text)).to eq(
-        %w(
+        %w[
           /cuddly-toy
           /brucie-bonus
           /i-love-speed-boats/big-ones
           /spending-money
-        ),
+        ],
       )
     end
   end
