@@ -7,19 +7,9 @@ inherit_mode:
   merge:
     - Exclude
 
-AllCops:
-  Exclude:
-    - db/**/*
-    - config.ru
-    - bin/**/*
-    - tmp/**/*
-
 Metrics/BlockLength:
   Exclude:
     - 'config/routes.rb'
-    - 'lib/tasks/**/*.rake'
-    - 'spec/**/*_spec.rb'
-    - 'spec/factories.rb'
 
 Rails/InverseOf:
   Enabled: false
