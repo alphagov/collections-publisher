@@ -31,20 +31,20 @@ RSpec.describe GroupsPresenter do
 
         expect(GroupsPresenter.new(tag).groups).to eq(
           [
-              {
-                name: "Piping",
-                contents: [
-                  "/undersea-piping-restrictions",
-                ],
-              },
-              {
-                name: "Oil rigs",
-                contents: [
-                  "/oil-rig-safety-requirements",
-                  "/oil-rig-staffing",
-                ],
-              },
-            ],
+            {
+              name: "Piping",
+              contents: [
+                "/undersea-piping-restrictions",
+              ],
+            },
+            {
+              name: "Oil rigs",
+              contents: [
+                "/oil-rig-safety-requirements",
+                "/oil-rig-staffing",
+              ],
+            },
+          ],
         )
       end
     end
