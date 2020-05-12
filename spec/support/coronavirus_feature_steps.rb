@@ -189,7 +189,7 @@ def live_content_item
 end
 
 def and_i_see_an_alert
-  expect(page).to have_text("Invalid content - please recheck GitHub and add title, stay_at_home, guidance, announcements_label, announcements, nhs_banner, sections, topic_section, notifications.")
+  expect(page).to have_text("Invalid content - please recheck GitHub and add title, header_section, announcements_label, announcements, nhs_banner, sections, topic_section, notifications.")
 end
 
 def and_i_see_an_alert_for_missing_hub_page_keys

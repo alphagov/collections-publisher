@@ -156,8 +156,7 @@ private
     %w[
       title
       meta_description
-      stay_at_home
-      guidance
+      header_section
       announcements_label
       announcements
       nhs_banner
