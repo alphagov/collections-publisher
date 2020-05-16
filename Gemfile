@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "~> 6.0.2"
+gem "rails", "~> 6.0.3"
 
 gem "aasm", "~> 5.0"
 gem "generic_form_builder", "~> 0.13"
