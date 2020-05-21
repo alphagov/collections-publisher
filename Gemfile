@@ -14,7 +14,7 @@ gem "gds-api-adapters", "~> 63.6"
 gem "gds-sso", "~> 14.3"
 gem "govuk_admin_template", "~> 6.7"
 gem "govuk_app_config", "~> 2.2"
-gem "govuk_publishing_components", "~> 21.43"
+gem "govuk_publishing_components", "~> 21.49"
 gem "govuk_sidekiq", "~> 3.0"
 gem "plek", "~> 3.0"
 
