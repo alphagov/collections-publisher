@@ -52,11 +52,12 @@ class StepByStepPage < ApplicationRecord
   end
 
   def mark_draft_deleted
-    update_attribute(:draft_updated_at, nil)
+    update(draft_updated_at: nil)
   end
 
   def mark_as_approved_2i
-    update_attribute(:status, "approved_2i")
+    self.status = "approved_2i"
+    save(validate: false)
   end
 
   def mark_as_published
@@ -81,15 +82,15 @@ class StepByStepPage < ApplicationRecord
   end
 
   def mark_as_scheduled
-    update_attribute(:status, "scheduled")
+    update(status: "scheduled")
   end
 
   def mark_as_unscheduled
-    update_attribute(:status, "approved_2i")
+    update(status: "approved_2i")
   end
 
   def refresh_auth_bypass_id
-    update_attribute(:auth_bypass_id, SecureRandom.uuid)
+    update(auth_bypass_id: SecureRandom.uuid)
   end
 
   def self.validate_redirect(redirect_url)

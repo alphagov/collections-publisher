@@ -64,7 +64,6 @@ private
   end
 
   def log(string)
-    puts string
     Rails.logger.info(string)
   end
 end
