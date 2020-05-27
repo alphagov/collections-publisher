@@ -3,16 +3,16 @@ require "rails_helper"
 RSpec.describe CoronavirusPagePresenter do
   include GovukContentSchemaTestHelpers
 
-  let(:content) {
+  let(:content) do
     {
       "title" => "coronavirus",
       "meta_description" => "details about the coronavirus response",
       "sections" => "some sections",
     }
-  }
+  end
 
   let(:landing_page_path) { "/coronavirus" }
-  let(:payload) {
+  let(:payload) do
     {
       "base_path" => landing_page_path,
       "title" => "coronavirus",
@@ -29,7 +29,7 @@ RSpec.describe CoronavirusPagePresenter do
       ],
       "update_type" => "minor",
     }
-  }
+  end
 
   let(:new_url) { "https://www.youtube.com/123" }
   let(:new_date) { "2 April 2020" }

@@ -4,7 +4,7 @@ class ListItem < ApplicationRecord
   validates :index, numericality: { greater_than_or_equal_to: 0 }
 
   attr_accessor :tagged
-  alias :tagged? :tagged
+  alias_method :tagged?, :tagged
 
   def display_title
     list.tag.tagged_document_for_base_path(base_path).try(:title) || title

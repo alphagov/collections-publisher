@@ -141,13 +141,13 @@ RSpec.describe NavigationRule do
   end
 
   describe "#display_text" do
-    let(:resource) {
+    let(:resource) do
       described_class.new(
         title: "A Title",
         base_path: "/a-base-path",
         content_id: "A-CONTENT-ID-BOOM",
       )
-    }
+    end
     it "returns 'Always show navigation' if the value always" do
       expect(resource.display_text("always")).to eq("Always show navigation")
     end

@@ -62,8 +62,8 @@ class Tag < ApplicationRecord
     parent.present?
   end
 
-  alias child? has_parent?
-  alias parent? can_have_children?
+  alias_method :child?, :has_parent?
+  alias_method :parent?, :can_have_children?
 
   def self.sorted_parents
     only_parents.includes(children: [:lists]).order(:title)

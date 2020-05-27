@@ -90,7 +90,7 @@ FactoryBot.define do
     title { "Check how awesome you are" }
     logic { "number" }
     position { 1 }
-    contents {
+    contents do
       <<~CONTENT
         This is a great step
 
@@ -100,18 +100,18 @@ FactoryBot.define do
         * [Not as great](/not/as/great)£25
         * [But good nonetheless](http://example.com/good)
       CONTENT
-    }
+    end
     step_by_step_page
 
     factory :or_step do
       title { "Dress like the Fonz" }
       logic { "or" }
       position { 2 }
-      contents {
+      contents do
         <<~CONTENT
           This is another great step
         CONTENT
-      }
+      end
       step_by_step_page
     end
 
@@ -119,13 +119,13 @@ FactoryBot.define do
       title { "This step has a smartanswer in it" }
       logic { "number" }
       position { 1 }
-      contents {
+      contents do
         <<~CONTENT
           This is a step with a smartanswer
 
           [A smartanswer](/a-smartanswer)
         CONTENT
-      }
+      end
       step_by_step_page
     end
   end

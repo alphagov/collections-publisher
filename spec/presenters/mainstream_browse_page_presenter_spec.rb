@@ -17,11 +17,11 @@ RSpec.describe MainstreamBrowsePagePresenter do
   end
 
   describe "rendering for publishing-api" do
-    let(:browse_page) {
+    let(:browse_page) do
       create(:mainstream_browse_page, slug: "benefits",
                                       title: "Benefits",
                                       description: "All about benefits")
-    }
+    end
     let(:presenter) { MainstreamBrowsePagePresenter.new(browse_page) }
     let(:presented_data) { presenter.render_for_publishing_api }
 
@@ -112,52 +112,52 @@ RSpec.describe MainstreamBrowsePagePresenter do
     end
 
     describe "linking to related pages" do
-      let!(:top_level_page_1) {
+      let!(:top_level_page_1) do
         create(
           :mainstream_browse_page,
           title: "Top-level page 1",
           child_ordering: "alphabetical",
         )
-      }
-      let!(:top_level_page_2) {
+      end
+      let!(:top_level_page_2) do
         create(
           :mainstream_browse_page,
           title: "Top-level page 2",
           child_ordering: "curated",
         )
-      }
+      end
 
-      let!(:second_level_page_B) {
+      let!(:second_level_page_B) do
         create(
           :mainstream_browse_page,
           title: "Second-level page B",
           parent: top_level_page_1,
         )
-      }
-      let!(:second_level_page_A) {
+      end
+      let!(:second_level_page_A) do
         create(
           :mainstream_browse_page,
           title: "Second-level page A",
           parent: top_level_page_1,
         )
-      }
+      end
 
-      let!(:second_level_page_C) {
+      let!(:second_level_page_C) do
         create(
           :mainstream_browse_page,
           title: "Second-level page C",
           parent: top_level_page_2,
           index: 1,
         )
-      }
-      let!(:second_level_page_D) {
+      end
+      let!(:second_level_page_D) do
         create(
           :mainstream_browse_page,
           title: "Second-level page D",
           parent: top_level_page_2,
           index: 0,
         )
-      }
+      end
 
       context "for a top-level browse page with children in alphabetical order" do
         let(:presenter) { MainstreamBrowsePagePresenter.new(top_level_page_1) }
@@ -252,29 +252,29 @@ RSpec.describe MainstreamBrowsePagePresenter do
     end
 
     describe "returning the order of relative second level browse pages" do
-      let!(:top_level_page) {
+      let!(:top_level_page) do
         create(
           :mainstream_browse_page,
           title: "Top-level page",
           child_ordering: "curated",
         )
-      }
+      end
 
-      let!(:second_level_page_1) {
+      let!(:second_level_page_1) do
         create(
           :mainstream_browse_page,
           title: "Second-level page",
           parent: top_level_page,
         )
-      }
+      end
 
-      let!(:second_level_page_2) {
+      let!(:second_level_page_2) do
         create(
           :mainstream_browse_page,
           title: "Another second-level page",
           parent: top_level_page,
         )
-      }
+      end
 
       context "for a top level page" do
         let(:presenter) { MainstreamBrowsePagePresenter.new(top_level_page) }
