@@ -22,6 +22,10 @@ module StepNavActionsHelper
       step_by_step_page.review_requester_id == user.uid
   end
 
+  def can_skip_2i_review?(user)
+    user.has_permission?("Skip review")
+  end
+
 private
 
   def can_claim_first_review?(step_by_step_page, user)

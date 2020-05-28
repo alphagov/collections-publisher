@@ -25,6 +25,10 @@ module CommonFeatureSteps
     ["signin", "GDS Editor", "2i reviewer"]
   end
 
+  def required_permissions_to_skip_2i
+    ["signin", "GDS Editor", "2i reviewer", "Skip review"]
+  end
+
   def then_i_can_see_a_success_message(message)
     within(".gem-c-success-alert") do
       expect(page).to have_content message

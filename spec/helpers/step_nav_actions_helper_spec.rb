@@ -9,6 +9,7 @@ RSpec.describe StepNavActionsHelper do
   let(:reviewer_user) { create(:user, permissions: required_permissions_for_2i) }
   let(:second_reviewer_user) { create(:user, permissions: required_permissions_for_2i) }
   let(:non_2i_user) { create(:user, permissions: required_permissions_for_2i - ["2i reviewer"]) }
+  let(:skip_2i_user) { create(:user, permissions: required_permissions_to_skip_2i) }
 
   before do
     allow(Services.publishing_api).to receive(:lookup_content_id)
@@ -154,6 +155,16 @@ RSpec.describe StepNavActionsHelper do
 
         expect(can_revert_to_draft?(step_by_step_page, user)).to be false
       end
+    end
+  end
+
+  describe "#can_skip_2i_review?" do
+    it "returns false if the user can not skip 2i review" do
+      expect(helper.can_skip_2i_review?(reviewer_user)).to be false
+    end
+
+    it "returns true if the user can skip 2i review" do
+      expect(helper.can_skip_2i_review?(skip_2i_user)).to be true
     end
   end
 end
