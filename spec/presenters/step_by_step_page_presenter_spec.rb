@@ -11,13 +11,13 @@ RSpec.describe StepByStepPagePresenter do
   describe "#summary_list" do
     let(:time_now) { Time.zone.now }
     let(:step_nav) { create(:draft_step_by_step_page) }
-    let(:default_summary) {
+    let(:default_summary) do
       {
         "Status" => "Draft",
         "Last saved" => format_full_date_and_time(time_now),
         "Created" => format_full_date_and_time(time_now),
       }
-    }
+    end
 
     subject { described_class.new(step_nav).summary_metadata }
 

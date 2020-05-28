@@ -25,7 +25,7 @@ class StepByStepPagesController < ApplicationController
       reordered_steps = JSON.parse(params[:step_order_save])
       reordered_steps.each do |step_data|
         step = @step_by_step_page.steps.find(step_data["id"])
-        step.update_attribute(:position, step_data["position"])
+        step.update(position: step_data["position"])
       end
       StepByStepUpdater.call(@step_by_step_page, current_user)
       redirect_to @step_by_step_page, notice: "Steps were successfully reordered."

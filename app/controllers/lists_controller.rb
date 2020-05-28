@@ -46,7 +46,7 @@ class ListsController < ApplicationController
     @tag.mark_as_dirty! if saved
 
     respond_to do |format|
-      format.html {
+      format.html do
         if saved
           flash[:success] = "List updated"
         else
@@ -54,14 +54,14 @@ class ListsController < ApplicationController
         end
 
         redirect_to tag_lists_path(@tag)
-      }
-      format.js {
+      end
+      format.js do
         if saved
           render json: { errors: [] }
         else
           render json: { errors: list.errors.to_json }, status: :unprocessable_entity
         end
-      }
+      end
     end
   end
 

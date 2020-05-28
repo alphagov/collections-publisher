@@ -10,7 +10,7 @@ class ListItemsController < ApplicationController
     @tag.mark_as_dirty! if saved
 
     respond_to do |format|
-      format.html {
+      format.html do
         if saved
           flash[:success] = "Content added"
         else
@@ -18,14 +18,14 @@ class ListItemsController < ApplicationController
         end
 
         redirect_to tag_lists_path(@tag)
-      }
-      format.js {
+      end
+      format.js do
         if saved
           render json: { errors: [], updateURL: tag_list_list_item_path(@tag, @list, list_item) }
         else
           render json: { errors: list_item.errors.to_json }, status: :unprocessable_entity
         end
-      }
+      end
     end
   end
 
@@ -38,7 +38,7 @@ class ListItemsController < ApplicationController
     @tag.mark_as_dirty! if destroyed
 
     respond_to do |format|
-      format.html {
+      format.html do
         if destroyed
           flash[:success] = "Content removed from list"
         else
@@ -46,14 +46,14 @@ class ListItemsController < ApplicationController
         end
 
         redirect_to tag_lists_path(@tag)
-      }
-      format.js {
+      end
+      format.js do
         if destroyed
           render json: { errors: [] }
         else
           render json: { errors: list_item.errors.to_json }, status: :unprocessable_entity
         end
-      }
+      end
     end
   end
 
@@ -63,7 +63,7 @@ class ListItemsController < ApplicationController
     list_item.index = params[:index]
 
     respond_to do |format|
-      format.js {
+      format.js do
         if list_item.save
           @tag.mark_as_dirty!
 
@@ -71,7 +71,7 @@ class ListItemsController < ApplicationController
         else
           render json: { errors: list_item.errors.to_json }, status: :unprocessable_entity
         end
-      }
+      end
     end
   end
 

@@ -3,11 +3,11 @@ require "rails_helper"
 RSpec.describe TopicPresenter do
   describe "rendering for publishing-api" do
     context "for a top-level topic" do
-      let(:topic) {
+      let(:topic) do
         create(:topic, slug: "working-at-sea",
                        title: "Working at sea",
                        description: "The sea, the sky, the sea, the sky...")
-      }
+      end
       let(:presenter) { TopicPresenter.new(topic) }
       let(:presented_data) { presenter.render_for_publishing_api }
       let(:rendered_links) { presenter.render_links_for_publishing_api }
@@ -67,12 +67,12 @@ RSpec.describe TopicPresenter do
 
     context "for a subtopic" do
       let(:parent) { create(:topic, slug: "oil-and-gas") }
-      let(:topic) {
+      let(:topic) do
         create(:topic, parent: parent,
                        slug: "offshore",
                        title: "Offshore",
                        description: "Oil rigs, pipelines etc.")
-      }
+      end
       let(:presenter) { TopicPresenter.new(topic) }
       let(:presented_data) { presenter.render_for_publishing_api }
       let(:rendered_links) { presenter.render_links_for_publishing_api }

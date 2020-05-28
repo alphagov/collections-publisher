@@ -22,7 +22,7 @@ private
   end
 
   def live_stream_content
-    if live_content_item.has_key?("details")
+    if live_content_item.key?("details")
       live_content_item["details"]["live_stream"]
     else
       {}

@@ -27,8 +27,8 @@ RSpec.describe MainstreamBrowsePagesController do
       allow(PublishingAPINotifier).to receive(:notify)
     end
 
-    let(:mainstream_browse_page) {
+    let(:mainstream_browse_page) do
       create(:mainstream_browse_page)
-    }
+    end
   end
 end
