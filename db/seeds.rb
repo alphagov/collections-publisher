@@ -5,7 +5,7 @@ if User.where(name: "Test user").blank?
   User.create!(
     uid: user_id,
     name: "Test user",
-    permissions: ["signin", "GDS Editor", "Coronavirus editor"],
+    permissions: ["signin", "GDS Editor", "Coronavirus editor", "Skip review"],
     organisation_content_id: gds_organisation_id,
   )
 end
