@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     put "navigation-rules", to: "navigation_rules#update"
     get :publish
     post :publish
+    get :publish_without_2i_review
+    post :publish_without_2i_review
     get :reorder
     post :reorder
     get "request-change-2i-review", to: "review#show_request_change_2i_review_form"
