@@ -15,6 +15,17 @@ RSpec.feature "Contextual action buttons for step by step pages" do
       given_there_is_a_step_by_step_page_with_a_link_report
       when_i_visit_the_step_by_step_page
       then_the_primary_action_should_be "Submit for 2i review"
+      and_there_should_not_be_a_warning_action_to "Publish without 2i review"
+      and_there_should_be_secondary_actions_to %w[Preview]
+      and_there_should_be_tertiary_actions_to %w[Delete]
+    end
+
+    scenario "show the relevant actions to a user with Skip review permissions" do
+      given_i_can_skip_review
+      given_there_is_a_step_by_step_page_with_a_link_report
+      when_i_visit_the_step_by_step_page
+      then_the_primary_action_should_be "Submit for 2i review"
+      and_there_should_be_a_warning_action_to "Publish without 2i review"
       and_there_should_be_secondary_actions_to %w[Preview]
       and_there_should_be_tertiary_actions_to %w[Delete]
     end
@@ -133,8 +144,17 @@ RSpec.feature "Contextual action buttons for step by step pages" do
     end
   end
 
+  def and_there_should_not_be_a_warning_action_to(action_text)
+    expect(page).not_to have_css(warning_action_selector, text: action_text)
+  end
+
+  def and_there_should_be_a_warning_action_to(action_text)
+    expect(page).to have_css(warning_action_selector, count: 1)
+    expect(page).to have_css(warning_action_selector, text: action_text), "Couldn't find '#{action_text}' as a primary action in: \n #{action_html}"
+  end
+
   def primary_action_selector
-    ".app-side__actions .gem-c-button:not(.gem-c-button--secondary)"
+    ".app-side__actions .gem-c-button:not(.gem-c-button--secondary):not(.govuk-button--warning)"
   end
 
   def secondary_action_selector
@@ -143,6 +163,10 @@ RSpec.feature "Contextual action buttons for step by step pages" do
 
   def tertiary_action_selector
     ".app-side__actions .govuk-link"
+  end
+
+  def warning_action_selector
+    ".app-side__actions .govuk-button--warning"
   end
 
   def action_html

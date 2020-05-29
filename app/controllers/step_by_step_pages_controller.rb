@@ -6,6 +6,7 @@ class StepByStepPagesController < ApplicationController
   before_action :require_gds_editor_permissions!
   before_action :set_step_by_step_page, only: %i[show edit update destroy]
   before_action :require_to_be_2i_approved, only: %i[publish schedule schedule_datetime]
+  before_action :require_skip_review_permissions!, only: %i[publish_without_2i_review]
 
   def index
     @step_by_step_pages = StepByStepFilter::Results.new(filter_params).call
@@ -73,6 +74,21 @@ class StepByStepPagesController < ApplicationController
         set_change_note_version
         redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been published."
       end
+    end
+  end
+
+  def publish_without_2i_review
+    set_current_page_as_step_by_step
+    if request.post?
+      @publish_intent = PublishIntent.new(publish_intent_params)
+      if @publish_intent.valid?
+        publish_page(@publish_intent)
+        generate_internal_change_note("Published without 2i review", publish_note_description)
+        set_change_note_version
+        redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been published."
+      end
+    else
+      render :publish
     end
   end
 

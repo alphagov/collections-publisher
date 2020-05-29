@@ -121,6 +121,83 @@ RSpec.describe StepByStepPagesController do
     end
   end
 
+  describe "#publish_without_21_review" do
+    context "without 'Skip review' permissions" do
+      it "cannot be published" do
+        stub_publishing_api
+        step_by_step_page.mark_draft_updated
+
+        post :publish_without_2i_review, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor" }
+        step_by_step_page.reload
+
+        expect(step_by_step_page.status).not_to be_published
+      end
+    end
+
+    context "with 'Skip review' permissions" do
+      let(:stub_user) { create(:user, name: "Name Surname", permissions: ["signin", "GDS Editor", "Skip review"]) }
+      it "can be published" do
+        stub_publishing_api
+        step_by_step_page.mark_draft_updated
+
+        post :publish_without_2i_review, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor" }
+        step_by_step_page.reload
+
+        expect(step_by_step_page.status).to be_published
+      end
+
+      context "first publish" do
+        it "generates an internal change note stating that this is published without 2i" do
+          stub_publishing_api
+
+          post :publish_without_2i_review, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor" }
+
+          expected_headline = "Published without 2i review"
+          expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
+          expect(step_by_step_page.internal_change_notes.first.description).to be_nil
+        end
+      end
+
+      context "major updates" do
+        let(:step_by_step_page) { create(:published_step_by_step_page) }
+
+        it "generates an internal change note with change note text" do
+          stub_publishing_api
+
+          change_note_text = "Testing major change note"
+          post :publish_without_2i_review, params: { step_by_step_page_id: step_by_step_page.id, update_type: "major", change_note: change_note_text }
+
+          expected_headline = "Published without 2i review"
+          expected_description = "With change note: #{change_note_text}"
+          expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_headline
+          expect(step_by_step_page.internal_change_notes.first.description).to eq expected_description
+        end
+      end
+
+      context "minor updates" do
+        let(:step_by_step_page) { create(:published_step_by_step_page) }
+
+        it "generates an internal change note without change note text" do
+          stub_publishing_api
+          post :publish_without_2i_review, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor", change_note: "" }
+
+          expected_description = "Published without 2i review"
+          expect(step_by_step_page.internal_change_notes.first.headline).to eq expected_description
+          expect(step_by_step_page.internal_change_notes.first.description).to be_nil
+        end
+      end
+
+      it "sets the edition number of the change notes" do
+        create(:internal_change_note, step_by_step_page_id: step_by_step_page.id)
+
+        stub_publishing_api
+        post :publish_without_2i_review, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor", headline: "" }
+
+        expect(step_by_step_page.internal_change_notes.first.edition_number).to eq(3)
+      end
+    end
+  end
+
   describe "#unpublish" do
     before :each do
       stub_publishing_api

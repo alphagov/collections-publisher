@@ -21,8 +21,16 @@ module CommonFeatureSteps
     stub_user.permissions << "2i reviewer"
   end
 
+  def given_i_can_skip_review
+    stub_user.permissions << "Skip review"
+  end
+
   def required_permissions_for_2i
     ["signin", "GDS Editor", "2i reviewer"]
+  end
+
+  def required_permissions_to_skip_2i
+    ["signin", "GDS Editor", "2i reviewer", "Skip review"]
   end
 
   def then_i_can_see_a_success_message(message)

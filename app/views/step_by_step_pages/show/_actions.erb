@@ -55,6 +55,13 @@
         } %>
       <% end %>
       <%= preview_link %>
+      <% if can_skip_2i_review?(current_user) %>
+        <%= render "govuk_publishing_components/components/button", {
+          text: "Publish without 2i review",
+          href: step_by_step_page_publish_without_2i_review_path(@step_by_step_page),
+          destructive: true
+        } %>
+      <% end %>
     <% end %>
 
     <% if can_revert_to_draft?(@step_by_step_page, current_user) %>
