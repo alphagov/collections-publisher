@@ -1,5 +1,5 @@
 class LiveStreamController < ApplicationController
-  before_action :require_coronavirus_editor_permissions!
+  before_action :require_livestream_editor_permissions!
   layout "admin_layout"
 
   def index
