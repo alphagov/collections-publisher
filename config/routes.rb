@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     def initialize(role)
       @role = role
     end
+
     def matches?(request)
       user = request.env["warden"].user
       user && user.has_permission?(@role)

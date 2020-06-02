@@ -13,9 +13,11 @@
     </li>
   <% end %>
 
-  <li class='<%= active_navigation_item == 'topics' ? 'active' : nil %>'>
-    <%= link_to 'Specialist sector pages', topics_path %>
-  </li>
+  <% unless livestream_editor? %>
+    <li class='<%= active_navigation_item == 'topics' ? 'active' : nil %>'>
+      <%= link_to 'Specialist sector pages', topics_path %>
+    </li>
+  <% end %>
 
   <% if gds_editor? %>
     <li class='<%= active_navigation_item == 'step_by_step_pages' ? 'active' : nil %>'>

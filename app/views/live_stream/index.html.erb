@@ -7,21 +7,22 @@
         text: "1. Add the URL",
         padding: true
       } %>
-      <details class="govuk-details" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-            Help with YouTube
-          </span>
-        </summary>
-        <div class="govuk-details__text">
-          <p>Every afternoon, No.10 adds a video link to the upcoming press conference to this <a href="https://www.youtube.com/user/Number10gov/videos?view=2">page</a>.</p>
-          <p>The video will appear in the 'Uploads' section of the page and is labelled as 'Live'.</p>
-          <p>The video is added at around 4.30pm on weekdays, and 3.30pm on weekends.</p>
-          <p>If the most recent video has yesterday's date, or there is no video labelled 'Live' check again in a few minutes.</p>
-          <p>Click on the video, and copy its URL.</p>
-        </div>
-      </details>
-
+      <% unless livestream_editor? %>
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              Help with YouTube
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+            <p>Every afternoon, No.10 adds a video link to the upcoming press conference to this <a href="https://www.youtube.com/user/Number10gov/videos?view=2">page</a>.</p>
+            <p>The video will appear in the 'Uploads' section of the page and is labelled as 'Live'.</p>
+            <p>The video is added at around 4.30pm on weekdays, and 3.30pm on weekends.</p>
+            <p>If the most recent video has yesterday's date, or there is no video labelled 'Live' check again in a few minutes.</p>
+            <p>Click on the video, and copy its URL.</p>
+          </div>
+        </details>
+      <% end %>
       <%= form_with(url: live_stream_path(@live_stream), method: "put", local: true) do %>
         <%= label_tag(:url, "YouTube URL", class: "govuk-label" ) %>
         <%= text_field_tag(:url, nil,
