@@ -1,5 +1,16 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  class RoleConstraint
+    def initialize(role)
+      @role = role
+    end
+    def matches?(request)
+      user = request.env["warden"].user
+      user && user.has_permission?(@role)
+    end
+  end
+
+  root to: "live_stream#index", constraints: RoleConstraint.new("Livestream editor"), as: nil
   root to: redirect("/step-by-step-pages", status: 302)
 
   resources :live_stream, only: %i[index update] do
