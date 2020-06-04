@@ -12,10 +12,10 @@ class LiveStreamController < ApplicationController
       if updater.update
         flash[:notice] = "Draft live stream url updated!"
       else
-        flash["alert"] = "Live stream url has not been updated - please try again"
+        flash[:alert] = "Live stream url has not been updated - please try again"
       end
     else
-      flash[:notice] = @live_stream.errors.full_messages.join(", ")
+      flash[:alert] = @live_stream.errors.full_messages.join(", ")
     end
     redirect_to live_stream_index_path
   end
@@ -24,7 +24,7 @@ class LiveStreamController < ApplicationController
     if updater.publish
       flash[:notice] = "New live stream url published!"
     else
-      flash["alert"] = "Live stream url has not been published - please try again"
+      flash[:alert] = "Live stream url has not been published - please try again"
     end
     redirect_to live_stream_index_path
   end

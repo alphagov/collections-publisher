@@ -8,25 +8,25 @@
 
 <% content_for :navbar_items do %>
   <% if gds_editor? %>
-    <li class='<%= active_navigation_item == 'mainstream_browse_pages' ? 'active' : nil %>'>
+    <li class="<%= active_navigation_item == 'mainstream_browse_pages' ? 'active' : nil %>">
       <%= link_to 'Mainstream browse pages', mainstream_browse_pages_path %>
     </li>
   <% end %>
 
   <% unless livestream_editor? %>
-    <li class='<%= active_navigation_item == 'topics' ? 'active' : nil %>'>
+    <li class="<%= active_navigation_item == 'topics' ? 'active' : nil %>">
       <%= link_to 'Specialist sector pages', topics_path %>
     </li>
   <% end %>
 
   <% if gds_editor? %>
-    <li class='<%= active_navigation_item == 'step_by_step_pages' ? 'active' : nil %>'>
+    <li class="<%= active_navigation_item == 'step_by_step_pages' ? 'active' : nil %>">
       <%= link_to 'Step by step pages', step_by_step_pages_path %>
     </li>
   <% end %>
 
   <% if coronavirus_editor? %>
-    <li class='<%= active_navigation_item == 'coronavirus' ? 'active' : nil %>'>
+    <li class="<%= active_navigation_item == 'coronavirus' ? 'active' : nil %>">
       <%= link_to 'Coronavirus pages', coronavirus_index_path %>
     </li>
   <% end %>

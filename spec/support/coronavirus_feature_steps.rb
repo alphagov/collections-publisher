@@ -23,21 +23,23 @@ def the_payload_contains_the_valid_url
 end
 
 def stub_live_coronavirus_content_request
-  stub_publishing_api_has_item(JSON.parse(live_coronavirus_content_item))
+  stub_publishing_api_has_item(coronavirus_content_json)
 end
 
 def live_coronavirus_content_item
-  File.read(Rails.root.join + "spec/fixtures/coronavirus_content_item.json")
+  File.read(Rails.root.join("spec/fixtures/coronavirus_content_item.json"))
+end
+
+def coronavirus_content_json
+  @coronavirus_content_json ||= JSON.parse(live_coronavirus_content_item)
 end
 
 def coronavirus_live_stream_hash
-  h = JSON.parse(live_coronavirus_content_item)
-  h["details"]["live_stream"]
+  coronavirus_content_json.dig("details", "live_stream")
 end
 
 def coronavirus_content_id
-  h = JSON.parse(live_coronavirus_content_item)
-  h["content_id"]
+  coronavirus_content_json["content_id"]
 end
 
 def todays_date
