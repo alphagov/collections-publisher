@@ -7,7 +7,7 @@ RSpec.describe LiveStreamUpdater do
   before do
     stub_any_publishing_api_put_content
     stub_any_publishing_api_publish
-    stub_live_content_request
+    stub_live_coronavirus_content_request
     stub_yesterdays_youtube_link
     stub_todays_youtube_link
   end
@@ -62,39 +62,5 @@ RSpec.describe LiveStreamUpdater do
       stub_any_publishing_api_call_to_return_not_found
       expect(updater.publish).to be false
     end
-  end
-
-  def live_content_item
-    File.read(Rails.root.join + "spec/fixtures/coronavirus_content_item.json")
-  end
-
-  def yesterdays_link
-    h = JSON.parse(live_content_item)
-    h["details"]["live_stream"]["video_url"]
-  end
-
-  def yesterdays_date
-    h = JSON.parse(live_content_item)
-    h["details"]["live_stream"]["date"]
-  end
-
-  def todays_link
-    "https://www.youtube.com/watch?yesterdays-link"
-  end
-
-  def todays_date
-    "31 March 2020"
-  end
-
-  def stub_live_content_request
-    stub_publishing_api_has_item(JSON.parse(live_content_item))
-  end
-
-  def stub_todays_youtube_link
-    stub_request(:get, todays_link)
-  end
-
-  def stub_yesterdays_youtube_link
-    stub_request(:get, yesterdays_link)
   end
 end

@@ -34,4 +34,8 @@ module NavigationSteps
   def when_i_visit_the_step_by_step_page
     visit step_by_step_page_path(@step_by_step_page)
   end
+
+  def when_i_visit_the_root_path
+    visit root_path
+  end
 end

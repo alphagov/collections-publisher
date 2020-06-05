@@ -4,26 +4,42 @@ def given_i_am_a_coronavirus_editor
 end
 
 def the_payload_contains_the_valid_url
+  live_stream_payload = coronavirus_live_stream_hash.merge(
+    {
+      "video_url" => valid_url,
+      "date" => todays_date,
+    },
+  )
+
   assert_publishing_api_put_content(
-    "774cee22-d896-44c1-a611-e3109cce8eae",
+    coronavirus_content_id,
     request_json_includes(
       "details" => {
         "announcements_label" => "Announcements",
-        "live_stream" => {
-          "video_url" => valid_url,
-          "date" => todays_date,
-          "date_text" => "Live streamed",
-          "previous_videos" => {
-            "url" => "https://www.youtube.com/user/Number10gov/videos",
-          },
-        },
+        "live_stream" => live_stream_payload,
       },
     ),
   )
 end
 
-def stub_publishing_api_live_content_request
-  stub_publishing_api_has_item(JSON.parse(live_content_item))
+def stub_live_coronavirus_content_request
+  stub_publishing_api_has_item(coronavirus_content_json)
+end
+
+def live_coronavirus_content_item
+  File.read(Rails.root.join("spec/fixtures/coronavirus_content_item.json"))
+end
+
+def coronavirus_content_json
+  @coronavirus_content_json ||= JSON.parse(live_coronavirus_content_item)
+end
+
+def coronavirus_live_stream_hash
+  coronavirus_content_json.dig("details", "live_stream")
+end
+
+def coronavirus_content_id
+  coronavirus_content_json["content_id"]
 end
 
 def todays_date
@@ -43,9 +59,9 @@ def stub_youtube
 end
 
 def stub_coronavirus_publishing_api
+  stub_live_coronavirus_content_request
   stub_any_publishing_api_put_content
   stub_any_publishing_api_publish
-  stub_publishing_api_live_content_request
 end
 
 def stub_github_request
@@ -182,10 +198,6 @@ end
 
 def invalid_github_response
   File.read(Rails.root.join + "spec/fixtures/invalid_corona_page.yml")
-end
-
-def live_content_item
-  File.read(Rails.root.join + "spec/fixtures/coronavirus_content_item.json")
 end
 
 def and_i_see_an_alert

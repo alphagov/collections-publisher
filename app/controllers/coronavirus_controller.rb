@@ -13,33 +13,6 @@ class CoronavirusController < ApplicationController
     render :index, locals: { links: links }
   end
 
-  def live_stream
-    @live_stream = updater.object
-  end
-
-  def update_live_stream
-    @live_stream = LiveStream.last
-    if @live_stream.update(url: url_params, formatted_stream_date: formatted_date)
-      if updater.update
-        flash[:notice] = "Draft live stream url updated!"
-      else
-        flash["alert"] = "Live stream url has not been updated - please try again"
-      end
-    else
-      flash[:notice] = @live_stream.errors.full_messages.join(", ")
-    end
-    redirect_to coronavirus_live_stream_path
-  end
-
-  def publish_live_stream
-    if updater.publish
-      flash[:notice] = "New live stream url published!"
-    else
-      flash["alert"] = "Live stream url has not been published - please try again"
-    end
-    redirect_to coronavirus_live_stream_path
-  end
-
   def show
     if page_config.nil?
       flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
@@ -65,18 +38,6 @@ class CoronavirusController < ApplicationController
   end
 
 private
-
-  def updater
-    LiveStreamUpdater.new
-  end
-
-  def url_params
-    params[:url]
-  end
-
-  def formatted_date
-    DateTime.now.strftime("%-d %B %Y")
-  end
 
   def publish_page
     Services.publishing_api.publish(page_config[:content_id], update_type)
