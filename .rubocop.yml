@@ -6,13 +6,3 @@ inherit_gem:
 inherit_mode:
   merge:
     - Exclude
-
-Metrics/BlockLength:
-  Exclude:
-    - 'config/routes.rb'
-
-Rails/InverseOf:
-  Enabled: false
-
-Rails/HasManyOrHasOneDependent:
-  Enabled: false
