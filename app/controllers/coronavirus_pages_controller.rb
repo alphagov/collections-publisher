@@ -1,4 +1,4 @@
-class CoronavirusController < ApplicationController
+class CoronavirusPagesController < ApplicationController
   before_action :require_coronavirus_editor_permissions!
   layout "admin_layout"
 
@@ -16,7 +16,7 @@ class CoronavirusController < ApplicationController
   def show
     if page_config.nil?
       flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
-      redirect_to coronavirus_index_path
+      redirect_to coronavirus_pages_path
     else
       render :show, locals: { page: page_config }
     end
@@ -29,12 +29,12 @@ class CoronavirusController < ApplicationController
       fetch_content_and_push
     end
 
-    redirect_to coronavirus_path
+    redirect_to coronavirus_page_path
   end
 
   def publish
     publish_page
-    redirect_to coronavirus_path(slug)
+    redirect_to coronavirus_page_path(slug)
   end
 
 private
@@ -106,7 +106,7 @@ private
   end
 
   def slug
-    params[:slug] || params[:coronavirus_slug]
+    params[:slug] || params[:coronavirus_page_slug]
   end
 
   def page_type
