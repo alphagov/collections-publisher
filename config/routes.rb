@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   end
 
   resources :coronavirus_pages, path: "coronavirus", only: %i[index show update], param: :slug do
+    get "prepare", on: :member
     post "publish", to: "coronavirus_pages#publish"
   end
 

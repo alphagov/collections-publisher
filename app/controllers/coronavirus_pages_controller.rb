@@ -13,12 +13,12 @@ class CoronavirusPagesController < ApplicationController
     render :index, locals: { links: links }
   end
 
-  def show
+  def prepare
     if page_config.nil?
       flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
       redirect_to coronavirus_pages_path
     else
-      render :show, locals: { page: page_config }
+      render :prepare, locals: { page: page_config }
     end
   end
 
@@ -29,12 +29,12 @@ class CoronavirusPagesController < ApplicationController
       fetch_content_and_push
     end
 
-    redirect_to coronavirus_page_path
+    redirect_to prepare_coronavirus_page_path
   end
 
   def publish
     publish_page
-    redirect_to coronavirus_page_path(slug)
+    redirect_to prepare_coronavirus_page_path(slug)
   end
 
 private
