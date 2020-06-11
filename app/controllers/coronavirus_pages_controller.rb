@@ -15,9 +15,11 @@ class CoronavirusPagesController < ApplicationController
   end
 
   def prepare
+    coronavirus_page
   end
 
   def show
+    coronavirus_page
   end
 
   def update
@@ -38,11 +40,17 @@ class CoronavirusPagesController < ApplicationController
 private
 
   def coronavirus_page
-    @coronavirus_page ||= page_config
+    @coronavirus_page ||= find_or_create_coronavirus_page
+  end
+
+  def find_or_create_coronavirus_page
+    CoronavirusPage.find_or_create_by(slug: slug) do |coronavirus_page|
+      coronavirus_page.attributes = page_config.except(:slug)
+    end
   end
 
   def redirect_to_index_if_slug_unknown
-    if coronavirus_page.nil?
+    if page_config.nil?
       flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
       redirect_to coronavirus_pages_path
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_11_091249) do
+ActiveRecord::Schema.define(version: 2020_06_11_110402) do
 
   create_table "coronavirus_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "sections_title"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2020_06_11_091249) do
     t.string "name"
     t.string "slug"
     t.string "content_id"
+    t.string "github_url"
+    t.string "raw_content_url"
   end
 
   create_table "internal_change_notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
