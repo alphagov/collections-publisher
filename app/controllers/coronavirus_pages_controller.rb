@@ -22,6 +22,10 @@ class CoronavirusPagesController < ApplicationController
     end
   end
 
+  def show
+    render :show, locals: { page: page_config }
+  end
+
   def update
     if page_config.nil?
       flash["alert"] = "Page could not be updated because the configuration cannot be found."
