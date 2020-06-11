@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_11_110402) do
+ActiveRecord::Schema.define(version: 2020_06_18_141142) do
 
   create_table "coronavirus_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "sections_title"
@@ -151,10 +151,10 @@ ActiveRecord::Schema.define(version: 2020_06_11_110402) do
   create_table "sub_sections", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.text "content"
-    t.bigint "coronavirus_pages_id"
+    t.bigint "coronavirus_page_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["coronavirus_pages_id"], name: "index_sub_sections_on_coronavirus_pages_id"
+    t.index ["coronavirus_page_id"], name: "index_sub_sections_on_coronavirus_page_id"
   end
 
   create_table "tag_associations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -207,7 +207,7 @@ ActiveRecord::Schema.define(version: 2020_06_11_110402) do
   add_foreign_key "step_by_step_pages", "users", column: "review_requester_id", primary_key: "uid"
   add_foreign_key "step_by_step_pages", "users", column: "reviewer_id", primary_key: "uid"
   add_foreign_key "steps", "step_by_step_pages"
-  add_foreign_key "sub_sections", "coronavirus_pages", column: "coronavirus_pages_id"
+  add_foreign_key "sub_sections", "coronavirus_pages"
   add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "to_tag_id", name: "tag_associations_to_tag_id_fk", on_delete: :cascade
   add_foreign_key "tags", "tags", column: "parent_id", name: "tags_parent_id_fk"
