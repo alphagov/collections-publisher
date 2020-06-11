@@ -16,12 +16,22 @@ RSpec.describe CoronavirusPagesController, type: :controller do
       get :prepare, params: { slug: coronavirus_page.slug }
       expect(response).to have_http_status(:success)
     end
+
+    it 'redirects to index with an unknown slug' do
+      get :prepare, params: { slug: :unknown }
+      expect(response).to redirect_to(coronavirus_pages_path)
+    end
   end
 
   describe 'GET /coronavirus/:slug' do
     it 'renders page successfuly' do
       get :show, params: { slug: coronavirus_page.slug }
       expect(response).to have_http_status(:success)
+    end
+
+    it 'redirects to index with an unknown slug' do
+      get :show, params: { slug: :unknown }
+      expect(response).to redirect_to(coronavirus_pages_path)
     end
   end
 end

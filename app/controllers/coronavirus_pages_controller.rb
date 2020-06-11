@@ -1,5 +1,6 @@
 class CoronavirusPagesController < ApplicationController
   before_action :require_coronavirus_editor_permissions!
+  before_action :redirect_to_index_if_slug_unknown, only: %w[prepare show]
   layout "admin_layout"
 
   def index
@@ -14,16 +15,9 @@ class CoronavirusPagesController < ApplicationController
   end
 
   def prepare
-    if page_config.nil?
-      flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
-      redirect_to coronavirus_pages_path
-    else
-      render :prepare, locals: { page: page_config }
-    end
   end
 
   def show
-    render :show, locals: { page: page_config }
   end
 
   def update
@@ -42,6 +36,17 @@ class CoronavirusPagesController < ApplicationController
   end
 
 private
+
+  def coronavirus_page
+    @coronavirus_page ||= page_config
+  end
+
+  def redirect_to_index_if_slug_unknown
+    if coronavirus_page.nil?
+      flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
+      redirect_to coronavirus_pages_path
+    end
+  end
 
   def publish_page
     Services.publishing_api.publish(page_config[:content_id], update_type)
