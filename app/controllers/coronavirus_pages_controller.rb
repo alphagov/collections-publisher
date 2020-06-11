@@ -40,13 +40,11 @@ class CoronavirusPagesController < ApplicationController
 private
 
   def coronavirus_page
-    @coronavirus_page ||= find_or_create_coronavirus_page
+    @coronavirus_page ||= updater.page
   end
 
-  def find_or_create_coronavirus_page
-    CoronavirusPage.find_or_create_by(slug: slug) do |coronavirus_page|
-      coronavirus_page.attributes = page_config.except(:slug)
-    end
+  def updater
+    CoronavirusPages::Updater.new(slug)
   end
 
   def redirect_to_index_if_slug_unknown

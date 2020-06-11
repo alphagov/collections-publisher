@@ -1,3 +1,3 @@
 class SubSection < ApplicationRecord
-  belongs_to :coronavirus_pages
+  belongs_to :coronavirus_page
 end

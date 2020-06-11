@@ -173,7 +173,7 @@ FactoryBot.define do
     permissions { %w[signin] }
 
     trait :coronovirus_editor do
-      permissions { ["signin", "Coronavirus editor" ] }
+      permissions { ["signin", "Coronavirus editor"] }
     end
   end
 
@@ -222,12 +222,20 @@ FactoryBot.define do
     slug { Faker::Lorem.word }
     content_id { SecureRandom.uuid }
     sections_title { Faker::Lorem.sentence }
-    github_url { Faker::Internet.url(host: 'example.com') }
-    raw_content_url { Faker::Internet.url(host: 'example.com') }
+    github_url { Faker::Internet.url(host: "example.com") }
+    raw_content_url { Faker::Internet.url(host: "example.com") }
     base_path { "/#{File.join(Faker::Lorem.words)}" }
 
+    slugs = %w[landing business education employees]
+
     trait :of_known_type do
-      slug { %w[landing business education employees].sample }
+      slug { slugs.sample }
+    end
+
+    slugs.each do |slug|
+      trait slug.to_sym do
+        slug { slug }
+      end
     end
   end
 end
