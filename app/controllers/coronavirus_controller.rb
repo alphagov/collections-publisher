@@ -37,6 +37,9 @@ class CoronavirusController < ApplicationController
     redirect_to coronavirus_path(slug)
   end
 
+  def manage_page
+    render :manage_page
+  end
 private
 
   def publish_page

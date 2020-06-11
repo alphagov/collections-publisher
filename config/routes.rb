@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     post "publish", to: "live_stream#publish"
   end
 
+  get "/test/covid/managepage", to: "coronavirus#manage_page"
+
   resources :coronavirus, only: %i[index show update], param: :slug do
     post "publish", to: "coronavirus#publish"
   end
