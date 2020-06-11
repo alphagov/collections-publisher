@@ -171,6 +171,10 @@ FactoryBot.define do
   factory :user do
     uid { SecureRandom.hex }
     permissions { %w[signin] }
+
+    trait :coronovirus_editor do
+      permissions { ["signin", "Coronavirus editor" ] }
+    end
   end
 
   factory :list do
@@ -211,5 +215,16 @@ FactoryBot.define do
     headline { "Some change" }
     description { "Description of the changes I made" }
     created_at { "2018-08-07 10:35:38" }
+  end
+
+  factory :coronavirus_page do
+    name { Faker::Company.industry }
+    slug { Faker::Lorem.word }
+    content_id { SecureRandom.uuid }
+    sections_title { Faker::Lorem.sentence }
+
+    trait :of_known_type do
+      slug { %w[landing business education employees].sample }
+    end
   end
 end
