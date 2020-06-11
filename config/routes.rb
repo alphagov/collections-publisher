@@ -20,6 +20,8 @@ Rails.application.routes.draw do
 
   get "/test/covid/managepage", to: "coronavirus#manage_page"
 
+  get "/test/covid/editpage", to: "coronavirus#edit_page"
+
   resources :coronavirus, only: %i[index show update], param: :slug do
     post "publish", to: "coronavirus#publish"
   end

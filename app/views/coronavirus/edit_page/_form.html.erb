@@ -1,0 +1,41 @@
+<form>
+  <%= render "govuk_publishing_components/components/contextual_guidance", {
+    html_for: "section-title",
+    title: "Explaining stuff",
+    content: "This is a Section title. Write a nice section title pls "
+  } do %>
+    <%= render "govuk_publishing_components/components/input", {
+      label: {
+        text: "Section title",
+        bold: true
+      },
+      name: "section-title",
+      id: "section-title"
+    } %>
+  <% end %>
+
+  <%= render "govuk_publishing_components/components/contextual_guidance", {
+    html_for: "content-and-links",
+    title: "Explaining how to content",
+    content: "This is a box for content! Pls write nice content"
+  } do %>
+    <%= render "components/markdown_editor", {
+      label: {
+        text: "Content and links",
+        bold: true
+      },
+      textarea: {
+        name: "content-and-links",
+        id: "content-and-links",
+        rows: 20
+      }
+    } %>
+  <% end %>
+
+  <%= render "govuk_publishing_components/components/button", {
+    text: "Save",
+    margin_bottom: true
+  } %>
+
+  <%= tag.p (link_to 'Cancel', test_covid_managepage_path, class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>
+</form>

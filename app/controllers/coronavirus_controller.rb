@@ -40,6 +40,11 @@ class CoronavirusController < ApplicationController
   def manage_page
     render :manage_page
   end
+
+  def edit_page
+    render :edit_page
+  end
+
 private
 
   def publish_page
