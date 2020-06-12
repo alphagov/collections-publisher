@@ -6,7 +6,7 @@ module StatusHelper
       archived: :default,
     }[type.to_sym] || type
 
-    content_tag :span, text, class: "label label-#{class_name}"
+    tag.span text, class: "label label-#{class_name}"
   end
 
   def labels_for_tag(tag)
