@@ -22,14 +22,14 @@
 
 <div class="covid-manage-page govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render "coronavirus/manage_page/accordion_summary_list" %>
+    <%= render "coronavirus/publishing/accordion_summary_list" %>
     <%= render "govuk_publishing_components/components/button", {
       text: "Add section",
       href: "#"
     } %>
   </div>
   <div class="govuk-grid-column-one-third">
-    <%= render "coronavirus/manage_page/actions" %>
+    <%= render "coronavirus/publishing/actions" %>
     <div class="app-side">
       <%= render "govuk_publishing_components/components/metadata", {
         other: metadata
