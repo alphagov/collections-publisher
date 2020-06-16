@@ -5,7 +5,8 @@
       bold: true
     },
     name: "section-title",
-    id: "section-title"
+    id: "section-title",
+    value: @sub_section.title
   } %>
   <%= render "components/markdown_editor", {
     label: {
@@ -15,12 +16,13 @@
     textarea: {
       name: "content-and-links",
       id: "content-and-links",
-      rows: 20
+      rows: 20,
+      value: @sub_section.content
     }
   } %>
   <%= render "govuk_publishing_components/components/button", {
     text: "Save",
     margin_bottom: true
   } %>
-  <%= tag.p (link_to 'Cancel', test_covid_managepage_path, class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>
+  <%= tag.p (link_to 'Cancel', @coronavirus_page, class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>
 </form>

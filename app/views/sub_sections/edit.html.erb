@@ -1,0 +1,26 @@
+<%
+  links = [
+    {
+      text: 'Coronavirus topic pages',
+      href: coronavirus_pages_path
+    },
+    {
+      text: "Coronavirus (COVID-19)"
+    }
+  ]
+
+  metadata = {
+    "Status" => "Draft",
+    "Last saved" => format_full_date_and_time(DateTime.now),
+  }
+%>
+
+<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :title, "Coronavirus (COVID-19)" %>
+<% content_for :context, 'Edit guidance and support accordion' %>
+
+<div class="covid-edit-page govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "edit_form" %>
+  </div>
+</div>

@@ -1,7 +1,39 @@
-<% content_for :title, "Publish #{@coronavirus_page.name.downcase}" %>
-<% content_for :context, "https://www.gov.uk#{@coronavirus_page.base_path}" %>
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-three-quarters">
-    <p>Hello!!!!</p>
+
+<%
+  links = [
+    {
+      text: 'Coronavirus pages',
+      href: coronavirus_pages_path
+    },
+    {
+      text: "Coronavirus (COVID-19)"
+    }
+  ]
+
+  metadata = {
+    "Status" => "Draft",
+    "Last saved" => format_full_date_and_time(DateTime.now),
+  }
+%>
+
+<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :title, "Coronavirus (COVID-19)" %>
+<% content_for :context, 'Topic page' %>
+
+<div class="covid-manage-page govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "accordion_summary_list" %>
+    <%= render "govuk_publishing_components/components/button", {
+      text: "Add section",
+      href: "#"
+    } %>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <%= render "actions" %>
+    <div class="app-side">
+      <%= render "govuk_publishing_components/components/metadata", {
+        other: metadata
+      } %>
+    </div>
   </div>
 </div>
