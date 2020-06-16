@@ -15,13 +15,22 @@ RSpec.describe CoronavirusPages::Updater do
 
   describe "#page" do
     context "coronavirus page with matching slug is absent from database" do
-
       it "creates a coronavirus page" do
         expect { updater.page }.to change { CoronavirusPage.count }.by(1)
       end
 
       it "creates associated sub_sections" do
         expect { updater.page }.to(change { SubSection.count }.by(source_sections.count))
+      end
+    end
+
+    context "for a known section" do
+      let(:section) { source_sections.sample }
+      let(:sub_section) { SubSection.find_by(title: section["title"]) }
+
+      it "creates sub_sections with the given attributes" do
+        updater.page
+        expect(sub_section.content).to include(section["sub_sections"].first["list"].first["label"])
       end
     end
 

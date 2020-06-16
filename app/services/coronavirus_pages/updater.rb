@@ -24,20 +24,22 @@ module CoronavirusPages
       page_config.page(slug)
     end
 
+    def raw_content_url
+      coronavirus_page_attributes[:raw_content_url]
+    end
+
     def sub_sections
       parsed_sub_sections.map do |sub_section|
         SubSection.new(sub_section)
       end
     end
 
-    #to do: replace with SectionsParser.new(YamlFetcher.new(raw_content_url).body_as_hash)
     def parsed_sub_sections
-      [
-        {
-          title: "title",
-          content: "text"
-        }
-      ]
+      SectionsPresenter.new(yaml_data.dig(:content, :sections)).output
+    end
+
+    def yaml_data
+      YamlFetcher.new(raw_content_url).body_as_hash
     end
   end
 end
