@@ -56,6 +56,10 @@ RSpec.describe CoronavirusPagesController, type: :controller do
   end
 
   describe "GET /coronavirus/:slug" do
+    before do
+      stub_user.permissions << "Unreleased feature"
+    end
+
     it "renders page successfuly" do
       get :show, params: { slug: coronavirus_page.slug }
       expect(response).to have_http_status(:success)

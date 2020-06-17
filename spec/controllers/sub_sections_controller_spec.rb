@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe SubSectionsController, type: :controller do
   render_views
 
-  let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
+  let(:stub_user) { create :user, :unreleased_feature, name: "Name Surname" }
   let(:coronavirus_page) { create :coronavirus_page, :of_known_type }
   let(:slug) { coronavirus_page.slug }
   let(:sub_section) { create :sub_section, coronavirus_page: coronavirus_page }

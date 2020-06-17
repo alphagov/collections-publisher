@@ -175,6 +175,10 @@ FactoryBot.define do
     trait :coronovirus_editor do
       permissions { ["signin", "Coronavirus editor"] }
     end
+
+    trait :unreleased_feature do
+      permissions { ["Unreleased feature"] }
+    end
   end
 
   factory :list do
