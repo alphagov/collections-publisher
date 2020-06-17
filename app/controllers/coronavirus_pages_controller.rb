@@ -5,14 +5,21 @@ class CoronavirusPagesController < ApplicationController
   layout "admin_layout"
 
   def index
-    links = page_configs.keys.map do |page|
+    topic_links = topic_pages_configuration.keys.map do |page|
       {
         slug: page.to_s,
-        title: page_configs[page][:name],
+        title: topic_pages_configuration[page][:name],
       }
     end
 
-    render :index, locals: { links: links }
+    subtopic_links = subtopic_pages_configuration.keys.map do |page|
+      {
+        slug: page.to_s,
+        title: subtopic_pages_configuration[page][:name],
+      }
+    end
+
+    render :index, locals: { topic_links: topic_links, subtopic_links: subtopic_links }
   end
 
   def prepare
