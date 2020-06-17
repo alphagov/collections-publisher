@@ -238,4 +238,10 @@ FactoryBot.define do
       end
     end
   end
+
+  factory :sub_section do
+    title { Faker::Lorem.sentence }
+    content { "(#{Faker::Lorem.sentence})[/#{File.join(Faker::Lorem.words)}]" }
+    coronavirus_page
+  end
 end

@@ -17,11 +17,11 @@
 
 <% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
 <% content_for :title, "Coronavirus (COVID-19)" %>
-<% content_for :context, 'Edit guidance and support accordion' %>
+<% content_for :context, 'Add guidance and support accordion' %>
 
 <div class="covid-edit-page govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_for @sub_section, url: coronavirus_page_sub_section_path(@coronavirus_page.slug, @sub_section) do |form| %>
+    <%= form_for @sub_section, sub_section: @sub_section, url: coronavirus_page_sub_sections_path do |form| %>
       <%= render "form", form: form %>
     <% end %>
   </div>
