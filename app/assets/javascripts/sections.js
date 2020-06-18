@@ -6,7 +6,7 @@
   window.GOVUK = window.GOVUK || {};
   var $ = window.jQuery;
 
-  GOVUK.stepByStepPublisher = {
+  GOVUK.sectionPublisher = {
     init: function() {
       this.addReorderButtons();
       this.bindReorderButtonClicks();
@@ -55,12 +55,12 @@
           $parent.insertAfter($next);
         }
 
-        GOVUK.stepByStepPublisher.setOrder();
+        GOVUK.sectionPublisher.setOrder();
       });
     },
 
     setOrder: function() {
-      var $orderVal = $('#step_order_save');
+      var $orderVal = $('#js_order_save');
       var order = [];
 
       $('.js-reorder').each(function(i) {
@@ -79,7 +79,7 @@
           ui.placeholder.height(ui.item.height());
         },
         update: function(){
-          GOVUK.stepByStepPublisher.setOrder();
+          GOVUK.sectionPublisher.setOrder();
         }
       });
 
