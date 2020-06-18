@@ -150,7 +150,7 @@ def when_i_visit_the_publish_coronavirus_page
 end
 
 def when_i_visit_a_non_existent_page
-  visit "/coronavirus/flimflam"
+  visit "/coronavirus/flimflam/prepare"
 end
 
 def then_i_am_redirected_to_the_index_page

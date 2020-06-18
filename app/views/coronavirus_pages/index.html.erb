@@ -3,6 +3,6 @@
 <ul class="govuk-list">
   <li><%= link_to "Update live stream", live_stream_index_path, class:"govuk-button" %></li>
 <% links.each do |link| %>
-  <li><%= link_to "Publish #{link[:title]}", coronavirus_path(slug: link[:slug]), class:"govuk-button" %></li>
+  <li><%= link_to "Publish #{link[:title]}", prepare_coronavirus_page_path(slug: link[:slug]), class:"govuk-button" %></li>
 <% end %>
 </ul>

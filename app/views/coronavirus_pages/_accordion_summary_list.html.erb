@@ -1,0 +1,15 @@
+
+<% accordions =
+ @coronavirus_page.sub_sections.map do |sub_section|
+   {
+     field: sub_section.title ,
+     edit: { href: edit_coronavirus_page_sub_section_path(@coronavirus_page.slug, sub_section) },
+     delete: { href: "delete-summary" }
+   }
+ end %>
+<div class="covid-manage-page__accordion-summary-list">
+  <%= render "govuk_publishing_components/components/summary_list", {
+    title: "Guidance and support accordion",
+    items: accordions
+  } %>
+</div>

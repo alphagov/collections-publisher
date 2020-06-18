@@ -1,0 +1,26 @@
+<%= render "govuk_publishing_components/components/input", {
+  label: {
+    text: "Section title",
+    bold: true
+  },
+  name: "sub_section[title]",
+  id: "title",
+  value: @sub_section.title
+} %>
+<%= render "components/markdown_editor", {
+  label: {
+    text: "Content and links",
+    bold: true
+  },
+  textarea: {
+    name: "sub_section[content]",
+    id: "content",
+    rows: 20,
+    value: @sub_section.content
+  }
+} %>
+<%= render "govuk_publishing_components/components/button", {
+  text: "Save",
+  margin_bottom: true
+} %>
+<%= tag.p (link_to 'Cancel', @coronavirus_page, class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>

@@ -1,25 +1,26 @@
-class CoronavirusController < ApplicationController
+class CoronavirusPagesController < ApplicationController
   before_action :require_coronavirus_editor_permissions!
+  before_action :require_unreleased_feature_permissions!, only: %w[show]
+  before_action :redirect_to_index_if_slug_unknown, only: %w[prepare show]
   layout "admin_layout"
 
   def index
-    links = all_pages_configuration.keys.map do |page|
+    links = page_configs.keys.map do |page|
       {
         slug: page.to_s,
-        title: all_pages_configuration[page][:name],
+        title: page_configs[page][:name],
       }
     end
 
     render :index, locals: { links: links }
   end
 
+  def prepare
+    coronavirus_page
+  end
+
   def show
-    if page_config.nil?
-      flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
-      redirect_to coronavirus_index_path
-    else
-      render :show, locals: { page: page_config }
-    end
+    coronavirus_page
   end
 
   def update
@@ -29,15 +30,30 @@ class CoronavirusController < ApplicationController
       fetch_content_and_push
     end
 
-    redirect_to coronavirus_path
+    redirect_to prepare_coronavirus_page_path
   end
 
   def publish
     publish_page
-    redirect_to coronavirus_path(slug)
+    redirect_to prepare_coronavirus_page_path(slug)
   end
 
 private
+
+  def coronavirus_page
+    @coronavirus_page ||= updater.page
+  end
+
+  def updater
+    CoronavirusPages::Updater.new(slug)
+  end
+
+  def redirect_to_index_if_slug_unknown
+    if page_config.nil?
+      flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
+      redirect_to coronavirus_pages_path
+    end
+  end
 
   def publish_page
     Services.publishing_api.publish(page_config[:content_id], update_type)
@@ -102,11 +118,11 @@ private
   end
 
   def page_config
-    all_pages_configuration[page_type]
+    page_configs[page_type]
   end
 
   def slug
-    params[:slug] || params[:coronavirus_slug]
+    params[:slug] || params[:coronavirus_page_slug]
   end
 
   def page_type
@@ -137,40 +153,7 @@ private
     ]
   end
 
-  def all_pages_configuration
-    {
-      landing:
-        {
-          name: "Coronavirus landing page",
-          content_id: "774cee22-d896-44c1-a611-e3109cce8eae".freeze,
-          raw_content_url: "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_landing_page.yml".freeze,
-          base_path: "/coronavirus",
-          github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_landing_page.yml",
-        },
-      business:
-        {
-          name: "Business support page",
-          content_id: "09944b84-02ba-4742-a696-9e562fc9b29d".freeze,
-          raw_content_url: "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_business_page.yml".freeze,
-          base_path: "/coronavirus/business-support",
-          github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_business_page.yml",
-        },
-      education:
-        {
-          name: "Education page",
-          content_id: "b350e61d-1db9-4cc2-bb44-fab02882ac25".freeze,
-          raw_content_url: "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_education_page.yml".freeze,
-          base_path: "/coronavirus/education-and-childcare",
-          github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_education_page.yml",
-        },
-      employees:
-        {
-          name: "Worker page",
-          content_id: "5ebf285a-9165-476c-be90-66b9729f50da".freeze,
-          raw_content_url: "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_worker_page.yml".freeze,
-          base_path: "/coronavirus/worker-support",
-          github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_worker_page.yml",
-        },
-    }
+  def page_configs
+    CoronavirusPages::Configuration.all_pages
   end
 end

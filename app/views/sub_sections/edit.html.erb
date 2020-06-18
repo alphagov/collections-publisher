@@ -2,7 +2,7 @@
   links = [
     {
       text: 'Coronavirus topic pages',
-      href: coronavirus_index_path
+      href: coronavirus_pages_path
     },
     {
       text: "Coronavirus (COVID-19)"
@@ -21,6 +21,8 @@
 
 <div class="covid-edit-page govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render "coronavirus/publishing/edit_form" %>
+    <%= form_for @sub_section, url: coronavirus_page_sub_section_path(@coronavirus_page.slug, @sub_section) do |form| %>
+      <%= render "form", form: form %>
+    <% end %>
   </div>
 </div>

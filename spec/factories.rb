@@ -171,6 +171,14 @@ FactoryBot.define do
   factory :user do
     uid { SecureRandom.hex }
     permissions { %w[signin] }
+
+    trait :coronovirus_editor do
+      permissions { ["signin", "Coronavirus editor"] }
+    end
+
+    trait :unreleased_feature do
+      permissions { ["Unreleased feature"] }
+    end
   end
 
   factory :list do
@@ -211,5 +219,33 @@ FactoryBot.define do
     headline { "Some change" }
     description { "Description of the changes I made" }
     created_at { "2018-08-07 10:35:38" }
+  end
+
+  factory :coronavirus_page do
+    name { Faker::Company.industry }
+    slug { Faker::Lorem.word }
+    content_id { SecureRandom.uuid }
+    sections_title { Faker::Lorem.sentence }
+    github_url { Faker::Internet.url(host: "example.com") }
+    raw_content_url { Faker::Internet.url(host: "example.com") }
+    base_path { "/#{File.join(Faker::Lorem.words)}" }
+
+    slugs = %w[landing business education employees]
+
+    trait :of_known_type do
+      slug { slugs.sample }
+    end
+
+    slugs.each do |slug|
+      trait slug.to_sym do
+        slug { slug }
+      end
+    end
+  end
+
+  factory :sub_section do
+    title { Faker::Lorem.sentence }
+    content { "(#{Faker::Lorem.sentence})[/#{File.join(Faker::Lorem.words)}]" }
+    coronavirus_page
   end
 end
