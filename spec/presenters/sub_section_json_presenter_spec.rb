@@ -51,13 +51,13 @@ RSpec.describe SubSectionJsonPresenter do
     end
   end
 
-  describe "#sub_section_hash_from_array" do
+  describe "#sub_section_hash_from_content_group" do
     let(:label) { Faker::Lorem.sentence }
     let(:path)  { "/#{File.join(Faker::Lorem.words)}" }
     let(:link) { "(#{label})[#{path}]" }
 
-    let(:array) { [link] }
-    let(:hash) { subject.sub_section_hash_from_array(array) }
+    let(:group) { [link] }
+    let(:hash) { subject.sub_section_hash_from_content_group(group) }
 
     it "puts the link path and label into list" do
       expect(hash[:list].first[:label]).to eq(label)
@@ -72,7 +72,7 @@ RSpec.describe SubSectionJsonPresenter do
     context "with a title" do
       let(:title) { Faker::Lorem.sentence }
       let(:title_markup) { "## #{title}" }
-      let(:array) { [title_markup, link] }
+      let(:group) { [title_markup, link] }
 
       it "puts the link path and label into list" do
         expect(hash[:list].first[:label]).to eq(label)
@@ -87,7 +87,7 @@ RSpec.describe SubSectionJsonPresenter do
     context "with a spaceless title" do
       let(:title) { Faker::Lorem.sentence }
       let(:title_markup) { "###{title}" }
-      let(:array) { [title_markup, link] }
+      let(:group) { [title_markup, link] }
 
       it "has the title" do
         expect(hash[:title]).to eq(title)
@@ -98,7 +98,7 @@ RSpec.describe SubSectionJsonPresenter do
       let(:label_two) { Faker::Lorem.sentence }
       let(:path_two)  { "/#{File.join(Faker::Lorem.words)}" }
       let(:link_two) { "(#{label_two})[#{path_two}]" }
-      let(:array) { [link, link_two] }
+      let(:group) { [link, link_two] }
 
       it "puts the link path and label into list" do
         expect(hash[:list].first[:label]).to eq(label)
@@ -112,16 +112,16 @@ RSpec.describe SubSectionJsonPresenter do
     end
   end
 
-  describe "#content_sub_sections" do
+  describe "#content_groups" do
     it "contains the content in single inner array if no title in content" do
-      expect(subject.content_sub_sections).to eq([[content]])
+      expect(subject.content_groups).to eq([[content]])
     end
 
     context "with many links" do
       let(:content) { [link_one, link_two, link_three].join("\n") }
 
       it "returns them all in one inner array" do
-        expect(subject.content_sub_sections).to eq([[link_one, link_two, link_three]])
+        expect(subject.content_groups).to eq([[link_one, link_two, link_three]])
       end
     end
 
@@ -130,7 +130,7 @@ RSpec.describe SubSectionJsonPresenter do
       let(:content) { [title, link_one, link_two].join("\n") }
 
       it "returns title and links in one inner array" do
-        expect(subject.content_sub_sections).to eq([[title, link_one, link_two]])
+        expect(subject.content_groups).to eq([[title, link_one, link_two]])
       end
     end
 
@@ -140,7 +140,7 @@ RSpec.describe SubSectionJsonPresenter do
       let(:content) { [link_one, title_one, link_two, title_two, link_three].join("\n") }
 
       it "returns the content in grouped arrays" do
-        expect(subject.content_sub_sections).to eq([[link_one], [title_one, link_two], [title_two, link_three]])
+        expect(subject.content_groups).to eq([[link_one], [title_one, link_two], [title_two, link_three]])
       end
     end
   end

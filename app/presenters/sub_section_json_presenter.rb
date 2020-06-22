@@ -35,10 +35,15 @@ class SubSectionJsonPresenter
   end
 
   def sub_sections
-    content_sub_sections.map { |array| sub_section_hash_from_array(array) }
+    content_groups.map { |content_group| sub_section_hash_from_content_group(content_group) }
   end
 
-  def content_sub_sections
+  # Groups the sub section content into an array of arrays, such that:
+  #   - links and texts are separated and each is put into an inner array
+  #   - each title starts a new inner array containing that title as the first element
+  #     and then the links between that title and the next title (or the end of the content)
+  #   - if there are no titles, all the links go into a single inner array
+  def content_groups
     sub_section.content.lines.each_with_object([]) do |line, sections|
       sections << [] if sections.empty? || is_header?(line)
       line.strip!
@@ -46,8 +51,26 @@ class SubSectionJsonPresenter
     end
   end
 
-  def sub_section_hash_from_array(array)
-    array.each_with_object({ title: nil }) do |element, hash|
+  # Converts:
+  #
+  #   [header, link, link]
+  #
+  # into:
+  #
+  #    {
+  #      title: <text from header>,
+  #      list: [
+  #        {
+  #          label: <first link label>,
+  #          url: <first link url>
+  #        },
+  #        {
+  #          label: <second link label>,
+  #          url: <second link url>
+  #        }
+  #    {
+  def sub_section_hash_from_content_group(content_group)
+    content_group.each_with_object({ title: nil }) do |element, hash|
       if is_header?(element)
         title = HEADER_PATTERN.match(element).named_captures["title"]
         hash[:title] = title
