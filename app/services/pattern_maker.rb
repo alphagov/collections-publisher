@@ -2,16 +2,16 @@
 
 class PatternMaker
   PATTERNS = {
-    starts_with: '^',
-    nothing_else: '$',
+    starts_with: "^",
+    nothing_else: "$",
     words: '\w[\w\s\.\,]+',
     perhaps_spaces: '\s*',
-    anything: '.*'
+    anything: ".*",
   }.freeze
 
   WITHIN = {
-    brackets: '()',
-    sq_brackets: '[]'
+    brackets: "()",
+    sq_brackets: "[]",
   }.freeze
 
   def self.call(*args)
@@ -32,11 +32,10 @@ class PatternMaker
   def pattern
     pattern = elements.map { |e| process_element(e) }
     pattern.compact!
-    pattern.join
+    /#{pattern.join}/.freeze
   end
 
   def process_element(element)
-    element
     case element
     when /^target\(/
       target(element)
@@ -57,7 +56,7 @@ class PatternMaker
 
   def target(element)
     element = remove_command(:target, element)
-    "(#{process_element(element)})"
+    "(?<#{element}>#{process_element(element)})"
   end
 
   def within(element)
@@ -76,7 +75,7 @@ class PatternMaker
   end
 
   def remove_command(command, element)
-    element.gsub! /^#{command}/, ''
+    element.gsub!(/^#{command}/, "")
     remove_outer(element)
   end
 end

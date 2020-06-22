@@ -1,53 +1,157 @@
 require "rails_helper"
 
 RSpec.describe SubSectionJsonPresenter do
-  let(:label) { Faker::Lorem.sentence }
-  let(:path) { "/#{File.join(Faker::Lorem.words)}" }
-  let(:content) { "(#{label})[#{path}]" }
+  let(:link_one) { random_link_markdown }
+  let(:link_two) { random_link_markdown }
+  let(:link_three) { random_link_markdown }
+  let(:content) { link_one }
 
-  let(:sub_section) { build :sub_section, content: content  }
+  let(:sub_section) { build :sub_section, content: content }
   subject { described_class.new(sub_section) }
 
-  describe '#title' do
-    it 'returns the sub section title' do
+  describe "#title" do
+    it "returns the sub section title" do
       expect(subject.title).to eq(sub_section.title)
     end
   end
 
-  describe '#content_sub_sections' do
-    it 'contains the sub_section content if no title in content' do
-      expect(subject.content_sub_sections).to eq([content])
+  describe "#output" do
+    let(:title) { Faker::Lorem.sentence }
+    let(:title_markup) { "###{title}" }
+    let(:label) { Faker::Lorem.sentence }
+    let(:path)  { "/#{File.join(Faker::Lorem.words)}" }
+    let(:link) { "(#{label})[#{path}]" }
+    let(:content) { [title_markup, link].join("\n") }
+
+    let(:expected) do
+      {
+        details: {
+          sections: [
+            {
+              title: subject.title,
+              sub_sections: [
+                {
+                  list: [
+                    {
+                      url: path,
+                      label: label,
+                    },
+                  ],
+                  title: title,
+                },
+              ],
+            },
+          ],
+        },
+      }
     end
 
-    context 'with many links' do
-      let(:content) { "(this)[/this/path]\n(that)[/that/path]\n(foo)[foo/path]" }
+    it "has expected content" do
+      expect(subject.output).to eq(expected)
+    end
+  end
 
-      it 'returns them all in one element' do
-        expect(subject.content_sub_sections).to eq([content])
+  describe "#sub_section_hash_from_array" do
+    let(:label) { Faker::Lorem.sentence }
+    let(:path)  { "/#{File.join(Faker::Lorem.words)}" }
+    let(:link) { "(#{label})[#{path}]" }
+
+    let(:array) { [link] }
+    let(:hash) { subject.sub_section_hash_from_array(array) }
+
+    it "puts the link path and label into list" do
+      expect(hash[:list].first[:label]).to eq(label)
+      expect(hash[:list].first[:url]).to eq(path)
+    end
+
+    it "has a null title" do
+      expect(hash.keys).to include(:title)
+      expect(hash[:title]).to be_nil
+    end
+
+    context "with a title" do
+      let(:title) { Faker::Lorem.sentence }
+      let(:title_markup) { "## #{title}" }
+      let(:array) { [title_markup, link] }
+
+      it "puts the link path and label into list" do
+        expect(hash[:list].first[:label]).to eq(label)
+        expect(hash[:list].first[:url]).to eq(path)
+      end
+
+      it "has the title" do
+        expect(hash[:title]).to eq(title)
       end
     end
 
-    context 'with title then links' do
-      let(:title) { "## Something" }
-      let(:links) { "\n(that)[/that/path]\n(foo)[foo/path]" }
-      let(:content) { title + links }
+    context "with a spaceless title" do
+      let(:title) { Faker::Lorem.sentence }
+      let(:title_markup) { "###{title}" }
+      let(:array) { [title_markup, link] }
 
-      it 'returns title and links separately' do
-        expect(subject.content_sub_sections).to eq([title, links])
+      it "has the title" do
+        expect(hash[:title]).to eq(title)
       end
     end
 
-    context 'with titles within links' do
-      let(:part_one) { "(foo)[foo/path]\n" }
-      let(:part_two) { "## Something" }
-      let(:part_three) { "\n(that)[/that/path]\n" }
-      let(:part_four) { "## other" }
-      let(:part_five) {"\n(#{label})[#{path}]" }
-      let(:content) { [part_one, part_two, part_three, part_four, part_five].join }
+    context "with two links" do
+      let(:label_two) { Faker::Lorem.sentence }
+      let(:path_two)  { "/#{File.join(Faker::Lorem.words)}" }
+      let(:link_two) { "(#{label_two})[#{path_two}]" }
+      let(:array) { [link, link_two] }
 
-      it 'returns the content in two parts' do
-        expect(subject.content_sub_sections).to eq([part_one, part_two, part_three, part_four, part_five])
+      it "puts the link path and label into list" do
+        expect(hash[:list].first[:label]).to eq(label)
+        expect(hash[:list].first[:url]).to eq(path)
+      end
+
+      it "puts the second link path and label into list" do
+        expect(hash[:list].last[:label]).to eq(label_two)
+        expect(hash[:list].last[:url]).to eq(path_two)
       end
     end
+  end
+
+  describe "#content_sub_sections" do
+    it "contains the content in single inner array if no title in content" do
+      expect(subject.content_sub_sections).to eq([[content]])
+    end
+
+    context "with many links" do
+      let(:content) { [link_one, link_two, link_three].join("\n") }
+
+      it "returns them all in one inner array" do
+        expect(subject.content_sub_sections).to eq([[link_one, link_two, link_three]])
+      end
+    end
+
+    context "with title then links" do
+      let(:title) { random_title }
+      let(:content) { [title, link_one, link_two].join("\n") }
+
+      it "returns title and links in one inner array" do
+        expect(subject.content_sub_sections).to eq([[title, link_one, link_two]])
+      end
+    end
+
+    context "with titles within links" do
+      let(:title_one) { random_title }
+      let(:title_two) { random_title }
+      let(:content) { [link_one, title_one, link_two, title_two, link_three].join("\n") }
+
+      it "returns the content in grouped arrays" do
+        expect(subject.content_sub_sections).to eq([[link_one], [title_one, link_two], [title_two, link_three]])
+      end
+    end
+  end
+
+  def random_link_markdown
+    label = Faker::Lorem.sentence
+    path = "/#{File.join(Faker::Lorem.words)}"
+    "(#{label})[#{path}]"
+  end
+
+  def random_title
+    "### #{Faker::Lorem.sentence}"
   end
 end
