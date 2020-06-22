@@ -8,6 +8,7 @@ RSpec.feature "Make changes to the live stream URL" do
   before do
     given_i_am_a_coronavirus_editor
     stub_coronavirus_publishing_api
+    stub_all_github_requests
     stub_youtube
   end
 

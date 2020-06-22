@@ -1,17 +1,11 @@
+
 <% content_for :title, "Coronavirus topic pages" %>
 
 <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Topic landing page</h2>
 <ul class="govuk-list">
   <li><%= link_to "Edit landing page ‘guidance and support’ accordion", "#test", class:"govuk-link" %></li>
   <li><%= link_to "Update live stream", live_stream_index_path, class:"govuk-link" %></li>
-  <% topic_links.each do |link| %>
-    <li><%= link_to "Publish #{link[:title]}", coronavirus_path(slug: link[:slug]), class:"govuk-link" %></li>
-  <% end %>
-</ul>
-
-<h2 class="govuk-heading-s govuk-!-margin-bottom-2">Sub-topic pages</h2>
-<ul class="govuk-list">
-  <% subtopic_links.each do |link| %>
-  <li><%= link_to "Publish #{link[:title]}", coronavirus_path(slug: link[:slug]), class:"govuk-link" %></li>
+  <% @coronavirus_pages.each do |page| %>
+    <li><%= link_to "Publish #{page.name}", prepare_coronavirus_page_path(slug: page[:slug]), class:"govuk-link" %></li>
   <% end %>
 </ul>

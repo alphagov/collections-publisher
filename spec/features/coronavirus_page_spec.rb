@@ -9,7 +9,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
     before do
       given_i_am_a_coronavirus_editor
       stub_coronavirus_publishing_api
-      stub_github_request
+      stub_all_github_requests
       stub_any_publishing_api_put_intent
       stub_youtube
     end
@@ -57,7 +57,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
     before do
       given_i_am_a_coronavirus_editor
       stub_coronavirus_publishing_api
-      stub_github_business_request
+      stub_all_github_requests
       stub_any_publishing_api_put_intent
       stub_youtube
     end
@@ -74,6 +74,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
     scenario "Updating draft business page" do
       when_i_visit_the_publish_coronavirus_page
       and_i_select_business_page
+      stub_github_business_request
       and_i_push_a_new_draft_version
       then_the_business_content_is_sent_to_publishing_api
       and_i_see_a_draft_updated_message

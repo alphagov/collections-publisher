@@ -64,9 +64,18 @@ def stub_coronavirus_publishing_api
   stub_any_publishing_api_publish
 end
 
-def stub_github_request
-  stub_request(:get, "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_landing_page.yml")
-    .to_return(status: 200, body: github_response)
+def raw_content_urls
+  @raw_content_urls ||=
+    CoronavirusPages::Configuration.all_pages.map do |config|
+      config.second[:raw_content_url]
+    end
+end
+
+def stub_all_github_requests
+  raw_content_urls.each do |url|
+    stub_request(:get, url)
+      .to_return(status: 200, body: github_response)
+  end
 end
 
 def stub_github_business_request

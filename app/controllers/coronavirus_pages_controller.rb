@@ -2,24 +2,17 @@ class CoronavirusPagesController < ApplicationController
   before_action :require_coronavirus_editor_permissions!
   before_action :require_unreleased_feature_permissions!, only: %w[show]
   before_action :redirect_to_index_if_slug_unknown, only: %w[prepare show]
+  before_action :initialise_coronavirus_pages, only: %w[index]
   layout "admin_layout"
 
-  def index
-    topic_links = topic_pages_configuration.keys.map do |page|
-      {
-        slug: page.to_s,
-        title: topic_pages_configuration[page][:name],
-      }
-    end
+  def index; end
 
-    subtopic_links = subtopic_pages_configuration.keys.map do |page|
-      {
-        slug: page.to_s,
-        title: subtopic_pages_configuration[page][:name],
-      }
-    end
-
-    render :index, locals: { topic_links: topic_links, subtopic_links: subtopic_links }
+  def initialise_coronavirus_pages
+    pages = page_configs.keys
+    @coronavirus_pages =
+      pages.map do |page|
+        CoronavirusPages::Updater.new(page.to_s).page
+      end
   end
 
   def prepare
