@@ -3,10 +3,21 @@ require "rails_helper"
 RSpec.describe CoronavirusPages::Updater do
   let(:slug) { "landing" }
   let(:updater) { CoronavirusPages::Updater.new(slug) }
-  let(:raw_content_url) { CoronavirusPages::Configuration.page(slug)[:raw_content_url] }
+  let(:page_config) { CoronavirusPages::Configuration.page(slug) }
+  let(:raw_content_url) { page_config[:raw_content_url] }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:source_yaml) { YAML.load_file(fixture_path) }
   let(:source_sections) { source_yaml.dig("content", "sections") }
+  let(:coronavirus_page_attributes) do
+    {
+      sections_title: source_yaml.dig("content", "sections_heading"),
+      base_path: page_config[:base_path],
+      name: page_config[:name],
+      slug: slug,
+      github_url: page_config[:github_url],
+      raw_content_url: raw_content_url,
+    }
+  end
 
   before do
     stub_request(:get, raw_content_url)
@@ -17,6 +28,7 @@ RSpec.describe CoronavirusPages::Updater do
     context "coronavirus page with matching slug is absent from database" do
       it "creates a coronavirus page" do
         expect { updater.page }.to change { CoronavirusPage.count }.by(1)
+        expect(CoronavirusPage.last).to have_attributes(coronavirus_page_attributes)
       end
 
       it "creates associated sub_sections" do

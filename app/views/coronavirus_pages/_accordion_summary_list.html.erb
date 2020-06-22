@@ -9,7 +9,7 @@
  end %>
 <div class="covid-manage-page__accordion-summary-list">
   <%= render "govuk_publishing_components/components/summary_list", {
-    title: "Guidance and support accordion",
+    title: @coronavirus_page.sections_title,
     items: accordions
   } %>
 </div>
