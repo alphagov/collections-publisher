@@ -17,15 +17,21 @@ module CoronavirusPages
   private
 
     def page_config
-      CoronavirusPages::Configuration
+      CoronavirusPages::Configuration.page(slug)
     end
 
     def coronavirus_page_attributes
-      page_config.page(slug)
+      page_config.merge(
+        sections_title: sections_heading,
+      )
+    end
+
+    def sections_heading
+      yaml_data.dig(:content, :sections_heading)
     end
 
     def raw_content_url
-      coronavirus_page_attributes[:raw_content_url]
+      page_config[:raw_content_url]
     end
 
     def sub_sections
