@@ -2,16 +2,17 @@
 
 class SubSectionJsonPresenter
   HEADER_PATTERN = PatternMaker.call(
-    "starts_with hashes then perhaps_spaces then target(title) and nothing_else",
+    "starts_with hashes then perhaps_spaces then capture(title) and nothing_else",
     hashes: "#+",
     title: '\w.+',
   )
 
   LINK_PATTERN = PatternMaker.call(
-    "starts_with within(brackets,target(label)) then within(sq_brackets,target(url))",
+    "starts_with perhaps_spaces within(brackets,capture(label)) then perhaps_spaces and within(sq_brackets,capture(url))",
     label: '\s*\w.+',
-    url: '[\w\/]+',
+    url: '\s*(\b(https?)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]\s*',
   )
+  # Url pattern from https://stackoverflow.com/a/163684/1014251
 
   attr_reader :sub_section
 
@@ -32,6 +33,10 @@ class SubSectionJsonPresenter
         ],
       },
     }
+  end
+
+  def errors
+    @errors ||= []
   end
 
   def sub_sections
@@ -74,15 +79,22 @@ class SubSectionJsonPresenter
       if is_header?(element)
         title = HEADER_PATTERN.match(element).named_captures["title"]
         hash[:title] = title
-      else
-        link = LINK_PATTERN.match(element).named_captures.symbolize_keys
+      elsif is_link?(element)
         hash[:list] ||= []
+        link = LINK_PATTERN.match(element).named_captures.symbolize_keys
+        link.transform_values!(&:strip)
         hash[:list] << link
+      else
+        errors << "Unable to parse markdown: '#{element}'"
       end
     end
   end
 
   def is_header?(text)
     HEADER_PATTERN =~ text
+  end
+
+  def is_link?(text)
+    LINK_PATTERN =~ text
   end
 end

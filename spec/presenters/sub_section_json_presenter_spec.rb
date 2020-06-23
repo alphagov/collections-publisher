@@ -49,6 +49,23 @@ RSpec.describe SubSectionJsonPresenter do
     it "has expected content" do
       expect(subject.output).to eq(expected)
     end
+
+    it "has no errors" do
+      subject.output
+      expect(subject.errors).to be_blank
+    end
+
+    context "with unknown content" do
+      let(:content) { [title_markup, link, "unknown"].join("\n") }
+
+      it "has expected content" do
+        expect(subject.output).to eq(expected)
+      end
+
+      it "has an error" do
+        expect { subject.output }.to change { subject.errors.length }.by(1)
+      end
+    end
   end
 
   describe "#sub_section_hash_from_content_group" do
@@ -67,6 +84,11 @@ RSpec.describe SubSectionJsonPresenter do
     it "has a null title" do
       expect(hash.keys).to include(:title)
       expect(hash[:title]).to be_nil
+    end
+
+    it "creates no errors" do
+      hash
+      expect(subject.errors).to be_blank
     end
 
     context "with a title" do
@@ -94,6 +116,35 @@ RSpec.describe SubSectionJsonPresenter do
       end
     end
 
+    context "with a full url in link" do
+      let(:url) { Faker::Internet.url }
+      let(:link) { "(#{label})[#{url}]" }
+
+      it "puts the link path and label into list" do
+        expect(hash[:list].first[:label]).to eq(label)
+        expect(hash[:list].first[:url]).to eq(url)
+      end
+    end
+
+    context "with a full secure url in link" do
+      let(:url) { Faker::Internet.url }
+      let(:link) { "(#{label})[#{url}]" }
+
+      it "puts the link path and label into list" do
+        expect(hash[:list].first[:label]).to eq(label)
+        expect(hash[:list].first[:url]).to eq(url)
+      end
+    end
+
+    context "with spaces" do
+      let(:link) { " ( #{label} ) [ #{path} ] " }
+
+      it "puts the link path and label into list" do
+        expect(hash[:list].first[:label]).to eq(label)
+        expect(hash[:list].first[:url]).to eq(path)
+      end
+    end
+
     context "with two links" do
       let(:label_two) { Faker::Lorem.sentence }
       let(:path_two)  { "/#{File.join(Faker::Lorem.words)}" }
@@ -108,6 +159,18 @@ RSpec.describe SubSectionJsonPresenter do
       it "puts the second link path and label into list" do
         expect(hash[:list].last[:label]).to eq(label_two)
         expect(hash[:list].last[:url]).to eq(path_two)
+      end
+    end
+
+    context "with unknown content" do
+      let(:group) { %w[unknown] }
+
+      it "does not populate list" do
+        expect(hash.keys).not_to include(:list)
+      end
+
+      it "adds an error" do
+        expect { hash }.to change { subject.errors.length }.by(1)
       end
     end
   end

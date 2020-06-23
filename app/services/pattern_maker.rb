@@ -43,8 +43,8 @@ class PatternMaker
 
   def process_element(element)
     case element
-    when /^target\(/
-      target(element)
+    when /^capture\(/
+      capture(element)
     when /^within\(/
       within(element)
     when /^\'.*\'$/
@@ -64,18 +64,18 @@ class PatternMaker
   end
 
   # Identifies an element as a key piece of text that can be extracted from a match
-  # The target elements will populate `named_captures` with:
+  # The capture elements will populate `named_captures` with:
   #   the element as the key
   #   and the matching substring as the value
   #
   # Usage:
   #
-  #     "target(foo)"
+  #     "capture(foo)"
   #
   #   Will add an element foo, and add "foo" to named_captures
   #
-  def target(element)
-    element = remove_command(:target, element)
+  def capture(element)
+    element = remove_command(:capture, element)
     "(?<#{element}>#{process_element(element)})"
   end
 

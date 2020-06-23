@@ -55,8 +55,8 @@ RSpec.describe PatternMaker do
       end
     end
 
-    context "using target" do
-      let(:description) { "target(foo)" }
+    context "using capture" do
+      let(:description) { "capture(foo)" }
 
       it "marks the pattern as a named capture" do
         expect(pattern).to eq(/(?<foo>foo)/)
@@ -73,7 +73,7 @@ RSpec.describe PatternMaker do
     end
 
     context "with multiple elements and key words" do
-      let(:description) { "starts_with within(sq_brackets,words) then perhaps_spaces and target(anything)" }
+      let(:description) { "starts_with within(sq_brackets,words) then perhaps_spaces and capture(anything)" }
 
       it "combines the result" do
         expect(pattern).to eq(/^\[\w[\w\s\.\,]+\]\s*(?<anything>.*)/)
