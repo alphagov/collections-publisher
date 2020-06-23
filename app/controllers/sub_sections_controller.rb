@@ -26,7 +26,7 @@ class SubSectionsController < ApplicationController
     @sub_section = SubSection.find(params[:id])
     @coronavirus_page = @sub_section.coronavirus_page
     if @sub_section.update(sub_section_params)
-      redirect_to coronavirus_page_path(@coronavirus_page.slug), notice: "Step was successfully updated."
+      redirect_to coronavirus_page_path(@coronavirus_page.slug), notice: "Sub-section was successfully updated."
     else
       render :edit
     end
