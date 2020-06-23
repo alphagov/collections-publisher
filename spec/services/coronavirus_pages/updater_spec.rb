@@ -8,15 +8,9 @@ RSpec.describe CoronavirusPages::Updater do
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:source_yaml) { YAML.load_file(fixture_path) }
   let(:source_sections) { source_yaml.dig("content", "sections") }
+  let(:sections_title) { source_yaml.dig("content", "sections_heading") }
   let(:coronavirus_page_attributes) do
-    {
-      sections_title: source_yaml.dig("content", "sections_heading"),
-      base_path: page_config[:base_path],
-      name: page_config[:name],
-      slug: slug,
-      github_url: page_config[:github_url],
-      raw_content_url: raw_content_url,
-    }
+    page_config.merge(sections_title: sections_title, slug: slug)
   end
 
   before do
