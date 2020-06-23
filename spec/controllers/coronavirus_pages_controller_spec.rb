@@ -7,11 +7,23 @@ RSpec.describe CoronavirusPagesController, type: :controller do
   let(:coronavirus_page) { create :coronavirus_page, :of_known_type }
   let(:slug) { coronavirus_page.slug }
   let(:raw_content_url) { CoronavirusPages::Configuration.page(slug)[:raw_content_url] }
+  let(:all_content_urls) do
+    CoronavirusPages::Configuration.all_pages.map do |config|
+      config.second[:raw_content_url]
+    end
+  end
+  let(:stub_all_content_urls) do
+    all_content_urls.each do |url|
+      stub_request(:get, url)
+        .to_return(status: 200, body: raw_content)
+    end
+  end
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:raw_content) { File.read(Rails.root.join + fixture_path) }
 
   describe "GET /coronavirus" do
     it "renders page successfully" do
+      stub_all_content_urls
       get :index
       expect(response).to have_http_status(:success)
     end

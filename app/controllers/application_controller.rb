@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
 private
 
-  helper_method :gds_editor?, :active_navigation_item, :coronavirus_editor?, :livestream_editor?
+  helper_method :gds_editor?, :active_navigation_item, :coronavirus_editor?, :livestream_editor?, :unreleased_feature_user?
 
   def gds_editor?
     current_user.has_permission? "GDS Editor"
@@ -23,6 +23,10 @@ private
 
   def livestream_editor?
     current_user.has_permission? "Livestream editor"
+  end
+
+  def unreleased_feature_user?
+    current_user.has_permission? "Unreleased feature"
   end
 
   # Can be overridden to allow controllers to choose the active menu item.
