@@ -11,3 +11,7 @@
     width: 30%;
   }
 }
+
+.covid__spaced-list .covid__spaced-list-item:nth-of-type(2n) {
+  margin-bottom: govuk-spacing(4);
+}

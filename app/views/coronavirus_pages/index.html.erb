@@ -8,13 +8,14 @@
   <% end %>
   <li><%= link_to "Publish #{@topic_page.name}", prepare_coronavirus_page_path(slug: @topic_page[:slug]), class:"govuk-link" %></li>
   <li><%= link_to "Update live stream", live_stream_index_path, class:"govuk-link" %></li>
-  <br>
+</ul>
+
 <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Sub-topic pages</h2>
+<ul class="govuk-list covid__spaced-list">
   <% @subtopic_pages.each do |page| %>
   <% if unreleased_feature_user? %>
-    <li><%= link_to "Edit #{page.name} '#{page.sections_title.downcase}' accordion", coronavirus_page_path(slug: page.slug), class:"govuk-link" %></li>
+    <li class="covid__spaced-list-item"><%= link_to "Edit #{page.name} '#{page.sections_title.downcase}' accordion", coronavirus_page_path(slug: page.slug), class:"govuk-link" %></li>
   <% end %>
-    <li><%= link_to "Publish #{page.name}", prepare_coronavirus_page_path(slug: page[:slug]), class:"govuk-link" %></li>
-    <br>
+    <li class="covid__spaced-list-item"><%= link_to "Publish #{page.name}", prepare_coronavirus_page_path(slug: page[:slug]), class:"govuk-link" %></li>
   <% end %>
 </ul>
