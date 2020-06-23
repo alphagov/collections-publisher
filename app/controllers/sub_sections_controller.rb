@@ -9,12 +9,11 @@ class SubSectionsController < ApplicationController
 
   def create
     @coronavirus_page = CoronavirusPage.find_by(slug: params[:coronavirus_page_slug])
-    sub_section = @coronavirus_page.sub_sections.new(sub_section_params)
-    if sub_section.save
-      redirect_to coronavirus_page_path(@coronavirus_page.slug)
+    @sub_section = @coronavirus_page.sub_sections.new(sub_section_params)
+    if @sub_section.save
+      redirect_to coronavirus_page_path(@coronavirus_page.slug), notice: "Sub-section was successfully created."
     else
-      flash[:alert] = "Not saved!"
-      redirect_to new_coronavirus_page_sub_section_path
+      render :new
     end
   end
 
@@ -24,12 +23,12 @@ class SubSectionsController < ApplicationController
   end
 
   def update
-    sub_section = SubSection.find(params[:id])
-    if sub_section.update(sub_section_params)
-      redirect_to coronavirus_page_path(sub_section.coronavirus_page.slug)
+    @sub_section = SubSection.find(params[:id])
+    @coronavirus_page = @sub_section.coronavirus_page
+    if @sub_section.update(sub_section_params)
+      redirect_to coronavirus_page_path(@coronavirus_page.slug), notice: "Step was successfully updated."
     else
-      flash[:alert] = "Not saved!"
-      redirect_to edit_coronavirus_page_sub_section_path(sub_section.coronavirus_page.slug, sub_section)
+      render :edit
     end
   end
 
