@@ -5,14 +5,9 @@ class CoronavirusPagesController < ApplicationController
   before_action :initialise_coronavirus_pages, only: %w[index]
   layout "admin_layout"
 
-  def index; end
-
-  def initialise_coronavirus_pages
-    pages = page_configs.keys
-    @coronavirus_pages =
-      pages.map do |page|
-        CoronavirusPages::Updater.new(page.to_s).page
-      end
+  def index
+    @topic_page = CoronavirusPage.topic_page.first
+    @subtopic_pages = CoronavirusPage.subtopic_pages
   end
 
   def prepare
@@ -39,6 +34,12 @@ class CoronavirusPagesController < ApplicationController
   end
 
 private
+
+  def initialise_coronavirus_pages
+    page_configs.keys.map do |page|
+      CoronavirusPages::Updater.new(page.to_s).page
+    end
+  end
 
   def coronavirus_page
     @coronavirus_page ||= updater.page

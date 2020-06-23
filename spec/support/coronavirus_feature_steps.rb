@@ -109,12 +109,12 @@ def then_the_business_content_is_sent_to_publishing_api
   )
 end
 
-def i_see_a_landing_page_button
-  expect(page).to have_link("Coronavirus landing page")
+def i_see_a_publish_landing_page_link
+  expect(page).to have_link("Publish Coronavirus landing page")
 end
 
-def i_see_a_business_page_button
-  expect(page).to have_link("Business support page")
+def i_see_a_publish_business_page_link
+  expect(page).to have_link("Publish Business support page")
 end
 
 def i_see_livestream_button
@@ -122,15 +122,15 @@ def i_see_livestream_button
 end
 
 def and_i_select_landing_page
-  click_on("Coronavirus landing page")
+  click_link("Publish Coronavirus landing page")
 end
 
 def and_i_select_business_page
-  click_on("Business support page")
+  click_link("Publish Business support page")
 end
 
 def and_i_select_live_stream
-  click_on("Update live stream")
+  click_link("Update live stream")
   expect(page).to have_text("Update live stream URL")
 end
 
@@ -154,7 +154,7 @@ def i_am_able_to_submit_an_invalid_url
   click_on("Update draft")
 end
 
-def when_i_visit_the_publish_coronavirus_page
+def when_i_visit_the_coronavirus_index_page
   visit "/coronavirus"
 end
 
