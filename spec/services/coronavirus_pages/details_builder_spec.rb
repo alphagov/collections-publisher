@@ -26,7 +26,8 @@ RSpec.describe CoronavirusPages::DetailsBuilder do
     let(:coronavirus_page) { sub_section.coronavirus_page }
     let(:data) do
       data = github_content
-      data[:sections] = [sub_section_json]
+      data[:content_sections] = [sub_section_json]
+      data.deep_stringify_keys!
       data
     end
     it "returns github and model data" do
@@ -45,6 +46,25 @@ RSpec.describe CoronavirusPages::DetailsBuilder do
       let(:sub_section_json) { SubSectionJsonPresenter.new(sub_section).output }
       it "returns the sub_section JSON" do
         expect(subject.model_data).to eq [sub_section_json]
+      end
+    end
+  end
+
+  describe "#success?" do
+    it "is true if call successful" do
+      subject.data
+      expect(subject.success?).to be(true)
+    end
+
+    context "on failure" do
+      before do
+        stub_request(:get, coronavirus_page.raw_content_url)
+          .to_return(status: 400)
+      end
+
+      it "is false" do
+        subject.data
+        expect(subject.success?).to be(false)
       end
     end
   end

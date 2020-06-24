@@ -65,13 +65,9 @@ private
   end
 
   def fetch_content_and_push
-    response = RestClient.get(page_config[:raw_content_url])
-
-    if response.code == 200
-      corona_content = YAML.safe_load(response.body)["content"]
-
-      if valid_content?(corona_content, page_type)
-        presenter = CoronavirusPagePresenter.new(corona_content, page_config[:base_path])
+    if details_builder.data && details_builder.success?
+      if valid_content?(details_builder.data, page_type)
+        presenter = CoronavirusPagePresenter.new(details_builder.data, page_config[:base_path])
 
         with_longer_timeout do
           Services.publishing_api.put_content(page_config[:content_id], presenter.payload)
@@ -81,8 +77,12 @@ private
         end
       end
     else
-      flash["alert"] = "Error received from GitHub - #{response.code}"
+      flash["alert"] = "Error received from GitHub - #{builder.errors.to_sentence}"
     end
+  end
+
+  def details_builder
+    @details_builder ||= CoronavirusPages::DetailsBuilder.new(coronavirus_page)
   end
 
   def with_longer_timeout
