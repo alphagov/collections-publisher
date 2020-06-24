@@ -37,7 +37,7 @@ private
 
   def initialise_coronavirus_pages
     page_configs.keys.map do |page|
-      CoronavirusPages::Updater.new(page.to_s).page
+      CoronavirusPages::ModelBuilder.new(page.to_s).page
     end
   end
 
@@ -46,7 +46,7 @@ private
   end
 
   def updater
-    CoronavirusPages::Updater.new(slug)
+    CoronavirusPages::ModelBuilder.new(slug)
   end
 
   def redirect_to_index_if_slug_unknown
@@ -64,6 +64,8 @@ private
     flash["alert"] = "Page already published - update the draft first"
   end
 
+  ## move this method into a service so we can use it when we create a new page, or
+  ## update a section, or update via prepare.
   def fetch_content_and_push
     if details_builder.data && details_builder.success?
       if valid_content?(details_builder.data, coronavirus_page.slug)

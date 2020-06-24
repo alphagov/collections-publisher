@@ -1,5 +1,5 @@
 module CoronavirusPages
-  class Updater
+  class ModelBuilder
     attr_reader :slug
 
     def initialize(slug)

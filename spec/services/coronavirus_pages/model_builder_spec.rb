@@ -1,8 +1,8 @@
 require "rails_helper"
 
-RSpec.describe CoronavirusPages::Updater do
+RSpec.describe CoronavirusPages::ModelBuilder do
   let(:slug) { "landing" }
-  let(:updater) { CoronavirusPages::Updater.new(slug) }
+  let(:model_builder) { CoronavirusPages::ModelBuilder.new(slug) }
   let(:page_config) { CoronavirusPages::Configuration.page(slug) }
   let(:raw_content_url) { page_config[:raw_content_url] }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
@@ -21,12 +21,12 @@ RSpec.describe CoronavirusPages::Updater do
   describe "#page" do
     context "coronavirus page with matching slug is absent from database" do
       it "creates a coronavirus page" do
-        expect { updater.page }.to change { CoronavirusPage.count }.by(1)
+        expect { model_builder.page }.to change { CoronavirusPage.count }.by(1)
         expect(CoronavirusPage.last).to have_attributes(coronavirus_page_attributes)
       end
 
       it "creates associated sub_sections" do
-        expect { updater.page }.to(change { SubSection.count }.by(source_sections.count))
+        expect { model_builder.page }.to(change { SubSection.count }.by(source_sections.count))
       end
     end
 
@@ -35,7 +35,7 @@ RSpec.describe CoronavirusPages::Updater do
       let(:sub_section) { SubSection.find_by(title: section["title"]) }
 
       it "creates sub_sections with the given attributes" do
-        updater.page
+        model_builder.page
         expect(sub_section.content).to include(section["sub_sections"].first["list"].first["label"])
       end
     end
@@ -44,15 +44,15 @@ RSpec.describe CoronavirusPages::Updater do
       let!(:coronavirus_page) { create :coronavirus_page, :landing }
 
       it "does not create a coronavirus page" do
-        expect { updater.page }.not_to(change { CoronavirusPage.count })
+        expect { model_builder.page }.not_to(change { CoronavirusPage.count })
       end
 
       it "returns the coronavirus page" do
-        expect(updater.page).to eq(coronavirus_page)
+        expect(model_builder.page).to eq(coronavirus_page)
       end
 
       it "does not create sub_sections" do
-        expect { updater.page }.not_to(change { SubSection.count })
+        expect { model_builder.page }.not_to(change { SubSection.count })
       end
     end
   end
