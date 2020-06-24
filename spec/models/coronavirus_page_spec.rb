@@ -33,4 +33,13 @@ RSpec.describe CoronavirusPage do
       expect(coronavirus_page).not_to be_valid
     end
   end
+
+  describe "dependencies" do
+    let!(:employees) { create :coronavirus_page, :employees }
+    let!(:sub_section) { create :sub_section, coronavirus_page: employees }
+
+    it "deletion destroys all child subsections" do
+      expect { employees.destroy }.to change { SubSection.count }.by(-1)
+    end
+  end
 end
