@@ -19,7 +19,7 @@ class CoronavirusPagesController < ApplicationController
   end
 
   def update
-    if page_config.nil?
+    if slug_unknown?
       flash["alert"] = "Page could not be updated because the configuration cannot be found."
     else
       fetch_content_and_push
@@ -50,14 +50,14 @@ private
   end
 
   def redirect_to_index_if_slug_unknown
-    if page_config.nil?
+    if slug_unknown?
       flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
       redirect_to coronavirus_pages_path
     end
   end
 
   def publish_page
-    Services.publishing_api.publish(page_config[:content_id], update_type)
+    Services.publishing_api.publish(coronavirus_page.content_id, update_type)
 
     flash["notice"] = "Page published!"
   rescue GdsApi::HTTPConflict
@@ -66,11 +66,11 @@ private
 
   def fetch_content_and_push
     if details_builder.data && details_builder.success?
-      if valid_content?(details_builder.data, page_type)
-        presenter = CoronavirusPagePresenter.new(details_builder.data, page_config[:base_path])
+      if valid_content?(details_builder.data, coronavirus_page.slug)
+        presenter = CoronavirusPagePresenter.new(details_builder.data, coronavirus_page.base_path)
 
         with_longer_timeout do
-          Services.publishing_api.put_content(page_config[:content_id], presenter.payload)
+          Services.publishing_api.put_content(coronavirus_page.content_id, presenter.payload)
           flash["notice"] = "Draft content updated"
         rescue GdsApi::HTTPGatewayTimeout
           flash["alert"] = "Updating the draft timed out - please try again"
@@ -108,7 +108,7 @@ private
     return false if content.nil?
 
     required_keys =
-      type == :landing ? required_landing_page_keys : required_hub_page_keys
+      type.to_sym == :landing ? required_landing_page_keys : required_hub_page_keys
     missing_keys = (required_keys - content.keys)
     if missing_keys.any?
       flash["alert"] = "Invalid content - please recheck GitHub and add #{missing_keys.join(', ')}."
@@ -118,16 +118,12 @@ private
     true
   end
 
-  def page_config
-    page_configs[page_type]
-  end
-
   def slug
     params[:slug] || params[:coronavirus_page_slug]
   end
 
-  def page_type
-    slug.to_sym
+  def slug_unknown?
+    !page_configs.key?(slug.to_sym)
   end
 
   def required_landing_page_keys

@@ -78,7 +78,7 @@ RSpec.describe CoronavirusPagesController, type: :controller do
     end
 
     it "redirects to index with an unknown slug" do
-      get :show, params: { slug: :unknown }
+      get :show, params: { slug: "unknown" }
       expect(response).to redirect_to(coronavirus_pages_path)
     end
   end
