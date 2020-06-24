@@ -11,8 +11,8 @@
   ]
 
   metadata = {
-    "Status" => "Draft",
-    "Last saved" => format_full_date_and_time(DateTime.now),
+    "Status" => @coronavirus_page.state.capitalize,
+    "Last saved" => format_full_date_and_time(@coronavirus_page.updated_at),
   }
 %>
 

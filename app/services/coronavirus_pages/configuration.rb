@@ -13,6 +13,7 @@ module CoronavirusPages
             raw_content_url: "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_landing_page.yml".freeze,
             base_path: "/coronavirus",
             github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_landing_page.yml",
+            state: "published",
           },
         business:
           {
@@ -21,6 +22,7 @@ module CoronavirusPages
             raw_content_url: "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_business_page.yml".freeze,
             base_path: "/coronavirus/business-support",
             github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_business_page.yml",
+            state: "published",
           },
         education:
           {
@@ -29,6 +31,7 @@ module CoronavirusPages
             raw_content_url: "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_education_page.yml".freeze,
             base_path: "/coronavirus/education-and-childcare",
             github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_education_page.yml",
+            state: "published",
           },
         employees:
           {
@@ -37,6 +40,7 @@ module CoronavirusPages
             raw_content_url: "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_worker_page.yml".freeze,
             base_path: "/coronavirus/worker-support",
             github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_worker_page.yml",
+            state: "published",
           },
       }
     end
