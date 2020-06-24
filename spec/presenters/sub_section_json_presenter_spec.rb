@@ -25,24 +25,18 @@ RSpec.describe SubSectionJsonPresenter do
 
     let(:expected) do
       {
-        details: {
-          sections: [
-            {
-              title: subject.title,
-              sub_sections: [
-                {
-                  list: [
-                    {
-                      url: path,
-                      label: label,
-                    },
-                  ],
-                  title: title,
-                },
-              ],
-            },
-          ],
-        },
+        title: subject.title,
+        sub_sections: [
+          {
+            list: [
+              {
+                url: path,
+                label: label,
+              },
+            ],
+            title: title,
+          },
+        ],
       }
     end
 
