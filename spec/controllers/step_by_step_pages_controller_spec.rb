@@ -195,6 +195,15 @@ RSpec.describe StepByStepPagesController do
 
         expect(step_by_step_page.internal_change_notes.first.edition_number).to eq(3)
       end
+
+      it "sends an email" do
+        expect(PublisherNotifications).to receive(:publish_without_2i).with(step_by_step_page, stub_user).and_call_original
+
+        stub_publishing_api
+        post :publish_without_2i_review, params: { step_by_step_page_id: step_by_step_page.id, update_type: "minor", headline: "" }
+
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
     end
   end
 

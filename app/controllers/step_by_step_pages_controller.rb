@@ -85,6 +85,7 @@ class StepByStepPagesController < ApplicationController
         publish_page(@publish_intent)
         generate_internal_change_note("Published without 2i review", publish_note_description)
         set_change_note_version
+        send_publish_without_2i_email
         redirect_to @step_by_step_page, notice: "'#{@step_by_step_page.title}' has been published."
       end
     else
@@ -270,5 +271,9 @@ private
     unless @step_by_step_page.status.approved_2i?
       redirect_to @step_by_step_page, notice: "Step by step must be 2i approved before you can #{action_name} this step by step."
     end
+  end
+
+  def send_publish_without_2i_email
+    PublisherNotifications.publish_without_2i(@step_by_step_page, current_user).deliver_now
   end
 end
