@@ -68,6 +68,18 @@ RSpec.feature "Managing step by step pages" do
     then_there_should_be_a_change_note "Published"
   end
 
+  scenario "User publishes a page without 2i review" do
+    given_i_can_skip_review
+    given_there_is_a_step_by_step_page_with_a_link_report
+    when_i_visit_the_step_by_step_page
+    when_i_click_button "Publish without 2i review"
+    and_when_i_click_button "Publish"
+    then_i_am_told_that_it_is_published
+    and_i_see_the_step_by_step_page
+    when_i_visit_the_history_page
+    then_there_should_be_a_change_note "Published without 2i review"
+  end
+
   scenario "User reverts an approved page to draft" do
     given_there_is_an_approved_2i_step_by_step_page_with_a_link_report
     when_i_view_the_step_by_step_page
@@ -450,6 +462,7 @@ RSpec.feature "Managing step by step pages" do
   def then_i_see_the_step_by_step_page
     expect(page).to have_content("How to be amazing")
   end
+  alias_method :and_i_see_the_step_by_step_page, :then_i_see_the_step_by_step_page
 
   def then_i_can_see_a_summary_section
     within_summary_section do
