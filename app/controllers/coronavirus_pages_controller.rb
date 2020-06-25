@@ -106,50 +106,12 @@ private
     params["update-type"] == "major"
   end
 
-  def valid_content?(content, type)
-    return false if content.nil?
-
-    required_keys =
-      type.to_sym == :landing ? required_landing_page_keys : required_hub_page_keys
-    missing_keys = (required_keys - content.keys)
-    if missing_keys.any?
-      flash["alert"] = "Invalid content - please recheck GitHub and add #{missing_keys.join(', ')}."
-      return false
-    end
-
-    true
-  end
-
   def slug
     params[:slug] || params[:coronavirus_page_slug]
   end
 
   def slug_unknown?
     !page_configs.key?(slug.to_sym)
-  end
-
-  def required_landing_page_keys
-    %w[
-      title
-      meta_description
-      header_section
-      announcements_label
-      announcements
-      nhs_banner
-      sections
-      topic_section
-      notifications
-    ]
-  end
-
-  def required_hub_page_keys
-    %w[
-      title
-      header_section
-      sections
-      topic_section
-      notifications
-    ]
   end
 
   def page_configs
