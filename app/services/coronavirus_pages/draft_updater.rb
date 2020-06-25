@@ -24,15 +24,17 @@ module CoronavirusPages
 
     def send
       @send ||= Services.publishing_api.put_content(content_id, payload)
+    rescue GdsApi::HTTPGatewayTimeout
+      # TODO: Send to sentry
+      errors << "Updating the draft timed out - please try again"
+      false
+    rescue DraftUpdaterError => e
+      errors << e.message
+      false
     end
 
     def errors
-      return if send
-    rescue GdsApi::HTTPGatewayTimeout
-      # TODO: Send to sentry
-      "Updating the draft timed out - please try again"
-    rescue DraftUpdaterError => e
-      e.message
+      @errors ||= []
     end
   end
 end

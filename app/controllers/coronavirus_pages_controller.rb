@@ -22,7 +22,7 @@ class CoronavirusPagesController < ApplicationController
     return slug_unknown_for_update if slug_unknown?
 
     message =
-      draft_updater.errors ? { alert: draft_updater.errors } : { notice: "Draft content updated" }
+      draft_updater.send ? { notice: "Draft content updated" } : { alert: draft_updater.errors.to_sentence }
     redirect_to prepare_coronavirus_page_path(slug), message
   end
 
