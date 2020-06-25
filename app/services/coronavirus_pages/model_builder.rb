@@ -27,7 +27,7 @@ module CoronavirusPages
     end
 
     def sections_heading
-      yaml_data.dig(:content, :sections_heading)
+      yaml_data.dig("content", "sections_heading")
     end
 
     def raw_content_url
@@ -41,7 +41,7 @@ module CoronavirusPages
     end
 
     def parsed_sub_sections
-      SectionsPresenter.new(yaml_data.dig(:content, :sections)).output
+      SectionsPresenter.new(yaml_data.dig("content", "sections")).output
     end
 
     def yaml_data

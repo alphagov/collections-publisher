@@ -5,18 +5,18 @@ RSpec.describe CoronavirusPages::SectionsPresenter do
   let(:data) do
     [
       {
-        title: title,
-        sub_sections: [
+        "title" => title,
+        "sub_sections" => [
           {
-            title: "title",
-            list: [
+            "title" => "title",
+            "list" => [
               {
-                label: "Stay at home if you think you have coronavirus (self-isolating)",
-                url: " /government/publications/covid-19-stay-at-home-guidance",
+                "label" => "Stay at home if you think you have coronavirus (self-isolating)",
+                "url" => " /government/publications/covid-19-stay-at-home-guidance",
               },
               {
-                label: "Stay alert and safe: social distancing guidance for everyone",
-                url: "/government/publications/staying-alert-and-safe-social-distancing",
+                "label" => "Stay alert and safe: social distancing guidance for everyone",
+                "url" => "/government/publications/staying-alert-and-safe-social-distancing",
               },
             ],
           },

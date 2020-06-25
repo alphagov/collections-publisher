@@ -30,7 +30,7 @@ RSpec.describe YamlFetcher do
     end
 
     it "has the content from simple file" do
-      expect(subject.body_as_hash).to eq({ this: { foo: "bar" } })
+      expect(subject.body_as_hash).to eq({ "this" => { "foo" => "bar" } })
     end
   end
 

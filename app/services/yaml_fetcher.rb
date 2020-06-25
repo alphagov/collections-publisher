@@ -18,6 +18,6 @@ class YamlFetcher
   delegate :body, to: :response
 
   def body_as_hash
-    @body_as_hash ||= YAML.safe_load(body).deep_symbolize_keys
+    @body_as_hash ||= YAML.safe_load(body)
   end
 end
