@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CoronavirusPages::DetailsBuilder do
+RSpec.describe CoronavirusPages::ContentBuilder do
   let(:coronavirus_page) { create :coronavirus_page }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }

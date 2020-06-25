@@ -1,4 +1,4 @@
-class CoronavirusPages::DetailsBuilder
+class CoronavirusPages::ContentBuilder
   attr_reader :coronavirus_page
 
   def initialize(coronavirus_page)
