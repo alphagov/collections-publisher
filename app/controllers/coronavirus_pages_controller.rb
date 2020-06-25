@@ -19,13 +19,11 @@ class CoronavirusPagesController < ApplicationController
   end
 
   def update
-    if slug_unknown?
-      flash["alert"] = "Page could not be updated because the configuration cannot be found."
-    else
-      fetch_content_and_push
-    end
+    return slug_unknown_for_update if slug_unknown?
 
-    redirect_to prepare_coronavirus_page_path
+    message =
+      draft_updater.errors ? { alert: draft_updater.errors } : { notice: "Draft content updated" }
+    redirect_to prepare_coronavirus_page_path(slug), message
   end
 
   def publish
@@ -42,11 +40,20 @@ private
   end
 
   def coronavirus_page
-    @coronavirus_page ||= updater.page
+    @coronavirus_page ||= model_builder.page
   end
 
-  def updater
+  def model_builder
     CoronavirusPages::ModelBuilder.new(slug)
+  end
+
+  def draft_updater
+    @draft_updater ||= CoronavirusPages::DraftUpdater.new(coronavirus_page)
+  end
+
+  def slug_unknown_for_update
+    message = "Page could not be updated because the configuration cannot be found."
+    redirect_to prepare_coronavirus_page_path, alert: message
   end
 
   def redirect_to_index_if_slug_unknown
@@ -62,29 +69,6 @@ private
     flash["notice"] = "Page published!"
   rescue GdsApi::HTTPConflict
     flash["alert"] = "Page already published - update the draft first"
-  end
-
-  ## move this method into a service so we can use it when we create a new page, or
-  ## update a section, or update via prepare.
-  def fetch_content_and_push
-    if details_builder.data && details_builder.success?
-      if valid_content?(details_builder.data, coronavirus_page.slug)
-        presenter = CoronavirusPagePresenter.new(details_builder.data, coronavirus_page.base_path)
-
-        with_longer_timeout do
-          Services.publishing_api.put_content(coronavirus_page.content_id, presenter.payload)
-          flash["notice"] = "Draft content updated"
-        rescue GdsApi::HTTPGatewayTimeout
-          flash["alert"] = "Updating the draft timed out - please try again"
-        end
-      end
-    else
-      flash["alert"] = "Error received from GitHub - #{builder.errors.to_sentence}"
-    end
-  end
-
-  def details_builder
-    @details_builder ||= CoronavirusPages::DetailsBuilder.new(coronavirus_page)
   end
 
   def with_longer_timeout

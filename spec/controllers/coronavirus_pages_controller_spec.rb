@@ -19,7 +19,7 @@ RSpec.describe CoronavirusPagesController, type: :controller do
     end
   end
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
-  let(:raw_content) { File.read(Rails.root.join + fixture_path) }
+  let(:raw_content) { File.read(fixture_path) }
 
   describe "GET /coronavirus" do
     it "renders page successfully" do
