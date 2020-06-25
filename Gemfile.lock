@@ -198,6 +198,9 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
+    mail-notify (1.0.2)
+      actionmailer (>= 5.2.4.2, < 6.1)
+      notifications-ruby-client (~> 5.1)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
@@ -216,6 +219,8 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
+    notifications-ruby-client (5.1.2)
+      jwt (>= 1.5, < 3)
     null_logger (0.0.1)
     oauth2 (1.4.4)
       faraday (>= 0.8, < 2.0)
@@ -448,6 +453,7 @@ DEPENDENCIES
   govuk_test
   jasmine (~> 3.5)
   jasmine_selenium_runner (~> 3)
+  mail-notify
   mysql2
   nokogiri
   parser (= 2.7.1.3)
