@@ -40,11 +40,7 @@ private
   end
 
   def coronavirus_page
-    @coronavirus_page ||= model_builder.page
-  end
-
-  def model_builder
-    CoronavirusPages::ModelBuilder.new(slug)
+    @coronavirus_page ||= CoronavirusPages::ModelBuilder.call(slug)
   end
 
   def draft_updater

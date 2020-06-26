@@ -18,6 +18,14 @@ RSpec.describe CoronavirusPages::ModelBuilder do
       .to_return(body: File.read(fixture_path))
   end
 
+  describe ".call" do
+    let(:page) { described_class.call(slug) }
+    it "returns a page" do
+      expect { page }.to change { CoronavirusPage.count }.by(1)
+      expect(page).to have_attributes(coronavirus_page_attributes)
+    end
+  end
+
   describe "#page" do
     context "coronavirus page with matching slug is absent from database" do
       it "creates a coronavirus page" do

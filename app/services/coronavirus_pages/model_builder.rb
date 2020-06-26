@@ -1,5 +1,9 @@
 module CoronavirusPages
   class ModelBuilder
+    def self.call(*args)
+      new(*args).page
+    end
+
     attr_reader :slug
 
     def initialize(slug)
