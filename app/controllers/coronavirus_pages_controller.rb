@@ -19,13 +19,11 @@ class CoronavirusPagesController < ApplicationController
   end
 
   def update
-    if page_config.nil?
-      flash["alert"] = "Page could not be updated because the configuration cannot be found."
-    else
-      fetch_content_and_push
-    end
+    return slug_unknown_for_update if slug_unknown?
 
-    redirect_to prepare_coronavirus_page_path
+    message =
+      draft_updater.send ? { notice: "Draft content updated" } : { alert: draft_updater.errors.to_sentence }
+    redirect_to prepare_coronavirus_page_path(slug), message
   end
 
   def publish
@@ -37,52 +35,36 @@ private
 
   def initialise_coronavirus_pages
     page_configs.keys.map do |page|
-      CoronavirusPages::Updater.new(page.to_s).page
+      CoronavirusPages::ModelBuilder.new(page.to_s).page
     end
   end
 
   def coronavirus_page
-    @coronavirus_page ||= updater.page
+    @coronavirus_page ||= CoronavirusPages::ModelBuilder.call(slug)
   end
 
-  def updater
-    CoronavirusPages::Updater.new(slug)
+  def draft_updater
+    @draft_updater ||= CoronavirusPages::DraftUpdater.new(coronavirus_page)
+  end
+
+  def slug_unknown_for_update
+    message = "Page could not be updated because the configuration cannot be found."
+    redirect_to prepare_coronavirus_page_path, alert: message
   end
 
   def redirect_to_index_if_slug_unknown
-    if page_config.nil?
+    if slug_unknown?
       flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
       redirect_to coronavirus_pages_path
     end
   end
 
   def publish_page
-    Services.publishing_api.publish(page_config[:content_id], update_type)
+    Services.publishing_api.publish(coronavirus_page.content_id, update_type)
 
     flash["notice"] = "Page published!"
   rescue GdsApi::HTTPConflict
     flash["alert"] = "Page already published - update the draft first"
-  end
-
-  def fetch_content_and_push
-    response = RestClient.get(page_config[:raw_content_url])
-
-    if response.code == 200
-      corona_content = YAML.safe_load(response.body)["content"]
-
-      if valid_content?(corona_content, page_type)
-        presenter = CoronavirusPagePresenter.new(corona_content, page_config[:base_path])
-
-        with_longer_timeout do
-          Services.publishing_api.put_content(page_config[:content_id], presenter.payload)
-          flash["notice"] = "Draft content updated"
-        rescue GdsApi::HTTPGatewayTimeout
-          flash["alert"] = "Updating the draft timed out - please try again"
-        end
-      end
-    else
-      flash["alert"] = "Error received from GitHub - #{response.code}"
-    end
   end
 
   def with_longer_timeout
@@ -104,54 +86,12 @@ private
     params["update-type"] == "major"
   end
 
-  def valid_content?(content, type)
-    return false if content.nil?
-
-    required_keys =
-      type == :landing ? required_landing_page_keys : required_hub_page_keys
-    missing_keys = (required_keys - content.keys)
-    if missing_keys.any?
-      flash["alert"] = "Invalid content - please recheck GitHub and add #{missing_keys.join(', ')}."
-      return false
-    end
-
-    true
-  end
-
-  def page_config
-    page_configs[page_type]
-  end
-
   def slug
     params[:slug] || params[:coronavirus_page_slug]
   end
 
-  def page_type
-    slug.to_sym
-  end
-
-  def required_landing_page_keys
-    %w[
-      title
-      meta_description
-      header_section
-      announcements_label
-      announcements
-      nhs_banner
-      sections
-      topic_section
-      notifications
-    ]
-  end
-
-  def required_hub_page_keys
-    %w[
-      title
-      header_section
-      sections
-      topic_section
-      notifications
-    ]
+  def slug_unknown?
+    !page_configs.key?(slug.to_sym)
   end
 
   def page_configs

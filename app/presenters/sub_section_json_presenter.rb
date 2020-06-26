@@ -24,14 +24,8 @@ class SubSectionJsonPresenter
 
   def output
     {
-      details: {
-        sections: [
-          {
-            title: title,
-            sub_sections: sub_sections,
-          },
-        ],
-      },
+      title: title,
+      sub_sections: sub_sections,
     }
   end
 

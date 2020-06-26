@@ -9,15 +9,15 @@ RSpec.describe CoronavirusPages::SubSectionProcessor do
   let(:data) do
     [
       {
-        title: title,
-        list: [
+        "title" => title,
+        "list" => [
           {
-            label: label,
-            url: url,
+            "label" => label,
+            "url" => url,
           },
           {
-            label: label_1,
-            url: url_1,
+            "label" => label_1,
+            "url" => url_1,
           },
         ],
       },

@@ -25,9 +25,9 @@ module CoronavirusPages
 
     def process
       sub_sections.each do |sub_section|
-        add_string("####{sub_section[:title]}") if sub_section[:title].present?
-        sub_section[:list].each do |item|
-          add_string "[#{item[:label]}](#{item[:url]})"
+        add_string("####{sub_section['title']}") if sub_section["title"].present?
+        sub_section["list"].each do |item|
+          add_string "[#{item['label']}](#{item['url']})"
         end
       end
     end

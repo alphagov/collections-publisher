@@ -19,7 +19,7 @@ RSpec.describe CoronavirusPagesController, type: :controller do
     end
   end
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
-  let(:raw_content) { File.read(Rails.root.join + fixture_path) }
+  let(:raw_content) { File.read(fixture_path) }
 
   describe "GET /coronavirus" do
     it "renders page successfully" do
@@ -78,7 +78,7 @@ RSpec.describe CoronavirusPagesController, type: :controller do
     end
 
     it "redirects to index with an unknown slug" do
-      get :show, params: { slug: :unknown }
+      get :show, params: { slug: "unknown" }
       expect(response).to redirect_to(coronavirus_pages_path)
     end
   end
