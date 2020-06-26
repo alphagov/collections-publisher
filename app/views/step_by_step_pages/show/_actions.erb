@@ -59,7 +59,8 @@
         <%= render "govuk_publishing_components/components/button", {
           text: "Publish without 2i review",
           href: step_by_step_page_publish_without_2i_review_path(@step_by_step_page),
-          destructive: true
+          destructive: true,
+          data_attributes: { confirm: "You should only publish step by steps without 2i review in exceptional circumstances, for example if you're the only person responding to an emergency out of hours call." },
         } %>
       <% end %>
     <% end %>
