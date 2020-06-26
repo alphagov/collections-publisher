@@ -16,6 +16,7 @@ gem "govuk_admin_template", "~> 6.7"
 gem "govuk_app_config", "~> 2.2"
 gem "govuk_publishing_components", "~> 21.43"
 gem "govuk_sidekiq", "~> 3.0"
+gem "mail-notify"
 gem "plek", "~> 3.0"
 
 group :development do

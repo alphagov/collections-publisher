@@ -24,6 +24,18 @@ Rails.application.configure do
   config.action_controller.perform_caching = false
   config.cache_store = :null_store
 
+  # Tell Action Mailer not to deliver emails to the real world.
+  # The :test delivery method accumulates sent emails in the
+  # ActionMailer::Base.deliveries array.
+  config.action_mailer.delivery_method = :test
+
+  # We need to set this 'from' address as SMTP requires it when attempting to
+  # deliver the email when running the tests. The error we were seeing was
+  # 'SMTP From address may not be blank: nil' when running 'deliver' on the
+  # generated email. This doesn't apply to production as we use notify as the
+  # delivery method.
+  config.action_mailer.default_options = { from: "test-sender@test.com" }
+
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = false
 
