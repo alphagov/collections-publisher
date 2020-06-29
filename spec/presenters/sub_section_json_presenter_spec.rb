@@ -68,20 +68,20 @@ RSpec.describe SubSectionJsonPresenter do
     let(:link) { "(#{label})[#{path}]" }
 
     let(:group) { [link] }
-    let(:hash) { subject.sub_section_hash_from_content_group(group) }
+    let(:sub_section_hash) { subject.sub_section_hash_from_content_group(group) }
 
     it "puts the link path and label into list" do
-      expect(hash[:list].first[:label]).to eq(label)
-      expect(hash[:list].first[:url]).to eq(path)
+      expect(sub_section_hash[:list].first[:label]).to eq(label)
+      expect(sub_section_hash[:list].first[:url]).to eq(path)
     end
 
     it "has a null title" do
-      expect(hash.keys).to include(:title)
-      expect(hash[:title]).to be_nil
+      expect(sub_section_hash.keys).to include(:title)
+      expect(sub_section_hash[:title]).to be_nil
     end
 
     it "creates no errors" do
-      hash
+      sub_section_hash
       expect(subject.errors).to be_blank
     end
 
@@ -91,12 +91,12 @@ RSpec.describe SubSectionJsonPresenter do
       let(:group) { [title_markup, link] }
 
       it "puts the link path and label into list" do
-        expect(hash[:list].first[:label]).to eq(label)
-        expect(hash[:list].first[:url]).to eq(path)
+        expect(sub_section_hash[:list].first[:label]).to eq(label)
+        expect(sub_section_hash[:list].first[:url]).to eq(path)
       end
 
       it "has the title" do
-        expect(hash[:title]).to eq(title)
+        expect(sub_section_hash[:title]).to eq(title)
       end
     end
 
@@ -106,7 +106,7 @@ RSpec.describe SubSectionJsonPresenter do
       let(:group) { [title_markup, link] }
 
       it "has the title" do
-        expect(hash[:title]).to eq(title)
+        expect(sub_section_hash[:title]).to eq(title)
       end
     end
 
@@ -115,8 +115,8 @@ RSpec.describe SubSectionJsonPresenter do
       let(:link) { "(#{label})[#{url}]" }
 
       it "puts the link path and label into list" do
-        expect(hash[:list].first[:label]).to eq(label)
-        expect(hash[:list].first[:url]).to eq(url)
+        expect(sub_section_hash[:list].first[:label]).to eq(label)
+        expect(sub_section_hash[:list].first[:url]).to eq(url)
       end
     end
 
@@ -125,8 +125,8 @@ RSpec.describe SubSectionJsonPresenter do
       let(:link) { "(#{label})[#{url}]" }
 
       it "puts the link path and label into list" do
-        expect(hash[:list].first[:label]).to eq(label)
-        expect(hash[:list].first[:url]).to eq(url)
+        expect(sub_section_hash[:list].first[:label]).to eq(label)
+        expect(sub_section_hash[:list].first[:url]).to eq(url)
       end
     end
 
@@ -134,8 +134,8 @@ RSpec.describe SubSectionJsonPresenter do
       let(:link) { " ( #{label} ) [ #{path} ] " }
 
       it "puts the link path and label into list" do
-        expect(hash[:list].first[:label]).to eq(label)
-        expect(hash[:list].first[:url]).to eq(path)
+        expect(sub_section_hash[:list].first[:label]).to eq(label)
+        expect(sub_section_hash[:list].first[:url]).to eq(path)
       end
     end
 
@@ -146,13 +146,13 @@ RSpec.describe SubSectionJsonPresenter do
       let(:group) { [link, link_two] }
 
       it "puts the link path and label into list" do
-        expect(hash[:list].first[:label]).to eq(label)
-        expect(hash[:list].first[:url]).to eq(path)
+        expect(sub_section_hash[:list].first[:label]).to eq(label)
+        expect(sub_section_hash[:list].first[:url]).to eq(path)
       end
 
       it "puts the second link path and label into list" do
-        expect(hash[:list].last[:label]).to eq(label_two)
-        expect(hash[:list].last[:url]).to eq(path_two)
+        expect(sub_section_hash[:list].last[:label]).to eq(label_two)
+        expect(sub_section_hash[:list].last[:url]).to eq(path_two)
       end
     end
 
@@ -160,11 +160,31 @@ RSpec.describe SubSectionJsonPresenter do
       let(:group) { %w[unknown] }
 
       it "does not populate list" do
-        expect(hash.keys).not_to include(:list)
+        expect(sub_section_hash.keys).not_to include(:list)
       end
 
       it "adds an error" do
-        expect { hash }.to change { subject.errors.length }.by(1)
+        expect { sub_section_hash }.to change { subject.errors.length }.by(1)
+      end
+    end
+
+    context "when link is to a subtopic path" do
+      let(:business) { create :coronavirus_page, :business }
+      let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
+      let(:description) { "Find out about the government response to coronavirus (COVID-19) and what you need to do." }
+      let(:path) { business.base_path }
+
+      before do
+        stub_request(:get, business.raw_content_url)
+          .to_return(body: File.read(fixture_path))
+      end
+
+      it "flags featured link" do
+        expect(sub_section_hash[:list].first[:featured_link]).to eq(true)
+      end
+
+      it "includes description" do
+        expect(sub_section_hash[:list].first[:description]).to eq(description)
       end
     end
   end
