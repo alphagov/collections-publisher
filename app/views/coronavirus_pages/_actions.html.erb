@@ -1,17 +1,15 @@
 <div class="app-side">
   <div class="app-side__actions">
-    <%= render "govuk_publishing_components/components/button", {
-      text: "Publish",
-      href: "#"
-    } %>
+
+    <%= link_to "Publish", coronavirus_page_publish_path(@coronavirus_page.slug), method: :post, class: "govuk-button" %>
 
     <%= render "govuk_publishing_components/components/button", {
       text: "Preview",
-      href: "#",
+      href: draft_govuk_url(@coronavirus_page.base_path),
       target: "_blank",
       secondary: true
     } %>
-
+    
     <%= link_to 'Discard changes', "#",class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />

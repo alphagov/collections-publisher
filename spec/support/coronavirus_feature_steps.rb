@@ -3,6 +3,11 @@ def given_i_am_a_coronavirus_editor
   stub_user.name = "Test author"
 end
 
+def given_i_am_an_unreleased_feature_editor
+  stub_user.permissions << "Unreleased feature"
+  stub_user.name = "Test author"
+end
+
 def the_payload_contains_the_valid_url
   live_stream_payload = coronavirus_live_stream_hash.merge(
     {
@@ -162,6 +167,10 @@ def when_i_visit_a_non_existent_page
   visit "/coronavirus/flimflam/prepare"
 end
 
+def when_i_visit_a_coronavirus_page
+  visit "/coronavirus/landing"
+end
+
 def then_i_am_redirected_to_the_index_page
   expect(current_path).to eq("/coronavirus")
 end
@@ -233,8 +242,20 @@ def then_the_page_publishes
   assert_publishing_api_publish("774cee22-d896-44c1-a611-e3109cce8eae", update_type: "major")
 end
 
+def then_the_page_publishes_a_minor_update
+  assert_publishing_api_publish("774cee22-d896-44c1-a611-e3109cce8eae", update_type: "minor")
+end
+
 def then_the_business_page_publishes
   assert_publishing_api_publish("09944b84-02ba-4742-a696-9e562fc9b29d", update_type: "major")
+end
+
+def and_i_remain_on_the_coronavirus_page
+  expect(current_path).to eq("/coronavirus/landing")
+end
+
+def and_i_remain_on_the_coronavirus_prepare_page
+  expect(current_path).to eq("/coronavirus/landing/prepare")
 end
 
 def and_i_see_a_page_published_message
