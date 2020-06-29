@@ -28,7 +28,8 @@ module CoronavirusPages
       # TODO: Send to sentry
       errors << "Updating the draft timed out - please try again"
       false
-    rescue DraftUpdaterError => e
+    rescue GdsApi::HTTPUnprocessableEntity, GdsApi::HTTPServerError, DraftUpdaterError => e
+      # TODO: Send to sentry
       errors << e.message
       false
     end
