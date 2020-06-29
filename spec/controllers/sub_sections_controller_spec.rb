@@ -8,7 +8,7 @@ RSpec.describe SubSectionsController, type: :controller do
   let(:slug) { coronavirus_page.slug }
   let(:sub_section) { create :sub_section, coronavirus_page: coronavirus_page }
   let(:title) { Faker::Lorem.sentence }
-  let(:content) { Faker::Lorem.sentence }
+  let(:content) { "###{Faker::Lorem.sentence}" }
   let(:sub_section_params) do
     {
       title: title,
@@ -49,6 +49,47 @@ RSpec.describe SubSectionsController, type: :controller do
       sub_section = SubSection.last
       expect(sub_section.title).to eq(title)
       expect(sub_section.content).to eq(content)
+    end
+
+    context "publishing api is returning a service error" do
+      before do
+        stub_any_publishing_api_put_content
+          .to_return(status: 500)
+      end
+      it "successfully renders error on edit page" do
+        expect(subject).to have_http_status(:success)
+      end
+
+      it "displays the expected error" do
+        expect(subject.body).to include("Failed to update the draft content item - please try saving again")
+      end
+    end
+
+    context "publishing api cannot process payload" do
+      let(:error_message) { Faker::Lorem.sentence }
+      before do
+        stub_any_publishing_api_put_content
+          .to_return(status: 422, body: error_message)
+      end
+      it "successfully renders error on edit page" do
+        expect(subject).to have_http_status(:success)
+      end
+
+      it "displays the expected error" do
+        expect(subject.body).to include(error_message)
+      end
+    end
+
+    context "subsection content error" do
+      let(:content) { "bad_content" }
+
+      it "successfully renders error on edit page" do
+        expect(subject).to have_http_status(:success)
+      end
+
+      it "displays the expected error" do
+        expect(subject.body).to include("Unable to parse markdown:")
+      end
     end
   end
 

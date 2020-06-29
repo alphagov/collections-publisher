@@ -1,8 +1,9 @@
 class CoronavirusPages::ContentBuilder
-  attr_reader :coronavirus_page
+  attr_reader :coronavirus_page, :errors
 
   def initialize(coronavirus_page)
     @coronavirus_page = coronavirus_page
+    @errors = []
   end
 
   def data
@@ -13,7 +14,7 @@ class CoronavirusPages::ContentBuilder
       data
     end
   rescue RestClient::Exception => e
-    errors << e.message
+    add_error(e.message)
   end
 
   def success?
@@ -21,15 +22,16 @@ class CoronavirusPages::ContentBuilder
     errors.empty?
   end
 
-  def errors
-    @errors ||= []
+  def add_error(error)
+    errors << error
+    errors.flatten!
   end
 
   def validate_content
     required_keys =
       type.to_sym == :landing ? required_landing_page_keys : required_hub_page_keys
     missing_keys = (required_keys - github_data.keys)
-    errors << "Invalid content - please recheck GitHub and add #{missing_keys.join(', ')}." if missing_keys.any?
+    add_error("Invalid content - please recheck GitHub and add #{missing_keys.join(', ')}.") if missing_keys.any?
   end
 
   def type
@@ -74,7 +76,9 @@ class CoronavirusPages::ContentBuilder
 
   def sub_sections_data
     coronavirus_page.sub_sections.map do |sub_section|
-      SubSectionJsonPresenter.new(sub_section).output
+      presenter = SubSectionJsonPresenter.new(sub_section)
+      add_error(presenter.errors) unless presenter.success?
+      presenter.output
     end
   end
 end

@@ -24,11 +24,11 @@ module CoronavirusPages
 
     def send
       @send ||= Services.publishing_api.put_content(content_id, payload)
-    rescue GdsApi::HTTPGatewayTimeout
+    rescue GdsApi::HTTPServerError
       # TODO: Send to sentry
-      errors << "Updating the draft timed out - please try again"
+      errors << "Failed to update the draft content item - please try saving again"
       false
-    rescue GdsApi::HTTPUnprocessableEntity, GdsApi::HTTPServerError, DraftUpdaterError => e
+    rescue GdsApi::HTTPUnprocessableEntity, DraftUpdaterError => e
       # TODO: Send to sentry
       errors << e.message
       false
