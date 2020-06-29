@@ -8,7 +8,7 @@ class SubSectionJsonPresenter
   )
 
   LINK_PATTERN = PatternMaker.call(
-    "starts_with perhaps_spaces within(brackets,capture(label)) then perhaps_spaces and within(sq_brackets,capture(url))",
+    "starts_with perhaps_spaces within(sq_brackets,capture(label)) then perhaps_spaces and within(brackets,capture(url))",
     label: '\s*\w.+',
     url: '\s*(\b(https?)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]\s*',
   )

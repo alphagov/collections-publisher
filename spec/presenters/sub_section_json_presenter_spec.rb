@@ -20,7 +20,7 @@ RSpec.describe SubSectionJsonPresenter do
     let(:title_markup) { "###{title}" }
     let(:label) { Faker::Lorem.sentence }
     let(:path)  { "/#{File.join(Faker::Lorem.words)}" }
-    let(:link) { "(#{label})[#{path}]" }
+    let(:link) { "[#{label}](#{path})" }
     let(:content) { [title_markup, link].join("\n") }
 
     let(:expected) do
@@ -65,7 +65,7 @@ RSpec.describe SubSectionJsonPresenter do
   describe "#sub_section_hash_from_content_group" do
     let(:label) { Faker::Lorem.sentence }
     let(:path)  { "/#{File.join(Faker::Lorem.words)}" }
-    let(:link) { "(#{label})[#{path}]" }
+    let(:link) { "[#{label}](#{path})" }
 
     let(:group) { [link] }
     let(:sub_section_hash) { subject.sub_section_hash_from_content_group(group) }
@@ -112,7 +112,7 @@ RSpec.describe SubSectionJsonPresenter do
 
     context "with a full url in link" do
       let(:url) { Faker::Internet.url }
-      let(:link) { "(#{label})[#{url}]" }
+      let(:link) { "[#{label}](#{url})" }
 
       it "puts the link path and label into list" do
         expect(sub_section_hash[:list].first[:label]).to eq(label)
@@ -122,7 +122,7 @@ RSpec.describe SubSectionJsonPresenter do
 
     context "with a full secure url in link" do
       let(:url) { Faker::Internet.url }
-      let(:link) { "(#{label})[#{url}]" }
+      let(:link) { "[#{label}](#{url})" }
 
       it "puts the link path and label into list" do
         expect(sub_section_hash[:list].first[:label]).to eq(label)
@@ -131,7 +131,7 @@ RSpec.describe SubSectionJsonPresenter do
     end
 
     context "with spaces" do
-      let(:link) { " ( #{label} ) [ #{path} ] " }
+      let(:link) { " [ #{label} ] ( #{path} ) " }
 
       it "puts the link path and label into list" do
         expect(sub_section_hash[:list].first[:label]).to eq(label)
@@ -142,7 +142,7 @@ RSpec.describe SubSectionJsonPresenter do
     context "with two links" do
       let(:label_two) { Faker::Lorem.sentence }
       let(:path_two)  { "/#{File.join(Faker::Lorem.words)}" }
-      let(:link_two) { "(#{label_two})[#{path_two}]" }
+      let(:link_two) { "[#{label_two}](#{path_two})" }
       let(:group) { [link, link_two] }
 
       it "puts the link path and label into list" do
@@ -225,7 +225,7 @@ RSpec.describe SubSectionJsonPresenter do
   def random_link_markdown
     label = Faker::Lorem.sentence
     path = "/#{File.join(Faker::Lorem.words)}"
-    "(#{label})[#{path}]"
+    "[#{label}](#{path})"
   end
 
   def random_title
