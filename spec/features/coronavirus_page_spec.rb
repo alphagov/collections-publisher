@@ -45,6 +45,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       stub_coronavirus_publishing_api
       stub_all_github_requests
       stub_any_publishing_api_put_intent
+      stub_youtube
     end
 
     context "Landing page" do
