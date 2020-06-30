@@ -1,5 +1,5 @@
 
-<% accordions =
+<% sub_sections =
  @coronavirus_page.sub_sections.map do |sub_section|
    {
      field: sub_section.title ,
@@ -10,6 +10,6 @@
 <div class="covid-manage-page__accordion-summary-list">
   <%= render "govuk_publishing_components/components/summary_list", {
     title: @coronavirus_page.sections_title,
-    items: accordions
+    items: sub_sections
   } %>
 </div>
