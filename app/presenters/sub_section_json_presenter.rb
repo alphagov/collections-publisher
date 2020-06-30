@@ -8,7 +8,7 @@ class SubSectionJsonPresenter
   )
 
   LINK_PATTERN = PatternMaker.call(
-    "starts_with perhaps_spaces within(brackets,capture(label)) then perhaps_spaces and within(sq_brackets,capture(url))",
+    "starts_with perhaps_spaces within(sq_brackets,capture(label)) then perhaps_spaces and within(brackets,capture(url))",
     label: '\s*\w.+',
     url: '\s*(\b(https?)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]\s*',
   )
@@ -23,14 +23,20 @@ class SubSectionJsonPresenter
   delegate :title, to: :sub_section
 
   def output
-    {
-      title: title,
-      sub_sections: sub_sections,
-    }
+    @output ||=
+      {
+        title: title,
+        sub_sections: sub_sections,
+      }
   end
 
   def errors
     @errors ||= []
+  end
+
+  def success?
+    output
+    errors.empty?
   end
 
   def sub_sections
@@ -69,15 +75,15 @@ class SubSectionJsonPresenter
   #        }
   #    {
   def sub_section_hash_from_content_group(content_group)
-    content_group.each_with_object({ title: nil }) do |element, hash|
-      if is_header?(element)
-        title = HEADER_PATTERN.match(element).named_captures["title"]
+    content_group.each_with_object({ title: nil }) do |line, hash|
+      if is_header?(line)
+        title = HEADER_PATTERN.match(line).named_captures["title"]
         hash[:title] = title
-      elsif is_link?(element)
+      elsif is_link?(line)
         hash[:list] ||= []
-        hash[:list] << build_link(element)
+        hash[:list] << build_link(line)
       else
-        errors << "Unable to parse markdown: '#{element}'"
+        errors << "Unable to parse markdown: '#{line}'"
       end
     end
   end

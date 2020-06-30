@@ -12,6 +12,7 @@ RSpec.describe CoronavirusPagesController, type: :controller do
       config.second[:raw_content_url]
     end
   end
+  let(:raw_content) { File.read(fixture_path) }
   let(:stub_all_content_urls) do
     all_content_urls.each do |url|
       stub_request(:get, url)
@@ -19,7 +20,6 @@ RSpec.describe CoronavirusPagesController, type: :controller do
     end
   end
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
-  let(:raw_content) { File.read(fixture_path) }
 
   describe "GET /coronavirus" do
     it "renders page successfully" do

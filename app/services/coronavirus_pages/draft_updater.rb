@@ -24,17 +24,20 @@ module CoronavirusPages
 
     def send
       @send ||= Services.publishing_api.put_content(content_id, payload)
-    rescue GdsApi::HTTPGatewayTimeout
-      # TODO: Send to sentry
-      errors << "Updating the draft timed out - please try again"
-      false
-    rescue DraftUpdaterError => e
-      errors << e.message
-      false
+    rescue GdsApi::HTTPServerError => e
+      error_handler(e, "Failed to update the draft content item - please try saving again")
+    rescue GdsApi::HTTPUnprocessableEntity, DraftUpdaterError => e
+      error_handler(e)
     end
 
     def errors
       @errors ||= []
+    end
+
+    def error_handler(error, message = nil)
+      GovukError.notify(error, extra: { content_id: content_id, coronavirus_page_slug: coronavirus_page.slug })
+      errors << (message || error.message)
+      false
     end
   end
 end
