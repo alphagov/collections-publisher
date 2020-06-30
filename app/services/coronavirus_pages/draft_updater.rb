@@ -16,7 +16,7 @@ module CoronavirusPages
 
     def payload
       if content_builder.success?
-        CoronavirusPagePresenter.new(content_builder.data, base_path)
+        CoronavirusPagePresenter.new(content_builder.data, base_path).payload
       else
         raise DraftUpdaterError, content_builder.errors.to_sentence
       end
