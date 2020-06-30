@@ -4,7 +4,13 @@
    {
      field: sub_section.title ,
      edit: { href: edit_coronavirus_page_sub_section_path(@coronavirus_page.slug, sub_section) },
-     delete: { href: "delete-summary" }
+     delete: {
+       href: coronavirus_page_sub_section_path(@coronavirus_page.slug, sub_section),
+       data_attributes: {
+         confirm: "Are you sure?",
+         method: "delete"
+       }
+     }
    }
  end %>
 <div class="covid-manage-page__accordion-summary-list">
