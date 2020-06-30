@@ -37,12 +37,13 @@ class SubSectionsController < ApplicationController
   def destroy
     @sub_section = SubSection.find(params[:id])
     @coronavirus_page = @sub_section.coronavirus_page
-    message =
-      if @sub_section.delete && draft_updater.send
-        { notice: "Sub-section was successfully deleted." }
-      else
-        { alert: "Sub-section couldn't be deleted" }
-      end
+    attrs = @sub_section.attributes.except("id", "created_at", "updated_at")
+    if @sub_section.delete && draft_updater.send
+      message = { notice: "Sub-section was successfully deleted." }
+    else
+      draft_updater.rebuild_sub_section(attrs)
+      message = { alert: "Sub-section couldn't be deleted" }
+    end
     redirect_to coronavirus_page_path(@coronavirus_page.slug), message
   end
 
