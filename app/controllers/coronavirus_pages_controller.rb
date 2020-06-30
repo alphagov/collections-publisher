@@ -28,7 +28,11 @@ class CoronavirusPagesController < ApplicationController
 
   def publish
     publish_page
-    redirect_to prepare_coronavirus_page_path(slug)
+    if URI(request.referer).path == prepare_coronavirus_page_path(slug)
+      redirect_to prepare_coronavirus_page_path(slug)
+    else
+      redirect_to coronavirus_page_path(slug)
+    end
   end
 
 private
