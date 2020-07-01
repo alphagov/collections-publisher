@@ -19,7 +19,7 @@
     <%= render_markdown "Use the up/down buttons on the right to reorder the sections, or click and hold on a section to reorder using drag and drop." %>
     <%= render "coronavirus_pages/sub_sections_summary_list", { reorder: true } %>
 
-    <%= form_for("reorder_guidance_accordion", url: "/test/covid/managepage/reorder", method: :post) do |form| %>
+    <%= form_for(@coronavirus_page, url: reorder_coronavirus_page_path, method: :post) do |form| %>
       <input type="hidden" name="section_order_save" id="js_order_save" value="" />
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">

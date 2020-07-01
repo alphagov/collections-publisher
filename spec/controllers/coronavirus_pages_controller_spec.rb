@@ -95,4 +95,29 @@ RSpec.describe CoronavirusPagesController, type: :controller do
       expect(response).to have_http_status(:success)
     end
   end
+
+  describe "POST /coronavirus/:coronavirus_page_slug/reorder" do
+    before do
+      stub_user.permissions << "Unreleased feature"
+      stub_request(:get, coronavirus_page.raw_content_url)
+        .to_return(status: 200, body: raw_content)
+      stub_coronavirus_publishing_api
+      live_stream
+    end
+    let!(:sub_section_0) { create :sub_section, position: 0, coronavirus_page: coronavirus_page }
+    let!(:sub_section_1) { create :sub_section, position: 1, coronavirus_page: coronavirus_page }
+
+    let(:section_params) { "[{\"id\":#{sub_section_0.id}, \"position\":1},{\"id\":#{sub_section_1.id},\"position\":0}]" }
+    let!(:subject) { post :reorder, params: { slug: coronavirus_page.slug, section_order_save: section_params } }
+
+    it "redirects to coronavirus page on success" do
+      expect(subject).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
+    end
+
+    it "reorders the sections" do
+      subject
+      expect(sub_section_0.reload.position).to eq 1
+      expect(sub_section_1.reload.position).to eq 0
+    end
+  end
 end
