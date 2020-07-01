@@ -248,4 +248,12 @@ FactoryBot.define do
     content { "(#{Faker::Lorem.sentence})[/#{File.join(Faker::Lorem.words)}]" }
     coronavirus_page
   end
+
+  factory :live_stream do
+    url { "https://www.youtube.com/watch?v=NiplUCnwc5A" }
+    formatted_stream_date { "1 April 2020" }
+    trait :without_validations do
+      to_create { |instance| instance.save validate: false }
+    end
+  end
 end

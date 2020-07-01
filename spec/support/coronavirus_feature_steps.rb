@@ -8,6 +8,10 @@ def given_i_am_an_unreleased_feature_editor
   stub_user.name = "Test author"
 end
 
+def given_a_livestream_exists
+  FactoryBot.create(:live_stream, :without_validations)
+end
+
 def the_payload_contains_the_valid_url
   live_stream_payload = coronavirus_live_stream_hash.merge(
     {
@@ -15,7 +19,6 @@ def the_payload_contains_the_valid_url
       "date" => todays_date,
     },
   )
-
   assert_publishing_api_put_content(
     coronavirus_content_id,
     request_json_includes(
