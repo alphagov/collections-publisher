@@ -47,11 +47,13 @@ RSpec.describe CoronavirusPages::ContentBuilder do
     end
 
     context "with subsections" do
-      let(:sub_section) { create :sub_section }
-      let(:coronavirus_page) { sub_section.coronavirus_page }
-      let(:sub_section_json) { SubSectionJsonPresenter.new(sub_section).output }
-      it "returns the sub_section JSON" do
-        expect(subject.sub_sections_data).to eq [sub_section_json]
+      let!(:sub_section_0) { create :sub_section, position: 0, coronavirus_page: coronavirus_page }
+      let!(:sub_section_1) { create :sub_section, position: 1, coronavirus_page: coronavirus_page}
+      let(:sub_section_0_json) { SubSectionJsonPresenter.new(sub_section_0).output }
+      let(:sub_section_1_json) { SubSectionJsonPresenter.new(sub_section_1).output }
+
+      it "returns the sub_section JSON ordered by position" do
+        expect(subject.sub_sections_data).to eq [sub_section_0_json, sub_section_1_json ]
       end
     end
   end

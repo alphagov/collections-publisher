@@ -39,12 +39,13 @@ module CoronavirusPages
     end
 
     def sub_sections
-      parsed_sub_sections.map do |sub_section|
-        SubSection.new(sub_section)
+      sub_section_attributes.each_with_index.map do |attributes, i|
+        attributes["position"] = i
+        SubSection.new(attributes)
       end
     end
 
-    def parsed_sub_sections
+    def sub_section_attributes
       SectionsPresenter.new(yaml_data.dig("content", "sections")).output
     end
 
