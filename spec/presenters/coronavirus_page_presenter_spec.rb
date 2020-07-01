@@ -3,95 +3,46 @@ require "rails_helper"
 RSpec.describe CoronavirusPagePresenter do
   include GovukContentSchemaTestHelpers
 
-  let(:content) do
-    {
-      "title" => "coronavirus",
-      "meta_description" => "details about the coronavirus response",
-      "sections" => "some sections",
-    }
-  end
+  let(:coronavirus_page) { create :coronavirus_page, :landing }
+  let(:base_path) { coronavirus_page.base_path }
+  let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
+  let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
+  let(:title) { github_content["content"]["title"] }
+  let(:meta_description) { github_content["content"]["meta_description"] }
+  let(:data) { CoronavirusPages::ContentBuilder.new(coronavirus_page).data }
+  let(:details) { data.except(title, meta_description) }
+  let!(:live_stream) { create :live_stream, :without_validations }
 
-  let(:landing_page_path) { "/coronavirus" }
   let(:payload) do
     {
-      "base_path" => landing_page_path,
-      "title" => "coronavirus",
-      "description" => "details about the coronavirus response",
+      "base_path" => base_path,
+      "title" => title,
+      "description" => meta_description,
       "document_type" => "coronavirus_landing_page",
       "schema_name" => "coronavirus_landing_page",
-      "details" => {},
+      "details" => details,
       "links" => {},
       "locale" => "en",
       "rendering_app" => "collections",
       "publishing_app" => "collections-publisher",
-      "routes" => [
-        { "path" => landing_page_path, "type" => "exact" },
-      ],
+      "routes" => [{ "path" => base_path, "type" => "exact" }],
       "update_type" => "minor",
     }
   end
 
-  let(:new_url) { "https://www.youtube.com/123" }
-  let(:new_date) { "2 April 2020" }
-
-  subject { described_class.new(content, landing_page_path) }
+  subject { described_class.new(data, base_path) }
 
   before do
-    stub_request(:get, video_url_from_content_item)
-    stub_request(:get, new_url)
-    stub_publishing_api_has_item(JSON.parse(live_content_item))
+    live_stream
+    stub_request(:get, coronavirus_page.raw_content_url)
+      .to_return(status: 200, body: github_content.to_json)
+    stub_coronavirus_publishing_api
   end
 
   describe "#payload" do
-    # this situation will only arise the first time the application is deployed,
-    # and if a content change is published before a livestream is created.
-    context "when no livestream objects exist in the database" do
-      it "presents the payload correctly" do
-        presented = subject.payload
-        details = {
-          "details" => {
-            "sections" => "some sections",
-            "live_stream" => {
-              "video_url" => video_url_from_content_item,
-              "date" => date_from_content_item,
-            },
-          },
-        }
-        expect(presented).to be_valid_against_schema("coronavirus_landing_page")
-        expect(presented).to eq payload.merge(details)
-      end
+    it "presents the payload correctly" do
+      expect(subject.payload).to be_valid_against_schema("coronavirus_landing_page")
+      expect(subject.payload).to eq payload
     end
-
-    context "when a livestream object exists in the database" do
-      it "presents the payload correctly" do
-        LiveStream.create(url: new_url, formatted_stream_date: new_date)
-        presented = subject.payload
-        details = {
-          "details" => {
-            "sections" => "some sections",
-            "live_stream" => {
-              "video_url" => new_url,
-              "date" => new_date,
-            },
-          },
-        }
-        expect(presented).to be_valid_against_schema("coronavirus_landing_page")
-        expect(presented).to eq payload.merge(details)
-      end
-    end
-  end
-
-  def live_content_item
-    File.read(Rails.root.join + "spec/fixtures/coronavirus_content_item.json")
-  end
-
-  def video_url_from_content_item
-    h = JSON.parse(live_content_item)
-    h["details"]["live_stream"]["video_url"]
-  end
-
-  def date_from_content_item
-    h = JSON.parse(live_content_item)
-    h["details"]["live_stream"]["date"]
   end
 end

@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe CoronavirusPages::DraftUpdater do
+  let(:live_stream) { create :live_stream, :without_validations }
   let(:coronavirus_page) { create :coronavirus_page }
   let(:content_builder) { CoronavirusPages::ContentBuilder.new(coronavirus_page) }
   let(:payload) { CoronavirusPagePresenter.new(content_builder.data, coronavirus_page.base_path).payload }
@@ -10,7 +11,7 @@ RSpec.describe CoronavirusPages::DraftUpdater do
   subject { described_class.new(coronavirus_page) }
 
   before do
-    stub_youtube
+    live_stream
     stub_coronavirus_publishing_api
     stub_request(:get, coronavirus_page.raw_content_url)
       .to_return(status: 200, body: github_content.to_json)

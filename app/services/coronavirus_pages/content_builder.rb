@@ -10,7 +10,8 @@ class CoronavirusPages::ContentBuilder
     @data ||= begin
       validate_content
       data = github_data
-      data["content_sections"] = model_data # Rename to sections when ready to go live
+      data["content_sections"] = sub_sections_data # Rename to sections when ready to go live
+      data["live_stream"] = live_stream_data
       data
     end
   rescue RestClient::Exception => e
@@ -70,15 +71,19 @@ class CoronavirusPages::ContentBuilder
     @github_data ||= github_raw_data["content"]
   end
 
-  def model_data
-    sub_sections_data
-  end
-
   def sub_sections_data
     coronavirus_page.sub_sections.map do |sub_section|
       presenter = SubSectionJsonPresenter.new(sub_section)
       add_error(presenter.errors) unless presenter.success?
       presenter.output
     end
+  end
+
+  def live_stream_data
+    live_stream = LiveStream.last
+    {
+      "video_url" => live_stream.url,
+      "date" => live_stream.formatted_stream_date,
+    }
   end
 end

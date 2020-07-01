@@ -39,7 +39,7 @@ private
 
   def update_content_item
     with_longer_timeout do
-      Services.publishing_api.put_content(landing_page_id, live_stream_payload)
+      Services.publishing_api.put_content(landing_page_id, payload)
     rescue GdsApi::HTTPErrorResponse
       object.update(url: live_url, formatted_stream_date: live_date)
     end
@@ -67,13 +67,23 @@ private
     CoronavirusPagePresenter.new(live_content_item["details"], "/coronavirus")
   end
 
-  def live_stream_payload
+  def payload
     presenter.payload.merge(
       {
         "title" => "Coronavirus (COVID-19): what you need to do",
         "description" => live_content_item["description"],
+        "details" => live_content_item["details"].deep_merge(live_stream_payload),
       },
     )
+  end
+
+  def live_stream_payload
+    {
+      "live_stream" => {
+        "video_url" => object.url,
+        "date" => object.formatted_stream_date,
+      },
+    }
   end
 
   def landing_page_id

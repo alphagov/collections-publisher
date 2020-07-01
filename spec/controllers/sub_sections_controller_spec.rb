@@ -7,6 +7,7 @@ RSpec.describe SubSectionsController, type: :controller do
   let(:coronavirus_page) { create :coronavirus_page, :of_known_type }
   let(:slug) { coronavirus_page.slug }
   let(:sub_section) { create :sub_section, coronavirus_page: coronavirus_page }
+  let!(:live_stream) { create :live_stream, :without_validations }
   let(:title) { Faker::Lorem.sentence }
   let(:content) { "###{Faker::Lorem.sentence}" }
   let(:sub_section_params) do
@@ -31,7 +32,7 @@ RSpec.describe SubSectionsController, type: :controller do
       stub_request(:get, raw_content_url)
         .to_return(body: raw_content)
       stub_coronavirus_publishing_api
-      stub_youtube
+      live_stream
     end
     subject do
       post :create, params: { coronavirus_page_slug: slug, sub_section: sub_section_params }
@@ -106,7 +107,7 @@ RSpec.describe SubSectionsController, type: :controller do
       stub_request(:get, raw_content_url)
         .to_return(body: raw_content)
       stub_coronavirus_publishing_api
-      stub_youtube
+      live_stream
     end
     let(:params) do
       {

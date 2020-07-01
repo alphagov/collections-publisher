@@ -5,6 +5,7 @@ RSpec.describe CoronavirusPages::ContentBuilder do
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
   let(:sub_section_json) { SubSectionJsonPresenter.new(sub_section).output }
+  let!(:live_stream) { create :live_stream, :without_validations }
 
   subject { described_class.new(coronavirus_page) }
   before do
@@ -20,9 +21,16 @@ RSpec.describe CoronavirusPages::ContentBuilder do
   describe "#data" do
     let(:sub_section) { create :sub_section }
     let(:coronavirus_page) { sub_section.coronavirus_page }
+    let(:live_stream_data) do
+      {
+        "video_url" => live_stream.url,
+        "date" => live_stream.formatted_stream_date,
+      }
+    end
     let(:data) do
       data = github_content["content"]
       data["content_sections"] = [sub_section_json]
+      data["live_stream"] = live_stream_data
       data
     end
     it "returns github and model data" do
@@ -30,9 +38,9 @@ RSpec.describe CoronavirusPages::ContentBuilder do
     end
   end
 
-  describe "#model_data" do
+  describe "#sub_sections_data" do
     it "returns the sub_sections" do
-      expect(subject.model_data).to eq []
+      expect(subject.sub_sections_data).to eq []
     end
 
     context "with subsections" do
@@ -40,7 +48,7 @@ RSpec.describe CoronavirusPages::ContentBuilder do
       let(:coronavirus_page) { sub_section.coronavirus_page }
       let(:sub_section_json) { SubSectionJsonPresenter.new(sub_section).output }
       it "returns the sub_section JSON" do
-        expect(subject.model_data).to eq [sub_section_json]
+        expect(subject.sub_sections_data).to eq [sub_section_json]
       end
     end
   end
