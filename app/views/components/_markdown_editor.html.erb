@@ -16,7 +16,7 @@
           <md-link class="app-c-markdown-editor__toolbar-button" title="Link" aria-label="Link">
             <%= render "components/markdown_editor/link.svg" %>
           </md-link>
-          <% if !hide_bullets_button %>
+          <% unless hide_bullets_button %>
             <md-unordered-list class="app-c-markdown-editor__toolbar-button" title="Bullets" aria-label="Bullets">
               <%= render "components/markdown_editor/bullets.svg" %>
             </md-unordered-list>
