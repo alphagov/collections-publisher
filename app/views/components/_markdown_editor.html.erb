@@ -1,6 +1,7 @@
 <%
   textarea ||= {}
   component_classes = %w[app-c-markdown-editor govuk-form-group]
+  hide_bullets_button ||= false
 %>
 <%= tag.div class: component_classes do %>
 
@@ -15,9 +16,11 @@
           <md-link class="app-c-markdown-editor__toolbar-button" title="Link" aria-label="Link">
             <%= render "components/markdown_editor/link.svg" %>
           </md-link>
-          <md-unordered-list class="app-c-markdown-editor__toolbar-button" title="Bullets" aria-label="Bullets">
-            <%= render "components/markdown_editor/bullets.svg" %>
-          </md-unordered-list>
+          <% if !hide_bullets_button %>
+            <md-unordered-list class="app-c-markdown-editor__toolbar-button" title="Bullets" aria-label="Bullets">
+              <%= render "components/markdown_editor/bullets.svg" %>
+            </md-unordered-list>
+          <% end %>
         </markdown-toolbar>
       </div>
     </div>

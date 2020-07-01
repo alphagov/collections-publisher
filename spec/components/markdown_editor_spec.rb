@@ -21,4 +21,18 @@ RSpec.describe "Markdown editor", type: :view do
     assert_select ".app-c-markdown-editor__toolbar-group[for='markdown-editor']"
     assert_select ".govuk-textarea[id='markdown-editor']"
   end
+
+  it "does not render bullet list toolbar button if hide_bullets_button is true" do
+    render "components/markdown_editor",
+           hide_bullets_button: true,
+           label: {
+             text: "Body",
+           },
+           textarea: {
+             name: "markdown-editor",
+             id: "markdown-editor",
+           }
+
+    assert_select ".app-c-markdown-editor__toolbar-button[title='Bullets']", count: 0
+  end
 end
