@@ -122,7 +122,7 @@ RSpec.describe SubSectionsController, type: :controller do
       expect(subject).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
     end
 
-    it "create a new sub_section" do
+    it "updates the sub_section" do
       sub_section
       expect { subject }.not_to(change { SubSection.count })
     end
@@ -132,6 +132,40 @@ RSpec.describe SubSectionsController, type: :controller do
       sub_section.reload
       expect(sub_section.title).to eq(title)
       expect(sub_section.content).to eq(content)
+    end
+  end
+
+  describe "DELETE /coronavirus/:coronavirus_page_slug/sub_sections/:id" do
+    before do
+      stub_request(:get, raw_content_url)
+        .to_return(body: raw_content)
+      stub_coronavirus_publishing_api
+    end
+    let(:params) do
+      {
+        id: sub_section,
+        coronavirus_page_slug: slug,
+      }
+    end
+    subject { delete :destroy, params: params }
+
+    it "redirects to the coronavirus page on success" do
+      expect(subject).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
+    end
+
+    it "deletes the subsection" do
+      sub_section
+      expect { subject }.to change { SubSection.count }.by(-1)
+    end
+
+    it "recreates the subsection if draft_updater fails" do
+      sub_section
+      stub_any_publishing_api_put_content
+        .to_return(status: 500)
+      expect { subject }.not_to(change { SubSection.count })
+      expect(sub_section.title).to eq SubSection.last.title
+      expect(sub_section.content).to eq SubSection.last.content
+      expect(sub_section.id).not_to eq SubSection.last.id
     end
   end
 end

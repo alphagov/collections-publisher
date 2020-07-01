@@ -34,11 +34,24 @@ class SubSectionsController < ApplicationController
     end
   end
 
-  def sub_section_params
-    params.require(:sub_section).permit(:title, :content)
+  def destroy
+    @sub_section = SubSection.find(params[:id])
+    @coronavirus_page = @sub_section.coronavirus_page
+    attrs = @sub_section.attributes.except("id", "created_at", "updated_at")
+    if @sub_section.delete && draft_updater.send
+      message = { notice: "Sub-section was successfully deleted." }
+    else
+      draft_updater.rebuild_sub_section(attrs)
+      message = { alert: "Sub-section couldn't be deleted" }
+    end
+    redirect_to coronavirus_page_path(@coronavirus_page.slug), message
   end
 
 private
+
+  def sub_section_params
+    params.require(:sub_section).permit(:title, :content)
+  end
 
   def draft_updater
     @draft_updater ||= CoronavirusPages::DraftUpdater.new(@coronavirus_page)
