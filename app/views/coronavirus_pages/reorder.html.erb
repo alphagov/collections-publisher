@@ -2,7 +2,7 @@
   links = [
     {
       text: 'Coronavirus topic pages',
-      href: coronavirus_index_path
+      href: coronavirus_pages_path
     },
     {
       text: "Coronavirus (COVID-19)"
@@ -12,12 +12,12 @@
 %>
 
 <% content_for :title, "Coronavirus (COVID-19)" %>
-<% content_for :context, 'Reorder guidance and support accordion' %>
+<% content_for :context, "Reorder #{@coronavirus_page.sections_title.downcase} accordion" %>
 
 <div class="covid-manage-page govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render_markdown "Use the up/down buttons on the right to reorder the sections, or click and hold on a section to reorder using drag and drop." %>
-    <%= render "coronavirus_pages/accordion_summary_list", { reorder: true } %>
+    <%= render "coronavirus_pages/sub_sections_summary_list", { reorder: true } %>
 
     <%= form_for("reorder_guidance_accordion", url: "/test/covid/managepage/reorder", method: :post) do |form| %>
       <input type="hidden" name="section_order_save" id="js_order_save" value="" />
@@ -26,12 +26,9 @@
           <%= render "govuk_publishing_components/components/button", {
             text: "Save"
           } %>
-        </div>
-        <div class="govuk-grid-column-full govuk-!-margin-top-3">
-          <%= link_to 'Cancel', test_covid_managepage_path, class: "govuk-link" %>
+          <%= link_to 'Cancel', coronavirus_page_path(@coronavirus_page.slug), class: "govuk-link govuk-button" %>
         </div>
       </div>
     <% end %>
   </div>
-
 </div>

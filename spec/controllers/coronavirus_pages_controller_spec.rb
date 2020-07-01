@@ -5,6 +5,7 @@ RSpec.describe CoronavirusPagesController, type: :controller do
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
   let(:coronavirus_page) { create :coronavirus_page, :of_known_type }
+  let!(:live_stream) { create :live_stream, :without_validations }
   let(:slug) { coronavirus_page.slug }
   let(:raw_content_url) { CoronavirusPages::Configuration.page(slug)[:raw_content_url] }
   let(:raw_content_url_regex) { Regexp.new(raw_content_url) }
@@ -81,6 +82,17 @@ RSpec.describe CoronavirusPagesController, type: :controller do
     it "redirects to index with an unknown slug" do
       get :show, params: { slug: "unknown" }
       expect(response).to redirect_to(coronavirus_pages_path)
+    end
+  end
+
+  describe "GET /coronavirus/:coronavirus_page_slug/reorder" do
+    before do
+      stub_user.permissions << "Unreleased feature"
+    end
+
+    it "renders page successfuly" do
+      get :reorder, params: { slug: coronavirus_page.slug }
+      expect(response).to have_http_status(:success)
     end
   end
 end

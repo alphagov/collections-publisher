@@ -1,6 +1,6 @@
 class CoronavirusPagesController < ApplicationController
   before_action :require_coronavirus_editor_permissions!
-  before_action :require_unreleased_feature_permissions!, only: %w[show]
+  before_action :require_unreleased_feature_permissions!, only: %w[show reorder]
   before_action :redirect_to_index_if_slug_unknown, only: %w[prepare show]
   before_action :initialise_coronavirus_pages, only: %w[index]
   layout "admin_layout"
@@ -33,6 +33,10 @@ class CoronavirusPagesController < ApplicationController
     else
       redirect_to coronavirus_page_path(slug)
     end
+  end
+
+  def reorder
+    coronavirus_page
   end
 
 private
