@@ -26,3 +26,11 @@ examples:
       textarea:
         name: markdown-editor
         id: markdown-editor
+  without_bullet_list_button:
+    data:
+      hide_bullets_button: true
+      label:
+        text: Body
+      textarea:
+        name: markdown-editor
+        id: markdown-editor
