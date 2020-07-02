@@ -108,7 +108,7 @@ RSpec.describe CoronavirusPagesController, type: :controller do
     let!(:sub_section_1) { create :sub_section, position: 1, coronavirus_page: coronavirus_page }
 
     let(:section_params) { "[{\"id\":#{sub_section_0.id}, \"position\":1},{\"id\":#{sub_section_1.id},\"position\":0}]" }
-    let!(:subject) { post :reorder, params: { slug: coronavirus_page.slug, section_order_save: section_params } }
+    let(:subject) { post :reorder, params: { slug: coronavirus_page.slug, section_order_save: section_params } }
 
     it "redirects to coronavirus page on success" do
       expect(subject).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
@@ -118,6 +118,14 @@ RSpec.describe CoronavirusPagesController, type: :controller do
       subject
       expect(sub_section_0.reload.position).to eq 1
       expect(sub_section_1.reload.position).to eq 0
+    end
+
+    it "reinstates the previous order if draft updater fails" do
+      stub_any_publishing_api_put_content
+        .to_return(status: 500)
+      subject
+      expect(sub_section_0.reload.position).to eq 0
+      expect(sub_section_1.reload.position).to eq 1
     end
   end
 end

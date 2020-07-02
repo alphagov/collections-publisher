@@ -37,23 +37,33 @@ class CoronavirusPagesController < ApplicationController
 
   def reorder
     coronavirus_page
+    @old_positions = positions
     if request.post? && params.key?(:section_order_save)
-      reordered_sections = JSON.parse(params[:section_order_save])
-      reordered_sections.each do |section_data|
-        sub_section = @coronavirus_page.sub_sections.find(section_data["id"])
-        sub_section.update(position: section_data["position"])
+      @new_positions = JSON.parse(params[:section_order_save])
+      set_positions(@new_positions)
+      if draft_updater.send
+        message = { notice: "Sections were successfully reordered." }
+      else
+        set_positions(@old_positions)
+        message = { alert: "Sorry! Sections have not been reordered: " + draft_updater.errors.to_sentence }
       end
-      message = if draft_updater.send
-                  { notice: "Steps were successfully reordered." }
-                else
-                  { alert: draft_updater.errors.to_sentence }
-                  # #undo_order_change
-                end
       redirect_to coronavirus_page_path(slug), message
     end
   end
 
 private
+
+  def positions
+    coronavirus_page.sub_sections.each_with_object([]) do |sub_section, array|
+      array << { "id" => sub_section.id, "position" => sub_section.position }
+    end
+  end
+
+  def set_positions(positions)
+    positions.each do |sub_section|
+      SubSection.find(sub_section["id"]).update(position: sub_section["position"])
+    end
+  end
 
   def initialise_coronavirus_pages
     page_configs.keys.map do |page|
