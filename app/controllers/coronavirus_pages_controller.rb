@@ -1,6 +1,6 @@
 class CoronavirusPagesController < ApplicationController
   before_action :require_coronavirus_editor_permissions!
-  before_action :require_unreleased_feature_permissions!, only: %w[show reorder]
+  before_action :require_unreleased_feature_permissions!, only: %w[show]
   before_action :redirect_to_index_if_slug_unknown, only: %w[prepare show]
   before_action :initialise_coronavirus_pages, only: %w[index]
   layout "admin_layout"
@@ -35,35 +35,7 @@ class CoronavirusPagesController < ApplicationController
     end
   end
 
-  def reorder
-    coronavirus_page
-    @old_positions = positions
-    if request.post? && params.key?(:section_order_save)
-      @new_positions = JSON.parse(params[:section_order_save])
-      set_positions(@new_positions)
-      if draft_updater.send
-        message = { notice: "Sections were successfully reordered." }
-      else
-        set_positions(@old_positions)
-        message = { alert: "Sorry! Sections have not been reordered: " + draft_updater.errors.to_sentence }
-      end
-      redirect_to coronavirus_page_path(slug), message
-    end
-  end
-
 private
-
-  def positions
-    coronavirus_page.sub_sections.each_with_object([]) do |sub_section, array|
-      array << { "id" => sub_section.id, "position" => sub_section.position }
-    end
-  end
-
-  def set_positions(positions)
-    positions.each do |sub_section|
-      SubSection.find(sub_section["id"]).update(position: sub_section["position"])
-    end
-  end
 
   def initialise_coronavirus_pages
     page_configs.keys.map do |page|

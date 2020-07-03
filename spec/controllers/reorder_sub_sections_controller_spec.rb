@@ -1,0 +1,70 @@
+require "rails_helper"
+
+RSpec.describe ReorderSubSectionsController, type: :controller do
+  render_views
+  let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
+  let(:coronavirus_page) { create :coronavirus_page, :of_known_type }
+  let(:live_stream) { create :live_stream, :without_validations }
+  let(:slug) { coronavirus_page.slug }
+  let(:raw_content_url) { CoronavirusPages::Configuration.page(slug)[:raw_content_url] }
+  let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
+  let(:raw_content) { File.read(fixture_path) }
+
+  describe "GET /coronavirus/:coronavirus_page_slug/sub_sections/reorder" do
+    before do
+      stub_user.permissions << "Unreleased feature"
+    end
+
+    it "renders page successfuly" do
+      get :index, params: { coronavirus_page_slug: slug }
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe "PUT /coronavirus/:coronavirus_page_slug/sub_sections/reorder" do
+    before do
+      stub_user.permissions << "Unreleased feature"
+      stub_request(:get, coronavirus_page.raw_content_url)
+        .to_return(status: 200, body: raw_content)
+      stub_coronavirus_publishing_api
+      live_stream
+    end
+    let(:sub_section_0) { create :sub_section, position: 0, coronavirus_page: coronavirus_page }
+    let(:sub_section_1) { create :sub_section, position: 1, coronavirus_page: coronavirus_page }
+
+    let(:sub_section_0_params) { { id: sub_section_0.id, position: 1 } }
+    let(:sub_section_1_params) { { id: sub_section_1.id, position: 0 } }
+    let(:section_params) { [sub_section_0_params, sub_section_1_params].to_json }
+
+    subject { put :update, params: { coronavirus_page_slug: slug, section_order_save: section_params } }
+
+    it "redirects to coronavirus page on success" do
+      expect(subject).to redirect_to(coronavirus_page_path(slug))
+    end
+
+    it "reorders the sections" do
+      subject
+      expect(sub_section_0.reload.position).to eq 1
+      expect(sub_section_1.reload.position).to eq 0
+    end
+
+    context "when the submitted positions match the existing" do
+      let(:sub_section_0_params) { { id: sub_section_0.id, position: 0 } }
+      let(:sub_section_1_params) { { id: sub_section_1.id, position: 1 } }
+
+      it "keeps the section order" do
+        subject
+        expect(sub_section_0.reload.position).to eq 0
+        expect(sub_section_1.reload.position).to eq 1
+      end
+    end
+
+    it "reinstates the previous order if draft updater fails" do
+      stub_any_publishing_api_put_content
+        .to_return(status: 500)
+      subject
+      expect(sub_section_0.reload.position).to eq 0
+      expect(sub_section_1.reload.position).to eq 1
+    end
+  end
+end

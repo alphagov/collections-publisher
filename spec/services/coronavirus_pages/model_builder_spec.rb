@@ -49,22 +49,11 @@ RSpec.describe CoronavirusPages::ModelBuilder do
       end
 
       it "creates sub_sections with a position that reflects their order in the content item" do
-        input_order =
-          source_sections.pluck("title").each_with_index.to_h.invert
-
-        # {0=>"How to protect yourself and others",
-        #  1=>"Employment and financial support",
-        #  2=>"School closures, education, and childcare",
-        #  3=>"Businesses and other organisations",
-        #  4=>"Healthcare workers and carers",
-        #  5=>"Travel",
-        #  6=>"How coronavirus is affecting public services",
-        #  7=>"How you can help",
-        #  8=>"Coronavirus (COVID-19) cases in the UK"}
+        input_order = source_sections.pluck("title").each_with_index.to_h.invert
 
         model_builder.page.sub_sections.each do |sub_section|
-          i = sub_section.position
-          expect(input_order[i]).to eq(sub_section.title)
+          position = sub_section.position
+          expect(input_order[position]).to eq(sub_section.title)
         end
       end
     end

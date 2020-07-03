@@ -177,30 +177,30 @@ end
 ### Reordering sections spec ##
 
 def when_i_visit_the_reorder_page
-  visit "/coronavirus/landing/reorder"
+  visit "/coronavirus/landing/sub_sections/reorder"
 end
 
 def set_up_basic_sub_sections
-  c = FactoryBot.create(:coronavirus_page, :landing)
+  coronavirus_page = FactoryBot.create(:coronavirus_page, :landing)
   FactoryBot.create(:sub_section,
-                    coronavirus_page_id: c.id,
+                    coronavirus_page_id: coronavirus_page.id,
                     position: 0,
                     title: "I am first",
                     content: "###title\n[label](/url)")
   FactoryBot.create(:sub_section,
-                    coronavirus_page_id: c.id,
+                    coronavirus_page_id: coronavirus_page.id,
                     position: 1,
                     title: "I am second",
                     content: "###title\n[label](/url)")
-  path = Rails.root.join + "spec/fixtures/simple_coronavirus_page.yml"
+  path = Rails.root.join "spec/fixtures/simple_coronavirus_page.yml"
   github_yaml_content = File.read(path)
-  stub_request(:get, c.raw_content_url)
+  stub_request(:get, coronavirus_page.raw_content_url)
     .to_return(status: 200, body: github_yaml_content)
 end
 
 def i_see_subsection_one_in_position_one
-  e = find("#step-0").find(".step-by-step-reorder__step-title")
-  expect(e).to have_content "I am first"
+  element = find("#step-0").find(".step-by-step-reorder__step-title")
+  expect(element).to have_content "I am first"
 end
 
 def and_i_move_section_one_down

@@ -1,4 +1,3 @@
-<% reorder ||= false %>
 <% sub_sections =
  @coronavirus_page.sub_sections.order(:position).map do |sub_section|
    {
@@ -15,27 +14,9 @@
    }
  end %>
 
-<% if reorder  %>
-  <div class="covid-manage-page__accordion-summary-list">
-    <ul class="govuk-list step-by-step-reorder__list" id="js-reorder-group">
-      <% sub_sections.each_with_index do |accordion, index| %>
-        <li class="js-reorder" data-id="<%= accordion[:id] %>">
-          <div class="govuk-grid-row" id="step-<%= index %>">
-            <div class="govuk-grid-column-three-quarters govuk-!-font-weight-bold step-by-step-reorder__step-title">
-              <%= accordion[:field] %>
-            </div>
-            <div class="govuk-grid-column-one-quarter js-order-controls">
-            </div>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-<% else %>
-  <div class="covid-manage-page__accordion-summary-list">
-    <%= render "govuk_publishing_components/components/summary_list", {
-      title: @coronavirus_page.sections_title,
-      items: sub_sections
-    } %>
-<% end %>
+<div class="covid-manage-page__accordion-summary-list">
+  <%= render "govuk_publishing_components/components/summary_list", {
+    title: @coronavirus_page.sections_title,
+    items: sub_sections
+  } %>
 </div>
