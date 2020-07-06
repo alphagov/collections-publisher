@@ -8,6 +8,7 @@ RSpec.describe ApplicationHelper do
 
     let(:step_nav) { create(:step_by_step_page) }
     let(:user) { create(:user) }
+    let(:draft_origin_url) { Plek.new.external_url_for("draft-origin") }
 
     describe "#draft_govuk_url" do
       it "returns a link to the draft content" do
@@ -18,18 +19,23 @@ RSpec.describe ApplicationHelper do
     end
 
     describe "#step_by_step_preview_url" do
+      it "returns a url to the draft stack with a token" do
+        allow(JWT).to receive(:encode).and_return("token")
+        url = helper.step_by_step_preview_url(step_nav)
+        expect(url).to eq("#{draft_origin_url}/#{step_nav.slug}?token=token")
+      end
+
       it "appends a valid JWT token in the querystring" do
-        allow(step_nav).to receive(:auth_bypass_id) { "123" }
-        allow(step_nav).to receive(:content_id) { "42" }
-        allow(user).to receive(:uid) { "7" }
+        Timecop.freeze do
+          url = helper.step_by_step_preview_url(step_nav)
+          token = Rack::Utils.parse_nested_query(URI.parse(url).query)["token"]
 
-        # The generated token stores the time it was created, so its hash would vary on each test run.
-        # We therefore need to mock time so that we can test against a predictable value.
-        Timecop.travel Time.zone.local(2020, 1, 1, 10, 0, 0) do
-          expected_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMiLCJpc3MiOiI3IiwiaWF0IjoxNTc3ODcyODAwLCJleHAiOjE1ODA1NTEyMDAsImRyYWZ0X2Fzc2V0X21hbmFnZXJfYWNjZXNzIjp0cnVlLCJjb250ZW50X2lkIjoiNDIifQ.UhWJHvsnyEFhG3wGo0LkEWo0kkjHRxFn8pav9dHfA3Y"
-          expected_url = "#{expected_step_nav_preview_url}?token=#{expected_token}"
-
-          expect(helper.step_by_step_preview_url(step_nav, user)).to eq(expected_url)
+          expect(auth_bypass_token_payload(token))
+            .to eq("content_id" => step_nav.content_id,
+                   "draft_asset_manager_access" => true,
+                   "exp" => 1.month.from_now.to_i,
+                   "iat" => Time.zone.now.to_i,
+                   "sub" => step_nav.auth_bypass_id)
         end
       end
     end
@@ -53,11 +59,14 @@ RSpec.describe ApplicationHelper do
     end
   end
 
-  def expected_step_nav_preview_url
-    "#{draft_origin_url}/#{step_nav.slug}"
-  end
+  def auth_bypass_token_payload(token)
+    payload, _header = JWT.decode(
+      token,
+      ENV["JWT_AUTH_SECRET"],
+      true,
+      { algorithm: "HS256" },
+    )
 
-  def draft_origin_url
-    Plek.new.external_url_for("draft-origin")
+    payload
   end
 end

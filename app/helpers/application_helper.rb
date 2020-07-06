@@ -11,10 +11,9 @@ module ApplicationHelper
     Plek.find("draft-origin", external: true) + path
   end
 
-  def step_by_step_preview_url(step_by_step_page, user)
+  def step_by_step_preview_url(step_by_step_page)
     payload = {
       "sub" => step_by_step_page.auth_bypass_id,
-      "iss" => user.uid,
       "iat" => Time.zone.now.to_i,
       "exp" => 1.month.from_now.to_i,
       "draft_asset_manager_access" => true,
