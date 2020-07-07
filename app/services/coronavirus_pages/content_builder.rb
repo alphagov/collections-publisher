@@ -11,7 +11,7 @@ class CoronavirusPages::ContentBuilder
       validate_content
       data = github_data
       data["content_sections"] = sub_sections_data # Rename to sections when ready to go live
-      data["live_stream"] = live_stream_data
+      add_live_stream(data)
       data
     end
   rescue RestClient::Exception => e
@@ -50,6 +50,7 @@ class CoronavirusPages::ContentBuilder
       sections
       topic_section
       notifications
+      live_stream
     ]
   end
 
@@ -71,6 +72,10 @@ class CoronavirusPages::ContentBuilder
     @github_data ||= github_raw_data["content"]
   end
 
+  def github_live_stream_data
+    github_data["live_stream"] || {}
+  end
+
   def sub_sections_data
     coronavirus_page.sub_sections.map do |sub_section|
       presenter = SubSectionJsonPresenter.new(sub_section)
@@ -79,11 +84,17 @@ class CoronavirusPages::ContentBuilder
     end
   end
 
-  def live_stream_data
+  def persisted_live_stream_data
     live_stream = LiveStream.last
     {
       "video_url" => live_stream.url,
       "date" => live_stream.formatted_stream_date,
     }
+  end
+
+  def add_live_stream(data)
+    if coronavirus_page.slug == "landing"
+      data["live_stream"] = github_live_stream_data.merge(persisted_live_stream_data)
+    end
   end
 end

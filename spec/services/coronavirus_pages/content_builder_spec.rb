@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe CoronavirusPages::ContentBuilder do
-  let(:coronavirus_page) { create :coronavirus_page }
+  let(:coronavirus_page) { create :coronavirus_page, :landing }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
   let(:sub_section_json) { SubSectionJsonPresenter.new(sub_section).output }
@@ -19,20 +19,23 @@ RSpec.describe CoronavirusPages::ContentBuilder do
   end
 
   describe "#data" do
-    let(:sub_section) { create :sub_section }
-    let(:coronavirus_page) { sub_section.coronavirus_page }
+    let!(:sub_section) { create :sub_section, coronavirus_page_id: coronavirus_page.id }
+    let(:github_livestream_data) { github_content.dig("content", "live_stream") }
+
     let(:live_stream_data) do
-      {
+      github_livestream_data.merge(
         "video_url" => live_stream.url,
         "date" => live_stream.formatted_stream_date,
-      }
+      )
     end
+
     let(:data) do
       data = github_content["content"]
       data["content_sections"] = [sub_section_json]
       data["live_stream"] = live_stream_data
       data
     end
+
     it "returns github and model data" do
       expect(subject.data).to eq data
     end
