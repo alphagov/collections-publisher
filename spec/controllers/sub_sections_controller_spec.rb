@@ -17,6 +17,7 @@ RSpec.describe SubSectionsController, type: :controller do
     }
   end
   let(:raw_content_url) { coronavirus_page.raw_content_url }
+  let(:raw_content_url_regex) { Regexp.new(raw_content_url) }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:raw_content) { File.read(fixture_path) }
 
@@ -29,7 +30,7 @@ RSpec.describe SubSectionsController, type: :controller do
 
   describe "POST /coronavirus/:coronavirus_page_slug/sub_sections" do
     before do
-      stub_request(:get, raw_content_url)
+      stub_request(:get, raw_content_url_regex)
         .to_return(body: raw_content)
       stub_coronavirus_publishing_api
       live_stream
@@ -104,7 +105,7 @@ RSpec.describe SubSectionsController, type: :controller do
 
   describe "PATCH /coronavirus/:coronavirus_page_slug/sub_sections" do
     before do
-      stub_request(:get, raw_content_url)
+      stub_request(:get, raw_content_url_regex)
         .to_return(body: raw_content)
       stub_coronavirus_publishing_api
       live_stream
@@ -138,7 +139,7 @@ RSpec.describe SubSectionsController, type: :controller do
 
   describe "DELETE /coronavirus/:coronavirus_page_slug/sub_sections/:id" do
     before do
-      stub_request(:get, raw_content_url)
+      stub_request(:get, raw_content_url_regex)
         .to_return(body: raw_content)
       stub_coronavirus_publishing_api
     end

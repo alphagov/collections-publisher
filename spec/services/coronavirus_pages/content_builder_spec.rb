@@ -9,7 +9,7 @@ RSpec.describe CoronavirusPages::ContentBuilder do
 
   subject { described_class.new(coronavirus_page) }
   before do
-    stub_request(:get, coronavirus_page.raw_content_url)
+    stub_request(:get, Regexp.new(coronavirus_page.raw_content_url))
       .to_return(status: 200, body: github_content.to_json)
   end
   describe "#github_data" do
@@ -60,7 +60,7 @@ RSpec.describe CoronavirusPages::ContentBuilder do
 
     context "on failure" do
       before do
-        stub_request(:get, coronavirus_page.raw_content_url)
+        stub_request(:get, Regexp.new(coronavirus_page.raw_content_url))
           .to_return(status: 400)
       end
 

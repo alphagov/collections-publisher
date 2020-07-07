@@ -175,7 +175,7 @@ RSpec.describe SubSectionJsonPresenter do
       let(:path) { business.base_path }
 
       before do
-        stub_request(:get, business.raw_content_url)
+        stub_request(:get, Regexp.new(business.raw_content_url))
           .to_return(body: File.read(fixture_path))
       end
 

@@ -7,6 +7,7 @@ RSpec.describe CoronavirusPagesController, type: :controller do
   let(:coronavirus_page) { create :coronavirus_page, :of_known_type }
   let(:slug) { coronavirus_page.slug }
   let(:raw_content_url) { CoronavirusPages::Configuration.page(slug)[:raw_content_url] }
+  let(:raw_content_url_regex) { Regexp.new(raw_content_url) }
   let(:all_content_urls) do
     CoronavirusPages::Configuration.all_pages.map do |config|
       config.second[:raw_content_url]
@@ -15,7 +16,7 @@ RSpec.describe CoronavirusPagesController, type: :controller do
   let(:raw_content) { File.read(fixture_path) }
   let(:stub_all_content_urls) do
     all_content_urls.each do |url|
-      stub_request(:get, url)
+      stub_request(:get, Regexp.new(url))
         .to_return(status: 200, body: raw_content)
     end
   end
@@ -32,7 +33,7 @@ RSpec.describe CoronavirusPagesController, type: :controller do
   describe "GET /coronavirus/:slug/prepare" do
     subject { get :prepare, params: { slug: slug } }
     it "renders page successfuly" do
-      stub_request(:get, raw_content_url)
+      stub_request(:get, raw_content_url_regex)
         .to_return(status: 200)
       expect(subject).to have_http_status(:success)
     end
@@ -53,13 +54,13 @@ RSpec.describe CoronavirusPagesController, type: :controller do
       let(:coronavirus_page) { build :coronavirus_page, :of_known_type }
 
       it "renders page successfuly" do
-        stub_request(:get, raw_content_url)
+        stub_request(:get, raw_content_url_regex)
           .to_return(status: 200, body: raw_content)
         expect(subject).to have_http_status(:success)
       end
 
       it "creates a new coronavirus page" do
-        stub_request(:get, raw_content_url)
+        stub_request(:get, raw_content_url_regex)
           .to_return(status: 200, body: raw_content)
         coronavirus_page # ensure any creation during initialization doesn't get counted
         expect { subject }.to (change { CoronavirusPage.count }).by(1)

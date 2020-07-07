@@ -5,6 +5,7 @@ RSpec.describe CoronavirusPages::ModelBuilder do
   let(:model_builder) { CoronavirusPages::ModelBuilder.new(slug) }
   let(:page_config) { CoronavirusPages::Configuration.page(slug) }
   let(:raw_content_url) { page_config[:raw_content_url] }
+  let(:raw_content_url_regex) { Regexp.new(raw_content_url) }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:source_yaml) { YAML.load_file(fixture_path) }
   let(:source_sections) { source_yaml.dig("content", "sections") }
@@ -14,7 +15,7 @@ RSpec.describe CoronavirusPages::ModelBuilder do
   end
 
   before do
-    stub_request(:get, raw_content_url)
+    stub_request(:get, raw_content_url_regex)
       .to_return(body: File.read(fixture_path))
   end
 
