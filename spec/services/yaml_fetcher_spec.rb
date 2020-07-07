@@ -1,14 +1,22 @@
 require "rails_helper"
 
 RSpec.describe YamlFetcher do
-  let(:url) { Faker::Internet.url(host: "example.com") }
+  let(:random_epoch) { rand(10**10) }
+  let(:url) { Faker::Internet.url(host: "example.com") + "?cache-bust=#{random_epoch}" }
   let(:yaml) { File.read(Rails.root.join("spec/fixtures/simple.yml")) }
   let(:body) { "something" }
   let(:stub_response) { { body: body } }
 
   subject { described_class.new(url) }
 
-  before { stub_request(:get, url).to_return(stub_response) }
+  before do
+    Timecop.freeze(Time.zone.at(random_epoch))
+    stub_request(:get, url).to_return(stub_response)
+  end
+
+  after do
+    Timecop.return
+  end
 
   describe "#response" do
     it "does something" do
