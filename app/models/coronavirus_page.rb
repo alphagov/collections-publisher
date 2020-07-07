@@ -4,4 +4,8 @@ class CoronavirusPage < ApplicationRecord
   scope :topic_page, -> { where(slug: "landing") }
   scope :subtopic_pages, -> { where.not(slug: "landing") }
   validates :state, inclusion: { in: STATUSES }, presence: true
+
+  def topic_page?
+    slug == "landing"
+  end
 end

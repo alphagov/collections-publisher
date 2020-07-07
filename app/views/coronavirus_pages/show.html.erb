@@ -17,7 +17,7 @@
 
 <% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
 <% content_for :title, "Coronavirus (COVID-19)" %>
-<% content_for :context, 'Topic page' %>
+<% content_for :context, page_type(@coronavirus_page) %>
 
 <div class="covid-manage-page govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
