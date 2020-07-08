@@ -1,3 +1,5 @@
+require "addressable"
+
 class YamlFetcher
   attr_reader :url
 
