@@ -24,7 +24,7 @@ RSpec.describe ReorderSubSectionsController, type: :controller do
   describe "PUT /coronavirus/:coronavirus_page_slug/sub_sections/reorder" do
     before do
       stub_user.permissions << "Unreleased feature"
-      stub_request(:get, coronavirus_page.raw_content_url)
+      stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
         .to_return(status: 200, body: raw_content)
       stub_coronavirus_publishing_api
       live_stream
@@ -59,12 +59,20 @@ RSpec.describe ReorderSubSectionsController, type: :controller do
       end
     end
 
-    it "reinstates the previous order if draft updater fails" do
-      stub_any_publishing_api_put_content
-        .to_return(status: 500)
-      subject
-      expect(sub_section_0.reload.position).to eq 0
-      expect(sub_section_1.reload.position).to eq 1
+    context "on update failure" do
+      before do
+        stub_any_publishing_api_put_content.to_return(status: 500)
+      end
+
+      it "does not reinstates the previous order if draft updater fails" do
+        subject
+        expect(sub_section_0.reload.position).to eq 1
+        expect(sub_section_1.reload.position).to eq 0
+      end
+
+      it "redirects to coronavirus page on success" do
+        expect(subject).to redirect_to(reorder_coronavirus_page_sub_sections_path(slug))
+      end
     end
   end
 end

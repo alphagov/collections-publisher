@@ -12,13 +12,11 @@ class ReorderSubSectionsController < ApplicationController
     current_positions
     set_positions(submitted_positions)
     if draft_updater.send
-      message = { notice: "Sections were successfully reordered." }
+      redirect_to coronavirus_page_path(slug), notice: "Sections were successfully reordered."
     else
-      current_positions
-      set_positions(current_positions)
-      message = { alert: "Sorry! Sections have not been reordered: " + draft_updater.errors.to_sentence }
+      message = "Sorry! Sections have not been reordered: #{draft_updater.errors.to_sentence}. Please try saving again."
+      redirect_to reorder_coronavirus_page_sub_sections_path(slug), alert: message
     end
-    redirect_to coronavirus_page_path(slug), message
   end
 
 private

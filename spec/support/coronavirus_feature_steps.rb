@@ -194,7 +194,7 @@ def set_up_basic_sub_sections
                     content: "###title\n[label](/url)")
   path = Rails.root.join "spec/fixtures/simple_coronavirus_page.yml"
   github_yaml_content = File.read(path)
-  stub_request(:get, coronavirus_page.raw_content_url)
+  stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
     .to_return(status: 200, body: github_yaml_content)
 end
 
