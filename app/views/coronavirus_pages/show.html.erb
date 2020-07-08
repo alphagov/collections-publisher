@@ -5,7 +5,7 @@
       href: coronavirus_pages_path
     },
     {
-      text: "Coronavirus (COVID-19)"
+      text: formatted_title(@coronavirus_page)
     }
   ]
 
@@ -16,7 +16,7 @@
 %>
 
 <% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
-<% content_for :title, "Coronavirus (COVID-19)" %>
+<% content_for :title, formatted_title(@coronavirus_page)%>
 <% content_for :context, page_type(@coronavirus_page) %>
 
 <div class="covid-manage-page govuk-grid-row">

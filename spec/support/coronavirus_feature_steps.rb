@@ -118,11 +118,11 @@ def then_the_business_content_is_sent_to_publishing_api
 end
 
 def i_see_a_publish_landing_page_link
-  expect(page).to have_link("Publish Coronavirus landing page")
+  expect(page).to have_link("Publish coronavirus landing page")
 end
 
 def i_see_a_publish_business_page_link
-  expect(page).to have_link("Publish Business support page")
+  expect(page).to have_link("Publish business support page")
 end
 
 def i_see_livestream_button
@@ -130,11 +130,11 @@ def i_see_livestream_button
 end
 
 def and_i_select_landing_page
-  click_link("Publish Coronavirus landing page")
+  click_link("Publish coronavirus landing page")
 end
 
 def and_i_select_business_page
-  click_link("Publish Business support page")
+  click_link("Publish business support page")
 end
 
 def and_i_select_live_stream
