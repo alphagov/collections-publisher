@@ -81,13 +81,13 @@ end
 
 def stub_all_github_requests
   raw_content_urls.each do |url|
-    stub_request(:get, url)
+    stub_request(:get, Regexp.new(url))
       .to_return(status: 200, body: github_response)
   end
 end
 
 def stub_github_business_request
-  stub_request(:get, "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_business_page.yml")
+  stub_request(:get, Regexp.new("https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_business_page.yml"))
     .to_return(status: 200, body: github_business_response)
 end
 
@@ -204,14 +204,14 @@ def and_i_push_a_new_draft_version
 end
 
 def and_i_push_a_new_draft_version_with_invalid_content
-  stub_request(:get, "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_landing_page.yml")
+  stub_request(:get, Regexp.new("https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_landing_page.yml"))
   .to_return(status: 200, body: invalid_github_response)
 
   and_i_push_a_new_draft_version
 end
 
 def and_i_push_a_new_draft_business_version_with_invalid_content
-  stub_request(:get, "https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_business_page.yml")
+  stub_request(:get, Regexp.new("https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_business_page.yml"))
   .to_return(status: 200, body: invalid_github_response)
 
   and_i_push_a_new_draft_version
