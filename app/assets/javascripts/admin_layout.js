@@ -14,8 +14,8 @@
 //= require @webcomponents/custom-elements/custom-elements.min.js
 
 //= require components/markdown-editor.js
-//= require steps.js
+//= require sections.js
 
 $(document).ready(function() {
-  GOVUK.stepByStepPublisher.init();
+  GOVUK.sectionPublisher.init();
 });

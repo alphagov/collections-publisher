@@ -174,6 +174,79 @@ def when_i_visit_a_coronavirus_page
   visit "/coronavirus/landing"
 end
 
+### Reordering sections spec ##
+
+def when_i_visit_the_reorder_page
+  visit "/coronavirus/landing/sub_sections/reorder"
+end
+
+def set_up_basic_sub_sections
+  coronavirus_page = FactoryBot.create(:coronavirus_page, :landing)
+  FactoryBot.create(:sub_section,
+                    coronavirus_page_id: coronavirus_page.id,
+                    position: 0,
+                    title: "I am first",
+                    content: "###title\n[label](/url)")
+  FactoryBot.create(:sub_section,
+                    coronavirus_page_id: coronavirus_page.id,
+                    position: 1,
+                    title: "I am second",
+                    content: "###title\n[label](/url)")
+  path = Rails.root.join "spec/fixtures/simple_coronavirus_page.yml"
+  github_yaml_content = File.read(path)
+  stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
+    .to_return(status: 200, body: github_yaml_content)
+end
+
+def i_see_subsection_one_in_position_one
+  element = find("#step-0").find(".step-by-step-reorder__step-title")
+  expect(element).to have_content "I am first"
+end
+
+def and_i_move_section_one_down
+  find("#step-0").find(".js-order-controls").find(".js-down").click
+  click_button "Save"
+  expect(page).to have_content "Sections were successfully reordered."
+end
+
+def then_the_reordered_subsections_are_sent_to_publishing_api
+  section = { "title" => "title", "list" => [{ "label" => "label", "url" => "/url" }] }
+  reordered_sections = [
+    {
+      "title" => "I am second",
+      "sub_sections" => [section],
+    },
+    {
+      "title" => "I am first",
+      "sub_sections" => [section],
+    },
+  ]
+  assert_publishing_api_put_content(
+    CoronavirusPage.topic_page.first.content_id,
+    request_json_includes(
+      "details" => {
+        "header_section" => "header_section",
+        "announcements_label" => "announcements_label",
+        "announcements" => "announcements",
+        "nhs_banner" => "nhs_banner",
+        "sections_heading" => "sections_heading",
+        "sections" => "sections",
+        "topic_section" => "topic_section",
+        "live_stream" => {
+          "video_url" => LiveStream.first.url,
+          "date" => LiveStream.first.formatted_stream_date,
+        },
+        "notifications" => "notifications",
+        "content_sections" => reordered_sections,
+      },
+    ),
+  )
+end
+
+def then_i_see_section_updated_message
+  expect(page).to have_text("Sections were successfully reordered.")
+end
+
 def then_i_am_redirected_to_the_index_page
   expect(current_path).to eq("/coronavirus")
 end

@@ -1,8 +1,8 @@
-
 <% sub_sections =
- @coronavirus_page.sub_sections.map do |sub_section|
+ @coronavirus_page.sub_sections.order(:position).map do |sub_section|
    {
-     field: sub_section.title ,
+     id: sub_section.id,
+     field: sub_section.title,
      edit: { href: edit_coronavirus_page_sub_section_path(@coronavirus_page.slug, sub_section) },
      delete: {
        href: coronavirus_page_sub_section_path(@coronavirus_page.slug, sub_section),
@@ -13,6 +13,7 @@
      }
    }
  end %>
+
 <div class="covid-manage-page__accordion-summary-list">
   <%= render "govuk_publishing_components/components/summary_list", {
     title: @coronavirus_page.sections_title,

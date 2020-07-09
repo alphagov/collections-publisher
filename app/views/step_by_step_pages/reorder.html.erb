@@ -50,7 +50,7 @@
       </ul>
 
       <%= form_for(@step_by_step_page, url: step_by_step_page_reorder_path(@step_by_step_page), method: :post) do |form| %>
-        <input type="hidden" name="step_order_save" id="step_order_save" value="" />
+        <input type="hidden" name="step_order_save" id="js_order_save" value="" />
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-full">
             <%= render "govuk_publishing_components/components/button", {

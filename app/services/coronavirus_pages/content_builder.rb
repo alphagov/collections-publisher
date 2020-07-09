@@ -77,7 +77,7 @@ class CoronavirusPages::ContentBuilder
   end
 
   def sub_sections_data
-    coronavirus_page.sub_sections.map do |sub_section|
+    coronavirus_page.sub_sections.order(:position).map do |sub_section|
       presenter = SubSectionJsonPresenter.new(sub_section)
       add_error(presenter.errors) unless presenter.success?
       presenter.output

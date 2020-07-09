@@ -28,6 +28,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       stub_coronavirus_publishing_api
       stub_all_github_requests
       stub_any_publishing_api_put_intent
+      given_a_livestream_exists
     end
 
     scenario "Publishing landing page" do
@@ -36,6 +37,15 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       then_the_page_publishes_a_minor_update
       and_i_remain_on_the_coronavirus_page
       and_i_see_a_page_published_message
+    end
+
+    scenario "Reordering sections", js: true do
+      set_up_basic_sub_sections
+      when_i_visit_the_reorder_page
+      i_see_subsection_one_in_position_one
+      and_i_move_section_one_down
+      then_the_reordered_subsections_are_sent_to_publishing_api
+      then_i_see_section_updated_message
     end
   end
 

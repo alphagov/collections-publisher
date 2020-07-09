@@ -47,6 +47,15 @@ RSpec.describe CoronavirusPages::ModelBuilder do
         model_builder.page
         expect(sub_section.content).to include(section["sub_sections"].first["list"].first["label"])
       end
+
+      it "creates sub_sections with a position that reflects their order in the content item" do
+        input_order = source_sections.pluck("title").each_with_index.to_h.invert
+
+        model_builder.page.sub_sections.each do |sub_section|
+          position = sub_section.position
+          expect(input_order[position]).to eq(sub_section.title)
+        end
+      end
     end
 
     context "a coronavirus page with matching slug is present in database" do
