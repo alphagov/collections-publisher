@@ -27,11 +27,16 @@ module CoronavirusPages
     def coronavirus_page_attributes
       page_config.merge(
         sections_title: sections_heading,
+        title: title,
       )
     end
 
     def sections_heading
       yaml_data.dig("content", "sections_heading")
+    end
+
+    def title
+      yaml_data.dig("content", "title")
     end
 
     def raw_content_url
