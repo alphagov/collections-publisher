@@ -36,8 +36,13 @@ class CoronavirusPagesController < ApplicationController
   end
 
   def discard
-    discard_model_changes
-    redirect_to coronavirus_page_path(slug)
+    if draft_updater.discarded?
+      discard_model_changes
+      message = { notice: "Changes to subsections have been discarded" }
+    else
+      message = { alert: draft_updater.errors.to_sentence }
+    end
+    redirect_to coronavirus_page_path(slug), message
   end
 
 private

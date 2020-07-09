@@ -83,4 +83,32 @@ RSpec.describe CoronavirusPagesController, type: :controller do
       expect(response).to redirect_to(coronavirus_pages_path)
     end
   end
+
+  describe "GET /coronavirus/:slug/discard" do
+    let(:content_fixture_path) { Rails.root.join("spec/fixtures/simple.json") }
+    let(:live_content_item) { JSON.parse(File.read(content_fixture_path)) }
+    let(:live_sections) { live_content_item.dig("details", "sections") }
+    let(:live_title) { live_sections.first["title"] }
+    let(:slug) { "landing" }
+    let(:coronavirus_page) do
+      create :coronavirus_page,
+             content_id: live_content_item["content_id"],
+             base_path: live_content_item["base_path"],
+             slug: slug
+    end
+    let(:subsection) { create :sub_section, coronavirus_page_id: coronavirus_page.id, title: "foo" }
+    subject { get :discard, params: { slug: slug } }
+
+    before do
+      stub_user.permissions << "Unreleased feature"
+      stub_publishing_api_has_item(live_content_item)
+      stub_any_publishing_api_discard_draft
+    end
+
+    it "instructs publishing api to discard the draft content item" do
+      subsection
+      subject
+      assert_publishing_api_discard_draft(coronavirus_page.content_id)
+    end
+  end
 end
