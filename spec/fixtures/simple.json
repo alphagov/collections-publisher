@@ -1,0 +1,21 @@
+{ "content_id": "774cee22-d896-44c1-a611-e3109cce8eae",
+  "base_path" : "/coronavirus",
+  "details": {
+    "announcements_label": "Announcements",
+    "sections": [
+      {
+        "title": "Protect yourself and others from coronavirus",
+        "sub_sections": [
+          {
+            "list": [
+              {
+                "url": "/government/publications/covid-19-stay-at-home-guidance",
+                "label": "Stay at home if you think you have coronavirus (self-isolating)"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

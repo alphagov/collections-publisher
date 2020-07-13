@@ -4,10 +4,11 @@ module CoronavirusPages
       new(*args).page
     end
 
-    attr_reader :slug
+    attr_reader :slug, :action
 
-    def initialize(slug)
+    def initialize(slug, action = nil)
       @slug = slug
+      @action = action
     end
 
     def page
@@ -18,7 +19,16 @@ module CoronavirusPages
         end
     end
 
+    def discard_changes
+      store_live_subsections unless live_content.empty?
+    end
+
   private
+
+    def store_live_subsections
+      page.sub_sections.destroy_all
+      page.sub_sections = sub_sections
+    end
 
     def page_config
       CoronavirusPages::Configuration.page(slug)
@@ -32,7 +42,7 @@ module CoronavirusPages
     end
 
     def sections_heading
-      yaml_data.dig("content", "sections_heading")
+      data["sections_heading"]
     end
 
     def title
@@ -51,11 +61,25 @@ module CoronavirusPages
     end
 
     def sub_section_attributes
-      SectionsPresenter.new(yaml_data.dig("content", "sections")).output
+      SectionsPresenter.new(data["sections"]).output
     end
 
     def yaml_data
       YamlFetcher.new(raw_content_url).body_as_hash
+    end
+
+    def live_content
+      @live_content ||=
+        begin
+          content = Services.publishing_api.get_content(page.content_id)
+          content.to_hash
+        rescue GdsApi::HTTPErrorResponse
+          {}
+        end
+    end
+
+    def data
+      action == :discard ? live_content["details"] : yaml_data["content"]
     end
   end
 end

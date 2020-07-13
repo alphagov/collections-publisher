@@ -6,8 +6,8 @@ RSpec.describe CoronavirusPages::ModelBuilder do
   let(:page_config) { CoronavirusPages::Configuration.page(slug) }
   let(:raw_content_url) { page_config[:raw_content_url] }
   let(:raw_content_url_regex) { Regexp.new(raw_content_url) }
-  let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
-  let(:source_yaml) { YAML.load_file(fixture_path) }
+  let(:yaml_fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
+  let(:source_yaml) { YAML.load_file(yaml_fixture_path) }
   let(:source_sections) { source_yaml.dig("content", "sections") }
   let(:sections_title) { source_yaml.dig("content", "sections_heading") }
   let(:coronavirus_page_attributes) do
@@ -16,7 +16,7 @@ RSpec.describe CoronavirusPages::ModelBuilder do
 
   before do
     stub_request(:get, raw_content_url_regex)
-      .to_return(body: File.read(fixture_path))
+      .to_return(body: File.read(yaml_fixture_path))
   end
 
   describe ".call" do
@@ -72,6 +72,31 @@ RSpec.describe CoronavirusPages::ModelBuilder do
       it "does not create sub_sections" do
         expect { model_builder.page }.not_to(change { SubSection.count })
       end
+    end
+  end
+
+  describe "#discard_changes" do
+    let(:content_fixture_path) { Rails.root.join("spec/fixtures/simple.json") }
+    let(:live_content_item) { JSON.parse(File.read(content_fixture_path)) }
+    let(:live_sections) { live_content_item.dig("details", "sections") }
+    let(:live_title) { live_sections.first["title"] }
+    let(:slug) { "landing" }
+    let!(:coronavirus_page) do
+      create :coronavirus_page,
+             content_id: live_content_item["content_id"],
+             base_path: live_content_item["base_path"],
+             slug: slug
+    end
+    let!(:subsection) { create :sub_section, coronavirus_page_id: coronavirus_page.id, title: "foo" }
+    let(:discard_changes) { CoronavirusPages::ModelBuilder.new(slug, :discard).discard_changes }
+    before do
+      stub_publishing_api_has_item(live_content_item)
+    end
+
+    it "replaces subsection attributes with those from the live content item" do
+      expect(coronavirus_page.sub_sections.first.title).to eq "foo"
+      discard_changes
+      expect(coronavirus_page.sub_sections.first.title).to eq live_title
     end
   end
 end

@@ -35,6 +35,16 @@ class CoronavirusPagesController < ApplicationController
     end
   end
 
+  def discard
+    if draft_updater.discarded?
+      discard_model_changes
+      message = { notice: "Changes to subsections have been discarded" }
+    else
+      message = { alert: draft_updater.errors.to_sentence }
+    end
+    redirect_to coronavirus_page_path(slug), message
+  end
+
 private
 
   def initialise_coronavirus_pages
@@ -49,6 +59,10 @@ private
 
   def draft_updater
     @draft_updater ||= CoronavirusPages::DraftUpdater.new(coronavirus_page)
+  end
+
+  def discard_model_changes
+    CoronavirusPages::ModelBuilder.new(slug, :discard).discard_changes
   end
 
   def slug_unknown_for_update

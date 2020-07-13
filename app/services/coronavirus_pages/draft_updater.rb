@@ -34,6 +34,17 @@ module CoronavirusPages
       error_handler(e)
     end
 
+    def discard
+      Services.publishing_api.discard_draft(content_id)
+    rescue GdsApi::HTTPServerError => e
+      error_handler(e, "Failed to discard changes - please try again")
+    end
+
+    def discarded?
+      discard
+      errors.empty?
+    end
+
     def errors
       @errors ||= []
     end
