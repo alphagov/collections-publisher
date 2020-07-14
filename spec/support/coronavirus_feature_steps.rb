@@ -30,10 +30,6 @@ def the_payload_contains_the_valid_url
   )
 end
 
-def stub_live_coronavirus_content_request
-  stub_publishing_api_has_item(coronavirus_content_json)
-end
-
 def live_coronavirus_content_item
   File.read(Rails.root.join("spec/fixtures/coronavirus_content_item.json"))
 end
@@ -70,6 +66,10 @@ def stub_coronavirus_publishing_api
   stub_live_coronavirus_content_request
   stub_any_publishing_api_put_content
   stub_any_publishing_api_publish
+end
+
+def stub_live_coronavirus_content_request
+  stub_publishing_api_has_item(coronavirus_content_json)
 end
 
 def raw_content_urls
@@ -198,6 +198,17 @@ def set_up_basic_sub_sections
     .to_return(status: 200, body: github_yaml_content)
 end
 
+def stub_live_sub_sections_content_request
+  path = Rails.root.join("spec/fixtures/simple.json")
+  content = JSON.parse(File.read(path))
+  content["content_id"] = CoronavirusPage.topic_page.first.content_id
+  stub_publishing_api_has_item(content)
+end
+
+def stub_discard_subsection_changes
+  stub_publishing_api_discard_draft(CoronavirusPage.topic_page.first.content_id)
+end
+
 def i_see_subsection_one_in_position_one
   element = find("#step-0").find(".step-by-step-reorder__step-title")
   expect(element).to have_content "I am first"
@@ -245,6 +256,20 @@ end
 
 def then_i_see_section_updated_message
   expect(page).to have_text("Sections were successfully reordered.")
+end
+
+def and_i_see_state_is_published
+  expect(CoronavirusPage.topic_page.first.state).to eq "published"
+  expect(page).to have_text("Status: Published", normalize_ws: true)
+end
+
+def and_i_see_state_is_draft
+  expect(CoronavirusPage.topic_page.first.state).to eq "draft"
+  expect(page).to have_text("Status: Draft", normalize_ws: true)
+end
+
+def and_i_discard_my_changes
+  click_link("Discard changes")
 end
 
 def then_i_am_redirected_to_the_index_page
@@ -336,16 +361,6 @@ end
 
 def and_i_see_a_page_published_message
   expect(page).to have_text("Page published!")
-end
-
-def and_i_see_state_is_published
-  expect(CoronavirusPage.topic_page.first.state).to eq "published"
-  expect(page).to have_text("Status: Published")
-end
-
-def and_i_see_state_is_draft
-  expect(CoronavirusPage.topic_page.first.state).to eq "draft"
-  expect(page).to have_text("Status:\nDraft")
 end
 
 def and_i_see_live_stream_is_updated_message

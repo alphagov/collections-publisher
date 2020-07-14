@@ -20,7 +20,10 @@ module CoronavirusPages
     end
 
     def discard_changes
-      store_live_subsections unless live_content.empty?
+      if live_content.any?
+        store_live_subsections
+        page.update(state: "published")
+      end
     end
 
   private
