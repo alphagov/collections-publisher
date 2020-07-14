@@ -79,7 +79,7 @@ private
 
   def publish_page
     Services.publishing_api.publish(coronavirus_page.content_id, update_type)
-
+    toggle_state("published")
     flash["notice"] = "Page published!"
   rescue GdsApi::HTTPConflict
     flash["alert"] = "Page already published - update the draft first"
@@ -114,5 +114,9 @@ private
 
   def page_configs
     CoronavirusPages::Configuration.all_pages
+  end
+
+  def toggle_state(state)
+    coronavirus_page.update(state: state)
   end
 end

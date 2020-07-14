@@ -37,6 +37,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       then_the_page_publishes_a_minor_update
       and_i_remain_on_the_coronavirus_page
       and_i_see_a_page_published_message
+      and_i_see_state_is_published
     end
 
     scenario "Reordering sections", js: true do
@@ -46,6 +47,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       and_i_move_section_one_down
       then_the_reordered_subsections_are_sent_to_publishing_api
       then_i_see_section_updated_message
+      and_i_see_state_is_draft
     end
   end
 

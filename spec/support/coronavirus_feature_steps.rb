@@ -181,7 +181,7 @@ def when_i_visit_the_reorder_page
 end
 
 def set_up_basic_sub_sections
-  coronavirus_page = FactoryBot.create(:coronavirus_page, :landing)
+  coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
   FactoryBot.create(:sub_section,
                     coronavirus_page_id: coronavirus_page.id,
                     position: 0,
@@ -336,6 +336,16 @@ end
 
 def and_i_see_a_page_published_message
   expect(page).to have_text("Page published!")
+end
+
+def and_i_see_state_is_published
+  expect(CoronavirusPage.topic_page.first.state).to eq "published"
+  expect(page).to have_text("Status: Published")
+end
+
+def and_i_see_state_is_draft
+  expect(CoronavirusPage.topic_page.first.state).to eq "draft"
+  expect(page).to have_text("Status:\nDraft")
 end
 
 def and_i_see_live_stream_is_updated_message
