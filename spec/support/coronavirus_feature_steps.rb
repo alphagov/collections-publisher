@@ -255,14 +255,13 @@ def then_the_reordered_subsections_are_sent_to_publishing_api
         "announcements" => "announcements",
         "nhs_banner" => "nhs_banner",
         "sections_heading" => "sections_heading",
-        "sections" => "sections",
         "topic_section" => "topic_section",
         "live_stream" => {
           "video_url" => LiveStream.first.url,
           "date" => LiveStream.first.formatted_stream_date,
         },
         "notifications" => "notifications",
-        "content_sections" => reordered_sections,
+        "sections" => reordered_sections,
       },
     ),
   )

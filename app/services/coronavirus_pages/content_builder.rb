@@ -10,7 +10,7 @@ class CoronavirusPages::ContentBuilder
     @data ||= begin
       validate_content
       data = github_data
-      data["content_sections"] = sub_sections_data # Rename to sections when ready to go live
+      data["sections"] = sub_sections_data
       add_live_stream(data)
       data
     end

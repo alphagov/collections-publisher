@@ -31,7 +31,7 @@ RSpec.describe CoronavirusPages::ContentBuilder do
 
     let(:data) do
       data = github_content["content"]
-      data["content_sections"] = [sub_section_json]
+      data["sections"] = [sub_section_json]
       data["live_stream"] = live_stream_data
       data
     end
