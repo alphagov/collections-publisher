@@ -104,11 +104,10 @@ RSpec.describe TopicPresenter do
         expect(presented_data[:public_updated_at]).to eq(the_past.iso8601)
       end
 
-      it "includes routes for latest, and email_signups in addition to base route" do
+      it "includes a /latest route in addition to the base route" do
         expect(presented_data[:routes]).to eq([
           { path: "/topic/oil-and-gas/offshore", type: "exact" },
           { path: "/topic/oil-and-gas/offshore/latest", type: "exact" },
-          { path: "/topic/oil-and-gas/offshore/email-signup", type: "exact" },
         ])
       end
 

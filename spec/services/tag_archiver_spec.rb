@@ -54,7 +54,6 @@ RSpec.describe TagArchiver do
       expect(tag.redirect_routes.map(&:from_base_path)).to eql([
         "/topic/foo/bar",
         "/topic/foo/bar/latest",
-        "/topic/foo/bar/email-signup",
       ])
     end
 
@@ -65,7 +64,6 @@ RSpec.describe TagArchiver do
       TagArchiver.new(tag, successor).archive
 
       expect(tag.redirect_routes.map(&:to_base_path)).to eql([
-        "/topic/foo",
         "/topic/foo",
         "/topic/foo",
       ])
@@ -80,7 +78,6 @@ RSpec.describe TagArchiver do
       expect(tag.redirect_routes.map(&:to_base_path)).to eql([
         "/topic/foo/bar",
         "/topic/foo/bar/latest",
-        "/topic/foo/bar/email-signup",
       ])
     end
 
