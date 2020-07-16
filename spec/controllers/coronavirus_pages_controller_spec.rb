@@ -69,10 +69,6 @@ RSpec.describe CoronavirusPagesController, type: :controller do
   end
 
   describe "GET /coronavirus/:slug" do
-    before do
-      stub_user.permissions << "Unreleased feature"
-    end
-
     it "renders page successfuly" do
       get :show, params: { slug: coronavirus_page.slug }
       expect(response).to have_http_status(:success)
@@ -100,7 +96,6 @@ RSpec.describe CoronavirusPagesController, type: :controller do
     subject { get :discard, params: { slug: slug } }
 
     before do
-      stub_user.permissions << "Unreleased feature"
       stub_publishing_api_has_item(live_content_item)
       stub_any_publishing_api_discard_draft
     end
