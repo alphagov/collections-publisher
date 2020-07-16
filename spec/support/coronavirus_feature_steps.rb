@@ -30,10 +30,6 @@ def the_payload_contains_the_valid_url
   )
 end
 
-def stub_live_coronavirus_content_request
-  stub_publishing_api_has_item(coronavirus_content_json)
-end
-
 def live_coronavirus_content_item
   File.read(Rails.root.join("spec/fixtures/coronavirus_content_item.json"))
 end
@@ -70,6 +66,10 @@ def stub_coronavirus_publishing_api
   stub_live_coronavirus_content_request
   stub_any_publishing_api_put_content
   stub_any_publishing_api_publish
+end
+
+def stub_live_coronavirus_content_request
+  stub_publishing_api_has_item(coronavirus_content_json)
 end
 
 def raw_content_urls
@@ -181,7 +181,7 @@ def when_i_visit_the_reorder_page
 end
 
 def set_up_basic_sub_sections
-  coronavirus_page = FactoryBot.create(:coronavirus_page, :landing)
+  coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
   FactoryBot.create(:sub_section,
                     coronavirus_page_id: coronavirus_page.id,
                     position: 0,
@@ -196,6 +196,17 @@ def set_up_basic_sub_sections
   github_yaml_content = File.read(path)
   stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
     .to_return(status: 200, body: github_yaml_content)
+end
+
+def stub_live_sub_sections_content_request
+  path = Rails.root.join("spec/fixtures/simple.json")
+  content = JSON.parse(File.read(path))
+  content["content_id"] = CoronavirusPage.topic_page.first.content_id
+  stub_publishing_api_has_item(content)
+end
+
+def stub_discard_subsection_changes
+  stub_publishing_api_discard_draft(CoronavirusPage.topic_page.first.content_id)
 end
 
 def i_see_subsection_one_in_position_one
@@ -245,6 +256,20 @@ end
 
 def then_i_see_section_updated_message
   expect(page).to have_text("Sections were successfully reordered.")
+end
+
+def and_i_see_state_is_published
+  expect(CoronavirusPage.topic_page.first.state).to eq "published"
+  expect(page).to have_text("Status: Published", normalize_ws: true)
+end
+
+def and_i_see_state_is_draft
+  expect(CoronavirusPage.topic_page.first.state).to eq "draft"
+  expect(page).to have_text("Status: Draft", normalize_ws: true)
+end
+
+def and_i_discard_my_changes
+  click_link("Discard changes")
 end
 
 def then_i_am_redirected_to_the_index_page
