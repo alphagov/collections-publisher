@@ -29,16 +29,18 @@ module CoronavirusPages
     def send
       @send ||= Services.publishing_api.put_content(content_id, payload)
       coronavirus_page.update(state: "draft")
-    rescue GdsApi::HTTPServerError => e
-      error_handler(e, "Failed to update the draft content item - please try saving again")
-    rescue GdsApi::HTTPUnprocessableEntity, DraftUpdaterError => e
+    rescue GdsApi::HTTPErrorResponse => e
+      error_handler(e, "Failed to update the draft content item. Try saving again.")
+    rescue DraftUpdaterError => e
       error_handler(e)
     end
 
     def discard
       Services.publishing_api.discard_draft(content_id)
-    rescue GdsApi::HTTPServerError => e
-      error_handler(e, "Failed to discard changes - please try again")
+    rescue GdsApi::HTTPUnprocessableEntity => e
+      error_handler(e, "There is not a draft edition of this document to discard")
+    rescue GdsApi::HTTPErrorResponse => e
+      error_handler(e, "There has been an error discarding your changes. Try again.")
     end
 
     def discarded?
