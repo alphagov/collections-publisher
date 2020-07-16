@@ -17,6 +17,10 @@
 <div class="covid-manage-page__accordion-summary-list">
   <%= render "govuk_publishing_components/components/summary_list", {
     title: @coronavirus_page.sections_title,
-    items: sub_sections
+    items: sub_sections,
+    edit: {
+      link_text: "Reorder",
+      href: reorder_coronavirus_page_sub_sections_path(@coronavirus_page.slug)
+    }
   } %>
 </div>
