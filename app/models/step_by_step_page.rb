@@ -86,7 +86,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def mark_as_unscheduled
-    update(status: "approved_2i")
+    update(status: "approved_2i", scheduled_at: nil)
   end
 
   def refresh_auth_bypass_id
