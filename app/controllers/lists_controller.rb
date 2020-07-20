@@ -27,7 +27,7 @@ class ListsController < ApplicationController
 
   def destroy
     list = @tag.lists.find(params[:id])
-    list.destroy
+    list.destroy!
 
     if list.destroyed?
       @tag.mark_as_dirty!

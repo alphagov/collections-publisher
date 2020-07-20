@@ -5,7 +5,7 @@ class LinkReport < ApplicationRecord
     batch_response = request_batch_of_links
     if request_batch_of_links.present?
       self.batch_id = batch_response.id
-      save
+      save!
     end
   end
 

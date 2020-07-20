@@ -13,7 +13,7 @@ module CoronavirusPages
 
     def page
       @page ||=
-        CoronavirusPage.find_or_create_by(slug: slug) do |coronavirus_page|
+        CoronavirusPage.find_or_create_by!(slug: slug) do |coronavirus_page|
           coronavirus_page.attributes = coronavirus_page_attributes
           coronavirus_page.sub_sections = sub_sections
         end
@@ -22,7 +22,7 @@ module CoronavirusPages
     def discard_changes
       if live_content.any?
         store_live_subsections
-        page.update(state: "published")
+        page.update!(state: "published")
       end
     end
 

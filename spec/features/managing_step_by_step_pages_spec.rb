@@ -10,7 +10,7 @@ RSpec.feature "Managing step by step pages" do
   include GdsApi::TestHelpers::LinkCheckerApi
   include GdsApi::TestHelpers::PublishingApi
 
-  let(:yesterday) { Time.current - 1.day }
+  let(:yesterday) { Time.zone.now - 1.day }
 
   before do
     given_i_am_a_gds_editor
@@ -686,14 +686,14 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_i_fill_in_the_scheduling_form_with_nonsense_data
-    fill_in "schedule[date][year]", with: Time.current.year
+    fill_in "schedule[date][year]", with: Time.zone.now.year
     fill_in "schedule[date][month]", with: ""
-    fill_in "schedule[date][day]", with: Time.current.day
+    fill_in "schedule[date][day]", with: Time.zone.now.day
     fill_in "schedule[time]", with: "foo"
   end
 
   def then_inputs_should_have_tomorrows_date
-    tomorrow = Time.current.tomorrow
+    tomorrow = Time.zone.now.tomorrow
     expect(find_field("schedule[date][year]").value).to eq tomorrow.year.to_s
     expect(find_field("schedule[date][month]").value).to eq tomorrow.month.to_s
     expect(find_field("schedule[date][day]").value).to eq tomorrow.day.to_s

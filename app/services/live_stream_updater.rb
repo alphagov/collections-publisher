@@ -41,7 +41,7 @@ private
     with_longer_timeout do
       Services.publishing_api.put_content(landing_page_id, payload)
     rescue GdsApi::HTTPErrorResponse
-      object.update(url: live_url, formatted_stream_date: live_date)
+      object.update!(url: live_url, formatted_stream_date: live_date)
     end
   end
 

@@ -38,7 +38,7 @@ RSpec.describe TimeOptionsHelper do
 
   describe "#format_time_12_hour_clock" do
     it "formats the time correctly" do
-      expect(helper.format_time_12_hour_clock(Time.current.tomorrow.change(hour: 9))).to eq("9:00am")
+      expect(helper.format_time_12_hour_clock(Time.zone.now.tomorrow.change(hour: 9))).to eq("9:00am")
     end
   end
 
@@ -57,9 +57,9 @@ RSpec.describe TimeOptionsHelper do
   end
 
   describe "#default_datetime_placeholder" do
-    let(:default_day) { Time.current.tomorrow.day }
-    let(:default_month) { Time.current.tomorrow.month }
-    let(:default_year) { Time.current.tomorrow.year }
+    let(:default_day) { Time.zone.now.tomorrow.day }
+    let(:default_month) { Time.zone.now.tomorrow.month }
+    let(:default_year) { Time.zone.now.tomorrow.year }
     let(:default_time) { "9:00am" }
 
     context "with no params" do

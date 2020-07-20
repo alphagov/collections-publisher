@@ -31,7 +31,7 @@ class ListItemsController < ApplicationController
 
   def destroy
     list_item = @list.list_items.find(params[:id])
-    list_item.destroy
+    list_item.destroy!
 
     destroyed = list_item.destroyed?
 

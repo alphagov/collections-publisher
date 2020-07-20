@@ -7,7 +7,7 @@ class StepByStepPageReverter
   end
 
   def repopulate_from_publishing_api
-    step_by_step_page.update(
+    step_by_step_page.update!(
       title: title,
       slug: slug,
       introduction: introduction,
@@ -114,15 +114,15 @@ private
   end
 
   def add_navigation_rules
-    StepLinksForRules.update(step_by_step_page)
+    StepLinksForRules.update!(step_by_step_page)
 
     set_navigation_states
   end
 
   def set_navigation_states
     step_by_step_page.navigation_rules.each do |rule|
-      rule.update(include_in_links: "conditionally") if pages_related_to_step_nav.include?(rule.content_id)
-      rule.update(include_in_links: "never") unless pages_part_of_or_related_to_step_nav.include?(rule.content_id)
+      rule.update!(include_in_links: "conditionally") if pages_related_to_step_nav.include?(rule.content_id)
+      rule.update!(include_in_links: "never") unless pages_part_of_or_related_to_step_nav.include?(rule.content_id)
     end
   end
 

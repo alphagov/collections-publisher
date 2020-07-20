@@ -5,7 +5,7 @@ class LinkReportController < ApplicationController
   def update
     unless set_link_report.nil?
       @link_report.completed = params[:completed_at]
-      @link_report.save
+      @link_report.save!
     end
   end
 

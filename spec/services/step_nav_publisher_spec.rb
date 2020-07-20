@@ -17,7 +17,7 @@ RSpec.describe StepNavPublisher do
   context ".update" do
     it "sends the rendered step nav to the publishing api" do
       allow(StepNavPublisher).to receive(:lookup_content_ids).and_return("/foo" => "a-content-id")
-      StepNavPublisher.update(step_nav)
+      StepNavPublisher.update!(step_nav)
       expect(Services.publishing_api).to have_received(:put_content)
     end
 
@@ -26,7 +26,7 @@ RSpec.describe StepNavPublisher do
 
       it "defines :auth_bypass_ids in the publishing-api payload" do
         step_nav.mark_draft_updated
-        StepNavPublisher.update(step_nav)
+        StepNavPublisher.update!(step_nav)
         payload = hash_including(auth_bypass_ids: instance_of(Array))
         expect(Services.publishing_api).to have_received(:put_content).with(step_nav.content_id, payload)
       end
@@ -34,7 +34,7 @@ RSpec.describe StepNavPublisher do
 
     context "step by step being edited" do
       it "does not change the auth_bypass_id when step by step in draft state is edited" do
-        StepNavPublisher.update(step_nav)
+        StepNavPublisher.update!(step_nav)
         expect(step_nav.auth_bypass_id).to eq "33ac75d8-4adf-48a7-acb2-bbf4e7f644a3"
       end
 
@@ -42,8 +42,8 @@ RSpec.describe StepNavPublisher do
         content_id = "bd814775-304c-46d0-919f-f9e0f6cba4e9"
         allow(SecureRandom).to receive(:uuid).and_return(content_id)
 
-        step_nav.update(status: "published")
-        StepNavPublisher.update(step_nav)
+        step_nav.update!(status: "published")
+        StepNavPublisher.update!(step_nav)
         expect(step_nav.auth_bypass_id).to eq content_id
       end
     end

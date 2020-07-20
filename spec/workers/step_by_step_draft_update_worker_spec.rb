@@ -66,7 +66,7 @@ RSpec.describe StepByStepDraftUpdateWorker do
     context "when it is updated by the same user" do
       before do
         step_by_step_page.assigned_to = "New author"
-        step_by_step_page.save
+        step_by_step_page.save!
       end
       it "should not generate a change note" do
         described_class.new.perform(step_by_step_page.id, @current_user.name)
