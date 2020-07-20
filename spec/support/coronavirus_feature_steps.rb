@@ -196,17 +196,31 @@ def set_up_basic_sub_sections
   github_yaml_content = File.read(path)
   stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
     .to_return(status: 200, body: github_yaml_content)
+  stub_live_sub_sections_content_request(coronavirus_page.content_id)
 end
 
-def stub_live_sub_sections_content_request
-  path = Rails.root.join("spec/fixtures/simple.json")
-  content = JSON.parse(File.read(path))
-  content["content_id"] = CoronavirusPage.topic_page.first.content_id
+def coronavirus_content_json_with_sections
+  path = Rails.root.join("spec/fixtures/coronavirus_page_sections.json")
+  JSON.parse(File.read(path))
+end
+
+def stub_live_sub_sections_content_request(content_id)
+  content = coronavirus_content_json_with_sections
+  content["content_id"] = content_id
   stub_publishing_api_has_item(content)
 end
 
 def stub_discard_subsection_changes
   stub_publishing_api_discard_draft(CoronavirusPage.topic_page.first.content_id)
+end
+
+def stub_discard_coronavirus_page_draft
+  stub_publishing_api_discard_draft(coronavirus_content_id)
+end
+
+def stub_discard_coronavirus_page_no_draft
+  stub_any_publishing_api_discard_draft
+    .to_return(status: 422, body: "There is not a draft edition of this document to discard")
 end
 
 def i_see_subsection_one_in_position_one
@@ -270,6 +284,10 @@ end
 
 def and_i_discard_my_changes
   click_link("Discard changes")
+end
+
+def i_see_error_message_no_changes_to_discard
+  expect(page).to have_text("There is not a draft edition of this document to discard")
 end
 
 def then_i_am_redirected_to_the_index_page

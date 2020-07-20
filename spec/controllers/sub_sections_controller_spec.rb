@@ -64,22 +64,7 @@ RSpec.describe SubSectionsController, type: :controller do
       end
 
       it "displays the expected error" do
-        expect(subject.body).to include("Failed to update the draft content item - please try saving again")
-      end
-    end
-
-    context "publishing api cannot process payload" do
-      let(:error_message) { Faker::Lorem.sentence }
-      before do
-        stub_any_publishing_api_put_content
-          .to_return(status: 422, body: error_message)
-      end
-      it "successfully renders error on edit page" do
-        expect(subject).to have_http_status(:success)
-      end
-
-      it "displays the expected error" do
-        expect(subject.body).to include(error_message)
+        expect(subject.body).to include("Failed to update the draft content item. Try saving again.")
       end
     end
 

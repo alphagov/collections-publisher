@@ -76,7 +76,7 @@ RSpec.describe CoronavirusPages::ModelBuilder do
   end
 
   describe "#discard_changes" do
-    let(:content_fixture_path) { Rails.root.join("spec/fixtures/simple.json") }
+    let(:content_fixture_path) { Rails.root.join("spec/fixtures/coronavirus_page_sections.json") }
     let(:live_content_item) { JSON.parse(File.read(content_fixture_path)) }
     let(:live_sections) { live_content_item.dig("details", "sections") }
     let(:live_title) { live_sections.first["title"] }

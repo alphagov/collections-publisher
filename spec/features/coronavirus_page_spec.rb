@@ -42,7 +42,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
 
     scenario "Reordering sections of a published page", js: true do
       set_up_basic_sub_sections
-      stub_live_sub_sections_content_request
       stub_discard_subsection_changes
       when_i_visit_the_reorder_page
       i_see_subsection_one_in_position_one
@@ -51,6 +50,16 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       then_i_see_section_updated_message
       and_i_see_state_is_draft
       and_i_discard_my_changes
+      and_i_see_state_is_published
+    end
+
+    scenario "Discarding changes" do
+      stub_live_sub_sections_content_request(coronavirus_content_id)
+      stub_discard_coronavirus_page_no_draft
+      when_i_visit_a_coronavirus_page
+      and_i_see_state_is_published
+      and_i_discard_my_changes
+      i_see_error_message_no_changes_to_discard
       and_i_see_state_is_published
     end
   end
