@@ -10,7 +10,7 @@ class Topic < Tag
   def subroutes
     return [] unless subtopic?
 
-    %w[/latest /email-signup]
+    %w[/latest]
   end
 
   def dependent_tags
