@@ -47,7 +47,7 @@ def coronavirus_content_id
 end
 
 def todays_date
-  DateTime.now.strftime("%-d %B %Y")
+  Time.zone.now.strftime("%-d %B %Y")
 end
 
 def invalid_url
