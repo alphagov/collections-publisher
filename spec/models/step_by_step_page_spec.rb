@@ -148,7 +148,7 @@ RSpec.describe StepByStepPage do
 
     it "must not be present in publishing-api" do
       allow(Services.publishing_api).to receive(:lookup_content_id).and_return("A_CONTENT_ID")
-      step_by_step_page.save!
+      step_by_step_page.validate
 
       expect(step_by_step_page.errors.full_messages).to eq(["Slug has already been taken."])
     end
@@ -158,7 +158,7 @@ RSpec.describe StepByStepPage do
       step_by_step_page.review_requester_id = user_uid
       step_by_step_page.reviewer_id = user_uid
 
-      step_by_step_page.save!
+      step_by_step_page.validate
 
       expect(step_by_step_page).not_to be_valid
       expect(step_by_step_page.errors).to have_key(:reviewer_id)

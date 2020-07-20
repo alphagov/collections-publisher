@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe StepByStepDraftUpdateWorker do
   before do
     allow(Services.publishing_api).to receive(:lookup_content_id)
-    allow(StepLinksForRules).to receive(:update)
-    allow(StepNavPublisher).to receive(:update)
+    allow(StepLinksForRules).to receive(:call)
+    allow(StepNavPublisher).to receive(:update_draft)
     @current_user = create(:user, name: "New author")
   end
 
@@ -14,8 +14,8 @@ RSpec.describe StepByStepDraftUpdateWorker do
     it "updates the navigation rules, the publishing API, and the assignee" do
       described_class.new.perform(step_by_step_page.id, @current_user.name)
 
-      expect(StepLinksForRules).to have_received(:update).with(step_by_step_page)
-      expect(StepNavPublisher).to have_received(:update).with(step_by_step_page)
+      expect(StepLinksForRules).to have_received(:call).with(step_by_step_page)
+      expect(StepNavPublisher).to have_received(:update_draft).with(step_by_step_page)
       expect(StepByStepPage.find(step_by_step_page.id).assigned_to).to eql "New author"
     end
   end

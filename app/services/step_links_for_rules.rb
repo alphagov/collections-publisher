@@ -4,7 +4,7 @@ class StepLinksForRules
     @step_content_parser = step_content_parser
   end
 
-  def self.update(step_by_step_page)
+  def self.call(step_by_step_page)
     new(step_by_step_page: step_by_step_page).call
   end
 

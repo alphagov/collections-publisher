@@ -16,11 +16,11 @@ class StepByStepDraftUpdateWorker
   end
 
   def update_navigation_rules
-    StepLinksForRules.update(step_by_step_page)
+    StepLinksForRules.call(step_by_step_page)
   end
 
   def update_draft
-    StepNavPublisher.update(step_by_step_page)
+    StepNavPublisher.update_draft(step_by_step_page)
   end
 
   def update_assigned_to

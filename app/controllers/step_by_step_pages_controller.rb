@@ -198,7 +198,7 @@ private
   end
 
   def publish_page(publish_intent)
-    StepNavPublisher.update(@step_by_step_page, publish_intent)
+    StepNavPublisher.update_draft(@step_by_step_page, publish_intent)
     StepNavPublisher.publish(@step_by_step_page)
     @step_by_step_page.mark_as_published
   end
@@ -206,7 +206,7 @@ private
   def schedule_to_publish(update_type, change_note)
     publish_intent = PublishIntent.new(update_type: update_type, change_note: change_note)
     StepNavPublisher.schedule_for_publishing(@step_by_step_page)
-    StepNavPublisher.update(@step_by_step_page, publish_intent)
+    StepNavPublisher.update_draft(@step_by_step_page, publish_intent)
     @step_by_step_page.mark_as_scheduled
   end
 

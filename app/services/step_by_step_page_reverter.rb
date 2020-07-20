@@ -114,7 +114,7 @@ private
   end
 
   def add_navigation_rules
-    StepLinksForRules.update!(step_by_step_page)
+    StepLinksForRules.call(step_by_step_page)
 
     set_navigation_states
   end
