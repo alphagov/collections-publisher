@@ -35,7 +35,7 @@ RSpec.describe StepNavPresenter do
       step_nav_with_navigation = create(:step_by_step_page_with_navigation_rules)
       rule1 = step_nav_with_navigation.navigation_rules.first
       rule1.include_in_links = "conditionally"
-      rule1.save
+      rule1.save!
 
       step_nav_with_navigation.reload
 
@@ -99,7 +99,7 @@ RSpec.describe StepNavPresenter do
 
         rule = step_nav_with_smartanswer.navigation_rules.select(&:smartanswer?).first
         rule.include_in_links = "conditionally"
-        rule.save
+        rule.save!
 
         step_nav_with_smartanswer.reload
         presented = subject.render_for_publishing_api
@@ -122,7 +122,7 @@ RSpec.describe StepNavPresenter do
       it "doesn't add the content_id of the service done page if include_in_links is 'conditionally'" do
         rule = step_nav.navigation_rules.first
         rule.include_in_links = "conditionally"
-        rule.save
+        rule.save!
 
         step_nav.reload
         presented = subject.render_for_publishing_api

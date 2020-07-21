@@ -66,7 +66,7 @@ RSpec.describe Step do
       expect(original_step_one.position).to eq 1
       expect(original_step_two.position).to eq 2
 
-      original_step_one.destroy
+      original_step_one.destroy!
       step_by_step_page.reload
       original_step_two.reload
 

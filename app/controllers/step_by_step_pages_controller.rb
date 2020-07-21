@@ -26,7 +26,7 @@ class StepByStepPagesController < ApplicationController
       reordered_steps = JSON.parse(params[:step_order_save])
       reordered_steps.each do |step_data|
         step = @step_by_step_page.steps.find(step_data["id"])
-        step.update(position: step_data["position"])
+        step.update!(position: step_data["position"])
       end
       StepByStepUpdater.call(@step_by_step_page, current_user)
       redirect_to @step_by_step_page, notice: "Steps were successfully reordered."
@@ -141,7 +141,6 @@ class StepByStepPagesController < ApplicationController
 
   def unschedule
     set_current_page_as_step_by_step
-    @step_by_step_page.update(scheduled_at: nil)
     unschedule_publishing
     note_headline = "Scheduled publishing stopped"
     generate_internal_change_note(note_headline)
@@ -198,7 +197,7 @@ private
   end
 
   def publish_page(publish_intent)
-    StepNavPublisher.update(@step_by_step_page, publish_intent)
+    StepNavPublisher.update_draft(@step_by_step_page, publish_intent)
     StepNavPublisher.publish(@step_by_step_page)
     @step_by_step_page.mark_as_published
   end
@@ -206,7 +205,7 @@ private
   def schedule_to_publish(update_type, change_note)
     publish_intent = PublishIntent.new(update_type: update_type, change_note: change_note)
     StepNavPublisher.schedule_for_publishing(@step_by_step_page)
-    StepNavPublisher.update(@step_by_step_page, publish_intent)
+    StepNavPublisher.update_draft(@step_by_step_page, publish_intent)
     @step_by_step_page.mark_as_scheduled
   end
 

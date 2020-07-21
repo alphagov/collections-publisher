@@ -14,7 +14,7 @@ class NavigationRulesController < ApplicationController
       value = %w[always conditionally never].include?(value) ? value : "always"
 
       rule = @step_by_step_page.navigation_rules.find_by(content_id: content_id)
-      rule.update(include_in_links: value) if rule
+      rule.update!(include_in_links: value) if rule
     end
 
     StepByStepDraftUpdateWorker.perform_async(@step_by_step_page.id)

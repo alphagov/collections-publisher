@@ -57,12 +57,12 @@ class StepByStepPage < ApplicationRecord
 
   def mark_as_approved_2i
     self.status = "approved_2i"
-    save(validate: false)
+    save!(validate: false)
   end
 
   def mark_as_published
     now = Time.zone.now
-    update(
+    update!(
       published_at: now,
       draft_updated_at: now,
       scheduled_at: nil,
@@ -86,7 +86,7 @@ class StepByStepPage < ApplicationRecord
   end
 
   def mark_as_unscheduled
-    update(status: "approved_2i")
+    update(status: "approved_2i", scheduled_at: nil)
   end
 
   def refresh_auth_bypass_id

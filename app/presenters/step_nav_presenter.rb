@@ -51,7 +51,7 @@ private
   end
 
   def public_updated_at
-    step_nav.updated_at.to_datetime.rfc3339(3)
+    step_nav.updated_at.rfc3339(3)
   end
 
   def routes

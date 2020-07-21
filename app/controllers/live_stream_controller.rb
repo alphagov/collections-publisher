@@ -40,6 +40,6 @@ private
   end
 
   def formatted_date
-    DateTime.now.strftime("%-d %B %Y")
+    Time.zone.now.strftime("%-d %B %Y")
   end
 end

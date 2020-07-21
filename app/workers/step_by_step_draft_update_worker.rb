@@ -16,17 +16,17 @@ class StepByStepDraftUpdateWorker
   end
 
   def update_navigation_rules
-    StepLinksForRules.update(step_by_step_page)
+    StepLinksForRules.call(step_by_step_page)
   end
 
   def update_draft
-    StepNavPublisher.update(step_by_step_page)
+    StepNavPublisher.update_draft(step_by_step_page)
   end
 
   def update_assigned_to
     unless assigned_to_current_user?
       step_by_step_page.assigned_to = @current_user
-      step_by_step_page.save
+      step_by_step_page.save!
       generate_internal_change_note
     end
   end
@@ -36,7 +36,7 @@ class StepByStepDraftUpdateWorker
       author: @current_user,
       headline: "Draft saved",
     )
-    change_note.save
+    change_note.save!
   end
 
 private

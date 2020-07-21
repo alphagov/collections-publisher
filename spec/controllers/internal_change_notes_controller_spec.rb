@@ -9,7 +9,7 @@ RSpec.describe InternalChangeNotesController, type: :controller do
   describe "POST #create" do
     it "creates an InternalChangeNote" do
       create(:step_by_step_page, id: 0)
-      expect(InternalChangeNote).to receive(:create)
+      expect(InternalChangeNote).to receive(:create!)
       post :create, params: { step_by_step_page_id: 0, internal_change_note: { description: "Test description" } }
     end
     it "saves it to the database" do

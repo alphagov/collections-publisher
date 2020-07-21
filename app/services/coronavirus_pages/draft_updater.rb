@@ -28,7 +28,7 @@ module CoronavirusPages
 
     def send
       @send ||= Services.publishing_api.put_content(content_id, payload)
-      coronavirus_page.update(state: "draft")
+      coronavirus_page.update!(state: "draft")
     rescue GdsApi::HTTPErrorResponse => e
       error_handler(e, "Failed to update the draft content item. Try saving again.")
     rescue DraftUpdaterError => e

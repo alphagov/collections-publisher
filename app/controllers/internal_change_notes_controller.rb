@@ -2,7 +2,7 @@ class InternalChangeNotesController < ApplicationController
   include PublishingApiHelper
 
   def create
-    InternalChangeNote.create(required_fields.merge(other_fields))
+    InternalChangeNote.create!(required_fields.merge(other_fields))
     redirect_to step_by_step_page_internal_change_notes_path, notice: "Change note was successfully added."
   end
 

@@ -28,7 +28,7 @@ RSpec.describe StepByStepPage do
     end
 
     it "should allow return of review requester name" do
-      step_by_step_page.save
+      step_by_step_page.save!
 
       expect(step_by_step_page.review_requester.name).to eq stub_user.name
     end
@@ -37,7 +37,7 @@ RSpec.describe StepByStepPage do
       reviewer_user = create(:user, name: "Reviewer Name")
       step_by_step_page.reviewer_id = reviewer_user.uid
 
-      step_by_step_page.save
+      step_by_step_page.save!
 
       expect(step_by_step_page.reviewer.name).to eq reviewer_user.name
     end
@@ -81,7 +81,7 @@ RSpec.describe StepByStepPage do
     it "removes spaces from start and end of slug" do
       step_by_step_page.slug = " a-slug "
 
-      step_by_step_page.save
+      step_by_step_page.save!
 
       expect(step_by_step_page).to be_valid
       expect(step_by_step_page.slug).to eq "a-slug"
@@ -128,7 +128,7 @@ RSpec.describe StepByStepPage do
 
     it "must be a unique slug" do
       step_by_step_page.slug = "new-step-by-step"
-      step_by_step_page.save
+      step_by_step_page.save!
 
       duplicate = build(:step_by_step_page)
       duplicate.slug = step_by_step_page.slug
@@ -148,7 +148,7 @@ RSpec.describe StepByStepPage do
 
     it "must not be present in publishing-api" do
       allow(Services.publishing_api).to receive(:lookup_content_id).and_return("A_CONTENT_ID")
-      step_by_step_page.save
+      step_by_step_page.validate
 
       expect(step_by_step_page.errors.full_messages).to eq(["Slug has already been taken."])
     end
@@ -158,7 +158,7 @@ RSpec.describe StepByStepPage do
       step_by_step_page.review_requester_id = user_uid
       step_by_step_page.reviewer_id = user_uid
 
-      step_by_step_page.save
+      step_by_step_page.validate
 
       expect(step_by_step_page).not_to be_valid
       expect(step_by_step_page.errors).to have_key(:reviewer_id)
@@ -189,7 +189,7 @@ RSpec.describe StepByStepPage do
     end
 
     it "deletes steps when the StepByStepPage is deleted" do
-      step_by_step_with_step.destroy
+      step_by_step_with_step.destroy!
 
       expect { step_by_step_with_step.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect(step_by_step_with_step.steps.length).to eql(0)
@@ -624,7 +624,7 @@ RSpec.describe StepByStepPage do
     end
 
     it "deletes secondary content when the StepByStepPage is deleted" do
-      step_by_step.destroy
+      step_by_step.destroy!
 
       expect { step_by_step.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect(step_by_step.secondary_content_links.length).to eql(0)

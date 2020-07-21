@@ -82,7 +82,7 @@ RSpec.describe StepLinksForRules do
         rule = step_page.navigation_rules.first
         rule_content_id = rule.content_id
 
-        rule.update(include_in_links: "conditionally")
+        rule.update!(include_in_links: "conditionally")
         expect(rule.reload.include_in_links).to eq("conditionally")
 
         publishing_api_receives_request_to_lookup_content_ids(
@@ -105,10 +105,10 @@ RSpec.describe StepLinksForRules do
 
     context "when the links are removed from the content" do
       it "removes the rules for those links" do
-        first_step.update(contents: "Hello World")
+        first_step.update!(contents: "Hello World")
         second_step = step_page.steps.second
 
-        second_step.update(contents: "This is a great step\n\n- [Good stuff](/good/stuff)")
+        second_step.update!(contents: "This is a great step\n\n- [Good stuff](/good/stuff)")
 
         publishing_api_receives_request_to_lookup_content_ids(
           base_paths: [base_paths.first],
