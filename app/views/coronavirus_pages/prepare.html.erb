@@ -1,5 +1,8 @@
-<% content_for :title, "Publish #{@coronavirus_page.name.downcase}" %>
-<% content_for :context, "https://www.gov.uk#{@coronavirus_page.base_path}" %>
+<% content_for :title, "Edit the #{@coronavirus_page.name}" %>
+<% content_for :context, "www.gov.uk#{@coronavirus_page.base_path}" %>
+<%= render "govuk_publishing_components/components/lead_paragraph", {
+  text: "Follow the steps below to make changes to any part of the #{@coronavirus_page.name}, except the accordions."
+} %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <%= render "coronavirus_pages/shared/github", github_url: @coronavirus_page.github_url %>

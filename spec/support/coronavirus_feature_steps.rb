@@ -118,27 +118,29 @@ def then_the_business_content_is_sent_to_publishing_api
 end
 
 def i_see_a_publish_landing_page_link
-  expect(page).to have_link("Publish coronavirus landing page")
+  expect(page).to have_link("Edit something else on the landing page")
 end
 
 def i_see_a_publish_business_page_link
-  expect(page).to have_link("Publish business support page")
+  expect(page).to have_link("Edit something else on the business hub")
 end
 
 def i_see_livestream_button
-  expect(page).to have_link("Update live stream")
+  expect(page).to have_link("Edit live stream URL")
 end
 
 def and_i_select_landing_page
-  click_link("Publish coronavirus landing page")
+  click_link("Edit something else on the landing page")
 end
 
 def and_i_select_business_page
-  click_link("Publish business support page")
+  within ".business" do
+    click_link("Edit something else on the business hub")
+  end
 end
 
 def and_i_select_live_stream
-  click_link("Update live stream")
+  click_link("Edit live stream URL")
   expect(page).to have_text("Update live stream URL")
 end
 
