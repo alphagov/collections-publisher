@@ -230,7 +230,7 @@ FactoryBot.define do
     raw_content_url { Faker::Internet.url(host: "example.com") }
     base_path { "/#{File.join(Faker::Lorem.words)}" }
 
-    slugs = %w[landing business education employees]
+    slugs = %w[landing business education workers]
 
     trait :of_known_type do
       slug { slugs.sample }

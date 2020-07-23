@@ -5,14 +5,14 @@ RSpec.describe CoronavirusPage do
     let!(:business) { create :coronavirus_page, :business }
     let!(:landing) { create :coronavirus_page, :landing }
     let!(:education) { create :coronavirus_page, :education }
-    let!(:employees) { create :coronavirus_page, :employees }
+    let!(:workers) { create :coronavirus_page, :workers }
 
     it "topic_page" do
       expect(CoronavirusPage.topic_page.first).to eq landing
     end
 
     it "sub_topics" do
-      expect(CoronavirusPage.subtopic_pages).to eq [business, education, employees]
+      expect(CoronavirusPage.subtopic_pages).to eq [business, education, workers]
     end
   end
 
@@ -35,11 +35,11 @@ RSpec.describe CoronavirusPage do
   end
 
   describe "dependencies" do
-    let!(:employees) { create :coronavirus_page, :employees }
-    let!(:sub_section) { create :sub_section, coronavirus_page: employees }
+    let!(:workers) { create :coronavirus_page, :workers }
+    let!(:sub_section) { create :sub_section, coronavirus_page: workers }
 
     it "deletion destroys all child subsections" do
-      expect { employees.destroy }.to change { SubSection.count }.by(-1)
+      expect { workers.destroy }.to change { SubSection.count }.by(-1)
     end
   end
 end

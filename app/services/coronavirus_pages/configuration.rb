@@ -33,7 +33,7 @@ module CoronavirusPages
             github_url: "https://github.com/alphagov/govuk-coronavirus-content/blob/master/content/coronavirus_education_page.yml",
             state: "published",
           },
-        employees:
+        workers:
           {
             name: "Worker page",
             content_id: "5ebf285a-9165-476c-be90-66b9729f50da".freeze,
