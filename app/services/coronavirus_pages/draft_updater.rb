@@ -38,7 +38,7 @@ module CoronavirusPages
     def discard
       Services.publishing_api.discard_draft(content_id)
     rescue GdsApi::HTTPUnprocessableEntity => e
-      error_handler(e, "There is not a draft edition of this document to discard")
+      error_handler(e, "You do not have a draft to discard")
     rescue GdsApi::HTTPErrorResponse => e
       error_handler(e, "There has been an error discarding your changes. Try again.")
     end

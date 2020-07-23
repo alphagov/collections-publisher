@@ -134,9 +134,7 @@ def and_i_select_landing_page
 end
 
 def and_i_select_business_page
-  within ".business" do
-    click_link("Edit something else on the business hub")
-  end
+  click_link("Edit something else on the business hub")
 end
 
 def and_i_select_live_stream
@@ -222,7 +220,7 @@ end
 
 def stub_discard_coronavirus_page_no_draft
   stub_any_publishing_api_discard_draft
-    .to_return(status: 422, body: "There is not a draft edition of this document to discard")
+    .to_return(status: 422, body: "You do not have a draft to discard")
 end
 
 def i_see_subsection_one_in_position_one
@@ -289,7 +287,7 @@ def and_i_discard_my_changes
 end
 
 def i_see_error_message_no_changes_to_discard
-  expect(page).to have_text("There is not a draft edition of this document to discard")
+  expect(page).to have_text("You do not have a draft to discard")
 end
 
 def then_i_am_redirected_to_the_index_page
