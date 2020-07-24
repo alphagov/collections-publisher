@@ -31,7 +31,7 @@ group :development, :test do
   gem "faker"
   gem "govuk-content-schema-test-helpers"
   gem "govuk_test"
-  gem "jasmine", "~> 3.5"
+  gem "jasmine", "~> 3.6"
   gem "jasmine_selenium_runner", "~> 3", require: false
   gem "nokogiri"
   gem "parser", "2.7.1.4"
