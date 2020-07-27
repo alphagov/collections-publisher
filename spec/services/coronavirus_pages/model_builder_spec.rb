@@ -8,7 +8,6 @@ RSpec.describe CoronavirusPages::ModelBuilder do
   let(:raw_content_url_regex) { Regexp.new(raw_content_url) }
   let(:yaml_fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:source_yaml) { YAML.load_file(yaml_fixture_path) }
-  let(:source_sections) { source_yaml.dig("content", "sections") }
   let(:sections_title) { source_yaml.dig("content", "sections_heading") }
   let(:coronavirus_page_attributes) do
     page_config.merge(sections_title: sections_title, slug: slug)
@@ -33,29 +32,6 @@ RSpec.describe CoronavirusPages::ModelBuilder do
         expect { model_builder.page }.to change { CoronavirusPage.count }.by(1)
         expect(CoronavirusPage.last).to have_attributes(coronavirus_page_attributes)
       end
-
-      it "creates associated sub_sections" do
-        expect { model_builder.page }.to(change { SubSection.count }.by(source_sections.count))
-      end
-    end
-
-    context "for a known section" do
-      let(:section) { source_sections.sample }
-      let(:sub_section) { SubSection.find_by(title: section["title"]) }
-
-      it "creates sub_sections with the given attributes" do
-        model_builder.page
-        expect(sub_section.content).to include(section["sub_sections"].first["list"].first["label"])
-      end
-
-      it "creates sub_sections with a position that reflects their order in the content item" do
-        input_order = source_sections.pluck("title").each_with_index.to_h.invert
-
-        model_builder.page.sub_sections.each do |sub_section|
-          position = sub_section.position
-          expect(input_order[position]).to eq(sub_section.title)
-        end
-      end
     end
 
     context "a coronavirus page with matching slug is present in database" do
@@ -67,10 +43,6 @@ RSpec.describe CoronavirusPages::ModelBuilder do
 
       it "returns the coronavirus page" do
         expect(model_builder.page).to eq(coronavirus_page)
-      end
-
-      it "does not create sub_sections" do
-        expect { model_builder.page }.not_to(change { SubSection.count })
       end
     end
   end
@@ -97,6 +69,17 @@ RSpec.describe CoronavirusPages::ModelBuilder do
       expect(coronavirus_page.sub_sections.first.title).to eq "foo"
       discard_changes
       expect(coronavirus_page.sub_sections.first.title).to eq live_title
+    end
+
+    it "creates sub_sections with a position that reflects their order in the content item" do
+      coronavirus_page
+      discard_changes
+      input_order = live_sections.pluck("title").each_with_index.to_h.invert
+
+      coronavirus_page.sub_sections.each do |sub_section|
+        position = sub_section.position
+        expect(input_order[position]).to eq(sub_section.title)
+      end
     end
   end
 end
