@@ -56,7 +56,7 @@ The accordion content is stored in the database as a SubSection:
 2. Add a basic page configuration to [this file](app/services/coronavirus_pages/configuration.rb) in Collections Publisher.
 3. Visiting the Coronavirus page tab of collections publisher will create a coronavirus page model based on the configuration using the service CoronavirusPages::ModelBuilder.
 4. As a result two new links will be created on the [index page](https://collections-publisher.publishing.service.gov.uk/coronavirus):
-  - Edit the \<new hub> page accordion
-  - Publish \<new hub> page
-5. The Edit link can be used to populate the accordion section on the page.
-6. The Publish link can be used to pull in the content added to the yaml file created in step one, merge that content with the page sub section data, and send it to publishing api.
+  - Edit \<new hub> page accordions
+  - Edit something else on the \<new hub> page
+5. The **Edit \<new hub> page accordions** link can be used to populate the accordion section on the page.
+6. The **Edit something else on the \<new hub> page** link can be used to pull in the content added to the yaml file created in step one, merge that content with the page sub section data, and send it to publishing api.
