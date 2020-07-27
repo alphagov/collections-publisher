@@ -25,6 +25,14 @@ module CoronavirusPages
       end
     end
 
+    def sections_heading
+      data["sections_heading"]
+    end
+
+    def title
+      data["title"]
+    end
+
   private
 
     def store_live_subsections
@@ -41,14 +49,6 @@ module CoronavirusPages
         sections_title: sections_heading,
         title: title,
       )
-    end
-
-    def sections_heading
-      data["sections_heading"]
-    end
-
-    def title
-      data["title"]
     end
 
     def raw_content_url

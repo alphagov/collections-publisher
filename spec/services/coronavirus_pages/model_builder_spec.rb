@@ -72,7 +72,6 @@ RSpec.describe CoronavirusPages::ModelBuilder do
     end
 
     it "creates sub_sections with a position that reflects their order in the content item" do
-      coronavirus_page
       discard_changes
       input_order = live_sections.pluck("title").each_with_index.to_h.invert
 
