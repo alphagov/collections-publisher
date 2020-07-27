@@ -17,16 +17,16 @@ private
     current_user.has_permission? "GDS Editor"
   end
 
+  def unreleased_feature_user?
+    current_user.has_permission? "Unreleased feature"
+  end
+
   def coronavirus_editor?
     current_user.has_permission? "Coronavirus editor"
   end
 
   def livestream_editor?
     current_user.has_permission? "Livestream editor"
-  end
-
-  def unreleased_feature_user?
-    current_user.has_permission? "Unreleased feature"
   end
 
   # Can be overridden to allow controllers to choose the active menu item.

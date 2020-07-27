@@ -2,9 +2,7 @@
 
 <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Coronavirus landing page</h2>
 <ul class="govuk-list">
-  <% if unreleased_feature_user? %>
-    <li><%= link_to "Edit landing page accordions", coronavirus_page_path(slug: @topic_page.slug), class:"govuk-link" %></li>
-  <% end %>
+  <li><%= link_to "Edit landing page accordions", coronavirus_page_path(slug: @topic_page.slug), class:"govuk-link" %></li>
   <li><%= link_to "Edit live stream URL", live_stream_index_path, class:"govuk-link" %></li>
   <li><%= link_to "Edit something else on the landing page", prepare_coronavirus_page_path(slug: @topic_page[:slug]), class:"govuk-link" %></li>
 </ul>
@@ -12,9 +10,7 @@
 <% @subtopic_pages.each do |page| %>
   <h2 class="govuk-heading-s govuk-!-margin-bottom-2"><%=page.name%></h2>
   <ul class="govuk-list">
-  <% if unreleased_feature_user? %>
     <li class="covid__spaced-list-item"><%= link_to "Edit #{page.name.downcase} accordions", coronavirus_page_path(slug: page.slug), class:"govuk-link" %></li>
-  <% end %>
     <li class="covid__spaced-list-item"><%= link_to "Edit something else on the #{page.name.downcase}", prepare_coronavirus_page_path(slug: page[:slug]), class:"govuk-link" %></li>
   </ul>
 <% end %>

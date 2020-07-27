@@ -23,7 +23,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
 
   describe "Changes made in collections publisher" do
     before do
-      given_i_am_an_unreleased_feature_editor
       given_i_am_a_coronavirus_editor
       stub_coronavirus_publishing_api
       stub_all_github_requests

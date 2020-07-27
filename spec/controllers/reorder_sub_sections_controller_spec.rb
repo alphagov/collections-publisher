@@ -11,10 +11,6 @@ RSpec.describe ReorderSubSectionsController, type: :controller do
   let(:raw_content) { File.read(fixture_path) }
 
   describe "GET /coronavirus/:coronavirus_page_slug/sub_sections/reorder" do
-    before do
-      stub_user.permissions << "Unreleased feature"
-    end
-
     it "renders page successfuly" do
       get :index, params: { coronavirus_page_slug: slug }
       expect(response).to have_http_status(:success)
@@ -23,7 +19,6 @@ RSpec.describe ReorderSubSectionsController, type: :controller do
 
   describe "PUT /coronavirus/:coronavirus_page_slug/sub_sections/reorder" do
     before do
-      stub_user.permissions << "Unreleased feature"
       stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
         .to_return(status: 200, body: raw_content)
       stub_coronavirus_publishing_api
