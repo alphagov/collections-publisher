@@ -1,4 +1,20 @@
-<% content_for :title, "Coronavirus (COVID-19)" %>
+<%
+  links = [
+    {
+      text: 'Coronavirus pages',
+      href: coronavirus_pages_path
+    },
+    {
+      text: "#{@coronavirus_page.name} accordions",
+      href: coronavirus_page_path(slug: @coronavirus_page.slug)
+    },
+    {
+      text: "Reorder"
+    },
+  ]
+%>
+<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :title, formatted_title(@coronavirus_page)%>
 <% content_for :context, "Reorder #{@coronavirus_page.sections_title.downcase} accordion" %>
 
 <div class="covid-manage-page govuk-grid-row">

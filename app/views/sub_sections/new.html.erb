@@ -1,12 +1,16 @@
 <%
   links = [
     {
-      text: 'Coronavirus topic pages',
+      text: 'Coronavirus pages',
       href: coronavirus_pages_path
     },
     {
-      text: "Coronavirus (COVID-19)"
-    }
+      text: "#{@coronavirus_page.name} accordions",
+      href: coronavirus_page_path(slug: @coronavirus_page.slug)
+    },
+    {
+      text: "Add accordion"
+    },
   ]
 
   metadata = {
@@ -16,8 +20,8 @@
 %>
 
 <% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
-<% content_for :title, "Coronavirus (COVID-19)" %>
-<% content_for :context, 'Add guidance and support accordion' %>
+<% content_for :title, formatted_title(@coronavirus_page) %>
+<% content_for :context, "Add accordion" %>
 <% if @sub_section.errors.any? %>
   <%= render "shared/sub_sections/form_errors", resource: @sub_section %>
 <% end %>

@@ -5,7 +5,7 @@
       href: coronavirus_pages_path
     },
     {
-      text: formatted_title(@coronavirus_page)
+      text: "#{@coronavirus_page.name} accordions"
     }
   ]
 
@@ -23,7 +23,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render "sub_sections_summary_list" %>
     <%= render "govuk_publishing_components/components/button", {
-      text: "Add section",
+      text: "Add accordion",
       href: new_coronavirus_page_sub_section_path(@coronavirus_page.slug)
     } %>
   </div>

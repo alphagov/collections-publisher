@@ -82,7 +82,7 @@ private
     change_state("published")
     flash["notice"] = "Page published!"
   rescue GdsApi::HTTPConflict
-    flash["alert"] = "Page already published - update the draft first"
+    flash["alert"] = "You have already published this page."
   end
 
   def with_longer_timeout
