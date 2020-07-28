@@ -15,7 +15,6 @@ module CoronavirusPages
       @page ||=
         CoronavirusPage.find_or_create_by!(slug: slug) do |coronavirus_page|
           coronavirus_page.attributes = coronavirus_page_attributes
-          coronavirus_page.sub_sections = sub_sections
         end
     end
 
@@ -24,6 +23,14 @@ module CoronavirusPages
         store_live_subsections
         page.update!(state: "published")
       end
+    end
+
+    def sections_heading
+      data["sections_heading"]
+    end
+
+    def title
+      data["title"]
     end
 
   private
@@ -42,14 +49,6 @@ module CoronavirusPages
         sections_title: sections_heading,
         title: title,
       )
-    end
-
-    def sections_heading
-      data["sections_heading"]
-    end
-
-    def title
-      yaml_data.dig("content", "title")
     end
 
     def raw_content_url

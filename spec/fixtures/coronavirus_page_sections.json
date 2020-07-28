@@ -15,6 +15,32 @@
             ]
           }
         ]
+      },
+      {
+        "title": "Testing for coronavirus",
+        "sub_sections": [
+          {
+            "list": [
+              {
+                "url": "/get-coronavirus-test",
+                "label": "Get a test to check if you have coronavirus"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Local restrictions",
+        "sub_sections": [
+          {
+            "list": [
+              {
+                "url": "/guidance/blackburn-with-darwen-local-restrictions",
+                "label": "Blackburn with Darwen: local restrictions"
+              }
+            ]
+          }
+        ]
       }
     ]
   }
