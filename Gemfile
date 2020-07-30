@@ -2,22 +2,22 @@ source "https://rubygems.org"
 
 gem "rails", "~> 6.0.3"
 
-gem "aasm", "~> 5.0"
-gem "generic_form_builder", "~> 0.13"
+gem "aasm"
+gem "generic_form_builder"
 gem "mysql2"
-gem "sass-rails", "~> 5.0"
-gem "select2-rails", "~> 3.5.9"
-gem "uglifier", "~> 4.2"
+gem "sass-rails"
+gem "select2-rails"
+gem "uglifier"
 
 # GDS managed dependencies
-gem "gds-api-adapters", "~> 67.0"
-gem "gds-sso", "~> 15.0"
-gem "govuk_admin_template", "~> 6.7"
-gem "govuk_app_config", "~> 2.2"
-gem "govuk_publishing_components", "~> 21.60"
-gem "govuk_sidekiq", "~> 4.0"
+gem "gds-api-adapters"
+gem "gds-sso"
+gem "govuk_admin_template"
+gem "govuk_app_config"
+gem "govuk_publishing_components"
+gem "govuk_sidekiq"
 gem "mail-notify"
-gem "plek", "~> 4.0"
+gem "plek"
 
 group :development do
   gem "better_errors"
@@ -31,15 +31,15 @@ group :development, :test do
   gem "faker"
   gem "govuk-content-schema-test-helpers"
   gem "govuk_test"
-  gem "jasmine", "~> 3.6"
-  gem "jasmine_selenium_runner", "~> 3", require: false
+  gem "jasmine"
+  gem "jasmine_selenium_runner", require: false
   gem "nokogiri"
-  gem "parser", "2.7.1.4"
+  gem "parser"
   gem "pry-byebug"
   gem "rspec-rails"
   gem "rubocop-govuk"
   gem "scss_lint-govuk"
-  gem "shoulda-matchers", "~> 4.3"
+  gem "shoulda-matchers"
   gem "timecop"
   gem "webmock", require: false
 end
