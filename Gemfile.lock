@@ -446,7 +446,7 @@ DEPENDENCIES
   parser
   plek
   pry-byebug
-  rails (~> 6.0.3)
+  rails (= 6.0.3.2)
   rspec-rails
   rubocop-govuk
   sass-rails
