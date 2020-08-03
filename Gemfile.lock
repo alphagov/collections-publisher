@@ -147,7 +147,7 @@ GEM
       sass (= 3.7.4)
       sassc-rails (>= 2.0.1)
       sprockets (< 4)
-    govuk_sidekiq (3.0.5)
+    govuk_sidekiq (4.0.0)
       gds-api-adapters (>= 19.1.0)
       govuk_app_config (>= 1.1)
       redis-namespace (~> 1.6)
@@ -446,7 +446,7 @@ DEPENDENCIES
   govuk_admin_template (~> 6.7)
   govuk_app_config (~> 2.2)
   govuk_publishing_components (~> 21.43)
-  govuk_sidekiq (~> 3.0)
+  govuk_sidekiq (~> 4.0)
   govuk_test
   jasmine (~> 3.6)
   jasmine_selenium_runner (~> 3)
