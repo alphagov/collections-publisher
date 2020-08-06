@@ -219,7 +219,7 @@ RSpec.feature "Managing step by step pages" do
       and_i_can_see_a_steps_overview_section
       but_i_cannot_edit_or_delete_steps
       and_i_cannot_reorder_the_steps
-      and_i_can_see_a_where_to_show_section_with_links "Change"
+      and_i_can_see_a_where_to_show_section_with_links "View"
       and_i_can_see_a_tags_section_with_links "Change"
       then_i_can_preview_the_step_by_step
       and_the_steps_can_be_checked_for_broken_links
