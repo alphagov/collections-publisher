@@ -91,6 +91,16 @@ RSpec.describe SubSectionsController, type: :controller do
         sub_section = SubSection.last
         expect(sub_section.featured_link).to eq(featured_link)
       end
+
+      it "successfully renders error on edit page if featured link not in content" do
+        sub_section_params.merge!(featured_link: featured_link)
+        expect(subject).to have_http_status(:success)
+      end
+
+      it "displays the expected error if featured link not in content" do
+        sub_section_params.merge!(featured_link: featured_link)
+        expect(subject.body).to include("Featured link does not exist in accordion content")
+      end
     end
   end
 
