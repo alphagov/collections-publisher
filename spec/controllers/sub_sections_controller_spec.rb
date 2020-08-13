@@ -84,6 +84,10 @@ RSpec.describe SubSectionsController, type: :controller do
       let(:featured_link) { "/#{SecureRandom.urlsafe_base64}" }
 
       it "stores the featured link" do
+        content_id = SecureRandom.uuid
+        stub_publishing_api_has_item(base_path: featured_link, content_id: content_id)
+        stub_publishing_api_has_lookups(featured_link.to_s => content_id)
+
         content = "###{Faker::Lorem.sentence}\n[Link text](#{featured_link})"
         sub_section_params.merge!(content: content, featured_link: featured_link)
 

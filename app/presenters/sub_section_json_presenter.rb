@@ -102,6 +102,9 @@ class SubSectionJsonPresenter
     if subtopic_paths.keys.include?(link[:url])
       link[:description] = description_from_raw_content(link[:url])
       link[:featured_link] = true
+    elsif @sub_section.featured_link == link[:url]
+      link[:description] = description_for_featured_link(link[:url])
+      link[:featured_link] = true
     end
     link
   end
@@ -110,6 +113,15 @@ class SubSectionJsonPresenter
     raw_content_url = subtopic_paths[url]
     raw_content = YamlFetcher.new(raw_content_url).body_as_hash
     raw_content.dig("content", "meta_description")
+  end
+
+  def description_for_featured_link(base_path)
+    content_item(base_path)["description"]
+  end
+
+  def content_item(base_path)
+    content_id = GdsApi.publishing_api.lookup_content_id(base_path: base_path)
+    GdsApi.publishing_api.get_content(content_id)
   end
 
   def subtopic_paths
