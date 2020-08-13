@@ -79,6 +79,19 @@ RSpec.describe SubSectionsController, type: :controller do
         expect(subject.body).to include("Unable to parse markdown:")
       end
     end
+
+    context "featured_links" do
+      let(:featured_link) { "/#{SecureRandom.urlsafe_base64}" }
+
+      it "stores the featured link" do
+        content = "###{Faker::Lorem.sentence}\n[Link text](#{featured_link})"
+        sub_section_params.merge!(content: content, featured_link: featured_link)
+
+        subject
+        sub_section = SubSection.last
+        expect(sub_section.featured_link).to eq(featured_link)
+      end
+    end
   end
 
   describe "GET /coronavirus/:coronavirus_page_slug/sub_sections/:id/edit" do
