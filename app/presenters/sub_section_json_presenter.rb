@@ -28,6 +28,12 @@ class SubSectionJsonPresenter
         title: title,
         sub_sections: sub_sections,
       }
+
+    if @sub_section.featured_link.present? && !link_set_as_featured?
+      errors << "Featured link does not exist in accordion content"
+    end
+
+    @output
   end
 
   def errors
@@ -41,6 +47,14 @@ class SubSectionJsonPresenter
 
   def sub_sections
     content_groups.map { |content_group| sub_section_hash_from_content_group(content_group) }
+  end
+
+  def link_set_as_featured?
+    featured_links = @output[:sub_sections].flat_map do |section|
+      section[:list].map { |item| item[:featured_link] }
+    end
+
+    featured_links.any?
   end
 
   # Groups the sub section content into an array of arrays, such that:
