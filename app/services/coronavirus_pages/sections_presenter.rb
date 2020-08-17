@@ -12,9 +12,12 @@ module CoronavirusPages
     end
 
     def converter(hash)
+      sub_section_data = SubSectionProcessor.call(hash["sub_sections"])
+
       {
         "title": hash["title"],
-        "content": SubSectionProcessor.call(hash["sub_sections"]),
+        "content": sub_section_data[:content],
+        "featured_link": sub_section_data[:featured_link],
       }
     end
   end

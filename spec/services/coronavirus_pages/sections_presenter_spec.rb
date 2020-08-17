@@ -13,6 +13,8 @@ RSpec.describe CoronavirusPages::SectionsPresenter do
               {
                 "label" => "Stay at home if you think you have coronavirus (self-isolating)",
                 "url" => " /government/publications/covid-19-stay-at-home-guidance",
+                "featured_link" => true,
+                "description" => Faker::Lorem.sentence,
               },
               {
                 "label" => "Stay alert and safe: social distancing guidance for everyone",
@@ -31,7 +33,7 @@ RSpec.describe CoronavirusPages::SectionsPresenter do
     it "produces an array of hashes" do
       expect(subject).to be_an(Array)
       expect(subject.first).to be_a(Hash)
-      expect(subject.first.keys).to contain_exactly(:title, :content)
+      expect(subject.first.keys).to contain_exactly(:title, :content, :featured_link)
     end
 
     it "parses the title" do
@@ -41,6 +43,10 @@ RSpec.describe CoronavirusPages::SectionsPresenter do
     it "parses the content" do
       expect(subject.first[:content]).to be_a(String)
       expect(subject.first[:content].lines.count).to eq 3
+    end
+
+    it "gets the featured link" do
+      expect(subject.first[:featured_link]).to be_a(String)
     end
   end
 end

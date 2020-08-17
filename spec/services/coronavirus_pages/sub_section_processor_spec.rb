@@ -14,6 +14,8 @@ RSpec.describe CoronavirusPages::SubSectionProcessor do
           {
             "label" => label,
             "url" => url,
+            "featured_link" => true,
+            "description" => Faker::Lorem.sentence,
           },
           {
             "label" => label_1,
@@ -26,7 +28,7 @@ RSpec.describe CoronavirusPages::SubSectionProcessor do
 
   describe ".call" do
     subject { described_class.call(data) }
-    let(:lines) { subject.split("\n") }
+    let(:lines) { subject[:content].split("\n") }
 
     it "creates the correct number of lines" do
       # 3 = 1 title plus 2 links
@@ -43,6 +45,10 @@ RSpec.describe CoronavirusPages::SubSectionProcessor do
 
     it "has the second link as the third line" do
       expect(lines.third).to eq "[#{label_1}](#{url_1})"
+    end
+
+    it "returns the featured link" do
+      expect(subject[:featured_link]).to eq(url)
     end
 
     context "with blank title" do
