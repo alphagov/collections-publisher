@@ -60,6 +60,47 @@ RSpec.describe SubSectionJsonPresenter do
         expect { subject.output }.to change { subject.errors.length }.by(1)
       end
     end
+
+    context "with featured links" do
+      it "sets a link as a featured link" do
+        sub_section.featured_link = path
+        description = Faker::Lorem.sentence
+
+        content_id = SecureRandom.uuid
+        stub_publishing_api_has_item(
+          base_path: path,
+          content_id: content_id,
+          description: description,
+        )
+        stub_publishing_api_has_lookups(path.to_s => content_id)
+
+        expected = {
+          title: subject.title,
+          sub_sections: [
+            {
+              list: [
+                {
+                  url: path,
+                  label: label,
+                  featured_link: true,
+                  description: description,
+                },
+              ],
+              title: title,
+            },
+          ],
+        }
+
+        expect(subject.output).to eq(expected)
+      end
+
+      it "has an error when content does not contain the featured link" do
+        featured_link = "/#{SecureRandom.urlsafe_base64}"
+        sub_section.featured_link = featured_link
+
+        expect { subject.output }.to change { subject.errors.length }.by(1)
+      end
+    end
   end
 
   describe "#sub_section_hash_from_content_group" do

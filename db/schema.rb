@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_07_201559) do
+ActiveRecord::Schema.define(version: 2020_08_13_094514) do
 
   create_table "coronavirus_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "sections_title"
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(version: 2020_07_07_201559) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position"
+    t.string "featured_link"
     t.index ["coronavirus_page_id"], name: "index_sub_sections_on_coronavirus_page_id"
   end
 

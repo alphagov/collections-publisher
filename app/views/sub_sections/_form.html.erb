@@ -20,6 +20,15 @@
   },
   hide_bullets_button: true
 } %>
+<%= render "govuk_publishing_components/components/input", {
+  label: {
+    text: "Featured link",
+    bold: true
+  },
+  name: "sub_section[featured_link]",
+  id: "title",
+  value: @sub_section.featured_link
+} %>
 <%= render "govuk_publishing_components/components/button", {
   text: "Save",
   margin_bottom: true

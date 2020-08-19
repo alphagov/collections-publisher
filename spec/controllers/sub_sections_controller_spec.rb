@@ -79,6 +79,33 @@ RSpec.describe SubSectionsController, type: :controller do
         expect(subject.body).to include("Unable to parse markdown:")
       end
     end
+
+    context "featured_links" do
+      let(:featured_link) { "/#{SecureRandom.urlsafe_base64}" }
+
+      it "stores the featured link" do
+        content_id = SecureRandom.uuid
+        stub_publishing_api_has_item(base_path: featured_link, content_id: content_id)
+        stub_publishing_api_has_lookups(featured_link.to_s => content_id)
+
+        content = "###{Faker::Lorem.sentence}\n[Link text](#{featured_link})"
+        sub_section_params.merge!(content: content, featured_link: featured_link)
+
+        subject
+        sub_section = SubSection.last
+        expect(sub_section.featured_link).to eq(featured_link)
+      end
+
+      it "successfully renders error on edit page if featured link not in content" do
+        sub_section_params.merge!(featured_link: featured_link)
+        expect(subject).to have_http_status(:success)
+      end
+
+      it "displays the expected error if featured link not in content" do
+        sub_section_params.merge!(featured_link: featured_link)
+        expect(subject.body).to include("Featured link does not exist in accordion content")
+      end
+    end
   end
 
   describe "GET /coronavirus/:coronavirus_page_slug/sub_sections/:id/edit" do

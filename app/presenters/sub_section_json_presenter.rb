@@ -28,6 +28,12 @@ class SubSectionJsonPresenter
         title: title,
         sub_sections: sub_sections,
       }
+
+    if @sub_section.featured_link.present? && !link_set_as_featured?
+      errors << "Featured link does not exist in accordion content"
+    end
+
+    @output
   end
 
   def errors
@@ -41,6 +47,14 @@ class SubSectionJsonPresenter
 
   def sub_sections
     content_groups.map { |content_group| sub_section_hash_from_content_group(content_group) }
+  end
+
+  def link_set_as_featured?
+    featured_links = @output[:sub_sections].flat_map do |section|
+      section[:list].map { |item| item[:featured_link] }
+    end
+
+    featured_links.any?
   end
 
   # Groups the sub section content into an array of arrays, such that:
@@ -102,6 +116,9 @@ class SubSectionJsonPresenter
     if subtopic_paths.keys.include?(link[:url])
       link[:description] = description_from_raw_content(link[:url])
       link[:featured_link] = true
+    elsif @sub_section.featured_link == link[:url]
+      link[:description] = description_for_featured_link(link[:url])
+      link[:featured_link] = true
     end
     link
   end
@@ -110,6 +127,15 @@ class SubSectionJsonPresenter
     raw_content_url = subtopic_paths[url]
     raw_content = YamlFetcher.new(raw_content_url).body_as_hash
     raw_content.dig("content", "meta_description")
+  end
+
+  def description_for_featured_link(base_path)
+    content_item(base_path)["description"]
+  end
+
+  def content_item(base_path)
+    content_id = GdsApi.publishing_api.lookup_content_id(base_path: base_path)
+    GdsApi.publishing_api.get_content(content_id)
   end
 
   def subtopic_paths

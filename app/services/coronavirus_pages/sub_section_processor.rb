@@ -4,15 +4,19 @@ module CoronavirusPages
       new(*args).output
     end
 
-    attr_reader :sub_sections
+    attr_reader :sub_sections, :featured_link
 
     def initialize(sub_sections)
       @sub_sections = [sub_sections].flatten
+      @featured_link = nil
     end
 
     def output
       process
-      output_array.join("\n")
+      {
+        content: output_array.join("\n"),
+        featured_link: featured_link,
+      }
     end
 
     def output_array
@@ -23,11 +27,16 @@ module CoronavirusPages
       output_array << text
     end
 
+    def add_featured_link(url)
+      @featured_link = url
+    end
+
     def process
       sub_sections.each do |sub_section|
         add_string("####{sub_section['title']}") if sub_section["title"].present?
         sub_section["list"].each do |item|
           add_string "[#{item['label']}](#{item['url']})"
+          add_featured_link(item["url"]) if item["featured_link"]
         end
       end
     end

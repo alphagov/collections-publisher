@@ -50,7 +50,7 @@ class SubSectionsController < ApplicationController
 private
 
   def sub_section_params
-    params.require(:sub_section).permit(:title, :content)
+    params.require(:sub_section).permit(:title, :content, :featured_link)
   end
 
   def draft_updater
