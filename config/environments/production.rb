@@ -99,4 +99,8 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  # Rather than use a CSS compressor, use the SASS style to perform compression.
+  config.sass.style = :compressed
+  config.sass.line_comments = false
 end
