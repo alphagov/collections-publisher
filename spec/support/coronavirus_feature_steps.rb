@@ -241,6 +241,15 @@ def then_the_reordered_subsections_are_sent_to_publishing_api
       "sub_sections" => [section],
     },
   ]
+
+  hidden_search_terms = reordered_sections.map do |reordered_section|
+    [
+      reordered_section["title"],
+      section["title"],
+      section["list"].first["label"],
+    ]
+  end
+
   assert_publishing_api_put_content(
     CoronavirusPage.topic_page.first.content_id,
     request_json_includes(
@@ -257,6 +266,7 @@ def then_the_reordered_subsections_are_sent_to_publishing_api
         },
         "notifications" => "notifications",
         "sections" => reordered_sections,
+        "hidden_search_terms" => hidden_search_terms.flatten.select(&:present?).uniq,
       },
     ),
   )

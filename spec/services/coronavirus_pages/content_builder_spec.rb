@@ -29,10 +29,18 @@ RSpec.describe CoronavirusPages::ContentBuilder do
       )
     end
 
+    let(:hidden_search_terms) do
+      [
+        sub_section_json[:title],
+        sub_section_json[:sub_sections].first[:list].first[:label],
+      ]
+    end
+
     let(:data) do
       data = github_content["content"]
       data["sections"] = [sub_section_json]
       data["live_stream"] = live_stream_data
+      data["hidden_search_terms"] = hidden_search_terms
       data
     end
 
