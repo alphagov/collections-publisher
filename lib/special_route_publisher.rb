@@ -27,10 +27,10 @@ class SpecialRoutePublisher
       prefix: [
         {
           document_type: "answer",
-          content_id: "ecb55f9d-0823-43bd-a116-dbfab2b76ef9",
-          base_path: "/prepare-eu-exit",
-          title: "Prepare for Brexit if you live in the UK",
-          description: "How Brexit affects you - visiting Europe, buying things, studying, family law.",
+          content_id: "bb986a97-3b8c-4b1a-89bf-2a9f46be9747",
+          base_path: "/eubusiness",
+          title: "Trade with the UK from 1 January 2021 as a business based in the EU",
+          description: "The UK has left the EU. On 31 December 2020 the UK will leave the EU single market and customs union. From 1 January 2021 the rules for trading with the UK will change.",
         },
       ],
     }
