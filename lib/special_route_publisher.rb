@@ -24,7 +24,7 @@ class SpecialRoutePublisher
 
   def self.routes
     {
-      prefix: [
+      exact: [
         {
           document_type: "answer",
           content_id: "bb986a97-3b8c-4b1a-89bf-2a9f46be9747",
