@@ -41,6 +41,7 @@ group :development, :test do
   gem "rubocop-govuk"
   gem "scss_lint-govuk"
   gem "shoulda-matchers"
+  gem "simplecov"
   gem "timecop"
   gem "webmock", require: false
 end
