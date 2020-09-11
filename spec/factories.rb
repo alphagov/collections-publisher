@@ -253,4 +253,11 @@ FactoryBot.define do
       to_create { |instance| instance.save validate: false }
     end
   end
+
+  factory :announcement do
+    text { Faker::Lorem.words }
+    href { Faker::Internet.url(host: "example.com") }
+    published_at { Time.zone.local(2020, 9, 11) }
+    coronavirus_page
+  end
 end
