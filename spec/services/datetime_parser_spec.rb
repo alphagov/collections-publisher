@@ -85,7 +85,7 @@ RSpec.describe DatetimeParser do
 
     it "returns nil when the date is invalid" do
       params = { date: { day: "10", month: "60", year: "11" }, time: valid_time }
-      expect(DatetimeParser.new(params).parse).to be_nil
+      expect(DatetimeParser.new(**params).parse).to be_nil
     end
   end
 
