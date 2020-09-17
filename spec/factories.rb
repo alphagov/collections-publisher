@@ -241,7 +241,7 @@ FactoryBot.define do
 
   factory :sub_section do
     title { Faker::Lorem.sentence }
-    content { "[#{Faker::Lorem.sentence}](/#{File.join(Faker::Lorem.words)})" }
+    content { "[#{Faker::Lorem.sentence}](/#{File.join(Faker::Lorem.words)}?priority-taxon=#{coronavirus_page.content_id})" }
     position { (SubSection.maximum(:position) || 0) + 1 }
     coronavirus_page
   end

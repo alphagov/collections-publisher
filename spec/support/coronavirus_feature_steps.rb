@@ -204,12 +204,12 @@ def set_up_basic_sub_sections
                     coronavirus_page_id: coronavirus_page.id,
                     position: 0,
                     title: "I am first",
-                    content: "###title\n[label](/url)")
+                    content: "###title\n[label](/url?priority-taxon=#{coronavirus_page.content_id})")
   FactoryBot.create(:sub_section,
                     coronavirus_page_id: coronavirus_page.id,
                     position: 1,
                     title: "I am second",
-                    content: "###title\n[label](/url)")
+                    content: "###title\n[label](/url?priority-taxon=#{coronavirus_page.content_id})")
   path = Rails.root.join "spec/fixtures/simple_coronavirus_page.yml"
   github_yaml_content = File.read(path)
   stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
@@ -217,14 +217,13 @@ def set_up_basic_sub_sections
   stub_live_sub_sections_content_request(coronavirus_page.content_id)
 end
 
-def coronavirus_content_json_with_sections
+def coronavirus_content_json_with_sections(content_id)
   path = Rails.root.join("spec/fixtures/coronavirus_page_sections.json")
-  JSON.parse(File.read(path))
+  JSON.parse(File.read(path).gsub("774cee22-d896-44c1-a611-e3109cce8eae", content_id))
 end
 
 def stub_live_sub_sections_content_request(content_id)
-  content = coronavirus_content_json_with_sections
-  content["content_id"] = content_id
+  content = coronavirus_content_json_with_sections(content_id)
   stub_publishing_api_has_item(content)
 end
 
@@ -253,7 +252,7 @@ def and_i_move_section_one_down
 end
 
 def then_the_reordered_subsections_are_sent_to_publishing_api
-  section = { "title" => "title", "list" => [{ "label" => "label", "url" => "/url" }] }
+  section = { "title" => "title", "list" => [{ "label" => "label", "url" => "/url?priority-taxon=#{CoronavirusPage.topic_page.first.content_id}" }] }
   reordered_sections = [
     {
       "title" => "I am second",

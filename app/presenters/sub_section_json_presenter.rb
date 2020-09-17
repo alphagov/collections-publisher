@@ -14,10 +14,11 @@ class SubSectionJsonPresenter
   )
   # Url pattern from https://stackoverflow.com/a/163684/1014251
 
-  attr_reader :sub_section
+  attr_reader :sub_section, :priority_taxon
 
-  def initialize(sub_section)
+  def initialize(sub_section, priority_taxon = nil)
     @sub_section = sub_section
+    @priority_taxon = priority_taxon
   end
 
   delegate :title, to: :sub_section
@@ -120,7 +121,7 @@ class SubSectionJsonPresenter
       link[:description] = description_for_featured_link(link[:url])
       link[:featured_link] = true
     end
-    link
+    append_priority_taxon_query_param(link)
   end
 
   def description_from_raw_content(url)
@@ -140,5 +141,16 @@ class SubSectionJsonPresenter
 
   def subtopic_paths
     @subtopic_paths ||= CoronavirusPage.subtopic_pages.pluck(:base_path, :raw_content_url).to_h
+  end
+
+  def append_priority_taxon_query_param(link)
+    return link if priority_taxon.blank?
+
+    uri = Addressable::URI.parse(link[:url])
+    query_params = { "priority-taxon" => priority_taxon }
+
+    uri.query_values = (uri.query_values || {}).merge(query_params)
+    link[:url] = uri.to_s
+    link
   end
 end
