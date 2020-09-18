@@ -7,6 +7,11 @@ def given_a_livestream_exists
   FactoryBot.create(:live_stream, :without_validations)
 end
 
+def given_there_is_coronavirus_page_with_announcements
+  @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
+  @announcement = FactoryBot.create(:announcement, coronavirus_page: @coronavirus_page)
+end
+
 def the_payload_contains_the_valid_url
   live_stream_payload = coronavirus_live_stream_hash.merge(
     {
@@ -173,6 +178,16 @@ end
 
 def when_i_visit_the_reorder_page
   visit "/coronavirus/landing/sub_sections/reorder"
+end
+
+def then_i_can_see_an_announcements_section
+  expect(page).to have_content("Announcements")
+  expect(page).to have_link("Reorder", href: coronavirus_page_path(@coronavirus_page.slug))
+  expect(page).to have_link("Add announcement")
+end
+
+def and_i_can_see_existing_announcements
+  expect(page).to have_content(@announcement.text)
 end
 
 def set_up_basic_sub_sections

@@ -105,6 +105,13 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         then_the_page_publishes
         and_i_see_a_page_published_message
       end
+
+      scenario "Viewing announcements" do
+        given_there_is_coronavirus_page_with_announcements
+        when_i_visit_a_coronavirus_page
+        then_i_can_see_an_announcements_section
+        and_i_can_see_existing_announcements
+      end
     end
 
     context "Business page" do
