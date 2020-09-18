@@ -23,4 +23,9 @@
       href: reorder_coronavirus_page_sub_sections_path(@coronavirus_page.slug)
     }
   } %>
+
+  <%= render "govuk_publishing_components/components/button", {
+    text: "Add accordion",
+    href: new_coronavirus_page_sub_section_path(@coronavirus_page.slug)
+  } %>
 </div>

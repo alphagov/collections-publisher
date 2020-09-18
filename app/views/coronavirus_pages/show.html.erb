@@ -22,10 +22,6 @@
 <div class="covid-manage-page govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "sub_sections_summary_list" %>
-    <%= render "govuk_publishing_components/components/button", {
-      text: "Add accordion",
-      href: new_coronavirus_page_sub_section_path(@coronavirus_page.slug)
-    } %>
   </div>
   <div class="govuk-grid-column-one-third">
     <%= render "actions" %>
