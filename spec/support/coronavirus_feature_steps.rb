@@ -3,6 +3,10 @@ def given_i_am_a_coronavirus_editor
   stub_user.name = "Test author"
 end
 
+def given_i_can_access_unreleased_features
+  stub_user.permissions << "Unreleased feature"
+end
+
 def given_a_livestream_exists
   FactoryBot.create(:live_stream, :without_validations)
 end
