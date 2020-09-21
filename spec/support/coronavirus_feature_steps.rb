@@ -190,6 +190,10 @@ def then_i_can_see_an_announcements_section
   expect(page).to have_link("Add announcement")
 end
 
+def then_i_cannot_see_an_announcements_section
+  expect(page).to_not have_content("Announcements")
+end
+
 def and_i_can_see_existing_announcements
   expect(page).to have_content(@announcement.text)
 end

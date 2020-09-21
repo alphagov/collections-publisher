@@ -163,6 +163,13 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         then_i_am_redirected_to_the_index_page
         and_i_see_a_message_telling_me_that_the_page_does_not_exist
       end
+
+      scenario "Viewing announcements" do
+        given_i_can_access_unreleased_features
+        when_i_visit_the_coronavirus_index_page
+        and_i_select_business_page
+        then_i_cannot_see_an_announcements_section
+      end
     end
   end
 end
