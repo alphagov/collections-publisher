@@ -102,7 +102,7 @@ class StepByStepPagesController < ApplicationController
     if params[:schedule]
       date_params = params[:schedule][:date].permit(:year, :month, :day).to_h.symbolize_keys
       time_param = params[:schedule][:time]
-      @schedule_placeholder = default_datetime_placeholder(date_params.merge(time: time_param))
+      @schedule_placeholder = default_datetime_placeholder(**date_params.merge(time: time_param))
       @parser = DatetimeParser.new(date: date_params, time: time_param)
       scheduled_at = @parser.parse
       if @parser.issues.any?
