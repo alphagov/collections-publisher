@@ -100,6 +100,10 @@ class CoronavirusPages::ContentBuilder
   end
 
   def hidden_search_terms
+    search_terms_in_sections
+  end
+
+  def search_terms_in_sections
     sections = sub_sections_data.map do |section|
       [section[:title], search_terms_in_sub_sections(section[:sub_sections])]
     end
