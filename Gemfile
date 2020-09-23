@@ -4,6 +4,7 @@ gem "rails", "6.0.3.3"
 
 gem "aasm"
 gem "generic_form_builder"
+gem "kramdown"
 gem "mysql2"
 gem "sass-rails"
 gem "select2-rails"
