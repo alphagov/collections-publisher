@@ -100,7 +100,7 @@ class CoronavirusPages::ContentBuilder
   end
 
   def hidden_search_terms
-    search_terms_in_sections
+    search_terms_in_sections + search_terms_in_timeline
   end
 
   def search_terms_in_sections
@@ -119,5 +119,18 @@ class CoronavirusPages::ContentBuilder
 
       [subsection[:title], labels]
     end
+  end
+
+  def search_terms_in_timeline
+    return [] if github_data["timeline"].blank?
+
+    timeline = github_data["timeline"]["list"].map do |item|
+      [
+        item["heading"],
+        MarkdownService.new.strip_markdown(item["paragraph"]),
+      ]
+    end
+
+    timeline.flatten.select(&:present?).uniq
   end
 end
