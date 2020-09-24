@@ -1,0 +1,31 @@
+<% announcements =
+ @coronavirus_page.announcements.map do |announcement|
+   {
+     id: announcement.id,
+     field: announcement.text,
+     edit: { href: coronavirus_page_path(@coronavirus_page.slug) },
+     delete: {
+       href: coronavirus_page_path(@coronavirus_page.slug),
+       data_attributes: {
+         confirm: "Are you sure?",
+         method: "delete"
+       }
+     }
+   }
+ end %>
+
+<div class="covid-manage-page__announcements-summary-list">
+  <%= render "govuk_publishing_components/components/summary_list", {
+    title: "Announcements",
+    items: announcements,
+    edit: {
+      link_text: "Reorder",
+      href: coronavirus_page_path(@coronavirus_page.slug)
+    }
+  } %>
+
+  <%= render "govuk_publishing_components/components/button", {
+    text: "Add announcement",
+    href: coronavirus_page_path(@coronavirus_page.slug)
+  } %>
+</div>

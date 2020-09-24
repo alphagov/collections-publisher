@@ -105,6 +105,14 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         then_the_page_publishes
         and_i_see_a_page_published_message
       end
+
+      scenario "Viewing announcements" do
+        given_i_can_access_unreleased_features
+        given_there_is_coronavirus_page_with_announcements
+        when_i_visit_a_coronavirus_page
+        then_i_can_see_an_announcements_section
+        and_i_can_see_existing_announcements
+      end
     end
 
     context "Business page" do
@@ -154,6 +162,13 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         when_i_visit_a_non_existent_page
         then_i_am_redirected_to_the_index_page
         and_i_see_a_message_telling_me_that_the_page_does_not_exist
+      end
+
+      scenario "Viewing announcements" do
+        given_i_can_access_unreleased_features
+        when_i_visit_the_coronavirus_index_page
+        and_i_select_business_page
+        then_i_cannot_see_an_announcements_section
       end
     end
   end
