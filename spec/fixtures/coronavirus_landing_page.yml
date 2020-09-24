@@ -68,3 +68,12 @@ content:
   notifications:
     intro: "Stay up to date with GOV.UK"
     email_link: "Sign up to get emails when we change any coronavirus information on the GOV.UK website"
+  timeline:
+    heading: Recent and upcoming changes
+    list:
+      - heading: 18 September
+        paragraph: |
+          If you live, work or travel in the North East, you need to [follow different covid rules](/guidance/north-east-of-england-local-restrictions)
+      - heading: 15 September
+        paragraph: |
+          If you live, work or visit Bolton, you need to [follow different covid rules](/guidance/bolton-local-restrictions)

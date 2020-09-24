@@ -442,6 +442,7 @@ DEPENDENCIES
   govuk_test
   jasmine
   jasmine_selenium_runner
+  kramdown
   mail-notify
   mysql2
   nokogiri
