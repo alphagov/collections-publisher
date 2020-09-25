@@ -1,0 +1,17 @@
+<% announcements = @coronavirus_page.announcements.order(:position) %>
+
+<div class="covid-manage-page__accordion-summary-list">
+  <ul class="govuk-list step-by-step-reorder__list" id="js-reorder-group">
+    <% announcements.each_with_index do |announcement, index| %>
+      <li class="js-reorder" data-id="<%= announcement.id %>">
+        <div class="govuk-grid-row" id="step-<%= index %>">
+          <div class="govuk-grid-column-three-quarters govuk-!-font-weight-bold step-by-step-reorder__step-title">
+            <%= announcement.text %>
+          </div>
+          <div class="govuk-grid-column-one-quarter js-order-controls">
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>
