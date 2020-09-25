@@ -186,7 +186,7 @@ end
 
 def then_i_can_see_an_announcements_section
   expect(page).to have_content("Announcements")
-  expect(page).to have_link("Reorder", href: coronavirus_page_path(@coronavirus_page.slug))
+  expect(page).to have_link("Reorder", href: reorder_coronavirus_page_announcements_path(@coronavirus_page.slug))
   expect(page).to have_link("Add announcement")
 end
 
