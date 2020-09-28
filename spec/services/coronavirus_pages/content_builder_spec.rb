@@ -4,7 +4,7 @@ RSpec.describe CoronavirusPages::ContentBuilder do
   let(:coronavirus_page) { create :coronavirus_page, :landing }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
-  let(:sub_section_json) { SubSectionJsonPresenter.new(sub_section).output }
+  let(:sub_section_json) { SubSectionJsonPresenter.new(sub_section, coronavirus_page.content_id).output }
   let!(:live_stream) { create :live_stream, :without_validations }
 
   subject { described_class.new(coronavirus_page) }

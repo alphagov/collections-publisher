@@ -79,7 +79,7 @@ class CoronavirusPages::ContentBuilder
 
   def sub_sections_data
     coronavirus_page.sub_sections.order(:position).map do |sub_section|
-      presenter = SubSectionJsonPresenter.new(sub_section)
+      presenter = SubSectionJsonPresenter.new(sub_section, coronavirus_page.content_id)
       add_error(presenter.errors) unless presenter.success?
       presenter.output
     end

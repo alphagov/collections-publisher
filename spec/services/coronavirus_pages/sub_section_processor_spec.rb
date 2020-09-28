@@ -5,7 +5,7 @@ RSpec.describe CoronavirusPages::SubSectionProcessor do
   let(:label) { Faker::Lorem.sentence }
   let(:url) { "/#{File.join(Faker::Lorem.words)}" }
   let(:label_1) { Faker::Lorem.sentence }
-  let(:url_1) { "/#{File.join(Faker::Lorem.words)}" }
+  let(:url_1) { "/#{File.join(Faker::Lorem.words)}?priority-taxon=774cee22-d896-44c1-a611-e3109cce8eae" }
   let(:data) do
     [
       {
@@ -43,8 +43,8 @@ RSpec.describe CoronavirusPages::SubSectionProcessor do
       expect(lines.second).to eq "[#{label}](#{url})"
     end
 
-    it "has the second link as the third line" do
-      expect(lines.third).to eq "[#{label_1}](#{url_1})"
+    it "removes any priority-taxons query parameters from the url" do
+      expect(lines.third).to eq "[#{label_1}](#{url_1.gsub('?priority-taxon=774cee22-d896-44c1-a611-e3109cce8eae', '')})"
     end
 
     it "returns the featured link" do

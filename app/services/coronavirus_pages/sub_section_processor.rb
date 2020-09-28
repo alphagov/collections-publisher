@@ -35,10 +35,16 @@ module CoronavirusPages
       sub_sections.each do |sub_section|
         add_string("####{sub_section['title']}") if sub_section["title"].present?
         sub_section["list"].each do |item|
-          add_string "[#{item['label']}](#{item['url']})"
+          add_string "[#{item['label']}](#{remove_priority_taxon_param(item['url'])})"
           add_featured_link(item["url"]) if item["featured_link"]
         end
       end
+    end
+
+    def remove_priority_taxon_param(url)
+      uri = Addressable::URI.parse(url)
+      uri.query_values = uri.query_values&.except("priority-taxon")
+      uri.normalize.to_s
     end
   end
 end

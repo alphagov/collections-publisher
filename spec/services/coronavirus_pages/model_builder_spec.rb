@@ -71,6 +71,13 @@ RSpec.describe CoronavirusPages::ModelBuilder do
       expect(coronavirus_page.sub_sections.first.title).to eq live_title
     end
 
+    it "removes any priority-taxons query parameters from the live content" do
+      expect(live_content_item["details"]["sections"].first["sub_sections"].first["list"].first["url"]).to eq "/government/publications/covid-19-stay-at-home-guidance?priority-taxon=774cee22-d896-44c1-a611-e3109cce8eae"
+      discard_changes
+      expect(coronavirus_page.sub_sections.first.content).to include "(/government/publications/covid-19-stay-at-home-guidance)"
+      expect(coronavirus_page.sub_sections.first.content).not_to include "priority-taxon"
+    end
+
     it "creates sub_sections with a position that reflects their order in the content item" do
       discard_changes
       input_order = live_sections.pluck("title").each_with_index.to_h.invert

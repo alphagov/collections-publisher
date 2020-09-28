@@ -9,7 +9,7 @@
           {
             "list": [
               {
-                "url": "/government/publications/covid-19-stay-at-home-guidance",
+                "url": "/government/publications/covid-19-stay-at-home-guidance?priority-taxon=774cee22-d896-44c1-a611-e3109cce8eae",
                 "label": "Stay at home if you think you have coronavirus (self-isolating)"
               }
             ]
@@ -22,7 +22,7 @@
           {
             "list": [
               {
-                "url": "/get-coronavirus-test",
+                "url": "/get-coronavirus-test?priority-taxon=774cee22-d896-44c1-a611-e3109cce8eae",
                 "label": "Get a test to check if you have coronavirus"
               }
             ]
@@ -35,7 +35,7 @@
           {
             "list": [
               {
-                "url": "/guidance/blackburn-with-darwen-local-restrictions",
+                "url": "/guidance/blackburn-with-darwen-local-restrictions?priority-taxon=774cee22-d896-44c1-a611-e3109cce8eae",
                 "label": "Blackburn with Darwen: local restrictions"
               }
             ]
