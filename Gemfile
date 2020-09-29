@@ -33,7 +33,7 @@ group :development, :test do
   gem "govuk-content-schema-test-helpers"
   gem "govuk_test"
   gem "jasmine"
-  gem "jasmine_selenium_runner", require: false
+  gem "jasmine_selenium_runner"
   gem "nokogiri"
   gem "parser"
   gem "pry-byebug"
