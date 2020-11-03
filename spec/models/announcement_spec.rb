@@ -41,4 +41,23 @@ RSpec.describe Announcement, type: :model do
       expect(announcement.errors).to have_key(:published_at)
     end
   end
+
+  describe "position" do
+    it "should default to position 1 if it is the first announcement to have been added" do
+      coronavirus_page = create(:coronavirus_page)
+      expect(coronavirus_page.announcements.count).to eq 0
+
+      announcement = create(:announcement, coronavirus_page: coronavirus_page)
+      expect(announcement.position).to eq 1
+    end
+
+    it "should increment if there are existing announcements" do
+      coronavirus_page = create(:coronavirus_page)
+      create(:announcement, coronavirus_page: coronavirus_page)
+      expect(coronavirus_page.announcements.count).to eq 1
+
+      announcement = create(:announcement, coronavirus_page: coronavirus_page)
+      expect(announcement.position).to eq 2
+    end
+  end
 end
