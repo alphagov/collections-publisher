@@ -1,5 +1,5 @@
 <% announcements =
- @coronavirus_page.announcements.map do |announcement|
+ @coronavirus_page.announcements.order(:position).map do |announcement|
    {
      id: announcement.id,
      field: announcement.text,
