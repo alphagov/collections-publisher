@@ -13,7 +13,8 @@ end
 
 def given_there_is_coronavirus_page_with_announcements
   @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
-  @announcement = FactoryBot.create(:announcement, coronavirus_page: @coronavirus_page)
+  @announcement_one = FactoryBot.create(:announcement, position: 0, coronavirus_page: @coronavirus_page)
+  @announcement_two = FactoryBot.create(:announcement, position: 1, coronavirus_page: @coronavirus_page)
 end
 
 def the_payload_contains_the_valid_url
@@ -184,9 +185,13 @@ def when_i_visit_the_reorder_page
   visit "/coronavirus/landing/sub_sections/reorder"
 end
 
+def when_i_visit_the_reorder_announcements_page
+  visit "/coronavirus/landing/announcements/reorder"
+end
+
 def then_i_can_see_an_announcements_section
   expect(page).to have_content("Announcements")
-  expect(page).to have_link("Reorder", href: coronavirus_page_path(@coronavirus_page.slug))
+  expect(page).to have_link("Reorder", href: reorder_coronavirus_page_announcements_path(@coronavirus_page.slug))
   expect(page).to have_link("Add announcement")
 end
 
@@ -195,7 +200,34 @@ def then_i_cannot_see_an_announcements_section
 end
 
 def and_i_can_see_existing_announcements
-  expect(page).to have_content(@announcement.text)
+  expect(page).to have_content(@announcement_one.text)
+  expect(page).to have_content(@announcement_two.text)
+end
+
+def then_i_see_the_announcements_in_order
+  element = find("#step-0").find(".step-by-step-reorder__step-title")
+  expect(element).to have_content @announcement_one.text
+
+  element = find("#step-1").find(".step-by-step-reorder__step-title")
+  expect(element).to have_content @announcement_two.text
+end
+
+def when_i_move_announcement_one_down
+  raw_content = File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
+  stub_request(:get, /#{@coronavirus_page.raw_content_url}\?cache-bust=\d+/)
+    .to_return(status: 200, body: raw_content)
+
+  find("#step-0").find(".js-order-controls").find(".js-down").click
+  click_button "Save"
+end
+
+def then_i_see_announcement_updated_message
+  expect(page).to have_content "Announcements were successfully reordered."
+end
+
+def and_i_see_the_announcements_have_changed_order
+  expect(page).to have_css(".covid-manage-page__announcements-summary-list .gem-c-summary-list .govuk-summary-list__row:nth-child(1)", text: @announcement_two.text)
+  expect(page).to have_css(".covid-manage-page__announcements-summary-list .gem-c-summary-list .govuk-summary-list__row:nth-child(2)", text: @announcement_one.text)
 end
 
 def set_up_basic_sub_sections

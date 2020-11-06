@@ -9,4 +9,10 @@ class CoronavirusPage < ApplicationRecord
   def topic_page?
     slug == "landing"
   end
+
+  def make_announcement_positions_sequential
+    announcements.sort_by(&:position).each.with_index(1) do |announcement, index|
+      announcement.update!(position: index)
+    end
+  end
 end

@@ -113,6 +113,16 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         then_i_can_see_an_announcements_section
         and_i_can_see_existing_announcements
       end
+
+      scenario "Reordering announcements", js: true do
+        given_i_can_access_unreleased_features
+        given_there_is_coronavirus_page_with_announcements
+        when_i_visit_the_reorder_announcements_page
+        then_i_see_the_announcements_in_order
+        when_i_move_announcement_one_down
+        then_i_see_announcement_updated_message
+        and_i_see_the_announcements_have_changed_order
+      end
     end
 
     context "Business page" do

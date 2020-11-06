@@ -1,5 +1,5 @@
 <% announcements =
- @coronavirus_page.announcements.map do |announcement|
+ @coronavirus_page.announcements.order(:position).map do |announcement|
    {
      id: announcement.id,
      field: announcement.text,
@@ -20,7 +20,7 @@
     items: announcements,
     edit: {
       link_text: "Reorder",
-      href: coronavirus_page_path(@coronavirus_page.slug)
+      href: reorder_coronavirus_page_announcements_path(@coronavirus_page.slug)
     }
   } %>
 
