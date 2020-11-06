@@ -1,6 +1,8 @@
 class CoronavirusPages::AnnouncementsBuilder
   def create_announcements
     Announcement.transaction do
+      coronavirus_page.announcements.delete_all
+
       announcements_from_yaml.each do |announcement|
         coronavirus_page.announcements.create!(
           text: announcement["text"],

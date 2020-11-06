@@ -23,6 +23,15 @@ RSpec.describe CoronavirusPages::AnnouncementsBuilder do
     expect(first_announcement.published_at).to eq(Date.parse(github_announcement["published_text"]))
   end
 
+  it "removes existing announcements before creating new ones" do
+    create(:announcement, coronavirus_page: coronavirus_page)
+    create(:announcement, coronavirus_page: coronavirus_page)
+
+    described_class.new.create_announcements
+
+    expect(coronavirus_page.announcements.count).to eq(3)
+  end
+
   def github_announcement
     github_content["content"]["announcements"].first
   end
