@@ -1,6 +1,9 @@
 <%
   textarea ||= {}
   component_classes = %w[app-c-markdown-editor govuk-form-group]
+  hide_heading_buttons ||= false
+  blockquote_button ||= false
+  hide_numbered_button ||= false
   hide_bullets_button ||= false
 %>
 <%= tag.div class: component_classes do %>
@@ -13,9 +16,27 @@
     <div class="app-c-markdown-editor__head">
       <div class="app-c-markdown-editor__toolbar">
         <markdown-toolbar class="app-c-markdown-editor__toolbar-group" for="<%= textarea[:id] %>">
+          <% unless hide_heading_buttons %>
+            <md-header-2 class="app-c-markdown-editor__toolbar-button" title="Heading level 2" aria-label="Heading level 2" data-gtm="markdown-toolbar-h2" data-gtm-click-tracking="true">
+              <%= render "components/markdown_editor/heading_two.svg" %>
+            </md-header-2>
+            <md-header-3 class="app-c-markdown-editor__toolbar-button" title="Heading level 3" aria-label="Heading level 3" data-gtm="markdown-toolbar-h3" data-gtm-click-tracking="true">
+              <%= render "components/markdown_editor/heading_three.svg" %>
+            </md-header-3>
+          <% end %>
           <md-link class="app-c-markdown-editor__toolbar-button" title="Link" aria-label="Link">
             <%= render "components/markdown_editor/link.svg" %>
           </md-link>
+          <% unless blockquote_button %>
+            <md-quote class="app-c-markdown-editor__toolbar-button" title="Blockquote" aria-label="Blockquote" data-gtm="markdown-toolbar-blockquote" data-gtm-click-tracking="true">
+              <%= render "components/markdown_editor/blockquote.svg" %>
+            </md-quote>
+          <% end %>
+          <% unless hide_numbered_button %>
+            <md-ordered-list class="app-c-markdown-editor__toolbar-button" title="Numbered list" aria-label="Numbered list" data-gtm="markdown-toolbar-list" data-gtm-click-tracking="true">
+              <%= render "components/markdown_editor/numbered_list.svg" %>
+            </md-ordered-list>
+          <% end %>
           <% unless hide_bullets_button %>
             <md-unordered-list class="app-c-markdown-editor__toolbar-button" title="Bullets" aria-label="Bullets">
               <%= render "components/markdown_editor/bullets.svg" %>
