@@ -44,6 +44,10 @@ class CoronavirusPagesController < ApplicationController
     redirect_to coronavirus_page_path(slug), message
   end
 
+  def timeline
+    coronavirus_page
+  end
+
 private
 
   def initialise_coronavirus_pages

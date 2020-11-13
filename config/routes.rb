@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     get "prepare", on: :member
     get "discard", on: :member
     post "publish", to: "coronavirus_pages#publish"
+    get "timeline", to: "coronavirus_pages#timeline"
     resources :sub_sections do
       collection do
         get "reorder", to: "reorder_sub_sections#index"
