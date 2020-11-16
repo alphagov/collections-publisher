@@ -2,6 +2,13 @@
   "base_path" : "/coronavirus",
   "details": {
     "announcements_label": "Announcements",
+    "announcements": [
+      {
+        "href": "/government/news/more-rapid-covid-19-tests-to-be-rolled-out-across-england",
+        "text": "More rapid COVID-19 tests to be rolled out across England",
+        "published_text": "Published 10 November 2020"
+      }
+    ],
     "sections": [
       {
         "title": "Protect yourself and others from coronavirus",
