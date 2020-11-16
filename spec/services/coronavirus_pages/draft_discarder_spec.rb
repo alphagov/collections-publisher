@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe CoronavirusPages::DraftDiscarder do
-  let(:coronavirus_page) { create :coronavirus_page, :landing }
+  let(:coronavirus_page) { create :coronavirus_page, :landing, state: "draft" }
 
   before do
     allow(GdsApi.publishing_api).to receive(:lookup_content_ids).and_return({})
@@ -34,6 +34,13 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
 
       expect(coronavirus_page.announcements.count).to eq(0)
     end
+  end
+
+  it "sets the status to published" do
+    described_class.new(coronavirus_page, payload_from_publishing_api).call
+    coronavirus_page.reload
+
+    expect(coronavirus_page.state).to eq("published")
   end
 
   def payload_from_publishing_api

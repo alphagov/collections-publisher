@@ -8,6 +8,7 @@ module CoronavirusPages
     end
 
     def call
+      coronavirus_page.update!(state: "published")
       update_announcements
     end
 
