@@ -87,5 +87,19 @@ RSpec.describe CoronavirusPages::ModelBuilder do
         expect(input_order[position]).to eq(sub_section.title)
       end
     end
+
+    it "discards the existing announcement" do
+      create(
+        :announcement,
+        coronavirus_page: coronavirus_page,
+        text: "Foo",
+      )
+
+      discard_changes
+
+      expect(coronavirus_page.announcements.count).to eq(1)
+      expect(coronavirus_page.announcements.first.text).to eq("More rapid COVID-19 tests to be rolled out across England")
+      expect(coronavirus_page.announcements.first.position).to eq(1)
+    end
   end
 end

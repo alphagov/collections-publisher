@@ -22,6 +22,7 @@ module CoronavirusPages
       if live_content.any?
         CoronavirusPage.transaction do
           store_live_subsections
+          CoronavirusPages::DraftDiscarder.new(page, live_content).call
           page.update!(state: "published")
         end
       end
