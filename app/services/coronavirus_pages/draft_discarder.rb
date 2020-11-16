@@ -10,6 +10,7 @@ module CoronavirusPages
     def call
       coronavirus_page.update!(state: "published")
       update_announcements
+      update_sub_sections
     end
 
   private
@@ -32,6 +33,29 @@ module CoronavirusPages
 
     def announcements_from_payload
       payload_from_publishing_api[:details][:announcements] || []
+    end
+
+    def update_sub_sections
+      coronavirus_page.sub_sections.destroy_all
+      coronavirus_page.sub_sections = sub_sections
+    end
+
+    def sub_sections
+      sections = SectionsPresenter.new(sections_from_payload).output
+
+      new_sub_sections = sections.each_with_index.map do |attributes, index|
+        SubSection.new(
+          title: attributes[:title],
+          content: attributes[:content],
+          position: index,
+        )
+      end
+
+      new_sub_sections
+    end
+
+    def sections_from_payload
+      payload_from_publishing_api[:details][:sections] || []
     end
   end
 end

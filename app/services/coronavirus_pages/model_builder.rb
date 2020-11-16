@@ -21,7 +21,6 @@ module CoronavirusPages
     def discard_changes
       if live_content.any?
         CoronavirusPage.transaction do
-          store_live_subsections
           CoronavirusPages::DraftDiscarder.new(page, live_content).call
         end
       end
@@ -37,11 +36,6 @@ module CoronavirusPages
 
   private
 
-    def store_live_subsections
-      page.sub_sections.destroy_all
-      page.sub_sections = sub_sections
-    end
-
     def page_config
       CoronavirusPages::Configuration.page(slug)
     end
@@ -55,22 +49,6 @@ module CoronavirusPages
 
     def raw_content_url
       page_config[:raw_content_url]
-    end
-
-    def sub_sections
-      new_sub_sections = sub_section_attributes.each_with_index.map do |attributes, i|
-        SubSection.new(
-          title: attributes[:title],
-          content: attributes[:content],
-          position: i,
-        )
-      end
-
-      new_sub_sections
-    end
-
-    def sub_section_attributes
-      SectionsPresenter.new(data["sections"]).output
     end
 
     def yaml_data
