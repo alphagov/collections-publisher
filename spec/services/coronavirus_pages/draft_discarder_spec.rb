@@ -1,7 +1,14 @@
 require "rails_helper"
 
 RSpec.describe CoronavirusPages::DraftDiscarder do
-  let(:coronavirus_page) { create :coronavirus_page, :landing, state: "draft" }
+  let(:coronavirus_page) do
+    create(
+      :coronavirus_page,
+      :landing,
+      state: "draft",
+      content_id: "774cee22-d896-44c1-a611-e3109cce8eae",
+    )
+  end
 
   before do
     allow(GdsApi.publishing_api).to receive(:lookup_content_ids).and_return({})
@@ -15,7 +22,9 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
         text: "Foo",
       )
 
-      described_class.new(coronavirus_page, payload_from_publishing_api).call
+      stub_publishing_api_has_item(payload_from_publishing_api)
+
+      described_class.new(coronavirus_page).call
       coronavirus_page.reload
 
       expect(coronavirus_page.announcements.count).to eq(1)
@@ -29,7 +38,9 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
       payload = payload_from_publishing_api
       payload["details"]["announcements"].clear
 
-      described_class.new(coronavirus_page, payload).call
+      stub_publishing_api_has_item(payload)
+
+      described_class.new(coronavirus_page).call
       coronavirus_page.reload
 
       expect(coronavirus_page.announcements.count).to eq(0)
@@ -44,7 +55,9 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
         title: "Foo",
       )
 
-      described_class.new(coronavirus_page, payload_from_publishing_api).call
+      stub_publishing_api_has_item(payload_from_publishing_api)
+
+      described_class.new(coronavirus_page).call
       coronavirus_page.reload
 
       expect(coronavirus_page.sub_sections.count).to eq(3)
@@ -58,14 +71,18 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
       payload = payload_from_publishing_api
       payload["details"]["sections"].clear
 
-      described_class.new(coronavirus_page, payload).call
+      stub_publishing_api_has_item(payload)
+
+      described_class.new(coronavirus_page).call
       coronavirus_page.reload
 
       expect(coronavirus_page.sub_sections.count).to eq(0)
     end
 
     it "creates sub_sections with a position that reflects their order in the content item" do
-      described_class.new(coronavirus_page, payload_from_publishing_api).call
+      stub_publishing_api_has_item(payload_from_publishing_api)
+
+      described_class.new(coronavirus_page).call
       coronavirus_page.reload
 
       input_order = payload_from_publishing_api["details"]["sections"]
@@ -81,7 +98,9 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
       expect(payload_from_publishing_api["details"]["sections"].first["sub_sections"].first["list"].first["url"])
         .to eq("/government/publications/covid-19-stay-at-home-guidance?priority-taxon=774cee22-d896-44c1-a611-e3109cce8eae")
 
-      described_class.new(coronavirus_page, payload_from_publishing_api).call
+      stub_publishing_api_has_item(payload_from_publishing_api)
+
+      described_class.new(coronavirus_page).call
       coronavirus_page.reload
 
       expect(coronavirus_page.sub_sections.first.content).to include("/government/publications/covid-19-stay-at-home-guidance")
@@ -90,7 +109,9 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
   end
 
   it "sets the status to published" do
-    described_class.new(coronavirus_page, payload_from_publishing_api).call
+    stub_publishing_api_has_item(payload_from_publishing_api)
+
+    described_class.new(coronavirus_page).call
     coronavirus_page.reload
 
     expect(coronavirus_page.state).to eq("published")

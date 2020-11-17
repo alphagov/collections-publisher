@@ -19,10 +19,8 @@ module CoronavirusPages
     end
 
     def discard_changes
-      if live_content.any?
-        CoronavirusPage.transaction do
-          CoronavirusPages::DraftDiscarder.new(page, live_content).call
-        end
+      CoronavirusPage.transaction do
+        CoronavirusPages::DraftDiscarder.new(page).call
       end
     end
 
@@ -55,18 +53,8 @@ module CoronavirusPages
       YamlFetcher.new(raw_content_url).body_as_hash
     end
 
-    def live_content
-      @live_content ||=
-        begin
-          content = Services.publishing_api.get_content(page.content_id)
-          content.to_hash
-        rescue GdsApi::HTTPErrorResponse
-          {}
-        end
-    end
-
     def data
-      action == :discard ? live_content["details"] : yaml_data["content"]
+      yaml_data["content"]
     end
   end
 end

@@ -1,10 +1,9 @@
 module CoronavirusPages
   class DraftDiscarder
-    attr_reader :coronavirus_page, :payload_from_publishing_api
+    attr_reader :coronavirus_page
 
-    def initialize(coronavirus_page, payload_from_publishing_api)
+    def initialize(coronavirus_page)
       @coronavirus_page = coronavirus_page
-      @payload_from_publishing_api = payload_from_publishing_api.with_indifferent_access
     end
 
     def call
@@ -56,6 +55,16 @@ module CoronavirusPages
 
     def sections_from_payload
       payload_from_publishing_api[:details][:sections] || []
+    end
+
+    def payload_from_publishing_api
+      @payload_from_publishing_api ||=
+        begin
+          content = GdsApi.publishing_api.get_content(coronavirus_page.content_id).to_h
+          content.with_indifferent_access
+        rescue GdsApi::HTTPErrorResponse
+          {}
+        end
     end
   end
 end
