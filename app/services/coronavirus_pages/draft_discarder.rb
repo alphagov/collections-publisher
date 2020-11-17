@@ -7,6 +7,8 @@ module CoronavirusPages
     end
 
     def call
+      return if payload_from_publishing_api.blank?
+
       coronavirus_page.update!(state: "published")
       update_announcements
       update_sub_sections

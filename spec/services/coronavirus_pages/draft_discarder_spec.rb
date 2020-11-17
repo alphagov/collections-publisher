@@ -117,6 +117,15 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
     expect(coronavirus_page.state).to eq("published")
   end
 
+  it "doesn't discard the draft if publishing_api doesn't return a content item" do
+    stub_any_publishing_api_call_to_return_not_found
+
+    described_class.new(coronavirus_page).call
+    coronavirus_page.reload
+
+    expect(coronavirus_page.state).to eq("draft")
+  end
+
   def payload_from_publishing_api
     JSON.parse(File.read(Rails.root.join("spec/fixtures/coronavirus_page_sections.json")))
   end
