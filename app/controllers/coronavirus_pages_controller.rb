@@ -61,7 +61,7 @@ private
   end
 
   def discard_model_changes
-    CoronavirusPages::ModelBuilder.new(slug, :discard).discard_changes
+    CoronavirusPages::ModelBuilder.new(slug).discard_changes
   end
 
   def slug_unknown_for_update

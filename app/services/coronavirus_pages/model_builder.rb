@@ -4,11 +4,10 @@ module CoronavirusPages
       new(*args).page
     end
 
-    attr_reader :slug, :action
+    attr_reader :slug
 
-    def initialize(slug, action = nil)
+    def initialize(slug)
       @slug = slug
-      @action = action
     end
 
     def page

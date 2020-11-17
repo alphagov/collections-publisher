@@ -60,7 +60,7 @@ RSpec.describe CoronavirusPages::ModelBuilder do
              slug: slug
     end
     let!(:subsection) { create :sub_section, coronavirus_page_id: coronavirus_page.id, title: "foo" }
-    let(:discard_changes) { CoronavirusPages::ModelBuilder.new(slug, :discard).discard_changes }
+    let(:discard_changes) { CoronavirusPages::ModelBuilder.new(slug).discard_changes }
     before do
       stub_publishing_api_has_item(live_content_item)
     end
