@@ -17,10 +17,6 @@ module CoronavirusPages
         end
     end
 
-    def discard_changes
-      CoronavirusPages::DraftDiscarder.new(page).call
-    end
-
     def sections_heading
       data["sections_heading"]
     end
