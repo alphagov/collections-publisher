@@ -62,9 +62,9 @@ module CoronavirusPages
     def payload_from_publishing_api
       @payload_from_publishing_api ||=
         begin
-          content = GdsApi.publishing_api.get_content(coronavirus_page.content_id).to_h
+          content = GdsApi.publishing_api.get_live_content(coronavirus_page.content_id).to_h
           content.with_indifferent_access
-        rescue GdsApi::HTTPErrorResponse
+        rescue GdsApi::PublishingApi::NoLiveVersion, GdsApi::HTTPErrorResponse
           {}
         end
     end

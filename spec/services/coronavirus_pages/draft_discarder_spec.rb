@@ -117,6 +117,18 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
     expect(coronavirus_page.state).to eq("published")
   end
 
+  it "doesn't discard the draft if publishing_api doesn't have a live content item" do
+    payload = payload_from_publishing_api
+    payload["state_history"]["1"] = "draft"
+
+    stub_publishing_api_has_item(payload)
+
+    described_class.new(coronavirus_page).call
+    coronavirus_page.reload
+
+    expect(coronavirus_page.state).to eq("draft")
+  end
+
   it "doesn't discard the draft if publishing_api doesn't return a content item" do
     stub_any_publishing_api_call_to_return_not_found
 
