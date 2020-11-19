@@ -310,7 +310,7 @@ def then_the_reordered_subsections_are_sent_to_publishing_api
       "details" => {
         "header_section" => "header_section",
         "announcements_label" => "announcements_label",
-        "announcements" => "announcements",
+        "announcements" => [],
         "nhs_banner" => "nhs_banner",
         "sections_heading" => "sections_heading",
         "topic_section" => "topic_section",

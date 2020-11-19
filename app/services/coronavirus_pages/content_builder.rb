@@ -11,6 +11,7 @@ class CoronavirusPages::ContentBuilder
       validate_content
       data = github_data
       data["sections"] = sub_sections_data
+      data["announcements"] = announcements_data
       add_live_stream(data)
       data["hidden_search_terms"] = hidden_search_terms
       data
@@ -81,6 +82,13 @@ class CoronavirusPages::ContentBuilder
     coronavirus_page.sub_sections.order(:position).map do |sub_section|
       presenter = SubSectionJsonPresenter.new(sub_section, coronavirus_page.content_id)
       add_error(presenter.errors) unless presenter.success?
+      presenter.output
+    end
+  end
+
+  def announcements_data
+    coronavirus_page.announcements.order(:position).map do |announcement|
+      presenter = AnnouncementJsonPresenter.new(announcement)
       presenter.output
     end
   end
