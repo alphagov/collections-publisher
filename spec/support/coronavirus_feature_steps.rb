@@ -230,6 +230,39 @@ def and_i_see_the_announcements_have_changed_order
   expect(page).to have_css(".covid-manage-page__announcements-summary-list .gem-c-summary-list .govuk-summary-list__row:nth-child(2)", text: @announcement_one.title)
 end
 
+# Adding an announcement
+
+def set_up_github_data
+  coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
+  raw_content = File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
+  stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
+    .to_return(status: 200, body: raw_content)
+end
+
+def and_i_add_a_new_announcement
+  click_on("Add announcement")
+end
+
+def then_i_see_the_create_announcement_form
+  expect(page).to have_text("Enter the title of the announcement")
+  expect(page).to have_text("Enter the path to the announcement")
+  expect(page).to have_text("Enter the date of publication")
+end
+
+def when_i_fill_in_the_announcement_form_with_valid_data
+  fill_in("title", with: "fancy title")
+  fill_in("path", with: "/government")
+  fill_in("announcement[published_at][day]", with: "12")
+  fill_in("announcement[published_at][month]", with: "1")
+  fill_in("announcement[published_at][year]", with: "2020")
+  click_on("Save")
+end
+
+def then_i_can_see_a_new_announcement_has_been_created
+  expect(current_path).to eq("/coronavirus/landing")
+  expect(expect(page).to(have_text("fancy title")))
+end
+
 def set_up_basic_sub_sections
   coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
   FactoryBot.create(:sub_section,
