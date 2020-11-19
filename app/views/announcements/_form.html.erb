@@ -5,6 +5,7 @@
   },
   name: "announcement[title]",
   id: "title",
+  error_message: error_items(@announcement.errors.messages, :title),
 } %>
 <%= render "govuk_publishing_components/components/input", {
   label: {
@@ -13,6 +14,7 @@
   },
   name: "announcement[path]",
   id: "path",
+  error_message: error_items(@announcement.errors.messages, :path),
   hint: "Example format: /government/news/coronavirus-covid-19",
 } %>
 <% legend = capture do %>
@@ -23,6 +25,7 @@
   id: "published_at",
   legend_text: legend,
   hint: "For example, 31 3 2020",
+  error_message: error_items(@announcement.errors.messages, :published_at),
 } %>
 <%= render "govuk_publishing_components/components/button", {
   text: "Save",

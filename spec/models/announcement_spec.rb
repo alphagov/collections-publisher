@@ -34,8 +34,22 @@ RSpec.describe Announcement, type: :model do
       expect(announcement.errors).to have_key(:path)
     end
 
+    it "requires a path to begin with /" do
+      announcement.path = "government/coronavirus"
+
+      expect(announcement).not_to be_valid
+      expect(announcement.errors).to have_key(:path)
+    end
+
     it "requires a published at time" do
       announcement.published_at = ""
+
+      expect(announcement).not_to be_valid
+      expect(announcement.errors).to have_key(:published_at)
+    end
+
+    it "should only have four digits for the year" do
+      announcement.published_at = "12345-09-10 23:00:00"
 
       expect(announcement).not_to be_valid
       expect(announcement.errors).to have_key(:published_at)
