@@ -43,11 +43,11 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
         if (withoutNarrowingResults) {
           syncResults(options)
         } else {
-          syncResults(query
-            ? options.filter(function (option) {
-              return option.toLowerCase().indexOf(query.toLowerCase()) !== -1
-            }) : []
-          )
+          var resultMatcher = function (option) {
+            return option.toLowerCase().indexOf(query.toLowerCase()) !== -1
+          }
+
+          syncResults(query ? options.filter(resultMatcher) : [])
         }
       }
     })
