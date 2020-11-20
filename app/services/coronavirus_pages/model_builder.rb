@@ -18,9 +18,7 @@ module CoronavirusPages
     end
 
     def discard_changes
-      CoronavirusPage.transaction do
-        CoronavirusPages::DraftDiscarder.new(page).call
-      end
+      CoronavirusPages::DraftDiscarder.new(page).call
     end
 
     def sections_heading
