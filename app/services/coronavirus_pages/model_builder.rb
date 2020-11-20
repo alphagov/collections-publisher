@@ -20,8 +20,10 @@ module CoronavirusPages
 
     def discard_changes
       if live_content.any?
-        store_live_subsections
-        page.update!(state: "published")
+        CoronavirusPage.transaction do
+          store_live_subsections
+          page.update!(state: "published")
+        end
       end
     end
 
