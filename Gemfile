@@ -39,7 +39,6 @@ group :development, :test do
   gem "pry-byebug"
   gem "rspec-rails"
   gem "rubocop-govuk"
-  gem "scss_lint-govuk"
   gem "shoulda-matchers"
   gem "simplecov"
   gem "timecop"
