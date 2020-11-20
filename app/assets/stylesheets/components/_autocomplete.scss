@@ -1,4 +1,5 @@
-@import url(asset-path("accessible-autocomplete/dist/accessible-autocomplete.min.css"));
+// stylelint-disable-next-line scss/at-import-partial-extension
+@import "accessible-autocomplete/dist/accessible-autocomplete.min";
 
 // TODO: Replace with $govuk-focus-colour when the new colour scheme is released
 $app-focus-colour: #ffdd00;

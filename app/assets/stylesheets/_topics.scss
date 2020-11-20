@@ -2,8 +2,8 @@
 @import 'govuk_admin_template';
 
 .topics {
-  @extend .table; // scss-lint:disable PlaceholderInExtend
-  @extend .table-bordered; // scss-lint:disable PlaceholderInExtend
+  @extend .table; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+  @extend .table-bordered; // stylelint-disable-line scss/at-extend-no-missing-placeholder
 
   margin: 30px 0;
 
@@ -20,9 +20,9 @@
 
   .edit {
     a {
-      @extend .btn; // scss-lint:disable PlaceholderInExtend
-      @extend .btn-default; // scss-lint:disable PlaceholderInExtend
-      @extend .btn-sm; // scss-lint:disable PlaceholderInExtend
+      @extend .btn; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+      @extend .btn-default; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+      @extend .btn-sm; // stylelint-disable-line scss/at-extend-no-missing-placeholder
     }
 
     padding: 3px;

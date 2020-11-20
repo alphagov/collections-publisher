@@ -7,9 +7,9 @@
 
 .btn-submit {
   // @TODO: remove extending classes and just add class to element
-  @extend .btn; // scss-lint:disable PlaceholderInExtend
-  @extend .btn-lg; // scss-lint:disable PlaceholderInExtend
-  @extend .btn-success; // scss-lint:disable PlaceholderInExtend
+  @extend .btn; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+  @extend .btn-lg; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+  @extend .btn-success; // stylelint-disable-line scss/at-extend-no-missing-placeholder
 }
 
 .select2 {
@@ -25,7 +25,7 @@ form label {
 }
 
 input[type='text'] {
-  @extend .form-control; // scss-lint:disable PlaceholderInExtend
+  @extend .form-control; // stylelint-disable-line scss/at-extend-no-missing-placeholder
 }
 
 .errors input {
@@ -33,6 +33,6 @@ input[type='text'] {
 }
 
 button {
-  @extend .btn; // scss-lint:disable PlaceholderInExtend
-  @extend .btn-default; // scss-lint:disable PlaceholderInExtend
+  @extend .btn; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+  @extend .btn-default; // stylelint-disable-line scss/at-extend-no-missing-placeholder
 }
