@@ -20,8 +20,10 @@ module CoronavirusPages
 
     def discard_changes
       if live_content.any?
-        store_live_subsections
-        page.update!(state: "published")
+        CoronavirusPage.transaction do
+          store_live_subsections
+          page.update!(state: "published")
+        end
       end
     end
 
@@ -56,10 +58,15 @@ module CoronavirusPages
     end
 
     def sub_sections
-      sub_section_attributes.each_with_index.map do |attributes, i|
-        attributes["position"] = i
-        SubSection.new(attributes)
+      new_sub_sections = sub_section_attributes.each_with_index.map do |attributes, i|
+        SubSection.new(
+          title: attributes[:title],
+          content: attributes[:content],
+          position: i,
+        )
       end
+
+      new_sub_sections
     end
 
     def sub_section_attributes
