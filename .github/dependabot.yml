@@ -36,7 +36,15 @@ updates:
     schedule:
       interval: daily
     allow:
+      # Internal packages
       - dependency-name: accessible-autocomplete
+        dependency-type: direct
+      - dependency-name: stylelint-config-gds
+        dependency-type: direct
+      # Framework packages
+      - dependency-name: standardx
+        dependency-type: direct
+      - dependency-name: stylelint
         dependency-type: direct
 
   # Ruby needs to be upgraded manually in multiple places, so cannot

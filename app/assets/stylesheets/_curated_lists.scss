@@ -1,12 +1,11 @@
 $light-grey: #f1f1f1;
-$grey: #ccc;
-$dark-grey: #333;
-$white: #fff;
+$grey: #cccccc;
+$dark-grey: #333333;
+$white: #ffffff;
 $light-yellow: #ffff99;
 
 // Hide the new item form.
 .js {
-  // scss-lint:disable SelectorFormat
   // to fix [W] SelectorFormat: Selector `new_list_item` should be written in hyphenated BEM (Block Element Modifier) format
   // @TODO: Investigate and remove element if element not used.
   .new_list_item {
@@ -102,7 +101,7 @@ $light-yellow: #ffff99;
   }
 
   .sortable-placeholder {
-    height: 30px !important;
+    height: 30px !important; // stylelint-disable-line declaration-no-important
   }
 }
 

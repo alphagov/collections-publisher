@@ -1,14 +1,14 @@
 // import govuk_admin_template to get bootstrap styles
 @import 'govuk_admin_template';
 
-$light-grey: #eee;
-$grey: #888;
+$light-grey: #eeeeee;
+$grey: #888888;
 $dark-grey: #2a2a2a;
 
 .tags-list {
-  @extend .table; // scss-lint:disable PlaceholderInExtend
-  @extend .table-bordered; // scss-lint:disable PlaceholderInExtend
-  @extend .table-striped; // scss-lint:disable PlaceholderInExtend
+  @extend .table; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+  @extend .table-bordered; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+  @extend .table-striped; // stylelint-disable-line scss/at-extend-no-missing-placeholder
 
   .child-actions {
     padding: 0;
@@ -17,16 +17,16 @@ $dark-grey: #2a2a2a;
 
     li {
       display: inline-block;
+    }
 
-      a {
-        @extend .btn; // scss-lint:disable PlaceholderInExtend
-        @extend .btn-default; // scss-lint:disable PlaceholderInExtend
-        @extend .btn-xs; // scss-lint:disable PlaceholderInExtend
+    li a {
+      @extend .btn; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+      @extend .btn-default; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+      @extend .btn-xs; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+    }
 
-        &[rel='view'] {
-          @extend .btn-primary; // scss-lint:disable PlaceholderInExtend
-        }
-      }
+    li a[rel='view'] {
+      @extend .btn-primary; // stylelint-disable-line scss/at-extend-no-missing-placeholder
     }
   }
 
@@ -61,23 +61,23 @@ h1 .type {
 }
 
 .actions {
-  @extend .btn-group; // scss-lint:disable PlaceholderInExtend
+  @extend .btn-group; // stylelint-disable-line scss/at-extend-no-missing-placeholder
 
   a {
-    @extend .btn; // scss-lint:disable PlaceholderInExtend
-    @extend .btn-default; // scss-lint:disable PlaceholderInExtend
+    @extend .btn; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+    @extend .btn-default; // stylelint-disable-line scss/at-extend-no-missing-placeholder
   }
 }
 
 .attributes {
-  @extend .panel; // scss-lint:disable PlaceholderInExtend
-  @extend .panel-default; // scss-lint:disable PlaceholderInExtend
+  @extend .panel; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+  @extend .panel-default; // stylelint-disable-line scss/at-extend-no-missing-placeholder
 
   font-size: 16px;
   margin-top: 25px;
 
   dl {
-    @extend .panel-body; // scss-lint:disable PlaceholderInExtend
+    @extend .panel-body; // stylelint-disable-line scss/at-extend-no-missing-placeholder
     margin-bottom: 0;
 
     dt,

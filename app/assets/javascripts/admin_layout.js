@@ -16,6 +16,6 @@
 //= require components/markdown-editor.js
 //= require sections.js
 
-$(document).ready(function() {
-  GOVUK.sectionPublisher.init();
-});
+$(document).ready(function () {
+  GOVUK.sectionPublisher.init()
+})
