@@ -20,18 +20,18 @@ RSpec.describe Announcement, type: :model do
       expect(announcement).to be_persisted
     end
 
-    it "requires text" do
-      announcement.text = ""
+    it "requires title" do
+      announcement.title = ""
 
       expect(announcement).not_to be_valid
-      expect(announcement.errors).to have_key(:text)
+      expect(announcement.errors).to have_key(:title)
     end
 
-    it "requires an href" do
-      announcement.href = ""
+    it "requires a path" do
+      announcement.path = ""
 
       expect(announcement).not_to be_valid
-      expect(announcement.errors).to have_key(:href)
+      expect(announcement.errors).to have_key(:path)
     end
 
     it "requires a published at time" do

@@ -6,8 +6,8 @@ class CoronavirusPages::AnnouncementsBuilder
 
         announcements_from_yaml.each do |announcement|
           coronavirus_page.announcements.create!(
-            text: announcement["text"],
-            href: announcement["href"],
+            title: announcement["text"],
+            path: announcement["href"],
             published_at: Date.parse(announcement["published_text"]),
           )
         end

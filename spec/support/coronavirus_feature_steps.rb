@@ -200,16 +200,16 @@ def then_i_cannot_see_an_announcements_section
 end
 
 def and_i_can_see_existing_announcements
-  expect(page).to have_content(@announcement_one.text)
-  expect(page).to have_content(@announcement_two.text)
+  expect(page).to have_content(@announcement_one.title)
+  expect(page).to have_content(@announcement_two.title)
 end
 
 def then_i_see_the_announcements_in_order
   element = find("#step-0").find(".step-by-step-reorder__step-title")
-  expect(element).to have_content @announcement_one.text
+  expect(element).to have_content @announcement_one.title
 
   element = find("#step-1").find(".step-by-step-reorder__step-title")
-  expect(element).to have_content @announcement_two.text
+  expect(element).to have_content @announcement_two.title
 end
 
 def when_i_move_announcement_one_down
@@ -226,8 +226,8 @@ def then_i_see_announcement_updated_message
 end
 
 def and_i_see_the_announcements_have_changed_order
-  expect(page).to have_css(".covid-manage-page__announcements-summary-list .gem-c-summary-list .govuk-summary-list__row:nth-child(1)", text: @announcement_two.text)
-  expect(page).to have_css(".covid-manage-page__announcements-summary-list .gem-c-summary-list .govuk-summary-list__row:nth-child(2)", text: @announcement_one.text)
+  expect(page).to have_css(".covid-manage-page__announcements-summary-list .gem-c-summary-list .govuk-summary-list__row:nth-child(1)", text: @announcement_two.title)
+  expect(page).to have_css(".covid-manage-page__announcements-summary-list .gem-c-summary-list .govuk-summary-list__row:nth-child(2)", text: @announcement_one.title)
 end
 
 def set_up_basic_sub_sections

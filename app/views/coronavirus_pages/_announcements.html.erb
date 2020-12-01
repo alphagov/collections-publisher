@@ -2,7 +2,7 @@
  @coronavirus_page.announcements.order(:position).map do |announcement|
    {
      id: announcement.id,
-     field: announcement.text,
+     field: announcement.title,
      edit: { href: coronavirus_page_path(@coronavirus_page.slug) },
      delete: {
        href: coronavirus_page_path(@coronavirus_page.slug),

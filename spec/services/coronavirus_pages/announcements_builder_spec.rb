@@ -18,8 +18,8 @@ RSpec.describe CoronavirusPages::AnnouncementsBuilder do
 
     first_announcement = coronavirus_page.announcements.first
 
-    expect(first_announcement.text).to eq(github_announcement["text"])
-    expect(first_announcement.href).to eq(github_announcement["href"])
+    expect(first_announcement.title).to eq(github_announcement["text"])
+    expect(first_announcement.path).to eq(github_announcement["href"])
     expect(first_announcement.published_at).to eq(Date.parse(github_announcement["published_text"]))
   end
 
@@ -46,8 +46,8 @@ RSpec.describe CoronavirusPages::AnnouncementsBuilder do
     first_announcement = coronavirus_page.announcements.first
 
     expect(coronavirus_page.announcements.count).to eq(1)
-    expect(first_announcement.text).to eq(announcement.text)
-    expect(first_announcement.href).to eq(announcement.href)
+    expect(first_announcement.title).to eq(announcement.title)
+    expect(first_announcement.path).to eq(announcement.path)
     expect(first_announcement.published_at).to eq(announcement.published_at)
   end
 
