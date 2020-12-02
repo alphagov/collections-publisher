@@ -70,6 +70,7 @@ private
         ],
         steps: steps,
       },
+      body: body,
     }
   end
 
@@ -130,5 +131,12 @@ private
     step_nav.secondary_content_links.map do |secondary_content_link|
       done_page_base_path(secondary_content_link)
     end
+  end
+
+  def body
+    step_nav.steps.map { |step|
+      "<h2>#{step.title}</h2>\n\n" +
+        Kramdown::Document.new(step.contents).to_html
+    }.join("\n\n")
   end
 end
