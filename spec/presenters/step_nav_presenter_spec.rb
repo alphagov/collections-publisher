@@ -25,6 +25,32 @@ RSpec.describe StepNavPresenter do
       expect(presented[:routes]).to eq([{ path: "/how-to-be-the-amazing-1", type: "exact" }])
     end
 
+    it "includes an html representation of the page so that it may be indexed in search" do
+      presented = subject.render_for_publishing_api
+      expected = <<~BODY
+        <h2>Check how awesome you are</h2>
+
+        <p>This is a great step</p>
+
+        <ul>
+          <li><a href="/good/stuff">Good stuff</a></li>
+          <li>
+            <p><a href="/also/good/stuff">Also good stuff</a></p>
+          </li>
+          <li><a href="/not/as/great">Not as great</a>£25</li>
+          <li><a href="http://example.com/good">But good nonetheless</a></li>
+        </ul>
+
+
+        <h2>Dress like the Fonz</h2>
+
+        <p>This is another great step</p>
+      BODY
+
+      expect(presented).to be_valid_against_schema("step_by_step_nav")
+      expect(presented[:details][:body]).to eq(expected)
+    end
+
     it "presents edition links correctly" do
       presented = subject.render_for_publishing_api
       expect(presented[:links][:pages_part_of_step_nav].count).to eq(2)
