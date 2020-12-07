@@ -2,7 +2,7 @@
  @coronavirus_page.announcements.order(:position).map do |announcement|
    {
      id: announcement.id,
-     field: announcement.text,
+     field: announcement.title,
      edit: { href: coronavirus_page_path(@coronavirus_page.slug) },
      delete: {
        href: coronavirus_page_path(@coronavirus_page.slug),
@@ -23,9 +23,8 @@
       href: reorder_coronavirus_page_announcements_path(@coronavirus_page.slug)
     }
   } %>
-
   <%= render "govuk_publishing_components/components/button", {
     text: "Add announcement",
-    href: coronavirus_page_path(@coronavirus_page.slug)
+    href: new_coronavirus_page_announcement_path(@coronavirus_page.slug)
   } %>
 </div>

@@ -255,8 +255,8 @@ FactoryBot.define do
   end
 
   factory :announcement do
-    text { Faker::Lorem.words }
-    href { Faker::Internet.url(host: "example.com") }
+    title { Faker::Lorem.words }
+    path { "/government/foo/vader/baby/yoda" }
     published_at { Time.zone.local(2020, 9, 11) }
     coronavirus_page
   end

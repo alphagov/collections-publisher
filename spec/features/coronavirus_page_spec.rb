@@ -114,6 +114,18 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         and_i_can_see_existing_announcements
       end
 
+      scenario "Adding announcements" do
+        set_up_github_data
+        given_i_can_access_unreleased_features
+        given_there_is_coronavirus_page_with_announcements
+        when_i_visit_a_coronavirus_page
+        then_i_can_see_an_announcements_section
+        and_i_add_a_new_announcement
+        then_i_see_the_create_announcement_form
+        when_i_fill_in_the_announcement_form_with_valid_data
+        then_i_can_see_a_new_announcement_has_been_created
+      end
+
       scenario "Reordering announcements", js: true do
         given_i_can_access_unreleased_features
         given_there_is_coronavirus_page_with_announcements

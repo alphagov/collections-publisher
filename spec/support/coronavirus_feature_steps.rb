@@ -200,16 +200,16 @@ def then_i_cannot_see_an_announcements_section
 end
 
 def and_i_can_see_existing_announcements
-  expect(page).to have_content(@announcement_one.text)
-  expect(page).to have_content(@announcement_two.text)
+  expect(page).to have_content(@announcement_one.title)
+  expect(page).to have_content(@announcement_two.title)
 end
 
 def then_i_see_the_announcements_in_order
   element = find("#step-0").find(".step-by-step-reorder__step-title")
-  expect(element).to have_content @announcement_one.text
+  expect(element).to have_content @announcement_one.title
 
   element = find("#step-1").find(".step-by-step-reorder__step-title")
-  expect(element).to have_content @announcement_two.text
+  expect(element).to have_content @announcement_two.title
 end
 
 def when_i_move_announcement_one_down
@@ -226,8 +226,41 @@ def then_i_see_announcement_updated_message
 end
 
 def and_i_see_the_announcements_have_changed_order
-  expect(page).to have_css(".covid-manage-page__announcements-summary-list .gem-c-summary-list .govuk-summary-list__row:nth-child(1)", text: @announcement_two.text)
-  expect(page).to have_css(".covid-manage-page__announcements-summary-list .gem-c-summary-list .govuk-summary-list__row:nth-child(2)", text: @announcement_one.text)
+  expect(page).to have_css(".covid-manage-page__announcements-summary-list .gem-c-summary-list .govuk-summary-list__row:nth-child(1)", text: @announcement_two.title)
+  expect(page).to have_css(".covid-manage-page__announcements-summary-list .gem-c-summary-list .govuk-summary-list__row:nth-child(2)", text: @announcement_one.title)
+end
+
+# Adding an announcement
+
+def set_up_github_data
+  coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
+  raw_content = File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
+  stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
+    .to_return(status: 200, body: raw_content)
+end
+
+def and_i_add_a_new_announcement
+  click_on("Add announcement")
+end
+
+def then_i_see_the_create_announcement_form
+  expect(page).to have_text("Enter the title of the announcement")
+  expect(page).to have_text("Enter the path to the announcement")
+  expect(page).to have_text("Enter the date of publication")
+end
+
+def when_i_fill_in_the_announcement_form_with_valid_data
+  fill_in("title", with: "fancy title")
+  fill_in("path", with: "/government")
+  fill_in("announcement[published_at][day]", with: "12")
+  fill_in("announcement[published_at][month]", with: "1")
+  fill_in("announcement[published_at][year]", with: "2020")
+  click_on("Save")
+end
+
+def then_i_can_see_a_new_announcement_has_been_created
+  expect(current_path).to eq("/coronavirus/landing")
+  expect(expect(page).to(have_text("fancy title")))
 end
 
 def set_up_basic_sub_sections
@@ -310,7 +343,7 @@ def then_the_reordered_subsections_are_sent_to_publishing_api
       "details" => {
         "header_section" => "header_section",
         "announcements_label" => "announcements_label",
-        "announcements" => "announcements",
+        "announcements" => [],
         "nhs_banner" => "nhs_banner",
         "sections_heading" => "sections_heading",
         "topic_section" => "topic_section",

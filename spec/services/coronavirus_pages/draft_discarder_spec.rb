@@ -19,7 +19,7 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
       create(
         :announcement,
         coronavirus_page: coronavirus_page,
-        text: "Foo",
+        title: "Foo",
       )
 
       stub_publishing_api_has_item(payload_from_publishing_api)
@@ -28,7 +28,7 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
       coronavirus_page.reload
 
       expect(coronavirus_page.announcements.count).to eq(1)
-      expect(coronavirus_page.announcements.first.text).to eq("More rapid COVID-19 tests to be rolled out across England")
+      expect(coronavirus_page.announcements.first.title).to eq("More rapid COVID-19 tests to be rolled out across England")
       expect(coronavirus_page.announcements.first.position).to eq(1)
     end
 
