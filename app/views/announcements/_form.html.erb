@@ -20,16 +20,36 @@
   error_message: error_items(@announcement.errors.messages, :path),
   hint: "Example format: /government/news/coronavirus-covid-19",
 } %>
+
 <% legend = capture do %>
   <span class="govuk-heading-s govuk-!-margin-bottom-0"><%= "Enter the date of publication" %></span>
 <% end %>
+
 <%= render "govuk_publishing_components/components/date_input", {
   name: "announcement[published_at]",
   id: "published_at",
   legend_text: legend,
   hint: "For example, 31 3 2020",
   error_message: error_items(@announcement.errors.messages, :published_at),
+  items: [
+    {
+      name: "day",
+      width: 2,
+      value: @announcement.published_at&.day
+    },
+    {
+      name: "month",
+      width: 2,
+      value: @announcement.published_at&.month
+    },
+    {
+      name: "year",
+      width: 4,
+      value: @announcement.published_at&.year
+    }
+  ]
 } %>
+
 <%= render "govuk_publishing_components/components/button", {
   text: "Save",
   margin_bottom: true
