@@ -4,15 +4,18 @@
     bold: true,
   },
   name: "announcement[title]",
+  value: @announcement.title,
   id: "title",
   error_message: error_items(@announcement.errors.messages, :title),
 } %>
+
 <%= render "govuk_publishing_components/components/input", {
   label: {
     text: "Enter the path to the announcement",
     bold: true,
   },
   name: "announcement[path]",
+  value: @announcement.path,
   id: "path",
   error_message: error_items(@announcement.errors.messages, :path),
   hint: "Example format: /government/news/coronavirus-covid-19",
