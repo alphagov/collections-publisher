@@ -3,7 +3,7 @@ content:
   meta_description: "Find out about the government response to coronavirus (COVID-19) and what you need to do."
   header_section: "header_section"
   announcements_label: "announcements_label"
-  announcements: "announcements"
+  announcements: []
   nhs_banner: "nhs_banner"
   sections_heading: "sections_heading"
   sections: "sections"

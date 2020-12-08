@@ -11,7 +11,7 @@ class CoronavirusPages::ContentBuilder
       validate_content
       data = github_data
       data["sections"] = sub_sections_data
-      data["announcements"] = announcements_data
+      data["announcements"] = announcements_data if coronavirus_page.announcements.any?
       add_live_stream(data)
       data["hidden_search_terms"] = hidden_search_terms
       data
