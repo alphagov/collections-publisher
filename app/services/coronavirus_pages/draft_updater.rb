@@ -18,6 +18,10 @@ module CoronavirusPages
       coronavirus_page.sub_sections.create(attrs)
     end
 
+    def rebuild_announcement(attrs)
+      coronavirus_page.announcements.create(attrs)
+    end
+
     def payload
       if content_builder.success?
         CoronavirusPagePresenter.new(content_builder.data, base_path).payload

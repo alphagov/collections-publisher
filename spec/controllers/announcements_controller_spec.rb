@@ -81,7 +81,18 @@ RSpec.describe AnnouncementsController, type: :controller do
       announcement
       expect { subject }.to change { Announcement.count }.by(-1)
     end
+
+    it "recreates the announcement if draft_updater fails" do
+      announcement
+      stub_any_publishing_api_put_content
+        .to_return(status: 500)
+      expect { subject }.not_to(change { Announcement.count })
+      expect(announcement.title).to eq Announcement.last.title
+      expect(announcement.path).to eq Announcement.last.path
+      expect(announcement.id).not_to eq Announcement.last.id
+    end
   end
+
   def setup_github_data
     raw_content = File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
     stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
