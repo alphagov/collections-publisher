@@ -232,8 +232,7 @@ end
 
 # Adding an announcement
 
-def set_up_github_data
-  coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
+def set_up_github_data(coronavirus_page)
   raw_content = File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
   stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
     .to_return(status: 200, body: raw_content)
@@ -250,6 +249,7 @@ def then_i_see_the_create_announcement_form
 end
 
 def when_i_fill_in_the_announcement_form_with_valid_data
+  set_up_github_data(@coronavirus_page)
   fill_in("title", with: "fancy title")
   fill_in("path", with: "/government")
   fill_in("announcement[published_at][day]", with: "12")
@@ -261,6 +261,21 @@ end
 def then_i_can_see_a_new_announcement_has_been_created
   expect(current_path).to eq("/coronavirus/landing")
   expect(expect(page).to(have_text("fancy title")))
+end
+
+# Deleting an announcement
+
+def when_i_delete_an_announcement
+  set_up_github_data(@coronavirus_page)
+
+  page.accept_alert "Are you sure?" do
+    page.find("a[href=\"/coronavirus/landing/announcements/#{@announcement_one.id}\"]", text: "Delete").click
+  end
+end
+
+def then_i_can_see_an_announcement_has_been_deleted
+  expect(page).to have_text("Announcement was successfully deleted.")
+  expect(page).not_to(have_text(@announcement_one.title))
 end
 
 def set_up_basic_sub_sections
