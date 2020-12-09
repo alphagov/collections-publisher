@@ -17,6 +17,19 @@ class AnnouncementsController < ApplicationController
     end
   end
 
+  def destroy
+    @announcement = coronavirus_page.announcements.find(params[:id])
+    @coronavirus_page = @announcement.coronavirus_page
+    attrs = @announcement.attributes.except("id", "created_at", "updated_at")
+    if @announcement.destroy && draft_updater.send
+      message = { notice: "Announcement was successfully deleted." }
+    else
+      draft_updater.rebuild_announcement(attrs)
+      message = { alert: "Announcement couldn't be deleted" }
+    end
+    redirect_to coronavirus_page_path(@coronavirus_page.slug), message
+  end
+
 private
 
   def coronavirus_page

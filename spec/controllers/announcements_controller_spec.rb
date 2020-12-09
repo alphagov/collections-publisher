@@ -24,19 +24,19 @@ RSpec.describe AnnouncementsController, type: :controller do
     end
   end
 
-  let(:announcement_params) do
-    {
-      title: title,
-      path: path,
-      published_at: published_at,
-    }
-  end
-
   describe "POST /coronavirus/:coronavirus_page_slug/announcements" do
     before do
       stub_user.permissions << "Unreleased feature"
       setup_github_data
       stub_coronavirus_publishing_api
+    end
+
+    let(:announcement_params) do
+      {
+        title: title,
+        path: path,
+        published_at: published_at,
+      }
     end
 
     it "redirects to coronavirus page on success" do
@@ -55,6 +55,33 @@ RSpec.describe AnnouncementsController, type: :controller do
     end
   end
 
+  describe "DELETE /coronavirus/:coronavirus_page_slug/announcements/:id" do
+    before do
+      stub_user.permissions << "Unreleased feature"
+      setup_github_data
+      stub_coronavirus_publishing_api
+    end
+
+    let(:announcement) { create(:announcement, coronavirus_page: coronavirus_page) }
+
+    let(:announcement_params) do
+      {
+        id: announcement,
+        coronavirus_page_slug: coronavirus_page.slug,
+      }
+    end
+
+    subject { delete :destroy, params: announcement_params }
+
+    it "redirects to the coronavirus page" do
+      expect(subject).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
+    end
+
+    it "deletes the announcement" do
+      announcement
+      expect { subject }.to change { Announcement.count }.by(-1)
+    end
+  end
   def setup_github_data
     raw_content = File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
     stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
