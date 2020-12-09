@@ -111,6 +111,8 @@ RSpec.describe AnnouncementsController, type: :controller do
   describe "PATCH /coronavirus/:coronavirus_page_slug/announcement" do
     before do
       stub_user.permissions << "Unreleased feature"
+      setup_github_data
+      stub_coronavirus_publishing_api
     end
 
     let(:updated_announcement_params) do
