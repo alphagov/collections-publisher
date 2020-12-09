@@ -97,4 +97,55 @@ RSpec.describe ListItemsController, type: :controller do
       end
     end
   end
+
+  describe "update" do
+    let(:list_item) { create(:list_item, index: 7) }
+
+    def patch_list_item
+      patch :update, params: {
+        tag_id: tag.content_id,
+        list_id: list.id,
+        format: :js,
+        id: list_item.id,
+        new_list_id: list.id,
+        index: index,
+      }
+    end
+
+    context "with valid parameters" do
+      let(:index) { 3 }
+
+      it "updates the list item" do
+        patch_list_item
+        expect(list_item.reload.index).to eq(index)
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "marks the tag as dirty" do
+        expect(tag.reload.dirty).to be(false)
+        patch_list_item
+        expect(tag.reload.dirty).to be(true)
+      end
+    end
+
+    context "with invalid parameters" do
+      let(:index) { -1 }
+
+      it "does not update the list item" do
+        patch_list_item
+        expect(list_item.reload.index).to eq(7)
+      end
+
+      it "returns an error status code" do
+        patch_list_item
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "returns JSON describing the errors" do
+        patch_list_item
+        json = JSON.parse(response.body)
+        expect(json["errors"]).to eq({ "index" => ["must be greater than or equal to 0"] })
+      end
+    end
+  end
 end
