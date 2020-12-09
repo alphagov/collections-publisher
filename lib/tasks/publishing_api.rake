@@ -40,6 +40,13 @@ namespace :publishing_api do
     end
   end
 
+  desc "Publish special route using its base path. It must already be defined in lib/special_route_publisher.rb"
+  task :publish_special_route, [:base_path] => :environment do |_task, args|
+    route = SpecialRoutePublisher.find_route(args.base_path)
+
+    SpecialRoutePublisher.new.publish(route)
+  end
+
   desc "Patch links for Mainstream Browse Pages"
   task patch_links_for_mainstream_browse_pages: :environment do
     MainstreamBrowsePage.all.each do |page|
