@@ -51,7 +51,7 @@ class ListItemsController < ApplicationController
         if destroyed
           render json: { errors: [] }
         else
-          render json: { errors: list_item.errors.to_json }, status: :unprocessable_entity
+          render json: { errors: list_item.errors }, status: :unprocessable_entity
         end
       end
     end

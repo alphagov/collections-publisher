@@ -148,4 +148,128 @@ RSpec.describe ListItemsController, type: :controller do
       end
     end
   end
+
+  describe "destroy" do
+    let!(:list_item) { create(:list_item, list: list) }
+
+    context "HTML format" do
+      let(:format) { :html }
+
+      context "with a valid list item ID" do
+        before { destroy_list_item }
+
+        it "destroys the list item" do
+          expect { ListItem.find(list_item.id) }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+
+        it "marks the tag as dirty" do
+          expect(tag.reload.dirty).to eq(true)
+        end
+
+        it "indicates a success state to the user" do
+          expect(flash.key?(:success)).to be(true)
+        end
+
+        it "redirects to tag lists path" do
+          expect(subject).to redirect_to(tag_lists_path(tag))
+        end
+      end
+
+      context "with a list item that can't be deleted" do
+        before { stub_tag_class }
+
+        it "redirects to the tag lists path" do
+          expect(destroy_list_item).to redirect_to(tag_lists_path(tag))
+        end
+
+        it "does not mark the tag as dirty" do
+          expect(tag).to_not receive(:mark_as_dirty!)
+          destroy_list_item
+        end
+
+        it "indicates a fail state to the user" do
+          destroy_list_item
+          expect(flash.key?(:danger)).to be(true)
+        end
+      end
+    end
+
+    context "JS format" do
+      let(:format) { :js }
+
+      context "with a valid list item ID" do
+        before { destroy_list_item }
+
+        it "destroys the list item" do
+          expect { ListItem.find(list_item.id) }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+
+        it "marks the tag as dirty" do
+          expect(tag.reload.dirty).to eq(true)
+        end
+
+        it "returns a success status code" do
+          expect(response).to have_http_status(:ok)
+        end
+
+        it "returns JSON confirming no errors" do
+          json = JSON.parse(response.body)
+          expect(json["errors"]).to eq([])
+        end
+      end
+
+      context "with a list item that can't be deleted" do
+        before { stub_tag_class }
+
+        it "does not mark the tag as dirty" do
+          expect(tag).to_not receive(:mark_as_dirty!)
+          destroy_list_item
+        end
+
+        it "returns an error status code" do
+          destroy_list_item
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "returns JSON describing the errors" do
+          destroy_list_item
+          json = JSON.parse(response.body)
+          expect(json.keys).to eq(%w[errors])
+        end
+      end
+    end
+
+    def destroy_list_item
+      delete :destroy, params: {
+        tag_id: tag.content_id,
+        list_id: list.id,
+        id: list_item.id,
+        format: format,
+      }
+    end
+
+    class StubbedTag
+      def initialize(tag)
+        @tag = tag
+      end
+
+      def find_by!(_content_id)
+        @tag
+      end
+    end
+
+    def stub_tag_class
+      stubbed_list_item = double(
+        "stubbed ListItem",
+        destroy!: nil,
+        destroyed?: false,
+        errors: {
+          "error_name": "Error description",
+        },
+      )
+      stubbed_list = double("stubbed List", list_items: double("stubbed list_items", find: stubbed_list_item))
+      stubbed_tag = double("stubbed Tag", to_param: tag.content_id, lists: double("stubbed lists", find: stubbed_list))
+      stub_const("Tag", StubbedTag.new(stubbed_tag))
+    end
+  end
 end
