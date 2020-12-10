@@ -5,7 +5,7 @@
      field: announcement.title,
      edit: { href: coronavirus_page_path(@coronavirus_page.slug) },
      delete: {
-       href: coronavirus_page_path(@coronavirus_page.slug),
+       href: coronavirus_page_announcement_path(@coronavirus_page.slug, announcement),
        data_attributes: {
          confirm: "Are you sure?",
          method: "delete"

@@ -24,19 +24,19 @@ RSpec.describe AnnouncementsController, type: :controller do
     end
   end
 
-  let(:announcement_params) do
-    {
-      title: title,
-      path: path,
-      published_at: published_at,
-    }
-  end
-
   describe "POST /coronavirus/:coronavirus_page_slug/announcements" do
     before do
       stub_user.permissions << "Unreleased feature"
       setup_github_data
       stub_coronavirus_publishing_api
+    end
+
+    let(:announcement_params) do
+      {
+        title: title,
+        path: path,
+        published_at: published_at,
+      }
     end
 
     it "redirects to coronavirus page on success" do
@@ -52,6 +52,44 @@ RSpec.describe AnnouncementsController, type: :controller do
       expect(announcement.title).to eq(title)
       expect(announcement.path).to eq(path)
       expect(announcement.published_at).to eq(published_at_time)
+    end
+  end
+
+  describe "DELETE /coronavirus/:coronavirus_page_slug/announcements/:id" do
+    before do
+      stub_user.permissions << "Unreleased feature"
+      setup_github_data
+      stub_coronavirus_publishing_api
+    end
+
+    let(:announcement) { create(:announcement, coronavirus_page: coronavirus_page) }
+
+    let(:announcement_params) do
+      {
+        id: announcement,
+        coronavirus_page_slug: coronavirus_page.slug,
+      }
+    end
+
+    subject { delete :destroy, params: announcement_params }
+
+    it "redirects to the coronavirus page" do
+      expect(subject).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
+    end
+
+    it "deletes the announcement" do
+      announcement
+      expect { subject }.to change { Announcement.count }.by(-1)
+    end
+
+    it "recreates the announcement if draft_updater fails" do
+      announcement
+      stub_any_publishing_api_put_content
+        .to_return(status: 500)
+      expect { subject }.not_to(change { Announcement.count })
+      expect(announcement.title).to eq Announcement.last.title
+      expect(announcement.path).to eq Announcement.last.path
+      expect(announcement.id).not_to eq Announcement.last.id
     end
   end
 
