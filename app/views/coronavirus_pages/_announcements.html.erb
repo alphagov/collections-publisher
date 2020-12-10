@@ -3,7 +3,7 @@
    {
      id: announcement.id,
      field: announcement.title,
-     edit: { href: coronavirus_page_path(@coronavirus_page.slug) },
+     edit: { href: edit_coronavirus_page_announcement_path(@coronavirus_page.slug, announcement) },
      delete: {
        href: coronavirus_page_announcement_path(@coronavirus_page.slug, announcement),
        data_attributes: {

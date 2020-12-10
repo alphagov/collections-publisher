@@ -263,8 +263,6 @@ def then_i_can_see_a_new_announcement_has_been_created
   expect(expect(page).to(have_text("fancy title")))
 end
 
-# Deleting an announcement
-
 def when_i_delete_an_announcement
   set_up_github_data(@coronavirus_page)
 
@@ -276,6 +274,25 @@ end
 def then_i_can_see_an_announcement_has_been_deleted
   expect(page).to have_text("Announcement was successfully deleted.")
   expect(page).not_to(have_text(@announcement_one.title))
+end
+
+def when_i_can_click_change_for_an_announcement
+  page.find("a[href=\"/coronavirus/landing/announcements/#{@announcement_one.id}/edit\"]", text: "Change").click
+end
+
+def then_i_see_the_edit_announcement_form
+  expect(page).to have_text("Edit announcement")
+end
+
+def when_i_can_edit_the_announcement_form_with_valid_data
+  set_up_github_data(@coronavirus_page)
+  fill_in("title", with: "Updated title")
+  click_on("Save")
+end
+
+def then_i_can_see_that_the_announcement_has_been_updated
+  expect(page).to have_content("Announcement was successfully updated.")
+  expect(page).to have_content("Updated title")
 end
 
 def set_up_basic_sub_sections

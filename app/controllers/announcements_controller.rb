@@ -30,6 +30,20 @@ class AnnouncementsController < ApplicationController
     redirect_to coronavirus_page_path(@coronavirus_page.slug), message
   end
 
+  def edit
+    @announcement = coronavirus_page.announcements.find(params[:id])
+  end
+
+  def update
+    @announcement = coronavirus_page.announcements.find(params[:id])
+
+    if @announcement.update(announcement_params) && draft_updater.send
+      redirect_to coronavirus_page_path(@coronavirus_page.slug), notice: "Announcement was successfully updated."
+    else
+      render :edit
+    end
+  end
+
 private
 
   def coronavirus_page

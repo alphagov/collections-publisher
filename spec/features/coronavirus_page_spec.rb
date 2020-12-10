@@ -125,6 +125,17 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         then_i_can_see_a_new_announcement_has_been_created
       end
 
+      scenario "Editing announcements" do
+        given_i_can_access_unreleased_features
+        given_there_is_coronavirus_page_with_announcements
+        when_i_visit_a_coronavirus_page
+        then_i_can_see_an_announcements_section
+        when_i_can_click_change_for_an_announcement
+        then_i_see_the_edit_announcement_form
+        when_i_can_edit_the_announcement_form_with_valid_data
+        then_i_can_see_that_the_announcement_has_been_updated
+      end
+
       scenario "Deleting announcements", js: true do
         given_i_can_access_unreleased_features
         given_there_is_coronavirus_page_with_announcements
