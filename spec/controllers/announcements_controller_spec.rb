@@ -12,14 +12,8 @@ RSpec.describe AnnouncementsController, type: :controller do
   let(:published_at) { { "day" => "12", "month" => "12", "year" => "1980" } }
 
   describe "GET /coronavirus/:coronavirus_page_slug/announcements/new" do
-    it "renders successfully if the user has unreleased feature permission" do
-      stub_user.permissions << "Unreleased feature"
-      get :new, params: { coronavirus_page_slug: coronavirus_page.slug }
-      expect(response).to have_http_status(:success)
-    end
-
     it "does not render successfully if the user does not have Coronavirus editor permissions" do
-      create :user, name: "Name Surname"
+      stub_user.permissions = %w[signin]
       get :new, params: { coronavirus_page_slug: coronavirus_page.slug }
       expect(response).to have_http_status(:forbidden)
     end
@@ -27,7 +21,6 @@ RSpec.describe AnnouncementsController, type: :controller do
 
   describe "POST /coronavirus/:coronavirus_page_slug/announcements" do
     before do
-      stub_user.permissions << "Unreleased feature"
       setup_github_data
       stub_coronavirus_publishing_api
     end
@@ -58,7 +51,6 @@ RSpec.describe AnnouncementsController, type: :controller do
 
   describe "DELETE /coronavirus/:coronavirus_page_slug/announcements/:id" do
     before do
-      stub_user.permissions << "Unreleased feature"
       setup_github_data
       stub_coronavirus_publishing_api
     end
@@ -96,13 +88,12 @@ RSpec.describe AnnouncementsController, type: :controller do
 
   describe "GET /coronavirus/:coronavirus_page_slug/announcements/:id/edit" do
     it "renders successfully" do
-      stub_user.permissions << "Unreleased feature"
       get :edit, params: { id: announcement, coronavirus_page_slug: coronavirus_page.slug }
       expect(response).to have_http_status(:success)
     end
 
     it "does not render successfully if the user does not have Coronavirus editor permissions" do
-      create :user
+      stub_user.permissions = %w[signin]
       get :new, params: { coronavirus_page_slug: coronavirus_page.slug }
       expect(response).to have_http_status(:forbidden)
     end
@@ -110,7 +101,6 @@ RSpec.describe AnnouncementsController, type: :controller do
 
   describe "PATCH /coronavirus/:coronavirus_page_slug/announcement" do
     before do
-      stub_user.permissions << "Unreleased feature"
       setup_github_data
       stub_coronavirus_publishing_api
     end
