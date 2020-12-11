@@ -18,47 +18,33 @@ namespace :publishing_api do
     PublishOrganisationsApiRoute.new.publish
   end
 
-  desc "Publish special routes"
+  desc "Publish all special routes"
   task publish_special_routes: :environment do
-    publishing_api = GdsApi::PublishingApi.new(
-      Plek.new.find("publishing-api"),
-      bearer_token: ENV["PUBLISHING_API_BEARER_TOKEN"] || "example",
-    )
+    publisher = SpecialRoutePublisher.new
 
-    logger = Logger.new(STDOUT)
-
-    publisher = SpecialRoutePublisher.new(
-      logger: logger,
-      publishing_api: publishing_api,
-    )
-
-    SpecialRoutePublisher.routes.each do |route_type, routes_for_type|
-      routes_for_type.each do |route|
-        publisher.publish(route_type, route)
-      end
+    SpecialRoutePublisher.routes.each do |route|
+      publisher.publish(route)
     end
   end
 
-  desc "Unpublish special routes"
+  desc "Unpublish all special routes as GONE. Please consider redirecting instead."
   task unpublish_special_routes: :environment do
-    publishing_api = Services.publishing_api
+    publisher = SpecialRoutePublisher.new
 
-    logger = Logger.new(STDOUT)
+    SpecialRoutePublisher.routes.each do |route|
+      options = {
+        type: "gone",
+      }
 
-    publisher = SpecialRoutePublisher.new(
-      logger: logger,
-      publishing_api: publishing_api,
-    )
-
-    SpecialRoutePublisher.routes.each do |_, routes_for_type|
-      routes_for_type.each do |route|
-        options = {
-          type: "gone",
-        }
-
-        publisher.unpublish(route[:content_id], options)
-      end
+      publisher.unpublish(route[:content_id], options)
     end
+  end
+
+  desc "Publish special route using its base path. It must already be defined in lib/special_route_publisher.rb"
+  task :publish_special_route, [:base_path] => :environment do |_task, args|
+    route = SpecialRoutePublisher.find_route(args.base_path)
+
+    SpecialRoutePublisher.new.publish(route)
   end
 
   desc "Patch links for Mainstream Browse Pages"

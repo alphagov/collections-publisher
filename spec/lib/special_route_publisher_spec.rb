@@ -3,40 +3,50 @@ require_relative "../../lib/special_route_publisher"
 
 RSpec.describe SpecialRoutePublisher do
   describe "publish" do
-    it "calls 'publish' on the passed 'publisher' argument" do
-      publisher = double("GdsApi::PublishingApi::SpecialRoutePublisher")
-      expect(publisher).to receive(:publish).with(hash_including({
-        publishing_app: "collections-publisher",
-        rendering_app: "collections",
-        type: "route_type",
-        public_updated_at: Time.zone.now.iso8601,
-        update_type: "major",
-        foo: "bar",
-      }))
+    it "calls 'publish' on SpecialRoutePublisher with a route" do
+      route = {
+        document_type: "answer",
+        content_id: SecureRandom.uuid,
+        base_path: "/foo",
+        locale: "en",
+        title: "Title",
+        description: "description",
+      }
 
-      SpecialRoutePublisher.new({}, publisher)
-        .publish("route_type", { foo: "bar" })
+      expect_any_instance_of(GdsApi::PublishingApi::SpecialRoutePublisher)
+        .to receive(:publish)
+        .with(
+          {
+            publishing_app: "collections-publisher",
+            rendering_app: "collections",
+            type: "exact",
+            update_type: "major",
+          }.merge(route),
+        ).at_least(:once)
+
+      SpecialRoutePublisher.new
+        .publish(route)
     end
   end
 
   describe "unpublish" do
     it "calls Publishing API's unpublish method directly" do
-      publishing_api = double("Publishing API")
       content_id = SecureRandom.uuid
-      options = { foo: "bar" }
-      expect(publishing_api).to receive(:unpublish).with(
+      options = { type: "exact" }
+
+      expect(Services.publishing_api).to receive(:unpublish).with(
         content_id,
         options,
       )
 
-      SpecialRoutePublisher.new({ publishing_api: publishing_api })
+      SpecialRoutePublisher.new
         .unpublish(content_id, options)
     end
   end
 
   describe "routes" do
-    it "should return a hash" do
-      expect(SpecialRoutePublisher.routes).to include(:exact)
+    it "should return an array of routes" do
+      expect(SpecialRoutePublisher.routes.first).to include(:content_id)
     end
   end
 end
