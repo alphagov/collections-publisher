@@ -5,20 +5,12 @@ RSpec.describe ReorderAnnouncementsController, type: :controller do
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
 
   describe "GET Coronavirus reorder announcements page" do
-    it "can only be accessed by users with Coronavirus editor and Unreleased feature permissions" do
-      stub_user.permissions << "Unreleased feature"
-
+    it "can only be accessed by users with Coronavirus editor permissions" do
       get :index, params: { coronavirus_page_slug: coronavirus_page.slug }
       expect(response).to have_http_status(:success)
     end
 
-    it "cannot be accessed by users with only Coronavirus editor permissions" do
-      get :index, params: { coronavirus_page_slug: coronavirus_page.slug }
-
-      expect(response.status).to eq(403)
-    end
-
-    it "cannot be accessed by users without Coronavirus editor and Unreleased feature permissions" do
+    it "cannot be accessed by users without Coronavirus editor permissions" do
       stub_user.permissions = %w[signin]
       get :index, params: { coronavirus_page_slug: coronavirus_page.slug }
 
@@ -33,7 +25,6 @@ RSpec.describe ReorderAnnouncementsController, type: :controller do
     before do
       setup_github_data
       stub_coronavirus_publishing_api
-      stub_user.permissions << "Unreleased feature"
     end
 
     it "reorders the announcements" do
