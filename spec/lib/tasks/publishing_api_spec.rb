@@ -11,11 +11,11 @@ RSpec.describe "rake publishing_api:publish_special_route", type: :task do
     expected_payload = {
       base_path: "/eubusiness.de",
       content_id: "bb986a97-3b8c-4b1a-89bf-2a9f46be9747",
-      description: "The UK has left the EU. On 31 December 2020 the UK will leave the EU single market and customs union. From 1 January 2021 the rules for trading with the UK will change.",
+      description: "Das Vereinigte Königreich ist aus der EU ausgetreten. Am 31. Dezember 2020 wird das Vereinigte Königreich den EU-Binnenmarkt und die Zollunion verlassen. Ab 1. Januar 2021 ändern sich die Regeln für den Handel mit dem Vereinigten Königreich.",
       locale: "de",
       publishing_app: "collections-publisher",
       rendering_app: "collections",
-      title: "Trade with the UK from 1 January 2021 as a business based in the EU",
+      title: "Handel mit dem Vereinigten Königreich ab 1. Januar 2021 als Unternehmen mit Sitz in der EU",
       type: "exact",
       update_type: "major",
     }
