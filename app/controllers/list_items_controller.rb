@@ -23,7 +23,7 @@ class ListItemsController < ApplicationController
         if saved
           render json: { errors: [], updateURL: tag_list_list_item_path(@tag, @list, list_item) }
         else
-          render json: { errors: list_item.errors.to_json }, status: :unprocessable_entity
+          render json: { errors: list_item.errors }, status: :unprocessable_entity
         end
       end
     end
@@ -51,7 +51,7 @@ class ListItemsController < ApplicationController
         if destroyed
           render json: { errors: [] }
         else
-          render json: { errors: list_item.errors.to_json }, status: :unprocessable_entity
+          render json: { errors: list_item.errors }, status: :unprocessable_entity
         end
       end
     end
@@ -69,7 +69,7 @@ class ListItemsController < ApplicationController
 
           render json: { errors: [] }
         else
-          render json: { errors: list_item.errors.to_json }, status: :unprocessable_entity
+          render json: { errors: list_item.errors }, status: :unprocessable_entity
         end
       end
     end

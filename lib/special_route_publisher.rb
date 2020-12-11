@@ -1,9 +1,9 @@
 require "gds_api/publishing_api/special_route_publisher"
 
 class SpecialRoutePublisher
-  def initialize(publisher_options)
+  def initialize(publisher_options, publisher = nil)
     @publishing_api = publisher_options[:publishing_api]
-    @publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(publisher_options)
+    @publisher = publisher || GdsApi::PublishingApi::SpecialRoutePublisher.new(publisher_options)
   end
 
   def publish(route_type, route)
