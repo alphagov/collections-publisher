@@ -2,11 +2,7 @@
 
 <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Coronavirus landing page</h2>
 <ul class="govuk-list">
-  <% if unreleased_feature_user? %>
-    <li><%= link_to "Edit landing page accordions and announcements", coronavirus_page_path(slug: @topic_page.slug), class:"govuk-link" %></li>
-  <% else %>
-    <li><%= link_to "Edit landing page accordions", coronavirus_page_path(slug: @topic_page.slug), class:"govuk-link" %></li>
-  <% end %>
+  <li><%= link_to "Edit landing page accordions and announcements", coronavirus_page_path(slug: @topic_page.slug), class:"govuk-link" %></li>
   <li><%= link_to "Edit live stream URL", live_stream_index_path, class:"govuk-link" %></li>
   <li><%= link_to "Edit something else on the landing page", prepare_coronavirus_page_path(slug: @topic_page[:slug]), class:"govuk-link" %></li>
 </ul>
