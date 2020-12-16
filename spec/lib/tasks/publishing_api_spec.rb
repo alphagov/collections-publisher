@@ -23,7 +23,10 @@ RSpec.describe "rake publishing_api:publish_special_route", type: :task do
     allow(Services.publishing_api).to receive(:put_content)
     allow(Services.publishing_api).to receive(:publish)
 
-    expect_any_instance_of(GdsApi::PublishingApi::SpecialRoutePublisher).to receive(:publish).with(expected_payload)
+    expect_any_instance_of(GdsApi::PublishingApi::SpecialRoutePublisher)
+      .to receive(:publish)
+      .with(expected_payload)
+      .at_least(:once)
 
     Rake::Task["publishing_api:publish_special_route"].invoke("/eubusiness.de")
   end
