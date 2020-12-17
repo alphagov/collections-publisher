@@ -94,6 +94,8 @@ class CoronavirusPages::ContentBuilder
   end
 
   def persisted_live_stream_data
+    return {} unless LiveStream.any?
+
     live_stream = LiveStream.last
     {
       "video_url" => live_stream.url,

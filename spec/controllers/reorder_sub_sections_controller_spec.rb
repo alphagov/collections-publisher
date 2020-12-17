@@ -4,7 +4,6 @@ RSpec.describe ReorderSubSectionsController, type: :controller do
   render_views
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
   let(:coronavirus_page) { create :coronavirus_page, :of_known_type }
-  let(:live_stream) { create :live_stream, :without_validations }
   let(:slug) { coronavirus_page.slug }
   let(:raw_content_url) { CoronavirusPages::Configuration.page(slug)[:raw_content_url] }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
@@ -22,7 +21,6 @@ RSpec.describe ReorderSubSectionsController, type: :controller do
       stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
         .to_return(status: 200, body: raw_content)
       stub_coronavirus_publishing_api
-      live_stream
     end
     let(:sub_section_0) { create :sub_section, position: 0, coronavirus_page: coronavirus_page }
     let(:sub_section_1) { create :sub_section, position: 1, coronavirus_page: coronavirus_page }
