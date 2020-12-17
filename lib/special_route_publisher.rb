@@ -3,8 +3,7 @@ require "gds_api/publishing_api/special_route_publisher"
 class SpecialRoutePublisher
   def initialize
     @publishing_api = Services.publishing_api
-    logger = Rails.logger
-    @publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(logger: logger, publishing_api: @publishing_api)
+    @publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(publishing_api: @publishing_api)
   end
 
   def publish(route)
