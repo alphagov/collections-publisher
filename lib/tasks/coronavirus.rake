@@ -23,11 +23,4 @@ namespace :coronavirus do
     puts "title: #{page.title}"
     puts "sections_title: #{page.sections_title}"
   end
-
-  desc "Sync announcements with entries in the yaml file"
-  task sync_announcements: :environment do
-    CoronavirusPages::AnnouncementsBuilder.new.create_announcements
-
-    puts "Announcements synced for coronavirus landing page..."
-  end
 end
