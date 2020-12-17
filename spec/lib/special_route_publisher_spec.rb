@@ -2,7 +2,7 @@ require "rails_helper"
 require_relative "../../lib/special_route_publisher"
 
 RSpec.describe SpecialRoutePublisher do
-  describe "publish" do
+  describe "#publish" do
     it "calls 'publish' on SpecialRoutePublisher with a route" do
       route = {
         document_type: "answer",
@@ -22,14 +22,14 @@ RSpec.describe SpecialRoutePublisher do
             type: "exact",
             update_type: "major",
           }.merge(route),
-        ).at_least(:once)
+        )
 
-      SpecialRoutePublisher.new
+      described_class.new
         .publish(route)
     end
   end
 
-  describe "unpublish" do
+  describe "#unpublish" do
     it "calls Publishing API's unpublish method directly" do
       content_id = SecureRandom.uuid
       options = { type: "exact" }
@@ -39,14 +39,22 @@ RSpec.describe SpecialRoutePublisher do
         options,
       )
 
-      SpecialRoutePublisher.new
+      described_class.new
         .unpublish(content_id, options)
     end
   end
 
-  describe "routes" do
+  describe ".routes" do
     it "should return an array of routes" do
-      expect(SpecialRoutePublisher.routes.first).to include(:content_id)
+      expect(described_class.routes.first).to include(:content_id)
+    end
+  end
+
+  describe ".find_route" do
+    it "returns a route by its base_path" do
+      path = "/eubusiness"
+      response = described_class.find_route(path)
+      expect(response).to include(base_path: path)
     end
   end
 end
