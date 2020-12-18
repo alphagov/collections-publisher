@@ -7,7 +7,7 @@
      delete: {
        href: coronavirus_page_announcement_path(@coronavirus_page.slug, announcement),
        data_attributes: {
-         confirm: "Are you sure?",
+         confirm: t("coronavirus_pages.announcements.confirm"),
          method: "delete"
        }
      }
@@ -19,12 +19,12 @@
     title: "Announcements",
     items: announcements,
     edit: {
-      link_text: "Reorder",
+      link_text: t("coronavirus_pages.announcements.reorder"),
       href: reorder_coronavirus_page_announcements_path(@coronavirus_page.slug)
     }
   } %>
   <%= render "govuk_publishing_components/components/button", {
-    text: "Add announcement",
+    text: t("coronavirus_pages.announcements.add"),
     href: new_coronavirus_page_announcement_path(@coronavirus_page.slug)
   } %>
 </div>

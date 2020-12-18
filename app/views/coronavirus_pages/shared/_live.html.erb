@@ -1,9 +1,9 @@
 <%= render "govuk_publishing_components/components/heading", {
-  text: "6. Check live",
+  text: t("coronavirus_pages.live.heading"),
   padding: true
 } %>
 <%= render "govuk_publishing_components/components/button", {
-    text: "View live version",
+    text: t("coronavirus_pages.live.button_text"),
     href: published_url(path.delete_prefix("/")),
     target: "_blank",
     secondary: true

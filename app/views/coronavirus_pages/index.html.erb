@@ -2,15 +2,15 @@
 
 <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Coronavirus landing page</h2>
 <ul class="govuk-list">
-  <li><%= link_to "Edit landing page accordions and announcements", coronavirus_page_path(slug: @topic_page.slug), class:"govuk-link" %></li>
-  <li><%= link_to "Edit live stream URL", live_stream_index_path, class:"govuk-link" %></li>
-  <li><%= link_to "Edit something else on the landing page", prepare_coronavirus_page_path(slug: @topic_page[:slug]), class:"govuk-link" %></li>
+  <li><%= link_to t("coronavirus_pages.index.landing_page_edit.accordions"), coronavirus_page_path(slug: @topic_page.slug), class:"govuk-link" %></li>
+  <li><%= link_to t("coronavirus_pages.index.landing_page_edit.live_stream_url"), live_stream_index_path, class:"govuk-link" %></li>
+  <li><%= link_to t("coronavirus_pages.index.landing_page_edit.something_else"), prepare_coronavirus_page_path(slug: @topic_page[:slug]), class:"govuk-link" %></li>
 </ul>
 
 <% @subtopic_pages.each do |page| %>
   <h2 class="govuk-heading-s govuk-!-margin-bottom-2"><%=page.name%></h2>
   <ul class="govuk-list">
-    <li class="covid__spaced-list-item"><%= link_to "Edit #{page.name.downcase} accordions", coronavirus_page_path(slug: page.slug), class:"govuk-link" %></li>
-    <li class="covid__spaced-list-item"><%= link_to "Edit something else on the #{page.name.downcase}", prepare_coronavirus_page_path(slug: page[:slug]), class:"govuk-link" %></li>
+    <li class="covid__spaced-list-item"><%= link_to t("coronavirus_pages.index.subtopic_edit.accordions", page_name: page.name.downcase), coronavirus_page_path(slug: page.slug), class:"govuk-link" %></li>
+    <li class="covid__spaced-list-item"><%= link_to "#{t("coronavirus_pages.index.subtopic_edit.something")} #{page.name.downcase}", prepare_coronavirus_page_path(slug: page[:slug]), class:"govuk-link" %></li>
   </ul>
 <% end %>
