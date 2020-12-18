@@ -3,8 +3,6 @@ require "rails_helper"
 RSpec.describe "rake step_by_step:set_status", type: :task do
   before do
     allow(Services.publishing_api).to receive(:lookup_content_id)
-
-    Rails.application.load_tasks
     Rake::Task["step_by_step:set_status"].reenable
   end
 
