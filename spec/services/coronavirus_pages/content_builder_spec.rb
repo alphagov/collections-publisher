@@ -6,7 +6,6 @@ RSpec.describe CoronavirusPages::ContentBuilder do
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
   let(:sub_section_json) { SubSectionJsonPresenter.new(sub_section, coronavirus_page.content_id).output }
   let(:announcement_json) { AnnouncementJsonPresenter.new(announcement).output }
-  let!(:live_stream) { create :live_stream, :without_validations }
 
   subject { described_class.new(coronavirus_page) }
   before do
@@ -22,6 +21,7 @@ RSpec.describe CoronavirusPages::ContentBuilder do
   describe "#data" do
     let!(:sub_section) { create :sub_section, coronavirus_page_id: coronavirus_page.id }
     let!(:announcement) { create :announcement, coronavirus_page: coronavirus_page }
+    let!(:live_stream) { create :live_stream, :without_validations }
     let(:github_livestream_data) { github_content.dig("content", "live_stream") }
 
     let(:live_stream_data) do
@@ -85,6 +85,22 @@ RSpec.describe CoronavirusPages::ContentBuilder do
         announcement_0.save!
         expect(subject.announcements_data).to eq [announcement_1_json, announcement_0_json]
       end
+    end
+  end
+
+  describe "#add_live_stream" do
+    let(:data) { github_content["content"] }
+
+    it "adds livestream data from github and the database" do
+      live_stream = create(:live_stream, :without_validations)
+
+      subject.add_live_stream(data)
+      expect(data["live_stream"]["video_url"]).to eq(live_stream.url)
+    end
+
+    it "only adds livestream data from github if there isn't a livestream in the database" do
+      subject.add_live_stream(data)
+      expect(data["live_stream"]["video_url"]).to be_nil
     end
   end
 
