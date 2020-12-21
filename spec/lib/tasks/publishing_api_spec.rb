@@ -3,7 +3,6 @@ require "gds_api/publishing_api/special_route_publisher"
 
 RSpec.describe "rake publishing_api:publish_special_route", type: :task do
   before do
-    Rails.application.load_tasks
     Rake::Task["publishing_api:publish_special_route"].reenable
     stub_any_publishing_api_put_content
     stub_any_publishing_api_publish
