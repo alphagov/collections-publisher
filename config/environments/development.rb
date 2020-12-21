@@ -52,4 +52,6 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   config.hosts << "collections-publisher.dev.gov.uk"
+
+  config.unreleased_features = true
 end

@@ -11,7 +11,6 @@ RSpec.describe CoronavirusPagePresenter do
   let(:meta_description) { github_content["content"]["meta_description"] }
   let(:data) { CoronavirusPages::ContentBuilder.new(coronavirus_page).data }
   let(:details) { data.except(title, meta_description) }
-  let!(:live_stream) { create :live_stream, :without_validations }
 
   let(:payload) do
     {
@@ -33,7 +32,6 @@ RSpec.describe CoronavirusPagePresenter do
   subject { described_class.new(data, base_path) }
 
   before do
-    live_stream
     stub_request(:get, Regexp.new(coronavirus_page.raw_content_url))
       .to_return(status: 200, body: github_content.to_json)
     stub_coronavirus_publishing_api
