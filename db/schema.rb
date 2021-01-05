@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_24_144059) do
+ActiveRecord::Schema.define(version: 2021_01_04_141058) do
 
   create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "coronavirus_page_id"
@@ -199,6 +199,16 @@ ActiveRecord::Schema.define(version: 2020_11_24_144059) do
     t.index ["slug", "parent_id"], name: "index_tags_on_slug_and_parent_id", unique: true
   end
 
+  create_table "timeline_entries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "coronavirus_page_id", null: false
+    t.string "content", null: false
+    t.string "heading", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coronavirus_page_id"], name: "index_timeline_entries_on_coronavirus_page_id"
+  end
+
   create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -225,4 +235,5 @@ ActiveRecord::Schema.define(version: 2020_11_24_144059) do
   add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "to_tag_id", name: "tag_associations_to_tag_id_fk", on_delete: :cascade
   add_foreign_key "tags", "tags", column: "parent_id", name: "tags_parent_id_fk"
+  add_foreign_key "timeline_entries", "coronavirus_pages"
 end
