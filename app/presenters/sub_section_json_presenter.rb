@@ -132,6 +132,8 @@ class SubSectionJsonPresenter
 
   def description_for_featured_link(base_path)
     content_item(base_path)["description"]
+  rescue GdsApi::HTTPNotFound
+    nil
   end
 
   def content_item(base_path)
