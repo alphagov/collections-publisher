@@ -24,6 +24,11 @@
           <md-link class="app-c-markdown-editor__toolbar-button" title="Link" aria-label="Link">
             <%= render "components/markdown_editor/link.svg" %>
           </md-link>
+          <% if controls.include?(:blockquote) %>
+            <md-quote class="app-c-markdown-editor__toolbar-button" title="Blockquote" aria-label="Blockquote" data-gtm="markdown-toolbar-blockquote" data-gtm-click-tracking="true">
+              <%= render "components/markdown_editor/blockquote.svg" %>
+            </md-quote>
+          <% end %>
           <% if controls.include?(:bullets) %>
             <md-unordered-list class="app-c-markdown-editor__toolbar-button" title="Bullets" aria-label="Bullets">
               <%= render "components/markdown_editor/bullets.svg" %>

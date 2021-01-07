@@ -50,4 +50,18 @@ RSpec.describe "Markdown editor", type: :view do
     assert_select ".app-c-markdown-editor__toolbar-button[title='Heading level 2']", count: 1
     assert_select ".app-c-markdown-editor__toolbar-button[title='Heading level 3']", count: 1
   end
+
+  it "renders blockquote toolbar button if blockquote is configured" do
+    render "components/markdown_editor",
+           controls: [:blockquote],
+           label: {
+             text: "Body",
+           },
+           textarea: {
+             name: "markdown-editor",
+             id: "markdown-editor",
+           }
+
+    assert_select ".app-c-markdown-editor__toolbar-button[title='Blockquote']", count: 1
+  end
 end
