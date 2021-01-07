@@ -35,6 +35,8 @@ Rails.application.routes.draw do
         put "reorder", to: "reorder_announcements#update"
       end
     end
+
+    resources :timeline_entries, only: [:new]
   end
 
   resources :step_by_step_pages, path: "step-by-step-pages" do
