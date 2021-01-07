@@ -260,4 +260,11 @@ FactoryBot.define do
     published_at { Time.zone.local(2020, 9, 11) }
     coronavirus_page
   end
+
+  factory :timeline_entry do
+    content { "Amazing fantastic content" }
+    heading { "Unbelievable heading" }
+    position { 1 }
+    coronavirus_page
+  end
 end
