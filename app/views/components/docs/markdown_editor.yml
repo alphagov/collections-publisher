@@ -34,3 +34,11 @@ examples:
       textarea:
         name: markdown-editor
         id: markdown-editor
+  with_headings_buttons:
+    data:
+      controls: [:headings]
+      label:
+        text: Body
+      textarea:
+        name: markdown-editor
+        id: markdown-editor
