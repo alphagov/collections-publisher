@@ -29,6 +29,11 @@
               <%= render "components/markdown_editor/blockquote.svg" %>
             </md-quote>
           <% end %>
+          <% if controls.include?(:numbered_list) %>
+            <md-ordered-list class="app-c-markdown-editor__toolbar-button" title="Numbered list" aria-label="Numbered list" data-gtm="markdown-toolbar-list" data-gtm-click-tracking="true">
+              <%= render "components/markdown_editor/numbered_list.svg" %>
+            </md-ordered-list>
+          <% end %>
           <% if controls.include?(:bullets) %>
             <md-unordered-list class="app-c-markdown-editor__toolbar-button" title="Bullets" aria-label="Bullets">
               <%= render "components/markdown_editor/bullets.svg" %>

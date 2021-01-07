@@ -64,4 +64,18 @@ RSpec.describe "Markdown editor", type: :view do
 
     assert_select ".app-c-markdown-editor__toolbar-button[title='Blockquote']", count: 1
   end
+
+  it "renders numbered list toolbar button if numbered_list is configured" do
+    render "components/markdown_editor",
+           controls: [:numbered_list],
+           label: {
+             text: "Body",
+           },
+           textarea: {
+             name: "markdown-editor",
+             id: "markdown-editor",
+           }
+
+    assert_select ".app-c-markdown-editor__toolbar-button[title='Numbered list']", count: 1
+  end
 end
