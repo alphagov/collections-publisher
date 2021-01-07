@@ -26,9 +26,9 @@ examples:
       textarea:
         name: markdown-editor
         id: markdown-editor
-  without_bullet_list_button:
+  with_bullet_list_button:
     data:
-      hide_bullets_button: true
+      bullets_button: true
       label:
         text: Body
       textarea:
