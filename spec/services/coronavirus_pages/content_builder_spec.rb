@@ -6,6 +6,7 @@ RSpec.describe CoronavirusPages::ContentBuilder do
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
   let(:sub_section_json) { SubSectionJsonPresenter.new(sub_section, coronavirus_page.content_id).output }
   let(:announcement_json) { AnnouncementJsonPresenter.new(announcement).output }
+  let(:timeline_json) { { "heading" => timeline_entry["heading"], "paragraph" => timeline_entry["content"] } }
 
   subject { described_class.new(coronavirus_page) }
   before do
@@ -21,6 +22,7 @@ RSpec.describe CoronavirusPages::ContentBuilder do
   describe "#data" do
     let!(:sub_section) { create :sub_section, coronavirus_page_id: coronavirus_page.id }
     let!(:announcement) { create :announcement, coronavirus_page: coronavirus_page }
+    let!(:timeline_entry) { create :timeline_entry, coronavirus_page: coronavirus_page }
     let!(:live_stream) { create :live_stream, :without_validations }
     let(:github_livestream_data) { github_content.dig("content", "live_stream") }
 
@@ -31,7 +33,7 @@ RSpec.describe CoronavirusPages::ContentBuilder do
       )
     end
 
-    let(:data) { github_content["content"] }
+    let(:data) { github_content["content"].deep_dup }
 
     let(:hidden_search_terms) do
       [
@@ -39,8 +41,6 @@ RSpec.describe CoronavirusPages::ContentBuilder do
         sub_section_json[:sub_sections].first[:list].first[:label],
         data["timeline"]["list"].first["heading"],
         MarkdownService.new.strip_markdown(data["timeline"]["list"].first["paragraph"]),
-        data["timeline"]["list"].last["heading"],
-        MarkdownService.new.strip_markdown(data["timeline"]["list"].last["paragraph"]),
       ]
     end
 
@@ -48,11 +48,23 @@ RSpec.describe CoronavirusPages::ContentBuilder do
       data["sections"] = [sub_section_json]
       data["live_stream"] = live_stream_data
       data["announcements"] = [announcement_json]
+      data["timeline"]["list"] = [timeline_json]
       data["hidden_search_terms"] = hidden_search_terms
     end
 
     it "returns github and model data" do
       expect(subject.data).to eq data
+    end
+
+    context "when unreleased features are off" do
+      before do
+        allow(Rails.configuration).to receive(:unreleased_features).and_return(false)
+      end
+
+      it "includes the timeline data from github" do
+        expect(subject.data["timeline"]["list"])
+          .to eq(github_content["content"]["timeline"]["list"])
+      end
     end
   end
 
@@ -85,6 +97,18 @@ RSpec.describe CoronavirusPages::ContentBuilder do
         announcement_0.save!
         expect(subject.announcements_data).to eq [announcement_1_json, announcement_0_json]
       end
+    end
+  end
+
+  describe "#timeline_data" do
+    let!(:timeline_entry_0) { create :timeline_entry, position: 2, coronavirus_page: coronavirus_page  }
+    let!(:timeline_entry_1) { create :timeline_entry, position: 1, coronavirus_page: coronavirus_page  }
+
+    it "returns the timeline JSON ordered by position" do
+      expect(subject.timeline_data).to eq [
+        { "heading" => timeline_entry_1.heading, "paragraph" => timeline_entry_1.content },
+        { "heading" => timeline_entry_0.heading, "paragraph" => timeline_entry_0.content },
+      ]
     end
   end
 
