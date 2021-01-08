@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_04_141058) do
+ActiveRecord::Schema.define(version: 2021_01_08_140318) do
 
   create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "coronavirus_page_id"
@@ -201,7 +201,7 @@ ActiveRecord::Schema.define(version: 2021_01_04_141058) do
 
   create_table "timeline_entries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "coronavirus_page_id", null: false
-    t.string "content", null: false
+    t.text "content", null: false
     t.string "heading", null: false
     t.integer "position", null: false
     t.datetime "created_at", null: false
