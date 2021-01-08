@@ -36,7 +36,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :timeline_entries, only: [:new]
+    resources :timeline_entries, only: %i[new create]
   end
 
   resources :step_by_step_pages, path: "step-by-step-pages" do
