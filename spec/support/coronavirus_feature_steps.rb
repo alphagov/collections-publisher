@@ -371,23 +371,13 @@ def then_the_reordered_subsections_are_sent_to_publishing_api
 
   assert_publishing_api_put_content(
     CoronavirusPage.topic_page.first.content_id,
-    request_json_includes(
-      "details" => {
-        "header_section" => "header_section",
-        "announcements_label" => "announcements_label",
-        "announcements" => [],
-        "nhs_banner" => "nhs_banner",
-        "sections_heading" => "sections_heading",
-        "topic_section" => "topic_section",
-        "live_stream" => {
-          "video_url" => LiveStream.first.url,
-          "date" => LiveStream.first.formatted_stream_date,
-        },
-        "notifications" => "notifications",
+    lambda do |request|
+      details = JSON.parse(request.body)["details"]
+      expect(details).to match hash_including({
         "sections" => reordered_sections,
         "hidden_search_terms" => hidden_search_terms.flatten.select(&:present?).uniq,
-      },
-    ),
+      })
+    end,
   )
 end
 
