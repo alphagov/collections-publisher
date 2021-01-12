@@ -13,6 +13,7 @@ module CoronavirusPages
         coronavirus_page.update!(state: "published")
         update_announcements
         update_sub_sections
+        update_timeline_entries
       end
     end
 
@@ -59,6 +60,25 @@ module CoronavirusPages
 
     def sections_from_payload
       payload_from_publishing_api[:details][:sections] || []
+    end
+
+    def update_timeline_entries
+      coronavirus_page.timeline_entries.destroy_all
+      coronavirus_page.timeline_entries = timeline_entries
+    end
+
+    def timeline_entries
+      timeline_entries_from_payload.each_with_index.map do |attributes, index|
+        TimelineEntry.new(
+          heading: attributes[:heading],
+          content: attributes[:paragraph],
+          position: index + 1,
+        )
+      end
+    end
+
+    def timeline_entries_from_payload
+      payload_from_publishing_api.dig(:details, :timeline, :list) || []
     end
 
     def payload_from_publishing_api

@@ -12,6 +12,12 @@ class CoronavirusPages::ContentBuilder
       data = github_data
       data["sections"] = sub_sections_data
       data["announcements"] = announcements_data
+
+      if Rails.configuration.unreleased_features
+        data["timeline"] ||= {}
+        data["timeline"]["list"] = timeline_data
+      end
+
       add_live_stream(data)
       data["hidden_search_terms"] = hidden_search_terms
       data
@@ -91,6 +97,14 @@ class CoronavirusPages::ContentBuilder
       presenter = AnnouncementJsonPresenter.new(announcement)
       presenter.output
     end
+  end
+
+  def timeline_data
+    coronavirus_page
+      .timeline_entries
+      .order(:position)
+      .pluck(:heading, :content)
+      .map { |(heading, content)| { "heading" => heading, "paragraph" => content } }
   end
 
   def persisted_live_stream_data

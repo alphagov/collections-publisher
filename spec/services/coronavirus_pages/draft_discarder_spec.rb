@@ -108,6 +108,39 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
     end
   end
 
+  describe "timeline entries" do
+    it "replaces the existing timeline entries" do
+      create(
+        :timeline_entry,
+        coronavirus_page: coronavirus_page,
+        heading: "Foo",
+      )
+
+      stub_publishing_api_has_item(payload_from_publishing_api)
+
+      described_class.new(coronavirus_page).call
+      coronavirus_page.reload
+
+      expect(coronavirus_page.timeline_entries.count).to eq(1)
+      expect(coronavirus_page.timeline_entries.first.heading).to eq("5 January")
+      expect(coronavirus_page.timeline_entries.first.position).to eq(1)
+    end
+
+    it "removes the timeline entries if there isn't a timeline list in Publishing API" do
+      create(:timeline_entry, coronavirus_page: coronavirus_page)
+
+      payload = payload_from_publishing_api
+      payload["details"]["timeline"]["list"].clear
+
+      stub_publishing_api_has_item(payload)
+
+      described_class.new(coronavirus_page).call
+      coronavirus_page.reload
+
+      expect(coronavirus_page.timeline_entries.count).to eq(0)
+    end
+  end
+
   it "sets the status to published" do
     stub_publishing_api_has_item(payload_from_publishing_api)
 

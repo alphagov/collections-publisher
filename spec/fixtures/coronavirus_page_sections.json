@@ -49,7 +49,16 @@
           }
         ]
       }
-    ]
+    ],
+    "timeline": {
+      "list": [
+        {
+          "heading": "5 January",
+          "paragraph": "[National lockdown rules apply in England](/guidance/national-lockdown-stay-at-home). Stay at home."
+        }
+      ],
+      "heading": "Recent and upcoming changes"
+    }
   },
   "state_history": { "1": "published" }
 }
