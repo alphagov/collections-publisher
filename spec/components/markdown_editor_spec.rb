@@ -78,4 +78,18 @@ RSpec.describe "Markdown editor", type: :view do
 
     assert_select ".app-c-markdown-editor__toolbar-button[title='Numbered list']", count: 1
   end
+
+  it "renders error messages if passed to the component" do
+    render "components/markdown_editor",
+           error_message: "Something is wrong",
+           label: {
+             text: "Body",
+           },
+           textarea: {
+             name: "markdown-editor",
+             id: "markdown-editor",
+           }
+
+    assert_select ".govuk-error-message", text: "Error: Something is wrong"
+  end
 end
