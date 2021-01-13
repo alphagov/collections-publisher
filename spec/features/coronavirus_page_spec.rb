@@ -149,6 +149,15 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         then_i_see_announcement_updated_message
         and_i_see_the_announcements_have_changed_order
       end
+
+      scenario "Adding timeline entries" do
+        given_i_can_access_unreleased_features
+        given_there_is_a_coronavirus_page
+        when_i_visit_the_new_timeline_entry_page
+        then_i_see_the_create_timeline_entry_form
+        when_i_fill_in_the_timeline_entry_form_with_valid_data
+        then_a_new_timeline_entry_is_created
+      end
     end
 
     context "Business page" do
