@@ -22,9 +22,9 @@ RSpec.describe "Markdown editor", type: :view do
     assert_select ".govuk-textarea[id='markdown-editor']"
   end
 
-  it "renders bullet list toolbar button if bullets_button is true" do
+  it "renders bullet list toolbar button if bullets is configured" do
     render "components/markdown_editor",
-           bullets_button: true,
+           controls: [:bullets],
            label: {
              text: "Body",
            },

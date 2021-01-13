@@ -28,7 +28,7 @@ examples:
         id: markdown-editor
   with_bullet_list_button:
     data:
-      bullets_button: true
+      controls: [:bullets]
       label:
         text: Body
       textarea:
