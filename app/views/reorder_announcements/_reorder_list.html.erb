@@ -1,6 +1,6 @@
 <% announcements = @coronavirus_page.announcements.order(:position) %>
 
-<div class="covid-manage-page__accordion-summary-list">
+<div class="covid-manage-page__summary-list">
   <ul class="govuk-list step-by-step-reorder__list" id="js-reorder-group">
     <% announcements.each_with_index do |announcement, index| %>
       <li class="js-reorder" data-id="<%= announcement.id %>">
