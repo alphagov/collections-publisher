@@ -17,6 +17,8 @@ class TimelineEntriesController < ApplicationController
     end
   end
 
+  def edit; end
+
 private
 
   def timeline_entry_params
