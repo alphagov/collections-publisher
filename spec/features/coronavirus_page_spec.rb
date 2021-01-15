@@ -151,6 +151,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       end
 
       scenario "Viewing timeline entries" do
+        given_i_can_access_unreleased_features
         given_there_is_coronavirus_page_with_a_timeline_entry
         when_i_visit_a_coronavirus_page
         then_i_can_see_a_timeline_entries_section
