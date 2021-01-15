@@ -1,6 +1,5 @@
 .covid-manage-page__summary-list,
 .covid-manage-page__accordion-summary-list,
-.covid-manage-page__timeline-entry-summary-list,
 .covid-manage-page__announcements-summary-list {
   .govuk-summary-list__key {
     width: 70%;
@@ -13,13 +12,6 @@
   .govuk-summary-list__actions {
     width: 30%;
   }
-}
-
-.covid-manage-page__timeline-entry-summary-list {
-  margin-top: govuk-spacing(6);
-  margin-bottom: govuk-spacing(8);
-  padding-bottom: govuk-spacing(8);
-  border-bottom: 1px solid govuk-colour("mid-grey");
 }
 
 .covid-manage-page__announcements-summary-list {
