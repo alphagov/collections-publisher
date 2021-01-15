@@ -17,7 +17,9 @@ class TimelineEntriesController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    @timeline_entry = coronavirus_page.timeline_entries.find(params[:id])
+  end
 
 private
 
