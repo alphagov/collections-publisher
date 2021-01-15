@@ -1,6 +1,5 @@
 .covid-manage-page__summary-list,
-.covid-manage-page__accordion-summary-list,
-.covid-manage-page__announcements-summary-list {
+.covid-manage-page__summary-list--divider {
   .govuk-summary-list__key {
     width: 70%;
   }
@@ -14,8 +13,7 @@
   }
 }
 
-.covid-manage-page__accordion-summary-list,
-.covid-manage-page__announcements-summary-list {
+.covid-manage-page__summary-list--divider:not(:first-child) {
   margin-top: govuk-spacing(8);
   margin-bottom: govuk-spacing(6);
   padding-top: govuk-spacing(6);
