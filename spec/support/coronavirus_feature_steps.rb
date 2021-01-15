@@ -17,6 +17,11 @@ def given_there_is_coronavirus_page_with_announcements
   @announcement_two = FactoryBot.create(:announcement, position: 1, coronavirus_page: @coronavirus_page)
 end
 
+def given_there_is_coronavirus_page_with_a_timeline_entry
+  @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
+  @timeline_entry = FactoryBot.create(:timeline_entry, coronavirus_page: @coronavirus_page)
+end
+
 def the_payload_contains_the_valid_url
   live_stream_payload = coronavirus_live_stream_hash.merge(
     {
@@ -195,6 +200,12 @@ def then_i_can_see_an_announcements_section
   expect(page).to have_link("Add announcement")
 end
 
+def then_i_can_see_a_timeline_entries_section
+  expect(page).to have_content("Timeline entries")
+  expect(page).to have_link("Reorder", href: coronavirus_page_path(@coronavirus_page.slug))
+  expect(page).to have_link("Add timeline entry")
+end
+
 def then_i_cannot_see_an_announcements_section
   expect(page).to_not have_content("Announcements")
 end
@@ -202,6 +213,10 @@ end
 def and_i_can_see_existing_announcements
   expect(page).to have_content(@announcement_one.title)
   expect(page).to have_content(@announcement_two.title)
+end
+
+def and_i_can_see_an_existing_timeline_entry
+  expect(page).to have_content(@timeline_entry.heading)
 end
 
 def then_i_see_the_announcements_in_order

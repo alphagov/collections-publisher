@@ -149,6 +149,13 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         then_i_see_announcement_updated_message
         and_i_see_the_announcements_have_changed_order
       end
+
+      scenario "Viewing timeline entries" do
+        given_there_is_coronavirus_page_with_a_timeline_entry
+        when_i_visit_a_coronavirus_page
+        then_i_can_see_a_timeline_entries_section
+        and_i_can_see_an_existing_timeline_entry
+      end
     end
 
     context "Business page" do
