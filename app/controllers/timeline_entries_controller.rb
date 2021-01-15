@@ -21,6 +21,16 @@ class TimelineEntriesController < ApplicationController
     @timeline_entry = coronavirus_page.timeline_entries.find(params[:id])
   end
 
+  def update
+    @timeline_entry = coronavirus_page.timeline_entries.find(params[:id])
+
+    if @timeline_entry.update(timeline_entry_params) && draft_updater.send
+      redirect_to coronavirus_page_path(coronavirus_page.slug), notice: "Timeline entry was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
 private
 
   def timeline_entry_params
