@@ -11,6 +11,10 @@ def given_a_livestream_exists
   FactoryBot.create(:live_stream, :without_validations)
 end
 
+def given_there_is_a_coronavirus_page
+  @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
+end
+
 def given_there_is_coronavirus_page_with_announcements
   @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
   @announcement_one = FactoryBot.create(:announcement, position: 0, coronavirus_page: @coronavirus_page)
@@ -293,6 +297,29 @@ end
 def then_i_can_see_that_the_announcement_has_been_updated
   expect(page).to have_content("Announcement was successfully updated.")
   expect(page).to have_content("Updated title")
+end
+
+# Adding a timeline entry
+
+def when_i_visit_the_new_timeline_entry_page
+  visit "/coronavirus/landing/timeline_entries/new"
+end
+
+def then_i_see_the_create_timeline_entry_form
+  expect(page).to have_text("Enter the heading of the timeline entry")
+  expect(page).to have_text("Content")
+end
+
+def when_i_fill_in_the_timeline_entry_form_with_valid_data
+  set_up_github_data(@coronavirus_page)
+  fill_in("heading", with: "Fancy title")
+  fill_in("content", with: "##Form content")
+  click_on("Save")
+end
+
+def then_a_new_timeline_entry_is_created
+  timeline_entry = @coronavirus_page.timeline_entries.last
+  expect(timeline_entry.content).to eq("##Form content")
 end
 
 def set_up_basic_sub_sections

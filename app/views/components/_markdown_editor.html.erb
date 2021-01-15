@@ -1,7 +1,10 @@
 <%
   textarea ||= {}
   component_classes = %w[app-c-markdown-editor govuk-form-group]
-  hide_bullets_button ||= false
+  controls ||= []
+  error_message ||= ""
+
+  component_classes << "govuk-form-group--error" if error_message.present?
 %>
 <%= tag.div class: component_classes do %>
 
@@ -9,14 +12,38 @@
     html_for: textarea[:id],
   }.merge(label.symbolize_keys) %>
 
+  <% if error_message.present? %>
+    <%= render "govuk_publishing_components/components/error_message", {
+      text: error_message,
+    } %>
+  <% end %>
+
    <div class="app-c-markdown-editor__container">
     <div class="app-c-markdown-editor__head">
       <div class="app-c-markdown-editor__toolbar">
         <markdown-toolbar class="app-c-markdown-editor__toolbar-group" for="<%= textarea[:id] %>">
+          <% if controls.include?(:headings) %>
+            <md-header-2 class="app-c-markdown-editor__toolbar-button" title="Heading level 2" aria-label="Heading level 2" data-gtm="markdown-toolbar-h2" data-gtm-click-tracking="true">
+              <%= render "components/markdown_editor/heading_two.svg" %>
+            </md-header-2>
+            <md-header-3 class="app-c-markdown-editor__toolbar-button" title="Heading level 3" aria-label="Heading level 3" data-gtm="markdown-toolbar-h3" data-gtm-click-tracking="true">
+              <%= render "components/markdown_editor/heading_three.svg" %>
+            </md-header-3>
+          <% end %>
           <md-link class="app-c-markdown-editor__toolbar-button" title="Link" aria-label="Link">
             <%= render "components/markdown_editor/link.svg" %>
           </md-link>
-          <% unless hide_bullets_button %>
+          <% if controls.include?(:blockquote) %>
+            <md-quote class="app-c-markdown-editor__toolbar-button" title="Blockquote" aria-label="Blockquote" data-gtm="markdown-toolbar-blockquote" data-gtm-click-tracking="true">
+              <%= render "components/markdown_editor/blockquote.svg" %>
+            </md-quote>
+          <% end %>
+          <% if controls.include?(:numbered_list) %>
+            <md-ordered-list class="app-c-markdown-editor__toolbar-button" title="Numbered list" aria-label="Numbered list" data-gtm="markdown-toolbar-list" data-gtm-click-tracking="true">
+              <%= render "components/markdown_editor/numbered_list.svg" %>
+            </md-ordered-list>
+          <% end %>
+          <% if controls.include?(:bullets) %>
             <md-unordered-list class="app-c-markdown-editor__toolbar-button" title="Bullets" aria-label="Bullets">
               <%= render "components/markdown_editor/bullets.svg" %>
             </md-unordered-list>

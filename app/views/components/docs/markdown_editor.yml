@@ -26,9 +26,33 @@ examples:
       textarea:
         name: markdown-editor
         id: markdown-editor
-  without_bullet_list_button:
+  with_bullet_list_button:
     data:
-      hide_bullets_button: true
+      controls: [:bullets]
+      label:
+        text: Body
+      textarea:
+        name: markdown-editor
+        id: markdown-editor
+  with_headings_buttons:
+    data:
+      controls: [:headings]
+      label:
+        text: Body
+      textarea:
+        name: markdown-editor
+        id: markdown-editor
+  with_blockquote_button:
+    data:
+      controls: [:blockquote]
+      label:
+        text: Body
+      textarea:
+        name: markdown-editor
+        id: markdown-editor
+  with_numbered_list_button:
+    data:
+      controls: [:numbered_list]
       label:
         text: Body
       textarea:

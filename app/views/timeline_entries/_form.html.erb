@@ -1,33 +1,29 @@
 <%= render "govuk_publishing_components/components/input", {
   label: {
-    text: "Accordion name",
-    bold: true
+    text: "Enter the heading of the timeline entry",
+    bold: true,
   },
-  name: "sub_section[title]",
-  id: "title",
-  value: @sub_section.title
+  name: "timeline_entry[heading]",
+  value: @timeline_entry.heading,
+  id: "heading",
+  error_message: error_items(@timeline_entry.errors.messages, :heading),
 } %>
+
 <%= render "components/markdown_editor", {
   label: {
-    text: "Links and link text",
+    text: "Content",
     bold: true
   },
   textarea: {
-    name: "sub_section[content]",
+    name: "timeline_entry[content]",
     id: "content",
     rows: 20,
-    value: @sub_section.content
-  }
-} %>
-<%= render "govuk_publishing_components/components/input", {
-  label: {
-    text: "Featured link",
-    bold: true
+    value: @timeline_entry.content
   },
-  name: "sub_section[featured_link]",
-  id: "title",
-  value: @sub_section.featured_link
+  error_message: error_items(@timeline_entry.errors.messages, :content),
+  controls: [:headings, :blockquote, :numbered_list, :bullets]
 } %>
+
 <%= render "govuk_publishing_components/components/button", {
   text: "Save",
   margin_bottom: true
