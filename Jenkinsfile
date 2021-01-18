@@ -4,10 +4,6 @@ library("govuk")
 
 node {
   govuk.buildProject(
-    beforeTest: {
-      sh("yarn install")
-    },
-    sassLint: false,
     rubyLintDirs: "",
     publishingE2ETests: true,
     brakeman: true
