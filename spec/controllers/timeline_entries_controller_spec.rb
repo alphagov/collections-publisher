@@ -67,6 +67,84 @@ RSpec.describe TimelineEntriesController do
     end
   end
 
+  describe "GET /coronavirus/:coronavirus_page_slug/timeline_entries/:id/edit" do
+    let(:timeline_entry) { create(:timeline_entry, coronavirus_page: coronavirus_page) }
+
+    it "can only be accessed by users with Coronavirus editor and Unreleased feature permissions" do
+      stub_user.permissions = ["signin", "Coronavirus editor", "Unreleased feature"]
+      get :edit,
+          params: {
+            id: timeline_entry.id,
+            coronavirus_page_slug: coronavirus_page.slug,
+          }
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "cannot be accessed by users without Unreleased feature permissions" do
+      stub_user.permissions << "Coronavirus editor"
+      get :edit,
+          params: {
+            id: timeline_entry.id,
+            coronavirus_page_slug: coronavirus_page.slug,
+          }
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "cannot be accessed by users without Coronavirus editor permissions" do
+      stub_user.permissions << "Unreleased feature"
+      get :edit,
+          params: {
+            id: timeline_entry.id,
+            coronavirus_page_slug: coronavirus_page.slug,
+          }
+
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
+  describe "PATCH /coronavirus/:coronavirus_page_slug/timeline_entries/:id" do
+    let(:timeline_entry) { create(:timeline_entry, coronavirus_page: coronavirus_page) }
+
+    let(:updated_timeline_entry_params) do
+      {
+        heading: "Updated heading",
+        content: "##Updated content",
+      }
+    end
+
+    before do
+      setup_github_data
+      stub_coronavirus_publishing_api
+      stub_user.permissions = ["signin", "Coronavirus editor", "Unreleased feature"]
+    end
+
+    it "updates the timeline entry" do
+      patch :update,
+            params: {
+              id: timeline_entry.id,
+              coronavirus_page_slug: coronavirus_page.slug,
+              timeline_entry: updated_timeline_entry_params,
+            }
+
+      timeline_entry.reload
+      expect(timeline_entry.heading).to eq(updated_timeline_entry_params[:heading])
+      expect(timeline_entry.content).to eq(updated_timeline_entry_params[:content])
+    end
+
+    it "redirects to coronavirus page on success" do
+      patch :update,
+            params: {
+              id: timeline_entry.id,
+              coronavirus_page_slug: coronavirus_page.slug,
+              timeline_entry: updated_timeline_entry_params,
+            }
+
+      expect(subject).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
+    end
+  end
+
   def setup_github_data
     raw_content = File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
     stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)

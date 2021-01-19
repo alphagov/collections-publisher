@@ -21,6 +21,11 @@ def given_there_is_coronavirus_page_with_announcements
   @announcement_two = FactoryBot.create(:announcement, position: 1, coronavirus_page: @coronavirus_page)
 end
 
+def given_there_is_a_coronavirus_page_with_timeline_entries
+  @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
+  @timeline_entry = FactoryBot.create(:timeline_entry, coronavirus_page: @coronavirus_page)
+end
+
 def the_payload_contains_the_valid_url
   live_stream_payload = coronavirus_live_stream_hash.merge(
     {
@@ -305,7 +310,7 @@ def when_i_visit_the_new_timeline_entry_page
   visit "/coronavirus/landing/timeline_entries/new"
 end
 
-def then_i_see_the_create_timeline_entry_form
+def then_i_see_the_timeline_entry_form
   expect(page).to have_text("Enter the heading of the timeline entry")
   expect(page).to have_text("Content")
 end
@@ -320,6 +325,21 @@ end
 def then_a_new_timeline_entry_is_created
   timeline_entry = @coronavirus_page.timeline_entries.last
   expect(timeline_entry.content).to eq("##Form content")
+end
+
+# Editing timeline entries
+
+def when_i_visit_the_edit_timeline_entry_page
+  visit "/coronavirus/landing/timeline_entries/#{@timeline_entry.id}/edit"
+end
+
+def and_i_see_the_existing_timeline_entry_data
+  expect(page).to have_selector("input[value='#{@timeline_entry.heading}']")
+  expect(page).to have_content(@timeline_entry.content)
+end
+
+def then_the_timeline_entry_is_updated
+  expect(@timeline_entry.reload.content).to eq("##Form content")
 end
 
 def set_up_basic_sub_sections
