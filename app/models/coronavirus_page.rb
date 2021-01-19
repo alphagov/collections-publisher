@@ -16,4 +16,10 @@ class CoronavirusPage < ApplicationRecord
       announcement.update!(position: index)
     end
   end
+
+  def make_timeline_entry_positions_sequential
+    timeline_entries.sort_by(&:position).each.with_index(1) do |timeline_entry, index|
+      timeline_entry.update!(position: index)
+    end
+  end
 end

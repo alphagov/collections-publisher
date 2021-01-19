@@ -63,7 +63,7 @@ module CoronavirusPages
     end
 
     def update_timeline_entries
-      coronavirus_page.timeline_entries.destroy_all
+      coronavirus_page.timeline_entries.delete_all
       coronavirus_page.timeline_entries = timeline_entries
     end
 

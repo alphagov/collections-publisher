@@ -26,5 +26,21 @@ RSpec.describe TimelineEntry do
       expect(first_timeline_entry.reload.position).to eq 2
       expect(second_timeline_entry.reload.position).to eq 1
     end
+
+    it "should update timeline entry positions when a timeline entry is deleted" do
+      original_timeline_entry_one = create(:timeline_entry, coronavirus_page: coronavirus_page)
+      original_timeline_entry_two = create(:timeline_entry, coronavirus_page: coronavirus_page)
+      expect(coronavirus_page.timeline_entries.count).to eq 2
+
+      expect(original_timeline_entry_one.reload.position).to eq 2
+      expect(original_timeline_entry_two.reload.position).to eq 1
+
+      original_timeline_entry_two.destroy!
+      coronavirus_page.reload
+      original_timeline_entry_one.reload
+
+      expect(original_timeline_entry_one.position).to eq 1
+      expect(coronavirus_page.timeline_entries.count).to eq 1
+    end
   end
 end
