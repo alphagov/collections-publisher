@@ -249,8 +249,8 @@ def then_i_see_announcement_updated_message
 end
 
 def and_i_see_the_announcements_have_changed_order
-  expect(page).to have_css(".covid-manage-page__announcements-summary-list .gem-c-summary-list .govuk-summary-list__row:nth-child(1)", text: @announcement_two.title)
-  expect(page).to have_css(".covid-manage-page__announcements-summary-list .gem-c-summary-list .govuk-summary-list__row:nth-child(2)", text: @announcement_one.title)
+  expect(page).to have_css(".covid-manage-page__summary-list--divider .gem-c-summary-list .govuk-summary-list__row:nth-child(1)", text: @announcement_two.title)
+  expect(page).to have_css(".covid-manage-page__summary-list--divider .gem-c-summary-list .govuk-summary-list__row:nth-child(2)", text: @announcement_one.title)
 end
 
 # Adding an announcement
