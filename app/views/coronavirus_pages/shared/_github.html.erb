@@ -1,18 +1,18 @@
 <div class="govuk-!-padding-bottom-1">
   <%= render "govuk_publishing_components/components/heading", {
-  text: "1. Update GitHub",
+  text: t("coronavirus_pages.github.update_heading"),
   padding: true
   } %>
   <p class="govuk-body">
-     Update the<%= link_to " coronavirus content on GitHub", github_url %>
+    <%= t("coronavirus_pages.github.update_sub_heading_html", github_url: github_url) %>
   </p>
 </div>
 <div class="govuk-!-padding-bottom-1">
   <%= render "govuk_publishing_components/components/heading", {
-    text: "2. Get changes reviewed and merged",
+    text: t("coronavirus_pages.github.review_heading"),
     padding: true
   } %>
   <p class="govuk-body">
-    Get the changes approved and merged into master.
+    <%= t("coronavirus_pages.github.approve_sub_heading") %>
   </p>
 </div>

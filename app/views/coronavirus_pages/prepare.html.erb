@@ -1,7 +1,7 @@
 <% content_for :title, "Edit the #{@coronavirus_page.name}" %>
 <% content_for :context, "www.gov.uk#{@coronavirus_page.base_path}" %>
 <%= render "govuk_publishing_components/components/lead_paragraph", {
-  text: "Follow the steps below to make changes to any part of the #{@coronavirus_page.name}, except the accordions."
+  text: t("coronavirus_pages.prepare.lead_paragraph", coronavirus_page_name: @coronavirus_page.name)
 } %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">

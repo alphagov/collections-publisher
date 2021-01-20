@@ -1,28 +1,28 @@
 <div class="govuk-!-padding-bottom-4">
     <%= render "govuk_publishing_components/components/heading", {
-      text: "5. Publish changes",
+      text: t("coronavirus_pages.publish.heading"),
       padding: true
     } %>
     <%= form_with(url: coronavirus_page_publish_path(coronavirus_page_slug: params[:slug]), local: true) do %>
       <%= render "govuk_publishing_components/components/radio", {
         name: "update-type",
-        heading: "Update type",
+        heading: t("coronavirus_pages.publish.radio_heading"),
         heading_size: "s",
         small: true,
         items: [
           {
             value: "minor",
-            text: "Minor",
+            text: t("coronavirus_pages.publish.minor_type"),
             checked: true
           },
           {
             value: "major",
-            text: "Major"
+            text: t("coronavirus_pages.publish.major_type")
           }
         ]
       } %>
       <%= render "govuk_publishing_components/components/button", {
-          text: "Publish",
+          text: t("coronavirus_pages.publish.button_text"),
       } %>
     <% end %>
 </div>

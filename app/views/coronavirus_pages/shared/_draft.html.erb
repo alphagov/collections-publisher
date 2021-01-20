@@ -1,11 +1,11 @@
 <div class="govuk-!-padding-bottom-6">
   <%= render "govuk_publishing_components/components/heading", {
-    text: "3. Update draft",
+    text: t("coronavirus_pages.draft.heading"),
     padding: true
   } %>
   <%= form_with(url: coronavirus_page_path, method: "put", local: true) do %>
     <%= render "govuk_publishing_components/components/button", {
-        text: "Update draft",
+        text: t("coronavirus_pages.draft.button_text"),
         margin_bottom: false
     } %>
   <% end %>

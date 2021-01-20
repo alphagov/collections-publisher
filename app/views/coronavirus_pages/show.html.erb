@@ -1,11 +1,11 @@
 <%
   links = [
     {
-      text: 'Coronavirus pages',
+      text: t("coronavirus_pages.show.link_text"),
       href: coronavirus_pages_path
     },
     {
-      text: "#{@coronavirus_page.name} accordions"
+      text: t("coronavirus_pages.show.accordion_text", coronavirus_page_name: @coronavirus_page.name)
     }
   ]
 
