@@ -23,4 +23,11 @@ namespace :coronavirus do
     puts "title: #{page.title}"
     puts "sections_title: #{page.sections_title}"
   end
+
+  desc "Sync timeline entries with entries in the yaml file"
+  task sync_timeline_entries: :environment do
+    CoronavirusPages::TimelineEntryBuilder.new.create_timeline_entries
+
+    puts "Timeline Entries synced for coronavirus landing page..."
+  end
 end
