@@ -214,6 +214,10 @@ def then_i_cannot_see_an_announcements_section
   expect(page).to_not have_content("Announcements")
 end
 
+def then_i_cannot_see_a_timeline_entries_section
+  expect(page).to_not have_content("Timeline entries")
+end
+
 def and_i_can_see_existing_announcements
   expect(page).to have_content(@announcement_one.title)
   expect(page).to have_content(@announcement_two.title)

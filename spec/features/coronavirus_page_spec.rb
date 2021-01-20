@@ -170,10 +170,17 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       end
 
       scenario "Viewing timeline entries" do
+        given_i_can_access_unreleased_features
         given_there_is_a_coronavirus_page_with_timeline_entries
         when_i_visit_a_coronavirus_page
         then_i_can_see_a_timeline_entries_section
         and_i_can_see_an_existing_timeline_entry
+      end
+
+      scenario "Timeline entries should only be visable on the landing page" do
+        when_i_visit_the_coronavirus_index_page
+        and_i_select_business_page
+        then_i_cannot_see_a_timeline_entries_section
       end
     end
 
