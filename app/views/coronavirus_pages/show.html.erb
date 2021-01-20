@@ -21,6 +21,7 @@
 
 <div class="covid-manage-page govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <%= render "timeline_entries" %>
     <%= render "sub_sections" %>
     <% if @coronavirus_page.topic_page? %>
       <%= render "announcements" %>

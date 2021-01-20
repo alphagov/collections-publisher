@@ -168,6 +168,13 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         when_i_fill_in_the_timeline_entry_form_with_valid_data
         then_the_timeline_entry_is_updated
       end
+
+      scenario "Viewing timeline entries" do
+        given_there_is_a_coronavirus_page_with_timeline_entries
+        when_i_visit_a_coronavirus_page
+        then_i_can_see_a_timeline_entries_section
+        and_i_can_see_an_existing_timeline_entry
+      end
     end
 
     context "Business page" do

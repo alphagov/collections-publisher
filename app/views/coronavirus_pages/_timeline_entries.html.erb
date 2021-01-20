@@ -1,0 +1,30 @@
+<% timeline_entries =
+ @coronavirus_page.timeline_entries.order(:position).map do |timeline_entry|
+   {
+     id: timeline_entry.id,
+     field: timeline_entry.heading,
+     edit: { href: edit_coronavirus_page_timeline_entry_path(@coronavirus_page.slug, timeline_entry) },
+     delete: {
+       href: coronavirus_page_path(@coronavirus_page.slug),
+       data_attributes: {
+         confirm: "Are you sure?",
+         method: "delete"
+       }
+     }
+   }
+ end %>
+
+<div class="covid-manage-page__summary-list--divider">
+  <%= render "govuk_publishing_components/components/summary_list", {
+    title: "Timeline entries",
+    items: timeline_entries,
+    edit: {
+      link_text: "Reorder",
+      href: coronavirus_page_path(@coronavirus_page.slug)
+    }
+  } %>
+  <%= render "govuk_publishing_components/components/button", {
+    text: "Add timeline entry",
+    href: new_coronavirus_page_timeline_entry_path(@coronavirus_page.slug)
+  } %>
+</div>
