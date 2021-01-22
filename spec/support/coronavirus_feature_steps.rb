@@ -320,8 +320,8 @@ end
 
 # Adding a timeline entry
 
-def when_i_visit_the_new_timeline_entry_page
-  visit "/coronavirus/landing/timeline_entries/new"
+def and_i_add_a_new_timeline_entry
+  click_on("Add timeline entry")
 end
 
 def then_i_see_the_timeline_entry_form
@@ -336,15 +336,15 @@ def when_i_fill_in_the_timeline_entry_form_with_valid_data
   click_on("Save")
 end
 
-def then_a_new_timeline_entry_is_created
-  timeline_entry = @coronavirus_page.timeline_entries.last
-  expect(timeline_entry.content).to eq("##Form content")
+def then_i_see_a_new_timeline_entry_has_been_created
+  expect(current_path).to eq("/coronavirus/landing")
+  expect(expect(page).to(have_text("Fancy title")))
 end
 
 # Editing timeline entries
 
-def when_i_visit_the_edit_timeline_entry_page
-  visit "/coronavirus/landing/timeline_entries/#{@timeline_entry.id}/edit"
+def and_i_change_a_timeline_entry
+  page.find("a[href=\"/coronavirus/landing/timeline_entries/#{@timeline_entry.id}/edit\"]", text: "Change").click
 end
 
 def and_i_see_the_existing_timeline_entry_data
@@ -352,7 +352,7 @@ def and_i_see_the_existing_timeline_entry_data
   expect(page).to have_content(@timeline_entry.content)
 end
 
-def then_the_timeline_entry_is_updated
+def then_i_see_the_timeline_entry_has_been_updated
   expect(@timeline_entry.reload.content).to eq("##Form content")
 end
 

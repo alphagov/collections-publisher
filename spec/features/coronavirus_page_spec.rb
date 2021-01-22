@@ -153,20 +153,22 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       scenario "Adding timeline entries" do
         given_i_can_access_unreleased_features
         given_there_is_a_coronavirus_page
-        when_i_visit_the_new_timeline_entry_page
+        when_i_visit_a_coronavirus_page
+        and_i_add_a_new_timeline_entry
         then_i_see_the_timeline_entry_form
         when_i_fill_in_the_timeline_entry_form_with_valid_data
-        then_a_new_timeline_entry_is_created
+        then_i_see_a_new_timeline_entry_has_been_created
       end
 
       scenario "Editing timeline entries" do
         given_i_can_access_unreleased_features
         given_there_is_a_coronavirus_page_with_timeline_entries
-        when_i_visit_the_edit_timeline_entry_page
+        when_i_visit_a_coronavirus_page
+        and_i_change_a_timeline_entry
         then_i_see_the_timeline_entry_form
         and_i_see_the_existing_timeline_entry_data
         when_i_fill_in_the_timeline_entry_form_with_valid_data
-        then_the_timeline_entry_is_updated
+        then_i_see_the_timeline_entry_has_been_updated
       end
 
       scenario "Viewing timeline entries" do
