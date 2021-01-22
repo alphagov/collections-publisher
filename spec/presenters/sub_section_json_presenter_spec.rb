@@ -100,6 +100,40 @@ RSpec.describe SubSectionJsonPresenter do
 
         expect { subject.output }.to change { subject.errors.length }.by(1)
       end
+
+      it "allows external featured links" do
+        stub_any_publishing_api_call_to_return_not_found
+
+        url = "https://www.nhs.uk/"
+        title = "Foo"
+        label = "NHS"
+        link = "[#{label}](#{url})"
+
+        sub_section = build(
+          :sub_section,
+          content: ["###{title}", link].join("\n"),
+          featured_link: url,
+        )
+
+        expected = {
+          title: sub_section.title,
+          sub_sections: [
+            {
+              list: [
+                {
+                  url: url,
+                  label: label,
+                  featured_link: true,
+                  description: nil,
+                },
+              ],
+              title: title,
+            },
+          ],
+        }
+
+        expect(described_class.new(sub_section).output).to eq(expected)
+      end
     end
   end
 
