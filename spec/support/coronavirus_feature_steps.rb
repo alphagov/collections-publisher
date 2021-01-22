@@ -23,7 +23,8 @@ end
 
 def given_there_is_a_coronavirus_page_with_timeline_entries
   @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
-  @timeline_entry = FactoryBot.create(:timeline_entry, coronavirus_page: @coronavirus_page)
+  @timeline_entry_two = FactoryBot.create(:timeline_entry, coronavirus_page: @coronavirus_page, heading: "Two")
+  @timeline_entry_one = FactoryBot.create(:timeline_entry, coronavirus_page: @coronavirus_page, heading: "One")
 end
 
 def the_payload_contains_the_valid_url
@@ -223,8 +224,9 @@ def and_i_can_see_existing_announcements
   expect(page).to have_content(@announcement_two.title)
 end
 
-def and_i_can_see_an_existing_timeline_entry
-  expect(page).to have_content(@timeline_entry.heading)
+def and_i_can_see_existing_timeline_entries
+  expect(page).to have_content(@timeline_entry_one.heading)
+  expect(page).to have_content(@timeline_entry_two.heading)
 end
 
 def then_i_see_the_announcements_in_order
@@ -344,16 +346,53 @@ end
 # Editing timeline entries
 
 def and_i_change_a_timeline_entry
-  page.find("a[href=\"/coronavirus/landing/timeline_entries/#{@timeline_entry.id}/edit\"]", text: "Change").click
+  page.find("a[href=\"/coronavirus/landing/timeline_entries/#{@timeline_entry_one.id}/edit\"]", text: "Change").click
+end
+
+def when_i_visit_the_edit_timeline_entry_page
+  visit "/coronavirus/landing/timeline_entries/#{@timeline_entry_one.id}/edit"
 end
 
 def and_i_see_the_existing_timeline_entry_data
-  expect(page).to have_selector("input[value='#{@timeline_entry.heading}']")
-  expect(page).to have_content(@timeline_entry.content)
+  expect(page).to have_selector("input[value='#{@timeline_entry_one.heading}']")
+  expect(page).to have_content(@timeline_entry_one.content)
 end
 
 def then_i_see_the_timeline_entry_has_been_updated
-  expect(@timeline_entry.reload.content).to eq("##Form content")
+  expect(@timeline_entry_one.reload.content).to eq("##Form content")
+end
+
+# Reordering timeline entries
+
+def when_i_visit_the_reorder_timeline_entries_page
+  visit "/coronavirus/landing/timeline_entries/reorder"
+end
+
+def then_i_see_the_timeline_entries_in_order
+  expect(page).to have_content(
+    /#{@timeline_entry_one.heading}.*#{@timeline_entry_two.heading}/,
+    normalize_ws: true,
+  )
+end
+
+def when_i_move_timeline_entry_one_down
+  raw_content = File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
+  stub_request(:get, /#{@coronavirus_page.raw_content_url}\?cache-bust=\d+/)
+    .to_return(status: 200, body: raw_content)
+
+  within("#step-0") { click_button "Down" }
+  click_button "Save"
+end
+
+def then_i_see_timeline_entries_updated_message
+  expect(page).to have_content "Timeline entries were successfully reordered."
+end
+
+def and_i_see_the_timeline_entries_have_changed_order
+  expect(page).to have_content(
+    /#{@timeline_entry_two.heading}.*#{@timeline_entry_one.heading}/,
+    normalize_ws: true,
+  )
 end
 
 def set_up_basic_sub_sections

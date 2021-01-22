@@ -171,12 +171,22 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         then_i_see_the_timeline_entry_has_been_updated
       end
 
+      scenario "Reordering timeline entries", js: true do
+        given_i_can_access_unreleased_features
+        given_there_is_a_coronavirus_page_with_timeline_entries
+        when_i_visit_the_reorder_timeline_entries_page
+        then_i_see_the_timeline_entries_in_order
+        when_i_move_timeline_entry_one_down
+        then_i_see_timeline_entries_updated_message
+        and_i_see_the_timeline_entries_have_changed_order
+      end
+
       scenario "Viewing timeline entries" do
         given_i_can_access_unreleased_features
         given_there_is_a_coronavirus_page_with_timeline_entries
         when_i_visit_a_coronavirus_page
         then_i_can_see_a_timeline_entries_section
-        and_i_can_see_an_existing_timeline_entry
+        and_i_can_see_existing_timeline_entries
       end
 
       scenario "Timeline entries should only be visable on the landing page" do
