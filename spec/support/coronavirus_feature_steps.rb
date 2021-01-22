@@ -385,7 +385,7 @@ def when_i_move_timeline_entry_one_down
 end
 
 def then_i_see_timeline_entries_updated_message
-  expect(page).to have_content "Timeline entries were successfully reordered."
+  expect(page).to have_content I18n.t("coronavirus_pages.timeline_entries.reorder.success")
 end
 
 def and_i_see_the_timeline_entries_have_changed_order

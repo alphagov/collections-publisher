@@ -24,10 +24,10 @@ class ReorderTimelineEntriesController < ApplicationController
     end
 
     if success
-      message = "Timeline entries were successfully reordered."
+      message = I18n.t("coronavirus_pages.timeline_entries.reorder.success")
       redirect_to coronavirus_page_path(coronavirus_page.slug), notice: message
     else
-      message = "Sorry! Timeline entries have not been reordered: #{draft_updater.errors.to_sentence}."
+      message = I18n.t("coronavirus_pages.timeline_entries.reorder.error", error: draft_updater.errors.to_sentence)
       redirect_to reorder_coronavirus_page_timeline_entries_path(coronavirus_page.slug), alert: message
     end
   end
