@@ -206,7 +206,7 @@ end
 
 def then_i_can_see_a_timeline_entries_section
   expect(page).to have_content("Timeline entries")
-  expect(page).to have_link("Reorder", href: coronavirus_page_path(@coronavirus_page.slug))
+  expect(page).to have_link("Reorder", href: reorder_coronavirus_page_timeline_entries_path(@coronavirus_page.slug))
   expect(page).to have_link("Add timeline entry")
 end
 
