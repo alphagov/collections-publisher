@@ -36,7 +36,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :timeline_entries, only: %i[new create edit update]
+    resources :timeline_entries, only: %i[new create edit update] do
+      collection do
+        get "reorder", to: "reorder_timeline_entries#index"
+        put "reorder", to: "reorder_timeline_entries#update"
+      end
+    end
   end
 
   resources :step_by_step_pages, path: "step-by-step-pages" do
