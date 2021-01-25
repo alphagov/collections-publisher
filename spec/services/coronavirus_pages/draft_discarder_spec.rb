@@ -109,7 +109,7 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
   end
 
   describe "timeline entries" do
-    it "replaces the existing timeline entries" do
+    it "replaces the existing timeline entries in the correct position order" do
       create(
         :timeline_entry,
         coronavirus_page: coronavirus_page,
@@ -119,11 +119,13 @@ RSpec.describe CoronavirusPages::DraftDiscarder do
       stub_publishing_api_has_item(payload_from_publishing_api)
 
       described_class.new(coronavirus_page).call
-      coronavirus_page.reload
+      coronavirus_page.timeline_entries.reload
 
-      expect(coronavirus_page.timeline_entries.count).to eq(1)
-      expect(coronavirus_page.timeline_entries.first.heading).to eq("5 January")
-      expect(coronavirus_page.timeline_entries.first.position).to eq(1)
+      expect(coronavirus_page.timeline_entries.count).to eq(2)
+      expect(coronavirus_page.timeline_entries.second.heading).to eq("5 January")
+      expect(coronavirus_page.timeline_entries.second.position).to eq(1)
+      expect(coronavirus_page.timeline_entries.first.heading).to eq("4 January")
+      expect(coronavirus_page.timeline_entries.first.position).to eq(2)
     end
 
     it "removes the timeline entries if there isn't a timeline list in Publishing API" do
