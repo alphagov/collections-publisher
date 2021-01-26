@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_11_110154) do
+ActiveRecord::Schema.define(version: 2021_01_26_122043) do
 
   create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "coronavirus_page_id"
@@ -203,7 +203,7 @@ ActiveRecord::Schema.define(version: 2021_01_11_110154) do
     t.bigint "coronavirus_page_id", null: false
     t.text "content", null: false
     t.string "heading", null: false
-    t.integer "position"
+    t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["coronavirus_page_id"], name: "index_timeline_entries_on_coronavirus_page_id"
