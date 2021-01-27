@@ -31,6 +31,18 @@ class TimelineEntriesController < ApplicationController
     end
   end
 
+  def destroy
+    timeline_entry = coronavirus_page.timeline_entries.find(params[:id])
+
+    message = if timeline_entry.destroy && draft_updater.send
+                { notice: "Timeline entry was successfully deleted." }
+              else
+                { alert: "Timeline entry couldn't be deleted" }
+              end
+
+    redirect_to coronavirus_page_path(@coronavirus_page.slug), message
+  end
+
 private
 
   def timeline_entry_params
