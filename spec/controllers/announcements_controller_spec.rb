@@ -7,7 +7,7 @@ RSpec.describe AnnouncementsController do
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
   let(:coronavirus_page) { create :coronavirus_page, :landing }
-  let(:announcement) { create :announcement, coronavirus_page: coronavirus_page }
+  let!(:announcement) { create :announcement, coronavirus_page: coronavirus_page }
   let(:title) { Faker::Lorem.sentence }
   let(:path) { "/government/foo/vader/baby/yoda" }
   let(:published_at) { { "day" => "12", "month" => "12", "year" => "1980" } }
@@ -56,8 +56,6 @@ RSpec.describe AnnouncementsController do
       stub_coronavirus_publishing_api
     end
 
-    let(:announcement) { create(:announcement, coronavirus_page: coronavirus_page) }
-
     let(:announcement_params) do
       {
         id: announcement,
@@ -72,18 +70,13 @@ RSpec.describe AnnouncementsController do
     end
 
     it "deletes the announcement" do
-      announcement
       expect { subject }.to change { Announcement.count }.by(-1)
     end
 
-    it "recreates the announcement if draft_updater fails" do
-      announcement
-      stub_any_publishing_api_put_content
-        .to_return(status: 500)
-      expect { subject }.not_to(change { Announcement.count })
-      expect(announcement.title).to eq Announcement.last.title
-      expect(announcement.path).to eq Announcement.last.path
-      expect(announcement.id).not_to eq Announcement.last.id
+    it "doesn't delete the announcement if draft_updater fails" do
+      stub_publishing_api_isnt_available
+
+      expect { subject }.to_not(change { coronavirus_page.reload.announcements.to_a })
     end
   end
 
@@ -116,7 +109,7 @@ RSpec.describe AnnouncementsController do
 
     let(:params) do
       {
-        id: announcement,
+        id: announcement.id,
         coronavirus_page_slug: coronavirus_page.slug,
         announcement: updated_announcement_params,
       }
@@ -129,7 +122,6 @@ RSpec.describe AnnouncementsController do
     end
 
     it "updates the announcements" do
-      announcement
       expect { subject }.not_to(change { Announcement.count })
     end
 
