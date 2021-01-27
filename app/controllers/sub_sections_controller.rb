@@ -3,15 +3,13 @@ class SubSectionsController < ApplicationController
   layout "admin_layout"
 
   def new
-    @coronavirus_page = CoronavirusPage.find_by(slug: params[:coronavirus_page_slug])
-    @sub_section = @coronavirus_page.sub_sections.new
+    @sub_section = coronavirus_page.sub_sections.new
   end
 
   def create
-    @coronavirus_page = CoronavirusPage.find_by(slug: params[:coronavirus_page_slug])
-    @sub_section = @coronavirus_page.sub_sections.new(sub_section_params)
+    @sub_section = coronavirus_page.sub_sections.new(sub_section_params)
     if @sub_section.save && draft_updater.send
-      redirect_to coronavirus_page_path(@coronavirus_page.slug), notice: "Sub-section was successfully created."
+      redirect_to coronavirus_page_path(coronavirus_page.slug), notice: "Sub-section was successfully created."
     else
       @sub_section.errors.add :base, draft_updater.errors.to_sentence
       render :new
@@ -19,15 +17,13 @@ class SubSectionsController < ApplicationController
   end
 
   def edit
-    @coronavirus_page = CoronavirusPage.find_by(slug: params[:coronavirus_page_slug])
-    @sub_section = @coronavirus_page.sub_sections.find(params[:id])
+    @sub_section = coronavirus_page.sub_sections.find(params[:id])
   end
 
   def update
-    @sub_section = SubSection.find(params[:id])
-    @coronavirus_page = @sub_section.coronavirus_page
+    @sub_section = coronavirus_page.sub_sections.find(params[:id])
     if @sub_section.update(sub_section_params) && draft_updater.send
-      redirect_to coronavirus_page_path(@coronavirus_page.slug), notice: "Sub-section was successfully updated."
+      redirect_to coronavirus_page_path(coronavirus_page.slug), notice: "Sub-section was successfully updated."
     else
       @sub_section.errors.add :base, draft_updater.errors.to_sentence
       render :edit
@@ -35,8 +31,7 @@ class SubSectionsController < ApplicationController
   end
 
   def destroy
-    @sub_section = SubSection.find(params[:id])
-    @coronavirus_page = @sub_section.coronavirus_page
+    @sub_section = coronavirus_page.sub_sections.find(params[:id])
     attrs = @sub_section.attributes.except("id", "created_at", "updated_at")
     if @sub_section.delete && draft_updater.send
       message = { notice: "Sub-section was successfully deleted." }
@@ -44,10 +39,14 @@ class SubSectionsController < ApplicationController
       draft_updater.rebuild_sub_section(attrs)
       message = { alert: "Sub-section couldn't be deleted" }
     end
-    redirect_to coronavirus_page_path(@coronavirus_page.slug), message
+    redirect_to coronavirus_page_path(coronavirus_page.slug), message
   end
 
 private
+
+  def coronavirus_page
+    @coronavirus_page ||= CoronavirusPage.find_by!(slug: params[:coronavirus_page_slug])
+  end
 
   def sub_section_params
     params.require(:sub_section).permit(:title, :content, :featured_link)
