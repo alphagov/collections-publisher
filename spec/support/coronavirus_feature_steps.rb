@@ -391,6 +391,21 @@ module CoronavirusFeatureSteps
     )
   end
 
+  # Deleting timeline entries
+
+  def when_i_delete_a_timeline_entry
+    stub_coronavirus_landing_page_content(@coronavirus_page)
+
+    page.accept_alert "Are you sure?" do
+      page.find("a[href=\"/coronavirus/landing/timeline_entries/#{@timeline_entry_one.id}\"]", text: "Delete").click
+    end
+  end
+
+  def then_i_can_see_the_timeline_entry_has_been_deleted
+    expect(page).to have_text("Timeline entry was successfully deleted.")
+    expect(page).not_to have_text(@timeline_entry_one.heading)
+  end
+
   def set_up_basic_sub_sections
     coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
     FactoryBot.create(:sub_section,

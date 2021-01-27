@@ -190,6 +190,15 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         and_i_can_see_existing_timeline_entries
       end
 
+      scenario "Deleting timeline entries", js: true do
+        given_i_can_access_unreleased_features
+        given_there_is_a_coronavirus_page_with_timeline_entries
+        when_i_visit_a_coronavirus_page
+        then_i_can_see_a_timeline_entries_section
+        when_i_delete_a_timeline_entry
+        then_i_can_see_the_timeline_entry_has_been_deleted
+      end
+
       scenario "Timeline entries should only be visable on the landing page" do
         when_i_visit_the_coronavirus_index_page
         and_i_select_business_page
