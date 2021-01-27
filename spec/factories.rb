@@ -264,7 +264,6 @@ FactoryBot.define do
   factory :timeline_entry do
     content { "Amazing fantastic content" }
     heading { "Unbelievable heading" }
-    position { 1 }
     coronavirus_page
   end
 end

@@ -63,16 +63,15 @@ module CoronavirusPages
     end
 
     def update_timeline_entries
-      coronavirus_page.timeline_entries.destroy_all
+      coronavirus_page.timeline_entries.delete_all
       coronavirus_page.timeline_entries = timeline_entries
     end
 
     def timeline_entries
-      timeline_entries_from_payload.each_with_index.map do |attributes, index|
+      timeline_entries_from_payload.reverse.map do |attributes|
         TimelineEntry.new(
           heading: attributes[:heading],
           content: attributes[:paragraph],
-          position: index + 1,
         )
       end
     end
