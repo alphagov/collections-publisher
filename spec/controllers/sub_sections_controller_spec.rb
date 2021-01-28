@@ -1,6 +1,8 @@
 require "rails_helper"
 
-RSpec.describe SubSectionsController, type: :controller do
+RSpec.describe SubSectionsController do
+  include CoronavirusFeatureSteps
+
   render_views
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }

@@ -1,6 +1,8 @@
 require "rails_helper"
 
-RSpec.describe AnnouncementsController, type: :controller do
+RSpec.describe AnnouncementsController do
+  include CoronavirusFeatureSteps
+
   render_views
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
@@ -20,7 +22,7 @@ RSpec.describe AnnouncementsController, type: :controller do
 
   describe "POST /coronavirus/:coronavirus_page_slug/announcements" do
     before do
-      setup_github_data
+      stub_coronavirus_landing_page_content(coronavirus_page)
       stub_coronavirus_publishing_api
     end
 
@@ -50,7 +52,7 @@ RSpec.describe AnnouncementsController, type: :controller do
 
   describe "DELETE /coronavirus/:coronavirus_page_slug/announcements/:id" do
     before do
-      setup_github_data
+      stub_coronavirus_landing_page_content(coronavirus_page)
       stub_coronavirus_publishing_api
     end
 
@@ -100,7 +102,7 @@ RSpec.describe AnnouncementsController, type: :controller do
 
   describe "PATCH /coronavirus/:coronavirus_page_slug/announcement" do
     before do
-      setup_github_data
+      stub_coronavirus_landing_page_content(coronavirus_page)
       stub_coronavirus_publishing_api
     end
 
@@ -139,11 +141,5 @@ RSpec.describe AnnouncementsController, type: :controller do
       expect(announcement.path).to eq(updated_announcement_params[:path])
       expect(announcement.published_at).to eq(published_at_time)
     end
-  end
-
-  def setup_github_data
-    raw_content = File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
-    stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
-      .to_return(status: 200, body: raw_content)
   end
 end

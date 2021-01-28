@@ -1,13 +1,12 @@
 require "rails_helper"
 
-RSpec.describe ReorderSubSectionsController, type: :controller do
+RSpec.describe ReorderSubSectionsController do
+  include CoronavirusFeatureSteps
+
   render_views
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
   let(:coronavirus_page) { create :coronavirus_page, :of_known_type }
   let(:slug) { coronavirus_page.slug }
-  let(:raw_content_url) { CoronavirusPages::Configuration.page(slug)[:raw_content_url] }
-  let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
-  let(:raw_content) { File.read(fixture_path) }
 
   describe "GET /coronavirus/:coronavirus_page_slug/sub_sections/reorder" do
     it "renders page successfuly" do
@@ -18,8 +17,7 @@ RSpec.describe ReorderSubSectionsController, type: :controller do
 
   describe "PUT /coronavirus/:coronavirus_page_slug/sub_sections/reorder" do
     before do
-      stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
-        .to_return(status: 200, body: raw_content)
+      stub_coronavirus_landing_page_content(coronavirus_page)
       stub_coronavirus_publishing_api
     end
     let(:sub_section_0) { create :sub_section, position: 0, coronavirus_page: coronavirus_page }

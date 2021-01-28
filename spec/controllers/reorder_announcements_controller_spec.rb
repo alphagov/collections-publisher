@@ -1,6 +1,8 @@
 require "rails_helper"
 
-RSpec.describe ReorderAnnouncementsController, type: :controller do
+RSpec.describe ReorderAnnouncementsController do
+  include CoronavirusFeatureSteps
+
   let(:coronavirus_page) { create(:coronavirus_page) }
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
 
@@ -23,7 +25,7 @@ RSpec.describe ReorderAnnouncementsController, type: :controller do
     let!(:another_announcement) { create(:announcement, position: 1, coronavirus_page: coronavirus_page) }
 
     before do
-      setup_github_data
+      stub_coronavirus_landing_page_content(coronavirus_page)
       stub_coronavirus_publishing_api
     end
 
@@ -94,11 +96,5 @@ RSpec.describe ReorderAnnouncementsController, type: :controller do
       expect(another_announcement.reload.position).to eq 2
       expect(subject).to redirect_to(reorder_coronavirus_page_announcements_path(coronavirus_page.slug))
     end
-  end
-
-  def setup_github_data
-    raw_content = File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
-    stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
-      .to_return(status: 200, body: raw_content)
   end
 end

@@ -3,6 +3,7 @@ require "gds_api/test_helpers/publishing_api"
 
 RSpec.feature "Make changes to the live stream URL" do
   include CommonFeatureSteps
+  include CoronavirusFeatureSteps
   include GdsApi::TestHelpers::PublishingApi
 
   before do

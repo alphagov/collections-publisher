@@ -3,6 +3,7 @@ require "gds_api/test_helpers/publishing_api"
 
 RSpec.feature "Publish updates to Coronavirus pages" do
   include CommonFeatureSteps
+  include CoronavirusFeatureSteps
   include GdsApi::TestHelpers::PublishingApi
 
   describe "Index page" do

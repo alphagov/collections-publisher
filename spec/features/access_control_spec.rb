@@ -3,6 +3,7 @@ require "gds_api/test_helpers/publishing_api"
 
 RSpec.feature "Access control" do
   include CommonFeatureSteps
+  include CoronavirusFeatureSteps
   include NavigationSteps
   include GdsApi::TestHelpers::PublishingApi
 

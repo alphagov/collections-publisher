@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe CoronavirusPages::DraftUpdater do
+  include CoronavirusFeatureSteps
+
   let(:coronavirus_page) { create :coronavirus_page }
   let(:content_builder) { CoronavirusPages::ContentBuilder.new(coronavirus_page) }
   let(:payload) { CoronavirusPagePresenter.new(content_builder.data, coronavirus_page.base_path).payload }
