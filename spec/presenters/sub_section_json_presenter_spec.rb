@@ -62,7 +62,7 @@ RSpec.describe SubSectionJsonPresenter do
     end
 
     context "with featured links" do
-      it "sets a link as a featured link" do
+      it "looks up the description in Publishing API for a relative featured link" do
         sub_section.featured_link = path
         description = Faker::Lorem.sentence
 
@@ -74,24 +74,31 @@ RSpec.describe SubSectionJsonPresenter do
         )
         stub_publishing_api_has_lookups(path.to_s => content_id)
 
-        expected = {
-          title: subject.title,
-          sub_sections: [
-            {
-              list: [
-                {
-                  url: path,
-                  label: label,
-                  featured_link: true,
-                  description: description,
-                },
-              ],
-              title: title,
-            },
-          ],
-        }
+        sub_sections_list = subject.output[:sub_sections].first[:list]
 
-        expect(subject.output).to eq(expected)
+        expect(sub_sections_list).to include(
+          hash_including(
+            url: path,
+            featured_link: true,
+            description: description,
+          ),
+        )
+      end
+
+      it "sets a nil description for an absolute featured link" do
+        link = "https://example.com/path"
+        sub_section.featured_link = link
+        sub_section.content = "[text](#{link})"
+
+        sub_sections_list = subject.output[:sub_sections].first[:list]
+
+        expect(sub_sections_list).to include(
+          hash_including(
+            url: link,
+            featured_link: true,
+            description: nil,
+          ),
+        )
       end
 
       it "has an error when content does not contain the featured link" do

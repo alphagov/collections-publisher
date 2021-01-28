@@ -131,6 +131,8 @@ class SubSectionJsonPresenter
   end
 
   def description_for_featured_link(base_path)
+    return if URI.parse(base_path).absolute?
+
     content_item(base_path)["description"]
   end
 
