@@ -7,14 +7,24 @@ class ReorderAnnouncementsController < ApplicationController
   end
 
   def update
+    success = true
     reordered_announcements = JSON.parse(params[:announcement_order_save])
-    reordered_announcements.each do |announcement_data|
-      announcement = coronavirus_page.announcements.find(announcement_data["id"])
-      announcement.update_column(:position, announcement_data["position"])
+
+    Announcement.transaction do
+      reordered_announcements.each do |announcement_data|
+        announcement = coronavirus_page.announcements.find(announcement_data["id"])
+        announcement.update_column(:position, announcement_data["position"])
+      end
+
+      unless draft_updater.send
+        success = false
+        raise ActiveRecord::Rollback
+      end
     end
 
-    if draft_updater.send
-      redirect_to coronavirus_page_path(coronavirus_page.slug), notice: "Announcements were successfully reordered."
+    if success
+      message = "Announcements were successfully reordered."
+      redirect_to coronavirus_page_path(coronavirus_page.slug), notice: message
     else
       message = "Sorry! Announcements have not been reordered: #{draft_updater.errors.to_sentence}."
       redirect_to reorder_coronavirus_page_announcements_path(coronavirus_page.slug), alert: message
