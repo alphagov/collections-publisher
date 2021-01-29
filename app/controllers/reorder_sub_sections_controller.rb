@@ -35,7 +35,7 @@ private
 
   def set_positions(positions)
     positions.each do |sub_section|
-      SubSection.find(sub_section["id"]).update(position: sub_section["position"])
+      SubSection.find(sub_section["id"]).update_column(:position, sub_section["position"])
     end
   end
 

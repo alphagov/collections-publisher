@@ -10,7 +10,7 @@ class Announcement < ApplicationRecord
 private
 
   def set_position
-    update!(position: coronavirus_page.announcements.count)
+    update_column(:position, coronavirus_page.announcements.count)
   end
 
   def set_parent_positions

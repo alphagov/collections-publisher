@@ -10,7 +10,7 @@ class ReorderAnnouncementsController < ApplicationController
     reordered_announcements = JSON.parse(params[:announcement_order_save])
     reordered_announcements.each do |announcement_data|
       announcement = coronavirus_page.announcements.find(announcement_data["id"])
-      announcement.update!(position: announcement_data["position"])
+      announcement.update_column(:position, announcement_data["position"])
     end
 
     if draft_updater.send
