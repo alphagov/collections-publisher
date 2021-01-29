@@ -230,11 +230,10 @@ def and_i_can_see_existing_timeline_entries
 end
 
 def then_i_see_the_announcements_in_order
-  element = find("#step-0").find(".step-by-step-reorder__step-title")
-  expect(element).to have_content @announcement_one.title
-
-  element = find("#step-1").find(".step-by-step-reorder__step-title")
-  expect(element).to have_content @announcement_two.title
+  expect(page).to have_content(
+    /#{@announcement_one.title}.*#{@announcement_two.title}/,
+    normalize_ws: true,
+  )
 end
 
 def when_i_move_announcement_one_down
@@ -242,7 +241,7 @@ def when_i_move_announcement_one_down
   stub_request(:get, /#{@coronavirus_page.raw_content_url}\?cache-bust=\d+/)
     .to_return(status: 200, body: raw_content)
 
-  find("#step-0").find(".js-order-controls").find(".js-down").click
+  within("#step-0") { click_button "Down" }
   click_button "Save"
 end
 
@@ -251,8 +250,10 @@ def then_i_see_announcement_updated_message
 end
 
 def and_i_see_the_announcements_have_changed_order
-  expect(page).to have_css(".covid-manage-page__summary-list--divider .gem-c-summary-list .govuk-summary-list__row:nth-child(1)", text: @announcement_two.title)
-  expect(page).to have_css(".covid-manage-page__summary-list--divider .gem-c-summary-list .govuk-summary-list__row:nth-child(2)", text: @announcement_one.title)
+  expect(page).to have_content(
+    /#{@announcement_two.title}.*#{@announcement_one.title}/,
+    normalize_ws: true,
+  )
 end
 
 # Adding an announcement
@@ -438,12 +439,12 @@ def stub_discard_coronavirus_page_no_draft
 end
 
 def i_see_subsection_one_in_position_one
-  element = find("#step-0").find(".step-by-step-reorder__step-title")
+  element = find("#step-0")
   expect(element).to have_content "I am first"
 end
 
 def and_i_move_section_one_down
-  find("#step-0").find(".js-order-controls").find(".js-down").click
+  within("#step-0") { click_button "Down" }
   click_button "Save"
   expect(page).to have_content "Sections were successfully reordered."
 end
