@@ -1,6 +1,5 @@
 class ReorderSubSectionsController < ApplicationController
   before_action :require_coronavirus_editor_permissions!
-  before_action :redirect_to_index_if_slug_unknown
   layout "admin_layout"
 
   def index
@@ -11,17 +10,17 @@ class ReorderSubSectionsController < ApplicationController
     current_positions
     set_positions(submitted_positions)
     if draft_updater.send
-      redirect_to coronavirus_page_path(slug), notice: "Sections were successfully reordered."
+      redirect_to coronavirus_page_path(coronavirus_page.slug), notice: "Sections were successfully reordered."
     else
       message = "Sorry! Sections have not been reordered: #{draft_updater.errors.to_sentence}."
-      redirect_to reorder_coronavirus_page_sub_sections_path(slug), alert: message
+      redirect_to reorder_coronavirus_page_sub_sections_path(coronavirus_page.slug), alert: message
     end
   end
 
 private
 
   def coronavirus_page
-    @coronavirus_page ||= CoronavirusPages::ModelBuilder.call(slug)
+    @coronavirus_page ||= CoronavirusPage.find_by!(slug: params[:coronavirus_page_slug])
   end
 
   def current_positions
@@ -42,21 +41,6 @@ private
 
   def draft_updater
     @draft_updater ||= CoronavirusPages::DraftUpdater.new(coronavirus_page)
-  end
-
-  def redirect_to_index_if_slug_unknown
-    if slug_unknown?
-      flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
-      redirect_to coronavirus_pages_path
-    end
-  end
-
-  def slug
-    params[:slug] || params[:coronavirus_page_slug]
-  end
-
-  def slug_unknown?
-    !page_configs.key?(slug.to_sym)
   end
 
   def page_configs
