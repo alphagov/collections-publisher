@@ -8,7 +8,7 @@ RSpec.describe SubSectionsController do
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
   let(:coronavirus_page) { create :coronavirus_page, :of_known_type }
   let(:slug) { coronavirus_page.slug }
-  let(:sub_section) { create :sub_section, coronavirus_page: coronavirus_page }
+  let!(:sub_section) { create :sub_section, coronavirus_page: coronavirus_page }
   let(:title) { Faker::Lorem.sentence }
   let(:content) { "###{Faker::Lorem.sentence}" }
   let(:sub_section_params) do
@@ -136,7 +136,6 @@ RSpec.describe SubSectionsController do
     end
 
     it "updates the sub_section" do
-      sub_section
       expect { subject }.not_to(change { SubSection.count })
     end
 
@@ -167,18 +166,13 @@ RSpec.describe SubSectionsController do
     end
 
     it "deletes the subsection" do
-      sub_section
       expect { subject }.to change { SubSection.count }.by(-1)
     end
 
-    it "recreates the subsection if draft_updater fails" do
-      sub_section
-      stub_any_publishing_api_put_content
-        .to_return(status: 500)
-      expect { subject }.not_to(change { SubSection.count })
-      expect(sub_section.title).to eq SubSection.last.title
-      expect(sub_section.content).to eq SubSection.last.content
-      expect(sub_section.id).not_to eq SubSection.last.id
+    it "doesn't delete the subsection if draft_updater fails" do
+      stub_publishing_api_isnt_available
+
+      expect { subject }.to_not(change { coronavirus_page.reload.sub_sections.to_a })
     end
   end
 end

@@ -14,10 +14,6 @@ module CoronavirusPages
       @content_builder ||= CoronavirusPages::ContentBuilder.new(coronavirus_page)
     end
 
-    def rebuild_sub_section(attrs)
-      coronavirus_page.sub_sections.create(attrs)
-    end
-
     def payload
       if content_builder.success?
         CoronavirusPagePresenter.new(content_builder.data, base_path).payload

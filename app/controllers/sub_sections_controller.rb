@@ -31,14 +31,18 @@ class SubSectionsController < ApplicationController
   end
 
   def destroy
-    @sub_section = coronavirus_page.sub_sections.find(params[:id])
-    attrs = @sub_section.attributes.except("id", "created_at", "updated_at")
-    if @sub_section.delete && draft_updater.send
-      message = { notice: "Sub-section was successfully deleted." }
-    else
-      draft_updater.rebuild_sub_section(attrs)
-      message = { alert: "Sub-section couldn't be deleted" }
+    sub_section = coronavirus_page.sub_sections.find(params[:id])
+    message = { notice: "Sub-section was successfully deleted." }
+
+    SubSection.transaction do
+      sub_section.destroy!
+
+      unless draft_updater.send
+        message = { alert: "Sub-section couldn't be deleted" }
+        raise ActiveRecord::Rollback
+      end
     end
+
     redirect_to coronavirus_page_path(coronavirus_page.slug), message
   end
 
