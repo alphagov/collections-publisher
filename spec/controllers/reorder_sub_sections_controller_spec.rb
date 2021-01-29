@@ -57,10 +57,10 @@ RSpec.describe ReorderSubSectionsController, type: :controller do
         stub_any_publishing_api_put_content.to_return(status: 500)
       end
 
-      it "does not reinstates the previous order if draft updater fails" do
+      it "keeps the existing order if draft updater fails" do
         subject
-        expect(sub_section_0.reload.position).to eq 1
-        expect(sub_section_1.reload.position).to eq 0
+        expect(sub_section_0.reload.position).to eq 0
+        expect(sub_section_1.reload.position).to eq 1
       end
 
       it "redirects to coronavirus page on success" do

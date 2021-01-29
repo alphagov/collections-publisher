@@ -7,9 +7,20 @@ class ReorderSubSectionsController < ApplicationController
   end
 
   def update
-    set_positions
-    if draft_updater.send
-      redirect_to coronavirus_page_path(coronavirus_page.slug), notice: "Sections were successfully reordered."
+    success = true
+
+    SubSection.transaction do
+      set_positions
+
+      unless draft_updater.send
+        success = false
+        raise ActiveRecord::Rollback
+      end
+    end
+
+    if success
+      message = "Sections were successfully reordered."
+      redirect_to coronavirus_page_path(coronavirus_page.slug), notice: message
     else
       message = "Sorry! Sections have not been reordered: #{draft_updater.errors.to_sentence}."
       redirect_to reorder_coronavirus_page_sub_sections_path(coronavirus_page.slug), alert: message
