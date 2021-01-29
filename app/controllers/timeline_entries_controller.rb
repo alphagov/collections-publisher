@@ -33,13 +33,13 @@ class TimelineEntriesController < ApplicationController
 
   def destroy
     timeline_entry = coronavirus_page.timeline_entries.find(params[:id])
-    message = { notice: "Timeline entry was successfully deleted." }
+    message = { notice: I18n.t("coronavirus_pages.timeline_entries.delete.success") }
 
     TimelineEntry.transaction do
       timeline_entry.destroy!
 
       unless draft_updater.send
-        message = { alert: "Timeline entry couldn't be deleted" }
+        message = { alert: I18n.t("coronavirus_pages.timeline_entries.delete.failed") }
         raise ActiveRecord::Rollback
       end
     end

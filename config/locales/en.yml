@@ -47,6 +47,9 @@ en:
       reorder: Reorder
       add: Add accordion
     timeline_entries:
+      delete:
+        success: Timeline entry was successfully deleted.
+        failed: Timeline entry couldn't be deleted
       reorder:
         heading: Reorder timeline entries
         success: Timeline entries were successfully reordered.
