@@ -338,7 +338,7 @@ module CoronavirusFeatureSteps
 
   def then_i_see_a_new_timeline_entry_has_been_created
     expect(current_path).to eq("/coronavirus/landing")
-    expect(expect(page).to(have_text("Fancy title")))
+    expect(page).to have_text("Fancy title")
   end
 
   # Editing timeline entries
@@ -357,7 +357,8 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_see_the_timeline_entry_has_been_updated
-    expect(@timeline_entry_one.reload.content).to eq("##Form content")
+    expect(current_path).to eq("/coronavirus/landing")
+    expect(page).to have_text("Fancy title")
   end
 
   # Reordering timeline entries
