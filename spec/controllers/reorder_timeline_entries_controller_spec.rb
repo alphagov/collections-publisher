@@ -4,25 +4,18 @@ RSpec.describe ReorderTimelineEntriesController do
   include CoronavirusFeatureSteps
 
   let(:coronavirus_page) { create(:coronavirus_page) }
-  let(:stub_user) { create :user, name: "Name Surname" }
 
   describe "GET Coronavirus reorder timeline entries page" do
+    let(:stub_user) { create :user, name: "Name Surname" }
+
     it "can only be accessed by users with Coronavirus editor permissions" do
-      stub_user.permissions = ["signin", "Coronavirus editor", "Unreleased feature"]
+      stub_user.permissions = ["signin", "Coronavirus editor"]
       get :index, params: { coronavirus_page_slug: coronavirus_page.slug }
 
       expect(response).to have_http_status(:success)
     end
 
-    it "cannot be accessed by users without Unreleased feature permissions" do
-      stub_user.permissions << "Coronavirus editor"
-      get :index, params: { coronavirus_page_slug: coronavirus_page.slug }
-
-      expect(response).to have_http_status(:forbidden)
-    end
-
     it "cannot be accessed by users without Coronavirus editor permissions" do
-      stub_user.permissions << "Unreleased feature"
       get :index, params: { coronavirus_page_slug: coronavirus_page.slug }
 
       expect(response).to have_http_status(:forbidden)
@@ -30,13 +23,13 @@ RSpec.describe ReorderTimelineEntriesController do
   end
 
   describe "PUT Coronavirus reorder timeline entries page" do
+    let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
     let!(:second_timeline_entry) { create(:timeline_entry, coronavirus_page: coronavirus_page) }
     let!(:first_timeline_entry) { create(:timeline_entry, coronavirus_page: coronavirus_page) }
 
     before do
       stub_coronavirus_landing_page_content(coronavirus_page)
       stub_coronavirus_publishing_api
-      stub_user.permissions = ["signin", "Coronavirus editor", "Unreleased feature"]
     end
 
     it "reorders the timeline entries" do

@@ -7,22 +7,14 @@ RSpec.describe TimelineEntriesController do
   let(:coronavirus_page) { create :coronavirus_page, :landing }
 
   describe "GET /coronavirus/:coronavirus_page_slug/timeline_entries/new" do
-    it "can only be accessed by users with Coronavirus editor and Unreleased feature permissions" do
-      stub_user.permissions = ["signin", "Coronavirus editor", "Unreleased feature"]
+    it "can only be accessed by users with Coronavirus editor permissions" do
+      stub_user.permissions << "Coronavirus editor"
       get :new, params: { coronavirus_page_slug: coronavirus_page.slug }
 
       expect(response).to have_http_status(:ok)
     end
 
-    it "cannot be accessed by users without Unreleased feature permissions" do
-      stub_user.permissions << "Coronavirus editor"
-      get :new, params: { coronavirus_page_slug: coronavirus_page.slug }
-
-      expect(response).to have_http_status(:forbidden)
-    end
-
     it "cannot be accessed by users without Coronavirus editor permissions" do
-      stub_user.permissions << "Unreleased feature"
       get :new, params: { coronavirus_page_slug: coronavirus_page.slug }
 
       expect(response).to have_http_status(:forbidden)
@@ -30,6 +22,7 @@ RSpec.describe TimelineEntriesController do
   end
 
   describe "POST /coronavirus/:coronavirus_page_slug/timeline_entries" do
+    let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
     let(:heading) { Faker::Lorem.sentence }
     let(:content) { Faker::Lorem.sentence }
     let(:timeline_entry_params) do
@@ -42,7 +35,6 @@ RSpec.describe TimelineEntriesController do
     before do
       stub_coronavirus_landing_page_content(coronavirus_page)
       stub_any_publishing_api_call
-      stub_user.permissions = ["signin", "Coronavirus editor", "Unreleased feature"]
     end
 
     it "saves a new timeline entry" do
@@ -72,8 +64,8 @@ RSpec.describe TimelineEntriesController do
   describe "GET /coronavirus/:coronavirus_page_slug/timeline_entries/:id/edit" do
     let(:timeline_entry) { create(:timeline_entry, coronavirus_page: coronavirus_page) }
 
-    it "can only be accessed by users with Coronavirus editor and Unreleased feature permissions" do
-      stub_user.permissions = ["signin", "Coronavirus editor", "Unreleased feature"]
+    it "can only be accessed by users with Coronavirus editor permissions" do
+      stub_user.permissions << "Coronavirus editor"
       get :edit,
           params: {
             id: timeline_entry.id,
@@ -83,19 +75,7 @@ RSpec.describe TimelineEntriesController do
       expect(response).to have_http_status(:ok)
     end
 
-    it "cannot be accessed by users without Unreleased feature permissions" do
-      stub_user.permissions << "Coronavirus editor"
-      get :edit,
-          params: {
-            id: timeline_entry.id,
-            coronavirus_page_slug: coronavirus_page.slug,
-          }
-
-      expect(response).to have_http_status(:forbidden)
-    end
-
     it "cannot be accessed by users without Coronavirus editor permissions" do
-      stub_user.permissions << "Unreleased feature"
       get :edit,
           params: {
             id: timeline_entry.id,
@@ -107,6 +87,7 @@ RSpec.describe TimelineEntriesController do
   end
 
   describe "PATCH /coronavirus/:coronavirus_page_slug/timeline_entries/:id" do
+    let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
     let(:timeline_entry) { create(:timeline_entry, coronavirus_page: coronavirus_page) }
 
     let(:updated_timeline_entry_params) do
@@ -119,7 +100,6 @@ RSpec.describe TimelineEntriesController do
     before do
       stub_coronavirus_landing_page_content(coronavirus_page)
       stub_coronavirus_publishing_api
-      stub_user.permissions = ["signin", "Coronavirus editor", "Unreleased feature"]
     end
 
     it "updates the timeline entry" do
@@ -148,12 +128,12 @@ RSpec.describe TimelineEntriesController do
   end
 
   describe "DELETE /coronavirus/:coronavirus_page_slug/timeline_entries/:id" do
+    let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
     let!(:timeline_entry) { create(:timeline_entry, coronavirus_page: coronavirus_page, heading: "Skywalker") }
 
     before do
       stub_coronavirus_landing_page_content(coronavirus_page)
       stub_coronavirus_publishing_api
-      stub_user.permissions = ["signin", "Coronavirus editor", "Unreleased feature"]
     end
 
     it "redirects to the coronavirus page" do
