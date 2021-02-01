@@ -56,15 +56,9 @@ RSpec.describe CoronavirusPages::ContentBuilder do
       expect(subject.data).to eq data
     end
 
-    context "when unreleased features are off" do
-      before do
-        allow(Rails.configuration).to receive(:unreleased_features).and_return(false)
-      end
-
-      it "includes the timeline data from github" do
-        expect(subject.data["timeline"]["list"])
-          .to eq(github_content["content"]["timeline"]["list"])
-      end
+    it "includes the timeline data from github" do
+      expect(subject.data["timeline"]["list"])
+        .to eq([timeline_json])
     end
   end
 
