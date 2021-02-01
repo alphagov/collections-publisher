@@ -7,8 +7,7 @@ class ReorderSubSectionsController < ApplicationController
   end
 
   def update
-    current_positions
-    set_positions(submitted_positions)
+    set_positions
     if draft_updater.send
       redirect_to coronavirus_page_path(coronavirus_page.slug), notice: "Sections were successfully reordered."
     else
@@ -23,19 +22,11 @@ private
     @coronavirus_page ||= CoronavirusPage.find_by!(slug: params[:coronavirus_page_slug])
   end
 
-  def current_positions
-    @current_positions ||= coronavirus_page.sub_sections.map do |sub_section|
-      { "id" => sub_section.id, "position" => sub_section.position }
-    end
-  end
-
-  def submitted_positions
-    JSON.parse(params[:section_order_save])
-  end
-
-  def set_positions(positions)
-    positions.each do |sub_section|
-      SubSection.find(sub_section["id"]).update_column(:position, sub_section["position"])
+  def set_positions
+    reordered_subsections = JSON.parse(params[:section_order_save])
+    reordered_subsections.each do |sub_section_data|
+      sub_section = coronavirus_page.sub_sections.find(sub_section_data["id"])
+      sub_section.update_column(:position, sub_section_data["position"])
     end
   end
 
