@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe SubSection do
+RSpec.describe Coronavirus::SubSection do
   let(:sub_section) { create :sub_section }
 
   describe "validations" do

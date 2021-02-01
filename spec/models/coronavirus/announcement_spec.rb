@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Announcement, type: :model do
+RSpec.describe Coronavirus::Announcement, type: :model do
   let(:announcement) { create :announcement }
 
   describe "validations" do

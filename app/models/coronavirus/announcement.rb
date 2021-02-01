@@ -1,4 +1,4 @@
-class Announcement < ApplicationRecord
+class Coronavirus::Announcement < ApplicationRecord
   belongs_to :coronavirus_page
   validates :title, :path, presence: true
   validates :coronavirus_page, presence: true

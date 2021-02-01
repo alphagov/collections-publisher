@@ -217,7 +217,7 @@ FactoryBot.define do
     created_at { "2018-08-07 10:35:38" }
   end
 
-  factory :coronavirus_page do
+  factory :coronavirus_page, class: Coronavirus::CoronavirusPage do
     name { Faker::Company.industry }
     slug { Faker::Lorem.word }
     content_id { SecureRandom.uuid }
@@ -239,10 +239,10 @@ FactoryBot.define do
     end
   end
 
-  factory :sub_section do
+  factory :sub_section, class: Coronavirus::SubSection do
     title { Faker::Lorem.sentence }
     content { "[#{Faker::Lorem.sentence}](/#{File.join(Faker::Lorem.words)}?priority-taxon=#{coronavirus_page.content_id})" }
-    position { (SubSection.maximum(:position) || 0) + 1 }
+    position { (Coronavirus::SubSection.maximum(:position) || 0) + 1 }
     coronavirus_page
   end
 
@@ -254,14 +254,14 @@ FactoryBot.define do
     end
   end
 
-  factory :announcement do
+  factory :announcement, class: Coronavirus::Announcement do
     title { Faker::Lorem.words }
     path { "/government/foo/vader/baby/yoda" }
     published_at { Time.zone.local(2020, 9, 11) }
     coronavirus_page
   end
 
-  factory :timeline_entry do
+  factory :timeline_entry, class: Coronavirus::TimelineEntry do
     content { "Amazing fantastic content" }
     heading { "Unbelievable heading" }
     coronavirus_page
