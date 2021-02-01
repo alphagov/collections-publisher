@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ReorderSubSectionsController do
+RSpec.describe Coronavirus::ReorderSubSectionsController do
   include CoronavirusFeatureSteps
 
   render_views

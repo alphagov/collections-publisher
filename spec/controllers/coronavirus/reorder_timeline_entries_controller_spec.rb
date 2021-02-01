@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ReorderTimelineEntriesController do
+RSpec.describe Coronavirus::ReorderTimelineEntriesController do
   include CoronavirusFeatureSteps
 
   let(:coronavirus_page) { create(:coronavirus_page) }

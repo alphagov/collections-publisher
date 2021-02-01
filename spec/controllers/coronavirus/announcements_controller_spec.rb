@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe AnnouncementsController do
+RSpec.describe Coronavirus::AnnouncementsController do
   include CoronavirusFeatureSteps
 
   render_views

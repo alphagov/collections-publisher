@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe TimelineEntriesController do
+RSpec.describe Coronavirus::TimelineEntriesController do
   include CoronavirusFeatureSteps
 
   let(:stub_user) { create :user, name: "Name Surname" }

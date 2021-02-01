@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CoronavirusPagesController, type: :controller do
+RSpec.describe Coronavirus::CoronavirusPagesController do
   render_views
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
