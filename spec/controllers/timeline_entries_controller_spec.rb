@@ -65,7 +65,7 @@ RSpec.describe TimelineEntriesController do
              timeline_entry: timeline_entry_params,
            }
 
-      expect(subject).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
+      expect(response).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
     end
   end
 
@@ -143,7 +143,50 @@ RSpec.describe TimelineEntriesController do
               timeline_entry: updated_timeline_entry_params,
             }
 
-      expect(subject).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
+      expect(response).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
+    end
+  end
+
+  describe "DELETE /coronavirus/:coronavirus_page_slug/timeline_entries/:id" do
+    let!(:timeline_entry) { create(:timeline_entry, coronavirus_page: coronavirus_page, heading: "Skywalker") }
+
+    before do
+      stub_coronavirus_landing_page_content(coronavirus_page)
+      stub_coronavirus_publishing_api
+      stub_user.permissions = ["signin", "Coronavirus editor", "Unreleased feature"]
+    end
+
+    it "redirects to the coronavirus page" do
+      delete :destroy,
+             params: {
+               id: timeline_entry.id,
+               coronavirus_page_slug: coronavirus_page.slug,
+             }
+
+      expect(response).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
+    end
+
+    it "deletes the timeline entry" do
+      delete :destroy,
+             params: {
+               id: timeline_entry.id,
+               coronavirus_page_slug: coronavirus_page.slug,
+             }
+
+      expect(coronavirus_page.reload.timeline_entries.count).to eq(0)
+    end
+
+    it "doesn't delete the timeline_entry if draft_updater fails" do
+      stub_publishing_api_isnt_available
+      create(:timeline_entry, coronavirus_page: coronavirus_page, heading: "Amidala")
+
+      params = {
+        id: timeline_entry.id,
+        coronavirus_page_slug: coronavirus_page.slug,
+      }
+
+      expect { delete :destroy, params: params }
+        .to_not(change { coronavirus_page.reload.timeline_entries.to_a })
     end
   end
 end
