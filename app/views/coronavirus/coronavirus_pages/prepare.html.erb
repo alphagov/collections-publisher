@@ -5,10 +5,10 @@
 } %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <%= render "coronavirus_pages/shared/github", github_url: @coronavirus_page.github_url %>
-    <%= render "coronavirus_pages/shared/draft" %>
-    <%= render "coronavirus_pages/shared/preview", path: @coronavirus_page.base_path %>
-    <%= render "coronavirus_pages/shared/publish" %>
-    <%= render "coronavirus_pages/shared/live", path: @coronavirus_page.base_path %>
+    <%= render "coronavirus/coronavirus_pages/shared/github", github_url: @coronavirus_page.github_url %>
+    <%= render "coronavirus/coronavirus_pages/shared/draft" %>
+    <%= render "coronavirus/coronavirus_pages/shared/preview", path: @coronavirus_page.base_path %>
+    <%= render "coronavirus/coronavirus_pages/shared/publish" %>
+    <%= render "coronavirus/coronavirus_pages/shared/live", path: @coronavirus_page.base_path %>
   </div>
 </div>
