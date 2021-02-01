@@ -44,12 +44,12 @@ RSpec.describe Coronavirus::SubSectionsController do
     end
 
     it "create a new sub_section" do
-      expect { subject }.to change { SubSection.count }.by(1)
+      expect { subject }.to change { Coronavirus::SubSection.count }.by(1)
     end
 
     it "adds attributes to new sub_section" do
       subject
-      sub_section = SubSection.last
+      sub_section = Coronavirus::SubSection.last
       expect(sub_section.title).to eq(title)
       expect(sub_section.content).to eq(content)
     end
@@ -92,7 +92,7 @@ RSpec.describe Coronavirus::SubSectionsController do
         sub_section_params.merge!(content: content, featured_link: featured_link)
 
         subject
-        sub_section = SubSection.last
+        sub_section = Coronavirus::SubSection.last
         expect(sub_section.featured_link).to eq(featured_link)
       end
 
@@ -136,7 +136,7 @@ RSpec.describe Coronavirus::SubSectionsController do
     end
 
     it "updates the sub_section" do
-      expect { subject }.not_to(change { SubSection.count })
+      expect { subject }.not_to(change { Coronavirus::SubSection.count })
     end
 
     it "changes the attributes of the subsection" do
@@ -166,7 +166,7 @@ RSpec.describe Coronavirus::SubSectionsController do
     end
 
     it "deletes the subsection" do
-      expect { subject }.to change { SubSection.count }.by(-1)
+      expect { subject }.to change { Coronavirus::SubSection.count }.by(-1)
     end
 
     it "doesn't delete the subsection if draft_updater fails" do

@@ -12,7 +12,7 @@ module CoronavirusPages
 
     def page
       @page ||=
-        CoronavirusPage.find_or_create_by!(slug: slug) do |coronavirus_page|
+        Coronavirus::CoronavirusPage.find_or_create_by!(slug: slug) do |coronavirus_page|
           coronavirus_page.attributes = coronavirus_page_attributes
         end
     end

@@ -2,7 +2,7 @@ class CoronavirusPages::TimelineEntryBuilder
   def create_timeline_entries
     return if timeline_entries_from_yaml.empty?
 
-    TimelineEntry.transaction do
+    Coronavirus::TimelineEntry.transaction do
       coronavirus_page.timeline_entries.delete_all
 
       timeline_entries_from_yaml.reverse.each do |entry|
@@ -22,6 +22,6 @@ private
   end
 
   def coronavirus_page
-    @coronavirus_page ||= CoronavirusPage.find_by(slug: "landing")
+    @coronavirus_page ||= Coronavirus::CoronavirusPage.find_by(slug: "landing")
   end
 end

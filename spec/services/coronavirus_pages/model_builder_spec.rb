@@ -21,7 +21,7 @@ RSpec.describe CoronavirusPages::ModelBuilder do
   describe ".call" do
     let(:page) { described_class.call(slug) }
     it "returns a page" do
-      expect { page }.to change { CoronavirusPage.count }.by(1)
+      expect { page }.to change { Coronavirus::CoronavirusPage.count }.by(1)
       expect(page).to have_attributes(coronavirus_page_attributes)
     end
   end
@@ -29,8 +29,9 @@ RSpec.describe CoronavirusPages::ModelBuilder do
   describe "#page" do
     context "coronavirus page with matching slug is absent from database" do
       it "creates a coronavirus page" do
-        expect { model_builder.page }.to change { CoronavirusPage.count }.by(1)
-        expect(CoronavirusPage.last).to have_attributes(coronavirus_page_attributes)
+        expect { model_builder.page }.to change { Coronavirus::CoronavirusPage.count }.by(1)
+        expect(Coronavirus::CoronavirusPage.last)
+          .to have_attributes(coronavirus_page_attributes)
       end
     end
 
@@ -38,7 +39,8 @@ RSpec.describe CoronavirusPages::ModelBuilder do
       let!(:coronavirus_page) { create :coronavirus_page, :landing }
 
       it "does not create a coronavirus page" do
-        expect { model_builder.page }.not_to(change { CoronavirusPage.count })
+        expect { model_builder.page }
+          .not_to(change { Coronavirus::CoronavirusPage.count })
       end
 
       it "returns the coronavirus page" do

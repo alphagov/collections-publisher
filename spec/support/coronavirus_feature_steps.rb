@@ -437,7 +437,7 @@ module CoronavirusFeatureSteps
   end
 
   def stub_discard_subsection_changes
-    stub_publishing_api_discard_draft(CoronavirusPage.topic_page.first.content_id)
+    stub_publishing_api_discard_draft(Coronavirus::CoronavirusPage.topic_page.first.content_id)
   end
 
   def stub_discard_coronavirus_page_draft
@@ -461,7 +461,15 @@ module CoronavirusFeatureSteps
   end
 
   def then_the_reordered_subsections_are_sent_to_publishing_api
-    section = { "title" => "title", "list" => [{ "label" => "label", "url" => "/url?priority-taxon=#{CoronavirusPage.topic_page.first.content_id}" }] }
+    section = {
+      "title" => "title",
+      "list" => [
+        {
+          "label" => "label",
+          "url" => "/url?priority-taxon=#{Coronavirus::CoronavirusPage.topic_page.first.content_id}",
+        },
+      ],
+    }
     reordered_sections = [
       {
         "title" => "I am second",
@@ -482,7 +490,7 @@ module CoronavirusFeatureSteps
     end
 
     assert_publishing_api_put_content(
-      CoronavirusPage.topic_page.first.content_id,
+      Coronavirus::CoronavirusPage.topic_page.first.content_id,
       lambda do |request|
         details = JSON.parse(request.body)["details"]
         expect(details).to match hash_including({
@@ -498,12 +506,12 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_state_is_published
-    expect(CoronavirusPage.topic_page.first.state).to eq "published"
+    expect(Coronavirus::CoronavirusPage.topic_page.first.state).to eq "published"
     expect(page).to have_text("Status: Published", normalize_ws: true)
   end
 
   def and_i_see_state_is_draft
-    expect(CoronavirusPage.topic_page.first.state).to eq "draft"
+    expect(Coronavirus::CoronavirusPage.topic_page.first.state).to eq "draft"
     expect(page).to have_text("Status: Draft", normalize_ws: true)
   end
 
