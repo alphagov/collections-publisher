@@ -1,0 +1,37 @@
+<%
+  links = [
+    {
+      text: 'Coronavirus pages',
+      href: coronavirus_pages_path
+    },
+    {
+      text: "#{@coronavirus_page.name}",
+      href: coronavirus_page_path(slug: @coronavirus_page.slug)
+    },
+    {
+      text: t("coronavirus_pages.timeline_entries.reorder.heading")
+    },
+  ]
+%>
+<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :title, formatted_title(@coronavirus_page)%>
+<% content_for :context, t("coronavirus_pages.timeline_entries.reorder.heading") %>
+
+<div class="covid-manage-page govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render_markdown t("coronavirus_pages.timeline_entries.reorder.form.markdown_hint") %>
+    <%= render "reorder_list" %>
+
+    <%= form_with method: :put, url: reorder_coronavirus_page_timeline_entries_path do |form| %>
+      <input type="hidden" name="timeline_entry_order_save" id="js_order_save" value="" />
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <%= render "govuk_publishing_components/components/button", {
+            text: "Save"
+          } %>
+          <%= link_to 'Cancel', coronavirus_page_path(@coronavirus_page.slug), class: "govuk-link govuk-button" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

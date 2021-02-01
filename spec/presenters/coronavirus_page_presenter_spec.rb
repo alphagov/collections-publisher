@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe CoronavirusPagePresenter do
+  include CoronavirusFeatureSteps
   include GovukContentSchemaTestHelpers
 
   let(:coronavirus_page) { create :coronavirus_page, :landing }
