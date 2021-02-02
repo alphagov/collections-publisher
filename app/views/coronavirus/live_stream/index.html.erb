@@ -23,7 +23,7 @@
           </div>
         </details>
       <% end %>
-      <%= form_with(url: live_stream_path(@live_stream), method: "put", local: true) do %>
+      <%= form_with(url: coronavirus_live_stream_path(@live_stream), method: "put", local: true) do %>
         <%= label_tag(:url, "YouTube URL", class: "govuk-label" ) %>
         <%= text_field_tag(:url, nil,
           class: "govuk-input govuk-!-margin-bottom-6",
@@ -48,7 +48,7 @@
         padding: true
       } %>
       <div>
-        <%= link_to "Publish", live_stream_publish_path(@live_stream), method: :post, class: "govuk-button" %>
+        <%= link_to "Publish", coronavirus_live_stream_publish_path(@live_stream), method: :post, class: "govuk-button" %>
       </div>
       <%= render "govuk_publishing_components/components/heading", {
         text: "4. Check the live landing page",
