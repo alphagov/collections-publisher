@@ -10,17 +10,12 @@ RSpec.describe Coronavirus::LiveStream do
     end
 
     it "is invalid without a url" do
-      expect(described_class.create).not_to be_valid
+      expect(build(:live_stream, url: nil)).not_to be_valid
     end
 
     it "it requires a valid url" do
-      expect { described_class.create!(url: bad_url) }.to raise_error(ActiveRecord::RecordInvalid)
-      expect(described_class.create(url: good_url)).to be_valid
-    end
-
-    it "has a formatted_stream_date column that is neither required nor validated" do
-      expect(described_class.create(url: good_url, formatted_stream_date: "1 April 2020")).to be_valid
-      expect(described_class.create(url: good_url, formatted_stream_date: "")).to be_valid
+      expect(build(:live_stream, url: bad_url)).not_to be_valid
+      expect(build(:live_stream, url: good_url)).to be_valid
     end
   end
 end
