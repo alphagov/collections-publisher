@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe AnnouncementJsonPresenter do
+RSpec.describe Coronavirus::AnnouncementJsonPresenter do
   include CoronavirusHelpers
 
   let!(:announcement) { create :announcement }
