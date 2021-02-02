@@ -1,3 +1,3 @@
 class Coronavirus::LiveStream < ApplicationRecord
-  validates :url, url: true, presence: true
+  validates :url, youtube_url: true, presence: true
 end
