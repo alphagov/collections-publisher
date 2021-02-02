@@ -1,7 +1,7 @@
 require "rails_helper"
 require "gds_api/test_helpers/publishing_api"
 
-RSpec.describe LiveStreamUpdater do
+RSpec.describe Coronavirus::LiveStreamUpdater do
   include CoronavirusFeatureSteps
   include GdsApi::TestHelpers::PublishingApi
 
@@ -15,14 +15,14 @@ RSpec.describe LiveStreamUpdater do
 
   describe "#object" do
     it "creates live_stream object with data from the live content item" do
-      updater = LiveStreamUpdater.new
+      updater = described_class.new
       expect(updater.object.url).to eq yesterdays_link
       expect(updater.object.formatted_stream_date).to eq yesterdays_date
     end
 
     it "returns live_stream object from the database if it exists" do
       Coronavirus::LiveStream.create!(url: todays_link, formatted_stream_date: todays_date)
-      updater = LiveStreamUpdater.new
+      updater = described_class.new
       expect(updater.object.url).to eq todays_link
       expect(updater.object.formatted_stream_date).to eq todays_date
     end
@@ -31,7 +31,7 @@ RSpec.describe LiveStreamUpdater do
   context "Succesful interaction with publishing api" do
     it "#update and #publish" do
       Coronavirus::LiveStream.create!(url: todays_link, formatted_stream_date: todays_date)
-      updater = LiveStreamUpdater.new
+      updater = described_class.new
 
       expect(updater.update).to be true
       expect(updater.publish).to be true
@@ -44,7 +44,7 @@ RSpec.describe LiveStreamUpdater do
   context "Unsuccesful interaction with publishing api" do
     it "#update" do
       Coronavirus::LiveStream.create!(url: todays_link, formatted_stream_date: todays_date)
-      updater = LiveStreamUpdater.new
+      updater = described_class.new
 
       expect(updater.object.url).to eql todays_link
       expect(updater.object.formatted_stream_date).to eql todays_date
@@ -58,7 +58,7 @@ RSpec.describe LiveStreamUpdater do
     end
 
     it "#publish" do
-      updater = LiveStreamUpdater.new
+      updater = described_class.new
       expect(updater.update).to be true
       stub_any_publishing_api_call_to_return_not_found
       expect(updater.publish).to be false
