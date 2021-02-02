@@ -1,4 +1,4 @@
-class CoronavirusPages::ContentBuilder
+class Coronavirus::Pages::ContentBuilder
   attr_reader :coronavirus_page, :errors
 
   def initialize(coronavirus_page)

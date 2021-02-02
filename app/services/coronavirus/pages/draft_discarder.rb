@@ -1,4 +1,4 @@
-module CoronavirusPages
+module Coronavirus::Pages
   class DraftDiscarder
     attr_reader :coronavirus_page
 

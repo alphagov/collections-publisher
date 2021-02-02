@@ -94,7 +94,7 @@ module CoronavirusFeatureSteps
 
   def raw_content_urls
     @raw_content_urls ||=
-      CoronavirusPages::Configuration.all_pages.map do |config|
+      Coronavirus::Pages::Configuration.all_pages.map do |config|
         config.second[:raw_content_url]
       end
   end

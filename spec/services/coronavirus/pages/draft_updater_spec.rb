@@ -1,10 +1,10 @@
 require "rails_helper"
 
-RSpec.describe CoronavirusPages::DraftUpdater do
+RSpec.describe Coronavirus::Pages::DraftUpdater do
   include CoronavirusFeatureSteps
 
   let(:coronavirus_page) { create :coronavirus_page }
-  let(:content_builder) { CoronavirusPages::ContentBuilder.new(coronavirus_page) }
+  let(:content_builder) { Coronavirus::Pages::ContentBuilder.new(coronavirus_page) }
   let(:payload) { CoronavirusPagePresenter.new(content_builder.data, coronavirus_page.base_path).payload }
   let(:github_fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:github_content) { YAML.safe_load(File.read(github_fixture_path)) }

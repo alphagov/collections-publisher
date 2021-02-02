@@ -1,4 +1,4 @@
-module CoronavirusPages
+module Coronavirus::Pages
   class Configuration
     def self.page(key)
       all_pages[key.to_sym]

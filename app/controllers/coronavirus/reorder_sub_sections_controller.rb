@@ -43,11 +43,11 @@ module Coronavirus
     end
 
     def draft_updater
-      @draft_updater ||= CoronavirusPages::DraftUpdater.new(coronavirus_page)
+      @draft_updater ||= Pages::DraftUpdater.new(coronavirus_page)
     end
 
     def page_configs
-      CoronavirusPages::Configuration.all_pages
+      Pages::Configuration.all_pages
     end
   end
 end

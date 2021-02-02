@@ -58,7 +58,7 @@ module Coronavirus
     end
 
     def draft_updater
-      @draft_updater ||= CoronavirusPages::DraftUpdater.new(@coronavirus_page)
+      @draft_updater ||= Pages::DraftUpdater.new(@coronavirus_page)
     end
   end
 end

@@ -6,10 +6,10 @@ RSpec.describe Coronavirus::CoronavirusPagesController do
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
   let(:coronavirus_page) { create :coronavirus_page, :of_known_type }
   let(:slug) { coronavirus_page.slug }
-  let(:raw_content_url) { CoronavirusPages::Configuration.page(slug)[:raw_content_url] }
+  let(:raw_content_url) { Coronavirus::Pages::Configuration.page(slug)[:raw_content_url] }
   let(:raw_content_url_regex) { Regexp.new(raw_content_url) }
   let(:all_content_urls) do
-    CoronavirusPages::Configuration.all_pages.map do |config|
+    Coronavirus::Pages::Configuration.all_pages.map do |config|
       config.second[:raw_content_url]
     end
   end

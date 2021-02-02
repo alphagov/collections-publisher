@@ -10,7 +10,7 @@ RSpec.describe CoronavirusPagePresenter do
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
   let(:title) { github_content["content"]["title"] }
   let(:meta_description) { github_content["content"]["meta_description"] }
-  let(:data) { CoronavirusPages::ContentBuilder.new(coronavirus_page).data }
+  let(:data) { Coronavirus::Pages::ContentBuilder.new(coronavirus_page).data }
   let(:details) { data.except(title, meta_description) }
 
   let(:payload) do

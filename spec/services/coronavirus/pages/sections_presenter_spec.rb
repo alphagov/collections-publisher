@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CoronavirusPages::SectionsPresenter do
+RSpec.describe Coronavirus::Pages::SectionsPresenter do
   let(:title) { Faker::Lorem.sentence }
   let(:data) do
     [

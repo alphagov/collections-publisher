@@ -1,4 +1,4 @@
-class CoronavirusPages::TimelineEntryBuilder
+class Coronavirus::Pages::TimelineEntryBuilder
   def create_timeline_entries
     return if timeline_entries_from_yaml.empty?
 

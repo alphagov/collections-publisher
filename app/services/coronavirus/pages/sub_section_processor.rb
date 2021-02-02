@@ -1,4 +1,4 @@
-module CoronavirusPages
+module Coronavirus::Pages
   class SubSectionProcessor
     def self.call(*args)
       new(*args).output
