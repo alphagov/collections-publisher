@@ -246,7 +246,7 @@ FactoryBot.define do
     coronavirus_page
   end
 
-  factory :live_stream do
+  factory :live_stream, class: Coronavirus::LiveStream do
     url { "https://www.youtube.com/watch?v=NiplUCnwc5A" }
     formatted_stream_date { "1 April 2020" }
     trait :without_validations do

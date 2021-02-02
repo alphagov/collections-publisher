@@ -21,7 +21,7 @@ RSpec.describe LiveStreamUpdater do
     end
 
     it "returns live_stream object from the database if it exists" do
-      LiveStream.create!(url: todays_link, formatted_stream_date: todays_date)
+      Coronavirus::LiveStream.create!(url: todays_link, formatted_stream_date: todays_date)
       updater = LiveStreamUpdater.new
       expect(updater.object.url).to eq todays_link
       expect(updater.object.formatted_stream_date).to eq todays_date
@@ -30,7 +30,7 @@ RSpec.describe LiveStreamUpdater do
 
   context "Succesful interaction with publishing api" do
     it "#update and #publish" do
-      LiveStream.create!(url: todays_link, formatted_stream_date: todays_date)
+      Coronavirus::LiveStream.create!(url: todays_link, formatted_stream_date: todays_date)
       updater = LiveStreamUpdater.new
 
       expect(updater.update).to be true
@@ -43,7 +43,7 @@ RSpec.describe LiveStreamUpdater do
 
   context "Unsuccesful interaction with publishing api" do
     it "#update" do
-      LiveStream.create!(url: todays_link, formatted_stream_date: todays_date)
+      Coronavirus::LiveStream.create!(url: todays_link, formatted_stream_date: todays_date)
       updater = LiveStreamUpdater.new
 
       expect(updater.object.url).to eql todays_link

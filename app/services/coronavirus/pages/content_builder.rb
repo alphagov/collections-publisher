@@ -107,9 +107,9 @@ module Coronavirus::Pages
     end
 
     def persisted_live_stream_data
-      return {} unless LiveStream.any?
+      return {} unless Coronavirus::LiveStream.any?
 
-      live_stream = LiveStream.last
+      live_stream = Coronavirus::LiveStream.last
       {
         "video_url" => live_stream.url,
         "date" => live_stream.formatted_stream_date,

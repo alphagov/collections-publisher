@@ -18,7 +18,7 @@ private
   attr_writer :object
 
   def live_stream_object
-    LiveStream.first_or_create(url: live_url, formatted_stream_date: live_date)
+    Coronavirus::LiveStream.first_or_create(url: live_url, formatted_stream_date: live_date)
   end
 
   def live_stream_content

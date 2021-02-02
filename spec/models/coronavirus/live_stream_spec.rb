@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe LiveStream do
+RSpec.describe Coronavirus::LiveStream do
   describe "validations" do
     let(:bad_url) { "www.youtbe.co.uk/123" }
     let(:good_url) { "https://www.youtube.com/123" }
@@ -10,17 +10,17 @@ RSpec.describe LiveStream do
     end
 
     it "is invalid without a url" do
-      expect(LiveStream.create).not_to be_valid
+      expect(described_class.create).not_to be_valid
     end
 
     it "it requires a valid url" do
-      expect { LiveStream.create!(url: bad_url) }.to raise_error(ActiveRecord::RecordInvalid)
-      expect(LiveStream.create(url: good_url)).to be_valid
+      expect { described_class.create!(url: bad_url) }.to raise_error(ActiveRecord::RecordInvalid)
+      expect(described_class.create(url: good_url)).to be_valid
     end
 
     it "has a formatted_stream_date column that is neither required nor validated" do
-      expect(LiveStream.create(url: good_url, formatted_stream_date: "1 April 2020")).to be_valid
-      expect(LiveStream.create(url: good_url, formatted_stream_date: "")).to be_valid
+      expect(described_class.create(url: good_url, formatted_stream_date: "1 April 2020")).to be_valid
+      expect(described_class.create(url: good_url, formatted_stream_date: "")).to be_valid
     end
   end
 end
