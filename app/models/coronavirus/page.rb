@@ -1,4 +1,6 @@
-class Coronavirus::CoronavirusPage < ApplicationRecord
+class Coronavirus::Page < ApplicationRecord
+  self.table_name = "coronavirus_pages"
+
   STATUSES = %w[draft published].freeze
   has_many :sub_sections, dependent: :destroy
   has_many :announcements, dependent: :destroy

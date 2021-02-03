@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Coronavirus::CoronavirusPage do
+RSpec.describe Coronavirus::Page do
   describe "scopes" do
     let!(:business) { create :coronavirus_page, :business }
     let!(:landing) { create :coronavirus_page, :landing }
@@ -8,11 +8,11 @@ RSpec.describe Coronavirus::CoronavirusPage do
     let!(:workers) { create :coronavirus_page, :workers }
 
     it "topic_page" do
-      expect(Coronavirus::CoronavirusPage.topic_page.first).to eq landing
+      expect(described_class.topic_page.first).to eq landing
     end
 
     it "sub_topics" do
-      expect(Coronavirus::CoronavirusPage.subtopic_pages)
+      expect(described_class.subtopic_pages)
         .to eq [business, education, workers]
     end
   end

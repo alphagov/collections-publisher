@@ -217,7 +217,7 @@ FactoryBot.define do
     created_at { "2018-08-07 10:35:38" }
   end
 
-  factory :coronavirus_page, class: Coronavirus::CoronavirusPage do
+  factory :coronavirus_page, class: Coronavirus::Page do
     name { Faker::Company.industry }
     slug { Faker::Lorem.word }
     content_id { SecureRandom.uuid }
