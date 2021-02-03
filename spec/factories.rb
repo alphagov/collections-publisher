@@ -241,9 +241,9 @@ FactoryBot.define do
 
   factory :sub_section, class: Coronavirus::SubSection do
     title { Faker::Lorem.sentence }
-    content { "[#{Faker::Lorem.sentence}](/#{File.join(Faker::Lorem.words)}?priority-taxon=#{coronavirus_page.content_id})" }
+    content { "[#{Faker::Lorem.sentence}](/#{File.join(Faker::Lorem.words)}?priority-taxon=#{page.content_id})" }
     position { (Coronavirus::SubSection.maximum(:position) || 0) + 1 }
-    coronavirus_page
+    page factory: :coronavirus_page
   end
 
   factory :live_stream, class: Coronavirus::LiveStream do
@@ -258,12 +258,12 @@ FactoryBot.define do
     title { Faker::Lorem.words }
     path { "/government/foo/vader/baby/yoda" }
     published_at { Time.zone.local(2020, 9, 11) }
-    coronavirus_page
+    page factory: :coronavirus_page
   end
 
   factory :timeline_entry, class: Coronavirus::TimelineEntry do
     content { "Amazing fantastic content" }
     heading { "Unbelievable heading" }
-    coronavirus_page
+    page factory: :coronavirus_page
   end
 end

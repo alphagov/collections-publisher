@@ -4,12 +4,12 @@ RSpec.describe Coronavirus::Announcement, type: :model do
   let(:announcement) { create :announcement }
 
   describe "validations" do
-    it "should belong to a coronavirus_page" do
-      should validate_presence_of(:coronavirus_page)
+    it "should belong to a page" do
+      should validate_presence_of(:page)
     end
 
-    it "fails if coronavirus_page does not exist" do
-      announcement.coronavirus_page = nil
+    it "fails if page does not exist" do
+      announcement.page = nil
 
       expect(announcement).not_to be_valid
     end
@@ -61,23 +61,23 @@ RSpec.describe Coronavirus::Announcement, type: :model do
       coronavirus_page = create(:coronavirus_page)
       expect(coronavirus_page.announcements.count).to eq 0
 
-      announcement = create(:announcement, coronavirus_page: coronavirus_page)
+      announcement = create(:announcement, page: coronavirus_page)
       expect(announcement.position).to eq 1
     end
 
     it "should increment if there are existing announcements" do
       coronavirus_page = create(:coronavirus_page)
-      create(:announcement, coronavirus_page: coronavirus_page)
+      create(:announcement, page: coronavirus_page)
       expect(coronavirus_page.announcements.count).to eq 1
 
-      announcement = create(:announcement, coronavirus_page: coronavirus_page)
+      announcement = create(:announcement, page: coronavirus_page)
       expect(announcement.position).to eq 2
     end
 
     it "should update announcement positions when an announcement is deleted" do
       coronavirus_page = create(:coronavirus_page)
-      create(:announcement, coronavirus_page: coronavirus_page)
-      create(:announcement, coronavirus_page: coronavirus_page)
+      create(:announcement, page: coronavirus_page)
+      create(:announcement, page: coronavirus_page)
       expect(coronavirus_page.announcements.count).to eq 2
 
       original_announcement_one = coronavirus_page.announcements.first
