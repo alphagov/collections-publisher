@@ -9,7 +9,7 @@ module Coronavirus::Pages
     def call
       return if payload_from_publishing_api.blank?
 
-      Coronavirus::CoronavirusPage.transaction do
+      Coronavirus::Page.transaction do
         coronavirus_page.update!(state: "published")
         update_announcements
         update_sub_sections

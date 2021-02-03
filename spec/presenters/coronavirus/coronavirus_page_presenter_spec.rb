@@ -45,7 +45,7 @@ RSpec.describe Coronavirus::CoronavirusPagePresenter do
     end
 
     it "includes announcements" do
-      announcement = create(:announcement, coronavirus_page: coronavirus_page)
+      announcement = create(:announcement, page: coronavirus_page)
       expect(subject.payload["details"]["announcements"].count).to eq 1
       expect(subject.payload["details"]["announcements"].first).to eq({
         "href" => announcement.path,

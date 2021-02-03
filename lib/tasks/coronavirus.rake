@@ -12,7 +12,7 @@ namespace :coronavirus do
   rake coronavirus:resync_titles[slug]
   "
   task :resync_titles, [:slug] => [:environment] do |_task, args|
-    page = Coronavirus::CoronavirusPage.find_by(slug: args.slug)
+    page = Coronavirus::Page.find_by(slug: args.slug)
     builder ||= Coronavirus::Pages::ModelBuilder.new(args.slug)
     page.update!(
       title: builder.title,

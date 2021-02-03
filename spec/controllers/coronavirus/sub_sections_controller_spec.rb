@@ -8,7 +8,7 @@ RSpec.describe Coronavirus::SubSectionsController do
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
   let(:coronavirus_page) { create :coronavirus_page, :of_known_type }
   let(:slug) { coronavirus_page.slug }
-  let!(:sub_section) { create :sub_section, coronavirus_page: coronavirus_page }
+  let!(:sub_section) { create :sub_section, page: coronavirus_page }
   let(:title) { Faker::Lorem.sentence }
   let(:content) { "###{Faker::Lorem.sentence}" }
   let(:sub_section_params) do

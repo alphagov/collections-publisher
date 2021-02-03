@@ -18,7 +18,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
     it "replaces the existing announcement" do
       create(
         :announcement,
-        coronavirus_page: coronavirus_page,
+        page: coronavirus_page,
         title: "Foo",
       )
 
@@ -33,7 +33,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
     end
 
     it "removes the announcements if there aren't any announcements in publishing_api" do
-      create(:announcement, coronavirus_page: coronavirus_page)
+      create(:announcement, page: coronavirus_page)
 
       payload = payload_from_publishing_api
       payload["details"]["announcements"].clear
@@ -51,7 +51,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
     it "replaces the existing sub_sections" do
       create(
         :sub_section,
-        coronavirus_page: coronavirus_page,
+        page: coronavirus_page,
         title: "Foo",
       )
 
@@ -66,7 +66,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
     end
 
     it "removes the sub_sections if there aren't any sub_sections in publishing_api" do
-      create(:sub_section, coronavirus_page: coronavirus_page)
+      create(:sub_section, page: coronavirus_page)
 
       payload = payload_from_publishing_api
       payload["details"]["sections"].clear
@@ -112,7 +112,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
     it "replaces the existing timeline entries in the correct position order" do
       create(
         :timeline_entry,
-        coronavirus_page: coronavirus_page,
+        page: coronavirus_page,
         heading: "Foo",
       )
 
@@ -129,7 +129,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
     end
 
     it "removes the timeline entries if there isn't a timeline list in Publishing API" do
-      create(:timeline_entry, coronavirus_page: coronavirus_page)
+      create(:timeline_entry, page: coronavirus_page)
 
       payload = payload_from_publishing_api
       payload["details"]["timeline"]["list"].clear

@@ -20,9 +20,9 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
   end
 
   describe "#data" do
-    let!(:sub_section) { create :sub_section, coronavirus_page_id: coronavirus_page.id }
-    let!(:announcement) { create :announcement, coronavirus_page: coronavirus_page }
-    let!(:timeline_entry) { create :timeline_entry, coronavirus_page: coronavirus_page }
+    let!(:sub_section) { create :sub_section, page: coronavirus_page }
+    let!(:announcement) { create :announcement, page: coronavirus_page }
+    let!(:timeline_entry) { create :timeline_entry, page: coronavirus_page }
     let!(:live_stream) { create :live_stream, :without_validations }
     let(:github_livestream_data) { github_content.dig("content", "live_stream") }
 
@@ -68,8 +68,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     end
 
     context "with subsections" do
-      let!(:sub_section_0) { create :sub_section, position: 0, coronavirus_page: coronavirus_page }
-      let!(:sub_section_1) { create :sub_section, position: 1, coronavirus_page: coronavirus_page }
+      let!(:sub_section_0) { create :sub_section, position: 0, page: coronavirus_page }
+      let!(:sub_section_1) { create :sub_section, position: 1, page: coronavirus_page }
       let(:sub_section_0_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section_0).output }
       let(:sub_section_1_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section_1).output }
 
@@ -81,8 +81,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
 
   describe "#announcements_data" do
     context "with announcements" do
-      let!(:announcement_0) { create :announcement, published_at: Time.zone.local(2020, 9, 10), coronavirus_page: coronavirus_page  }
-      let!(:announcement_1) { create :announcement, published_at: Time.zone.local(2020, 9, 11), coronavirus_page: coronavirus_page  }
+      let!(:announcement_0) { create :announcement, published_at: Time.zone.local(2020, 9, 10), page: coronavirus_page  }
+      let!(:announcement_1) { create :announcement, published_at: Time.zone.local(2020, 9, 11), page: coronavirus_page  }
       let!(:announcement_0_json) { Coronavirus::AnnouncementJsonPresenter.new(announcement_0).output }
       let!(:announcement_1_json) { Coronavirus::AnnouncementJsonPresenter.new(announcement_1).output }
 
@@ -95,8 +95,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
   end
 
   describe "#timeline_data" do
-    let!(:timeline_entry_0) { create :timeline_entry, position: 2, coronavirus_page: coronavirus_page  }
-    let!(:timeline_entry_1) { create :timeline_entry, position: 1, coronavirus_page: coronavirus_page  }
+    let!(:timeline_entry_0) { create :timeline_entry, position: 2, page: coronavirus_page  }
+    let!(:timeline_entry_1) { create :timeline_entry, position: 1, page: coronavirus_page  }
 
     it "returns the timeline JSON ordered by position" do
       expect(subject.timeline_data).to eq [

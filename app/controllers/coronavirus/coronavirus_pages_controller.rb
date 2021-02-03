@@ -6,8 +6,8 @@ module Coronavirus
     layout "admin_layout"
 
     def index
-      @topic_page = CoronavirusPage.topic_page.first
-      @subtopic_pages = CoronavirusPage.subtopic_pages
+      @topic_page = Page.topic_page.first
+      @subtopic_pages = Page.subtopic_pages
     end
 
     def prepare

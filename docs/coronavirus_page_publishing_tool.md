@@ -46,7 +46,7 @@ The term accordion is used by content designers to describe this part of the pag
 
 The accordion content is stored in the database as a SubSection:
 
-- A CoronavirusPage has many SubSections.
+- A Coronavirus::Page has many SubSections.
 
 - Each SubSection has a title (eg Funding and Support) and content (stored as markdown).
 

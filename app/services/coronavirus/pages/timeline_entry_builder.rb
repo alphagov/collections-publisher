@@ -23,7 +23,7 @@ module Coronavirus::Pages
     end
 
     def coronavirus_page
-      @coronavirus_page ||= Coronavirus::CoronavirusPage.find_by(slug: "landing")
+      @coronavirus_page ||= Coronavirus::Page.find_by(slug: "landing")
     end
   end
 end

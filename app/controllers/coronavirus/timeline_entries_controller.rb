@@ -54,7 +54,7 @@ module Coronavirus
     end
 
     def coronavirus_page
-      @coronavirus_page ||= CoronavirusPage.find_by(slug: params[:coronavirus_page_slug])
+      @coronavirus_page ||= Page.find_by(slug: params[:coronavirus_page_slug])
     end
 
     def draft_updater

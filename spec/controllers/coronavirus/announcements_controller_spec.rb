@@ -7,7 +7,7 @@ RSpec.describe Coronavirus::AnnouncementsController do
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
   let(:coronavirus_page) { create :coronavirus_page, :landing }
-  let!(:announcement) { create :announcement, coronavirus_page: coronavirus_page }
+  let!(:announcement) { create :announcement, page: coronavirus_page }
   let(:title) { Faker::Lorem.sentence }
   let(:path) { "/government/foo/vader/baby/yoda" }
   let(:published_at) { { "day" => "12", "month" => "12", "year" => "1980" } }
