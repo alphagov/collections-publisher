@@ -58,40 +58,40 @@ RSpec.describe Coronavirus::Announcement, type: :model do
 
   describe "position" do
     it "should default to position 1 if it is the first announcement to have been added" do
-      coronavirus_page = create(:coronavirus_page)
-      expect(coronavirus_page.announcements.count).to eq 0
+      page = create(:coronavirus_page)
+      expect(page.announcements.count).to eq 0
 
-      announcement = create(:announcement, page: coronavirus_page)
+      announcement = create(:announcement, page: page)
       expect(announcement.position).to eq 1
     end
 
     it "should increment if there are existing announcements" do
-      coronavirus_page = create(:coronavirus_page)
-      create(:announcement, page: coronavirus_page)
-      expect(coronavirus_page.announcements.count).to eq 1
+      page = create(:coronavirus_page)
+      create(:announcement, page: page)
+      expect(page.announcements.count).to eq 1
 
-      announcement = create(:announcement, page: coronavirus_page)
+      announcement = create(:announcement, page: page)
       expect(announcement.position).to eq 2
     end
 
     it "should update announcement positions when an announcement is deleted" do
-      coronavirus_page = create(:coronavirus_page)
-      create(:announcement, page: coronavirus_page)
-      create(:announcement, page: coronavirus_page)
-      expect(coronavirus_page.announcements.count).to eq 2
+      page = create(:coronavirus_page)
+      create(:announcement, page: page)
+      create(:announcement, page: page)
+      expect(page.announcements.count).to eq 2
 
-      original_announcement_one = coronavirus_page.announcements.first
-      original_announcement_two = coronavirus_page.announcements.last
+      original_announcement_one = page.announcements.first
+      original_announcement_two = page.announcements.last
       expect(original_announcement_one.position).to eq 1
       expect(original_announcement_two.position).to eq 2
 
       original_announcement_one.destroy!
-      coronavirus_page.reload
+      page.reload
       original_announcement_two.reload
 
       expect(original_announcement_two.position).to eq 1
-      expect(coronavirus_page.announcements.first).to eq original_announcement_two
-      expect(coronavirus_page.announcements.count).to eq 1
+      expect(page.announcements.first).to eq original_announcement_two
+      expect(page.announcements.count).to eq 1
     end
   end
 end

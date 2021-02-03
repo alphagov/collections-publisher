@@ -4,7 +4,7 @@ module Coronavirus
     layout "admin_layout"
 
     def index
-      coronavirus_page
+      page
     end
 
     def update
@@ -13,7 +13,7 @@ module Coronavirus
 
       TimelineEntry.transaction do
         reordered_timeline_entries.each do |timeline_entry_data|
-          timeline_entry = coronavirus_page.timeline_entries.find(timeline_entry_data["id"])
+          timeline_entry = page.timeline_entries.find(timeline_entry_data["id"])
           timeline_entry.update_column(:position, timeline_entry_data["position"])
         end
 
@@ -25,21 +25,21 @@ module Coronavirus
 
       if success
         message = I18n.t("coronavirus_pages.timeline_entries.reorder.success")
-        redirect_to coronavirus_page_path(coronavirus_page.slug), notice: message
+        redirect_to coronavirus_page_path(page.slug), notice: message
       else
         message = I18n.t("coronavirus_pages.timeline_entries.reorder.error", error: draft_updater.errors.to_sentence)
-        redirect_to reorder_coronavirus_page_timeline_entries_path(coronavirus_page.slug), alert: message
+        redirect_to reorder_coronavirus_page_timeline_entries_path(page.slug), alert: message
       end
     end
 
   private
 
-    def coronavirus_page
-      @coronavirus_page ||= Page.find_by!(slug: params[:coronavirus_page_slug])
+    def page
+      @page ||= Page.find_by!(slug: params[:coronavirus_page_slug])
     end
 
     def draft_updater
-      @draft_updater ||= Pages::DraftUpdater.new(coronavirus_page)
+      @draft_updater ||= Pages::DraftUpdater.new(page)
     end
   end
 end

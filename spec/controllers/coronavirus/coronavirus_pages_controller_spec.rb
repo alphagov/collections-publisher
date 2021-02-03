@@ -4,8 +4,8 @@ RSpec.describe Coronavirus::CoronavirusPagesController do
   render_views
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
-  let(:coronavirus_page) { create :coronavirus_page, :of_known_type }
-  let(:slug) { coronavirus_page.slug }
+  let(:page) { create :coronavirus_page, :of_known_type }
+  let(:slug) { page.slug }
   let(:raw_content_url) { Coronavirus::Pages::Configuration.page(slug)[:raw_content_url] }
   let(:raw_content_url_regex) { Regexp.new(raw_content_url) }
   let(:all_content_urls) do
@@ -38,8 +38,8 @@ RSpec.describe Coronavirus::CoronavirusPagesController do
       expect(subject).to have_http_status(:success)
     end
 
-    it "does not create a new coronavirus page" do
-      coronavirus_page # ensure any creation during initialization doesn't get counted
+    it "does not create a new page" do
+      page # ensure any creation during initialization doesn't get counted
       expect { subject }.not_to(change { Coronavirus::Page.count })
     end
 
@@ -50,8 +50,8 @@ RSpec.describe Coronavirus::CoronavirusPagesController do
       end
     end
 
-    context "with a new known coronavirus page" do
-      let(:coronavirus_page) { build :coronavirus_page, :of_known_type }
+    context "with a new known page" do
+      let(:page) { build :coronavirus_page, :of_known_type }
 
       it "renders page successfuly" do
         stub_request(:get, raw_content_url_regex)
@@ -59,10 +59,10 @@ RSpec.describe Coronavirus::CoronavirusPagesController do
         expect(subject).to have_http_status(:success)
       end
 
-      it "creates a new coronavirus page" do
+      it "creates a new page" do
         stub_request(:get, raw_content_url_regex)
           .to_return(status: 200, body: raw_content)
-        coronavirus_page # ensure any creation during initialization doesn't get counted
+        page # ensure any creation during initialization doesn't get counted
         expect { subject }.to (change { Coronavirus::Page.count }).by(1)
       end
     end
@@ -70,7 +70,7 @@ RSpec.describe Coronavirus::CoronavirusPagesController do
 
   describe "GET /coronavirus/:slug" do
     it "renders page successfuly" do
-      get :show, params: { slug: coronavirus_page.slug }
+      get :show, params: { slug: page.slug }
       expect(response).to have_http_status(:success)
     end
 
@@ -86,13 +86,13 @@ RSpec.describe Coronavirus::CoronavirusPagesController do
     let(:live_sections) { live_content_item.dig("details", "sections") }
     let(:live_title) { live_sections.first["title"] }
     let(:slug) { "landing" }
-    let(:coronavirus_page) do
+    let(:page) do
       create :coronavirus_page,
              content_id: live_content_item["content_id"],
              base_path: live_content_item["base_path"],
              slug: slug
     end
-    let(:subsection) { create :sub_section, coronavirus_page_id: coronavirus_page.id, title: "foo" }
+    let(:subsection) { create :sub_section, page: page, title: "foo" }
     subject { get :discard, params: { slug: slug } }
 
     before do
@@ -103,7 +103,7 @@ RSpec.describe Coronavirus::CoronavirusPagesController do
     it "instructs publishing api to discard the draft content item" do
       subsection
       subject
-      assert_publishing_api_discard_draft(coronavirus_page.content_id)
+      assert_publishing_api_discard_draft(page.content_id)
     end
   end
 end

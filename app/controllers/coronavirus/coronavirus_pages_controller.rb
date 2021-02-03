@@ -2,7 +2,7 @@ module Coronavirus
   class CoronavirusPagesController < ApplicationController
     before_action :require_coronavirus_editor_permissions!
     before_action :redirect_to_index_if_slug_unknown, only: %w[prepare show]
-    before_action :initialise_coronavirus_pages, only: %w[index]
+    before_action :initialise_pages, only: %w[index]
     layout "admin_layout"
 
     def index
@@ -11,11 +11,11 @@ module Coronavirus
     end
 
     def prepare
-      coronavirus_page
+      page
     end
 
     def show
-      coronavirus_page
+      page
     end
 
     def update
@@ -37,7 +37,7 @@ module Coronavirus
 
     def discard
       if draft_updater.discarded?
-        Pages::DraftDiscarder.new(coronavirus_page).call
+        Pages::DraftDiscarder.new(page).call
         message = { notice: "Changes to subsections have been discarded" }
       else
         message = { alert: draft_updater.errors.to_sentence }
@@ -47,18 +47,18 @@ module Coronavirus
 
   private
 
-    def initialise_coronavirus_pages
+    def initialise_pages
       page_configs.keys.map do |page|
         Pages::ModelBuilder.new(page.to_s).page
       end
     end
 
-    def coronavirus_page
-      @coronavirus_page ||= Pages::ModelBuilder.call(slug)
+    def page
+      @page ||= Pages::ModelBuilder.call(slug)
     end
 
     def draft_updater
-      @draft_updater ||= Pages::DraftUpdater.new(coronavirus_page)
+      @draft_updater ||= Pages::DraftUpdater.new(page)
     end
 
     def slug_unknown_for_update
@@ -74,7 +74,7 @@ module Coronavirus
     end
 
     def publish_page
-      Services.publishing_api.publish(coronavirus_page.content_id, update_type)
+      Services.publishing_api.publish(page.content_id, update_type)
       change_state("published")
       flash["notice"] = "Page published!"
     rescue GdsApi::HTTPConflict
@@ -113,7 +113,7 @@ module Coronavirus
     end
 
     def change_state(state)
-      coronavirus_page.update(state: state)
+      page.update(state: state)
     end
   end
 end

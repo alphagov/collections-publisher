@@ -5,8 +5,8 @@ links = [
     href: coronavirus_pages_path
   },
   {
-    text: "#{@coronavirus_page.name} accordions",
-    href: coronavirus_page_path(slug: @coronavirus_page.slug)
+    text: "#{@page.name} accordions",
+    href: coronavirus_page_path(slug: @page.slug)
   },
   {
     text: "Edit"
@@ -20,7 +20,7 @@ links = [
 %>
 
 <% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
-<% content_for :title, @coronavirus_page.title %>
+<% content_for :title, @page.title %>
 <% content_for :context, 'Edit guidance and support accordion' %>
 <% if @sub_section.errors.any? %>
   <%= render "shared/sub_sections/form_errors", resource: @sub_section %>
@@ -28,7 +28,7 @@ links = [
 
 <div class="covid-edit-page govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_for @sub_section, url: coronavirus_page_sub_section_path(@coronavirus_page.slug, @sub_section) do |form| %>
+    <%= form_for @sub_section, url: coronavirus_page_sub_section_path(@page.slug, @sub_section) do |form| %>
       <%= render "form", form: form %>
     <% end %>
   </div>

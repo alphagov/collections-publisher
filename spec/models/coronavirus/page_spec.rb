@@ -18,20 +18,20 @@ RSpec.describe Coronavirus::Page do
   end
 
   describe "validations" do
-    let(:coronavirus_page) { create :coronavirus_page }
+    let(:page) { create :coronavirus_page }
 
     it "has a default state when created" do
-      expect(coronavirus_page.state).to eq "draft"
+      expect(page.state).to eq "draft"
     end
 
     it "state cannot be nil" do
-      coronavirus_page.state = ""
-      expect(coronavirus_page).not_to be_valid
+      page.state = ""
+      expect(page).not_to be_valid
     end
 
     it "state must be draft or published" do
-      coronavirus_page.state = "lovely"
-      expect(coronavirus_page).not_to be_valid
+      page.state = "lovely"
+      expect(page).not_to be_valid
     end
   end
 

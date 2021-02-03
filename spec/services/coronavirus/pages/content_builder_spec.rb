@@ -1,16 +1,16 @@
 require "rails_helper"
 
 RSpec.describe Coronavirus::Pages::ContentBuilder do
-  let(:coronavirus_page) { create :coronavirus_page, :landing }
+  let(:page) { create :coronavirus_page, :landing }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
-  let(:sub_section_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section, coronavirus_page.content_id).output }
+  let(:sub_section_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section, page.content_id).output }
   let(:announcement_json) { Coronavirus::AnnouncementJsonPresenter.new(announcement).output }
   let(:timeline_json) { { "heading" => timeline_entry["heading"], "paragraph" => timeline_entry["content"] } }
 
-  subject { described_class.new(coronavirus_page) }
+  subject { described_class.new(page) }
   before do
-    stub_request(:get, Regexp.new(coronavirus_page.raw_content_url))
+    stub_request(:get, Regexp.new(page.raw_content_url))
       .to_return(status: 200, body: github_content.to_json)
   end
   describe "#github_data" do
@@ -20,9 +20,9 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
   end
 
   describe "#data" do
-    let!(:sub_section) { create :sub_section, page: coronavirus_page }
-    let!(:announcement) { create :announcement, page: coronavirus_page }
-    let!(:timeline_entry) { create :timeline_entry, page: coronavirus_page }
+    let!(:sub_section) { create :sub_section, page: page }
+    let!(:announcement) { create :announcement, page: page }
+    let!(:timeline_entry) { create :timeline_entry, page: page }
     let!(:live_stream) { create :live_stream, :without_validations }
     let(:github_livestream_data) { github_content.dig("content", "live_stream") }
 
@@ -68,8 +68,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     end
 
     context "with subsections" do
-      let!(:sub_section_0) { create :sub_section, position: 0, page: coronavirus_page }
-      let!(:sub_section_1) { create :sub_section, position: 1, page: coronavirus_page }
+      let!(:sub_section_0) { create :sub_section, position: 0, page: page }
+      let!(:sub_section_1) { create :sub_section, position: 1, page: page }
       let(:sub_section_0_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section_0).output }
       let(:sub_section_1_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section_1).output }
 
@@ -81,8 +81,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
 
   describe "#announcements_data" do
     context "with announcements" do
-      let!(:announcement_0) { create :announcement, published_at: Time.zone.local(2020, 9, 10), page: coronavirus_page  }
-      let!(:announcement_1) { create :announcement, published_at: Time.zone.local(2020, 9, 11), page: coronavirus_page  }
+      let!(:announcement_0) { create :announcement, published_at: Time.zone.local(2020, 9, 10), page: page  }
+      let!(:announcement_1) { create :announcement, published_at: Time.zone.local(2020, 9, 11), page: page  }
       let!(:announcement_0_json) { Coronavirus::AnnouncementJsonPresenter.new(announcement_0).output }
       let!(:announcement_1_json) { Coronavirus::AnnouncementJsonPresenter.new(announcement_1).output }
 
@@ -95,8 +95,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
   end
 
   describe "#timeline_data" do
-    let!(:timeline_entry_0) { create :timeline_entry, position: 2, page: coronavirus_page  }
-    let!(:timeline_entry_1) { create :timeline_entry, position: 1, page: coronavirus_page  }
+    let!(:timeline_entry_0) { create :timeline_entry, position: 2, page: page  }
+    let!(:timeline_entry_1) { create :timeline_entry, position: 1, page: page  }
 
     it "returns the timeline JSON ordered by position" do
       expect(subject.timeline_data).to eq [
@@ -129,7 +129,7 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
 
     context "on failure" do
       before do
-        stub_request(:get, Regexp.new(coronavirus_page.raw_content_url))
+        stub_request(:get, Regexp.new(page.raw_content_url))
           .to_return(status: 400)
       end
 

@@ -4,13 +4,13 @@ module Coronavirus
     layout "admin_layout"
 
     def new
-      @sub_section = coronavirus_page.sub_sections.new
+      @sub_section = page.sub_sections.new
     end
 
     def create
-      @sub_section = coronavirus_page.sub_sections.new(sub_section_params)
+      @sub_section = page.sub_sections.new(sub_section_params)
       if @sub_section.save && draft_updater.send
-        redirect_to coronavirus_page_path(coronavirus_page.slug), notice: "Sub-section was successfully created."
+        redirect_to coronavirus_page_path(page.slug), notice: "Sub-section was successfully created."
       else
         @sub_section.errors.add :base, draft_updater.errors.to_sentence
         render :new
@@ -18,13 +18,13 @@ module Coronavirus
     end
 
     def edit
-      @sub_section = coronavirus_page.sub_sections.find(params[:id])
+      @sub_section = page.sub_sections.find(params[:id])
     end
 
     def update
-      @sub_section = coronavirus_page.sub_sections.find(params[:id])
+      @sub_section = page.sub_sections.find(params[:id])
       if @sub_section.update(sub_section_params) && draft_updater.send
-        redirect_to coronavirus_page_path(coronavirus_page.slug), notice: "Sub-section was successfully updated."
+        redirect_to coronavirus_page_path(page.slug), notice: "Sub-section was successfully updated."
       else
         @sub_section.errors.add :base, draft_updater.errors.to_sentence
         render :edit
@@ -32,7 +32,7 @@ module Coronavirus
     end
 
     def destroy
-      sub_section = coronavirus_page.sub_sections.find(params[:id])
+      sub_section = page.sub_sections.find(params[:id])
       message = { notice: "Sub-section was successfully deleted." }
 
       SubSection.transaction do
@@ -44,13 +44,13 @@ module Coronavirus
         end
       end
 
-      redirect_to coronavirus_page_path(coronavirus_page.slug), message
+      redirect_to coronavirus_page_path(page.slug), message
     end
 
   private
 
-    def coronavirus_page
-      @coronavirus_page ||= Page.find_by!(slug: params[:coronavirus_page_slug])
+    def page
+      @page ||= Page.find_by!(slug: params[:coronavirus_page_slug])
     end
 
     def sub_section_params
@@ -58,7 +58,7 @@ module Coronavirus
     end
 
     def draft_updater
-      @draft_updater ||= Pages::DraftUpdater.new(@coronavirus_page)
+      @draft_updater ||= Pages::DraftUpdater.new(page)
     end
   end
 end
