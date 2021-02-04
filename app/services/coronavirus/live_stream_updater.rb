@@ -65,7 +65,7 @@ module Coronavirus
     end
 
     def presenter
-      Coronavirus::CoronavirusPagePresenter.new(live_content_item["details"], "/coronavirus")
+      Coronavirus::PagePresenter.new(live_content_item["details"], "/coronavirus")
     end
 
     def payload

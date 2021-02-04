@@ -5,7 +5,7 @@ RSpec.describe Coronavirus::Pages::DraftUpdater do
 
   let(:page) { create :coronavirus_page }
   let(:content_builder) { Coronavirus::Pages::ContentBuilder.new(page) }
-  let(:payload) { Coronavirus::CoronavirusPagePresenter.new(content_builder.data, page.base_path).payload }
+  let(:payload) { Coronavirus::PagePresenter.new(content_builder.data, page.base_path).payload }
   let(:github_fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:github_content) { YAML.safe_load(File.read(github_fixture_path)) }
 

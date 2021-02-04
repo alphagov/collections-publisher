@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Coronavirus::CoronavirusPagePresenter do
+RSpec.describe Coronavirus::PagePresenter do
   include CoronavirusFeatureSteps
   include GovukContentSchemaTestHelpers
 
