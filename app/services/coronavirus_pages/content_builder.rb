@@ -13,10 +13,8 @@ class CoronavirusPages::ContentBuilder
       data["sections"] = sub_sections_data
       data["announcements"] = announcements_data
 
-      if Rails.configuration.unreleased_features
-        data["timeline"] ||= {}
-        data["timeline"]["list"] = timeline_data
-      end
+      data["timeline"] ||= {}
+      data["timeline"]["list"] = timeline_data
 
       add_live_stream(data)
       data["hidden_search_terms"] = hidden_search_terms

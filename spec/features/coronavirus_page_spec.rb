@@ -152,7 +152,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       end
 
       scenario "Adding timeline entries" do
-        given_i_can_access_unreleased_features
         given_there_is_a_coronavirus_page
         when_i_visit_a_coronavirus_page
         and_i_add_a_new_timeline_entry
@@ -162,7 +161,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       end
 
       scenario "Editing timeline entries" do
-        given_i_can_access_unreleased_features
         given_there_is_a_coronavirus_page_with_timeline_entries
         when_i_visit_a_coronavirus_page
         and_i_change_a_timeline_entry
@@ -173,7 +171,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       end
 
       scenario "Reordering timeline entries", js: true do
-        given_i_can_access_unreleased_features
         given_there_is_a_coronavirus_page_with_timeline_entries
         when_i_visit_the_reorder_timeline_entries_page
         then_i_see_the_timeline_entries_in_order
@@ -183,7 +180,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       end
 
       scenario "Viewing timeline entries" do
-        given_i_can_access_unreleased_features
         given_there_is_a_coronavirus_page_with_timeline_entries
         when_i_visit_a_coronavirus_page
         then_i_can_see_a_timeline_entries_section
@@ -191,7 +187,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       end
 
       scenario "Deleting timeline entries", js: true do
-        given_i_can_access_unreleased_features
         given_there_is_a_coronavirus_page_with_timeline_entries
         when_i_visit_a_coronavirus_page
         then_i_can_see_a_timeline_entries_section
