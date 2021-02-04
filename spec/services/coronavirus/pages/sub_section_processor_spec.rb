@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CoronavirusPages::SubSectionProcessor do
+RSpec.describe Coronavirus::Pages::SubSectionProcessor do
   let(:title) { Faker::Lorem.sentence }
   let(:label) { Faker::Lorem.sentence }
   let(:url) { "/#{File.join(Faker::Lorem.words)}" }

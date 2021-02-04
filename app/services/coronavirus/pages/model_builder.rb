@@ -1,4 +1,4 @@
-module CoronavirusPages
+module Coronavirus::Pages
   class ModelBuilder
     def self.call(*args)
       new(*args).page
@@ -28,7 +28,7 @@ module CoronavirusPages
   private
 
     def page_config
-      CoronavirusPages::Configuration.page(slug)
+      Configuration.page(slug)
     end
 
     def coronavirus_page_attributes

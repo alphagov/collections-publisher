@@ -1,4 +1,4 @@
-module CoronavirusPages
+module Coronavirus::Pages
   class DraftUpdater
     DraftUpdaterError = Class.new(StandardError)
 
@@ -11,7 +11,7 @@ module CoronavirusPages
     delegate :content_id, :base_path, to: :coronavirus_page
 
     def content_builder
-      @content_builder ||= CoronavirusPages::ContentBuilder.new(coronavirus_page)
+      @content_builder ||= ContentBuilder.new(coronavirus_page)
     end
 
     def payload

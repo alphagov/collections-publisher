@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CoronavirusPages::DraftDiscarder do
+RSpec.describe Coronavirus::Pages::DraftDiscarder do
   let(:coronavirus_page) do
     create(
       :coronavirus_page,

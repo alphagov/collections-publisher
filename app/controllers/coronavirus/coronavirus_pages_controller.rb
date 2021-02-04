@@ -37,7 +37,7 @@ module Coronavirus
 
     def discard
       if draft_updater.discarded?
-        CoronavirusPages::DraftDiscarder.new(coronavirus_page).call
+        Pages::DraftDiscarder.new(coronavirus_page).call
         message = { notice: "Changes to subsections have been discarded" }
       else
         message = { alert: draft_updater.errors.to_sentence }
@@ -49,16 +49,16 @@ module Coronavirus
 
     def initialise_coronavirus_pages
       page_configs.keys.map do |page|
-        CoronavirusPages::ModelBuilder.new(page.to_s).page
+        Pages::ModelBuilder.new(page.to_s).page
       end
     end
 
     def coronavirus_page
-      @coronavirus_page ||= CoronavirusPages::ModelBuilder.call(slug)
+      @coronavirus_page ||= Pages::ModelBuilder.call(slug)
     end
 
     def draft_updater
-      @draft_updater ||= CoronavirusPages::DraftUpdater.new(coronavirus_page)
+      @draft_updater ||= Pages::DraftUpdater.new(coronavirus_page)
     end
 
     def slug_unknown_for_update
@@ -109,7 +109,7 @@ module Coronavirus
     end
 
     def page_configs
-      CoronavirusPages::Configuration.all_pages
+      Pages::Configuration.all_pages
     end
 
     def change_state(state)

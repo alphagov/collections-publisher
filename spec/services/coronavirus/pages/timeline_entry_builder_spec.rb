@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CoronavirusPages::TimelineEntryBuilder do
+RSpec.describe Coronavirus::Pages::TimelineEntryBuilder do
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
 

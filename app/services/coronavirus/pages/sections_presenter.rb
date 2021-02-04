@@ -1,4 +1,4 @@
-module CoronavirusPages
+module Coronavirus::Pages
   class SectionsPresenter
     attr_reader :data
     def initialize(data)
