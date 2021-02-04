@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ReorderAnnouncementsController do
+RSpec.describe Coronavirus::ReorderAnnouncementsController do
   include CoronavirusFeatureSteps
 
   let(:coronavirus_page) { create(:coronavirus_page) }

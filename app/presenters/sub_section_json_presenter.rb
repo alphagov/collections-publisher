@@ -142,7 +142,7 @@ class SubSectionJsonPresenter
   end
 
   def subtopic_paths
-    @subtopic_paths ||= CoronavirusPage.subtopic_pages.pluck(:base_path, :raw_content_url).to_h
+    @subtopic_paths ||= Coronavirus::CoronavirusPage.subtopic_pages.pluck(:base_path, :raw_content_url).to_h
   end
 
   def append_priority_taxon_query_param(link)

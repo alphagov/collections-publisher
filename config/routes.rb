@@ -18,7 +18,11 @@ Rails.application.routes.draw do
     post "publish", to: "live_stream#publish"
   end
 
-  resources :coronavirus_pages, path: "coronavirus", only: %i[index show update], param: :slug do
+  resources :coronavirus_pages,
+            path: "coronavirus",
+            only: %i[index show update],
+            param: :slug,
+            module: :coronavirus do
     get "prepare", on: :member
     get "discard", on: :member
     post "publish", to: "coronavirus_pages#publish"

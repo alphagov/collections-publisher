@@ -9,7 +9,7 @@ module CoronavirusPages
     def call
       return if payload_from_publishing_api.blank?
 
-      CoronavirusPage.transaction do
+      Coronavirus::CoronavirusPage.transaction do
         coronavirus_page.update!(state: "published")
         update_announcements
         update_sub_sections
@@ -26,7 +26,7 @@ module CoronavirusPages
 
     def announcements
       announcements_from_payload.map.with_index do |announcement, index|
-        Announcement.new(
+        Coronavirus::Announcement.new(
           title: announcement[:text],
           path: announcement[:href],
           published_at: Date.parse(announcement[:published_text]),
@@ -48,7 +48,7 @@ module CoronavirusPages
       sections = SectionsPresenter.new(sections_from_payload).output
 
       new_sub_sections = sections.each_with_index.map do |attributes, index|
-        SubSection.new(
+        Coronavirus::SubSection.new(
           title: attributes[:title],
           content: attributes[:content],
           position: index,
@@ -69,7 +69,7 @@ module CoronavirusPages
 
     def timeline_entries
       timeline_entries_from_payload.reverse.map do |attributes|
-        TimelineEntry.new(
+        Coronavirus::TimelineEntry.new(
           heading: attributes[:heading],
           content: attributes[:paragraph],
         )

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe AnnouncementsController do
+RSpec.describe Coronavirus::AnnouncementsController do
   include CoronavirusFeatureSteps
 
   render_views
@@ -70,7 +70,7 @@ RSpec.describe AnnouncementsController do
     end
 
     it "deletes the announcement" do
-      expect { subject }.to change { Announcement.count }.by(-1)
+      expect { subject }.to change { Coronavirus::Announcement.count }.by(-1)
     end
 
     it "doesn't delete the announcement if draft_updater fails" do
@@ -122,7 +122,7 @@ RSpec.describe AnnouncementsController do
     end
 
     it "updates the announcements" do
-      expect { subject }.not_to(change { Announcement.count })
+      expect { subject }.not_to(change { Coronavirus::Announcement.count })
     end
 
     it "changes the attributes of the announcement" do

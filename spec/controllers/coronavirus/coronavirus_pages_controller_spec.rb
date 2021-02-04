@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CoronavirusPagesController, type: :controller do
+RSpec.describe Coronavirus::CoronavirusPagesController do
   render_views
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
@@ -40,7 +40,7 @@ RSpec.describe CoronavirusPagesController, type: :controller do
 
     it "does not create a new coronavirus page" do
       coronavirus_page # ensure any creation during initialization doesn't get counted
-      expect { subject }.not_to(change { CoronavirusPage.count })
+      expect { subject }.not_to(change { Coronavirus::CoronavirusPage.count })
     end
 
     context "with unknown slug" do
@@ -63,7 +63,7 @@ RSpec.describe CoronavirusPagesController, type: :controller do
         stub_request(:get, raw_content_url_regex)
           .to_return(status: 200, body: raw_content)
         coronavirus_page # ensure any creation during initialization doesn't get counted
-        expect { subject }.to (change { CoronavirusPage.count }).by(1)
+        expect { subject }.to (change { Coronavirus::CoronavirusPage.count }).by(1)
       end
     end
   end
