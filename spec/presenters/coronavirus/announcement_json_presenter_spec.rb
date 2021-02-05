@@ -6,7 +6,7 @@ RSpec.describe Coronavirus::AnnouncementJsonPresenter do
   let!(:announcement) { create :announcement }
 
   before do
-    stub_coronavirus_landing_page_content(announcement.coronavirus_page)
+    stub_coronavirus_landing_page_content(announcement.page)
   end
 
   describe "#output" do

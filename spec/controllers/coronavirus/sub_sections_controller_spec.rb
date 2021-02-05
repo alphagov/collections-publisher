@@ -6,9 +6,8 @@ RSpec.describe Coronavirus::SubSectionsController do
   render_views
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
-  let(:coronavirus_page) { create :coronavirus_page, :of_known_type }
-  let(:slug) { coronavirus_page.slug }
-  let!(:sub_section) { create :sub_section, coronavirus_page: coronavirus_page }
+  let(:page) { create :coronavirus_page, :of_known_type }
+  let!(:sub_section) { create :sub_section, page: page }
   let(:title) { Faker::Lorem.sentence }
   let(:content) { "###{Faker::Lorem.sentence}" }
   let(:sub_section_params) do
@@ -17,30 +16,30 @@ RSpec.describe Coronavirus::SubSectionsController do
       content: content,
     }
   end
-  let(:raw_content_url) { coronavirus_page.raw_content_url }
+  let(:raw_content_url) { page.raw_content_url }
   let(:raw_content_url_regex) { Regexp.new(raw_content_url) }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:raw_content) { File.read(fixture_path) }
 
-  describe "GET /coronavirus/:coronavirus_page_slug/sub_sections/new" do
+  describe "GET /coronavirus/:page_slug/sub_sections/new" do
     it "renders successfully" do
-      get :new, params: { coronavirus_page_slug: slug }
+      get :new, params: { page_slug: page.slug }
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "POST /coronavirus/:coronavirus_page_slug/sub_sections" do
+  describe "POST /coronavirus/:page_slug/sub_sections" do
     before do
       stub_request(:get, raw_content_url_regex)
         .to_return(body: raw_content)
       stub_coronavirus_publishing_api
     end
     subject do
-      post :create, params: { coronavirus_page_slug: slug, sub_section: sub_section_params }
+      post :create, params: { page_slug: page.slug, sub_section: sub_section_params }
     end
 
     it "redirects to coronavirus page on success" do
-      expect(subject).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
+      expect(subject).to redirect_to(coronavirus_page_path(page.slug))
     end
 
     it "create a new sub_section" do
@@ -108,14 +107,14 @@ RSpec.describe Coronavirus::SubSectionsController do
     end
   end
 
-  describe "GET /coronavirus/:coronavirus_page_slug/sub_sections/:id/edit" do
+  describe "GET /coronavirus/:page_slug/sub_sections/:id/edit" do
     it "renders successfully" do
-      get :edit, params: { id: sub_section, coronavirus_page_slug: slug }
+      get :edit, params: { id: sub_section, page_slug: page.slug }
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "PATCH /coronavirus/:coronavirus_page_slug/sub_sections" do
+  describe "PATCH /coronavirus/:page_slug/sub_sections" do
     before do
       stub_request(:get, raw_content_url_regex)
         .to_return(body: raw_content)
@@ -124,7 +123,7 @@ RSpec.describe Coronavirus::SubSectionsController do
     let(:params) do
       {
         id: sub_section,
-        coronavirus_page_slug: slug,
+        page_slug: page.slug,
         sub_section: sub_section_params,
       }
     end
@@ -132,7 +131,7 @@ RSpec.describe Coronavirus::SubSectionsController do
     subject { patch :update, params: params }
 
     it "redirects to coronavirus page on success" do
-      expect(subject).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
+      expect(subject).to redirect_to(coronavirus_page_path(page.slug))
     end
 
     it "updates the sub_section" do
@@ -147,7 +146,7 @@ RSpec.describe Coronavirus::SubSectionsController do
     end
   end
 
-  describe "DELETE /coronavirus/:coronavirus_page_slug/sub_sections/:id" do
+  describe "DELETE /coronavirus/:page_slug/sub_sections/:id" do
     before do
       stub_request(:get, raw_content_url_regex)
         .to_return(body: raw_content)
@@ -156,13 +155,13 @@ RSpec.describe Coronavirus::SubSectionsController do
     let(:params) do
       {
         id: sub_section,
-        coronavirus_page_slug: slug,
+        page_slug: page.slug,
       }
     end
     subject { delete :destroy, params: params }
 
     it "redirects to the coronavirus page on success" do
-      expect(subject).to redirect_to(coronavirus_page_path(coronavirus_page.slug))
+      expect(subject).to redirect_to(coronavirus_page_path(page.slug))
     end
 
     it "deletes the subsection" do
@@ -172,7 +171,7 @@ RSpec.describe Coronavirus::SubSectionsController do
     it "doesn't delete the subsection if draft_updater fails" do
       stub_publishing_api_isnt_available
 
-      expect { subject }.to_not(change { coronavirus_page.reload.sub_sections.to_a })
+      expect { subject }.to_not(change { page.reload.sub_sections.to_a })
     end
   end
 end

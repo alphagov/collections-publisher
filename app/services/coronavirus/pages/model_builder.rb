@@ -12,8 +12,8 @@ module Coronavirus::Pages
 
     def page
       @page ||=
-        Coronavirus::CoronavirusPage.find_or_create_by!(slug: slug) do |coronavirus_page|
-          coronavirus_page.attributes = coronavirus_page_attributes
+        Coronavirus::Page.find_or_create_by!(slug: slug) do |page|
+          page.attributes = page_attributes
         end
     end
 
@@ -31,7 +31,7 @@ module Coronavirus::Pages
       Configuration.page(slug)
     end
 
-    def coronavirus_page_attributes
+    def page_attributes
       page_config.merge(
         sections_title: sections_heading,
         title: title,

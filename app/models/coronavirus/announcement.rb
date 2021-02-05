@@ -1,7 +1,7 @@
 class Coronavirus::Announcement < ApplicationRecord
-  belongs_to :coronavirus_page
+  belongs_to :page, foreign_key: "coronavirus_page_id"
   validates :title, :path, presence: true
-  validates :coronavirus_page, presence: true
+  validates :page, presence: true
   validate :published_at_format
   validate :path_format
   after_create :set_position
@@ -10,11 +10,11 @@ class Coronavirus::Announcement < ApplicationRecord
 private
 
   def set_position
-    update_column(:position, coronavirus_page.announcements.count)
+    update_column(:position, page.announcements.count)
   end
 
   def set_parent_positions
-    coronavirus_page.make_announcement_positions_sequential
+    page.make_announcement_positions_sequential
   end
 
   def published_at_format

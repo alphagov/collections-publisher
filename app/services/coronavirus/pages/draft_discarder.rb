@@ -1,16 +1,16 @@
 module Coronavirus::Pages
   class DraftDiscarder
-    attr_reader :coronavirus_page
+    attr_reader :page
 
-    def initialize(coronavirus_page)
-      @coronavirus_page = coronavirus_page
+    def initialize(page)
+      @page = page
     end
 
     def call
       return if payload_from_publishing_api.blank?
 
-      Coronavirus::CoronavirusPage.transaction do
-        coronavirus_page.update!(state: "published")
+      Coronavirus::Page.transaction do
+        page.update!(state: "published")
         update_announcements
         update_sub_sections
         update_timeline_entries
@@ -20,8 +20,8 @@ module Coronavirus::Pages
   private
 
     def update_announcements
-      coronavirus_page.announcements.delete_all
-      coronavirus_page.announcements = announcements
+      page.announcements.delete_all
+      page.announcements = announcements
     end
 
     def announcements
@@ -40,8 +40,8 @@ module Coronavirus::Pages
     end
 
     def update_sub_sections
-      coronavirus_page.sub_sections.destroy_all
-      coronavirus_page.sub_sections = sub_sections
+      page.sub_sections.destroy_all
+      page.sub_sections = sub_sections
     end
 
     def sub_sections
@@ -63,8 +63,8 @@ module Coronavirus::Pages
     end
 
     def update_timeline_entries
-      coronavirus_page.timeline_entries.delete_all
-      coronavirus_page.timeline_entries = timeline_entries
+      page.timeline_entries.delete_all
+      page.timeline_entries = timeline_entries
     end
 
     def timeline_entries
@@ -83,7 +83,7 @@ module Coronavirus::Pages
     def payload_from_publishing_api
       @payload_from_publishing_api ||=
         begin
-          content = GdsApi.publishing_api.get_live_content(coronavirus_page.content_id).to_h
+          content = GdsApi.publishing_api.get_live_content(page.content_id).to_h
           content.with_indifferent_access
         rescue GdsApi::PublishingApi::NoLiveVersion, GdsApi::HTTPErrorResponse
           {}

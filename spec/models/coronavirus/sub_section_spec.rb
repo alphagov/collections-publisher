@@ -4,15 +4,16 @@ RSpec.describe Coronavirus::SubSection do
   let(:sub_section) { create :sub_section }
 
   describe "validations" do
-    it "should belong to a coronavirus_page" do
-      should validate_presence_of(:coronavirus_page)
+    it "should belong to a page" do
+      should validate_presence_of(:page)
     end
 
-    it "fails if coronavirus_page does not exist" do
-      sub_section.coronavirus_page = nil
+    it "fails if page does not exist" do
+      sub_section.page = nil
 
       expect(sub_section).not_to be_valid
     end
+
     it "is created with valid attributes" do
       expect(sub_section).to be_valid
       expect(sub_section.save).to eql true

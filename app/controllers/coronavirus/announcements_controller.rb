@@ -5,20 +5,20 @@ module Coronavirus
     layout "admin_layout"
 
     def new
-      @announcement = coronavirus_page.announcements.new
+      @announcement = page.announcements.new
     end
 
     def create
-      @announcement = coronavirus_page.announcements.new(announcement_params)
+      @announcement = page.announcements.new(announcement_params)
       if @announcement.save && draft_updater.send
-        redirect_to coronavirus_page_path(@coronavirus_page.slug), notice: "Announcement was successfully created."
+        redirect_to coronavirus_page_path(page.slug), notice: "Announcement was successfully created."
       else
         render :new
       end
     end
 
     def destroy
-      announcement = coronavirus_page.announcements.find(params[:id])
+      announcement = page.announcements.find(params[:id])
       message = { notice: "Announcement was successfully deleted." }
 
       Announcement.transaction do
@@ -30,18 +30,18 @@ module Coronavirus
         end
       end
 
-      redirect_to coronavirus_page_path(coronavirus_page.slug), message
+      redirect_to coronavirus_page_path(page.slug), message
     end
 
     def edit
-      @announcement = coronavirus_page.announcements.find(params[:id])
+      @announcement = page.announcements.find(params[:id])
     end
 
     def update
-      @announcement = coronavirus_page.announcements.find(params[:id])
+      @announcement = page.announcements.find(params[:id])
 
       if @announcement.update(announcement_params) && draft_updater.send
-        redirect_to coronavirus_page_path(@coronavirus_page.slug), notice: "Announcement was successfully updated."
+        redirect_to coronavirus_page_path(page.slug), notice: "Announcement was successfully updated."
       else
         render :edit
       end
@@ -49,8 +49,8 @@ module Coronavirus
 
   private
 
-    def coronavirus_page
-      @coronavirus_page ||= CoronavirusPage.find_by(slug: params[:coronavirus_page_slug])
+    def page
+      @page ||= Page.find_by(slug: params[:page_slug])
     end
 
     def announcement_params
@@ -64,7 +64,7 @@ module Coronavirus
     end
 
     def draft_updater
-      @draft_updater ||= Pages::DraftUpdater.new(@coronavirus_page)
+      @draft_updater ||= Pages::DraftUpdater.new(@page)
     end
   end
 end

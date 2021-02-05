@@ -1,16 +1,16 @@
 require "rails_helper"
 
-RSpec.describe Coronavirus::CoronavirusPagePresenter do
+RSpec.describe Coronavirus::PagePresenter do
   include CoronavirusFeatureSteps
   include GovukContentSchemaTestHelpers
 
-  let(:coronavirus_page) { create :coronavirus_page, :landing }
-  let(:base_path) { coronavirus_page.base_path }
+  let(:page) { create :coronavirus_page, :landing }
+  let(:base_path) { page.base_path }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
   let(:title) { github_content["content"]["title"] }
   let(:meta_description) { github_content["content"]["meta_description"] }
-  let(:data) { Coronavirus::Pages::ContentBuilder.new(coronavirus_page).data }
+  let(:data) { Coronavirus::Pages::ContentBuilder.new(page).data }
   let(:details) { data.except(title, meta_description) }
 
   let(:payload) do
@@ -33,7 +33,7 @@ RSpec.describe Coronavirus::CoronavirusPagePresenter do
   subject { described_class.new(data, base_path) }
 
   before do
-    stub_request(:get, Regexp.new(coronavirus_page.raw_content_url))
+    stub_request(:get, Regexp.new(page.raw_content_url))
       .to_return(status: 200, body: github_content.to_json)
     stub_coronavirus_publishing_api
   end
@@ -45,7 +45,7 @@ RSpec.describe Coronavirus::CoronavirusPagePresenter do
     end
 
     it "includes announcements" do
-      announcement = create(:announcement, coronavirus_page: coronavirus_page)
+      announcement = create(:announcement, page: page)
       expect(subject.payload["details"]["announcements"].count).to eq 1
       expect(subject.payload["details"]["announcements"].first).to eq({
         "href" => announcement.path,

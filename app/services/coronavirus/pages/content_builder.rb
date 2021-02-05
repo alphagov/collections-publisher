@@ -1,9 +1,9 @@
 module Coronavirus::Pages
   class ContentBuilder
-    attr_reader :coronavirus_page, :errors
+    attr_reader :page, :errors
 
-    def initialize(coronavirus_page)
-      @coronavirus_page = coronavirus_page
+    def initialize(page)
+      @page = page
       @errors = []
     end
 
@@ -43,7 +43,7 @@ module Coronavirus::Pages
     end
 
     def type
-      coronavirus_page.slug.to_sym
+      page.slug.to_sym
     end
 
     def required_landing_page_keys
@@ -72,7 +72,7 @@ module Coronavirus::Pages
     end
 
     def github_raw_data
-      YamlFetcher.new(coronavirus_page.raw_content_url).body_as_hash
+      YamlFetcher.new(page.raw_content_url).body_as_hash
     end
 
     def github_data
@@ -84,22 +84,22 @@ module Coronavirus::Pages
     end
 
     def sub_sections_data
-      coronavirus_page.sub_sections.order(:position).map do |sub_section|
-        presenter = Coronavirus::SubSectionJsonPresenter.new(sub_section, coronavirus_page.content_id)
+      page.sub_sections.order(:position).map do |sub_section|
+        presenter = Coronavirus::SubSectionJsonPresenter.new(sub_section, page.content_id)
         add_error(presenter.errors) unless presenter.success?
         presenter.output
       end
     end
 
     def announcements_data
-      coronavirus_page.announcements.order(:position).map do |announcement|
+      page.announcements.order(:position).map do |announcement|
         presenter = Coronavirus::AnnouncementJsonPresenter.new(announcement)
         presenter.output
       end
     end
 
     def timeline_data
-      coronavirus_page
+      page
         .timeline_entries
         .order(:position)
         .pluck(:heading, :content)
@@ -117,7 +117,7 @@ module Coronavirus::Pages
     end
 
     def add_live_stream(data)
-      if coronavirus_page.slug == "landing"
+      if page.slug == "landing"
         data["live_stream"] = github_live_stream_data.merge(persisted_live_stream_data)
       end
     end

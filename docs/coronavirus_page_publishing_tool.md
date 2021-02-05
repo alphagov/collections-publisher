@@ -46,14 +46,14 @@ The term accordion is used by content designers to describe this part of the pag
 
 The accordion content is stored in the database as a SubSection:
 
-- A CoronavirusPage has many SubSections.
+- A Coronavirus::Page has many SubSections.
 
 - Each SubSection has a title (eg Funding and Support) and content (stored as markdown).
 
 ### How to create a new hub page
 
 1. Create a new yaml file following the format of those currently in [govuk-coronavirus-content](https://github.com/alphagov/govuk-coronavirus-content/tree/master/content) repository, and add page content.
-2. Add a basic page configuration to [this file](app/services/coronavirus_pages/configuration.rb) in Collections Publisher.
+2. Add a basic page configuration to [this file](app/services/coronavirus/pages/configuration.rb) in Collections Publisher.
 3. Visiting the Coronavirus page tab of collections publisher will create a coronavirus page model based on the configuration using the service Coronavirus::Pages::ModelBuilder.
 4. As a result two new links will be created on the [index page](https://collections-publisher.publishing.service.gov.uk/coronavirus):
   - Edit \<new hub> page accordions

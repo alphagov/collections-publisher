@@ -20,34 +20,33 @@ Rails.application.routes.draw do
     resources :live_stream, only: %i[index update] do
       post "publish", to: "live_stream#publish"
     end
-  end
 
-  resources :coronavirus_pages,
-            path: "coronavirus",
-            only: %i[index show update],
-            param: :slug,
-            module: :coronavirus do
-    get "prepare", on: :member
-    get "discard", on: :member
-    post "publish", to: "coronavirus_pages#publish"
-    resources :sub_sections do
-      collection do
-        get "reorder", to: "reorder_sub_sections#index"
-        put "reorder", to: "reorder_sub_sections#update"
+    resources :pages,
+              path: "",
+              only: %i[index show update],
+              param: :slug do
+      get "prepare", on: :member
+      get "discard", on: :member
+      post "publish", to: "pages#publish", on: :member
+      resources :sub_sections do
+        collection do
+          get "reorder", to: "reorder_sub_sections#index"
+          put "reorder", to: "reorder_sub_sections#update"
+        end
       end
-    end
 
-    resources :announcements do
-      collection do
-        get "reorder", to: "reorder_announcements#index"
-        put "reorder", to: "reorder_announcements#update"
+      resources :announcements do
+        collection do
+          get "reorder", to: "reorder_announcements#index"
+          put "reorder", to: "reorder_announcements#update"
+        end
       end
-    end
 
-    resources :timeline_entries, only: %i[new create edit update destroy] do
-      collection do
-        get "reorder", to: "reorder_timeline_entries#index"
-        put "reorder", to: "reorder_timeline_entries#update"
+      resources :timeline_entries, only: %i[new create edit update destroy] do
+        collection do
+          get "reorder", to: "reorder_timeline_entries#index"
+          put "reorder", to: "reorder_timeline_entries#update"
+        end
       end
     end
   end

@@ -22,14 +22,14 @@ module CoronavirusFeatureSteps
 
   def given_there_is_coronavirus_page_with_announcements
     @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
-    @announcement_one = FactoryBot.create(:announcement, position: 0, coronavirus_page: @coronavirus_page)
-    @announcement_two = FactoryBot.create(:announcement, position: 1, coronavirus_page: @coronavirus_page)
+    @announcement_one = FactoryBot.create(:announcement, position: 0, page: @coronavirus_page)
+    @announcement_two = FactoryBot.create(:announcement, position: 1, page: @coronavirus_page)
   end
 
   def given_there_is_a_coronavirus_page_with_timeline_entries
     @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
-    @timeline_entry_two = FactoryBot.create(:timeline_entry, coronavirus_page: @coronavirus_page, heading: "Two")
-    @timeline_entry_one = FactoryBot.create(:timeline_entry, coronavirus_page: @coronavirus_page, heading: "One")
+    @timeline_entry_two = FactoryBot.create(:timeline_entry, page: @coronavirus_page, heading: "Two")
+    @timeline_entry_one = FactoryBot.create(:timeline_entry, page: @coronavirus_page, heading: "One")
   end
 
   def the_payload_contains_the_valid_url
@@ -410,12 +410,12 @@ module CoronavirusFeatureSteps
   def set_up_basic_sub_sections
     coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
     FactoryBot.create(:sub_section,
-                      coronavirus_page_id: coronavirus_page.id,
+                      page: coronavirus_page,
                       position: 0,
                       title: "I am first",
                       content: "###title\n[label](/url?priority-taxon=#{coronavirus_page.content_id})")
     FactoryBot.create(:sub_section,
-                      coronavirus_page_id: coronavirus_page.id,
+                      page: coronavirus_page,
                       position: 1,
                       title: "I am second",
                       content: "###title\n[label](/url?priority-taxon=#{coronavirus_page.content_id})")
@@ -437,7 +437,7 @@ module CoronavirusFeatureSteps
   end
 
   def stub_discard_subsection_changes
-    stub_publishing_api_discard_draft(Coronavirus::CoronavirusPage.topic_page.first.content_id)
+    stub_publishing_api_discard_draft(Coronavirus::Page.topic_page.first.content_id)
   end
 
   def stub_discard_coronavirus_page_draft
@@ -466,7 +466,7 @@ module CoronavirusFeatureSteps
       "list" => [
         {
           "label" => "label",
-          "url" => "/url?priority-taxon=#{Coronavirus::CoronavirusPage.topic_page.first.content_id}",
+          "url" => "/url?priority-taxon=#{Coronavirus::Page.topic_page.first.content_id}",
         },
       ],
     }
@@ -490,7 +490,7 @@ module CoronavirusFeatureSteps
     end
 
     assert_publishing_api_put_content(
-      Coronavirus::CoronavirusPage.topic_page.first.content_id,
+      Coronavirus::Page.topic_page.first.content_id,
       lambda do |request|
         details = JSON.parse(request.body)["details"]
         expect(details).to match hash_including({
@@ -506,12 +506,12 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_state_is_published
-    expect(Coronavirus::CoronavirusPage.topic_page.first.state).to eq "published"
+    expect(Coronavirus::Page.topic_page.first.state).to eq "published"
     expect(page).to have_text("Status: Published", normalize_ws: true)
   end
 
   def and_i_see_state_is_draft
-    expect(Coronavirus::CoronavirusPage.topic_page.first.state).to eq "draft"
+    expect(Coronavirus::Page.topic_page.first.state).to eq "draft"
     expect(page).to have_text("Status: Draft", normalize_ws: true)
   end
 

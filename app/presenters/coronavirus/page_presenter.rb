@@ -1,4 +1,4 @@
-class Coronavirus::CoronavirusPagePresenter
+class Coronavirus::PagePresenter
   attr_reader :description, :details, :title, :path
 
   def initialize(corona_content, path)

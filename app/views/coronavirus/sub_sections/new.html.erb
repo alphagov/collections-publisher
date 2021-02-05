@@ -5,8 +5,8 @@
       href: coronavirus_pages_path
     },
     {
-      text: "#{@coronavirus_page.name} accordions",
-      href: coronavirus_page_path(slug: @coronavirus_page.slug)
+      text: "#{@page.name} accordions",
+      href: coronavirus_page_path(slug: @page.slug)
     },
     {
       text: "Add accordion"
@@ -20,7 +20,7 @@
 %>
 
 <% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
-<% content_for :title, formatted_title(@coronavirus_page) %>
+<% content_for :title, formatted_title(@page) %>
 <% content_for :context, "Add accordion" %>
 <% if @sub_section.errors.any? %>
   <%= render "shared/sub_sections/form_errors", resource: @sub_section %>
