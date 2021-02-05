@@ -1,4 +1,4 @@
-class AnnouncementJsonPresenter
+class Coronavirus::AnnouncementJsonPresenter
   attr_reader :announcement
   def initialize(announcement)
     @announcement = announcement

@@ -85,7 +85,7 @@ module Coronavirus::Pages
 
     def sub_sections_data
       coronavirus_page.sub_sections.order(:position).map do |sub_section|
-        presenter = SubSectionJsonPresenter.new(sub_section, coronavirus_page.content_id)
+        presenter = Coronavirus::SubSectionJsonPresenter.new(sub_section, coronavirus_page.content_id)
         add_error(presenter.errors) unless presenter.success?
         presenter.output
       end
@@ -93,7 +93,7 @@ module Coronavirus::Pages
 
     def announcements_data
       coronavirus_page.announcements.order(:position).map do |announcement|
-        presenter = AnnouncementJsonPresenter.new(announcement)
+        presenter = Coronavirus::AnnouncementJsonPresenter.new(announcement)
         presenter.output
       end
     end

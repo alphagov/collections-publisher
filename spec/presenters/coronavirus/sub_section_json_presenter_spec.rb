@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe SubSectionJsonPresenter do
+RSpec.describe Coronavirus::SubSectionJsonPresenter do
   let(:link_one) { random_link_markdown }
   let(:link_two) { random_link_markdown }
   let(:link_three) { random_link_markdown }

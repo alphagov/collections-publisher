@@ -4,8 +4,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
   let(:coronavirus_page) { create :coronavirus_page, :landing }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
-  let(:sub_section_json) { SubSectionJsonPresenter.new(sub_section, coronavirus_page.content_id).output }
-  let(:announcement_json) { AnnouncementJsonPresenter.new(announcement).output }
+  let(:sub_section_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section, coronavirus_page.content_id).output }
+  let(:announcement_json) { Coronavirus::AnnouncementJsonPresenter.new(announcement).output }
   let(:timeline_json) { { "heading" => timeline_entry["heading"], "paragraph" => timeline_entry["content"] } }
 
   subject { described_class.new(coronavirus_page) }
@@ -70,8 +70,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     context "with subsections" do
       let!(:sub_section_0) { create :sub_section, position: 0, coronavirus_page: coronavirus_page }
       let!(:sub_section_1) { create :sub_section, position: 1, coronavirus_page: coronavirus_page }
-      let(:sub_section_0_json) { SubSectionJsonPresenter.new(sub_section_0).output }
-      let(:sub_section_1_json) { SubSectionJsonPresenter.new(sub_section_1).output }
+      let(:sub_section_0_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section_0).output }
+      let(:sub_section_1_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section_1).output }
 
       it "returns the sub_section JSON ordered by position" do
         expect(subject.sub_sections_data).to eq [sub_section_0_json, sub_section_1_json]
@@ -83,8 +83,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     context "with announcements" do
       let!(:announcement_0) { create :announcement, published_at: Time.zone.local(2020, 9, 10), coronavirus_page: coronavirus_page  }
       let!(:announcement_1) { create :announcement, published_at: Time.zone.local(2020, 9, 11), coronavirus_page: coronavirus_page  }
-      let!(:announcement_0_json) { AnnouncementJsonPresenter.new(announcement_0).output }
-      let!(:announcement_1_json) { AnnouncementJsonPresenter.new(announcement_1).output }
+      let!(:announcement_0_json) { Coronavirus::AnnouncementJsonPresenter.new(announcement_0).output }
+      let!(:announcement_1_json) { Coronavirus::AnnouncementJsonPresenter.new(announcement_1).output }
 
       it "returns the announcements JSON ordered by position" do
         announcement_0.position = 3

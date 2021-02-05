@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SubSectionJsonPresenter
+class Coronavirus::SubSectionJsonPresenter
   HEADER_PATTERN = PatternMaker.call(
     "starts_with hashes then perhaps_spaces then capture(title) and nothing_else",
     hashes: "#+",

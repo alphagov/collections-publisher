@@ -64,7 +64,7 @@ private
   end
 
   def presenter
-    CoronavirusPagePresenter.new(live_content_item["details"], "/coronavirus")
+    Coronavirus::CoronavirusPagePresenter.new(live_content_item["details"], "/coronavirus")
   end
 
   def payload
