@@ -90,7 +90,7 @@ RSpec.describe Coronavirus::PagesController do
              base_path: live_content_item["base_path"],
              slug: slug
     end
-    let!(:subsection) { create :sub_section, page: page, title: "foo" }
+    let!(:subsection) { create :coronavirus_sub_section, page: page, title: "foo" }
     subject { get :discard, params: { slug: slug } }
 
     before do

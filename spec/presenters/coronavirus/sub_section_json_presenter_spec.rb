@@ -6,7 +6,7 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
   let(:link_three) { random_link_markdown }
   let(:content) { link_one }
 
-  let(:sub_section) { build :sub_section, content: content }
+  let(:sub_section) { build :coronavirus_sub_section, content: content }
   subject { described_class.new(sub_section) }
 
   describe "#title" do

@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Coronavirus::Announcement, type: :model do
-  let(:announcement) { create :announcement }
+  let(:announcement) { create :coronavirus_announcement }
 
   describe "validations" do
     it "should belong to a page" do
@@ -61,23 +61,23 @@ RSpec.describe Coronavirus::Announcement, type: :model do
       page = create(:coronavirus_page)
       expect(page.announcements.count).to eq 0
 
-      announcement = create(:announcement, page: page)
+      announcement = create(:coronavirus_announcement, page: page)
       expect(announcement.position).to eq 1
     end
 
     it "should increment if there are existing announcements" do
       page = create(:coronavirus_page)
-      create(:announcement, page: page)
+      create(:coronavirus_announcement, page: page)
       expect(page.announcements.count).to eq 1
 
-      announcement = create(:announcement, page: page)
+      announcement = create(:coronavirus_announcement, page: page)
       expect(announcement.position).to eq 2
     end
 
     it "should update announcement positions when an announcement is deleted" do
       page = create(:coronavirus_page)
-      create(:announcement, page: page)
-      create(:announcement, page: page)
+      create(:coronavirus_announcement, page: page)
+      create(:coronavirus_announcement, page: page)
       expect(page.announcements.count).to eq 2
 
       original_announcement_one = page.announcements.first

@@ -13,7 +13,7 @@ module CoronavirusFeatureSteps
   end
 
   def given_a_livestream_exists
-    FactoryBot.create(:live_stream, :without_validations)
+    FactoryBot.create(:coronavirus_live_stream, :without_validations)
   end
 
   def given_there_is_a_coronavirus_page
@@ -22,14 +22,14 @@ module CoronavirusFeatureSteps
 
   def given_there_is_coronavirus_page_with_announcements
     @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
-    @announcement_one = FactoryBot.create(:announcement, position: 0, page: @coronavirus_page)
-    @announcement_two = FactoryBot.create(:announcement, position: 1, page: @coronavirus_page)
+    @announcement_one = FactoryBot.create(:coronavirus_announcement, position: 0, page: @coronavirus_page)
+    @announcement_two = FactoryBot.create(:coronavirus_announcement, position: 1, page: @coronavirus_page)
   end
 
   def given_there_is_a_coronavirus_page_with_timeline_entries
     @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
-    @timeline_entry_two = FactoryBot.create(:timeline_entry, page: @coronavirus_page, heading: "Two")
-    @timeline_entry_one = FactoryBot.create(:timeline_entry, page: @coronavirus_page, heading: "One")
+    @timeline_entry_two = FactoryBot.create(:coronavirus_timeline_entry, page: @coronavirus_page, heading: "Two")
+    @timeline_entry_one = FactoryBot.create(:coronavirus_timeline_entry, page: @coronavirus_page, heading: "One")
   end
 
   def the_payload_contains_the_valid_url
@@ -409,12 +409,12 @@ module CoronavirusFeatureSteps
 
   def set_up_basic_sub_sections
     coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
-    FactoryBot.create(:sub_section,
+    FactoryBot.create(:coronavirus_sub_section,
                       page: coronavirus_page,
                       position: 0,
                       title: "I am first",
                       content: "###title\n[label](/url?priority-taxon=#{coronavirus_page.content_id})")
-    FactoryBot.create(:sub_section,
+    FactoryBot.create(:coronavirus_sub_section,
                       page: coronavirus_page,
                       position: 1,
                       title: "I am second",

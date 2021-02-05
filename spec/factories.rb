@@ -239,14 +239,14 @@ FactoryBot.define do
     end
   end
 
-  factory :sub_section, class: Coronavirus::SubSection do
+  factory :coronavirus_sub_section, class: Coronavirus::SubSection do
     title { Faker::Lorem.sentence }
     content { "[#{Faker::Lorem.sentence}](/#{File.join(Faker::Lorem.words)}?priority-taxon=#{page.content_id})" }
     position { (Coronavirus::SubSection.maximum(:position) || 0) + 1 }
     page factory: :coronavirus_page
   end
 
-  factory :live_stream, class: Coronavirus::LiveStream do
+  factory :coronavirus_live_stream, class: Coronavirus::LiveStream do
     url { "https://www.youtube.com/watch?v=NiplUCnwc5A" }
     formatted_stream_date { "1 April 2020" }
     trait :without_validations do
@@ -254,14 +254,14 @@ FactoryBot.define do
     end
   end
 
-  factory :announcement, class: Coronavirus::Announcement do
+  factory :coronavirus_announcement, class: Coronavirus::Announcement do
     title { Faker::Lorem.words }
     path { "/government/foo/vader/baby/yoda" }
     published_at { Time.zone.local(2020, 9, 11) }
     page factory: :coronavirus_page
   end
 
-  factory :timeline_entry, class: Coronavirus::TimelineEntry do
+  factory :coronavirus_timeline_entry, class: Coronavirus::TimelineEntry do
     content { "Amazing fantastic content" }
     heading { "Unbelievable heading" }
     page factory: :coronavirus_page

@@ -20,10 +20,10 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
   end
 
   describe "#data" do
-    let!(:sub_section) { create :sub_section, page: page }
-    let!(:announcement) { create :announcement, page: page }
-    let!(:timeline_entry) { create :timeline_entry, page: page }
-    let!(:live_stream) { create :live_stream, :without_validations }
+    let!(:sub_section) { create :coronavirus_sub_section, page: page }
+    let!(:announcement) { create :coronavirus_announcement, page: page }
+    let!(:timeline_entry) { create :coronavirus_timeline_entry, page: page }
+    let!(:live_stream) { create :coronavirus_live_stream, :without_validations }
     let(:github_livestream_data) { github_content.dig("content", "live_stream") }
 
     let(:live_stream_data) do
@@ -68,8 +68,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     end
 
     context "with subsections" do
-      let!(:sub_section_0) { create :sub_section, position: 0, page: page }
-      let!(:sub_section_1) { create :sub_section, position: 1, page: page }
+      let!(:sub_section_0) { create :coronavirus_sub_section, position: 0, page: page }
+      let!(:sub_section_1) { create :coronavirus_sub_section, position: 1, page: page }
       let(:sub_section_0_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section_0).output }
       let(:sub_section_1_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section_1).output }
 
@@ -81,8 +81,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
 
   describe "#announcements_data" do
     context "with announcements" do
-      let!(:announcement_0) { create :announcement, published_at: Time.zone.local(2020, 9, 10), page: page  }
-      let!(:announcement_1) { create :announcement, published_at: Time.zone.local(2020, 9, 11), page: page  }
+      let!(:announcement_0) { create :coronavirus_announcement, published_at: Time.zone.local(2020, 9, 10), page: page  }
+      let!(:announcement_1) { create :coronavirus_announcement, published_at: Time.zone.local(2020, 9, 11), page: page  }
       let!(:announcement_0_json) { Coronavirus::AnnouncementJsonPresenter.new(announcement_0).output }
       let!(:announcement_1_json) { Coronavirus::AnnouncementJsonPresenter.new(announcement_1).output }
 
@@ -95,8 +95,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
   end
 
   describe "#timeline_data" do
-    let!(:timeline_entry_0) { create :timeline_entry, position: 2, page: page  }
-    let!(:timeline_entry_1) { create :timeline_entry, position: 1, page: page  }
+    let!(:timeline_entry_0) { create :coronavirus_timeline_entry, position: 2, page: page  }
+    let!(:timeline_entry_1) { create :coronavirus_timeline_entry, position: 1, page: page  }
 
     it "returns the timeline JSON ordered by position" do
       expect(subject.timeline_data).to eq [
@@ -110,7 +110,7 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     let(:data) { github_content["content"] }
 
     it "adds livestream data from github and the database" do
-      live_stream = create(:live_stream, :without_validations)
+      live_stream = create(:coronavirus_live_stream, :without_validations)
 
       subject.add_live_stream(data)
       expect(data["live_stream"]["video_url"]).to eq(live_stream.url)

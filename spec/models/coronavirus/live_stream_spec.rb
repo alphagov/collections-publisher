@@ -10,12 +10,12 @@ RSpec.describe Coronavirus::LiveStream do
     end
 
     it "is invalid without a url" do
-      expect(build(:live_stream, url: nil)).not_to be_valid
+      expect(build(:coronavirus_live_stream, url: nil)).not_to be_valid
     end
 
     it "it requires a valid url" do
-      expect(build(:live_stream, url: bad_url)).not_to be_valid
-      expect(build(:live_stream, url: good_url)).to be_valid
+      expect(build(:coronavirus_live_stream, url: bad_url)).not_to be_valid
+      expect(build(:coronavirus_live_stream, url: good_url)).to be_valid
     end
   end
 end
