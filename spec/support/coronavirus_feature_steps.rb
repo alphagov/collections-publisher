@@ -382,7 +382,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_see_timeline_entries_updated_message
-    expect(page).to have_content I18n.t("coronavirus_pages.timeline_entries.reorder.success")
+    expect(page).to have_content I18n.t("coronavirus.pages.timeline_entries.reorder.success")
   end
 
   def and_i_see_the_timeline_entries_have_changed_order
@@ -403,7 +403,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_the_timeline_entry_has_been_deleted
-    expect(page).to have_text(I18n.t("coronavirus_pages.timeline_entries.delete.success"))
+    expect(page).to have_text(I18n.t("coronavirus.pages.timeline_entries.delete.success"))
     expect(page).not_to have_text(@timeline_entry_one.heading)
   end
 

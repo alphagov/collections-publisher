@@ -1,61 +1,62 @@
 en:
-  coronavirus_pages:
-    actions:
-      discard_changes: Discard changes
-      view_on_govuk: View on GOV.UK
-      preview: Preview
-      publish: Publish
-    announcements:
-      confirm: Are you sure?
-      reorder: Reorder
-      add: Add announcement
-    draft:
-      heading: 3. Update draft
-      button_text: Update draft
-    github:
-      update_heading: 1. Update GitHub
-      review_heading: 2. Get changes reviewed and merged
-      update_sub_heading_html: "Update the <a href=\"%{github_url}\">coronavirus content on Github</a>"
-      approve_sub_heading: Get the changes approved and merged into master.
-    index:
-      landing_page_edit:
-        accordions: Edit landing page accordions, announcements and timeline
-        live_stream_url: Edit live stream URL
-        something_else: Edit something else on the landing page
-      subtopic_edit:
-        accordions: "Edit %{page_name} accordions"
-        something: Edit something else on the
-    live:
-      heading: 6. Check live
-      button_text: View live version
-    prepare:
-      lead_paragraph: "Follow the steps below to make changes to any part of the %{coronavirus_page_name}, except the accordions."
-    preview:
-      heading: 4. Preview changes
-      button_text: Preview
-    publish:
-      heading: 5. Publish changes
-      radio_heading: Update type
-      major_type: Major
-      minor_type: Minor
-      button_text: Publish
-    show:
-      link_text: Coronavirus pages
-      accordion_text: "%{coronavirus_page_name} accordions"
-    sub_sections:
-      confirm: Are you sure?
-      reorder: Reorder
-      add: Add accordion
-    timeline_entries:
-      delete:
-        success: Timeline entry was successfully deleted.
-        failed: Timeline entry couldn't be deleted
-      reorder:
-        heading: Reorder timeline entries
-        success: Timeline entries were successfully reordered.
-        error: "Sorry! Timeline entries have not been reordered: %{error}."
-        form:
-          markdown_hint: Use the up/down buttons on the right to reorder the timeline entries, or click and hold on a section to reorder using drag and drop.
+  coronavirus:
+    pages:
+      actions:
+        discard_changes: Discard changes
+        view_on_govuk: View on GOV.UK
+        preview: Preview
+        publish: Publish
+      announcements:
+        confirm: Are you sure?
+        reorder: Reorder
+        add: Add announcement
+      draft:
+        heading: 3. Update draft
+        button_text: Update draft
+      github:
+        update_heading: 1. Update GitHub
+        review_heading: 2. Get changes reviewed and merged
+        update_sub_heading_html: "Update the <a href=\"%{github_url}\">coronavirus content on Github</a>"
+        approve_sub_heading: Get the changes approved and merged into master.
+      index:
+        landing_page_edit:
+          accordions: Edit landing page accordions, announcements and timeline
+          live_stream_url: Edit live stream URL
+          something_else: Edit something else on the landing page
+        subtopic_edit:
+          accordions: "Edit %{page_name} accordions"
+          something: Edit something else on the
+      live:
+        heading: 6. Check live
+        button_text: View live version
+      prepare:
+        lead_paragraph: "Follow the steps below to make changes to any part of the %{coronavirus_page_name}, except the accordions."
+      preview:
+        heading: 4. Preview changes
+        button_text: Preview
+      publish:
+        heading: 5. Publish changes
+        radio_heading: Update type
+        major_type: Major
+        minor_type: Minor
+        button_text: Publish
+      show:
+        link_text: Coronavirus pages
+        accordion_text: "%{coronavirus_page_name} accordions"
+      sub_sections:
+        confirm: Are you sure?
+        reorder: Reorder
+        add: Add accordion
+      timeline_entries:
+        delete:
+          success: Timeline entry was successfully deleted.
+          failed: Timeline entry couldn't be deleted
+        reorder:
+          heading: Reorder timeline entries
+          success: Timeline entries were successfully reordered.
+          error: "Sorry! Timeline entries have not been reordered: %{error}."
+          form:
+            markdown_hint: Use the up/down buttons on the right to reorder the timeline entries, or click and hold on a section to reorder using drag and drop.
   step_by_step_page:
     statuses:
       draft: Draft
