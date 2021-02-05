@@ -10,13 +10,13 @@ RSpec.describe Coronavirus::ReorderTimelineEntriesController do
 
     it "can only be accessed by users with Coronavirus editor permissions" do
       stub_user.permissions = ["signin", "Coronavirus editor"]
-      get :index, params: { coronavirus_page_slug: page.slug }
+      get :index, params: { page_slug: page.slug }
 
       expect(response).to have_http_status(:success)
     end
 
     it "cannot be accessed by users without Coronavirus editor permissions" do
-      get :index, params: { coronavirus_page_slug: page.slug }
+      get :index, params: { page_slug: page.slug }
 
       expect(response).to have_http_status(:forbidden)
     end
@@ -45,7 +45,7 @@ RSpec.describe Coronavirus::ReorderTimelineEntriesController do
       ]
 
       put :update, params: {
-        coronavirus_page_slug: page.slug,
+        page_slug: page.slug,
         timeline_entry_order_save: timeline_entry_params.to_json,
       }
 
@@ -67,7 +67,7 @@ RSpec.describe Coronavirus::ReorderTimelineEntriesController do
       ]
 
       put :update, params: {
-        coronavirus_page_slug: page.slug,
+        page_slug: page.slug,
         timeline_entry_order_save: timeline_entry_params.to_json,
       }
 
@@ -91,7 +91,7 @@ RSpec.describe Coronavirus::ReorderTimelineEntriesController do
       ]
 
       put :update, params: {
-        coronavirus_page_slug: page.slug,
+        page_slug: page.slug,
         timeline_entry_order_save: timeline_entry_params.to_json,
       }
 

@@ -50,7 +50,7 @@ module Coronavirus
   private
 
     def page
-      @page ||= Page.find_by!(slug: params[:coronavirus_page_slug])
+      @page ||= Page.find_by!(slug: params[:page_slug])
     end
 
     def sub_section_params

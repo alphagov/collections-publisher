@@ -12,15 +12,15 @@ RSpec.describe Coronavirus::AnnouncementsController do
   let(:path) { "/government/foo/vader/baby/yoda" }
   let(:published_at) { { "day" => "12", "month" => "12", "year" => "1980" } }
 
-  describe "GET /coronavirus/:coronavirus_page_slug/announcements/new" do
+  describe "GET /coronavirus/:page_slug/announcements/new" do
     it "does not render successfully if the user does not have Coronavirus editor permissions" do
       stub_user.permissions = %w[signin]
-      get :new, params: { coronavirus_page_slug: page.slug }
+      get :new, params: { page_slug: page.slug }
       expect(response).to have_http_status(:forbidden)
     end
   end
 
-  describe "POST /coronavirus/:coronavirus_page_slug/announcements" do
+  describe "POST /coronavirus/:page_slug/announcements" do
     before do
       stub_coronavirus_landing_page_content(page)
       stub_coronavirus_publishing_api
@@ -35,13 +35,13 @@ RSpec.describe Coronavirus::AnnouncementsController do
     end
 
     it "redirects to coronavirus page on success" do
-      post :create, params: { coronavirus_page_slug: page.slug, announcement: announcement_params }
+      post :create, params: { page_slug: page.slug, announcement: announcement_params }
       expect(subject).to redirect_to(coronavirus_page_path(page.slug))
       expect(flash.now[:errors]).to be_nil
     end
 
     it "adds attributes to new announcement" do
-      post :create, params: { coronavirus_page_slug: page.slug, announcement: announcement_params }
+      post :create, params: { page_slug: page.slug, announcement: announcement_params }
       published_at_time = Time.zone.local(published_at["year"], published_at["month"], published_at["day"])
       announcement = page.announcements.last
       expect(announcement.title).to eq(title)
@@ -50,7 +50,7 @@ RSpec.describe Coronavirus::AnnouncementsController do
     end
   end
 
-  describe "DELETE /coronavirus/:coronavirus_page_slug/announcements/:id" do
+  describe "DELETE /coronavirus/:page_slug/announcements/:id" do
     before do
       stub_coronavirus_landing_page_content(page)
       stub_coronavirus_publishing_api
@@ -59,7 +59,7 @@ RSpec.describe Coronavirus::AnnouncementsController do
     let(:announcement_params) do
       {
         id: announcement,
-        coronavirus_page_slug: page.slug,
+        page_slug: page.slug,
       }
     end
 
@@ -80,20 +80,20 @@ RSpec.describe Coronavirus::AnnouncementsController do
     end
   end
 
-  describe "GET /coronavirus/:coronavirus_page_slug/announcements/:id/edit" do
+  describe "GET /coronavirus/:page_slug/announcements/:id/edit" do
     it "renders successfully" do
-      get :edit, params: { id: announcement, coronavirus_page_slug: page.slug }
+      get :edit, params: { id: announcement, page_slug: page.slug }
       expect(response).to have_http_status(:success)
     end
 
     it "does not render successfully if the user does not have Coronavirus editor permissions" do
       stub_user.permissions = %w[signin]
-      get :new, params: { coronavirus_page_slug: page.slug }
+      get :new, params: { page_slug: page.slug }
       expect(response).to have_http_status(:forbidden)
     end
   end
 
-  describe "PATCH /coronavirus/:coronavirus_page_slug/announcement" do
+  describe "PATCH /coronavirus/:page_slug/announcement" do
     before do
       stub_coronavirus_landing_page_content(page)
       stub_coronavirus_publishing_api
@@ -110,7 +110,7 @@ RSpec.describe Coronavirus::AnnouncementsController do
     let(:params) do
       {
         id: announcement.id,
-        coronavirus_page_slug: page.slug,
+        page_slug: page.slug,
         announcement: updated_announcement_params,
       }
     end

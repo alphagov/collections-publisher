@@ -101,7 +101,7 @@ module Coronavirus
     end
 
     def slug
-      params[:slug] || params[:coronavirus_page_slug]
+      params[:slug]
     end
 
     def slug_unknown?

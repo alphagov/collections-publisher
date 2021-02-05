@@ -49,7 +49,7 @@ module Coronavirus::Pages
     end
 
     def error_handler(error, message = nil)
-      GovukError.notify(error, extra: { content_id: content_id, coronavirus_page_slug: page.slug })
+      GovukError.notify(error, extra: { content_id: content_id, page_slug: page.slug })
       errors << (message || error.message)
       false
     end

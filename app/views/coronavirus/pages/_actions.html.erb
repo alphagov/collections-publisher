@@ -1,6 +1,6 @@
 <div class="app-side">
   <div class="app-side__actions">
-    <%= form_with(url: coronavirus_page_publish_path(coronavirus_page_slug: @page.slug), local: true) do %>
+    <%= form_with(url: publish_coronavirus_page_path(@page.slug)) do %>
       <%= render "govuk_publishing_components/components/button", { text: t("coronavirus_pages.actions.publish") } %>
     <% end %>
     <%= render "govuk_publishing_components/components/button", {

@@ -3,7 +3,7 @@
       text: t("coronavirus_pages.publish.heading"),
       padding: true
     } %>
-    <%= form_with(url: coronavirus_page_publish_path(coronavirus_page_slug: params[:slug]), local: true) do %>
+    <%= form_with(url: publish_coronavirus_page_path(params[:slug])) do %>
       <%= render "govuk_publishing_components/components/radio", {
         name: "update-type",
         heading: t("coronavirus_pages.publish.radio_heading"),

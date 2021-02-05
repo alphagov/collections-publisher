@@ -8,13 +8,13 @@ RSpec.describe Coronavirus::ReorderAnnouncementsController do
 
   describe "GET Coronavirus reorder announcements page" do
     it "can only be accessed by users with Coronavirus editor permissions" do
-      get :index, params: { coronavirus_page_slug: page.slug }
+      get :index, params: { page_slug: page.slug }
       expect(response).to have_http_status(:success)
     end
 
     it "cannot be accessed by users without Coronavirus editor permissions" do
       stub_user.permissions = %w[signin]
-      get :index, params: { coronavirus_page_slug: page.slug }
+      get :index, params: { page_slug: page.slug }
 
       expect(response.status).to eq(403)
     end
@@ -42,7 +42,7 @@ RSpec.describe Coronavirus::ReorderAnnouncementsController do
       ]
 
       put :update, params: {
-        coronavirus_page_slug: page.slug,
+        page_slug: page.slug,
         announcement_order_save: announcement_params.to_json,
       }
 
@@ -64,7 +64,7 @@ RSpec.describe Coronavirus::ReorderAnnouncementsController do
       ]
 
       put :update, params: {
-        coronavirus_page_slug: page.slug,
+        page_slug: page.slug,
         announcement_order_save: announcement_params.to_json,
       }
 
@@ -88,7 +88,7 @@ RSpec.describe Coronavirus::ReorderAnnouncementsController do
       ]
 
       put :update, params: {
-        coronavirus_page_slug: page.slug,
+        page_slug: page.slug,
         announcement_order_save: announcement_params.to_json,
       }
 

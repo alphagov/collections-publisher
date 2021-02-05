@@ -6,22 +6,22 @@ RSpec.describe Coronavirus::TimelineEntriesController do
   let(:stub_user) { create :user, name: "Name Surname" }
   let(:page) { create :coronavirus_page, :landing }
 
-  describe "GET /coronavirus/:coronavirus_page_slug/timeline_entries/new" do
+  describe "GET /coronavirus/:page_slug/timeline_entries/new" do
     it "can only be accessed by users with Coronavirus editor permissions" do
       stub_user.permissions << "Coronavirus editor"
-      get :new, params: { coronavirus_page_slug: page.slug }
+      get :new, params: { page_slug: page.slug }
 
       expect(response).to have_http_status(:ok)
     end
 
     it "cannot be accessed by users without Coronavirus editor permissions" do
-      get :new, params: { coronavirus_page_slug: page.slug }
+      get :new, params: { page_slug: page.slug }
 
       expect(response).to have_http_status(:forbidden)
     end
   end
 
-  describe "POST /coronavirus/:coronavirus_page_slug/timeline_entries" do
+  describe "POST /coronavirus/:page_slug/timeline_entries" do
     let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
     let(:heading) { Faker::Lorem.sentence }
     let(:content) { Faker::Lorem.sentence }
@@ -40,7 +40,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
     it "saves a new timeline entry" do
       post :create,
            params: {
-             coronavirus_page_slug: page.slug,
+             page_slug: page.slug,
              timeline_entry: timeline_entry_params,
            }
 
@@ -53,7 +53,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
     it "redirects to coronavirus page on success" do
       post :create,
            params: {
-             coronavirus_page_slug: page.slug,
+             page_slug: page.slug,
              timeline_entry: timeline_entry_params,
            }
 
@@ -61,7 +61,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
     end
   end
 
-  describe "GET /coronavirus/:coronavirus_page_slug/timeline_entries/:id/edit" do
+  describe "GET /coronavirus/:page_slug/timeline_entries/:id/edit" do
     let(:timeline_entry) { create(:timeline_entry, page: page) }
 
     it "can only be accessed by users with Coronavirus editor permissions" do
@@ -69,7 +69,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
       get :edit,
           params: {
             id: timeline_entry.id,
-            coronavirus_page_slug: page.slug,
+            page_slug: page.slug,
           }
 
       expect(response).to have_http_status(:ok)
@@ -79,14 +79,14 @@ RSpec.describe Coronavirus::TimelineEntriesController do
       get :edit,
           params: {
             id: timeline_entry.id,
-            coronavirus_page_slug: page.slug,
+            page_slug: page.slug,
           }
 
       expect(response).to have_http_status(:forbidden)
     end
   end
 
-  describe "PATCH /coronavirus/:coronavirus_page_slug/timeline_entries/:id" do
+  describe "PATCH /coronavirus/:page_slug/timeline_entries/:id" do
     let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
     let(:timeline_entry) { create(:timeline_entry, page: page) }
 
@@ -106,7 +106,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
       patch :update,
             params: {
               id: timeline_entry.id,
-              coronavirus_page_slug: page.slug,
+              page_slug: page.slug,
               timeline_entry: updated_timeline_entry_params,
             }
 
@@ -119,7 +119,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
       patch :update,
             params: {
               id: timeline_entry.id,
-              coronavirus_page_slug: page.slug,
+              page_slug: page.slug,
               timeline_entry: updated_timeline_entry_params,
             }
 
@@ -127,7 +127,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
     end
   end
 
-  describe "DELETE /coronavirus/:coronavirus_page_slug/timeline_entries/:id" do
+  describe "DELETE /coronavirus/:page_slug/timeline_entries/:id" do
     let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
     let!(:timeline_entry) { create(:timeline_entry, page: page, heading: "Skywalker") }
 
@@ -140,7 +140,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
       delete :destroy,
              params: {
                id: timeline_entry.id,
-               coronavirus_page_slug: page.slug,
+               page_slug: page.slug,
              }
 
       expect(response).to redirect_to(coronavirus_page_path(page.slug))
@@ -150,7 +150,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
       delete :destroy,
              params: {
                id: timeline_entry.id,
-               coronavirus_page_slug: page.slug,
+               page_slug: page.slug,
              }
 
       expect(page.reload.timeline_entries.count).to eq(0)
@@ -162,7 +162,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
 
       params = {
         id: timeline_entry.id,
-        coronavirus_page_slug: page.slug,
+        page_slug: page.slug,
       }
 
       expect { delete :destroy, params: params }

@@ -8,14 +8,14 @@ RSpec.describe Coronavirus::ReorderSubSectionsController do
   let(:page) { create :coronavirus_page, :of_known_type }
   let(:slug) { page.slug }
 
-  describe "GET /coronavirus/:coronavirus_page_slug/sub_sections/reorder" do
+  describe "GET /coronavirus/:page_slug/sub_sections/reorder" do
     it "renders page successfuly" do
-      get :index, params: { coronavirus_page_slug: slug }
+      get :index, params: { page_slug: slug }
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "PUT /coronavirus/:coronavirus_page_slug/sub_sections/reorder" do
+  describe "PUT /coronavirus/:page_slug/sub_sections/reorder" do
     before do
       stub_coronavirus_landing_page_content(page)
       stub_coronavirus_publishing_api
@@ -27,7 +27,7 @@ RSpec.describe Coronavirus::ReorderSubSectionsController do
     let(:sub_section_1_params) { { id: sub_section_1.id, position: 0 } }
     let(:section_params) { [sub_section_0_params, sub_section_1_params].to_json }
 
-    subject { put :update, params: { coronavirus_page_slug: slug, section_order_save: section_params } }
+    subject { put :update, params: { page_slug: slug, section_order_save: section_params } }
 
     it "redirects to coronavirus page on success" do
       expect(subject).to redirect_to(coronavirus_page_path(slug))

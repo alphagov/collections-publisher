@@ -21,21 +21,21 @@ RSpec.describe Coronavirus::SubSectionsController do
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:raw_content) { File.read(fixture_path) }
 
-  describe "GET /coronavirus/:coronavirus_page_slug/sub_sections/new" do
+  describe "GET /coronavirus/:page_slug/sub_sections/new" do
     it "renders successfully" do
-      get :new, params: { coronavirus_page_slug: page.slug }
+      get :new, params: { page_slug: page.slug }
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "POST /coronavirus/:coronavirus_page_slug/sub_sections" do
+  describe "POST /coronavirus/:page_slug/sub_sections" do
     before do
       stub_request(:get, raw_content_url_regex)
         .to_return(body: raw_content)
       stub_coronavirus_publishing_api
     end
     subject do
-      post :create, params: { coronavirus_page_slug: page.slug, sub_section: sub_section_params }
+      post :create, params: { page_slug: page.slug, sub_section: sub_section_params }
     end
 
     it "redirects to coronavirus page on success" do
@@ -107,14 +107,14 @@ RSpec.describe Coronavirus::SubSectionsController do
     end
   end
 
-  describe "GET /coronavirus/:coronavirus_page_slug/sub_sections/:id/edit" do
+  describe "GET /coronavirus/:page_slug/sub_sections/:id/edit" do
     it "renders successfully" do
-      get :edit, params: { id: sub_section, coronavirus_page_slug: page.slug }
+      get :edit, params: { id: sub_section, page_slug: page.slug }
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "PATCH /coronavirus/:coronavirus_page_slug/sub_sections" do
+  describe "PATCH /coronavirus/:page_slug/sub_sections" do
     before do
       stub_request(:get, raw_content_url_regex)
         .to_return(body: raw_content)
@@ -123,7 +123,7 @@ RSpec.describe Coronavirus::SubSectionsController do
     let(:params) do
       {
         id: sub_section,
-        coronavirus_page_slug: page.slug,
+        page_slug: page.slug,
         sub_section: sub_section_params,
       }
     end
@@ -146,7 +146,7 @@ RSpec.describe Coronavirus::SubSectionsController do
     end
   end
 
-  describe "DELETE /coronavirus/:coronavirus_page_slug/sub_sections/:id" do
+  describe "DELETE /coronavirus/:page_slug/sub_sections/:id" do
     before do
       stub_request(:get, raw_content_url_regex)
         .to_return(body: raw_content)
@@ -155,7 +155,7 @@ RSpec.describe Coronavirus::SubSectionsController do
     let(:params) do
       {
         id: sub_section,
-        coronavirus_page_slug: page.slug,
+        page_slug: page.slug,
       }
     end
     subject { delete :destroy, params: params }
