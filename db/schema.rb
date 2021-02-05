@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_26_122043) do
+ActiveRecord::Schema.define(version: 2021_02_05_143416) do
 
-  create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "coronavirus_announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "coronavirus_page_id"
     t.string "title"
     t.string "path"
@@ -20,6 +20,13 @@ ActiveRecord::Schema.define(version: 2021_01_26_122043) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position"
+  end
+
+  create_table "coronavirus_live_streams", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "url", null: false
+    t.string "formatted_stream_date"
   end
 
   create_table "coronavirus_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -34,6 +41,27 @@ ActiveRecord::Schema.define(version: 2021_01_26_122043) do
     t.string "raw_content_url"
     t.string "state", default: "draft", null: false
     t.string "title"
+  end
+
+  create_table "coronavirus_sub_sections", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.bigint "coronavirus_page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "position"
+    t.string "featured_link"
+    t.index ["coronavirus_page_id"], name: "index_coronavirus_sub_sections_on_coronavirus_page_id"
+  end
+
+  create_table "coronavirus_timeline_entries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "coronavirus_page_id", null: false
+    t.text "content", null: false
+    t.string "heading", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coronavirus_page_id"], name: "index_coronavirus_timeline_entries_on_coronavirus_page_id"
   end
 
   create_table "internal_change_notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -70,13 +98,6 @@ ActiveRecord::Schema.define(version: 2021_01_26_122043) do
     t.integer "index", default: 0, null: false
     t.integer "tag_id", null: false
     t.index ["tag_id"], name: "index_lists_on_tag_id"
-  end
-
-  create_table "live_streams", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "url", null: false
-    t.string "formatted_stream_date"
   end
 
   create_table "navigation_rules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -160,17 +181,6 @@ ActiveRecord::Schema.define(version: 2021_01_26_122043) do
     t.index ["step_by_step_page_id"], name: "index_steps_on_step_by_step_page_id"
   end
 
-  create_table "sub_sections", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "title"
-    t.text "content"
-    t.bigint "coronavirus_page_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "position"
-    t.string "featured_link"
-    t.index ["coronavirus_page_id"], name: "index_sub_sections_on_coronavirus_page_id"
-  end
-
   create_table "tag_associations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "from_tag_id", null: false
     t.integer "to_tag_id", null: false
@@ -199,16 +209,6 @@ ActiveRecord::Schema.define(version: 2021_01_26_122043) do
     t.index ["slug", "parent_id"], name: "index_tags_on_slug_and_parent_id", unique: true
   end
 
-  create_table "timeline_entries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "coronavirus_page_id", null: false
-    t.text "content", null: false
-    t.string "heading", null: false
-    t.integer "position", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["coronavirus_page_id"], name: "index_timeline_entries_on_coronavirus_page_id"
-  end
-
   create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -221,6 +221,8 @@ ActiveRecord::Schema.define(version: 2021_01_26_122043) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
+  add_foreign_key "coronavirus_sub_sections", "coronavirus_pages"
+  add_foreign_key "coronavirus_timeline_entries", "coronavirus_pages"
   add_foreign_key "internal_change_notes", "step_by_step_pages"
   add_foreign_key "link_reports", "steps"
   add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
@@ -231,9 +233,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_122043) do
   add_foreign_key "step_by_step_pages", "users", column: "review_requester_id", primary_key: "uid"
   add_foreign_key "step_by_step_pages", "users", column: "reviewer_id", primary_key: "uid"
   add_foreign_key "steps", "step_by_step_pages"
-  add_foreign_key "sub_sections", "coronavirus_pages"
   add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
   add_foreign_key "tag_associations", "tags", column: "to_tag_id", name: "tag_associations_to_tag_id_fk", on_delete: :cascade
   add_foreign_key "tags", "tags", column: "parent_id", name: "tags_parent_id_fk"
-  add_foreign_key "timeline_entries", "coronavirus_pages"
 end
