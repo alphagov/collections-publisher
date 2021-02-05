@@ -1,7 +1,7 @@
 require "rails_helper"
 require "gds_api/test_helpers/publishing_api"
 
-RSpec.feature "Make changes to the live stream URL" do
+RSpec.feature "Make changes to the Coronavirus live stream URL" do
   include CommonFeatureSteps
   include CoronavirusFeatureSteps
   include GdsApi::TestHelpers::PublishingApi

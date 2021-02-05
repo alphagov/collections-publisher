@@ -11,11 +11,15 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: "live_stream#index", constraints: RoleConstraint.new("Livestream editor"), as: nil
+  root to: redirect("/coronavirus/live_stream", status: 302),
+       constraints: RoleConstraint.new("Livestream editor"),
+       as: nil
   root to: redirect("/step-by-step-pages", status: 302)
 
-  resources :live_stream, only: %i[index update] do
-    post "publish", to: "live_stream#publish"
+  namespace :coronavirus do
+    resources :live_stream, only: %i[index update] do
+      post "publish", to: "live_stream#publish"
+    end
   end
 
   resources :coronavirus_pages,

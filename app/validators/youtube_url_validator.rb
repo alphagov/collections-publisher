@@ -1,4 +1,4 @@
-class UrlValidator < ActiveModel::EachValidator
+class YoutubeUrlValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     @record = record
     @attribute = attribute
