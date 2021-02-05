@@ -4,7 +4,7 @@ RSpec.describe Coronavirus::PagesController do
   render_views
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
-  let(:page) { create :coronavirus_page, :of_known_type }
+  let!(:page) { create :coronavirus_page, :of_known_type }
   let(:slug) { page.slug }
   let(:raw_content_url) { Coronavirus::Pages::Configuration.page(slug)[:raw_content_url] }
   let(:raw_content_url_regex) { Regexp.new(raw_content_url) }
@@ -39,7 +39,6 @@ RSpec.describe Coronavirus::PagesController do
     end
 
     it "does not create a new page" do
-      page # ensure any creation during initialization doesn't get counted
       expect { subject }.not_to(change { Coronavirus::Page.count })
     end
 
@@ -51,7 +50,7 @@ RSpec.describe Coronavirus::PagesController do
     end
 
     context "with a new known page" do
-      let(:page) { build :coronavirus_page, :of_known_type }
+      let!(:page) { build :coronavirus_page, :of_known_type }
 
       it "renders page successfuly" do
         stub_request(:get, raw_content_url_regex)
@@ -62,7 +61,6 @@ RSpec.describe Coronavirus::PagesController do
       it "creates a new page" do
         stub_request(:get, raw_content_url_regex)
           .to_return(status: 200, body: raw_content)
-        page # ensure any creation during initialization doesn't get counted
         expect { subject }.to (change { Coronavirus::Page.count }).by(1)
       end
     end
@@ -86,13 +84,13 @@ RSpec.describe Coronavirus::PagesController do
     let(:live_sections) { live_content_item.dig("details", "sections") }
     let(:live_title) { live_sections.first["title"] }
     let(:slug) { "landing" }
-    let(:page) do
+    let!(:page) do
       create :coronavirus_page,
              content_id: live_content_item["content_id"],
              base_path: live_content_item["base_path"],
              slug: slug
     end
-    let(:subsection) { create :sub_section, page: page, title: "foo" }
+    let!(:subsection) { create :sub_section, page: page, title: "foo" }
     subject { get :discard, params: { slug: slug } }
 
     before do
@@ -101,7 +99,6 @@ RSpec.describe Coronavirus::PagesController do
     end
 
     it "instructs publishing api to discard the draft content item" do
-      subsection
       subject
       assert_publishing_api_discard_draft(page.content_id)
     end
