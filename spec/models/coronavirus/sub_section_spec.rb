@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Coronavirus::SubSection do
-  let(:sub_section) { create :sub_section }
+  let(:sub_section) { create :coronavirus_sub_section }
 
   describe "validations" do
     it "should belong to a page" do

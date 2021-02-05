@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Coronavirus::AnnouncementJsonPresenter do
   include CoronavirusHelpers
 
-  let!(:announcement) { create :announcement }
+  let!(:announcement) { create :coronavirus_announcement }
 
   before do
     stub_coronavirus_landing_page_content(announcement.page)

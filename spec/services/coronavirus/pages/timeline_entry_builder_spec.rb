@@ -23,9 +23,9 @@ RSpec.describe Coronavirus::Pages::TimelineEntryBuilder do
   end
 
   it "removes existing timeline entries before creating new ones" do
-    create(:timeline_entry, page: page)
-    create(:timeline_entry, page: page)
-    create(:timeline_entry, page: page)
+    create(:coronavirus_timeline_entry, page: page)
+    create(:coronavirus_timeline_entry, page: page)
+    create(:coronavirus_timeline_entry, page: page)
 
     described_class.new.create_timeline_entries
 

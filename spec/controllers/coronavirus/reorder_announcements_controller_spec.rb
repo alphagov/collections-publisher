@@ -21,8 +21,8 @@ RSpec.describe Coronavirus::ReorderAnnouncementsController do
   end
 
   describe "PUT Coronavirus reorder announcements page" do
-    let!(:announcement) { create(:announcement, position: 0, page: page) }
-    let!(:another_announcement) { create(:announcement, position: 1, page: page) }
+    let!(:announcement) { create(:coronavirus_announcement, position: 0, page: page) }
+    let!(:another_announcement) { create(:coronavirus_announcement, position: 1, page: page) }
 
     before do
       stub_coronavirus_landing_page_content(page)

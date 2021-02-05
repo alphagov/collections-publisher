@@ -16,7 +16,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
 
   describe "announcements" do
     it "replaces the existing announcement" do
-      create(:announcement, page: page, title: "Foo")
+      create(:coronavirus_announcement, page: page, title: "Foo")
 
       stub_publishing_api_has_item(payload_from_publishing_api)
 
@@ -29,7 +29,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
     end
 
     it "removes the announcements if there aren't any announcements in publishing_api" do
-      create(:announcement, page: page)
+      create(:coronavirus_announcement, page: page)
 
       payload = payload_from_publishing_api
       payload["details"]["announcements"].clear
@@ -45,7 +45,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
 
   describe "sub_sections" do
     it "replaces the existing sub_sections" do
-      create(:sub_section, page: page, title: "Foo")
+      create(:coronavirus_sub_section, page: page, title: "Foo")
 
       stub_publishing_api_has_item(payload_from_publishing_api)
 
@@ -58,7 +58,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
     end
 
     it "removes the sub_sections if there aren't any sub_sections in publishing_api" do
-      create(:sub_section, page: page)
+      create(:coronavirus_sub_section, page: page)
 
       payload = payload_from_publishing_api
       payload["details"]["sections"].clear
@@ -102,7 +102,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
 
   describe "timeline entries" do
     it "replaces the existing timeline entries in the correct position order" do
-      create(:timeline_entry, page: page, heading: "Foo")
+      create(:coronavirus_timeline_entry, page: page, heading: "Foo")
 
       stub_publishing_api_has_item(payload_from_publishing_api)
 
@@ -117,7 +117,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
     end
 
     it "removes the timeline entries if there isn't a timeline list in Publishing API" do
-      create(:timeline_entry, page: page)
+      create(:coronavirus_timeline_entry, page: page)
 
       payload = payload_from_publishing_api
       payload["details"]["timeline"]["list"].clear

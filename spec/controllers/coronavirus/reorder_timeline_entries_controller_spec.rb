@@ -24,8 +24,8 @@ RSpec.describe Coronavirus::ReorderTimelineEntriesController do
 
   describe "PUT Coronavirus reorder timeline entries page" do
     let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
-    let!(:second_timeline_entry) { create(:timeline_entry, page: page) }
-    let!(:first_timeline_entry) { create(:timeline_entry, page: page) }
+    let!(:second_timeline_entry) { create(:coronavirus_timeline_entry, page: page) }
+    let!(:first_timeline_entry) { create(:coronavirus_timeline_entry, page: page) }
 
     before do
       stub_coronavirus_landing_page_content(page)

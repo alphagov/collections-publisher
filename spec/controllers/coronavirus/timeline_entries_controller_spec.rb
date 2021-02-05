@@ -62,7 +62,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
   end
 
   describe "GET /coronavirus/:page_slug/timeline_entries/:id/edit" do
-    let(:timeline_entry) { create(:timeline_entry, page: page) }
+    let(:timeline_entry) { create(:coronavirus_timeline_entry, page: page) }
 
     it "can only be accessed by users with Coronavirus editor permissions" do
       stub_user.permissions << "Coronavirus editor"
@@ -88,7 +88,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
 
   describe "PATCH /coronavirus/:page_slug/timeline_entries/:id" do
     let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
-    let(:timeline_entry) { create(:timeline_entry, page: page) }
+    let(:timeline_entry) { create(:coronavirus_timeline_entry, page: page) }
 
     let(:updated_timeline_entry_params) do
       {
@@ -129,7 +129,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
 
   describe "DELETE /coronavirus/:page_slug/timeline_entries/:id" do
     let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
-    let!(:timeline_entry) { create(:timeline_entry, page: page, heading: "Skywalker") }
+    let!(:timeline_entry) { create(:coronavirus_timeline_entry, page: page, heading: "Skywalker") }
 
     before do
       stub_coronavirus_landing_page_content(page)
@@ -158,7 +158,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
 
     it "doesn't delete the timeline_entry if draft_updater fails" do
       stub_publishing_api_isnt_available
-      create(:timeline_entry, page: page, heading: "Amidala")
+      create(:coronavirus_timeline_entry, page: page, heading: "Amidala")
 
       params = {
         id: timeline_entry.id,
