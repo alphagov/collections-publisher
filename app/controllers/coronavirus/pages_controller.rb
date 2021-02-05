@@ -1,5 +1,5 @@
 module Coronavirus
-  class CoronavirusPagesController < ApplicationController
+  class PagesController < ApplicationController
     before_action :require_coronavirus_editor_permissions!
     before_action :redirect_to_index_if_slug_unknown, only: %w[prepare show]
     before_action :initialise_pages, only: %w[index]
