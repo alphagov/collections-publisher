@@ -1,4 +1,6 @@
 class Coronavirus::TimelineEntry < ApplicationRecord
+  self.table_name = "coronavirus_timeline_entries"
+
   belongs_to :page, foreign_key: "coronavirus_page_id"
   validates :heading, presence: true, length: { maximum: 255 }
   validates :content, presence: true
