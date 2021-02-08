@@ -31,8 +31,10 @@ en:
           success: Announcement was successfully deleted.
           failed: Announcement couldn't be deleted
         reorder:
+          title: Reorder announcements
           success: Announcements were successfully reordered.
           failed: "Sorry! Announcements have not been reordered: %{error}."
+          hint_markdown: Use the up/down buttons on the right to reorder the announcements, or click and hold on a section to reorder using drag and drop.
       draft:
         heading: 3. Update draft
         button_text: Update draft
