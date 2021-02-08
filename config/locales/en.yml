@@ -10,6 +10,13 @@ en:
         confirm: Are you sure?
         reorder: Reorder
         add: Add announcement
+        new:
+          success: Announcement was successfully created.
+        edit:
+          success: Announcement was successfully updated.
+        delete:
+          success: Announcement was successfully deleted.
+          failed: Announcement couldn't be deleted
       draft:
         heading: 3. Update draft
         button_text: Update draft
