@@ -73,6 +73,10 @@ en:
         reorder: Reorder
         add: Add accordion
       timeline_entries:
+        new:
+          success: Timeline entry was successfully created.
+        edit:
+          success: Timeline entry was successfully updated.
         delete:
           success: Timeline entry was successfully deleted.
           failed: Timeline entry couldn't be deleted

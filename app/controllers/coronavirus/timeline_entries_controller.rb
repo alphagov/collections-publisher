@@ -11,7 +11,7 @@ module Coronavirus
       @timeline_entry = page.timeline_entries.new(timeline_entry_params)
 
       if @timeline_entry.save && draft_updater.send
-        redirect_to coronavirus_page_path(page.slug), notice: "Timeline entry was successfully created."
+        redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.pages.timeline_entries.new.success")
       else
         render :new, status: :unprocessable_entity
       end
@@ -25,7 +25,7 @@ module Coronavirus
       @timeline_entry = page.timeline_entries.find(params[:id])
 
       if @timeline_entry.update(timeline_entry_params) && draft_updater.send
-        redirect_to coronavirus_page_path(page.slug), notice: "Timeline entry was successfully updated."
+        redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.pages.timeline_entries.edit.success")
       else
         render :edit, status: :unprocessable_entity
       end
