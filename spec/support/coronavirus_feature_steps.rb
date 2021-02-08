@@ -266,9 +266,9 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_see_the_create_announcement_form
-    expect(page).to have_text("Enter the title of the announcement")
-    expect(page).to have_text("Enter the path to the announcement")
-    expect(page).to have_text("Enter the date of publication")
+    expect(page).to have_text(I18n.t("coronavirus.pages.announcements.form.title.label"))
+    expect(page).to have_text(I18n.t("coronavirus.pages.announcements.form.path.label"))
+    expect(page).to have_text(I18n.t("coronavirus.pages.announcements.form.date.label"))
   end
 
   def when_i_fill_in_the_announcement_form_with_valid_data
@@ -304,7 +304,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_see_the_edit_announcement_form
-    expect(page).to have_text("Edit announcement")
+    expect(page).to have_text(I18n.t("coronavirus.pages.announcements.edit.title"))
   end
 
   def when_i_can_edit_the_announcement_form_with_valid_data

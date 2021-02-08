@@ -10,9 +10,20 @@ en:
         confirm: Are you sure?
         reorder: Reorder
         add: Add announcement
+        form:
+          title:
+            label: Enter the title of the announcement
+          path:
+            label: Enter the path to the announcement
+            hint: "Example format: /government/news/coronavirus-covid-19"
+          date:
+            label: Enter the date of publication
+            hint: For example, 31 3 2020
         new:
+          title: Add announcement
           success: Announcement was successfully created.
         edit:
+          title: Edit announcement
           success: Announcement was successfully updated.
         delete:
           success: Announcement was successfully deleted.
