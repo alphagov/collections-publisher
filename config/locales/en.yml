@@ -30,6 +30,9 @@ en:
           confirm: Are you sure?
           success: Announcement was successfully deleted.
           failed: Announcement couldn't be deleted
+        reorder:
+          success: Announcements were successfully reordered.
+          failed: "Sorry! Announcements have not been reordered: %{error}."
       draft:
         heading: 3. Update draft
         button_text: Update draft

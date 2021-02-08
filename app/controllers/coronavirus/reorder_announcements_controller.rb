@@ -24,10 +24,10 @@ module Coronavirus
       end
 
       if success
-        message = "Announcements were successfully reordered."
+        message = I18n.t("coronavirus.pages.announcements.reorder.success")
         redirect_to coronavirus_page_path(page.slug), notice: message
       else
-        message = "Sorry! Announcements have not been reordered: #{draft_updater.errors.to_sentence}."
+        message = I18n.t("coronavirus.pages.announcements.reorder.failed", error: draft_updater.errors.to_sentence)
         redirect_to reorder_coronavirus_page_announcements_path(page.slug), alert: message
       end
     end
