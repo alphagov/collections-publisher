@@ -9,14 +9,14 @@
       href: coronavirus_page_path(slug: @page.slug)
     },
     {
-      text: "Add timeline entry"
+      text: t("coronavirus.pages.timeline_entries.new.title")
     },
   ]
 %>
 
 <% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
 <% content_for :title, formatted_title(@page) %>
-<% content_for :context, "Add timeline entry" %>
+<% content_for :context, t("coronavirus.pages.timeline_entries.new.title") %>
 <% if @timeline_entry.errors.any? %>
   <%= render "shared/sub_sections/form_errors", resource: @timeline_entry %>
 <% end %>

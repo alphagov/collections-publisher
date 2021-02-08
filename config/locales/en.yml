@@ -73,11 +73,21 @@ en:
         reorder: Reorder
         add: Add accordion
       timeline_entries:
+        summary:
+          title: Timeline entries
+          reorder: Reorder
+          add: Add timeline entry
+        form:
+          heading_label: Enter the heading of the timeline entry
+          content_label: Content
         new:
+          title: Add timeline entry
           success: Timeline entry was successfully created.
         edit:
+          title: Edit timeline entry
           success: Timeline entry was successfully updated.
         delete:
+          confirm: Are you sure?
           success: Timeline entry was successfully deleted.
           failed: Timeline entry couldn't be deleted
         reorder:

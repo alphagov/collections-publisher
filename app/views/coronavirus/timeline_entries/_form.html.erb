@@ -1,6 +1,6 @@
 <%= render "govuk_publishing_components/components/input", {
   label: {
-    text: "Enter the heading of the timeline entry",
+    text: t("coronavirus.pages.timeline_entries.form.heading_label"),
     bold: true,
   },
   name: "timeline_entry[heading]",
@@ -11,7 +11,7 @@
 
 <%= render "components/markdown_editor", {
   label: {
-    text: "Content",
+    text: t("coronavirus.pages.timeline_entries.form.content_label"),
     bold: true
   },
   textarea: {

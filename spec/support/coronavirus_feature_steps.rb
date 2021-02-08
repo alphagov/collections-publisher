@@ -211,9 +211,9 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_a_timeline_entries_section
-    expect(page).to have_content("Timeline entries")
-    expect(page).to have_link("Reorder", href: reorder_coronavirus_page_timeline_entries_path(@coronavirus_page.slug))
-    expect(page).to have_link("Add timeline entry")
+    expect(page).to have_content(I18n.t("coronavirus.pages.timeline_entries.summary.title"))
+    expect(page).to have_link(I18n.t("coronavirus.pages.timeline_entries.summary.reorder"), href: reorder_coronavirus_page_timeline_entries_path(@coronavirus_page.slug))
+    expect(page).to have_link(I18n.t("coronavirus.pages.timeline_entries.summary.add"))
   end
 
   def then_i_cannot_see_an_announcements_section
@@ -221,7 +221,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_cannot_see_a_timeline_entries_section
-    expect(page).to_not have_content("Timeline entries")
+    expect(page).to_not have_content(I18n.t("coronavirus.pages.timeline_entries.summary.title"))
   end
 
   def and_i_can_see_existing_announcements
@@ -321,12 +321,12 @@ module CoronavirusFeatureSteps
   # Adding a timeline entry
 
   def and_i_add_a_new_timeline_entry
-    click_on("Add timeline entry")
+    click_on(I18n.t("coronavirus.pages.timeline_entries.summary.add"))
   end
 
   def then_i_see_the_timeline_entry_form
-    expect(page).to have_text("Enter the heading of the timeline entry")
-    expect(page).to have_text("Content")
+    expect(page).to have_text(I18n.t("coronavirus.pages.timeline_entries.form.heading_label"))
+    expect(page).to have_text(I18n.t("coronavirus.pages.timeline_entries.form.content_label"))
   end
 
   def when_i_fill_in_the_timeline_entry_form_with_valid_data
@@ -397,7 +397,7 @@ module CoronavirusFeatureSteps
   def when_i_delete_a_timeline_entry
     stub_coronavirus_landing_page_content(@coronavirus_page)
 
-    page.accept_alert "Are you sure?" do
+    page.accept_alert I18n.t("coronavirus.pages.timeline_entries.delete.confirm") do
       page.find("a[href=\"/coronavirus/landing/timeline_entries/#{@timeline_entry_one.id}\"]", text: "Delete").click
     end
   end
