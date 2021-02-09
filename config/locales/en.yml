@@ -87,8 +87,10 @@ en:
           success: Sub-section was successfully deleted.
           failed: Sub-section couldn't be deleted
         reorder:
+          title: "Reorder %{section} accordion"
           success: Sections were successfully reordered.
           failed: "Sorry! Sections have not been reordered: %{error}."
+          hint_markdown: Use the up/down buttons on the right to reorder the sections, or click and hold on a section to reorder using drag and drop.
       timeline_entries:
         summary:
           title: Timeline entries
