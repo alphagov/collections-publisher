@@ -86,6 +86,9 @@ en:
           confirm: Are you sure?
           success: Sub-section was successfully deleted.
           failed: Sub-section couldn't be deleted
+        reorder:
+          success: Sections were successfully reordered.
+          failed: "Sorry! Sections have not been reordered: %{error}."
       timeline_entries:
         summary:
           title: Timeline entries
