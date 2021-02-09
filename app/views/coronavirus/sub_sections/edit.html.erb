@@ -9,7 +9,7 @@ links = [
     href: coronavirus_page_path(slug: @page.slug)
   },
   {
-    text: "Edit"
+    text: t("coronavirus.pages.sub_sections.edit.title")
   },
 ]
 
@@ -21,7 +21,7 @@ links = [
 
 <% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
 <% content_for :title, @page.title %>
-<% content_for :context, 'Edit guidance and support accordion' %>
+<% content_for :context, t("coronavirus.pages.sub_sections.edit.title") %>
 <% if @sub_section.errors.any? %>
   <%= render "shared/sub_sections/form_errors", resource: @sub_section %>
 <% end %>

@@ -72,9 +72,15 @@ en:
         summary:
           reorder: Reorder
           add: Add accordion
+        form:
+          name_label: Accordion name
+          content_label: Links and link text
+          featured_link_label: Featured link
         new:
+          title: Add accordion
           success: Sub-section was successfully created.
         edit:
+          title: Edit guidance and support accordion
           success: Sub-section was successfully updated.
         delete:
           confirm: Are you sure?
