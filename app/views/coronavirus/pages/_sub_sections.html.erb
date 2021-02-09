@@ -7,7 +7,7 @@
      delete: {
        href: coronavirus_page_sub_section_path(@page.slug, sub_section),
        data_attributes: {
-         confirm: t("coronavirus.pages.sub_sections.confirm"),
+         confirm: t("coronavirus.pages.sub_sections.delete.confirm"),
          method: "delete"
        }
      }
@@ -19,13 +19,13 @@
     title: @page.sections_title,
     items: sub_sections,
     edit: {
-      link_text: t("coronavirus.pages.sub_sections.reorder"),
+      link_text: t("coronavirus.pages.sub_sections.summary.reorder"),
       href: reorder_coronavirus_page_sub_sections_path(@page.slug)
     }
   } %>
 
   <%= render "govuk_publishing_components/components/button", {
-    text: t("coronavirus.pages.sub_sections.add"),
+    text: t("coronavirus.pages.sub_sections.summary.add"),
     href: new_coronavirus_page_sub_section_path(@page.slug)
   } %>
 </div>

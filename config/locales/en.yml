@@ -69,9 +69,11 @@ en:
         link_text: Coronavirus pages
         accordion_text: "%{coronavirus_page_name} accordions"
       sub_sections:
-        confirm: Are you sure?
-        reorder: Reorder
-        add: Add accordion
+        summary:
+          reorder: Reorder
+          add: Add accordion
+        delete:
+          confirm: Are you sure?
       timeline_entries:
         summary:
           title: Timeline entries
