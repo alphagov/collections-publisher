@@ -72,8 +72,14 @@ en:
         summary:
           reorder: Reorder
           add: Add accordion
+        new:
+          success: Sub-section was successfully created.
+        edit:
+          success: Sub-section was successfully updated.
         delete:
           confirm: Are you sure?
+          success: Sub-section was successfully deleted.
+          failed: Sub-section couldn't be deleted
       timeline_entries:
         summary:
           title: Timeline entries

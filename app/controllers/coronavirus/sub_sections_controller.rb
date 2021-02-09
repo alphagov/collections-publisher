@@ -10,7 +10,7 @@ module Coronavirus
     def create
       @sub_section = page.sub_sections.new(sub_section_params)
       if @sub_section.save && draft_updater.send
-        redirect_to coronavirus_page_path(page.slug), notice: "Sub-section was successfully created."
+        redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.pages.sub_sections.new.success")
       else
         @sub_section.errors.add :base, draft_updater.errors.to_sentence
         render :new
@@ -24,7 +24,7 @@ module Coronavirus
     def update
       @sub_section = page.sub_sections.find(params[:id])
       if @sub_section.update(sub_section_params) && draft_updater.send
-        redirect_to coronavirus_page_path(page.slug), notice: "Sub-section was successfully updated."
+        redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.pages.sub_sections.edit.success")
       else
         @sub_section.errors.add :base, draft_updater.errors.to_sentence
         render :edit
@@ -33,13 +33,13 @@ module Coronavirus
 
     def destroy
       sub_section = page.sub_sections.find(params[:id])
-      message = { notice: "Sub-section was successfully deleted." }
+      message = { notice: I18n.t("coronavirus.pages.sub_sections.delete.success") }
 
       SubSection.transaction do
         sub_section.destroy!
 
         unless draft_updater.send
-          message = { alert: "Sub-section couldn't be deleted" }
+          message = { alert: I18n.t("coronavirus.pages.sub_sections.delete.failed") }
           raise ActiveRecord::Rollback
         end
       end
