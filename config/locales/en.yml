@@ -7,9 +7,10 @@ en:
         preview: Preview
         publish: Publish
       announcements:
-        confirm: Are you sure?
-        reorder: Reorder
-        add: Add announcement
+        summary:
+          title: Announcements
+          reorder: Reorder
+          add: Add announcement
         form:
           title:
             label: Enter the title of the announcement
@@ -26,6 +27,7 @@ en:
           title: Edit announcement
           success: Announcement was successfully updated.
         delete:
+          confirm: Are you sure?
           success: Announcement was successfully deleted.
           failed: Announcement couldn't be deleted
       draft:

@@ -205,9 +205,9 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_an_announcements_section
-    expect(page).to have_content("Announcements")
-    expect(page).to have_link(I18n.t("coronavirus.pages.announcements.reorder"), href: reorder_coronavirus_page_announcements_path(@coronavirus_page.slug))
-    expect(page).to have_link(I18n.t("coronavirus.pages.announcements.add"))
+    expect(page).to have_content(I18n.t("coronavirus.pages.announcements.summary.title"))
+    expect(page).to have_link(I18n.t("coronavirus.pages.announcements.summary.reorder"), href: reorder_coronavirus_page_announcements_path(@coronavirus_page.slug))
+    expect(page).to have_link(I18n.t("coronavirus.pages.announcements.summary.add"))
   end
 
   def then_i_can_see_a_timeline_entries_section
@@ -217,7 +217,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_cannot_see_an_announcements_section
-    expect(page).to_not have_content("Announcements")
+    expect(page).to_not have_content(I18n.t("coronavirus.pages.announcements.summary.title"))
   end
 
   def then_i_cannot_see_a_timeline_entries_section
@@ -262,7 +262,7 @@ module CoronavirusFeatureSteps
   # Adding an announcement
 
   def and_i_add_a_new_announcement
-    click_on(I18n.t("coronavirus.pages.announcements.add"))
+    click_on(I18n.t("coronavirus.pages.announcements.summary.add"))
   end
 
   def then_i_see_the_create_announcement_form
@@ -289,7 +289,7 @@ module CoronavirusFeatureSteps
   def when_i_delete_an_announcement
     stub_coronavirus_landing_page_content(@coronavirus_page)
 
-    page.accept_alert I18n.t("coronavirus.pages.announcements.confirm") do
+    page.accept_alert I18n.t("coronavirus.pages.announcements.delete.confirm") do
       page.find("a[href=\"/coronavirus/landing/announcements/#{@announcement_one.id}\"]", text: "Delete").click
     end
   end
