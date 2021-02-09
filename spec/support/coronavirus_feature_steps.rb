@@ -615,11 +615,11 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_live_stream_is_updated_message
-    expect(page).to have_text("Draft live stream url updated!")
+    expect(page).to have_text(I18n.t("coronavirus.pages.live_stream.update.success"))
   end
 
   def and_i_see_live_stream_is_published_message
-    expect(page).to have_text("New live stream url published!")
+    expect(page).to have_text(I18n.t("coronavirus.pages.live_stream.publish.success"))
   end
 
   def and_i_see_the_error_message

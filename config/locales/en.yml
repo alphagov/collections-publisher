@@ -51,6 +51,13 @@ en:
         subtopic_edit:
           accordions: "Edit %{page_name} accordions"
           something: Edit something else on the
+      live_stream:
+        update:
+          success: Draft live stream url updated!
+          failed: Live stream url has not been updated - please try again
+        publish:
+          success: New live stream url published!
+          failed: Live stream url has not been published - please try again
       live:
         heading: 6. Check live
         button_text: View live version

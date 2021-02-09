@@ -11,9 +11,9 @@ module Coronavirus
       @live_stream = LiveStream.last
       if @live_stream.update(url: url_params, formatted_stream_date: formatted_date)
         if updater.update
-          flash[:notice] = "Draft live stream url updated!"
+          flash[:notice] = I18n.t("coronavirus.pages.live_stream.update.success")
         else
-          flash[:alert] = "Live stream url has not been updated - please try again"
+          flash[:alert] = I18n.t("coronavirus.pages.live_stream.update.failed")
         end
       else
         flash[:alert] = @live_stream.errors.full_messages.join(", ")
@@ -23,9 +23,9 @@ module Coronavirus
 
     def publish
       if updater.publish
-        flash[:notice] = "New live stream url published!"
+        flash[:notice] = I18n.t("coronavirus.pages.live_stream.publish.success")
       else
-        flash[:alert] = "Live stream url has not been published - please try again"
+        flash[:alert] = I18n.t("coronavirus.pages.live_stream.publish.failed")
       end
       redirect_to coronavirus_live_stream_index_path
     end
