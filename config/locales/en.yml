@@ -110,11 +110,10 @@ en:
           success: Timeline entry was successfully deleted.
           failed: Timeline entry couldn't be deleted
         reorder:
-          heading: Reorder timeline entries
+          title: Reorder timeline entries
           success: Timeline entries were successfully reordered.
           error: "Sorry! Timeline entries have not been reordered: %{error}."
-          form:
-            markdown_hint: Use the up/down buttons on the right to reorder the timeline entries, or click and hold on a section to reorder using drag and drop.
+          hint_markdown: Use the up/down buttons on the right to reorder the timeline entries, or click and hold on a section to reorder using drag and drop.
   step_by_step_page:
     statuses:
       draft: Draft
