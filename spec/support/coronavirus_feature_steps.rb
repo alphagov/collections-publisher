@@ -159,27 +159,27 @@ module CoronavirusFeatureSteps
 
   def and_i_select_live_stream
     click_link("Edit live stream URL")
-    expect(page).to have_text("Update live stream URL")
+    expect(page).to have_text(I18n.t("coronavirus.pages.live_stream.title"))
   end
 
   def i_am_able_to_update_draft_content_with_valid_url
     fill_in("url", with: valid_url)
-    click_on("Update draft")
+    click_on(I18n.t("coronavirus.pages.draft.button_text"))
     the_payload_contains_the_valid_url
   end
 
   def and_i_can_publish_the_url
-    click_on("Publish")
+    click_on(I18n.t("coronavirus.pages.publish.button_text"))
     assert_publishing_api_publish("774cee22-d896-44c1-a611-e3109cce8eae", update_type: "minor")
   end
 
   def and_i_can_check_the_preview
-    expect(page).to have_link("Preview", href: "https://draft-origin.test.gov.uk/coronavirus")
+    expect(page).to have_link(I18n.t("coronavirus.pages.preview.button_text"), href: "https://draft-origin.test.gov.uk/coronavirus")
   end
 
   def i_am_able_to_submit_an_invalid_url
     fill_in("url", with: invalid_url)
-    click_on("Update draft")
+    click_on(I18n.t("coronavirus.pages.live_stream.instructions.one.button_text"))
   end
 
   def when_i_visit_the_coronavirus_index_page
@@ -631,6 +631,9 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_a_link_to_the_landing_page
-    expect(page).to have_link("Check live", href: "https://www.test.gov.uk/coronavirus")
+    expect(page).to have_link(
+      I18n.t("coronavirus.pages.live_stream.instructions.four.button_text"),
+      href: "https://www.test.gov.uk/coronavirus",
+    )
   end
 end
