@@ -1,5 +1,12 @@
 en:
   coronavirus:
+    live_stream:
+      update:
+        success: Draft live stream url updated!
+        failed: Live stream url has not been updated - please try again
+      publish:
+        success: New live stream url published!
+        failed: Live stream url has not been published - please try again
     pages:
       actions:
         discard_changes: Discard changes
