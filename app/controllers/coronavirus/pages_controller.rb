@@ -22,7 +22,7 @@ module Coronavirus
       return slug_unknown_for_update if slug_unknown?
 
       message =
-        draft_updater.send ? { notice: "Draft content updated" } : { alert: draft_updater.errors.to_sentence }
+        draft_updater.send ? { notice: I18n.t("coronavirus.pages.actions.update.success") } : { alert: draft_updater.errors.to_sentence }
       redirect_to prepare_coronavirus_page_path(slug), message
     end
 
@@ -38,7 +38,7 @@ module Coronavirus
     def discard
       if draft_updater.discarded?
         Pages::DraftDiscarder.new(page).call
-        message = { notice: "Changes to subsections have been discarded" }
+        message = { notice: I18n.t("coronavirus.pages.actions.discard_changes.success") }
       else
         message = { alert: draft_updater.errors.to_sentence }
       end
@@ -62,13 +62,13 @@ module Coronavirus
     end
 
     def slug_unknown_for_update
-      message = "Page could not be updated because the configuration cannot be found."
+      message = I18n.t("coronavirus.pages.actions.update.failed.slug_unknown")
       redirect_to prepare_coronavirus_page_path, alert: message
     end
 
     def redirect_to_index_if_slug_unknown
       if slug_unknown?
-        flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
+        flash[:alert] = I18n.t("coronavirus.pages.error.slug_unknown", slug: slug)
         redirect_to coronavirus_pages_path
       end
     end
@@ -76,9 +76,9 @@ module Coronavirus
     def publish_page
       Services.publishing_api.publish(page.content_id, update_type)
       change_state("published")
-      flash["notice"] = "Page published!"
+      flash["notice"] = I18n.t("coronavirus.pages.actions.publish.success")
     rescue GdsApi::HTTPConflict
-      flash["alert"] = "You have already published this page."
+      flash["alert"] = I18n.t("coronavirus.pages.actions.publish.failed")
     end
 
     def with_longer_timeout

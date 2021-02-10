@@ -528,7 +528,7 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_a_message_telling_me_that_the_page_does_not_exist
-    expect(page).to have_text("'flimflam' is not a valid page")
+    expect(page).to have_text(I18n.t("coronavirus.pages.error.slug_unknown", slug: "flimflam"))
   end
 
   def i_see_an_update_draft_button
@@ -579,7 +579,7 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_a_draft_updated_message
-    expect(page).to have_text("Draft content updated")
+    expect(page).to have_text(I18n.t("coronavirus.pages.actions.update.success"))
   end
 
   def and_i_choose_a_major_update
@@ -611,7 +611,7 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_a_page_published_message
-    expect(page).to have_text("Page published!")
+    expect(page).to have_text(I18n.t("coronavirus.pages.actions.publish.success"))
   end
 
   def and_i_see_live_stream_is_updated_message

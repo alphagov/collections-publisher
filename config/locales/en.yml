@@ -1,11 +1,22 @@
 en:
   coronavirus:
     pages:
+      error:
+        slug_unknown: ’%{slug}’ is not a valid page. Please select from one of those below.
       actions:
-        discard_changes: Discard changes
+        discard_changes:
+          title: Discard changes
+          success: Changes to subsections have been discarded
         view_on_govuk: View on GOV.UK
         preview: Preview
-        publish: Publish
+        publish:
+          title: Publish
+          success: Page published!
+          failed: You have already published this page.
+        update:
+          success: Draft content updated
+          failed:
+            slug_unknown: Page could not be updated because the configuration cannot be found.
       announcements:
         summary:
           title: Announcements
