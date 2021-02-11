@@ -21,11 +21,9 @@ RSpec.describe Coronavirus::ReorderSubSectionsController do
       stub_coronavirus_publishing_api
     end
 
-    let(:sub_section_0) { create :coronavirus_sub_section, position: 0, page: page }
-    let(:sub_section_1) { create :coronavirus_sub_section, position: 1, page: page }
-    let(:sub_section_0_params) { { id: sub_section_0.id, position: 1 } }
-    let(:sub_section_1_params) { { id: sub_section_1.id, position: 0 } }
-    let(:section_params) { [sub_section_0_params, sub_section_1_params].to_json }
+    let(:sub_section_0) { create :coronavirus_sub_section, position: 1, page: page }
+    let(:sub_section_1) { create :coronavirus_sub_section, position: 2, page: page }
+    let(:section_params) { { sub_section_0.id => 2, sub_section_1.id => 1 } }
 
     subject { put :update, params: { page_slug: slug, section_order_save: section_params } }
 
@@ -35,18 +33,27 @@ RSpec.describe Coronavirus::ReorderSubSectionsController do
 
     it "reorders the sections" do
       subject
-      expect(sub_section_0.reload.position).to eq 1
-      expect(sub_section_1.reload.position).to eq 0
+      expect(sub_section_0.reload.position).to eq 2
+      expect(sub_section_1.reload.position).to eq 1
+    end
+
+    context "when a user manually enters an unconventional ordering approach" do
+      let(:section_params) { { sub_section_0.id => 50, sub_section_1.id => 100 } }
+
+      it "applies our expected incremental ordering" do
+        subject
+        expect(sub_section_0.reload.position).to eq 1
+        expect(sub_section_1.reload.position).to eq 2
+      end
     end
 
     context "when the submitted positions match the existing" do
-      let(:sub_section_0_params) { { id: sub_section_0.id, position: 0 } }
-      let(:sub_section_1_params) { { id: sub_section_1.id, position: 1 } }
+      let(:section_params) { { sub_section_0.id => 1, sub_section_1.id => 2 } }
 
       it "keeps the section order" do
         subject
-        expect(sub_section_0.reload.position).to eq 0
-        expect(sub_section_1.reload.position).to eq 1
+        expect(sub_section_0.reload.position).to eq 1
+        expect(sub_section_1.reload.position).to eq 2
       end
     end
 
@@ -57,8 +64,8 @@ RSpec.describe Coronavirus::ReorderSubSectionsController do
 
       it "keeps the existing order if draft updater fails" do
         subject
-        expect(sub_section_0.reload.position).to eq 0
-        expect(sub_section_1.reload.position).to eq 1
+        expect(sub_section_0.reload.position).to eq 1
+        expect(sub_section_1.reload.position).to eq 2
       end
 
       it "redirects to coronavirus page on success" do
