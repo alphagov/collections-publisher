@@ -25,7 +25,7 @@ en:
           something_else: Edit something else on the landing page
         subtopic_edit:
           accordions: "Edit %{page_name} accordions"
-          something: Edit something else on the
+          something_else: Edit something else on the %{page_name}
       live:
         heading: 6. Check live
         button_text: View live version

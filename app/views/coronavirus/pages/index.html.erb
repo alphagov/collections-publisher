@@ -11,6 +11,6 @@
   <h2 class="govuk-heading-s govuk-!-margin-bottom-2"><%=page.name%></h2>
   <ul class="govuk-list">
     <li class="covid__spaced-list-item"><%= link_to t("coronavirus.pages.index.subtopic_edit.accordions", page_name: page.name.downcase), coronavirus_page_path(slug: page.slug), class:"govuk-link" %></li>
-    <li class="covid__spaced-list-item"><%= link_to "#{t("coronavirus.pages.index.subtopic_edit.something")} #{page.name.downcase}", prepare_coronavirus_page_path(slug: page[:slug]), class:"govuk-link" %></li>
+    <li class="covid__spaced-list-item"><%= link_to t("coronavirus.pages.index.subtopic_edit.something_else", page_name: page.name.downcase), prepare_coronavirus_page_path(slug: page[:slug]), class:"govuk-link" %></li>
   </ul>
 <% end %>
