@@ -138,27 +138,27 @@ module CoronavirusFeatureSteps
   end
 
   def i_see_a_publish_landing_page_link
-    expect(page).to have_link("Edit something else on the landing page")
+    expect(page).to have_link(I18n.t("coronavirus.pages.index.landing_page_edit.something_else"))
   end
 
   def i_see_a_publish_business_page_link
-    expect(page).to have_link("Edit something else on the business hub")
+    expect(page).to have_link(I18n.t("coronavirus.pages.index.subtopic_edit.something_else", page_name: "business hub"))
   end
 
   def i_see_livestream_button
-    expect(page).to have_link("Edit live stream URL")
+    expect(page).to have_link(I18n.t("coronavirus.pages.index.landing_page_edit.live_stream_url"))
   end
 
   def and_i_select_landing_page
-    click_link("Edit something else on the landing page")
+    click_link(I18n.t("coronavirus.pages.index.landing_page_edit.something_else"))
   end
 
   def and_i_select_business_page
-    click_link("Edit something else on the business hub")
+    click_link(I18n.t("coronavirus.pages.index.subtopic_edit.something_else", page_name: "business hub"))
   end
 
   def and_i_select_live_stream
-    click_link("Edit live stream URL")
+    click_link(I18n.t("coronavirus.pages.index.landing_page_edit.live_stream_url"))
     expect(page).to have_text(I18n.t("coronavirus.pages.live_stream.title"))
   end
 
