@@ -9,12 +9,14 @@ module Coronavirus
 
     def update
       success = true
-      reordered_timeline_entries = JSON.parse(params[:timeline_entry_order_save])
+
+      reordered_timeline_entries = page.timeline_entries.sort_by do |entry|
+        params.require(:timeline_entry_order_save).fetch(entry.id.to_s, entry.position).to_i
+      end
 
       TimelineEntry.transaction do
-        reordered_timeline_entries.each do |timeline_entry_data|
-          timeline_entry = page.timeline_entries.find(timeline_entry_data["id"])
-          timeline_entry.update_column(:position, timeline_entry_data["position"])
+        reordered_timeline_entries.each.with_index(1) do |entry, index|
+          entry.update_column(:position, index)
         end
 
         unless draft_updater.send
