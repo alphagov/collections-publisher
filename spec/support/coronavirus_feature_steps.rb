@@ -244,7 +244,7 @@ module CoronavirusFeatureSteps
   def when_i_move_announcement_one_down
     stub_coronavirus_landing_page_content(@coronavirus_page)
 
-    within("#step-0") { click_button "Down" }
+    within(".app-c-reorderable-list__item:first-child") { click_button "Down" }
     click_button "Save"
   end
 
