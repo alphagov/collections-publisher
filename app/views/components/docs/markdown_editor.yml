@@ -28,7 +28,8 @@ examples:
         id: markdown-editor
   with_bullet_list_button:
     data:
-      controls: [:bullets]
+      controls:
+        - :bullets
       label:
         text: Body
       textarea:
@@ -36,7 +37,8 @@ examples:
         id: markdown-editor
   with_headings_buttons:
     data:
-      controls: [:headings]
+      controls:
+        - :headings
       label:
         text: Body
       textarea:
@@ -44,7 +46,8 @@ examples:
         id: markdown-editor
   with_blockquote_button:
     data:
-      controls: [:blockquote]
+      controls:
+        - :blockquote
       label:
         text: Body
       textarea:
@@ -52,7 +55,8 @@ examples:
         id: markdown-editor
   with_numbered_list_button:
     data:
-      controls: [:numbered_list]
+      controls:
+        - :numbered_list
       label:
         text: Body
       textarea:
