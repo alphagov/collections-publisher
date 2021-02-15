@@ -116,6 +116,31 @@ en:
       publish:
         success: New live stream url published!
         failed: Live stream url has not been published - please try again
+    something_else_from_github:
+      description: "Follow the steps below to make changes to any part of the %{coronavirus_page_name}, except the accordions."
+      instructions:
+        one:
+          step: 1. Update GitHub
+          summary: "Update the <a href=\"%{github_url}\">coronavirus content on Github</a>"
+        two:
+          step: 2. Get changes reviewed and merged
+          summary: Get the changes approved and merged into master.
+        three:
+          step: 3. Update draft
+          button_text: Update draft
+        four:
+          step: 4. Preview changes
+          button_text: Preview
+        five:
+          step: 5. Publish changes
+          radio_heading: Update type
+          radio_options:
+            major: Major
+            minor: Minor
+          button_text: Publish
+        six:
+          step: 6. Check live
+          button_text: View live version
     pages:
       error:
         slug_unknown: ’%{slug}’ is not a valid page. Please select from one of those below.
@@ -133,28 +158,6 @@ en:
           success: Draft content updated
           failed:
             slug_unknown: Page could not be updated because the configuration cannot be found.
-      draft:
-        heading: 3. Update draft
-        button_text: Update draft
-      github:
-        update_heading: 1. Update GitHub
-        review_heading: 2. Get changes reviewed and merged
-        update_sub_heading_html: "Update the <a href=\"%{github_url}\">coronavirus content on Github</a>"
-        approve_sub_heading: Get the changes approved and merged into master.
-      live:
-        heading: 6. Check live
-        button_text: View live version
-      prepare:
-        lead_paragraph: "Follow the steps below to make changes to any part of the %{coronavirus_page_name}, except the accordions."
-      preview:
-        heading: 4. Preview changes
-        button_text: Preview
-      publish:
-        heading: 5. Publish changes
-        radio_heading: Update type
-        major_type: Major
-        minor_type: Minor
-        button_text: Publish
       show:
         link_text: Coronavirus pages
         accordion_text: "%{coronavirus_page_name} accordions"

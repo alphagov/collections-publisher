@@ -164,17 +164,17 @@ module CoronavirusFeatureSteps
 
   def i_am_able_to_update_draft_content_with_valid_url
     fill_in("url", with: valid_url)
-    click_on(I18n.t("coronavirus.pages.draft.button_text"))
+    click_on(I18n.t("coronavirus.something_else_from_github.instructions.three.button_text"))
     the_payload_contains_the_valid_url
   end
 
   def and_i_can_publish_the_url
-    click_on(I18n.t("coronavirus.pages.publish.button_text"))
+    click_on(I18n.t("coronavirus.something_else_from_github.instructions.five.button_text"))
     assert_publishing_api_publish("774cee22-d896-44c1-a611-e3109cce8eae", update_type: "minor")
   end
 
   def and_i_can_check_the_preview
-    expect(page).to have_link(I18n.t("coronavirus.pages.preview.button_text"), href: "https://draft-origin.test.gov.uk/coronavirus")
+    expect(page).to have_link(I18n.t("coronavirus.something_else_from_github.instructions.four.button_text"), href: "https://draft-origin.test.gov.uk/coronavirus")
   end
 
   def i_am_able_to_submit_an_invalid_url
@@ -532,24 +532,24 @@ module CoronavirusFeatureSteps
   end
 
   def i_see_an_update_draft_button
-    expect(page).to have_button(I18n.t("coronavirus.pages.draft.button_text"))
+    expect(page).to have_button(I18n.t("coronavirus.something_else_from_github.instructions.three.button_text"))
   end
 
   def and_a_preview_button
-    expect(page).to have_link(I18n.t("coronavirus.pages.preview.button_text"))
-    expect(find_link(I18n.t("coronavirus.pages.preview.button_text"))[:target]).to eq("_blank")
+    expect(page).to have_link(I18n.t("coronavirus.something_else_from_github.instructions.four.button_text"))
+    expect(find_link(I18n.t("coronavirus.something_else_from_github.instructions.four.button_text"))[:target]).to eq("_blank")
   end
 
   def and_a_publish_button
-    expect(page).to have_button(I18n.t("coronavirus.pages.publish.button_text"))
+    expect(page).to have_button(I18n.t("coronavirus.something_else_from_github.instructions.five.button_text"))
   end
 
   def and_a_view_live_business_content_button
-    expect(page).to have_link(I18n.t("coronavirus.pages.live.button_text"), href: "https://www.test.gov.uk/coronavirus/business-support")
+    expect(page).to have_link(I18n.t("coronavirus.something_else_from_github.instructions.six.button_text"), href: "https://www.test.gov.uk/coronavirus/business-support")
   end
 
   def and_i_push_a_new_draft_version
-    click_on(I18n.t("coronavirus.pages.draft.button_text"))
+    click_on(I18n.t("coronavirus.something_else_from_github.instructions.three.button_text"))
   end
 
   def and_i_push_a_new_draft_version_with_invalid_content
@@ -583,11 +583,11 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_choose_a_major_update
-    choose(I18n.t("coronavirus.pages.publish.major_type"))
+    choose(I18n.t("coronavirus.something_else_from_github.instructions.five.radio_options.major"))
   end
 
   def and_i_publish_the_page
-    click_on(I18n.t("coronavirus.pages.publish.button_text"))
+    click_on(I18n.t("coronavirus.something_else_from_github.instructions.five.button_text"))
   end
 
   def then_the_page_publishes
