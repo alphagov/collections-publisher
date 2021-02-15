@@ -68,7 +68,7 @@ module Coronavirus
 
     def redirect_to_index_if_slug_unknown
       if slug_unknown?
-        flash[:alert] = I18n.t("coronavirus.pages.error.slug_unknown", slug: slug)
+        flash[:alert] = I18n.t("coronavirus.index.error", slug: slug)
         redirect_to coronavirus_pages_path
       end
     end

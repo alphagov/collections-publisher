@@ -528,7 +528,7 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_a_message_telling_me_that_the_page_does_not_exist
-    expect(page).to have_text(I18n.t("coronavirus.pages.error.slug_unknown", slug: "flimflam"))
+    expect(page).to have_text(I18n.t("coronavirus.index.error", slug: "flimflam"))
   end
 
   def i_see_an_update_draft_button

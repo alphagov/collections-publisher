@@ -9,6 +9,7 @@ en:
       subtopic_edit:
         accordions: "Edit %{page_name} accordions"
         something_else: Edit something else on the %{page_name}
+      error: ’%{slug}’ is not a valid page. Please select from one of those below.
     summary:
       timeline_entries:
         title: Timeline entries
@@ -143,8 +144,6 @@ en:
           step: 6. Check live
           button_text: View live version
     pages:
-      error:
-        slug_unknown: ’%{slug}’ is not a valid page. Please select from one of those below.
       actions:
         discard_changes:
           title: Discard changes
