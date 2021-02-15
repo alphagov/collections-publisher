@@ -32,21 +32,20 @@ en:
           confirm: Are you sure?
           success: Announcement was successfully deleted.
           failed: Announcement couldn't be deleted
-    timeline_entries:
-      form:
-        heading_label: Enter the heading of the timeline entry
-        content_label: Content
-      new:
-        title: Add timeline entry
-        success: Timeline entry was successfully created.
-      edit:
-        title: Edit timeline entry
-        success: Timeline entry was successfully updated.
-      reorder:
-        title: Reorder timeline entries
-        success: Timeline entries were successfully reordered.
-        error: "Sorry! Timeline entries have not been reordered: %{error}."
-        hint_markdown: Use the up/down buttons on the right to reorder the timeline entries, or click and hold on a section to reorder using drag and drop.
+    timeline_entries_form:
+      heading_label: Enter the heading of the timeline entry
+      content_label: Content
+    new_timeline_entry:
+      title: Add timeline entry
+      success: Timeline entry was successfully created.
+    edit_timeline_entry:
+      title: Edit timeline entry
+      success: Timeline entry was successfully updated.
+    reorder_timeline_entries:
+      title: Reorder timeline entries
+      success: Timeline entries were successfully reordered.
+      error: "Sorry! Timeline entries have not been reordered: %{error}."
+      hint_markdown: Use the up/down buttons on the right to reorder the timeline entries, or click and hold on a section to reorder using drag and drop.
     sub_sections_form:
       name_label: Accordion name
       content_label: Links and link text
