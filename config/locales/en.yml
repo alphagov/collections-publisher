@@ -42,7 +42,6 @@ en:
         button_text: Publish
       show:
         link_text: Coronavirus pages
-        accordion_text: "%{coronavirus_page_name} accordions"
       sub_sections:
         confirm: Are you sure?
         reorder: Reorder
