@@ -160,7 +160,6 @@ en:
             slug_unknown: Page could not be updated because the configuration cannot be found.
       show:
         link_text: Coronavirus pages
-        accordion_text: "%{coronavirus_page_name} accordions"
   step_by_step_page:
     statuses:
       draft: Draft
