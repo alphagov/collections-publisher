@@ -159,7 +159,7 @@ module CoronavirusFeatureSteps
 
   def and_i_select_live_stream
     click_link(I18n.t("coronavirus.index.landing_page_edit.live_stream_url"))
-    expect(page).to have_text(I18n.t("coronavirus.pages.live_stream.title"))
+    expect(page).to have_text(I18n.t("coronavirus.live_stream.title"))
   end
 
   def i_am_able_to_update_draft_content_with_valid_url
@@ -179,7 +179,7 @@ module CoronavirusFeatureSteps
 
   def i_am_able_to_submit_an_invalid_url
     fill_in("url", with: invalid_url)
-    click_on(I18n.t("coronavirus.pages.live_stream.instructions.one.button_text"))
+    click_on(I18n.t("coronavirus.live_stream.instructions.one.button_text"))
   end
 
   def when_i_visit_the_coronavirus_index_page
@@ -615,11 +615,11 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_live_stream_is_updated_message
-    expect(page).to have_text(I18n.t("coronavirus.pages.live_stream.update.success"))
+    expect(page).to have_text(I18n.t("coronavirus.live_stream.update.success"))
   end
 
   def and_i_see_live_stream_is_published_message
-    expect(page).to have_text(I18n.t("coronavirus.pages.live_stream.publish.success"))
+    expect(page).to have_text(I18n.t("coronavirus.live_stream.publish.success"))
   end
 
   def and_i_see_the_error_message
@@ -632,7 +632,7 @@ module CoronavirusFeatureSteps
 
   def and_i_see_a_link_to_the_landing_page
     expect(page).to have_link(
-      I18n.t("coronavirus.pages.live_stream.instructions.four.button_text"),
+      I18n.t("coronavirus.live_stream.instructions.four.button_text"),
       href: "https://www.test.gov.uk/coronavirus",
     )
   end
