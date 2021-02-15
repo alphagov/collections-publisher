@@ -11,7 +11,7 @@ module Coronavirus
     def create
       @announcement = page.announcements.new(announcement_params)
       if @announcement.save && draft_updater.send
-        redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.announcements.new.success")
+        redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.new_announcement.success")
       else
         render :new
       end
@@ -41,7 +41,7 @@ module Coronavirus
       @announcement = page.announcements.find(params[:id])
 
       if @announcement.update(announcement_params) && draft_updater.send
-        redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.announcements.edit.success")
+        redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.edit_announcement.success")
       else
         render :edit
       end

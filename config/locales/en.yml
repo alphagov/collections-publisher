@@ -63,27 +63,26 @@ en:
         success: Sections were successfully reordered.
         failed: "Sorry! Sections have not been reordered: %{error}."
         hint_markdown: Use the up/down buttons on the right to reorder the sections, or click and hold on a section to reorder using drag and drop.
-    announcements:
-      form:
-        title:
-          label: Enter the title of the announcement
-        path:
-          label: Enter the path to the announcement
-          hint: "Example format: /government/news/coronavirus-covid-19"
-        date:
-          label: Enter the date of publication
-          hint: For example, 31 3 2020
-      new:
-        title: Add announcement
-        success: Announcement was successfully created.
-      edit:
-        title: Edit announcement
-        success: Announcement was successfully updated.
-      reorder:
-        title: Reorder announcements
-        success: Announcements were successfully reordered.
-        failed: "Sorry! Announcements have not been reordered: %{error}."
-        hint_markdown: Use the up/down buttons on the right to reorder the announcements, or click and hold on a section to reorder using drag and drop.
+    new_announcement:
+      title: Add announcement
+      success: Announcement was successfully created.
+    edit_announcement:
+      title: Edit announcement
+      success: Announcement was successfully updated.
+    announcements_form:
+      title:
+        label: Enter the title of the announcement
+      path:
+        label: Enter the path to the announcement
+        hint: "Example format: /government/news/coronavirus-covid-19"
+      date:
+        label: Enter the date of publication
+        hint: For example, 31 3 2020
+    reorder_announcements:
+      title: Reorder announcements
+      success: Announcements were successfully reordered.
+      failed: "Sorry! Announcements have not been reordered: %{error}."
+      hint_markdown: Use the up/down buttons on the right to reorder the announcements, or click and hold on a section to reorder using drag and drop.
     live_stream:
       title: Update live stream URL
       instructions:

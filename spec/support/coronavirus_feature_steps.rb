@@ -249,7 +249,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_see_announcement_updated_message
-    expect(page).to have_content I18n.t("coronavirus.announcements.reorder.success")
+    expect(page).to have_content I18n.t("coronavirus.reorder_announcements.success")
   end
 
   def and_i_see_the_announcements_have_changed_order
@@ -266,9 +266,9 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_see_the_create_announcement_form
-    expect(page).to have_text(I18n.t("coronavirus.announcements.form.title.label"))
-    expect(page).to have_text(I18n.t("coronavirus.announcements.form.path.label"))
-    expect(page).to have_text(I18n.t("coronavirus.announcements.form.date.label"))
+    expect(page).to have_text(I18n.t("coronavirus.announcements_form.title.label"))
+    expect(page).to have_text(I18n.t("coronavirus.announcements_form.path.label"))
+    expect(page).to have_text(I18n.t("coronavirus.announcements_form.date.label"))
   end
 
   def when_i_fill_in_the_announcement_form_with_valid_data
@@ -304,7 +304,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_see_the_edit_announcement_form
-    expect(page).to have_text(I18n.t("coronavirus.announcements.edit.title"))
+    expect(page).to have_text(I18n.t("coronavirus.edit_announcement.title"))
   end
 
   def when_i_can_edit_the_announcement_form_with_valid_data
@@ -314,7 +314,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_that_the_announcement_has_been_updated
-    expect(page).to have_content(I18n.t("coronavirus.announcements.edit.success"))
+    expect(page).to have_content(I18n.t("coronavirus.edit_announcement.success"))
     expect(page).to have_content("Updated title")
   end
 

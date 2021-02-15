@@ -1,6 +1,6 @@
 <%= render "govuk_publishing_components/components/input", {
   label: {
-    text: t("coronavirus.announcements.form.title.label"),
+    text: t("coronavirus.announcements_form.title.label"),
     bold: true,
   },
   name: "announcement[title]",
@@ -11,25 +11,25 @@
 
 <%= render "govuk_publishing_components/components/input", {
   label: {
-    text: t("coronavirus.announcements.form.path.label"),
+    text: t("coronavirus.announcements_form.path.label"),
     bold: true,
   },
   name: "announcement[path]",
   value: @announcement.path,
   id: "path",
   error_message: error_items(@announcement.errors.messages, :path),
-  hint: t("coronavirus.announcements.form.path.hint"),
+  hint: t("coronavirus.announcements_form.path.hint"),
 } %>
 
 <% legend = capture do %>
-  <span class="govuk-heading-s govuk-!-margin-bottom-0"><%= I18n.t("coronavirus.announcements.form.date.label") %></span>
+  <span class="govuk-heading-s govuk-!-margin-bottom-0"><%= I18n.t("coronavirus.announcements_form.date.label") %></span>
 <% end %>
 
 <%= render "govuk_publishing_components/components/date_input", {
   name: "announcement[published_at]",
   id: "published_at",
   legend_text: legend,
-  hint: t("coronavirus.announcements.form.date.hint"),
+  hint: t("coronavirus.announcements_form.date.hint"),
   error_message: error_items(@announcement.errors.messages, :published_at),
   items: [
     {
