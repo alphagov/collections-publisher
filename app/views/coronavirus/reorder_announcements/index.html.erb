@@ -9,17 +9,17 @@
       href: coronavirus_page_path(slug: @page.slug)
     },
     {
-      text: t("coronavirus.pages.announcements.reorder.title")
+      text: t("coronavirus.announcements.reorder.title")
     },
   ]
 %>
 <% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
 <% content_for :title, formatted_title(@page)%>
-<% content_for :context, t("coronavirus.pages.announcements.reorder.title") %>
+<% content_for :context, t("coronavirus.announcements.reorder.title") %>
 
 <div class="covid-manage-page govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render_markdown t("coronavirus.pages.announcements.reorder.hint_markdown") %>
+    <%= render_markdown t("coronavirus.announcements.reorder.hint_markdown") %>
     <%= render "reorder_list" %>
 
     <%= form_for(@page, url: reorder_coronavirus_page_announcements_path, method: :put) do |form| %>

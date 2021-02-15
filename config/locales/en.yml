@@ -32,6 +32,27 @@ en:
           confirm: Are you sure?
           success: Announcement was successfully deleted.
           failed: Announcement couldn't be deleted
+    announcements:
+      form:
+        title:
+          label: Enter the title of the announcement
+        path:
+          label: Enter the path to the announcement
+          hint: "Example format: /government/news/coronavirus-covid-19"
+        date:
+          label: Enter the date of publication
+          hint: For example, 31 3 2020
+      new:
+        title: Add announcement
+        success: Announcement was successfully created.
+      edit:
+        title: Edit announcement
+        success: Announcement was successfully updated.
+      reorder:
+        title: Reorder announcements
+        success: Announcements were successfully reordered.
+        failed: "Sorry! Announcements have not been reordered: %{error}."
+        hint_markdown: Use the up/down buttons on the right to reorder the announcements, or click and hold on a section to reorder using drag and drop.
     pages:
       error:
         slug_unknown: ’%{slug}’ is not a valid page. Please select from one of those below.
@@ -49,27 +70,6 @@ en:
           success: Draft content updated
           failed:
             slug_unknown: Page could not be updated because the configuration cannot be found.
-      announcements:
-        form:
-          title:
-            label: Enter the title of the announcement
-          path:
-            label: Enter the path to the announcement
-            hint: "Example format: /government/news/coronavirus-covid-19"
-          date:
-            label: Enter the date of publication
-            hint: For example, 31 3 2020
-        new:
-          title: Add announcement
-          success: Announcement was successfully created.
-        edit:
-          title: Edit announcement
-          success: Announcement was successfully updated.
-        reorder:
-          title: Reorder announcements
-          success: Announcements were successfully reordered.
-          failed: "Sorry! Announcements have not been reordered: %{error}."
-          hint_markdown: Use the up/down buttons on the right to reorder the announcements, or click and hold on a section to reorder using drag and drop.
       draft:
         heading: 3. Update draft
         button_text: Update draft
