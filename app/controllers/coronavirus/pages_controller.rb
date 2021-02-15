@@ -38,7 +38,7 @@ module Coronavirus
     def discard
       if draft_updater.discarded?
         Pages::DraftDiscarder.new(page).call
-        message = { notice: I18n.t("coronavirus.pages.actions.discard_changes.success") }
+        message = { notice: I18n.t("coronavirus.summary.actions.discard_changes.success") }
       else
         message = { alert: draft_updater.errors.to_sentence }
       end
@@ -76,9 +76,9 @@ module Coronavirus
     def publish_page
       Services.publishing_api.publish(page.content_id, update_type)
       change_state("published")
-      flash["notice"] = I18n.t("coronavirus.pages.actions.publish.success")
+      flash["notice"] = I18n.t("coronavirus.summary.actions.publish.success")
     rescue GdsApi::HTTPConflict
-      flash["alert"] = I18n.t("coronavirus.pages.actions.publish.failed")
+      flash["alert"] = I18n.t("coronavirus.summary.actions.publish.failed")
     end
 
     def with_longer_timeout

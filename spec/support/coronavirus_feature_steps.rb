@@ -516,7 +516,7 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_discard_my_changes
-    click_link(I18n.t("coronavirus.pages.actions.discard_changes.title"))
+    click_link(I18n.t("coronavirus.summary.actions.discard_changes.link_text"))
   end
 
   def i_see_error_message_no_changes_to_discard
@@ -611,7 +611,7 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_a_page_published_message
-    expect(page).to have_text(I18n.t("coronavirus.pages.actions.publish.success"))
+    expect(page).to have_text(I18n.t("coronavirus.summary.actions.publish.success"))
   end
 
   def and_i_see_live_stream_is_updated_message

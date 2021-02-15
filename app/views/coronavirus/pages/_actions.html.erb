@@ -1,18 +1,18 @@
 <div class="app-side">
   <div class="app-side__actions">
     <%= form_with(url: publish_coronavirus_page_path(@page.slug)) do %>
-      <%= render "govuk_publishing_components/components/button", { text: t("coronavirus.pages.actions.publish.title") } %>
+      <%= render "govuk_publishing_components/components/button", { text: t("coronavirus.summary.actions.publish.button_text") } %>
     <% end %>
     <%= render "govuk_publishing_components/components/button", {
-      text: t("coronavirus.pages.actions.preview"),
+      text: t("coronavirus.summary.actions.preview.button_text"),
       href: draft_govuk_url(@page.base_path),
       target: "_blank",
       secondary: true
     } %>
 
-    <%= link_to t("coronavirus.pages.actions.discard_changes.title"), discard_coronavirus_page_path,class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
+    <%= link_to t("coronavirus.summary.actions.discard_changes.link_text"), discard_coronavirus_page_path,class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
-    <%= link_to t("coronavirus.pages.actions.view_on_govuk"), published_url(@page.base_path.delete_prefix("/")), target: "_blank", class: "govuk-link govuk-link--no-visited-state" %>
+    <%= link_to t("coronavirus.summary.actions.view_on_govuk.link_text"), published_url(@page.base_path.delete_prefix("/")), target: "_blank", class: "govuk-link govuk-link--no-visited-state" %>
   </div>
 </div>
