@@ -22,7 +22,7 @@ module Coronavirus
       return slug_unknown_for_update if slug_unknown?
 
       message =
-        draft_updater.send ? { notice: I18n.t("coronavirus.pages.actions.update.success") } : { alert: draft_updater.errors.to_sentence }
+        draft_updater.send ? { notice: I18n.t("coronavirus.something_else_from_github.actions.update.success") } : { alert: draft_updater.errors.to_sentence }
       redirect_to prepare_coronavirus_page_path(slug), message
     end
 
@@ -62,7 +62,7 @@ module Coronavirus
     end
 
     def slug_unknown_for_update
-      message = I18n.t("coronavirus.pages.actions.update.failed.slug_unknown")
+      message = I18n.t("coronavirus.something_else_from_github.actions.update.failed.slug_unknown")
       redirect_to prepare_coronavirus_page_path, alert: message
     end
 

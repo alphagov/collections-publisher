@@ -155,12 +155,10 @@ en:
         six:
           step: 6. Check live
           button_text: View live version
-    pages:
       actions:
         update:
           success: Draft content updated
-          failed:
-            slug_unknown: Page could not be updated because the configuration cannot be found.
+          failed: Page could not be updated because the configuration cannot be found.
   step_by_step_page:
     statuses:
       draft: Draft
