@@ -138,27 +138,27 @@ module CoronavirusFeatureSteps
   end
 
   def i_see_a_publish_landing_page_link
-    expect(page).to have_link(I18n.t("coronavirus.pages.index.landing_page_edit.something_else"))
+    expect(page).to have_link(I18n.t("coronavirus.index.landing_page_edit.something_else"))
   end
 
   def i_see_a_publish_business_page_link
-    expect(page).to have_link(I18n.t("coronavirus.pages.index.subtopic_edit.something_else", page_name: "business hub"))
+    expect(page).to have_link(I18n.t("coronavirus.index.subtopic_edit.something_else", page_name: "business hub"))
   end
 
   def i_see_livestream_button
-    expect(page).to have_link(I18n.t("coronavirus.pages.index.landing_page_edit.live_stream_url"))
+    expect(page).to have_link(I18n.t("coronavirus.index.landing_page_edit.live_stream_url"))
   end
 
   def and_i_select_landing_page
-    click_link(I18n.t("coronavirus.pages.index.landing_page_edit.something_else"))
+    click_link(I18n.t("coronavirus.index.landing_page_edit.something_else"))
   end
 
   def and_i_select_business_page
-    click_link(I18n.t("coronavirus.pages.index.subtopic_edit.something_else", page_name: "business hub"))
+    click_link(I18n.t("coronavirus.index.subtopic_edit.something_else", page_name: "business hub"))
   end
 
   def and_i_select_live_stream
-    click_link(I18n.t("coronavirus.pages.index.landing_page_edit.live_stream_url"))
+    click_link(I18n.t("coronavirus.index.landing_page_edit.live_stream_url"))
     expect(page).to have_text(I18n.t("coronavirus.pages.live_stream.title"))
   end
 

@@ -1,5 +1,13 @@
 en:
   coronavirus:
+    index:
+      landing_page_edit:
+        accordions: Edit landing page accordions, announcements and timeline
+        live_stream_url: Edit live stream URL
+        something_else: Edit something else on the landing page
+      subtopic_edit:
+        accordions: "Edit %{page_name} accordions"
+        something_else: Edit something else on the %{page_name}
     pages:
       error:
         slug_unknown: ’%{slug}’ is not a valid page. Please select from one of those below.
@@ -54,14 +62,6 @@ en:
         review_heading: 2. Get changes reviewed and merged
         update_sub_heading_html: "Update the <a href=\"%{github_url}\">coronavirus content on Github</a>"
         approve_sub_heading: Get the changes approved and merged into master.
-      index:
-        landing_page_edit:
-          accordions: Edit landing page accordions, announcements and timeline
-          live_stream_url: Edit live stream URL
-          something_else: Edit something else on the landing page
-        subtopic_edit:
-          accordions: "Edit %{page_name} accordions"
-          something_else: Edit something else on the %{page_name}
       live_stream:
         title: Update live stream URL
         instructions:
