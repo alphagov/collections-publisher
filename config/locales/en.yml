@@ -1,6 +1,7 @@
 en:
   coronavirus:
     index:
+      breadcrumb_text: Coronavirus pages
       landing_page_edit:
         accordions: Edit landing page accordions, announcements and timeline
         live_stream_url: Edit live stream URL
@@ -158,8 +159,6 @@ en:
           success: Draft content updated
           failed:
             slug_unknown: Page could not be updated because the configuration cannot be found.
-      show:
-        link_text: Coronavirus pages
   step_by_step_page:
     statuses:
       draft: Draft
