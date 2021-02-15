@@ -10,7 +10,7 @@ module Coronavirus
     def create
       @sub_section = page.sub_sections.new(sub_section_params)
       if @sub_section.save && draft_updater.send
-        redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.sub_sections.new.success")
+        redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.new_sub_section.success")
       else
         @sub_section.errors.add :base, draft_updater.errors.to_sentence
         render :new
@@ -24,7 +24,7 @@ module Coronavirus
     def update
       @sub_section = page.sub_sections.find(params[:id])
       if @sub_section.update(sub_section_params) && draft_updater.send
-        redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.sub_sections.edit.success")
+        redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.edit_sub_section.success")
       else
         @sub_section.errors.add :base, draft_updater.errors.to_sentence
         render :edit

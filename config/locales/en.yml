@@ -47,22 +47,21 @@ en:
         success: Timeline entries were successfully reordered.
         error: "Sorry! Timeline entries have not been reordered: %{error}."
         hint_markdown: Use the up/down buttons on the right to reorder the timeline entries, or click and hold on a section to reorder using drag and drop.
-    sub_sections:
-      form:
-        name_label: Accordion name
-        content_label: Links and link text
-        featured_link_label: Featured link
-      new:
-        title: Add accordion
-        success: Sub-section was successfully created.
-      edit:
-        title: Edit guidance and support accordion
-        success: Sub-section was successfully updated.
-      reorder:
-        title: "Reorder %{section} accordion"
-        success: Sections were successfully reordered.
-        failed: "Sorry! Sections have not been reordered: %{error}."
-        hint_markdown: Use the up/down buttons on the right to reorder the sections, or click and hold on a section to reorder using drag and drop.
+    sub_sections_form:
+      name_label: Accordion name
+      content_label: Links and link text
+      featured_link_label: Featured link
+    new_sub_section:
+      title: Add accordion
+      success: Sub-section was successfully created.
+    edit_sub_section:
+      title: Edit guidance and support accordion
+      success: Sub-section was successfully updated.
+    reorder_sub_sections:
+      title: "Reorder %{section} accordion"
+      success: Sections were successfully reordered.
+      failed: "Sorry! Sections have not been reordered: %{error}."
+      hint_markdown: Use the up/down buttons on the right to reorder the sections, or click and hold on a section to reorder using drag and drop.
     new_announcement:
       title: Add announcement
       success: Announcement was successfully created.
