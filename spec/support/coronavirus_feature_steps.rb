@@ -205,23 +205,23 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_an_announcements_section
-    expect(page).to have_content(I18n.t("coronavirus.pages.announcements.summary.title"))
-    expect(page).to have_link(I18n.t("coronavirus.pages.announcements.summary.reorder"), href: reorder_coronavirus_page_announcements_path(@coronavirus_page.slug))
-    expect(page).to have_link(I18n.t("coronavirus.pages.announcements.summary.add"))
+    expect(page).to have_content(I18n.t("coronavirus.summary.announcements.title"))
+    expect(page).to have_link(I18n.t("coronavirus.summary.announcements.reorder"), href: reorder_coronavirus_page_announcements_path(@coronavirus_page.slug))
+    expect(page).to have_link(I18n.t("coronavirus.summary.announcements.add"))
   end
 
   def then_i_can_see_a_timeline_entries_section
-    expect(page).to have_content(I18n.t("coronavirus.pages.timeline_entries.summary.title"))
-    expect(page).to have_link(I18n.t("coronavirus.pages.timeline_entries.summary.reorder"), href: reorder_coronavirus_page_timeline_entries_path(@coronavirus_page.slug))
-    expect(page).to have_link(I18n.t("coronavirus.pages.timeline_entries.summary.add"))
+    expect(page).to have_content(I18n.t("coronavirus.summary.timeline_entries.title"))
+    expect(page).to have_link(I18n.t("coronavirus.summary.timeline_entries.reorder"), href: reorder_coronavirus_page_timeline_entries_path(@coronavirus_page.slug))
+    expect(page).to have_link(I18n.t("coronavirus.summary.timeline_entries.add"))
   end
 
   def then_i_cannot_see_an_announcements_section
-    expect(page).to_not have_content(I18n.t("coronavirus.pages.announcements.summary.title"))
+    expect(page).to_not have_content(I18n.t("coronavirus.summary.announcements.title"))
   end
 
   def then_i_cannot_see_a_timeline_entries_section
-    expect(page).to_not have_content(I18n.t("coronavirus.pages.timeline_entries.summary.title"))
+    expect(page).to_not have_content(I18n.t("coronavirus.summary.timeline_entries.title"))
   end
 
   def and_i_can_see_existing_announcements
@@ -262,7 +262,7 @@ module CoronavirusFeatureSteps
   # Adding an announcement
 
   def and_i_add_a_new_announcement
-    click_on(I18n.t("coronavirus.pages.announcements.summary.add"))
+    click_on(I18n.t("coronavirus.summary.announcements.add"))
   end
 
   def then_i_see_the_create_announcement_form
@@ -289,13 +289,13 @@ module CoronavirusFeatureSteps
   def when_i_delete_an_announcement
     stub_coronavirus_landing_page_content(@coronavirus_page)
 
-    page.accept_alert I18n.t("coronavirus.pages.announcements.delete.confirm") do
+    page.accept_alert I18n.t("coronavirus.summary.announcements.delete.confirm") do
       page.find("a[href=\"/coronavirus/landing/announcements/#{@announcement_one.id}\"]", text: "Delete").click
     end
   end
 
   def then_i_can_see_an_announcement_has_been_deleted
-    expect(page).to have_text(I18n.t("coronavirus.pages.announcements.delete.success"))
+    expect(page).to have_text(I18n.t("coronavirus.summary.announcements.delete.success"))
     expect(page).not_to(have_text(@announcement_one.title))
   end
 
@@ -321,7 +321,7 @@ module CoronavirusFeatureSteps
   # Adding a timeline entry
 
   def and_i_add_a_new_timeline_entry
-    click_on(I18n.t("coronavirus.pages.timeline_entries.summary.add"))
+    click_on(I18n.t("coronavirus.summary.timeline_entries.add"))
   end
 
   def then_i_see_the_timeline_entry_form
@@ -397,13 +397,13 @@ module CoronavirusFeatureSteps
   def when_i_delete_a_timeline_entry
     stub_coronavirus_landing_page_content(@coronavirus_page)
 
-    page.accept_alert I18n.t("coronavirus.pages.timeline_entries.delete.confirm") do
+    page.accept_alert I18n.t("coronavirus.summary.timeline_entries.delete.confirm") do
       page.find("a[href=\"/coronavirus/landing/timeline_entries/#{@timeline_entry_one.id}\"]", text: "Delete").click
     end
   end
 
   def then_i_can_see_the_timeline_entry_has_been_deleted
-    expect(page).to have_text(I18n.t("coronavirus.pages.timeline_entries.delete.success"))
+    expect(page).to have_text(I18n.t("coronavirus.summary.timeline_entries.delete.success"))
     expect(page).not_to have_text(@timeline_entry_one.heading)
   end
 

@@ -8,6 +8,30 @@ en:
       subtopic_edit:
         accordions: "Edit %{page_name} accordions"
         something_else: Edit something else on the %{page_name}
+    summary:
+      timeline_entries:
+        title: Timeline entries
+        reorder: Reorder
+        add: Add timeline entry
+        delete:
+          confirm: Are you sure?
+          success: Timeline entry was successfully deleted.
+          failed: Timeline entry couldn't be deleted
+      sub_sections:
+        reorder: Reorder
+        add: Add accordion
+        delete:
+          confirm: Are you sure?
+          success: Sub-section was successfully deleted.
+          failed: Sub-section couldn't be deleted
+      announcements:
+        title: Announcements
+        reorder: Reorder
+        add: Add announcement
+        delete:
+          confirm: Are you sure?
+          success: Announcement was successfully deleted.
+          failed: Announcement couldn't be deleted
     pages:
       error:
         slug_unknown: ’%{slug}’ is not a valid page. Please select from one of those below.
@@ -26,10 +50,6 @@ en:
           failed:
             slug_unknown: Page could not be updated because the configuration cannot be found.
       announcements:
-        summary:
-          title: Announcements
-          reorder: Reorder
-          add: Add announcement
         form:
           title:
             label: Enter the title of the announcement
@@ -45,10 +65,6 @@ en:
         edit:
           title: Edit announcement
           success: Announcement was successfully updated.
-        delete:
-          confirm: Are you sure?
-          success: Announcement was successfully deleted.
-          failed: Announcement couldn't be deleted
         reorder:
           title: Reorder announcements
           success: Announcements were successfully reordered.
@@ -115,9 +131,6 @@ en:
         link_text: Coronavirus pages
         accordion_text: "%{coronavirus_page_name} accordions"
       sub_sections:
-        summary:
-          reorder: Reorder
-          add: Add accordion
         form:
           name_label: Accordion name
           content_label: Links and link text
@@ -128,20 +141,12 @@ en:
         edit:
           title: Edit guidance and support accordion
           success: Sub-section was successfully updated.
-        delete:
-          confirm: Are you sure?
-          success: Sub-section was successfully deleted.
-          failed: Sub-section couldn't be deleted
         reorder:
           title: "Reorder %{section} accordion"
           success: Sections were successfully reordered.
           failed: "Sorry! Sections have not been reordered: %{error}."
           hint_markdown: Use the up/down buttons on the right to reorder the sections, or click and hold on a section to reorder using drag and drop.
       timeline_entries:
-        summary:
-          title: Timeline entries
-          reorder: Reorder
-          add: Add timeline entry
         form:
           heading_label: Enter the heading of the timeline entry
           content_label: Content
@@ -151,10 +156,6 @@ en:
         edit:
           title: Edit timeline entry
           success: Timeline entry was successfully updated.
-        delete:
-          confirm: Are you sure?
-          success: Timeline entry was successfully deleted.
-          failed: Timeline entry couldn't be deleted
         reorder:
           title: Reorder timeline entries
           success: Timeline entries were successfully reordered.

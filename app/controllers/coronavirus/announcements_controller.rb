@@ -19,13 +19,13 @@ module Coronavirus
 
     def destroy
       announcement = page.announcements.find(params[:id])
-      message = { notice: I18n.t("coronavirus.pages.announcements.delete.success") }
+      message = { notice: I18n.t("coronavirus.summary.announcements.delete.success") }
 
       Announcement.transaction do
         announcement.destroy!
 
         unless draft_updater.send
-          message = { alert: I18n.t("coronavirus.pages.announcements.delete.failed") }
+          message = { alert: I18n.t("coronavirus.summary.announcements.delete.failed") }
           raise ActiveRecord::Rollback
         end
       end

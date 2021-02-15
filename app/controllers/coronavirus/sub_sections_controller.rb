@@ -33,13 +33,13 @@ module Coronavirus
 
     def destroy
       sub_section = page.sub_sections.find(params[:id])
-      message = { notice: I18n.t("coronavirus.pages.sub_sections.delete.success") }
+      message = { notice: I18n.t("coronavirus.summary.sub_sections.delete.success") }
 
       SubSection.transaction do
         sub_section.destroy!
 
         unless draft_updater.send
-          message = { alert: I18n.t("coronavirus.pages.sub_sections.delete.failed") }
+          message = { alert: I18n.t("coronavirus.summary.sub_sections.delete.failed") }
           raise ActiveRecord::Rollback
         end
       end
