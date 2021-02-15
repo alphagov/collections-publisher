@@ -32,6 +32,22 @@ en:
           confirm: Are you sure?
           success: Announcement was successfully deleted.
           failed: Announcement couldn't be deleted
+    sub_sections:
+      form:
+        name_label: Accordion name
+        content_label: Links and link text
+        featured_link_label: Featured link
+      new:
+        title: Add accordion
+        success: Sub-section was successfully created.
+      edit:
+        title: Edit guidance and support accordion
+        success: Sub-section was successfully updated.
+      reorder:
+        title: "Reorder %{section} accordion"
+        success: Sections were successfully reordered.
+        failed: "Sorry! Sections have not been reordered: %{error}."
+        hint_markdown: Use the up/down buttons on the right to reorder the sections, or click and hold on a section to reorder using drag and drop.
     announcements:
       form:
         title:
@@ -130,22 +146,6 @@ en:
       show:
         link_text: Coronavirus pages
         accordion_text: "%{coronavirus_page_name} accordions"
-      sub_sections:
-        form:
-          name_label: Accordion name
-          content_label: Links and link text
-          featured_link_label: Featured link
-        new:
-          title: Add accordion
-          success: Sub-section was successfully created.
-        edit:
-          title: Edit guidance and support accordion
-          success: Sub-section was successfully updated.
-        reorder:
-          title: "Reorder %{section} accordion"
-          success: Sections were successfully reordered.
-          failed: "Sorry! Sections have not been reordered: %{error}."
-          hint_markdown: Use the up/down buttons on the right to reorder the sections, or click and hold on a section to reorder using drag and drop.
       timeline_entries:
         form:
           heading_label: Enter the heading of the timeline entry
