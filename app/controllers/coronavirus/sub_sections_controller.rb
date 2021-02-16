@@ -23,11 +23,17 @@ module Coronavirus
 
     def update
       @sub_section = page.sub_sections.find(params[:id])
-      if @sub_section.update(sub_section_params) && draft_updater.send
-        redirect_to coronavirus_page_path(page.slug), notice: "Sub-section was successfully updated."
-      else
+
+      SubSection.transaction do
+        @sub_section.update!(sub_section_params)
+        raise ActiveRecord::Rollback unless draft_updater.send
+      end
+
+      if draft_updater.errors.any?
         @sub_section.errors.add :base, draft_updater.errors.to_sentence
         render :edit
+      else
+        redirect_to coronavirus_page_path(page.slug), { notice: "Sub-section was successfully updated." }
       end
     end
 

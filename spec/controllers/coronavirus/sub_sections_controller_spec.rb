@@ -144,6 +144,15 @@ RSpec.describe Coronavirus::SubSectionsController do
       expect(sub_section.title).to eq(title)
       expect(sub_section.content).to eq(content)
     end
+
+    context "given invalid content" do
+      let(:content) { "invalid content" }
+
+      it "doesn't change the subsection" do
+        expect { subject }.not_to(change { sub_section.reload.attributes })
+        expect(subject.body).to include("Unable to parse markdown")
+      end
+    end
   end
 
   describe "DELETE /coronavirus/:page_slug/sub_sections/:id" do
