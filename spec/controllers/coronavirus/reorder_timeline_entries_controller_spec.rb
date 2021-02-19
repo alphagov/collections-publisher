@@ -33,20 +33,14 @@ RSpec.describe Coronavirus::ReorderTimelineEntriesController do
     end
 
     it "reorders the timeline entries" do
-      timeline_entry_params = [
-        {
-          id: first_timeline_entry.id,
-          position: 2,
-        },
-        {
-          id: second_timeline_entry.id,
-          position: 1,
-        },
-      ]
+      timeline_entry_params = {
+        first_timeline_entry.id => 2,
+        second_timeline_entry.id => 1,
+      }
 
       put :update, params: {
         page_slug: page.slug,
-        timeline_entry_order_save: timeline_entry_params.to_json,
+        timeline_entry_order_save: timeline_entry_params,
       }
 
       expect(first_timeline_entry.reload.position).to eq 2
@@ -55,20 +49,14 @@ RSpec.describe Coronavirus::ReorderTimelineEntriesController do
     end
 
     it "keeps the existing order if submitted without changes" do
-      timeline_entry_params = [
-        {
-          id: first_timeline_entry.id,
-          position: 1,
-        },
-        {
-          id: second_timeline_entry.id,
-          position: 2,
-        },
-      ]
+      timeline_entry_params = {
+        first_timeline_entry.id => 1,
+        second_timeline_entry.id => 2,
+      }
 
       put :update, params: {
         page_slug: page.slug,
-        timeline_entry_order_save: timeline_entry_params.to_json,
+        timeline_entry_order_save: timeline_entry_params,
       }
 
       expect(first_timeline_entry.reload.position).to eq 1
@@ -79,25 +67,37 @@ RSpec.describe Coronavirus::ReorderTimelineEntriesController do
     it "keeps the existing order if updating the draft fails" do
       stub_publishing_api_isnt_available
 
-      timeline_entry_params = [
-        {
-          id: first_timeline_entry.id,
-          position: 2,
-        },
-        {
-          id: second_timeline_entry.id,
-          position: 1,
-        },
-      ]
+      timeline_entry_params = {
+        first_timeline_entry.id => 2,
+        second_timeline_entry.id => 1,
+      }
 
       put :update, params: {
         page_slug: page.slug,
-        timeline_entry_order_save: timeline_entry_params.to_json,
+        timeline_entry_order_save: timeline_entry_params,
       }
 
       expect(first_timeline_entry.reload.position).to eq 1
       expect(second_timeline_entry.reload.position).to eq 2
       expect(response).to redirect_to(reorder_coronavirus_page_timeline_entries_path(page.slug))
+    end
+
+    context "when a user manually enters an unconventional ordering approach" do
+      it "applies our expected incremental ordering" do
+        timeline_entry_params = {
+          first_timeline_entry.id => 50,
+          second_timeline_entry.id => 100,
+        }
+
+        put :update, params: {
+          page_slug: page.slug,
+          timeline_entry_order_save: timeline_entry_params,
+        }
+
+        expect(first_timeline_entry.reload.position).to eq 1
+        expect(second_timeline_entry.reload.position).to eq 2
+        expect(response).to redirect_to(coronavirus_page_path(page.slug))
+      end
     end
   end
 end

@@ -20,10 +20,9 @@
 <div class="covid-manage-page govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render_markdown t("coronavirus.pages.timeline_entries.reorder.form.markdown_hint") %>
-    <%= render "reorder_list" %>
 
     <%= form_with method: :put, url: reorder_coronavirus_page_timeline_entries_path do |form| %>
-      <input type="hidden" name="timeline_entry_order_save" id="js_order_save" value="" />
+      <%= render "reorder_list" %>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
           <%= render "govuk_publishing_components/components/button", {

@@ -20,10 +20,9 @@
 <div class="covid-manage-page govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render_markdown "Use the up/down buttons on the right to reorder the announcements, or click and hold on a section to reorder using drag and drop." %>
-    <%= render "reorder_list" %>
 
     <%= form_for(@page, url: reorder_coronavirus_page_announcements_path, method: :put) do |form| %>
-      <input type="hidden" name="announcement_order_save" id="js_order_save" value="" />
+      <%= render "reorder_list" %>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
           <%= render "govuk_publishing_components/components/button", {
