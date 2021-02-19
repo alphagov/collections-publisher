@@ -1,0 +1,81 @@
+<% content_for :title, "Edit the #{@page.name}" %>
+<% content_for :context, "www.gov.uk#{@page.base_path}" %>
+<%= render "govuk_publishing_components/components/lead_paragraph", {
+  text: t("coronavirus.pages.prepare.lead_paragraph", coronavirus_page_name: @page.name)
+} %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("coronavirus.pages.github.update_heading"),
+      padding: true
+    } %>
+    <p class="govuk-body govuk-!-padding-bottom-1">
+      <%= t("coronavirus.pages.github.update_sub_heading_html", github_url: @page.github_url) %>
+    </p>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("coronavirus.pages.github.review_heading"),
+      padding: true
+    } %>
+    <p class="govuk-body govuk-!-padding-bottom-1">
+      <%= t("coronavirus.pages.github.approve_sub_heading") %>
+    </p>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("coronavirus.pages.draft.heading"),
+      padding: true
+    } %>
+    <%= form_with(url: github_changes_update_coronavirus_page_path(@page.slug)) do %>
+      <%= render "govuk_publishing_components/components/button", {
+          text: t("coronavirus.pages.draft.button_text"),
+          margin_bottom: true
+      } %>
+    <% end %>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("coronavirus.pages.preview.heading"),
+      padding: true
+    } %>
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("coronavirus.pages.preview.button_text"),
+        href: draft_govuk_url(@page.base_path),
+        target: "_blank",
+        secondary: true,
+        margin_bottom: true,
+      } %>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("coronavirus.pages.publish.heading"),
+      padding: true
+    } %>
+    <%= form_with(url: github_changes_publish_coronavirus_page_path(@page.slug)) do %>
+      <%= render "govuk_publishing_components/components/radio", {
+        name: "update-type",
+        heading: t("coronavirus.pages.publish.radio_heading"),
+        heading_size: "s",
+        small: true,
+        items: [
+          {
+            value: "minor",
+            text: t("coronavirus.pages.publish.minor_type"),
+            checked: true
+          },
+          {
+            value: "major",
+            text: t("coronavirus.pages.publish.major_type")
+          }
+        ]
+      } %>
+      <%= render "govuk_publishing_components/components/button", {
+          text: t("coronavirus.pages.publish.button_text"),
+          margin_bottom: true,
+      } %>
+    <% end %>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("coronavirus.pages.live.heading"),
+      padding: true
+    } %>
+    <%= render "govuk_publishing_components/components/button", {
+        text: t("coronavirus.pages.live.button_text"),
+        href: published_url(@page.base_path.delete_prefix("/")),
+        target: "_blank",
+        secondary: true
+      } %>
+  </div>
+</div>
