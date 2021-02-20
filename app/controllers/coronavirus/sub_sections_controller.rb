@@ -9,11 +9,22 @@ module Coronavirus
 
     def create
       @sub_section = page.sub_sections.new(sub_section_params)
-      if @sub_section.save && draft_updater.send
-        redirect_to coronavirus_page_path(page.slug), notice: "Sub-section was successfully created."
-      else
-        @sub_section.errors.add :base, draft_updater.errors.to_sentence
+
+      unless @sub_section.valid?
         render :new
+        return
+      end
+
+      SubSection.transaction do
+        @sub_section.save!
+        raise ActiveRecord::Rollback unless draft_updater.send
+      end
+
+      if draft_updater.errors.any?
+        flash.now["alert"] = draft_updater.errors.to_sentence
+        render :new
+      else
+        redirect_to coronavirus_page_path(page.slug), { notice: "Sub-section was successfully created." }
       end
     end
 

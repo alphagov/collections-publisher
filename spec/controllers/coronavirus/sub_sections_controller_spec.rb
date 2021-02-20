@@ -70,6 +70,10 @@ RSpec.describe Coronavirus::SubSectionsController do
     context "subsection content error" do
       let(:content) { "bad_content" }
 
+      it "doesn't save to the database" do
+        expect { subject }.not_to(change { Coronavirus::SubSection.count })
+      end
+
       it "successfully renders error on edit page" do
         expect(subject).to have_http_status(:success)
       end
