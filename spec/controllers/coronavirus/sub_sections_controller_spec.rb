@@ -157,6 +157,13 @@ RSpec.describe Coronavirus::SubSectionsController do
         expect(subject.body).to include("Unable to parse markdown")
       end
     end
+
+    context "given a featured link that is not in the content" do
+      it "displays the expected error" do
+        sub_section_params.merge!(featured_link: "/banana")
+        expect(subject.body).to include("Featured link does not exist in accordion content")
+      end
+    end
   end
 
   describe "DELETE /coronavirus/:page_slug/sub_sections/:id" do
