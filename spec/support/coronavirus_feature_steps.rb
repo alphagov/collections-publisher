@@ -605,8 +605,8 @@ module CoronavirusFeatureSteps
     expect(current_path).to eq("/coronavirus/landing")
   end
 
-  def and_i_remain_on_the_coronavirus_prepare_page
-    expect(current_path).to eq("/coronavirus/landing/prepare")
+  def and_i_remain_on_the_coronavirus_github_changes_page
+    expect(current_path).to eq("/coronavirus/landing/github_changes")
   end
 
   def and_i_see_a_page_published_message

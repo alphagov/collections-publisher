@@ -102,7 +102,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         and_i_select_landing_page
         and_i_choose_a_major_update
         and_i_publish_the_page
-        and_i_remain_on_the_coronavirus_prepare_page
+        and_i_remain_on_the_coronavirus_github_changes_page
         then_the_page_publishes
         and_i_see_a_page_published_message
       end
