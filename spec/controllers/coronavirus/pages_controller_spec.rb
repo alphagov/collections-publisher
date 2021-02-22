@@ -30,42 +30,6 @@ RSpec.describe Coronavirus::PagesController do
     end
   end
 
-  describe "GET /coronavirus/:slug/prepare" do
-    subject { get :prepare, params: { slug: slug } }
-    it "renders page successfuly" do
-      stub_request(:get, raw_content_url_regex)
-        .to_return(status: 200)
-      expect(subject).to have_http_status(:success)
-    end
-
-    it "does not create a new page" do
-      expect { subject }.not_to(change { Coronavirus::Page.count })
-    end
-
-    context "with unknown slug" do
-      let(:slug) { :unknown }
-      it "redirects to index" do
-        expect(subject).to redirect_to(coronavirus_pages_path)
-      end
-    end
-
-    context "with a new known page" do
-      let!(:page) { build :coronavirus_page, :of_known_type }
-
-      it "renders page successfuly" do
-        stub_request(:get, raw_content_url_regex)
-          .to_return(status: 200, body: raw_content)
-        expect(subject).to have_http_status(:success)
-      end
-
-      it "creates a new page" do
-        stub_request(:get, raw_content_url_regex)
-          .to_return(status: 200, body: raw_content)
-        expect { subject }.to (change { Coronavirus::Page.count }).by(1)
-      end
-    end
-  end
-
   describe "GET /coronavirus/:slug" do
     it "renders page successfuly" do
       get :show, params: { slug: page.slug }

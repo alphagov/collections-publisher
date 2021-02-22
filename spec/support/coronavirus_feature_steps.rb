@@ -187,7 +187,7 @@ module CoronavirusFeatureSteps
   end
 
   def when_i_visit_a_non_existent_page
-    visit "/coronavirus/flimflam/prepare"
+    visit "/coronavirus/flimflam"
   end
 
   def when_i_visit_a_coronavirus_page

@@ -23,9 +23,8 @@ Rails.application.routes.draw do
 
     resources :pages,
               path: "",
-              only: %i[index show update],
+              only: %i[index show],
               param: :slug do
-      get "prepare", on: :member
       get "discard", on: :member
       post "publish", to: "pages#publish", on: :member
 
