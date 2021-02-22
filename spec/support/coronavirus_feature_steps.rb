@@ -578,7 +578,7 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_a_draft_updated_message
-    expect(page).to have_text("Draft content updated")
+    expect(page).to have_text(I18n.t("coronavirus.github_changes.update.success"))
   end
 
   def and_i_choose_a_major_update

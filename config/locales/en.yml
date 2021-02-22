@@ -1,5 +1,11 @@
 en:
   coronavirus:
+    github_changes:
+      update:
+        success: Draft content updated
+      publish:
+        success: Page published!
+        failed: You have already published this page.
     live_stream:
       index:
         title: Update live stream URL

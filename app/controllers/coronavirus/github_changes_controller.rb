@@ -9,7 +9,7 @@ module Coronavirus
 
     def update
       message = if draft_updater.send
-                  { notice: "Draft content updated" }
+                  { notice: helpers.t("coronavirus.github_changes.update.success") }
                 else
                   { alert: draft_updater.errors.to_sentence }
                 end
@@ -35,9 +35,9 @@ module Coronavirus
     def publish_page
       Services.publishing_api.publish(page.content_id, update_type)
       page.update!(state: "published")
-      flash["notice"] = "Page published!"
+      flash["notice"] = helpers.t("coronavirus.github_changes.publish.success")
     rescue GdsApi::HTTPConflict
-      flash["alert"] = "You have already published this page."
+      flash["alert"] = helpers.t("coronavirus.github_changes.publish.failed")
     end
 
     def update_type
