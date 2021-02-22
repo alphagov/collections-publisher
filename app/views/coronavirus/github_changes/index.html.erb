@@ -1,78 +1,78 @@
 <% content_for :title, "Edit the #{@page.name}" %>
 <% content_for :context, "www.gov.uk#{@page.base_path}" %>
 <%= render "govuk_publishing_components/components/lead_paragraph", {
-  text: t("coronavirus.pages.prepare.lead_paragraph", coronavirus_page_name: @page.name)
+  text: t("coronavirus.github_changes.index.description", coronavirus_page_name: @page.name)
 } %>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("coronavirus.pages.github.update_heading"),
+      text: t("coronavirus.github_changes.index.instructions.one.step"),
       padding: true
     } %>
     <p class="govuk-body govuk-!-padding-bottom-1">
-      <%= t("coronavirus.pages.github.update_sub_heading_html", github_url: @page.github_url) %>
+      <%= t("coronavirus.github_changes.index.instructions.one.description_html", github_url: @page.github_url) %>
     </p>
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("coronavirus.pages.github.review_heading"),
+      text: t("coronavirus.github_changes.index.instructions.two.step"),
       padding: true
     } %>
     <p class="govuk-body govuk-!-padding-bottom-1">
-      <%= t("coronavirus.pages.github.approve_sub_heading") %>
+      <%= t("coronavirus.github_changes.index.instructions.two.description") %>
     </p>
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("coronavirus.pages.draft.heading"),
+      text: t("coronavirus.github_changes.index.instructions.three.step"),
       padding: true
     } %>
     <%= form_with(url: github_changes_update_coronavirus_page_path(@page.slug)) do %>
       <%= render "govuk_publishing_components/components/button", {
-          text: t("coronavirus.pages.draft.button_text"),
+          text: t("coronavirus.github_changes.index.instructions.three.button_text"),
           margin_bottom: true
       } %>
     <% end %>
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("coronavirus.pages.preview.heading"),
+      text: t("coronavirus.github_changes.index.instructions.four.step"),
       padding: true
     } %>
       <%= render "govuk_publishing_components/components/button", {
-        text: t("coronavirus.pages.preview.button_text"),
+        text: t("coronavirus.github_changes.index.instructions.four.button_text"),
         href: draft_govuk_url(@page.base_path),
         target: "_blank",
         secondary: true,
         margin_bottom: true,
       } %>
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("coronavirus.pages.publish.heading"),
+      text: t("coronavirus.github_changes.index.instructions.five.step"),
       padding: true
     } %>
     <%= form_with(url: github_changes_publish_coronavirus_page_path(@page.slug)) do %>
       <%= render "govuk_publishing_components/components/radio", {
         name: "update-type",
-        heading: t("coronavirus.pages.publish.radio_heading"),
+        heading: t("coronavirus.github_changes.index.instructions.five.radio_heading"),
         heading_size: "s",
         small: true,
         items: [
           {
             value: "minor",
-            text: t("coronavirus.pages.publish.minor_type"),
+            text: t("coronavirus.github_changes.index.instructions.five.radio_options.minor"),
             checked: true
           },
           {
             value: "major",
-            text: t("coronavirus.pages.publish.major_type")
+            text: t("coronavirus.github_changes.index.instructions.five.radio_options.major")
           }
         ]
       } %>
       <%= render "govuk_publishing_components/components/button", {
-          text: t("coronavirus.pages.publish.button_text"),
+          text: t("coronavirus.github_changes.index.instructions.five.button_text"),
           margin_bottom: true,
       } %>
     <% end %>
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("coronavirus.pages.live.heading"),
+      text: t("coronavirus.github_changes.index.instructions.six.step"),
       padding: true
     } %>
     <%= render "govuk_publishing_components/components/button", {
-        text: t("coronavirus.pages.live.button_text"),
+        text: t("coronavirus.github_changes.index.instructions.six.button_text"),
         href: published_url(@page.base_path.delete_prefix("/")),
         target: "_blank",
         secondary: true
