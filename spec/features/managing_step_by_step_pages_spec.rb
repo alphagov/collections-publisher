@@ -600,7 +600,7 @@ RSpec.feature "Managing step by step pages" do
       content_items: step_link_fixtures_content_items,
     )
     visit step_by_step_page_reorder_path(@step_by_step_page)
-    find(".js-reorder:first-child .js-down").click
+    all("button", text: "Down").first.click
     click_button "Save"
     expect(page).to have_content "Steps were successfully reordered."
     and_i_should_be_on_the_step_by_step_page
