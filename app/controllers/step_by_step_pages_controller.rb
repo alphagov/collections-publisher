@@ -23,11 +23,14 @@ class StepByStepPagesController < ApplicationController
   def reorder
     set_current_page_as_step_by_step
     if request.post? && params.key?(:step_order_save)
-      reordered_steps = JSON.parse(params[:step_order_save])
-      reordered_steps.each do |step_data|
-        step = @step_by_step_page.steps.find(step_data["id"])
-        step.update!(position: step_data["position"])
+      reordered_steps = @step_by_step_page.steps.sort_by do |step|
+        params.require(:step_order_save).fetch(step.id.to_s, step.position).to_i
       end
+
+      reordered_steps.each.with_index(1) do |step, index|
+        step.update!(position: index)
+      end
+
       StepByStepUpdater.call(@step_by_step_page, current_user)
       redirect_to @step_by_step_page, notice: "Steps were successfully reordered."
     end
