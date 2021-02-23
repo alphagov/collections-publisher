@@ -15,8 +15,3 @@
 
 //= require components/markdown-editor.js
 //= require components/reorderable-list.js
-//= require sections.js
-
-$(document).ready(function () {
-  GOVUK.sectionPublisher.init()
-})

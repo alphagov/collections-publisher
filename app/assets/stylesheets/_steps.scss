@@ -31,12 +31,6 @@ $dark-grey-2: #6f777b;
   background-color: govuk-colour("light-grey");
 }
 
-// hide up button in first row and down button in last row
-.js-reorder:first-of-type .js-up,
-.js-reorder:last-of-type .js-down {
-  visibility: hidden;
-}
-
 .nav.step-by-step-tabs {
   margin-bottom: 2em;
 
@@ -56,27 +50,6 @@ $dark-grey-2: #6f777b;
 .table-stepnav-rules .checkbox,
 .table-stepnav-rules .checkbox label {
   margin-top: 0;
-}
-
-.js-reorder {
-  cursor: pointer;
-}
-
-.drag-and-drop-icon {
-  padding: 10px 0;
-  margin-left: .5em;
-  margin-right: -.5em;
-  line-height: 20px;
-  vertical-align: middle;
-}
-
-.js-reorder-ui-state-highlight {
-  box-sizing: border-box;
-  background-color: $light-grey;
-  margin: 1em 0;
-  border: 1px dashed $black;
-  border-radius: 4px;
-  min-height: 60px;
 }
 
 .broken-links-accordion__title {
@@ -157,17 +130,5 @@ $dark-grey-2: #6f777b;
 
   .gem-c-button {
     display: inline-block;
-  }
-}
-
-.step-by-step-reorder__list {
-  .js-reorder {
-    padding: 20px;
-    border: 1px solid $dark-grey-2;
-    background-color: govuk-colour("white");
-  }
-
-  .step-by-step-reorder__step-title {
-    line-height: 2;
   }
 }
