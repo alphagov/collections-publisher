@@ -11,7 +11,7 @@ module Coronavirus
       @sub_section = page.sub_sections.new(sub_section_params)
 
       unless @sub_section.valid?
-        render :new
+        render :new, status: :unprocessable_entity
         return
       end
 
@@ -22,7 +22,7 @@ module Coronavirus
 
       if draft_updater.errors.any?
         flash.now["alert"] = draft_updater.errors.to_sentence
-        render :new
+        render :new, status: :internal_server_error
       else
         redirect_to coronavirus_page_path(page.slug), { notice: "Sub-section was successfully created." }
       end
@@ -37,7 +37,7 @@ module Coronavirus
       @sub_section.assign_attributes(sub_section_params)
 
       unless @sub_section.valid?
-        render :edit
+        render :edit, status: :unprocessable_entity
         return
       end
 
@@ -48,7 +48,7 @@ module Coronavirus
 
       if draft_updater.errors.any?
         flash.now["alert"] = draft_updater.errors.to_sentence
-        render :edit
+        render :edit, status: :internal_server_error
       else
         redirect_to coronavirus_page_path(page.slug), { notice: "Sub-section was successfully updated." }
       end
