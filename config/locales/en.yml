@@ -68,15 +68,6 @@ en:
         success: New live stream url published!
         failed: Live stream url has not been published - please try again
     pages:
-      actions:
-        discard_changes: Discard changes
-        view_on_govuk: View on GOV.UK
-        preview: Preview
-        publish: Publish
-      announcements:
-        confirm: Are you sure?
-        reorder: Reorder
-        add: Add announcement
       index:
         landing_page_edit:
           accordions: Edit landing page accordions, announcements and timeline
@@ -86,11 +77,24 @@ en:
           accordions: "Edit %{page_name} accordions"
           something_else: Edit something else on the %{page_name}
       show:
+        actions:
+          discard_changes: Discard changes
+          view_on_govuk: View on GOV.UK
+          preview: Preview
+          publish: Publish
         link_text: Coronavirus pages
-      sub_sections:
-        confirm: Are you sure?
-        reorder: Reorder
-        add: Add accordion
+        timeline_entries:
+          confirm: Are you sure?
+          reorder: Reorder
+          add: Add timeline entry
+        sub_sections:
+          confirm: Are you sure?
+          reorder: Reorder
+          add: Add accordion
+        announcements:
+          confirm: Are you sure?
+          reorder: Reorder
+          add: Add announcement
       timeline_entries:
         delete:
           success: Timeline entry was successfully deleted.
