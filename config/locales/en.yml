@@ -1,13 +1,26 @@
 en:
   coronavirus:
     announcements:
+      new:
+        title: Add announcement
       create:
         success: Announcement was successfully created.
+      edit:
+        title: Edit announcement
       destroy:
         success: Announcement was successfully deleted.
         failed: Announcement couldn't be deleted
       update:
         success: Announcement was successfully updated.
+      form:
+        title:
+          label: Enter the title of the announcement
+        path:
+          label: Enter the path to the announcement
+          hint: "Example format: /government/news/coronavirus-covid-19"
+        date:
+          legend: Enter the date of publication
+          hint: For example, 31 3 2020
     github_changes:
       index:
         description: "Follow the steps below to make changes to any part of the %{coronavirus_page_name}, except the accordions."
