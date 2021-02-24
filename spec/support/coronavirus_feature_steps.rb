@@ -187,7 +187,7 @@ module CoronavirusFeatureSteps
   end
 
   def when_i_visit_a_non_existent_page
-    visit "/coronavirus/flimflam/prepare"
+    visit "/coronavirus/flimflam"
   end
 
   def when_i_visit_a_coronavirus_page
@@ -531,24 +531,24 @@ module CoronavirusFeatureSteps
   end
 
   def i_see_an_update_draft_button
-    expect(page).to have_button("Update draft")
+    expect(page).to have_button(I18n.t("coronavirus.github_changes.index.instructions.three.button_text"))
   end
 
   def and_a_preview_button
-    expect(page).to have_link("Preview")
-    expect(find_link("Preview")[:target]).to eq("_blank")
+    expect(page).to have_link(I18n.t("coronavirus.github_changes.index.instructions.four.button_text"))
+    expect(find_link(I18n.t("coronavirus.github_changes.index.instructions.four.button_text"))[:target]).to eq("_blank")
   end
 
   def and_a_publish_button
-    expect(page).to have_button("Publish")
+    expect(page).to have_button(I18n.t("coronavirus.github_changes.index.instructions.five.button_text"))
   end
 
   def and_a_view_live_business_content_button
-    expect(page).to have_link("View live version", href: "https://www.test.gov.uk/coronavirus/business-support")
+    expect(page).to have_link(I18n.t("coronavirus.github_changes.index.instructions.six.button_text"), href: "https://www.test.gov.uk/coronavirus/business-support")
   end
 
   def and_i_push_a_new_draft_version
-    click_on("Update draft")
+    click_on(I18n.t("coronavirus.github_changes.index.instructions.three.button_text"))
   end
 
   def and_i_push_a_new_draft_version_with_invalid_content
@@ -578,15 +578,15 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_a_draft_updated_message
-    expect(page).to have_text("Draft content updated")
+    expect(page).to have_text(I18n.t("coronavirus.github_changes.update.success"))
   end
 
   def and_i_choose_a_major_update
-    choose("Major")
+    choose(I18n.t("coronavirus.github_changes.index.instructions.five.radio_options.major"))
   end
 
   def and_i_publish_the_page
-    click_on("Publish")
+    click_on(I18n.t("coronavirus.github_changes.index.instructions.five.button_text"))
   end
 
   def then_the_page_publishes
@@ -605,8 +605,8 @@ module CoronavirusFeatureSteps
     expect(current_path).to eq("/coronavirus/landing")
   end
 
-  def and_i_remain_on_the_coronavirus_prepare_page
-    expect(current_path).to eq("/coronavirus/landing/prepare")
+  def and_i_remain_on_the_coronavirus_github_changes_page
+    expect(current_path).to eq("/coronavirus/landing/github_changes")
   end
 
   def and_i_see_a_page_published_message
