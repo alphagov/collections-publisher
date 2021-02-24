@@ -32,6 +32,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
     end
 
     scenario "Publishing landing page" do
+      given_there_is_a_coronavirus_page
       when_i_visit_a_coronavirus_page
       and_i_publish_the_page
       then_the_page_publishes_a_minor_update
@@ -54,7 +55,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
     end
 
     scenario "Discarding changes" do
-      stub_live_sub_sections_content_request(coronavirus_content_id)
+      given_there_is_a_published_coronavirus_page
       stub_discard_coronavirus_page_no_draft
       when_i_visit_a_coronavirus_page
       and_i_see_state_is_published

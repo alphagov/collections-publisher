@@ -16,7 +16,7 @@ module Coronavirus
 
     def publish
       publish_page
-      redirect_to coronavirus_page_path(slug)
+      redirect_to coronavirus_page_path(page.slug)
     end
 
     def discard
@@ -26,13 +26,13 @@ module Coronavirus
       else
         message = { alert: draft_updater.errors.to_sentence }
       end
-      redirect_to coronavirus_page_path(slug), message
+      redirect_to coronavirus_page_path(page.slug), message
     end
 
   private
 
     def page
-      @page ||= Pages::ModelBuilder.call(slug)
+      @page ||= Page.find_by(slug: slug)
     end
 
     def draft_updater
