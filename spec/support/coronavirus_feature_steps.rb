@@ -441,7 +441,7 @@ module CoronavirusFeatureSteps
   end
 
   def stub_discard_subsection_changes
-    stub_publishing_api_discard_draft(Coronavirus::Page.topic_page.first.content_id)
+    stub_publishing_api_discard_draft(@coronavirus_page.content_id)
   end
 
   def stub_discard_coronavirus_page_draft
@@ -470,7 +470,7 @@ module CoronavirusFeatureSteps
       "list" => [
         {
           "label" => "label",
-          "url" => "/url?priority-taxon=#{Coronavirus::Page.topic_page.first.content_id}",
+          "url" => "/url?priority-taxon=#{@coronavirus_page.content_id}",
         },
       ],
     }
@@ -494,7 +494,7 @@ module CoronavirusFeatureSteps
     end
 
     assert_publishing_api_put_content(
-      Coronavirus::Page.topic_page.first.content_id,
+      @coronavirus_page.content_id,
       lambda do |request|
         details = JSON.parse(request.body)["details"]
         expect(details).to match hash_including({
@@ -515,7 +515,7 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_state_is_draft
-    expect(Coronavirus::Page.topic_page.first.state).to eq "draft"
+    expect(@coronavirus_page.reload.state).to eq "draft"
     expect(page).to have_text("Status: Draft", normalize_ws: true)
   end
 
