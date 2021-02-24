@@ -54,21 +54,10 @@ module Coronavirus
 
     def publish_page
       Services.publishing_api.publish(page.content_id, "minor")
-      change_state("published")
+      page.update!(state: "published")
       flash["notice"] = "Page published!"
     rescue GdsApi::HTTPConflict
       flash["alert"] = "You have already published this page."
-    end
-
-    def with_longer_timeout
-      prior_timeout = Services.publishing_api.client.options[:timeout]
-      Services.publishing_api.client.options[:timeout] = 10
-
-      begin
-        yield
-      ensure
-        Services.publishing_api.client.options[:timeout] = prior_timeout
-      end
     end
 
     def slug
@@ -81,10 +70,6 @@ module Coronavirus
 
     def page_configs
       Pages::Configuration.all_pages
-    end
-
-    def change_state(state)
-      page.update(state: state)
     end
   end
 end
