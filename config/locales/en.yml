@@ -1,5 +1,13 @@
 en:
   coronavirus:
+    announcements:
+      create:
+        success: Announcement was successfully created.
+      destroy:
+        success: Announcement was successfully deleted.
+        failed: Announcement couldn't be deleted
+      update:
+        success: Announcement was successfully updated.
     github_changes:
       index:
         description: "Follow the steps below to make changes to any part of the %{coronavirus_page_name}, except the accordions."

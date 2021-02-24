@@ -295,7 +295,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_an_announcement_has_been_deleted
-    expect(page).to have_text("Announcement was successfully deleted.")
+    expect(page).to have_text(I18n.t("coronavirus.announcements.destroy.success"))
     expect(page).not_to(have_text(@announcement_one.title))
   end
 
@@ -314,7 +314,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_that_the_announcement_has_been_updated
-    expect(page).to have_content("Announcement was successfully updated.")
+    expect(page).to have_content(I18n.t("coronavirus.announcements.update.success"))
     expect(page).to have_content("Updated title")
   end
 
