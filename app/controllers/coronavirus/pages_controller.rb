@@ -31,25 +31,12 @@ module Coronavirus
 
   private
 
-    def initialise_pages
-      page_configs.keys.map do |page|
-        Pages::ModelBuilder.new(page.to_s).page
-      end
-    end
-
     def page
       @page ||= Pages::ModelBuilder.call(slug)
     end
 
     def draft_updater
       @draft_updater ||= Pages::DraftUpdater.new(page)
-    end
-
-    def redirect_to_index_if_slug_unknown
-      if slug_unknown?
-        flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
-        redirect_to coronavirus_pages_path
-      end
     end
 
     def publish_page
@@ -64,8 +51,21 @@ module Coronavirus
       params[:slug]
     end
 
+    def redirect_to_index_if_slug_unknown
+      if slug_unknown?
+        flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
+        redirect_to coronavirus_pages_path
+      end
+    end
+
     def slug_unknown?
       !page_configs.key?(slug.to_sym)
+    end
+
+    def initialise_pages
+      page_configs.keys.map do |page_config|
+        Pages::ModelBuilder.new(page_config.to_s).page
+      end
     end
 
     def page_configs
