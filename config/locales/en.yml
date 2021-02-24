@@ -113,6 +113,7 @@ en:
           reorder: Reorder
           add: Add accordion
         announcements:
+          title: Announcements
           confirm: Are you sure?
           reorder: Reorder
           add: Add announcement
