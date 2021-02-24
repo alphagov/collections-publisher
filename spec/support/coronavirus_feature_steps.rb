@@ -190,10 +190,6 @@ module CoronavirusFeatureSteps
     visit "/coronavirus"
   end
 
-  def when_i_visit_a_non_existent_page
-    visit "/coronavirus/flimflam"
-  end
-
   def when_i_visit_a_coronavirus_page
     visit "/coronavirus/landing"
   end
@@ -525,14 +521,6 @@ module CoronavirusFeatureSteps
 
   def i_see_error_message_no_changes_to_discard
     expect(page).to have_text("You do not have a draft to discard")
-  end
-
-  def then_i_am_redirected_to_the_index_page
-    expect(current_path).to eq("/coronavirus")
-  end
-
-  def and_i_see_a_message_telling_me_that_the_page_does_not_exist
-    expect(page).to have_text("'flimflam' is not a valid page")
   end
 
   def i_see_an_update_draft_button

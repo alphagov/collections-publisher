@@ -245,12 +245,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         and_i_see_a_page_published_message
       end
 
-      scenario "Unconfigured page" do
-        when_i_visit_a_non_existent_page
-        then_i_am_redirected_to_the_index_page
-        and_i_see_a_message_telling_me_that_the_page_does_not_exist
-      end
-
       scenario "Viewing announcements" do
         when_i_visit_the_coronavirus_index_page
         and_i_select_business_page

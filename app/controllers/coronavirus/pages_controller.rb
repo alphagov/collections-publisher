@@ -1,7 +1,6 @@
 module Coronavirus
   class PagesController < ApplicationController
     before_action :require_coronavirus_editor_permissions!
-    before_action :redirect_to_index_if_slug_unknown, only: %w[show]
     before_action :initialise_pages, only: %w[index]
     layout "admin_layout"
 
@@ -32,7 +31,7 @@ module Coronavirus
   private
 
     def page
-      @page ||= Page.find_by(slug: slug)
+      @page ||= Page.find_by!(slug: params[:slug])
     end
 
     def draft_updater
@@ -45,21 +44,6 @@ module Coronavirus
       flash["notice"] = "Page published!"
     rescue GdsApi::HTTPConflict
       flash["alert"] = "You have already published this page."
-    end
-
-    def slug
-      params[:slug]
-    end
-
-    def redirect_to_index_if_slug_unknown
-      if slug_unknown?
-        flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
-        redirect_to coronavirus_pages_path
-      end
-    end
-
-    def slug_unknown?
-      !page_configs.key?(slug.to_sym)
     end
 
     def initialise_pages
