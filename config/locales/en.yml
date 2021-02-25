@@ -125,13 +125,22 @@ en:
           form:
             markdown_hint: Use the up/down buttons on the right to reorder the timeline entries, or click and hold on a section to reorder using drag and drop.
     timeline_entries:
+      new:
+        title: Add timeline entry
       create:
         success: Timeline entry was successfully created.
+      edit:
+        title: Edit timeline entry
       update:
         success: Timeline entry was successfully updated.
       destroy:
         success: Timeline entry was successfully deleted.
         failed: Timeline entry couldn't be deleted
+      form:
+        heading:
+          label: Enter the heading of the timeline entry
+        content:
+          label: Content
   step_by_step_page:
     statuses:
       draft: Draft

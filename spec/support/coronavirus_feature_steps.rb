@@ -325,8 +325,8 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_see_the_timeline_entry_form
-    expect(page).to have_text("Enter the heading of the timeline entry")
-    expect(page).to have_text("Content")
+    expect(page).to have_text(I18n.t("coronavirus.timeline_entries.form.heading.label"))
+    expect(page).to have_text(I18n.t("coronavirus.timeline_entries.form.content.label"))
   end
 
   def when_i_fill_in_the_timeline_entry_form_with_valid_data
