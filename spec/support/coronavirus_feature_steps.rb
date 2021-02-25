@@ -403,7 +403,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_the_timeline_entry_has_been_deleted
-    expect(page).to have_text(I18n.t("coronavirus.pages.timeline_entries.delete.success"))
+    expect(page).to have_text(I18n.t("coronavirus.timeline_entries.destroy.success"))
     expect(page).not_to have_text(@timeline_entry_one.heading)
   end
 
