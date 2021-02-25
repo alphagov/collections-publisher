@@ -9,11 +9,22 @@ module Coronavirus
 
     def create
       @sub_section = page.sub_sections.new(sub_section_params)
-      if @sub_section.save && draft_updater.send
-        redirect_to coronavirus_page_path(page.slug), notice: "Sub-section was successfully created."
+
+      unless @sub_section.valid?
+        render :new, status: :unprocessable_entity
+        return
+      end
+
+      SubSection.transaction do
+        @sub_section.save!
+        raise ActiveRecord::Rollback unless draft_updater.send
+      end
+
+      if draft_updater.errors.any?
+        flash.now["alert"] = draft_updater.errors.to_sentence
+        render :new, status: :internal_server_error
       else
-        @sub_section.errors.add :base, draft_updater.errors.to_sentence
-        render :new
+        redirect_to coronavirus_page_path(page.slug), { notice: "Sub-section was successfully created." }
       end
     end
 
@@ -23,15 +34,21 @@ module Coronavirus
 
     def update
       @sub_section = page.sub_sections.find(params[:id])
+      @sub_section.assign_attributes(sub_section_params)
+
+      unless @sub_section.valid?
+        render :edit, status: :unprocessable_entity
+        return
+      end
 
       SubSection.transaction do
-        @sub_section.update!(sub_section_params)
+        @sub_section.save!
         raise ActiveRecord::Rollback unless draft_updater.send
       end
 
       if draft_updater.errors.any?
-        @sub_section.errors.add :base, draft_updater.errors.to_sentence
-        render :edit
+        flash.now["alert"] = draft_updater.errors.to_sentence
+        render :edit, status: :internal_server_error
       else
         redirect_to coronavirus_page_path(page.slug), { notice: "Sub-section was successfully updated." }
       end

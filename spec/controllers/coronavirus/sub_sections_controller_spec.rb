@@ -30,79 +30,64 @@ RSpec.describe Coronavirus::SubSectionsController do
 
   describe "POST /coronavirus/:page_slug/sub_sections" do
     before do
-      stub_request(:get, raw_content_url_regex)
-        .to_return(body: raw_content)
+      stub_request(:get, raw_content_url_regex).to_return(body: raw_content)
       stub_coronavirus_publishing_api
     end
-    subject do
-      post :create, params: { page_slug: page.slug, sub_section: sub_section_params }
+
+    let(:params) do
+      {
+        page_slug: page.slug,
+        sub_section: sub_section_params,
+      }
     end
 
-    it "redirects to coronavirus page on success" do
-      expect(subject).to redirect_to(coronavirus_page_path(page.slug))
-    end
-
-    it "create a new sub_section" do
-      expect { subject }.to change { Coronavirus::SubSection.count }.by(1)
-    end
-
-    it "adds attributes to new sub_section" do
-      subject
-      sub_section = Coronavirus::SubSection.last
-      expect(sub_section.title).to eq(title)
-      expect(sub_section.content).to eq(content)
-    end
-
-    context "publishing api is returning a service error" do
-      before do
-        stub_any_publishing_api_put_content
-          .to_return(status: 500)
-      end
-      it "successfully renders error on edit page" do
-        expect(subject).to have_http_status(:success)
+    context "when a subsection is valid" do
+      it "creates a subsection" do
+        expect { post :create, params: params }
+          .to change { Coronavirus::SubSection.where(title: title).count }.by(1)
       end
 
-      it "displays the expected error" do
-        expect(subject.body).to include("Failed to update the draft content item. Try saving again.")
+      it "redirects to coronavirus page" do
+        post :create, params: params
+        expect(response).to redirect_to(coronavirus_page_path(page.slug))
       end
     end
 
-    context "subsection content error" do
-      let(:content) { "bad_content" }
+    context "when the subsection is invalid" do
+      let(:title) { "" }
 
-      it "successfully renders error on edit page" do
-        expect(subject).to have_http_status(:success)
+      it "doesn't create a subsection" do
+        expect { post :create, params: params }
+          .not_to(change { Coronavirus::SubSection.count })
       end
 
-      it "displays the expected error" do
-        expect(subject.body).to include("Unable to parse markdown:")
+      it "returns an unprocessable entity response" do
+        post :create, params: params
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "renders the errors" do
+        post :create, params: params
+        expect(response.body).to include(CGI.escapeHTML("Title can't be blank"))
       end
     end
 
-    context "featured_links" do
-      let(:featured_link) { "/#{SecureRandom.urlsafe_base64}" }
+    context "when there is a problem updating the Publishing API" do
+      before { stub_publishing_api_isnt_available }
 
-      it "stores the featured link" do
-        content_id = SecureRandom.uuid
-        stub_publishing_api_has_item(base_path: featured_link, content_id: content_id)
-        stub_publishing_api_has_lookups(featured_link.to_s => content_id)
-
-        content = "###{Faker::Lorem.sentence}\n[Link text](#{featured_link})"
-        sub_section_params.merge!(content: content, featured_link: featured_link)
-
-        subject
-        sub_section = Coronavirus::SubSection.last
-        expect(sub_section.featured_link).to eq(featured_link)
+      it "doesn't create a subsection" do
+        expect { post :create, params: params }
+          .not_to(change { Coronavirus::SubSection.count })
       end
 
-      it "successfully renders error on edit page if featured link not in content" do
-        sub_section_params.merge!(featured_link: featured_link)
-        expect(subject).to have_http_status(:success)
+      it "returns a internal server error response" do
+        post :create, params: params
+        expect(response).to have_http_status(:internal_server_error)
       end
 
-      it "displays the expected error if featured link not in content" do
-        sub_section_params.merge!(featured_link: featured_link)
-        expect(subject.body).to include("Featured link does not exist in accordion content")
+      it "renders the errors" do
+        post :create, params: params
+        expect(response.body).to include("Failed to update the draft content item. Try saving again.")
       end
     end
   end
@@ -116,10 +101,10 @@ RSpec.describe Coronavirus::SubSectionsController do
 
   describe "PATCH /coronavirus/:page_slug/sub_sections" do
     before do
-      stub_request(:get, raw_content_url_regex)
-        .to_return(body: raw_content)
+      stub_request(:get, raw_content_url_regex).to_return(body: raw_content)
       stub_coronavirus_publishing_api
     end
+
     let(:params) do
       {
         id: sub_section,
@@ -128,29 +113,53 @@ RSpec.describe Coronavirus::SubSectionsController do
       }
     end
 
-    subject { patch :update, params: params }
+    context "when a subsection is valid" do
+      it "updates a subsection" do
+        expect { patch :update, params: params }
+          .to change { sub_section.reload.title }.to(title)
+      end
 
-    it "redirects to coronavirus page on success" do
-      expect(subject).to redirect_to(coronavirus_page_path(page.slug))
+      it "redirects to coronavirus page" do
+        patch :update, params: params
+        expect(response).to redirect_to(coronavirus_page_path(page.slug))
+      end
     end
 
-    it "updates the sub_section" do
-      expect { subject }.not_to(change { Coronavirus::SubSection.count })
+    context "when the subsection is invalid" do
+      let(:title) { "" }
+
+      it "doesn't update a subsection" do
+        expect { patch :update, params: params }
+          .not_to(change { sub_section.reload.title })
+      end
+
+      it "returns an unprocessable entity response" do
+        patch :update, params: params
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "renders the errors" do
+        patch :update, params: params
+        expect(response.body).to include(CGI.escapeHTML("Title can't be blank"))
+      end
     end
 
-    it "changes the attributes of the subsection" do
-      subject
-      sub_section.reload
-      expect(sub_section.title).to eq(title)
-      expect(sub_section.content).to eq(content)
-    end
+    context "when there is a problem updating the Publishing API" do
+      before { stub_publishing_api_isnt_available }
 
-    context "given invalid content" do
-      let(:content) { "invalid content" }
+      it "doesn't update a subsection" do
+        expect { patch :update, params: params }
+          .not_to(change { sub_section.reload.title })
+      end
 
-      it "doesn't change the subsection" do
-        expect { subject }.not_to(change { sub_section.reload.attributes })
-        expect(subject.body).to include("Unable to parse markdown")
+      it "returns an internal server error response" do
+        patch :update, params: params
+        expect(response).to have_http_status(:internal_server_error)
+      end
+
+      it "renders the errors" do
+        patch :update, params: params
+        expect(response.body).to include("Failed to update the draft content item. Try saving again.")
       end
     end
   end
