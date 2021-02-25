@@ -33,5 +33,19 @@ RSpec.describe Coronavirus::SubSection do
       expect(sub_section).not_to be_valid
       expect(sub_section.errors).to have_key(:content)
     end
+
+    it "validates that the featured link is in content" do
+      sub_section.content = "[test](/bananas)"
+      sub_section.featured_link = "/bananas"
+
+      expect(sub_section).to be_valid
+    end
+
+    it "fails if featured link is not in content" do
+      sub_section.featured_link = "/bananas"
+
+      expect(sub_section).not_to be_valid
+      expect(sub_section.errors).to have_key(:featured_link)
+    end
   end
 end
