@@ -105,6 +105,7 @@ en:
           publish: Publish
         link_text: Coronavirus pages
         timeline_entries:
+          title: Timeline entries
           confirm: Are you sure?
           reorder: Reorder
           add: Add timeline entry

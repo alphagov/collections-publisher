@@ -211,9 +211,9 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_a_timeline_entries_section
-    expect(page).to have_content("Timeline entries")
-    expect(page).to have_link("Reorder", href: reorder_coronavirus_page_timeline_entries_path(@coronavirus_page.slug))
-    expect(page).to have_link("Add timeline entry")
+    expect(page).to have_content(I18n.t("coronavirus.pages.show.timeline_entries.title"))
+    expect(page).to have_link(I18n.t("coronavirus.pages.show.timeline_entries.reorder"), href: reorder_coronavirus_page_timeline_entries_path(@coronavirus_page.slug))
+    expect(page).to have_link(I18n.t("coronavirus.pages.show.timeline_entries.add"))
   end
 
   def then_i_cannot_see_an_announcements_section
@@ -221,7 +221,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_cannot_see_a_timeline_entries_section
-    expect(page).to_not have_content("Timeline entries")
+    expect(page).to_not have_content(I18n.t("coronavirus.pages.show.announcements.title"))
   end
 
   def and_i_can_see_existing_announcements
@@ -321,7 +321,7 @@ module CoronavirusFeatureSteps
   # Adding a timeline entry
 
   def and_i_add_a_new_timeline_entry
-    click_on("Add timeline entry")
+    click_on(I18n.t("coronavirus.pages.show.timeline_entries.add"))
   end
 
   def then_i_see_the_timeline_entry_form
