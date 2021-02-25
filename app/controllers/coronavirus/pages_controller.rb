@@ -1,7 +1,6 @@
 module Coronavirus
   class PagesController < ApplicationController
     before_action :require_coronavirus_editor_permissions!
-    before_action :redirect_to_index_if_slug_unknown, only: %w[show]
     before_action :initialise_pages, only: %w[index]
     layout "admin_layout"
 
@@ -16,7 +15,7 @@ module Coronavirus
 
     def publish
       publish_page
-      redirect_to coronavirus_page_path(slug)
+      redirect_to coronavirus_page_path(page.slug)
     end
 
     def discard
@@ -26,65 +25,35 @@ module Coronavirus
       else
         message = { alert: draft_updater.errors.to_sentence }
       end
-      redirect_to coronavirus_page_path(slug), message
+      redirect_to coronavirus_page_path(page.slug), message
     end
 
   private
 
-    def initialise_pages
-      page_configs.keys.map do |page|
-        Pages::ModelBuilder.new(page.to_s).page
-      end
-    end
-
     def page
-      @page ||= Pages::ModelBuilder.call(slug)
+      @page ||= Page.find_by!(slug: params[:slug])
     end
 
     def draft_updater
       @draft_updater ||= Pages::DraftUpdater.new(page)
     end
 
-    def redirect_to_index_if_slug_unknown
-      if slug_unknown?
-        flash[:alert] = "'#{slug}' is not a valid page.  Please select from one of those below."
-        redirect_to coronavirus_pages_path
-      end
-    end
-
     def publish_page
       Services.publishing_api.publish(page.content_id, "minor")
-      change_state("published")
+      page.update!(state: "published")
       flash["notice"] = "Page published!"
     rescue GdsApi::HTTPConflict
       flash["alert"] = "You have already published this page."
     end
 
-    def with_longer_timeout
-      prior_timeout = Services.publishing_api.client.options[:timeout]
-      Services.publishing_api.client.options[:timeout] = 10
-
-      begin
-        yield
-      ensure
-        Services.publishing_api.client.options[:timeout] = prior_timeout
+    def initialise_pages
+      page_configs.keys.map do |page_config|
+        Pages::ModelBuilder.new(page_config.to_s).page
       end
-    end
-
-    def slug
-      params[:slug]
-    end
-
-    def slug_unknown?
-      !page_configs.key?(slug.to_sym)
     end
 
     def page_configs
       Pages::Configuration.all_pages
-    end
-
-    def change_state(state)
-      page.update(state: state)
     end
   end
 end

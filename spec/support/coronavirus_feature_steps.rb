@@ -32,6 +32,10 @@ module CoronavirusFeatureSteps
     @timeline_entry_one = FactoryBot.create(:coronavirus_timeline_entry, page: @coronavirus_page, heading: "One")
   end
 
+  def given_there_is_a_published_coronavirus_page
+    @coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
+  end
+
   def the_payload_contains_the_valid_url
     live_stream_payload = coronavirus_live_stream_hash.merge(
       {
@@ -184,10 +188,6 @@ module CoronavirusFeatureSteps
 
   def when_i_visit_the_coronavirus_index_page
     visit "/coronavirus"
-  end
-
-  def when_i_visit_a_non_existent_page
-    visit "/coronavirus/flimflam"
   end
 
   def when_i_visit_a_coronavirus_page
@@ -408,22 +408,22 @@ module CoronavirusFeatureSteps
   end
 
   def set_up_basic_sub_sections
-    coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
+    @coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
     FactoryBot.create(:coronavirus_sub_section,
-                      page: coronavirus_page,
+                      page: @coronavirus_page,
                       position: 0,
                       title: "I am first",
-                      content: "###title\n[label](/url?priority-taxon=#{coronavirus_page.content_id})")
+                      content: "###title\n[label](/url?priority-taxon=#{@coronavirus_page.content_id})")
     FactoryBot.create(:coronavirus_sub_section,
-                      page: coronavirus_page,
+                      page: @coronavirus_page,
                       position: 1,
                       title: "I am second",
-                      content: "###title\n[label](/url?priority-taxon=#{coronavirus_page.content_id})")
+                      content: "###title\n[label](/url?priority-taxon=#{@coronavirus_page.content_id})")
     path = Rails.root.join "spec/fixtures/simple_coronavirus_page.yml"
     github_yaml_content = File.read(path)
-    stub_request(:get, /#{coronavirus_page.raw_content_url}\?cache-bust=\d+/)
+    stub_request(:get, /#{@coronavirus_page.raw_content_url}\?cache-bust=\d+/)
       .to_return(status: 200, body: github_yaml_content)
-    stub_live_sub_sections_content_request(coronavirus_page.content_id)
+    stub_live_sub_sections_content_request(@coronavirus_page.content_id)
   end
 
   def coronavirus_content_json_with_sections(content_id)
@@ -437,7 +437,7 @@ module CoronavirusFeatureSteps
   end
 
   def stub_discard_subsection_changes
-    stub_publishing_api_discard_draft(Coronavirus::Page.topic_page.first.content_id)
+    stub_publishing_api_discard_draft(@coronavirus_page.content_id)
   end
 
   def stub_discard_coronavirus_page_draft
@@ -445,6 +445,7 @@ module CoronavirusFeatureSteps
   end
 
   def stub_discard_coronavirus_page_no_draft
+    stub_live_sub_sections_content_request(@coronavirus_page.content_id)
     stub_any_publishing_api_discard_draft
       .to_return(status: 422, body: "You do not have a draft to discard")
   end
@@ -465,7 +466,7 @@ module CoronavirusFeatureSteps
       "list" => [
         {
           "label" => "label",
-          "url" => "/url?priority-taxon=#{Coronavirus::Page.topic_page.first.content_id}",
+          "url" => "/url?priority-taxon=#{@coronavirus_page.content_id}",
         },
       ],
     }
@@ -489,7 +490,7 @@ module CoronavirusFeatureSteps
     end
 
     assert_publishing_api_put_content(
-      Coronavirus::Page.topic_page.first.content_id,
+      @coronavirus_page.content_id,
       lambda do |request|
         details = JSON.parse(request.body)["details"]
         expect(details).to match hash_including({
@@ -505,12 +506,12 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_state_is_published
-    expect(Coronavirus::Page.topic_page.first.state).to eq "published"
+    expect(@coronavirus_page.reload.state).to eq "published"
     expect(page).to have_text("Status: Published", normalize_ws: true)
   end
 
   def and_i_see_state_is_draft
-    expect(Coronavirus::Page.topic_page.first.state).to eq "draft"
+    expect(@coronavirus_page.reload.state).to eq "draft"
     expect(page).to have_text("Status: Draft", normalize_ws: true)
   end
 
@@ -520,14 +521,6 @@ module CoronavirusFeatureSteps
 
   def i_see_error_message_no_changes_to_discard
     expect(page).to have_text("You do not have a draft to discard")
-  end
-
-  def then_i_am_redirected_to_the_index_page
-    expect(current_path).to eq("/coronavirus")
-  end
-
-  def and_i_see_a_message_telling_me_that_the_page_does_not_exist
-    expect(page).to have_text("'flimflam' is not a valid page")
   end
 
   def i_see_an_update_draft_button
@@ -594,7 +587,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_the_page_publishes_a_minor_update
-    assert_publishing_api_publish("774cee22-d896-44c1-a611-e3109cce8eae", update_type: "minor")
+    assert_publishing_api_publish(@coronavirus_page.content_id, update_type: "minor")
   end
 
   def then_the_business_page_publishes

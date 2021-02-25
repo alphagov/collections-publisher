@@ -32,6 +32,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
     end
 
     scenario "Publishing landing page" do
+      given_there_is_a_coronavirus_page
       when_i_visit_a_coronavirus_page
       and_i_publish_the_page
       then_the_page_publishes_a_minor_update
@@ -54,7 +55,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
     end
 
     scenario "Discarding changes" do
-      stub_live_sub_sections_content_request(coronavirus_content_id)
+      given_there_is_a_published_coronavirus_page
       stub_discard_coronavirus_page_no_draft
       when_i_visit_a_coronavirus_page
       and_i_see_state_is_published
@@ -242,12 +243,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         and_i_publish_the_page
         then_the_business_page_publishes
         and_i_see_a_page_published_message
-      end
-
-      scenario "Unconfigured page" do
-        when_i_visit_a_non_existent_page
-        then_i_am_redirected_to_the_index_page
-        and_i_see_a_message_telling_me_that_the_page_does_not_exist
       end
 
       scenario "Viewing announcements" do
