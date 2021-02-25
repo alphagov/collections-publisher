@@ -211,9 +211,9 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_a_timeline_entries_section
-    expect(page).to have_content("Timeline entries")
-    expect(page).to have_link("Reorder", href: reorder_coronavirus_page_timeline_entries_path(@coronavirus_page.slug))
-    expect(page).to have_link("Add timeline entry")
+    expect(page).to have_content(I18n.t("coronavirus.pages.show.timeline_entries.title"))
+    expect(page).to have_link(I18n.t("coronavirus.pages.show.timeline_entries.reorder"), href: reorder_coronavirus_page_timeline_entries_path(@coronavirus_page.slug))
+    expect(page).to have_link(I18n.t("coronavirus.pages.show.timeline_entries.add"))
   end
 
   def then_i_cannot_see_an_announcements_section
@@ -221,7 +221,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_cannot_see_a_timeline_entries_section
-    expect(page).to_not have_content("Timeline entries")
+    expect(page).to_not have_content(I18n.t("coronavirus.pages.show.announcements.title"))
   end
 
   def and_i_can_see_existing_announcements
@@ -321,12 +321,12 @@ module CoronavirusFeatureSteps
   # Adding a timeline entry
 
   def and_i_add_a_new_timeline_entry
-    click_on("Add timeline entry")
+    click_on(I18n.t("coronavirus.pages.show.timeline_entries.add"))
   end
 
   def then_i_see_the_timeline_entry_form
-    expect(page).to have_text("Enter the heading of the timeline entry")
-    expect(page).to have_text("Content")
+    expect(page).to have_text(I18n.t("coronavirus.timeline_entries.form.heading.label"))
+    expect(page).to have_text(I18n.t("coronavirus.timeline_entries.form.content.label"))
   end
 
   def when_i_fill_in_the_timeline_entry_form_with_valid_data
@@ -403,7 +403,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_the_timeline_entry_has_been_deleted
-    expect(page).to have_text(I18n.t("coronavirus.pages.timeline_entries.delete.success"))
+    expect(page).to have_text(I18n.t("coronavirus.timeline_entries.destroy.success"))
     expect(page).not_to have_text(@timeline_entry_one.heading)
   end
 
