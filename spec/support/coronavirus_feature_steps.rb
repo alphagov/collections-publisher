@@ -205,9 +205,9 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_an_announcements_section
-    expect(page).to have_content("Announcements")
-    expect(page).to have_link("Reorder", href: reorder_coronavirus_page_announcements_path(@coronavirus_page.slug))
-    expect(page).to have_link("Add announcement")
+    expect(page).to have_content(I18n.t("coronavirus.pages.show.announcements.title"))
+    expect(page).to have_link(I18n.t("coronavirus.pages.show.announcements.reorder"), href: reorder_coronavirus_page_announcements_path(@coronavirus_page.slug))
+    expect(page).to have_link(I18n.t("coronavirus.pages.show.announcements.add"))
   end
 
   def then_i_can_see_a_timeline_entries_section
@@ -217,7 +217,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_cannot_see_an_announcements_section
-    expect(page).to_not have_content("Announcements")
+    expect(page).to_not have_content(I18n.t("coronavirus.pages.show.announcements.title"))
   end
 
   def then_i_cannot_see_a_timeline_entries_section
@@ -262,13 +262,13 @@ module CoronavirusFeatureSteps
   # Adding an announcement
 
   def and_i_add_a_new_announcement
-    click_on("Add announcement")
+    click_on(I18n.t("coronavirus.pages.show.announcements.add"))
   end
 
   def then_i_see_the_create_announcement_form
-    expect(page).to have_text("Enter the title of the announcement")
-    expect(page).to have_text("Enter the path to the announcement")
-    expect(page).to have_text("Enter the date of publication")
+    expect(page).to have_text(I18n.t("coronavirus.announcements.form.title.label"))
+    expect(page).to have_text(I18n.t("coronavirus.announcements.form.path.label"))
+    expect(page).to have_text(I18n.t("coronavirus.announcements.form.date.legend"))
   end
 
   def when_i_fill_in_the_announcement_form_with_valid_data
@@ -289,13 +289,13 @@ module CoronavirusFeatureSteps
   def when_i_delete_an_announcement
     stub_coronavirus_landing_page_content(@coronavirus_page)
 
-    page.accept_alert "Are you sure?" do
+    page.accept_alert I18n.t("coronavirus.pages.show.announcements.confirm") do
       page.find("a[href=\"/coronavirus/landing/announcements/#{@announcement_one.id}\"]", text: "Delete").click
     end
   end
 
   def then_i_can_see_an_announcement_has_been_deleted
-    expect(page).to have_text("Announcement was successfully deleted.")
+    expect(page).to have_text(I18n.t("coronavirus.announcements.destroy.success"))
     expect(page).not_to(have_text(@announcement_one.title))
   end
 
@@ -304,7 +304,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_see_the_edit_announcement_form
-    expect(page).to have_text("Edit announcement")
+    expect(page).to have_text(I18n.t("coronavirus.announcements.edit.title"))
   end
 
   def when_i_can_edit_the_announcement_form_with_valid_data
@@ -314,7 +314,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_that_the_announcement_has_been_updated
-    expect(page).to have_content("Announcement was successfully updated.")
+    expect(page).to have_content(I18n.t("coronavirus.announcements.update.success"))
     expect(page).to have_content("Updated title")
   end
 

@@ -1,6 +1,6 @@
 <%= render "govuk_publishing_components/components/input", {
   label: {
-    text: "Enter the title of the announcement",
+    text: t("coronavirus.announcements.form.title.label"),
     bold: true,
   },
   name: "announcement[title]",
@@ -11,25 +11,25 @@
 
 <%= render "govuk_publishing_components/components/input", {
   label: {
-    text: "Enter the path to the announcement",
+    text: t("coronavirus.announcements.form.path.label"),
     bold: true,
   },
   name: "announcement[path]",
   value: @announcement.path,
   id: "path",
   error_message: error_items(@announcement.errors.messages, :path),
-  hint: "Example format: /government/news/coronavirus-covid-19",
+  hint: t("coronavirus.announcements.form.path.hint"),
 } %>
 
 <% legend = capture do %>
-  <span class="govuk-heading-s govuk-!-margin-bottom-0"><%= "Enter the date of publication" %></span>
+  <span class="govuk-heading-s govuk-!-margin-bottom-0"><%= t("coronavirus.announcements.form.date.legend") %></span>
 <% end %>
 
 <%= render "govuk_publishing_components/components/date_input", {
   name: "announcement[published_at]",
   id: "published_at",
   legend_text: legend,
-  hint: "For example, 31 3 2020",
+  hint: t("coronavirus.announcements.form.date.hint"),
   error_message: error_items(@announcement.errors.messages, :published_at),
   items: [
     {
