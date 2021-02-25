@@ -24,7 +24,7 @@ module Coronavirus
         flash.now["alert"] = draft_updater.errors.to_sentence
         render :new, status: :internal_server_error
       else
-        redirect_to coronavirus_page_path(page.slug), { notice: "Sub-section was successfully created." }
+        redirect_to coronavirus_page_path(page.slug), { notice: helpers.t("coronavirus.sub_sections.create.success") }
       end
     end
 
@@ -50,19 +50,19 @@ module Coronavirus
         flash.now["alert"] = draft_updater.errors.to_sentence
         render :edit, status: :internal_server_error
       else
-        redirect_to coronavirus_page_path(page.slug), { notice: "Sub-section was successfully updated." }
+        redirect_to coronavirus_page_path(page.slug), { notice: helpers.t("coronavirus.sub_sections.update.success") }
       end
     end
 
     def destroy
       sub_section = page.sub_sections.find(params[:id])
-      message = { notice: "Sub-section was successfully deleted." }
+      message = { notice: helpers.t("coronavirus.sub_sections.destroy.success") }
 
       SubSection.transaction do
         sub_section.destroy!
 
         unless draft_updater.send
-          message = { alert: "Sub-section couldn't be deleted" }
+          message = { alert: helpers.t("coronavirus.sub_sections.destroy.failed") }
           raise ActiveRecord::Rollback
         end
       end

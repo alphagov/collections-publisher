@@ -125,6 +125,25 @@ en:
           error: "Sorry! Timeline entries have not been reordered: %{error}."
           form:
             markdown_hint: Use the up/down buttons on the right to reorder the timeline entries, or click and hold on a section to reorder using drag and drop.
+    sub_sections:
+      new:
+        title: Add accordion
+      create:
+        success: Sub-section was successfully created.
+      edit:
+        title: Edit guidance and support accordion
+      destroy:
+        success: Sub-section was successfully deleted.
+        failed: Sub-section couldn't be deleted
+      update:
+        success: Sub-section was successfully updated.
+      form:
+        title:
+          label: Accordion name
+        content:
+          label: Links and link text
+        featured_link:
+          label: Featured link
     timeline_entries:
       new:
         title: Add timeline entry
