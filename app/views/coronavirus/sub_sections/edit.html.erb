@@ -1,25 +1,4 @@
-<%
-links = [
-  {
-    text: 'Coronavirus pages',
-    href: coronavirus_pages_path
-  },
-  {
-    text: @page.name,
-    href: coronavirus_page_path(slug: @page.slug)
-  },
-  {
-    text: t("coronavirus.sub_sections.edit.title")
-  },
-]
-
-  metadata = {
-    "Status" => "Draft",
-    "Last saved" => format_full_date_and_time(DateTime.now),
-  }
-%>
-
-<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<%= render 'coronavirus/shared/breadcrumbs', text: t("coronavirus.sub_sections.edit.title")  %>
 <% content_for :title, @page.title %>
 <% content_for :context, t("coronavirus.sub_sections.edit.title") %>
 <% if @sub_section.errors.any? %>
