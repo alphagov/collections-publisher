@@ -9,17 +9,17 @@
       href: coronavirus_page_path(slug: @page.slug)
     },
     {
-      text: t("coronavirus.pages.timeline_entries.reorder.heading")
+      text: t("coronavirus.reorder_timeline_entries.index.title")
     },
   ]
 %>
 <% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
 <% content_for :title, formatted_title(@page)%>
-<% content_for :context, t("coronavirus.pages.timeline_entries.reorder.heading") %>
+<% content_for :context, t("coronavirus.reorder_timeline_entries.index.title") %>
 
 <div class="covid-manage-page govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render_markdown t("coronavirus.pages.timeline_entries.reorder.form.markdown_hint") %>
+    <%= render_markdown t("coronavirus.reorder_timeline_entries.index.hint_markdown") %>
 
     <%= form_with method: :put, url: reorder_coronavirus_page_timeline_entries_path do |form| %>
       <%= render "reorder_list" %>

@@ -123,13 +123,6 @@ en:
         failed: You have already published this page.
       discard:
         success: Changes to subsections have been discarded
-      timeline_entries:
-        reorder:
-          heading: Reorder timeline entries
-          success: Timeline entries were successfully reordered.
-          error: "Sorry! Timeline entries have not been reordered: %{error}."
-          form:
-            markdown_hint: Use the up/down buttons on the right to reorder the timeline entries, or click and hold on a section to reorder using drag and drop.
     reorder_announcements:
       index:
         title: Reorder announcements
@@ -137,6 +130,13 @@ en:
       update:
         success: Announcements were successfully reordered.
         failed: "Sorry! Announcements have not been reordered: %{error}."
+    reorder_timeline_entries:
+      index:
+        title: Reorder timeline entries
+        hint_markdown: Use the up/down buttons on the right to reorder the timeline entries, or click and hold on a section to reorder using drag and drop.
+      update:
+        success: Timeline entries were successfully reordered.
+        failed: "Sorry! Timeline entries have not been reordered: %{error}."
     sub_sections:
       new:
         title: Add accordion
