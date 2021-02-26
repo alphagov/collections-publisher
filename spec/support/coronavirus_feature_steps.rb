@@ -162,7 +162,7 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_select_live_stream
-    click_link("Edit live stream URL")
+    click_link(I18n.t("coronavirus.pages.index.landing_page_edit.live_stream_url"))
     expect(page).to have_text(I18n.t("coronavirus.live_stream.index.title"))
   end
 
@@ -516,7 +516,7 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_discard_my_changes
-    click_link("Discard changes")
+    click_link(I18n.t("coronavirus.pages.show.actions.discard_changes"))
   end
 
   def i_see_error_message_no_changes_to_discard
