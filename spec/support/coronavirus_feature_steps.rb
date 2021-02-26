@@ -457,7 +457,7 @@ module CoronavirusFeatureSteps
   def and_i_move_section_one_down
     all("button", text: "Down").first.click
     click_button "Save"
-    expect(page).to have_content "Sections were successfully reordered."
+    expect(page).to have_content(I18n.t("coronavirus.reorder_sub_sections.update.success"))
   end
 
   def then_the_reordered_subsections_are_sent_to_publishing_api
@@ -502,7 +502,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_see_section_updated_message
-    expect(page).to have_text("Sections were successfully reordered.")
+    expect(page).to have_text(I18n.t("coronavirus.reorder_sub_sections.update.success"))
   end
 
   def and_i_see_state_is_published
