@@ -100,13 +100,6 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
           ),
         )
       end
-
-      it "has an error when content does not contain the featured link" do
-        featured_link = "/#{SecureRandom.urlsafe_base64}"
-        sub_section.featured_link = featured_link
-
-        expect { subject.output }.to change { subject.errors.length }.by(1)
-      end
     end
   end
 
