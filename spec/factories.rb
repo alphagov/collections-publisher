@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :content_group do
     header { "MyString" }
-    links { "" }
+    links { "[Cornavirus](/coronavirus)" }
     position { 1 }
   end
 
