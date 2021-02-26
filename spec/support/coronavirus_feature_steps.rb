@@ -249,7 +249,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_see_announcement_updated_message
-    expect(page).to have_content "Announcements were successfully reordered."
+    expect(page).to have_content I18n.t("coronavirus.reorder_announcements.update.success")
   end
 
   def and_i_see_the_announcements_have_changed_order
