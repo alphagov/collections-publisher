@@ -21,7 +21,7 @@ module Coronavirus
     def discard
       if draft_updater.discarded?
         Pages::DraftDiscarder.new(page).call
-        message = { notice: "Changes to subsections have been discarded" }
+        message = { notice: helpers.t("coronavirus.pages.discard.success") }
       else
         message = { alert: draft_updater.errors.to_sentence }
       end
@@ -41,9 +41,9 @@ module Coronavirus
     def publish_page
       Services.publishing_api.publish(page.content_id, "minor")
       page.update!(state: "published")
-      flash["notice"] = "Page published!"
+      flash["notice"] = helpers.t("coronavirus.pages.publish.success")
     rescue GdsApi::HTTPConflict
-      flash["alert"] = "You have already published this page."
+      flash["alert"] = helpers.t("coronavirus.pages.publish.failed")
     end
 
     def initialise_pages

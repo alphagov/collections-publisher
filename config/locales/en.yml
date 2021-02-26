@@ -118,6 +118,11 @@ en:
           confirm: Are you sure?
           reorder: Reorder
           add: Add announcement
+      publish:
+        success: Page published!
+        failed: You have already published this page.
+      discard:
+        success: Changes to subsections have been discarded
       timeline_entries:
         reorder:
           heading: Reorder timeline entries
