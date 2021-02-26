@@ -1,5 +1,8 @@
 en:
   coronavirus:
+    shared:
+      breadcrumbs:
+        link_text: Coronavirus pages
     announcements:
       new:
         title: Add announcement
