@@ -603,7 +603,11 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_a_page_published_message
-    expect(page).to have_text("Page published!")
+    expect(page).to have_text(I18n.t("coronavirus.pages.publish.success"))
+  end
+
+  def and_i_see_github_changes_published_message
+    expect(page).to have_text(I18n.t("coronavirus.github_changes.publish.success"))
   end
 
   def and_i_see_live_stream_is_updated_message
