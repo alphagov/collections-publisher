@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_05_143416) do
+ActiveRecord::Schema.define(version: 2021_02_26_152201) do
+
+  create_table "content_groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "coronavirus_sub_section_id", null: false
+    t.string "header"
+    t.string "links"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coronavirus_sub_section_id"], name: "index_content_groups_on_coronavirus_sub_section_id"
+  end
 
   create_table "coronavirus_announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "coronavirus_page_id"
@@ -221,6 +231,7 @@ ActiveRecord::Schema.define(version: 2021_02_05_143416) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
+  add_foreign_key "content_groups", "coronavirus_sub_sections"
   add_foreign_key "coronavirus_sub_sections", "coronavirus_pages"
   add_foreign_key "coronavirus_timeline_entries", "coronavirus_pages"
   add_foreign_key "internal_change_notes", "step_by_step_pages"

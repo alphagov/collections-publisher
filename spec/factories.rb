@@ -1,4 +1,10 @@
 FactoryBot.define do
+  factory :content_group do
+    header { "MyString" }
+    links { "" }
+    position { 1 }
+  end
+
   factory :link_report do
     batch_id { 1 }
     completed { "2018-08-07 10:35:38" }
