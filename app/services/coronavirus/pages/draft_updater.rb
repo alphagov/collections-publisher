@@ -1,6 +1,7 @@
 module Coronavirus::Pages
   class DraftUpdater
-    DraftUpdaterError = Class.new(StandardError)
+    class UpdateFailedError < StandardError; end
+    class PayloadInvalidError < StandardError; end
 
     attr_reader :page
 
@@ -18,7 +19,7 @@ module Coronavirus::Pages
       if content_builder.success?
         Coronavirus::PagePresenter.new(content_builder.data, base_path).payload
       else
-        raise DraftUpdaterError, content_builder.errors.to_sentence
+        raise PayloadInvalidError, content_builder.errors.to_sentence
       end
     end
 
@@ -27,7 +28,7 @@ module Coronavirus::Pages
       page.update!(state: "draft")
     rescue GdsApi::HTTPErrorResponse => e
       error_handler(e, "Failed to update the draft content item. Try saving again.")
-    rescue DraftUpdaterError => e
+    rescue UpdateFailedError => e
       error_handler(e)
     end
 
