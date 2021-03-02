@@ -1,6 +1,6 @@
 module Coronavirus::Pages
   class DraftUpdater
-    DraftUpdaterError = Class.new(StandardError)
+    class DraftUpdaterError < RuntimeError; end
 
     attr_reader :page
 
@@ -15,11 +15,13 @@ module Coronavirus::Pages
     end
 
     def payload
-      if content_builder.success?
-        Coronavirus::PagePresenter.new(content_builder.data, base_path).payload
-      else
-        raise DraftUpdaterError, content_builder.errors.to_sentence
-      end
+      Coronavirus::PagePresenter.new(content_builder.data, base_path).payload
+    rescue ContentBuilder::InvalidContentError
+      raise DraftUpdaterError, "Invalid content in one of the sub-sections"
+    rescue ContentBuilder::GitHubInvalidContentError
+      raise DraftUpdaterError, "Invalid content in GitHub YAML"
+    rescue ContentBuilder::GitHubConnectionError
+      raise DraftUpdaterError, "Unable to load content from GitHub"
     end
 
     def send

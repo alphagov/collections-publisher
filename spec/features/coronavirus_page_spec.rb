@@ -233,7 +233,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         when_i_visit_the_coronavirus_index_page
         and_i_select_business_page
         and_i_push_a_new_draft_business_version_with_invalid_content
-        and_i_see_an_alert_for_missing_hub_page_keys
+        and_i_see_an_alert
       end
 
       scenario "Publishing business page" do
