@@ -1,6 +1,7 @@
 module Coronavirus::Pages
   class ContentBuilder
     attr_reader :page, :errors
+    class GitHubConnectionError < RuntimeError; end
 
     def initialize(page)
       @page = page
@@ -21,8 +22,6 @@ module Coronavirus::Pages
         data["hidden_search_terms"] = hidden_search_terms
         data
       end
-    rescue RestClient::Exception => e
-      add_error(e.message)
     end
 
     def success?
@@ -73,6 +72,8 @@ module Coronavirus::Pages
 
     def github_raw_data
       YamlFetcher.new(page.raw_content_url).body_as_hash
+    rescue RestClient::Exception
+      raise GitHubConnectionError
     end
 
     def github_data

@@ -13,6 +13,16 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     stub_request(:get, Regexp.new(page.raw_content_url))
       .to_return(status: 200, body: github_content.to_json)
   end
+
+  describe "#github_raw_data" do
+    it "returns an error if GitHub is unavailable" do
+      stub_request(:get, Regexp.new(page.raw_content_url))
+        .to_return(status: 500)
+
+      expect { subject.github_raw_data }.to raise_error(Coronavirus::Pages::ContentBuilder::GitHubConnectionError)
+    end
+  end
+
   describe "#github_data" do
     it "returns github content" do
       expect(subject.github_data).to eq github_content["content"]
