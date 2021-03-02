@@ -13,7 +13,7 @@ class Coronavirus::SubSection < ApplicationRecord
   validates :title, :content, presence: true
   validates :page, presence: true
   validate :featured_link_must_be_in_content
-  before_create :create_content_groups
+  after_create :create_content_groups
 
   def featured_link_must_be_in_content
     if featured_link.present? && !content.include?(featured_link)
@@ -39,7 +39,9 @@ class Coronavirus::SubSection < ApplicationRecord
       content_group[:header] = group.shift if is_header?(group[0])
       content_group[:links] = group
       content_group[:position] = index
+      # content_group[:coronavirus_sub_section_id] = id
       a = Coronavirus::ContentGroup.new(content_group)
+      a.coronavirus_sub_section_id = id
       a.save!
     end
   end

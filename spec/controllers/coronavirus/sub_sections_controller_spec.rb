@@ -9,7 +9,7 @@ RSpec.describe Coronavirus::SubSectionsController do
   let(:page) { create :coronavirus_page, :of_known_type }
   let!(:sub_section) { create :coronavirus_sub_section, page: page }
   let(:title) { Faker::Lorem.sentence }
-  let(:content) { "###{Faker::Lorem.sentence}" }
+  let(:content) { "###{Faker::Lorem.sentence} \n [#{Faker::Lorem.sentence}](/#{File.join(Faker::Lorem.words)})" }
   let(:sub_section_params) do
     {
       title: title,
@@ -51,6 +51,11 @@ RSpec.describe Coronavirus::SubSectionsController do
         post :create, params: params
         expect(response).to redirect_to(coronavirus_page_path(page.slug))
       end
+
+      it "creates a content group" do
+        expect { post :create, params: params }
+          .to change { Coronavirus::ContentGroup.count }.by(1)
+      end
     end
 
     context "when the subsection is invalid" do
@@ -69,6 +74,15 @@ RSpec.describe Coronavirus::SubSectionsController do
       it "renders the errors" do
         post :create, params: params
         expect(response.body).to include(CGI.escapeHTML("Title can't be blank"))
+      end
+    end
+
+    context "when the content is invalid" do
+      let(:content) { "invalid content" }
+
+      it "doesn't create a subsection" do
+        expect { post :create, params: params }
+          .not_to(change { Coronavirus::SubSection.count })
       end
     end
 
@@ -117,6 +131,14 @@ RSpec.describe Coronavirus::SubSectionsController do
       it "updates a subsection" do
         expect { patch :update, params: params }
           .to change { sub_section.reload.title }.to(title)
+      end
+
+      it "updates the coresponding content group" do
+        patch :update, params: params
+        sub_section.reload
+        content.split(" \n ").each do |line|
+          expect(sub_section.content_groups.first).to include(line)
+        end
       end
 
       it "redirects to coronavirus page" do
@@ -184,6 +206,10 @@ RSpec.describe Coronavirus::SubSectionsController do
 
     it "deletes the subsection" do
       expect { subject }.to change { Coronavirus::SubSection.count }.by(-1)
+    end
+
+    it "deletes associated content group" do
+      expect { subject }.to change { Coronavirus::ContentGroup.count }.by(-1)
     end
 
     it "doesn't delete the subsection if draft_updater fails" do

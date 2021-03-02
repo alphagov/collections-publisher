@@ -1,8 +1,9 @@
 FactoryBot.define do
-  factory :content_group do
+  factory :coronavirus_content_group, class: Coronavirus::ContentGroup do
     header { "MyString" }
-    links { "[Cornavirus](/coronavirus)" }
+    links { ["[#{Faker::Lorem.sentence}](/#{File.join(Faker::Lorem.words)})"] }
     position { 1 }
+    sub_section factory: :coronavirus_sub_section
   end
 
   factory :link_report do
