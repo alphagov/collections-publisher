@@ -147,21 +147,4 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
       expect(data["live_stream"]["video_url"]).to be_nil
     end
   end
-
-  describe "#success?" do
-    it "is true if call successful" do
-      expect(subject.success?).to be(true)
-    end
-
-    context "on failure" do
-      before do
-        stub_request(:get, Regexp.new(page.raw_content_url))
-          .to_return(status: 400)
-      end
-
-      it "is false" do
-        expect(subject.success?).to be(false)
-      end
-    end
-  end
 end

@@ -1,13 +1,13 @@
 module Coronavirus::Pages
   class ContentBuilder
-    attr_reader :page, :errors
     class GitHubConnectionError < RuntimeError; end
     class GitHubInvalidContentError < RuntimeError; end
     class InvalidContentError < RuntimeError; end
 
+    attr_reader :page
+
     def initialize(page)
       @page = page
-      @errors = []
     end
 
     def data
@@ -24,16 +24,6 @@ module Coronavirus::Pages
         data["hidden_search_terms"] = hidden_search_terms
         data
       end
-    end
-
-    def success?
-      data
-      errors.empty?
-    end
-
-    def add_error(error)
-      errors << error
-      errors.flatten!
     end
 
     def validate_content
