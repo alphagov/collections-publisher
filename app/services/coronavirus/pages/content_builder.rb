@@ -129,6 +129,8 @@ module Coronavirus::Pages
 
     def search_terms_in_sections
       sections = sub_sections_data.map do |section|
+        next if section.blank?
+
         [section[:title], search_terms_in_sub_sections(section[:sub_sections])]
       end
 
