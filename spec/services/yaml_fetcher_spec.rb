@@ -41,18 +41,4 @@ RSpec.describe YamlFetcher do
       expect(subject.body_as_hash).to eq({ "this" => { "foo" => "bar" } })
     end
   end
-
-  describe "#success?" do
-    it "is true if all OK" do
-      expect(subject.success?).to be(true)
-    end
-
-    context "connection failure" do
-      let(:stub_response) { { body: body, status: 401 } }
-
-      it "is false" do
-        expect(subject.success?).to be(false)
-      end
-    end
-  end
 end

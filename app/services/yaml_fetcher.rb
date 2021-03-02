@@ -11,12 +11,6 @@ class YamlFetcher
     @response ||= RestClient.get(cache_busted_url)
   end
 
-  def success?
-    response.code == 200
-  rescue RestClient::Unauthorized
-    false
-  end
-
   delegate :body, to: :response
 
   def body_as_hash
