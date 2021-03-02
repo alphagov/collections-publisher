@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Coronavirus::SubSectionJsonPresenter
+  class MarkdownInvalidError < RuntimeError; end
+
   HEADER_PATTERN = PatternMaker.call(
     "starts_with hashes then perhaps_spaces then capture(title) and nothing_else",
     hashes: "#+",
@@ -29,15 +31,6 @@ class Coronavirus::SubSectionJsonPresenter
         title: title,
         sub_sections: sub_sections,
       }
-  end
-
-  def errors
-    @errors ||= []
-  end
-
-  def success?
-    output
-    errors.empty?
   end
 
   def sub_sections
@@ -84,7 +77,7 @@ class Coronavirus::SubSectionJsonPresenter
         hash[:list] ||= []
         hash[:list] << build_link(line)
       else
-        errors << "Unable to parse markdown: '#{line}'"
+        raise MarkdownInvalidError, "Unable to parse markdown: '#{line}'"
       end
     end
   end
