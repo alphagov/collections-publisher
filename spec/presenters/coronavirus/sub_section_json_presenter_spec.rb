@@ -44,20 +44,11 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
       expect(subject.output).to eq(expected)
     end
 
-    it "has no errors" do
-      subject.output
-      expect(subject.errors).to be_blank
-    end
-
     context "with unknown content" do
       let(:content) { [title_markup, link, "unknown"].join("\n") }
 
-      it "has expected content" do
-        expect(subject.output).to eq(expected)
-      end
-
-      it "has an error" do
-        expect { subject.output }.to change { subject.errors.length }.by(1)
+      it "raises an error" do
+        expect { subject.output }.to raise_error(Coronavirus::SubSectionJsonPresenter::MarkdownInvalidError)
       end
     end
 
@@ -119,11 +110,6 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
     it "has a null title" do
       expect(sub_section_hash.keys).to include(:title)
       expect(sub_section_hash[:title]).to be_nil
-    end
-
-    it "creates no errors" do
-      sub_section_hash
-      expect(subject.errors).to be_blank
     end
 
     context "with a title" do
@@ -200,12 +186,8 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
     context "with unknown content" do
       let(:group) { %w[unknown] }
 
-      it "does not populate list" do
-        expect(sub_section_hash.keys).not_to include(:list)
-      end
-
       it "adds an error" do
-        expect { sub_section_hash }.to change { subject.errors.length }.by(1)
+        expect { sub_section_hash }.to raise_error(Coronavirus::SubSectionJsonPresenter::MarkdownInvalidError)
       end
     end
 
