@@ -74,4 +74,15 @@ RSpec.describe Coronavirus::Pages::DraftUpdater do
       )
     end
   end
+
+  describe "#send" do
+    it "raises an error if publishing-api is not available" do
+      stub_publishing_api_isnt_available
+
+      expect { described_class.new(page).send }.to raise_error(
+        Coronavirus::Pages::DraftUpdater::DraftUpdaterError,
+        "Failed to update the draft content item. Try saving again.",
+      )
+    end
+  end
 end

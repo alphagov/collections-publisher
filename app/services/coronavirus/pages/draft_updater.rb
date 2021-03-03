@@ -27,8 +27,8 @@ module Coronavirus::Pages
     def send
       @send ||= Services.publishing_api.put_content(content_id, payload)
       page.update!(state: "draft")
-    rescue GdsApi::HTTPErrorResponse => e
-      error_handler(e, "Failed to update the draft content item. Try saving again.")
+    rescue GdsApi::HTTPErrorResponse
+      raise DraftUpdaterError, "Failed to update the draft content item. Try saving again."
     end
 
     def discard
@@ -37,16 +37,6 @@ module Coronavirus::Pages
       raise DraftUpdaterError, "You do not have a draft to discard"
     rescue GdsApi::HTTPErrorResponse
       raise DraftUpdaterError, "There has been an error discarding your changes. Try again."
-    end
-
-    def errors
-      @errors ||= []
-    end
-
-    def error_handler(error, message = nil)
-      GovukError.notify(error, extra: { content_id: content_id, page_slug: page.slug })
-      errors << (message || error.message)
-      false
     end
   end
 end
