@@ -10,11 +10,21 @@ module Coronavirus
 
     def create
       @announcement = page.announcements.new(announcement_params)
-      if @announcement.save && draft_updater.send
-        redirect_to coronavirus_page_path(page.slug), notice: helpers.t("coronavirus.announcements.create.success")
-      else
-        render :new
+
+      unless @announcement.valid?
+        render :new, status: :unprocessable_entity
+        return
       end
+
+      Announcement.transaction do
+        @announcement.save!
+        draft_updater.send
+      end
+
+      redirect_to coronavirus_page_path(page.slug), notice: helpers.t("coronavirus.announcements.create.success")
+    rescue Pages::DraftUpdater::DraftUpdaterError => e
+      flash.now[:alert] = e.message
+      render :new, status: :internal_server_error
     end
 
     def destroy

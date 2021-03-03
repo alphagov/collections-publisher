@@ -34,19 +34,54 @@ RSpec.describe Coronavirus::AnnouncementsController do
       }
     end
 
-    it "redirects to coronavirus page on success" do
-      post :create, params: { page_slug: page.slug, announcement: announcement_params }
-      expect(subject).to redirect_to(coronavirus_page_path(page.slug))
-      expect(flash.now[:errors]).to be_nil
+    context "when an announcement is valid" do
+      it "creates an announcement" do
+        expect { post :create, params: { page_slug: page.slug, announcement: announcement_params } }
+          .to change { Coronavirus::Announcement.where(title: title).count }.by(1)
+      end
+
+      it "redirects to coronavirus page" do
+        post :create, params: { page_slug: page.slug, announcement: announcement_params }
+        expect(response).to redirect_to(coronavirus_page_path(page.slug))
+      end
     end
 
-    it "adds attributes to new announcement" do
-      post :create, params: { page_slug: page.slug, announcement: announcement_params }
-      published_at_time = Time.zone.local(published_at["year"], published_at["month"], published_at["day"])
-      announcement = page.announcements.last
-      expect(announcement.title).to eq(title)
-      expect(announcement.path).to eq(path)
-      expect(announcement.published_at).to eq(published_at_time)
+    context "when the announcement is invalid" do
+      let(:title) { "" }
+
+      it "doesn't create an announcement" do
+        expect { post :create, params: { page_slug: page.slug, announcement: announcement_params } }
+          .not_to(change { Coronavirus::Announcement.count })
+      end
+
+      it "returns an unprocessable entity response" do
+        post :create, params: { page_slug: page.slug, announcement: announcement_params }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "renders the errors" do
+        post :create, params: { page_slug: page.slug, announcement: announcement_params }
+        expect(response.body).to include(CGI.escapeHTML("Title can't be blank"))
+      end
+    end
+
+    context "when there is a problem updating the Publishing API" do
+      before { stub_publishing_api_isnt_available }
+
+      it "doesn't create an announcement" do
+        expect { post :create, params: { page_slug: page.slug, announcement: announcement_params } }
+          .not_to(change { Coronavirus::Announcement.count })
+      end
+
+      it "returns a internal server error response" do
+        post :create, params: { page_slug: page.slug, announcement: announcement_params }
+        expect(response).to have_http_status(:internal_server_error)
+      end
+
+      it "renders the errors" do
+        post :create, params: { page_slug: page.slug, announcement: announcement_params }
+        expect(response.body).to include("Failed to update the draft content item. Try saving again.")
+      end
     end
   end
 
