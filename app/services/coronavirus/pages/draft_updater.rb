@@ -29,8 +29,6 @@ module Coronavirus::Pages
       page.update!(state: "draft")
     rescue GdsApi::HTTPErrorResponse => e
       error_handler(e, "Failed to update the draft content item. Try saving again.")
-    rescue DraftUpdaterError => e
-      error_handler(e)
     end
 
     def discard
