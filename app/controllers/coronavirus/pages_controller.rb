@@ -19,13 +19,11 @@ module Coronavirus
     end
 
     def discard
-      if draft_updater.discarded?
-        Pages::DraftDiscarder.new(page).call
-        message = { notice: helpers.t("coronavirus.pages.discard.success") }
-      else
-        message = { alert: draft_updater.errors.to_sentence }
-      end
-      redirect_to coronavirus_page_path(page.slug), message
+      draft_updater.discard
+      Pages::DraftDiscarder.new(page).call
+      redirect_to coronavirus_page_path(page.slug), notice: helpers.t("coronavirus.pages.discard.success")
+    rescue Pages::DraftUpdater::DraftUpdaterError => e
+      redirect_to coronavirus_page_path(page.slug), alert: e.message
     end
 
   private

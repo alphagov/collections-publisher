@@ -54,4 +54,24 @@ RSpec.describe Coronavirus::Pages::DraftUpdater do
       )
     end
   end
+
+  describe "#discard" do
+    it "raises an error if there isn't a draft to discard" do
+      stub_any_publishing_api_discard_draft.to_return(status: 422)
+
+      expect { described_class.new(page).discard }.to raise_error(
+        Coronavirus::Pages::DraftUpdater::DraftUpdaterError,
+        "You do not have a draft to discard",
+      )
+    end
+
+    it "raises an error if publishing-api is not available" do
+      stub_publishing_api_isnt_available
+
+      expect { described_class.new(page).discard }.to raise_error(
+        Coronavirus::Pages::DraftUpdater::DraftUpdaterError,
+        "There has been an error discarding your changes. Try again.",
+      )
+    end
+  end
 end
