@@ -17,15 +17,13 @@ module Coronavirus
 
       SubSection.transaction do
         @sub_section.save!
-        raise ActiveRecord::Rollback unless draft_updater.send
+        draft_updater.send
       end
 
-      if draft_updater.errors.any?
-        flash.now["alert"] = draft_updater.errors.to_sentence
-        render :new, status: :internal_server_error
-      else
-        redirect_to coronavirus_page_path(page.slug), { notice: helpers.t("coronavirus.sub_sections.create.success") }
-      end
+      redirect_to coronavirus_page_path(page.slug), notice: helpers.t("coronavirus.sub_sections.create.success")
+    rescue Pages::DraftUpdater::DraftUpdaterError => e
+      flash.now[:alert] = e.message
+      render :new, status: :internal_server_error
     end
 
     def edit
