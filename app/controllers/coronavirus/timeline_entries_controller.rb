@@ -10,11 +10,20 @@ module Coronavirus
     def create
       @timeline_entry = page.timeline_entries.new(timeline_entry_params)
 
-      if @timeline_entry.save && draft_updater.send
-        redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.timeline_entries.create.success")
-      else
+      unless @timeline_entry.valid?
         render :new, status: :unprocessable_entity
+        return
       end
+
+      TimelineEntry.transaction do
+        @timeline_entry.save!
+        draft_updater.send
+      end
+
+      redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.timeline_entries.create.success")
+    rescue Pages::DraftUpdater::DraftUpdaterError => e
+      flash.now[:alert] = e.message
+      render :new, status: :internal_server_error
     end
 
     def edit
