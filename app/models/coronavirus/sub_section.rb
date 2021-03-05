@@ -13,7 +13,10 @@ class Coronavirus::SubSection < ApplicationRecord
   validates :title, :content, presence: true
   validates :page, presence: true
   validate :featured_link_must_be_in_content
-  after_create :create_content_groups
+
+  before_create :content_super_group
+  validate :all_content_groups_valid?
+  after_create :save_validated_content_groups
 
   def featured_link_must_be_in_content
     if featured_link.present? && !content.include?(featured_link)
@@ -25,7 +28,7 @@ class Coronavirus::SubSection < ApplicationRecord
     HEADER_PATTERN =~ text
   end
 
-  def content_groups
+  def content_group_array
     content.lines.each_with_object([]) do |line, sections|
       sections << [] if sections.empty? || is_header?(line)
       line.strip!
@@ -33,16 +36,35 @@ class Coronavirus::SubSection < ApplicationRecord
     end
   end
 
-  def create_content_groups
-    content_groups.each_with_index do |group, index|
+  def content_super_group
+    @content_super_group ||= content_group_array.each_with_index.map do |group, index|
       content_group = {}
       content_group[:header] = group.shift if is_header?(group[0])
       content_group[:links] = group
       content_group[:position] = index
-      # content_group[:coronavirus_sub_section_id] = id
-      a = Coronavirus::ContentGroup.new(content_group)
-      a.coronavirus_sub_section_id = id
-      a.save!
+      Coronavirus::ContentGroup.new(content_group)
+    end
+  end
+
+  def all_content_groups_valid?
+    invalid_entries = content_super_group.select(&:invalid?)
+    unless invalid_entries.empty?
+      invalid_entries.each { |group| add_error_messages_to_sub_section(group) }
+      false
+    end
+    true
+  end
+
+  def add_error_messages_to_sub_section(group)
+    group.errors.full_messages.each do |message|
+      errors[:base] << "Content Error: #{message}"
+    end
+  end
+
+  def save_validated_content_groups
+    content_super_group.each do |group|
+      group.coronavirus_sub_section_id = id
+      group.save!
     end
   end
 end
