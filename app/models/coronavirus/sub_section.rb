@@ -14,7 +14,6 @@ class Coronavirus::SubSection < ApplicationRecord
   validates :page, presence: true
   validate :featured_link_must_be_in_content
 
-  before_create :content_super_group
   validate :all_content_groups_valid?
   after_create :save_validated_content_groups
 
@@ -65,6 +64,14 @@ class Coronavirus::SubSection < ApplicationRecord
     content_super_group.each do |group|
       group.coronavirus_sub_section_id = id
       group.save!
+    end
+  end
+
+  def reload_content_groups
+    existing_content_groups = content_groups.map(&:id)
+    if all_content_groups_valid?
+      save_validated_content_groups
+      existing_content_groups.each { |x| Coronavirus::ContentGroup.find(x).destroy! }
     end
   end
 end

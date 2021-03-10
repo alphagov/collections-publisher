@@ -9,7 +9,9 @@ RSpec.describe Coronavirus::SubSectionsController do
   let(:page) { create :coronavirus_page, :of_known_type }
   let!(:sub_section) { create :coronavirus_sub_section, page: page }
   let(:title) { Faker::Lorem.sentence }
-  let(:content) { "###{Faker::Lorem.sentence} \n [#{Faker::Lorem.sentence}](/#{File.join(Faker::Lorem.words)})" }
+  let(:header) { "###{Faker::Lorem.sentence}" }
+  let(:links) { "[#{Faker::Lorem.sentence}](/#{File.join(Faker::Lorem.words)})" }
+  let(:content) { "#{header} \n #{links}" }
   let(:sub_section_params) do
     {
       title: title,
@@ -135,10 +137,10 @@ RSpec.describe Coronavirus::SubSectionsController do
 
       it "updates the coresponding content group" do
         patch :update, params: params
-        sub_section.reload
-        content.split(" \n ").each do |line|
-          expect(sub_section.content_groups.first).to include(line)
-        end
+        content_group = sub_section.content_groups.first
+
+        expect(content_group.header).to eq(header)
+        expect(content_group.links.first).to eq(links)
       end
 
       it "redirects to coronavirus page" do
@@ -163,6 +165,15 @@ RSpec.describe Coronavirus::SubSectionsController do
       it "renders the errors" do
         patch :update, params: params
         expect(response.body).to include(CGI.escapeHTML("Title can't be blank"))
+      end
+    end
+
+    context "when the content group is invalid" do
+      let(:links) { "" }
+
+      it "doesn't update a subsection" do
+        expect { patch :update, params: params }
+          .not_to(change { sub_section.reload.content_groups.first.links })
       end
     end
 

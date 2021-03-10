@@ -35,6 +35,7 @@ module Coronavirus
     def update
       @sub_section = page.sub_sections.find(params[:id])
       @sub_section.assign_attributes(sub_section_params)
+      @sub_section.reload_content_groups
 
       unless @sub_section.valid?
         render :edit, status: :unprocessable_entity
