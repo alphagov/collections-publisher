@@ -52,18 +52,15 @@ module Coronavirus
 
     def destroy
       sub_section = page.sub_sections.find(params[:id])
-      message = { notice: helpers.t("coronavirus.sub_sections.destroy.success") }
 
       SubSection.transaction do
         sub_section.destroy!
-
-        unless draft_updater.send
-          message = { alert: helpers.t("coronavirus.sub_sections.destroy.failed") }
-          raise ActiveRecord::Rollback
-        end
+        draft_updater.send
       end
 
-      redirect_to coronavirus_page_path(page.slug), message
+      redirect_to coronavirus_page_path(page.slug), notice: helpers.t("coronavirus.sub_sections.destroy.success")
+    rescue Pages::DraftUpdater::DraftUpdaterError
+      redirect_to coronavirus_page_path(page.slug), alert: helpers.t("coronavirus.sub_sections.destroy.failed")
     end
 
   private
