@@ -39,7 +39,7 @@
 
     <% if steps.length > 0 %>
       <%= form_for(@step_by_step_page, url: step_by_step_page_reorder_path(@step_by_step_page), method: :post) do |form| %>
-        <%= render 'components/reorderable_list', {
+        <%= render 'govuk_publishing_components/components/reorderable_list', {
           input_name: "step_order_save",
           items: steps,
         } %>

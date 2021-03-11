@@ -14,4 +14,3 @@
 //= require @webcomponents/custom-elements/custom-elements.min.js
 
 //= require components/markdown-editor.js
-//= require components/reorderable-list.js
