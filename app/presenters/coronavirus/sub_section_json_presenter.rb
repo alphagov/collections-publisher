@@ -3,12 +3,6 @@
 class Coronavirus::SubSectionJsonPresenter
   class MarkdownInvalidError < RuntimeError; end
 
-  HEADER_PATTERN = PatternMaker.call(
-    "starts_with hashes then perhaps_spaces then capture(title) and nothing_else",
-    hashes: "#+",
-    title: '\w.+',
-  )
-
   LINK_PATTERN = PatternMaker.call(
     "starts_with perhaps_spaces within(sq_brackets,capture(label)) then perhaps_spaces and within(brackets,capture(url))",
     label: '\s*\w.+',
@@ -34,60 +28,14 @@ class Coronavirus::SubSectionJsonPresenter
   end
 
   def sub_sections
-    content_groups.map { |content_group| sub_section_hash_from_content_group(content_group) }
+    sub_section.content_groups.map { |content_group| sub_section_hash_from_content_group(content_group) }
   end
 
-  # Groups the sub section content into an array of arrays, such that:
-  #   - links and texts are separated and each is put into an inner array
-  #   - each title starts a new inner array containing that title as the first element
-  #     and then the links between that title and the next title (or the end of the content)
-  #   - if there are no titles, all the links go into a single inner array
-  def content_groups
-    sub_section.content.lines.each_with_object([]) do |line, sections|
-      sections << [] if sections.empty? || is_header?(line)
-      line.strip!
-      sections.last << line
-    end
-  end
-
-  # Converts:
-  #
-  #   [header, link, link]
-  #
-  # into:
-  #
-  #    {
-  #      title: <text from header>,
-  #      list: [
-  #        {
-  #          label: <first link label>,
-  #          url: <first link url>
-  #        },
-  #        {
-  #          label: <second link label>,
-  #          url: <second link url>
-  #        }
-  #    {
   def sub_section_hash_from_content_group(content_group)
-    content_group.each_with_object({ title: nil }) do |line, hash|
-      if is_header?(line)
-        title = HEADER_PATTERN.match(line).named_captures["title"]
-        hash[:title] = title
-      elsif is_link?(line)
-        hash[:list] ||= []
-        hash[:list] << build_link(line)
-      else
-        raise MarkdownInvalidError, "Unable to parse markdown: '#{line}'"
-      end
-    end
-  end
-
-  def is_header?(text)
-    HEADER_PATTERN =~ text
-  end
-
-  def is_link?(text)
-    LINK_PATTERN =~ text
+    {
+      title: content_group.header,
+      list: content_group.links.map { |link| build_link(link) },
+    }
   end
 
   def build_link(element)
