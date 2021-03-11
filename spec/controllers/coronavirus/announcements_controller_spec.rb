@@ -136,7 +136,7 @@ RSpec.describe Coronavirus::AnnouncementsController do
 
     let(:updated_announcement_params) do
       {
-        title: "Updated title",
+        title: title,
         path: "/updated/path",
         published_at: published_at,
       }
@@ -150,23 +150,54 @@ RSpec.describe Coronavirus::AnnouncementsController do
       }
     end
 
-    subject { patch :update, params: params }
+    context "when an announcement is valid" do
+      it "updates an announcement" do
+        expect { patch :update, params: params }
+          .to change { announcement.reload.title }.to(title)
+      end
 
-    it "redirects to coronavirus page on success" do
-      expect(subject).to redirect_to(coronavirus_page_path(page.slug))
+      it "redirects to coronavirus page" do
+        patch :update, params: params
+        expect(response).to redirect_to(coronavirus_page_path(page.slug))
+      end
     end
 
-    it "updates the announcements" do
-      expect { subject }.not_to(change { Coronavirus::Announcement.count })
+    context "when the announcement is invalid" do
+      let(:title) { "" }
+
+      it "doesn't update an announcement" do
+        expect { patch :update, params: params }
+          .not_to(change { announcement.reload.title })
+      end
+
+      it "returns an unprocessable entity response" do
+        patch :update, params: params
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "renders the errors" do
+        patch :update, params: params
+        expect(response.body).to include(CGI.escapeHTML("Title can't be blank"))
+      end
     end
 
-    it "changes the attributes of the announcement" do
-      subject
-      published_at_time = Time.zone.local(updated_announcement_params[:published_at]["year"], updated_announcement_params[:published_at]["month"], updated_announcement_params[:published_at]["day"])
-      announcement.reload
-      expect(announcement.title).to eq(updated_announcement_params[:title])
-      expect(announcement.path).to eq(updated_announcement_params[:path])
-      expect(announcement.published_at).to eq(published_at_time)
+    context "when there is a problem updating the Publishing API" do
+      before { stub_publishing_api_isnt_available }
+
+      it "doesn't update an announcement" do
+        expect { patch :update, params: params }
+          .not_to(change { announcement.reload.title })
+      end
+
+      it "returns a internal server error response" do
+        patch :update, params: params
+        expect(response).to have_http_status(:internal_server_error)
+      end
+
+      it "renders the errors" do
+        patch :update, params: params
+        expect(response.body).to include("Failed to update the draft content item. Try saving again.")
+      end
     end
   end
 end
