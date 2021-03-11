@@ -52,18 +52,15 @@ module Coronavirus
 
     def destroy
       timeline_entry = page.timeline_entries.find(params[:id])
-      message = { notice: I18n.t("coronavirus.timeline_entries.destroy.success") }
 
       TimelineEntry.transaction do
         timeline_entry.destroy!
-
-        unless draft_updater.send
-          message = { alert: I18n.t("coronavirus.timeline_entries.destroy.failed") }
-          raise ActiveRecord::Rollback
-        end
+        draft_updater.send
       end
 
-      redirect_to coronavirus_page_path(page.slug), message
+      redirect_to coronavirus_page_path(page.slug), notice: I18n.t("coronavirus.timeline_entries.destroy.success")
+    rescue Pages::DraftUpdater::DraftUpdaterError
+      redirect_to coronavirus_page_path(page.slug), alert: I18n.t("coronavirus.timeline_entries.destroy.failed")
     end
 
   private
