@@ -98,20 +98,21 @@ RSpec.describe Coronavirus::AnnouncementsController do
       }
     end
 
-    subject { delete :destroy, params: announcement_params }
-
     it "redirects to the coronavirus page" do
-      expect(subject).to redirect_to(coronavirus_page_path(page.slug))
+      delete :destroy, params: announcement_params
+      expect(response).to redirect_to(coronavirus_page_path(page.slug))
     end
 
     it "deletes the announcement" do
-      expect { subject }.to change { Coronavirus::Announcement.count }.by(-1)
+      expect { delete :destroy, params: announcement_params }
+        .to change { Coronavirus::Announcement.count }.by(-1)
     end
 
     it "doesn't delete the announcement if draft_updater fails" do
       stub_publishing_api_isnt_available
 
-      expect { subject }.to_not(change { page.reload.announcements.to_a })
+      expect { delete :destroy, params: announcement_params }
+        .not_to(change { Coronavirus::Announcement.count })
     end
   end
 

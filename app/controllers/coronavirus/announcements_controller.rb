@@ -29,18 +29,15 @@ module Coronavirus
 
     def destroy
       announcement = page.announcements.find(params[:id])
-      message = { notice: helpers.t("coronavirus.announcements.destroy.success") }
 
       Announcement.transaction do
         announcement.destroy!
-
-        unless draft_updater.send
-          message = { alert: helpers.t("coronavirus.announcements.destroy.failed") }
-          raise ActiveRecord::Rollback
-        end
+        draft_updater.send
       end
 
-      redirect_to coronavirus_page_path(page.slug), message
+      redirect_to coronavirus_page_path(page.slug), notice: helpers.t("coronavirus.announcements.destroy.success")
+    rescue Pages::DraftUpdater::DraftUpdaterError
+      redirect_to coronavirus_page_path(page.slug), alert: helpers.t("coronavirus.announcements.destroy.failed")
     end
 
     def edit
