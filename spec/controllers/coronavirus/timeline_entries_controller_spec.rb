@@ -3,6 +3,8 @@ require "rails_helper"
 RSpec.describe Coronavirus::TimelineEntriesController do
   include CoronavirusFeatureSteps
 
+  render_views
+
   let(:stub_user) { create :user, name: "Name Surname" }
   let(:page) { create :coronavirus_page, :landing }
 
@@ -37,27 +39,55 @@ RSpec.describe Coronavirus::TimelineEntriesController do
       stub_any_publishing_api_call
     end
 
-    it "saves a new timeline entry" do
-      post :create,
-           params: {
-             page_slug: page.slug,
-             timeline_entry: timeline_entry_params,
-           }
+    context "when a timeline entry is valid" do
+      it "creates a timeline entry" do
+        expect { post :create, params: { page_slug: page.slug, timeline_entry: timeline_entry_params } }
+          .to change { Coronavirus::TimelineEntry.where(heading: heading).count }.by(1)
+      end
 
-      timeline_entry = page.timeline_entries.last
-
-      expect(timeline_entry.heading).to eq(heading)
-      expect(timeline_entry.content).to eq(content)
+      it "redirects to coronavirus page" do
+        post :create, params: { page_slug: page.slug, timeline_entry: timeline_entry_params }
+        expect(response).to redirect_to(coronavirus_page_path(page.slug))
+      end
     end
 
-    it "redirects to coronavirus page on success" do
-      post :create,
-           params: {
-             page_slug: page.slug,
-             timeline_entry: timeline_entry_params,
-           }
+    context "when the timeline entry is invalid" do
+      let(:heading) { "" }
 
-      expect(response).to redirect_to(coronavirus_page_path(page.slug))
+      it "doesn't create a timeline entry" do
+        expect { post :create, params: { page_slug: page.slug, timeline_entry: timeline_entry_params } }
+          .not_to(change { Coronavirus::TimelineEntry.count })
+      end
+
+      it "returns an unprocessable entity response" do
+        post :create, params: { page_slug: page.slug, timeline_entry: timeline_entry_params }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "renders the errors" do
+        post :create, params: { page_slug: page.slug, timeline_entry: timeline_entry_params }
+        expect(response.body).to include(CGI.escapeHTML("Heading can't be blank"))
+      end
+    end
+
+    context "when there is a problem updating the Publishing API" do
+      before { stub_publishing_api_isnt_available }
+
+      it "doesn't create a timeline entry" do
+        expect {
+          post :create, params: { page_slug: page.slug, timeline_entry: timeline_entry_params }
+        }.not_to(change { Coronavirus::TimelineEntry.count })
+      end
+
+      it "returns a internal server error response" do
+        post :create, params: { page_slug: page.slug, timeline_entry: timeline_entry_params }
+        expect(response).to have_http_status(:internal_server_error)
+      end
+
+      it "renders the errors" do
+        post :create, params: { page_slug: page.slug, timeline_entry: timeline_entry_params }
+        expect(response.body).to include("Failed to update the draft content item. Try saving again.")
+      end
     end
   end
 
@@ -88,12 +118,21 @@ RSpec.describe Coronavirus::TimelineEntriesController do
 
   describe "PATCH /coronavirus/:page_slug/timeline_entries/:id" do
     let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
-    let(:timeline_entry) { create(:coronavirus_timeline_entry, page: page) }
+    let!(:timeline_entry) { create(:coronavirus_timeline_entry, page: page) }
+    let(:heading) { "Updated heading" }
 
     let(:updated_timeline_entry_params) do
       {
-        heading: "Updated heading",
+        heading: heading,
         content: "##Updated content",
+      }
+    end
+
+    let(:params) do
+      {
+        id: timeline_entry.id,
+        page_slug: page.slug,
+        timeline_entry: updated_timeline_entry_params,
       }
     end
 
@@ -102,28 +141,54 @@ RSpec.describe Coronavirus::TimelineEntriesController do
       stub_coronavirus_publishing_api
     end
 
-    it "updates the timeline entry" do
-      patch :update,
-            params: {
-              id: timeline_entry.id,
-              page_slug: page.slug,
-              timeline_entry: updated_timeline_entry_params,
-            }
+    context "when a timeline entry is valid" do
+      it "updates a timeline entry" do
+        expect { patch :update, params: params }
+          .to change { timeline_entry.reload.heading }.to(heading)
+      end
 
-      timeline_entry.reload
-      expect(timeline_entry.heading).to eq(updated_timeline_entry_params[:heading])
-      expect(timeline_entry.content).to eq(updated_timeline_entry_params[:content])
+      it "redirects to coronavirus page" do
+        patch :update, params: params
+        expect(response).to redirect_to(coronavirus_page_path(page.slug))
+      end
     end
 
-    it "redirects to coronavirus page on success" do
-      patch :update,
-            params: {
-              id: timeline_entry.id,
-              page_slug: page.slug,
-              timeline_entry: updated_timeline_entry_params,
-            }
+    context "when the timeline entry is invalid" do
+      let(:heading) { "" }
 
-      expect(response).to redirect_to(coronavirus_page_path(page.slug))
+      it "doesn't update a timeline entry" do
+        expect { patch :update, params: params }
+          .not_to(change { timeline_entry.reload.heading })
+      end
+
+      it "returns an unprocessable entity response" do
+        patch :update, params: params
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "renders the errors" do
+        patch :update, params: params
+        expect(response.body).to include(CGI.escapeHTML("Heading can't be blank"))
+      end
+    end
+
+    context "when there is a problem updating the Publishing API" do
+      before { stub_publishing_api_isnt_available }
+
+      it "doesn't update a timeline entry" do
+        expect { patch :update, params: params }
+          .not_to(change { timeline_entry.reload.heading })
+      end
+
+      it "returns a internal server error response" do
+        patch :update, params: params
+        expect(response).to have_http_status(:internal_server_error)
+      end
+
+      it "renders the errors" do
+        patch :update, params: params
+        expect(response.body).to include("Failed to update the draft content item. Try saving again.")
+      end
     end
   end
 

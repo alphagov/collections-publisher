@@ -8,13 +8,10 @@ module Coronavirus
     end
 
     def update
-      message = if draft_updater.send
-                  { notice: helpers.t("coronavirus.github_changes.update.success") }
-                else
-                  { alert: draft_updater.errors.to_sentence }
-                end
-
-      redirect_to github_changes_coronavirus_page_path(page.slug), message
+      draft_updater.send
+      redirect_to github_changes_coronavirus_page_path(page.slug), notice: helpers.t("coronavirus.github_changes.update.success")
+    rescue Pages::DraftUpdater::DraftUpdaterError => e
+      redirect_to github_changes_coronavirus_page_path(page.slug), alert: e.message
     end
 
     def publish

@@ -13,6 +13,26 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     stub_request(:get, Regexp.new(page.raw_content_url))
       .to_return(status: 200, body: github_content.to_json)
   end
+
+  describe "#github_raw_data" do
+    it "returns an error if GitHub is unavailable" do
+      stub_request(:get, Regexp.new(page.raw_content_url))
+        .to_return(status: 500)
+
+      expect { subject.github_raw_data }.to raise_error(Coronavirus::Pages::ContentBuilder::GitHubConnectionError)
+    end
+  end
+
+  describe "#validate_content" do
+    it "returns an error if GitHub is missing required keys" do
+      allow(subject)
+        .to receive(:github_data)
+        .and_return(github_content["content"].except("title"))
+
+      expect { subject.validate_content }.to raise_error(Coronavirus::Pages::ContentBuilder::GitHubInvalidContentError)
+    end
+  end
+
   describe "#github_data" do
     it "returns github content" do
       expect(subject.github_data).to eq github_content["content"]
@@ -67,6 +87,12 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
       expect(subject.sub_sections_data).to eq []
     end
 
+    it "raises an error if the sub-section has invalid content" do
+      create(:coronavirus_sub_section, page: page, content: "I am invalid")
+
+      expect { subject.sub_sections_data }.to raise_error(Coronavirus::Pages::ContentBuilder::InvalidContentError)
+    end
+
     context "with subsections" do
       let!(:sub_section_0) { create :coronavirus_sub_section, position: 0, page: page }
       let!(:sub_section_1) { create :coronavirus_sub_section, position: 1, page: page }
@@ -119,23 +145,6 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     it "only adds livestream data from github if there isn't a livestream in the database" do
       subject.add_live_stream(data)
       expect(data["live_stream"]["video_url"]).to be_nil
-    end
-  end
-
-  describe "#success?" do
-    it "is true if call successful" do
-      expect(subject.success?).to be(true)
-    end
-
-    context "on failure" do
-      before do
-        stub_request(:get, Regexp.new(page.raw_content_url))
-          .to_return(status: 400)
-      end
-
-      it "is false" do
-        expect(subject.success?).to be(false)
-      end
     end
   end
 end

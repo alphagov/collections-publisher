@@ -8,8 +8,6 @@ module Coronavirus
     end
 
     def update
-      success = true
-
       reordered_announcements = page.announcements.sort_by do |announcement|
         params.require(:announcement_order_save).fetch(announcement.id.to_s, announcement.position).to_i
       end
@@ -19,19 +17,13 @@ module Coronavirus
           announcement.update_column(:position, index)
         end
 
-        unless draft_updater.send
-          success = false
-          raise ActiveRecord::Rollback
-        end
+        draft_updater.send
       end
 
-      if success
-        message = helpers.t("coronavirus.reorder_announcements.update.success")
-        redirect_to coronavirus_page_path(page.slug), notice: message
-      else
-        message = helpers.t("coronavirus.reorder_announcements.update.failed", error: draft_updater.errors.to_sentence)
-        redirect_to reorder_coronavirus_page_announcements_path(page.slug), alert: message
-      end
+      redirect_to coronavirus_page_path(page.slug), notice: helpers.t("coronavirus.reorder_announcements.update.success")
+    rescue Pages::DraftUpdater::DraftUpdaterError => e
+      message = helpers.t("coronavirus.reorder_announcements.update.failed", error: e.message)
+      redirect_to reorder_coronavirus_page_announcements_path(page.slug), alert: message
     end
 
   private

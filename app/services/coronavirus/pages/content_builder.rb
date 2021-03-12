@@ -1,10 +1,13 @@
 module Coronavirus::Pages
   class ContentBuilder
-    attr_reader :page, :errors
+    class GitHubConnectionError < RuntimeError; end
+    class GitHubInvalidContentError < RuntimeError; end
+    class InvalidContentError < RuntimeError; end
+
+    attr_reader :page
 
     def initialize(page)
       @page = page
-      @errors = []
     end
 
     def data
@@ -21,25 +24,14 @@ module Coronavirus::Pages
         data["hidden_search_terms"] = hidden_search_terms
         data
       end
-    rescue RestClient::Exception => e
-      add_error(e.message)
-    end
-
-    def success?
-      data
-      errors.empty?
-    end
-
-    def add_error(error)
-      errors << error
-      errors.flatten!
     end
 
     def validate_content
       required_keys =
         type.to_sym == :landing ? required_landing_page_keys : required_hub_page_keys
       missing_keys = (required_keys - github_data.keys)
-      add_error("Invalid content - please recheck GitHub and add #{missing_keys.join(', ')}.") if missing_keys.any?
+
+      raise GitHubInvalidContentError if missing_keys.any?
     end
 
     def type
@@ -73,6 +65,8 @@ module Coronavirus::Pages
 
     def github_raw_data
       YamlFetcher.new(page.raw_content_url).body_as_hash
+    rescue RestClient::Exception
+      raise GitHubConnectionError
     end
 
     def github_data
@@ -88,7 +82,7 @@ module Coronavirus::Pages
         presenter = Coronavirus::SubSectionJsonPresenter.new(sub_section, page.content_id)
         presenter.output
       rescue Coronavirus::SubSectionJsonPresenter::MarkdownInvalidError => e
-        add_error(e.message)
+        raise InvalidContentError, e.message
       end
     end
 

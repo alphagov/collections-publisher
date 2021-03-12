@@ -563,11 +563,7 @@ module CoronavirusFeatureSteps
   end
 
   def and_i_see_an_alert
-    expect(page).to have_text("Invalid content - please recheck GitHub and add title, header_section, announcements_label, announcements, nhs_banner, sections, topic_section, notifications, live_stream.")
-  end
-
-  def and_i_see_an_alert_for_missing_hub_page_keys
-    expect(page).to have_text("Invalid content - please recheck GitHub and add title, header_section, sections, topic_section, notifications.")
+    expect(page).to have_text("Invalid content in GitHub YAML")
   end
 
   def and_i_see_a_draft_updated_message
