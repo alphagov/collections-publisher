@@ -1,21 +1,6 @@
 # frozen_string_literal: true
 
 class Coronavirus::SubSectionJsonPresenter
-  class MarkdownInvalidError < RuntimeError; end
-
-  HEADER_PATTERN = PatternMaker.call(
-    "starts_with hashes then perhaps_spaces then capture(title) and nothing_else",
-    hashes: "#+",
-    title: '\w.+',
-  )
-
-  LINK_PATTERN = PatternMaker.call(
-    "starts_with perhaps_spaces within(sq_brackets,capture(label)) then perhaps_spaces and within(brackets,capture(url))",
-    label: '\s*\w.+',
-    url: '\s*(\b(https?)://)?[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]\s*',
-  )
-  # Url pattern from https://stackoverflow.com/a/163684/1014251
-
   attr_reader :sub_section, :priority_taxon
 
   def initialize(sub_section, priority_taxon = nil)
@@ -34,65 +19,22 @@ class Coronavirus::SubSectionJsonPresenter
   end
 
   def sub_sections
-    content_groups.map { |content_group| sub_section_hash_from_content_group(content_group) }
-  end
-
-  # Groups the sub section content into an array of arrays, such that:
-  #   - links and texts are separated and each is put into an inner array
-  #   - each title starts a new inner array containing that title as the first element
-  #     and then the links between that title and the next title (or the end of the content)
-  #   - if there are no titles, all the links go into a single inner array
-  def content_groups
-    sub_section.content.lines.each_with_object([]) do |line, sections|
-      sections << [] if sections.empty? || is_header?(line)
-      line.strip!
-      sections.last << line
-    end
-  end
-
-  # Converts:
-  #
-  #   [header, link, link]
-  #
-  # into:
-  #
-  #    {
-  #      title: <text from header>,
-  #      list: [
-  #        {
-  #          label: <first link label>,
-  #          url: <first link url>
-  #        },
-  #        {
-  #          label: <second link label>,
-  #          url: <second link url>
-  #        }
-  #    {
-  def sub_section_hash_from_content_group(content_group)
-    content_group.each_with_object({ title: nil }) do |line, hash|
-      if is_header?(line)
-        title = HEADER_PATTERN.match(line).named_captures["title"]
-        hash[:title] = title
-      elsif is_link?(line)
-        hash[:list] ||= []
-        hash[:list] << build_link(line)
-      else
-        raise MarkdownInvalidError, "Unable to parse markdown: '#{line}'"
+    sub_section.structured_content.items.each_with_object([]) do |item, memo|
+      case item
+      when Coronavirus::SubSection::StructuredContent::Link
+        if memo.empty?
+          memo << { title: nil, list: [build_link(item.label, item.url)] }
+        else
+          memo.last[:list] << build_link(item.label, item.url)
+        end
+      when Coronavirus::SubSection::StructuredContent::Header
+        memo << { title: item.text, list: [] }
       end
     end
   end
 
-  def is_header?(text)
-    HEADER_PATTERN =~ text
-  end
-
-  def is_link?(text)
-    LINK_PATTERN =~ text
-  end
-
-  def build_link(element)
-    link = LINK_PATTERN.match(element).named_captures.symbolize_keys
-    link.transform_values!(&:strip)
+  def build_link(label, url)
+    link = { label: label, url: url }
     if subtopic_paths.keys.include?(link[:url])
       link[:description] = description_from_raw_content(link[:url])
       link[:featured_link] = true

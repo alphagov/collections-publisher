@@ -44,14 +44,6 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
       expect(subject.output).to eq(expected)
     end
 
-    context "with unknown content" do
-      let(:content) { [title_markup, link, "unknown"].join("\n") }
-
-      it "raises an error" do
-        expect { subject.output }.to raise_error(Coronavirus::SubSectionJsonPresenter::MarkdownInvalidError)
-      end
-    end
-
     context "with featured links" do
       it "looks up the description in Publishing API for a relative featured link" do
         sub_section.featured_link = path
@@ -94,153 +86,40 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
     end
   end
 
-  describe "#sub_section_hash_from_content_group" do
-    let(:label) { Faker::Lorem.sentence }
-    let(:path)  { "/#{File.join(Faker::Lorem.words)}" }
-    let(:link) { "[#{label}](#{path})" }
-
-    let(:group) { [link] }
-    let(:sub_section_hash) { subject.sub_section_hash_from_content_group(group) }
-
-    it "puts the link path and label into list" do
-      expect(sub_section_hash[:list].first[:label]).to eq(label)
-      expect(sub_section_hash[:list].first[:url]).to eq(path)
-    end
-
-    it "has a null title" do
-      expect(sub_section_hash.keys).to include(:title)
-      expect(sub_section_hash[:title]).to be_nil
-    end
-
-    context "with a title" do
-      let(:title) { Faker::Lorem.sentence }
-      let(:title_markup) { "## #{title}" }
-      let(:group) { [title_markup, link] }
-
-      it "puts the link path and label into list" do
-        expect(sub_section_hash[:list].first[:label]).to eq(label)
-        expect(sub_section_hash[:list].first[:url]).to eq(path)
-      end
-
-      it "has the title" do
-        expect(sub_section_hash[:title]).to eq(title)
+  describe "#sub_sections" do
+    context "given multiple titles" do
+      let(:content) { "#title \n [test](/coronavirus) \n #title2 \n [test2](/government)" }
+      it "creates multiple groups" do
+        expected_output =
+          [
+            {
+              list: [{ label: "test", url: "/coronavirus" }],
+              title: "title",
+            },
+            {
+              list: [{ label: "test2", url: "/government" }],
+              title: "title2",
+            },
+          ]
+        expect(subject.sub_sections).to eq(expected_output)
       end
     end
 
-    context "with a spaceless title" do
-      let(:title) { Faker::Lorem.sentence }
-      let(:title_markup) { "###{title}" }
-      let(:group) { [title_markup, link] }
-
-      it "has the title" do
-        expect(sub_section_hash[:title]).to eq(title)
-      end
-    end
-
-    context "with a full url in link" do
-      let(:url) { Faker::Internet.url }
-      let(:link) { "[#{label}](#{url})" }
-
-      it "puts the link path and label into list" do
-        expect(sub_section_hash[:list].first[:label]).to eq(label)
-        expect(sub_section_hash[:list].first[:url]).to eq(url)
-      end
-    end
-
-    context "with a full secure url in link" do
-      let(:url) { Faker::Internet.url }
-      let(:link) { "[#{label}](#{url})" }
-
-      it "puts the link path and label into list" do
-        expect(sub_section_hash[:list].first[:label]).to eq(label)
-        expect(sub_section_hash[:list].first[:url]).to eq(url)
-      end
-    end
-
-    context "with spaces" do
-      let(:link) { " [ #{label} ] ( #{path} ) " }
-
-      it "puts the link path and label into list" do
-        expect(sub_section_hash[:list].first[:label]).to eq(label)
-        expect(sub_section_hash[:list].first[:url]).to eq(path)
-      end
-    end
-
-    context "with two links" do
-      let(:label_two) { Faker::Lorem.sentence }
-      let(:path_two)  { "/#{File.join(Faker::Lorem.words)}" }
-      let(:link_two) { "[#{label_two}](#{path_two})" }
-      let(:group) { [link, link_two] }
-
-      it "puts the link path and label into list" do
-        expect(sub_section_hash[:list].first[:label]).to eq(label)
-        expect(sub_section_hash[:list].first[:url]).to eq(path)
-      end
-
-      it "puts the second link path and label into list" do
-        expect(sub_section_hash[:list].last[:label]).to eq(label_two)
-        expect(sub_section_hash[:list].last[:url]).to eq(path_two)
-      end
-    end
-
-    context "with unknown content" do
-      let(:group) { %w[unknown] }
-
-      it "adds an error" do
-        expect { sub_section_hash }.to raise_error(Coronavirus::SubSectionJsonPresenter::MarkdownInvalidError)
-      end
-    end
-
-    context "when link is to a subtopic path" do
-      let(:business) { create :coronavirus_page, :business }
-      let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
-      let(:description) { "Find out about the government response to coronavirus (COVID-19) and what you need to do." }
-      let(:path) { business.base_path }
-
-      before do
-        stub_request(:get, Regexp.new(business.raw_content_url))
-          .to_return(body: File.read(fixture_path))
-      end
-
-      it "flags featured link" do
-        expect(sub_section_hash[:list].first[:featured_link]).to eq(true)
-      end
-
-      it "includes description" do
-        expect(sub_section_hash[:list].first[:description]).to eq(description)
-      end
-    end
-  end
-
-  describe "#content_groups" do
-    it "contains the content in single inner array if no title in content" do
-      expect(subject.content_groups).to eq([[content]])
-    end
-
-    context "with many links" do
-      let(:content) { [link_one, link_two, link_three].join("\n") }
-
-      it "returns them all in one inner array" do
-        expect(subject.content_groups).to eq([[link_one, link_two, link_three]])
-      end
-    end
-
-    context "with title then links" do
-      let(:title) { random_title }
-      let(:content) { [title, link_one, link_two].join("\n") }
-
-      it "returns title and links in one inner array" do
-        expect(subject.content_groups).to eq([[title, link_one, link_two]])
-      end
-    end
-
-    context "with titles within links" do
-      let(:title_one) { random_title }
-      let(:title_two) { random_title }
-      let(:content) { [link_one, title_one, link_two, title_two, link_three].join("\n") }
-
-      it "returns the content in grouped arrays" do
-        expect(subject.content_groups).to eq([[link_one], [title_one, link_two], [title_two, link_three]])
+    context "when the first group has no title" do
+      let(:content) { "[test](/coronavirus) \n #title2 \n [test2](/government)" }
+      it "groups the links as expected" do
+        expected_output =
+          [
+            {
+              list: [{ label: "test", url: "/coronavirus" }],
+              title: nil,
+            },
+            {
+              list: [{ label: "test2", url: "/government" }],
+              title: "title2",
+            },
+          ]
+        expect(subject.sub_sections).to eq(expected_output)
       end
     end
   end
