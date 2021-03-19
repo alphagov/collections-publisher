@@ -21,17 +21,6 @@ RSpec.describe Coronavirus::Pages::DraftUpdater do
       expect(described_class.new(page).payload).to eq expected_payload
     end
 
-    it "catches InvalidContentError from ContentBuilder and adds a user friendly message" do
-      allow(Coronavirus::Pages::ContentBuilder)
-        .to receive(:new)
-        .and_raise(Coronavirus::Pages::ContentBuilder::InvalidContentError)
-
-      expect { described_class.new(page).payload }.to raise_error(
-        Coronavirus::Pages::DraftUpdater::DraftUpdaterError,
-        "Invalid content in one of the sub-sections",
-      )
-    end
-
     it "catches GitHubInvalidContentError from ContentBuilder and adds a user friendly message" do
       allow(Coronavirus::Pages::ContentBuilder)
         .to receive(:new)

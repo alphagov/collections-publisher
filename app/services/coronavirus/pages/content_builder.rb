@@ -2,7 +2,6 @@ module Coronavirus::Pages
   class ContentBuilder
     class GitHubConnectionError < RuntimeError; end
     class GitHubInvalidContentError < RuntimeError; end
-    class InvalidContentError < RuntimeError; end
 
     attr_reader :page
 
@@ -81,8 +80,6 @@ module Coronavirus::Pages
       page.sub_sections.order(:position).map do |sub_section|
         presenter = Coronavirus::SubSectionJsonPresenter.new(sub_section, page.content_id)
         presenter.output
-      rescue Coronavirus::SubSectionJsonPresenter::MarkdownInvalidError => e
-        raise InvalidContentError, e.message
       end
     end
 
