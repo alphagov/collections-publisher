@@ -34,18 +34,32 @@ RSpec.describe Coronavirus::SubSection do
       expect(sub_section.errors).to have_key(:content)
     end
 
-    it "validates that the featured link is in content" do
-      sub_section.content = "[test](/bananas)"
-      sub_section.action_link_url = "/bananas"
+    describe "action link fields" do
+      it "validates if none of the action link fields are filled in" do
+        sub_section.action_link_url = ""
+        sub_section.action_link_content = nil
+        sub_section.action_link_summary = ""
 
-      expect(sub_section).to be_valid
-    end
+        expect(sub_section).to be_valid
+      end
 
-    it "fails if featured link is not in content" do
-      sub_section.action_link_url = "/bananas"
+      it "validates if all of the action link fields are filled in" do
+        sub_section.action_link_url = "/bananas"
+        sub_section.action_link_content = "Bananas"
+        sub_section.action_link_summary = "Bananas"
 
-      expect(sub_section).not_to be_valid
-      expect(sub_section.errors).to have_key(:action_link_url)
+        expect(sub_section).to be_valid
+      end
+
+      it "fails if not all of the action link fields are filled in" do
+        sub_section.action_link_url = "/bananas"
+        sub_section.action_link_content = ""
+        sub_section.action_link_summary = nil
+
+        expect(sub_section).not_to be_valid
+        expect(sub_section.errors).to have_key(:action_link_content)
+        expect(sub_section.errors).to have_key(:action_link_summary)
+      end
     end
   end
 end
