@@ -27,18 +27,18 @@ RSpec.describe Coronavirus::Announcement, type: :model do
       expect(announcement.errors).to have_key(:title)
     end
 
-    it "requires a path" do
-      announcement.path = ""
+    it "requires a url" do
+      announcement.url = ""
 
       expect(announcement).not_to be_valid
-      expect(announcement.errors).to have_key(:path)
+      expect(announcement.errors).to have_key(:url)
     end
 
-    it "requires a path to begin with /" do
-      announcement.path = "government/coronavirus"
+    it "requires a url to begin with /" do
+      announcement.url = "government/coronavirus"
 
       expect(announcement).not_to be_valid
-      expect(announcement.errors).to have_key(:path)
+      expect(announcement.errors).to have_key(:url)
     end
 
     it "requires a published at time" do

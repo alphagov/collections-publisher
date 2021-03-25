@@ -256,7 +256,7 @@ FactoryBot.define do
 
   factory :coronavirus_announcement, class: Coronavirus::Announcement do
     title { Faker::Lorem.words }
-    path { "/government/foo/vader/baby/yoda" }
+    url { "/government/foo/vader/baby/yoda" }
     published_at { Time.zone.local(2020, 9, 11) }
     page factory: :coronavirus_page
   end

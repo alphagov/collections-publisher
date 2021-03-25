@@ -13,7 +13,7 @@ RSpec.describe Coronavirus::AnnouncementJsonPresenter do
     it "returns presented announcement" do
       expected = {
         "text" => announcement.title.to_s,
-        "href" => announcement.path.to_s,
+        "href" => announcement.url.to_s,
         "published_text" => announcement.published_at.strftime("Published %-d %B %Y"),
       }
 

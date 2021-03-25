@@ -11,14 +11,14 @@
 
 <%= render "govuk_publishing_components/components/input", {
   label: {
-    text: t("coronavirus.announcements.form.path.label"),
+    text: t("coronavirus.announcements.form.url.label"),
     bold: true,
   },
-  name: "announcement[path]",
-  value: @announcement.path,
-  id: "path",
-  error_message: error_items(@announcement.errors.messages, :path),
-  hint: t("coronavirus.announcements.form.path.hint"),
+  name: "announcement[url]",
+  value: @announcement.url,
+  id: "url",
+  error_message: error_items(@announcement.errors.messages, :url),
+  hint: t("coronavirus.announcements.form.url.hint"),
 } %>
 
 <% legend = capture do %>

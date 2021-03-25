@@ -9,7 +9,7 @@ RSpec.describe Coronavirus::AnnouncementsController do
   let(:page) { create :coronavirus_page, :landing }
   let!(:announcement) { create :coronavirus_announcement, page: page }
   let(:title) { Faker::Lorem.sentence }
-  let(:path) { "/government/foo/vader/baby/yoda" }
+  let(:url) { "/government/foo/vader/baby/yoda" }
   let(:published_at) { { "day" => "12", "month" => "12", "year" => "1980" } }
 
   describe "GET /coronavirus/:page_slug/announcements/new" do
@@ -29,7 +29,7 @@ RSpec.describe Coronavirus::AnnouncementsController do
     let(:announcement_params) do
       {
         title: title,
-        path: path,
+        url: url,
         published_at: published_at,
       }
     end
@@ -138,7 +138,7 @@ RSpec.describe Coronavirus::AnnouncementsController do
     let(:updated_announcement_params) do
       {
         title: title,
-        path: "/updated/path",
+        url: "/updated/path",
         published_at: published_at,
       }
     end

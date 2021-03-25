@@ -8,7 +8,7 @@ class Coronavirus::AnnouncementJsonPresenter
     @output ||=
       {
         "text" => announcement.title.to_s,
-        "href" => announcement.path.to_s,
+        "href" => announcement.url.to_s,
         "published_text" => format_published_text,
       }
   end

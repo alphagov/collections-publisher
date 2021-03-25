@@ -72,7 +72,7 @@ module Coronavirus
 
     def announcement_params
       params.require(:announcement)
-      .permit(:title, :path, :published_at)
+      .permit(:title, :url, :published_at)
       .merge(format_published_at(
                params["announcement"]["published_at"]["day"],
                params["announcement"]["published_at"]["month"],
