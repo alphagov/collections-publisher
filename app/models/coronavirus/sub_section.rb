@@ -4,7 +4,7 @@ class Coronavirus::SubSection < ApplicationRecord
   belongs_to :page, foreign_key: "coronavirus_page_id"
   validates :title, :content, presence: true
   validates :page, presence: true
-  validate :featured_link_must_be_in_content
+  validate :action_link_url_must_be_in_content
   validate :all_structured_content_valid
   after_initialize :populate_structured_content
   attr_reader :structured_content
@@ -13,11 +13,11 @@ class Coronavirus::SubSection < ApplicationRecord
     super.tap { populate_structured_content }
   end
 
-  def featured_link_must_be_in_content
-    return if featured_link.blank? || !structured_content
+  def action_link_url_must_be_in_content
+    return if action_link_url.blank? || !structured_content
 
-    unless structured_content.links.any? { |l| l.url == featured_link }
-      errors.add(:featured_link, "does not exist in accordion content")
+    unless structured_content.links.any? { |l| l.url == action_link_url }
+      errors.add(:action_link_url, "does not exist in accordion content")
     end
   end
 

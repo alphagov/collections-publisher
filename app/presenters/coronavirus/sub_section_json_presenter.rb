@@ -38,7 +38,7 @@ class Coronavirus::SubSectionJsonPresenter
     if subtopic_paths.keys.include?(link[:url])
       link[:description] = description_from_raw_content(link[:url])
       link[:featured_link] = true
-    elsif @sub_section.featured_link == link[:url]
+    elsif @sub_section.action_link_url == link[:url]
       link[:description] = description_for_featured_link(link[:url])
       link[:featured_link] = true
     end

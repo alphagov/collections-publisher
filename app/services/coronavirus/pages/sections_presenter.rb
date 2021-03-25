@@ -17,7 +17,7 @@ module Coronavirus::Pages
       {
         "title": hash["title"],
         "content": sub_section_data[:content],
-        "featured_link": sub_section_data[:featured_link],
+        "action_link_url": sub_section_data[:action_link_url],
       }
     end
   end

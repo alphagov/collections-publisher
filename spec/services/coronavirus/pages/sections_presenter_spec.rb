@@ -33,7 +33,7 @@ RSpec.describe Coronavirus::Pages::SectionsPresenter do
     it "produces an array of hashes" do
       expect(subject).to be_an(Array)
       expect(subject.first).to be_a(Hash)
-      expect(subject.first.keys).to contain_exactly(:title, :content, :featured_link)
+      expect(subject.first.keys).to contain_exactly(:title, :content, :action_link_url)
     end
 
     it "parses the title" do
@@ -46,7 +46,7 @@ RSpec.describe Coronavirus::Pages::SectionsPresenter do
     end
 
     it "gets the featured link" do
-      expect(subject.first[:featured_link]).to be_a(String)
+      expect(subject.first[:action_link_url]).to be_a(String)
     end
   end
 end

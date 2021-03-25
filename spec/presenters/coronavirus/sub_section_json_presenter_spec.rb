@@ -44,9 +44,9 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
       expect(subject.output).to eq(expected)
     end
 
-    context "with featured links" do
-      it "looks up the description in Publishing API for a relative featured link" do
-        sub_section.featured_link = path
+    context "with action link" do
+      it "looks up the description in Publishing API for a relative action link" do
+        sub_section.action_link_url = path
         description = Faker::Lorem.sentence
 
         content_id = SecureRandom.uuid
@@ -68,9 +68,9 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
         )
       end
 
-      it "sets a nil description for an absolute featured link" do
+      it "sets a nil description for an absolute action link" do
         link = "https://example.com/path"
-        sub_section.featured_link = link
+        sub_section.action_link_url = link
         sub_section.content = "[text](#{link})"
 
         sub_sections_list = subject.output[:sub_sections].first[:list]
@@ -94,11 +94,11 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
       end
     end
 
-    context "given a featured link" do
+    context "given a action link" do
       it "builds a link hash for the publishing api with a featured link" do
         allow(subject).to receive(:description_for_featured_link).and_return("description")
 
-        sub_section.featured_link = "/link"
+        sub_section.action_link_url = "/link"
         expected_output = { label: "title", url: "/link", description: "description", featured_link: true }
         expect(subject.build_link("title", "/link")).to eq(expected_output)
       end

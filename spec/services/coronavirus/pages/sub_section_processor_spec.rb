@@ -48,7 +48,7 @@ RSpec.describe Coronavirus::Pages::SubSectionProcessor do
     end
 
     it "returns the featured link" do
-      expect(subject[:featured_link]).to eq(url)
+      expect(subject[:action_link_url]).to eq(url)
     end
 
     context "with blank title" do
