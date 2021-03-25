@@ -1,11 +1,57 @@
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("coronavirus.sub_sections.form.heading.title"),
+  heading_level: 4,
+  margin_bottom: 5
+} %>
 <%= render "govuk_publishing_components/components/input", {
   label: {
-    text: t("coronavirus.sub_sections.form.title.label"),
+    text: t("coronavirus.sub_sections.form.heading.label"),
     bold: true
   },
   name: "sub_section[title]",
   id: "title",
   value: @sub_section.title
+} %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("coronavirus.sub_sections.form.action_link.title"),
+  heading_level: 4,
+  margin_bottom: 5
+} %>
+<%= render "govuk_publishing_components/components/hint", {
+  text: t("coronavirus.sub_sections.form.action_link.hint")
+} %>
+<%= render "govuk_publishing_components/components/input", {
+  label: {
+    text: t("coronavirus.sub_sections.form.action_link.action_link_content.label"),
+    bold: true
+  },
+  name: "sub_section[action_link_content]",
+  id: "action_link_content",
+  value: @sub_section.action_link_content
+} %>
+<%= render "govuk_publishing_components/components/textarea", {
+  label: {
+    text: t("coronavirus.sub_sections.form.action_link.action_link_summary.label"),
+    bold: true
+  },
+  name: "sub_section[action_link_summary]",
+  id: "action_link_summary",
+  value: @sub_section.action_link_summary,
+  rows: 5
+} %>
+<%= render "govuk_publishing_components/components/input", {
+  label: {
+    text: t("coronavirus.sub_sections.form.action_link.action_link_url.label"),
+    bold: true
+  },
+  name: "sub_section[action_link_url]",
+  id: "action_link_url",
+  value: @sub_section.action_link_url
+} %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("coronavirus.sub_sections.form.content.title"),
+  heading_level: 4,
+  margin_bottom: 5
 } %>
 <%= render "components/markdown_editor", {
   label: {
@@ -18,15 +64,6 @@
     rows: 20,
     value: @sub_section.content
   }
-} %>
-<%= render "govuk_publishing_components/components/input", {
-  label: {
-    text: t("coronavirus.sub_sections.form.action_link_url.label"),
-    bold: true
-  },
-  name: "sub_section[action_link_url]",
-  id: "title",
-  value: @sub_section.action_link_url
 } %>
 <%= render "govuk_publishing_components/components/button", {
   text: "Save",

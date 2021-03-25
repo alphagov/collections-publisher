@@ -161,12 +161,21 @@ en:
       update:
         success: Sub-section was successfully updated.
       form:
-        title:
-          label: Accordion name
+        heading:
+          title: Accordion heading
+          label: Accordion heading content
+        action_link:
+          title: Accordion action link (optional)
+          hint: All fields below must be completed in order to display an action link within the accordion.
+          action_link_url:
+            label: Action link URL
+          action_link_content:
+            label: Action link content
+          action_link_summary:
+            label: Action link summary
         content:
-          label: Links and link text
-        action_link_url:
-          label: Action link URL
+          title: Accordion content
+          label: Accordion link and texts
     timeline_entries:
       new:
         title: Add timeline entry
