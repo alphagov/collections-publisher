@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 2021_03_29_150719) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position"
-    t.string "featured_link"
+    t.string "action_link_url"
     t.index ["coronavirus_page_id"], name: "index_coronavirus_sub_sections_on_coronavirus_page_id"
   end
 
