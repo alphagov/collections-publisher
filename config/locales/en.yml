@@ -165,8 +165,8 @@ en:
           label: Accordion name
         content:
           label: Links and link text
-        featured_link:
-          label: Featured link
+        action_link_url:
+          label: Action link URL
     timeline_entries:
       new:
         title: Add timeline entry
