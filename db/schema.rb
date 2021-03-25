@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(version: 2021_03_29_150719) do
     t.datetime "updated_at", null: false
     t.integer "position"
     t.string "action_link_url"
+    t.string "action_link_content"
+    t.string "action_link_summary"
     t.index ["coronavirus_page_id"], name: "index_coronavirus_sub_sections_on_coronavirus_page_id"
   end
 
