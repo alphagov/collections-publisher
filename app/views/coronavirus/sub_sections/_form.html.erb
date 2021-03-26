@@ -27,7 +27,8 @@
   },
   name: "sub_section[action_link_content]",
   id: "action_link_content",
-  value: @sub_section.action_link_content
+  value: @sub_section.action_link_content,
+  error_message: error_items(@sub_section.errors.messages, :action_link_content)
 } %>
 <%= render "govuk_publishing_components/components/textarea", {
   label: {
@@ -37,7 +38,8 @@
   name: "sub_section[action_link_summary]",
   id: "action_link_summary",
   value: @sub_section.action_link_summary,
-  rows: 5
+  rows: 5,
+  error_message: error_items(@sub_section.errors.messages, :action_link_summary)
 } %>
 <%= render "govuk_publishing_components/components/input", {
   label: {
@@ -46,7 +48,8 @@
   },
   name: "sub_section[action_link_url]",
   id: "action_link_url",
-  value: @sub_section.action_link_url
+  value: @sub_section.action_link_url,
+  error_message: error_items(@sub_section.errors.messages, :action_link_url)
 } %>
 <%= render "govuk_publishing_components/components/heading", {
   text: t("coronavirus.sub_sections.form.content.title"),
