@@ -10,7 +10,7 @@ RSpec.describe Coronavirus::AnnouncementsController do
   let!(:announcement) { create :coronavirus_announcement, page: page }
   let(:title) { Faker::Lorem.sentence }
   let(:url) { "/government/foo/vader/baby/yoda" }
-  let(:published_at) { { "day" => "12", "month" => "12", "year" => "1980" } }
+  let(:published_at) { { "day" => "12", "month" => "12", "year" => "2020" } }
 
   describe "GET /coronavirus/:page_slug/announcements/new" do
     it "does not render successfully if the user does not have Coronavirus editor permissions" do

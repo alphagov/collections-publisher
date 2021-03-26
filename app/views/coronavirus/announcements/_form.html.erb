@@ -35,17 +35,17 @@
     {
       name: "day",
       width: 2,
-      value: @announcement.published_at&.day
+      value: @announcement.published_at&.day || params.dig("announcement", "published_at", "day"),
     },
     {
       name: "month",
       width: 2,
-      value: @announcement.published_at&.month
+      value: @announcement.published_at&.month || params.dig("announcement", "published_at", "month"),
     },
     {
       name: "year",
       width: 4,
-      value: @announcement.published_at&.year
+      value: @announcement.published_at&.year || params.dig("announcement", "published_at", "year"),
     }
   ]
 } %>
