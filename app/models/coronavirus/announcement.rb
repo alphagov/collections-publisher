@@ -1,6 +1,10 @@
 class Coronavirus::Announcement < ApplicationRecord
   self.table_name = "coronavirus_announcements"
 
+  # Maintain use of a path attribute in the model while we transition the app
+  # to use a url attribute instead.
+  alias_attribute :path, :url
+
   belongs_to :page, foreign_key: "coronavirus_page_id"
   validates :title, :path, presence: true
   validates :page, presence: true
