@@ -1,9 +1,8 @@
 class Coronavirus::Announcement < ApplicationRecord
   self.table_name = "coronavirus_announcements"
 
-  belongs_to :page, foreign_key: "coronavirus_page_id"
+  belongs_to :page, foreign_key: "coronavirus_page_id", optional: false
   validates :title, :url, presence: true
-  validates :page, presence: true
   validate :published_at_format
   validate :url_format
   after_create :set_position

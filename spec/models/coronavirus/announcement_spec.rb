@@ -4,16 +4,6 @@ RSpec.describe Coronavirus::Announcement, type: :model do
   let(:announcement) { create :coronavirus_announcement }
 
   describe "validations" do
-    it "should belong to a page" do
-      should validate_presence_of(:page)
-    end
-
-    it "fails if page does not exist" do
-      announcement.page = nil
-
-      expect(announcement).not_to be_valid
-    end
-
     it "is created with valid attributes" do
       expect(announcement).to be_valid
       expect(announcement.save).to eql true
