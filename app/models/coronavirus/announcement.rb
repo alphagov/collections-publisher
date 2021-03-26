@@ -2,9 +2,9 @@ class Coronavirus::Announcement < ApplicationRecord
   self.table_name = "coronavirus_announcements"
 
   belongs_to :page, foreign_key: "coronavirus_page_id", optional: false
-  validates :title, :url, presence: true
+  validates :title, presence: true
+  validates :url, presence: true, absolute_path_or_https_url: { allow_blank: true }
   validate :published_at_format
-  validate :url_format
   after_create :set_position
   after_destroy :set_parent_positions
 
@@ -26,11 +26,5 @@ private
 
   def valid_year?
     published_at.past? && published_at.year > 1950
-  end
-
-  def url_format
-    return if url.blank?
-
-    errors.add(:url, "must be a valid path starting with a /") unless url.start_with?("/")
   end
 end

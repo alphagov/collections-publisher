@@ -1,34 +1,21 @@
 require "rails_helper"
 
 RSpec.describe Coronavirus::Announcement, type: :model do
-  let(:announcement) { create :coronavirus_announcement }
-
   describe "validations" do
-    it "is created with valid attributes" do
-      expect(announcement).to be_valid
-      expect(announcement.save).to eql true
-      expect(announcement).to be_persisted
-    end
+    let(:announcement) { build :coronavirus_announcement }
 
-    it "requires title" do
-      announcement.title = ""
+    it { should validate_presence_of(:title) }
+    it { should validate_presence_of(:url) }
 
-      expect(announcement).not_to be_valid
-      expect(announcement.errors).to have_key(:title)
-    end
+    describe "url validations" do
+      it { should allow_values("/path", "https://example.com").for(:url) }
+      it { should_not allow_values("not a url").for(:url) }
 
-    it "requires a url" do
-      announcement.url = ""
-
-      expect(announcement).not_to be_valid
-      expect(announcement.errors).to have_key(:url)
-    end
-
-    it "requires a url to begin with /" do
-      announcement.url = "government/coronavirus"
-
-      expect(announcement).not_to be_valid
-      expect(announcement.errors).to have_key(:url)
+      it "doesn't apply the URL format validation when the field is blank" do
+        announcement.url = ""
+        expect(announcement).not_to be_valid
+        expect(announcement.errors[:url]).to eq(["can't be blank"])
+      end
     end
 
     it "requires a published at time" do
