@@ -24,5 +24,13 @@ RSpec.describe Coronavirus::AnnouncementJsonPresenter do
       expect(described_class.new(announcement).output)
         .to eq("text" => announcement.title, "href" => announcement.url)
     end
+
+    it "strips https://www.gov.uk from an announcement URL" do
+      announcement = build(:coronavirus_announcement, url: "https://www.gov.uk/vat-rates")
+      stub_coronavirus_landing_page_content(announcement.page)
+
+      expect(described_class.new(announcement).output)
+        .to match(hash_including("href" => "/vat-rates"))
+    end
   end
 end
