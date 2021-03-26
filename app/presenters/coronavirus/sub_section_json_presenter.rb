@@ -19,7 +19,8 @@ class Coronavirus::SubSectionJsonPresenter
   end
 
   def sub_sections
-    sub_section.structured_content.items.each_with_object([]) do |item, memo|
+    sub_sections = [build_action_link].compact
+    sub_sections += sub_section.structured_content.items.each_with_object([]) do |item, memo|
       case item
       when Coronavirus::SubSection::StructuredContent::Link
         if memo.empty?
@@ -31,18 +32,16 @@ class Coronavirus::SubSectionJsonPresenter
         memo << { title: item.text, list: [] }
       end
     end
+    sub_sections
   end
 
   def build_link(label, url)
-    link = { label: label, url: url }
+    link = { label: label, url: append_priority_taxon_query_param(url) }
     if subtopic_paths.keys.include?(link[:url])
       link[:description] = description_from_raw_content(link[:url])
       link[:featured_link] = true
-    elsif @sub_section.action_link_url == link[:url]
-      link[:description] = description_for_featured_link(link[:url])
-      link[:featured_link] = true
     end
-    append_priority_taxon_query_param(link)
+    link
   end
 
   def description_from_raw_content(url)
@@ -51,29 +50,35 @@ class Coronavirus::SubSectionJsonPresenter
     raw_content.dig("content", "meta_description")
   end
 
-  def description_for_featured_link(base_path)
-    return if URI.parse(base_path).absolute?
-
-    content_item(base_path)["description"]
-  end
-
-  def content_item(base_path)
-    content_id = GdsApi.publishing_api.lookup_content_id(base_path: base_path)
-    GdsApi.publishing_api.get_content(content_id)
-  end
-
   def subtopic_paths
     @subtopic_paths ||= Coronavirus::Page.subtopic_pages.pluck(:base_path, :raw_content_url).to_h
   end
 
-  def append_priority_taxon_query_param(link)
-    return link if priority_taxon.blank?
+private
 
-    uri = Addressable::URI.parse(link[:url])
+  def append_priority_taxon_query_param(url)
+    return url unless priority_taxon.present? && url.starts_with?("/")
+
+    uri = Addressable::URI.parse(url)
     query_params = { "priority-taxon" => priority_taxon }
 
     uri.query_values = (uri.query_values || {}).merge(query_params)
-    link[:url] = uri.to_s
-    link
+    uri.to_s
+  end
+
+  def build_action_link
+    return if sub_section.action_link_url.blank?
+
+    {
+      list: [
+        {
+          url: append_priority_taxon_query_param(sub_section.action_link_url),
+          label: sub_section.action_link_content,
+          description: sub_section.action_link_summary,
+          featured_link: true,
+        },
+      ],
+      title: nil,
+    }
   end
 end
