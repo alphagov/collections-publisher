@@ -5,15 +5,10 @@ class Coronavirus::AnnouncementJsonPresenter
   end
 
   def output
-    @output ||=
-      {
-        "text" => announcement.title.to_s,
-        "href" => announcement.url.to_s,
-        "published_text" => format_published_text,
-      }
-  end
-
-  def format_published_text
-    announcement.published_at.strftime("Published %-d %B %Y")
+    {
+      "text" => announcement.title.to_s,
+      "href" => announcement.url.to_s,
+      "published_text" => announcement.published_at&.strftime("Published %-d %B %Y"),
+    }.compact
   end
 end
