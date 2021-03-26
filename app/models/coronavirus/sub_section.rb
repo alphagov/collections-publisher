@@ -9,6 +9,7 @@ class Coronavirus::SubSection < ApplicationRecord
             :action_link_summary,
             presence: true,
             if: -> { [action_link_url, action_link_content, action_link_summary].any?(&:present?) }
+  validates :action_link_url, allow_blank: true, absolute_path_or_https_url: true
   validate :all_structured_content_valid
   after_initialize :populate_structured_content
   attr_reader :structured_content
