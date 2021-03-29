@@ -5,7 +5,7 @@ class Coronavirus::Announcement < ApplicationRecord
   validates :title, presence: true
   validates :url, presence: true, absolute_path_or_https_url: { allow_blank: true }
   validate :valid_published_on
-  after_create :set_position
+  before_create :set_position
   after_destroy :set_parent_positions
 
   def published_on=(published_on)
@@ -27,7 +27,7 @@ private
   attr_reader :published_on_hash
 
   def set_position
-    update_column(:position, page.announcements.count)
+    self.position = page.announcements.count + 1
   end
 
   def set_parent_positions
