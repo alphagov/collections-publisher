@@ -18,6 +18,8 @@ module Coronavirus::Pages
         "title": hash["title"],
         "content": sub_section_data[:content],
         "action_link_url": sub_section_data[:action_link_url],
+        "action_link_content": sub_section_data[:action_link_content],
+        "action_link_summary": sub_section_data[:action_link_summary],
       }
     end
   end
