@@ -17,12 +17,13 @@ en:
         success: Announcement was successfully updated.
       form:
         title:
-          label: Enter the title of the announcement
+          label: Title of announcement
+          hint: "Add source in brackets at the end of the title if the the link is not on GOV.UK. For example, '80% of adult population is vaccinated (on NHS.UK)'"
         url:
-          label: Enter the path to the announcement
-          hint: "Example format: /government/news/coronavirus-covid-19"
+          label: URL to the announcement
+          hint: "For example, '/government/news/coronavirus-covid-19' or 'https://www.nhs.uk/coronavirus-announcement'"
         date:
-          legend: Enter the date of publication
+          legend: Date of announcement publication (optional)
           hint: For example, 31 3 2020
     github_changes:
       index:

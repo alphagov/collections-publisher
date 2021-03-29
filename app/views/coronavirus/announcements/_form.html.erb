@@ -7,6 +7,7 @@
   value: @announcement.title,
   id: "title",
   error_message: error_items(@announcement.errors.messages, :title),
+  hint: t("coronavirus.announcements.form.title.hint"),
 } %>
 
 <%= render "govuk_publishing_components/components/input", {
