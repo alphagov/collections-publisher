@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_29_143101) do
+ActiveRecord::Schema.define(version: 2021_03_29_150719) do
 
   create_table "coronavirus_announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "coronavirus_page_id", null: false
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2021_03_29_143101) do
     t.text "url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "position"
+    t.integer "position", null: false
     t.date "published_on"
   end
 
