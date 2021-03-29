@@ -107,8 +107,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
 
   describe "#announcements_data" do
     context "with announcements" do
-      let!(:announcement_0) { create :coronavirus_announcement, published_at: Time.zone.local(2020, 9, 10), page: page  }
-      let!(:announcement_1) { create :coronavirus_announcement, published_at: Time.zone.local(2020, 9, 11), page: page  }
+      let!(:announcement_0) { create :coronavirus_announcement, published_on: Date.new(2020, 9, 10), page: page  }
+      let!(:announcement_1) { create :coronavirus_announcement, published_on: Date.new(2020, 9, 11), page: page  }
       let!(:announcement_0_json) { Coronavirus::AnnouncementJsonPresenter.new(announcement_0).output }
       let!(:announcement_1_json) { Coronavirus::AnnouncementJsonPresenter.new(announcement_1).output }
 

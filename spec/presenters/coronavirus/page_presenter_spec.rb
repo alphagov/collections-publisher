@@ -50,7 +50,7 @@ RSpec.describe Coronavirus::PagePresenter do
       expect(subject.payload["details"]["announcements"].first).to eq({
         "href" => announcement.url,
         "text" => announcement.title,
-        "published_text" => announcement.published_at.strftime("Published %-d %B %Y"),
+        "published_text" => announcement.published_on.strftime("Published %-d %B %Y"),
       })
     end
   end

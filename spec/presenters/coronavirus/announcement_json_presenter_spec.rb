@@ -11,14 +11,14 @@ RSpec.describe Coronavirus::AnnouncementJsonPresenter do
       expected = {
         "text" => announcement.title,
         "href" => announcement.url,
-        "published_text" => announcement.published_at.strftime("Published %-d %B %Y"),
+        "published_text" => announcement.published_on.strftime("Published %-d %B %Y"),
       }
 
       expect(described_class.new(announcement).output).to eq(expected)
     end
 
-    it "doesn't include published text for an announcement without a published_at date" do
-      announcement = build(:coronavirus_announcement, published_at: nil)
+    it "doesn't include published text for an announcement without a published_on date" do
+      announcement = build(:coronavirus_announcement, published_on: nil)
       stub_coronavirus_landing_page_content(announcement.page)
 
       expect(described_class.new(announcement).output)

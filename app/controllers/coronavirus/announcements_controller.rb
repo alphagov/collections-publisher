@@ -71,7 +71,7 @@ module Coronavirus
     def announcement_params
       params
         .require(:announcement)
-        .permit(:title, :url, published_at: %i[day month year])
+        .permit(:title, :url, published_on: %i[day month year])
     end
 
     def draft_updater
