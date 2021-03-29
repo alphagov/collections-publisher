@@ -141,14 +141,14 @@ module StepNavSteps
   end
 
   def given_a_step_by_step_has_an_empty_step_added_after_links_last_checked
+    step = create(:step)
+    stub_link_checker_report_success(step)
     @step_by_step_page = create(
       :step_by_step_with_unpublished_changes,
+      steps: [step],
       slug: "step-by-step-with-link-report-and-empty-step-added-since-links-checked",
       draft_updated_at: Time.zone.now,
     )
-
-    step_with_link_report = create(:step, step_by_step_page: @step_by_step_page)
-    stub_link_checker_report_success(step_with_link_report)
     create(:step, contents: "", step_by_step_page: @step_by_step_page)
   end
 
