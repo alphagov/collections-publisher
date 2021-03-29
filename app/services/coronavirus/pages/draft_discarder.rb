@@ -52,6 +52,9 @@ module Coronavirus::Pages
           title: attributes[:title],
           content: attributes[:content],
           position: index,
+          action_link_url: attributes[:action_link_url],
+          action_link_content: attributes[:action_link_content],
+          action_link_summary: attributes[:action_link_summary],
         )
       end
 
