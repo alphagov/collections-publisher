@@ -275,9 +275,9 @@ module CoronavirusFeatureSteps
     stub_coronavirus_landing_page_content(@coronavirus_page)
     fill_in("title", with: "fancy title")
     fill_in("url", with: "/government")
-    fill_in("announcement[published_at][day]", with: "12")
-    fill_in("announcement[published_at][month]", with: "1")
-    fill_in("announcement[published_at][year]", with: "2020")
+    fill_in("announcement[published_on][day]", with: "12")
+    fill_in("announcement[published_on][month]", with: "1")
+    fill_in("announcement[published_on][year]", with: "2020")
     click_on("Save")
   end
 

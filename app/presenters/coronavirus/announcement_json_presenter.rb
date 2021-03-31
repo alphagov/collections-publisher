@@ -10,7 +10,7 @@ class Coronavirus::AnnouncementJsonPresenter
     {
       "text" => announcement.title,
       "href" => remove_govuk_from_url(announcement.url),
-      "published_text" => announcement.published_at&.strftime("Published %-d %B %Y"),
+      "published_text" => announcement.published_on&.strftime("Published %-d %B %Y"),
     }.compact
   end
 end

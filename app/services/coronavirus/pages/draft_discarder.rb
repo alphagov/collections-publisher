@@ -29,7 +29,7 @@ module Coronavirus::Pages
         Coronavirus::Announcement.new(
           title: announcement[:text],
           url: announcement[:href],
-          published_at: Date.parse(announcement[:published_text]),
+          published_on: Date.parse(announcement[:published_text]),
           position: index + 1,
         )
       end

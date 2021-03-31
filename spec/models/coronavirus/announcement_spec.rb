@@ -18,26 +18,26 @@ RSpec.describe Coronavirus::Announcement, type: :model do
       end
     end
 
-    describe "published_at validations" do
-      it "validates that published_at is a valid date" do
-        announcement.published_at = { "day" => -1, "month" => 1, "year" => 2020 }
+    describe "published_on validations" do
+      it "validates that published_on is a valid date" do
+        announcement.published_on = { "day" => -1, "month" => 1, "year" => 2020 }
 
         expect(announcement).not_to be_valid
-        expect(announcement.errors[:published_at]).to eq(["must be a valid date"])
+        expect(announcement.errors[:published_on]).to eq(["must be a valid date"])
       end
 
-      it "validates that published_at was at least this century" do
-        announcement.published_at = Date.new(1999, 1, 1)
+      it "validates that published_on was at least this century" do
+        announcement.published_on = Date.new(1999, 1, 1)
 
         expect(announcement).not_to be_valid
-        expect(announcement.errors[:published_at]).to eq(["must be this century"])
+        expect(announcement.errors[:published_on]).to eq(["must be this century"])
       end
 
-      it "validates that published_at is not in the future" do
-        announcement.published_at = Date.tomorrow
+      it "validates that published_on is not in the future" do
+        announcement.published_on = Date.tomorrow
 
         expect(announcement).not_to be_valid
-        expect(announcement.errors[:published_at]).to eq(["must not be in the future"])
+        expect(announcement.errors[:published_on]).to eq(["must not be in the future"])
       end
     end
   end
@@ -81,28 +81,27 @@ RSpec.describe Coronavirus::Announcement, type: :model do
     end
   end
 
-  describe "#published_at=" do
+  describe "#published_on=" do
     let(:announcement) { build(:coronavirus_announcement) }
 
-    it "can accept published_at as a hash" do
-      announcement.published_at = { "day" => "1", "month" => "1", "year" => "2020" }
-      expect(announcement.published_at).to eq(Time.zone.local(2020, 1, 1))
+    it "can accept published_on as a hash" do
+      announcement.published_on = { "day" => "1", "month" => "1", "year" => "2020" }
+      expect(announcement.published_on).to eq(Date.new(2020, 1, 1))
     end
 
-    it "sets published_at to nil for an invalid date" do
-      announcement.published_at = { "day" => "1", "month" => "13", "year" => "2020" }
-      expect(announcement.published_at).to be_nil
+    it "sets published_on to nil for an invalid date" do
+      announcement.published_on = { "day" => "1", "month" => "13", "year" => "2020" }
+      expect(announcement.published_on).to be_nil
     end
 
-    it "sets published_at to nil for an empty date" do
-      announcement.published_at = { "day" => "", "month" => "", "year" => "" }
-      expect(announcement.published_at).to be_nil
+    it "sets published_on to nil for an empty date" do
+      announcement.published_on = { "day" => "", "month" => "", "year" => "" }
+      expect(announcement.published_on).to be_nil
     end
 
-    it "can still accept published_at as a time" do
-      time = Time.zone.now.noon # using noon to avoid sub-second precision concerns
-      announcement.published_at = time
-      expect(announcement.published_at).to eq(time)
+    it "can still accept published_on as a date" do
+      announcement.published_on = Time.zone.today
+      expect(announcement.published_on).to eq(Time.zone.today)
     end
   end
 end
