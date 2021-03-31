@@ -1,6 +1,5 @@
 module Coronavirus
   class AnnouncementsController < ApplicationController
-    include DateFormatHelper
     before_action :require_coronavirus_editor_permissions!
     layout "admin_layout"
 
@@ -10,7 +9,6 @@ module Coronavirus
 
     def create
       @announcement = page.announcements.new(announcement_params)
-
       unless @announcement.valid?
         render :new, status: :unprocessable_entity
         return
@@ -71,13 +69,9 @@ module Coronavirus
     end
 
     def announcement_params
-      params.require(:announcement)
-      .permit(:title, :path, :published_at)
-      .merge(format_published_at(
-               params["announcement"]["published_at"]["day"],
-               params["announcement"]["published_at"]["month"],
-               params["announcement"]["published_at"]["year"],
-             ))
+      params
+        .require(:announcement)
+        .permit(:title, :url, published_at: %i[day month year])
     end
 
     def draft_updater

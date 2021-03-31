@@ -1,58 +1,44 @@
 require "rails_helper"
 
 RSpec.describe Coronavirus::Announcement, type: :model do
-  let(:announcement) { create :coronavirus_announcement }
-
   describe "validations" do
-    it "should belong to a page" do
-      should validate_presence_of(:page)
+    let(:announcement) { build :coronavirus_announcement }
+
+    it { should validate_presence_of(:title) }
+    it { should validate_presence_of(:url) }
+
+    describe "url validations" do
+      it { should allow_values("/path", "https://example.com").for(:url) }
+      it { should_not allow_values("not a url").for(:url) }
+
+      it "doesn't apply the URL format validation when the field is blank" do
+        announcement.url = ""
+        expect(announcement).not_to be_valid
+        expect(announcement.errors[:url]).to eq(["can't be blank"])
+      end
     end
 
-    it "fails if page does not exist" do
-      announcement.page = nil
+    describe "published_at validations" do
+      it "validates that published_at is a valid date" do
+        announcement.published_at = { "day" => -1, "month" => 1, "year" => 2020 }
 
-      expect(announcement).not_to be_valid
-    end
+        expect(announcement).not_to be_valid
+        expect(announcement.errors[:published_at]).to eq(["must be a valid date"])
+      end
 
-    it "is created with valid attributes" do
-      expect(announcement).to be_valid
-      expect(announcement.save).to eql true
-      expect(announcement).to be_persisted
-    end
+      it "validates that published_at was at least this century" do
+        announcement.published_at = Date.new(1999, 1, 1)
 
-    it "requires title" do
-      announcement.title = ""
+        expect(announcement).not_to be_valid
+        expect(announcement.errors[:published_at]).to eq(["must be this century"])
+      end
 
-      expect(announcement).not_to be_valid
-      expect(announcement.errors).to have_key(:title)
-    end
+      it "validates that published_at is not in the future" do
+        announcement.published_at = Date.tomorrow
 
-    it "requires a path" do
-      announcement.path = ""
-
-      expect(announcement).not_to be_valid
-      expect(announcement.errors).to have_key(:path)
-    end
-
-    it "requires a path to begin with /" do
-      announcement.path = "government/coronavirus"
-
-      expect(announcement).not_to be_valid
-      expect(announcement.errors).to have_key(:path)
-    end
-
-    it "requires a published at time" do
-      announcement.published_at = ""
-
-      expect(announcement).not_to be_valid
-      expect(announcement.errors).to have_key(:published_at)
-    end
-
-    it "should only have four digits for the year" do
-      announcement.published_at = "12345-09-10 23:00:00"
-
-      expect(announcement).not_to be_valid
-      expect(announcement.errors).to have_key(:published_at)
+        expect(announcement).not_to be_valid
+        expect(announcement.errors[:published_at]).to eq(["must not be in the future"])
+      end
     end
   end
 
@@ -92,6 +78,31 @@ RSpec.describe Coronavirus::Announcement, type: :model do
       expect(original_announcement_two.position).to eq 1
       expect(page.announcements.first).to eq original_announcement_two
       expect(page.announcements.count).to eq 1
+    end
+  end
+
+  describe "#published_at=" do
+    let(:announcement) { build(:coronavirus_announcement) }
+
+    it "can accept published_at as a hash" do
+      announcement.published_at = { "day" => "1", "month" => "1", "year" => "2020" }
+      expect(announcement.published_at).to eq(Time.zone.local(2020, 1, 1))
+    end
+
+    it "sets published_at to nil for an invalid date" do
+      announcement.published_at = { "day" => "1", "month" => "13", "year" => "2020" }
+      expect(announcement.published_at).to be_nil
+    end
+
+    it "sets published_at to nil for an empty date" do
+      announcement.published_at = { "day" => "", "month" => "", "year" => "" }
+      expect(announcement.published_at).to be_nil
+    end
+
+    it "can still accept published_at as a time" do
+      time = Time.zone.now.noon # using noon to avoid sub-second precision concerns
+      announcement.published_at = time
+      expect(announcement.published_at).to eq(time)
     end
   end
 end

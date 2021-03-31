@@ -267,14 +267,14 @@ module CoronavirusFeatureSteps
 
   def then_i_see_the_create_announcement_form
     expect(page).to have_text(I18n.t("coronavirus.announcements.form.title.label"))
-    expect(page).to have_text(I18n.t("coronavirus.announcements.form.path.label"))
+    expect(page).to have_text(I18n.t("coronavirus.announcements.form.url.label"))
     expect(page).to have_text(I18n.t("coronavirus.announcements.form.date.legend"))
   end
 
   def when_i_fill_in_the_announcement_form_with_valid_data
     stub_coronavirus_landing_page_content(@coronavirus_page)
     fill_in("title", with: "fancy title")
-    fill_in("path", with: "/government")
+    fill_in("url", with: "/government")
     fill_in("announcement[published_at][day]", with: "12")
     fill_in("announcement[published_at][month]", with: "1")
     fill_in("announcement[published_at][year]", with: "2020")

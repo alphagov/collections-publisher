@@ -1,19 +1,30 @@
 class Coronavirus::Announcement < ApplicationRecord
   self.table_name = "coronavirus_announcements"
 
-  # Maintain use of a path attribute in the model while we transition the app
-  # to use a url attribute instead.
-  alias_attribute :path, :url
-
-  belongs_to :page, foreign_key: "coronavirus_page_id"
-  validates :title, :path, presence: true
-  validates :page, presence: true
-  validate :published_at_format
-  validate :path_format
+  belongs_to :page, foreign_key: "coronavirus_page_id", optional: false
+  validates :title, presence: true
+  validates :url, presence: true, absolute_path_or_https_url: { allow_blank: true }
+  validate :valid_published_at
   after_create :set_position
   after_destroy :set_parent_positions
 
+  def published_at=(published_at)
+    unless published_at.is_a?(Hash)
+      @published_at_hash = nil
+      super
+      return
+    end
+
+    @published_at_hash = published_at.reject { |_, value| value.blank? }
+                                     .presence
+
+    value = published_at_hash ? parsed_published_at_hash : nil
+    super(value)
+  end
+
 private
+
+  attr_reader :published_at_hash
 
   def set_position
     update_column(:position, page.announcements.count)
@@ -23,21 +34,20 @@ private
     page.make_announcement_positions_sequential
   end
 
-  def published_at_format
-    unless published_at.is_a?(Time) && valid_year?
+  def parsed_published_at_hash
+    day, month, year = published_at_hash.values_at("day", "month", "year").map(&:to_i)
+    Date.strptime("#{day}-#{month}-#{year}", "%d-%m-%Y")
+  rescue ArgumentError
+    nil
+  end
+
+  def valid_published_at
+    if published_at_hash && !published_at
       errors.add(:published_at, "must be a valid date")
-    end
-  end
-
-  def valid_year?
-    published_at.past? && published_at.year > 1950
-  end
-
-  def path_format
-    return if path.blank?
-
-    if path.nil? || !path.start_with?("/")
-      errors.add(:path, "must be a valid path starting with a /")
+    elsif published_at && published_at.year < 2000
+      errors.add(:published_at, "must be this century")
+    elsif published_at&.future?
+      errors.add(:published_at, "must not be in the future")
     end
   end
 end

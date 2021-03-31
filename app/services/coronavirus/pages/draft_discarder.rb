@@ -28,7 +28,7 @@ module Coronavirus::Pages
       announcements_from_payload.map.with_index do |announcement, index|
         Coronavirus::Announcement.new(
           title: announcement[:text],
-          path: announcement[:href],
+          url: announcement[:href],
           published_at: Date.parse(announcement[:published_text]),
           position: index + 1,
         )
