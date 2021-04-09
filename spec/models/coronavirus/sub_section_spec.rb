@@ -35,6 +35,10 @@ RSpec.describe Coronavirus::SubSection do
     end
 
     describe "action link fields" do
+      it { should validate_length_of(:action_link_url).is_at_most(255) }
+      it { should validate_length_of(:action_link_content).is_at_most(255) }
+      it { should validate_length_of(:action_link_summary).is_at_most(255) }
+
       it "validates if none of the action link fields are filled in" do
         sub_section.action_link_url = ""
         sub_section.action_link_content = nil
