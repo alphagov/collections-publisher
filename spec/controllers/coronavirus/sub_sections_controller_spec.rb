@@ -54,21 +54,37 @@ RSpec.describe Coronavirus::SubSectionsController do
     end
 
     context "when the subsection is invalid" do
-      let(:title) { "" }
+      context "when the title is invalid" do
+        let(:title) { "" }
 
-      it "doesn't create a subsection" do
-        expect { post :create, params: params }
-          .not_to(change { Coronavirus::SubSection.count })
+        it "doesn't create a subsection" do
+          expect { post :create, params: params }
+            .not_to(change { Coronavirus::SubSection.count })
+        end
+
+        it "returns an unprocessable entity response" do
+          post :create, params: params
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "renders the errors" do
+          post :create, params: params
+          expect(response.body).to include(CGI.escapeHTML("Title can't be blank"))
+        end
       end
 
-      it "returns an unprocessable entity response" do
-        post :create, params: params
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
+      context "when the content is invalid" do
+        let(:content) { "###Title \n [label](/brexit" }
 
-      it "renders the errors" do
-        post :create, params: params
-        expect(response.body).to include(CGI.escapeHTML("Title can't be blank"))
+        it "doesn't create a subsection" do
+          expect { post :create, params: params }
+            .not_to(change { Coronavirus::SubSection.count })
+        end
+
+        it "renders the errors" do
+          post :create, params: params
+          expect(response.body).to include(CGI.escapeHTML("unable to parse markdown"))
+        end
       end
     end
 
@@ -126,21 +142,37 @@ RSpec.describe Coronavirus::SubSectionsController do
     end
 
     context "when the subsection is invalid" do
-      let(:title) { "" }
+      context "when the title is invalid" do
+        let(:title) { "" }
 
-      it "doesn't update a subsection" do
-        expect { patch :update, params: params }
-          .not_to(change { sub_section.reload.title })
+        it "doesn't update a subsection" do
+          expect { patch :update, params: params }
+            .not_to(change { sub_section.reload.title })
+        end
+
+        it "returns an unprocessable entity response" do
+          patch :update, params: params
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "renders the errors" do
+          patch :update, params: params
+          expect(response.body).to include(CGI.escapeHTML("Title can't be blank"))
+        end
       end
 
-      it "returns an unprocessable entity response" do
-        patch :update, params: params
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
+      context "when the content is invalid" do
+        let(:content) { "###Title \n [label](/brexit" }
 
-      it "renders the errors" do
-        patch :update, params: params
-        expect(response.body).to include(CGI.escapeHTML("Title can't be blank"))
+        it "doesn't update the structured content" do
+          expect { patch :update, params: params }
+            .not_to(change { sub_section.reload.structured_content })
+        end
+
+        it "renders the errors" do
+          patch :update, params: params
+          expect(response.body).to include(CGI.escapeHTML("unable to parse markdown"))
+        end
       end
     end
 

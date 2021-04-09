@@ -87,12 +87,6 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
       expect(subject.sub_sections_data).to eq []
     end
 
-    it "raises an error if the sub-section has invalid content" do
-      create(:coronavirus_sub_section, page: page, content: "I am invalid")
-
-      expect { subject.sub_sections_data }.to raise_error(Coronavirus::Pages::ContentBuilder::InvalidContentError)
-    end
-
     context "with subsections" do
       let!(:sub_section_0) { create :coronavirus_sub_section, position: 0, page: page }
       let!(:sub_section_1) { create :coronavirus_sub_section, position: 1, page: page }

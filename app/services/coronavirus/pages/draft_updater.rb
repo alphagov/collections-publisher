@@ -16,8 +16,6 @@ module Coronavirus::Pages
 
     def payload
       Coronavirus::PagePresenter.new(content_builder.data, base_path).payload
-    rescue ContentBuilder::InvalidContentError
-      raise DraftUpdaterError, "Invalid content in one of the sub-sections"
     rescue ContentBuilder::GitHubInvalidContentError
       raise DraftUpdaterError, "Invalid content in GitHub YAML"
     rescue ContentBuilder::GitHubConnectionError
