@@ -78,12 +78,23 @@ RSpec.describe SecondaryContentLink do
       expect(secondary_content_link.smartanswer?).to be false
     end
 
-    it "is a smartanswer start page" do
+    it "returns true for transaction schema published by smartanswers" do
       secondary_content_link = build(
         :secondary_content_link,
         step_by_step_page: step_by_step_page,
         publishing_app: "smartanswers",
         schema_name: "transaction",
+      )
+
+      expect(secondary_content_link.smartanswer?).to be true
+    end
+
+    it "returns true for smart_answer schema" do
+      secondary_content_link = build(
+        :secondary_content_link,
+        step_by_step_page: step_by_step_page,
+        publishing_app: "smartanswers",
+        schema_name: "smart_answer",
       )
 
       expect(secondary_content_link.smartanswer?).to be true
