@@ -6,6 +6,6 @@ class SecondaryContentLink < ApplicationRecord
   validates :base_path, uniqueness: { scope: :step_by_step_page_id, case_sensitive: false } # rubocop:disable Rails/UniqueValidationWithoutIndex
 
   def smartanswer?
-    schema_name == "transaction" && publishing_app == "smartanswers"
+    schema_name == "smart_answer" || (schema_name == "transaction" && publishing_app == "smartanswers")
   end
 end

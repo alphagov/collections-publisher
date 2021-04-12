@@ -113,7 +113,20 @@ RSpec.describe NavigationRule do
       allow(Services.publishing_api).to receive(:lookup_content_id)
     end
 
-    it "is a smartanswer start page" do
+    it "returns true for smart_answer schema" do
+      resource = described_class.new(
+        title: "A Title",
+        base_path: "/a-base-path",
+        content_id: "A-CONTENT-ID-BOOM",
+        step_by_step_page: step_by_step_page,
+        publishing_app: "smartanswers",
+        schema_name: "smart_answer",
+      )
+
+      expect(resource.smartanswer?).to be true
+    end
+
+    it "returns true for transaction schema published by smartanswers" do
       resource = described_class.new(
         title: "A Title",
         base_path: "/a-base-path",
@@ -126,7 +139,7 @@ RSpec.describe NavigationRule do
       expect(resource.smartanswer?).to be true
     end
 
-    it "is not a smartanswer start page" do
+    it "returns false for transaction schema not published by smartanswers" do
       resource = described_class.new(
         title: "A Title",
         base_path: "/a-base-path",

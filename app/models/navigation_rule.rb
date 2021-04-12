@@ -7,7 +7,7 @@ class NavigationRule < ApplicationRecord
   scope :related_content_ids, -> { where(include_in_links: "conditionally").pluck(:content_id) }
 
   def smartanswer?
-    schema_name == "transaction" && publishing_app == "smartanswers"
+    schema_name == "smart_answer" || (schema_name == "transaction" && publishing_app == "smartanswers")
   end
 
   def display_text(value)
