@@ -52,21 +52,6 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
         expect(subject.build_link("title", "/link")).to eq(expected_output)
       end
     end
-
-    context "when link is to a subtopic path" do
-      let(:business) { create :coronavirus_page, :business }
-      let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
-      let(:subtopic_content_item_description) { "Find out about the government response to coronavirus (COVID-19) and what you need to do." }
-
-      before do
-        stub_request(:get, Regexp.new(business.raw_content_url))
-          .to_return(body: File.read(fixture_path))
-      end
-      it "builds a link hash for the publishing api with a featured link" do
-        expected_output = { label: "business", url: business.base_path, description: subtopic_content_item_description, featured_link: true }
-        expect(subject.build_link("business", business.base_path)).to eq(expected_output)
-      end
-    end
   end
 
   describe "#sub_sections" do

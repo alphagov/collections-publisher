@@ -36,22 +36,10 @@ class Coronavirus::SubSectionJsonPresenter
   end
 
   def build_link(label, url)
-    link = { label: label, url: append_priority_taxon_query_param(url) }
-    if subtopic_paths.keys.include?(link[:url])
-      link[:description] = description_from_raw_content(link[:url])
-      link[:featured_link] = true
-    end
-    link
-  end
-
-  def description_from_raw_content(url)
-    raw_content_url = subtopic_paths[url]
-    raw_content = YamlFetcher.new(raw_content_url).body_as_hash
-    raw_content.dig("content", "meta_description")
-  end
-
-  def subtopic_paths
-    @subtopic_paths ||= Coronavirus::Page.subtopic_pages.pluck(:base_path, :raw_content_url).to_h
+    {
+      label: label,
+      url: append_priority_taxon_query_param(url),
+    }
   end
 
 private
