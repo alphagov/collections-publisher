@@ -4,21 +4,19 @@ class Coronavirus::SubSection < ApplicationRecord
   belongs_to :page, foreign_key: "coronavirus_page_id"
   validates :title, :content, presence: true
   validates :page, presence: true
-  validate :featured_link_must_be_in_content
+  validates :action_link_url,
+            :action_link_content,
+            :action_link_summary,
+            presence: true,
+            length: { maximum: 255 },
+            if: -> { [action_link_url, action_link_content, action_link_summary].any?(&:present?) }
+  validates :action_link_url, allow_blank: true, absolute_path_or_https_url: true
   validate :all_structured_content_valid
   after_initialize :populate_structured_content
   attr_reader :structured_content
 
   def content=(content)
     super.tap { populate_structured_content }
-  end
-
-  def featured_link_must_be_in_content
-    return if featured_link.blank? || !structured_content
-
-    unless structured_content.links.any? { |l| l.url == featured_link }
-      errors.add(:featured_link, "does not exist in accordion content")
-    end
   end
 
 private

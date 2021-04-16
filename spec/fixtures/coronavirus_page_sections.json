@@ -1,5 +1,6 @@
-{ "content_id": "774cee22-d896-44c1-a611-e3109cce8eae",
-  "base_path" : "/coronavirus",
+{
+  "content_id": "774cee22-d896-44c1-a611-e3109cce8eae",
+  "base_path": "/coronavirus",
   "details": {
     "announcements_label": "Announcements",
     "announcements": [
@@ -13,6 +14,17 @@
       {
         "title": "Protect yourself and others from coronavirus",
         "sub_sections": [
+          {
+            "list": [
+              {
+                "url": "/bananas",
+                "label": "Bananas",
+                "description": "Bananas",
+                "featured_link": true
+              }
+            ],
+            "title": null
+          },
           {
             "list": [
               {
@@ -64,5 +76,7 @@
       "heading": "Recent and upcoming changes"
     }
   },
-  "state_history": { "1": "published" }
+  "state_history": {
+    "1": "published"
+  }
 }

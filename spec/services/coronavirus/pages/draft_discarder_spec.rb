@@ -55,6 +55,13 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
       expect(page.sub_sections.count).to eq(3)
       expect(page.sub_sections.first.title).to eq("Protect yourself and others from coronavirus")
       expect(page.sub_sections.first.position).to eq(0)
+      expect(page.sub_sections.first.content).to eq(
+        "[Stay at home if you think you have coronavirus (self-isolating)](/government/publications/covid-19-stay-at-home-guidance)",
+      )
+
+      expect(page.sub_sections.first.action_link_url).to eq("/bananas")
+      expect(page.sub_sections.first.action_link_content).to eq("Bananas")
+      expect(page.sub_sections.first.action_link_summary).to eq("Bananas")
     end
 
     it "removes the sub_sections if there aren't any sub_sections in publishing_api" do
@@ -87,7 +94,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
     end
 
     it "removes any priority-taxons query parameters from the live content" do
-      expect(payload_from_publishing_api["details"]["sections"].first["sub_sections"].first["list"].first["url"])
+      expect(payload_from_publishing_api["details"]["sections"].first["sub_sections"].second["list"].first["url"])
         .to eq("/government/publications/covid-19-stay-at-home-guidance?priority-taxon=774cee22-d896-44c1-a611-e3109cce8eae")
 
       stub_publishing_api_has_item(payload_from_publishing_api)

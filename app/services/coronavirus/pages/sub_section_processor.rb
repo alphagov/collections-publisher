@@ -4,18 +4,20 @@ module Coronavirus::Pages
       new(*args).output
     end
 
-    attr_reader :sub_sections, :featured_link
+    attr_reader :sub_sections, :action_link
 
     def initialize(sub_sections)
       @sub_sections = [sub_sections].flatten
-      @featured_link = nil
+      @action_link = {}
     end
 
     def output
       process
       {
         content: output_array.join("\n"),
-        featured_link: featured_link,
+        action_link_url: action_link[:url],
+        action_link_content: action_link[:content],
+        action_link_summary: action_link[:summary],
       }
     end
 
@@ -27,16 +29,21 @@ module Coronavirus::Pages
       output_array << text
     end
 
-    def add_featured_link(url)
-      @featured_link = url
+    def add_action_link(item)
+      action_link[:url] = remove_priority_taxon_param(item["url"])
+      action_link[:content] = item["label"]
+      action_link[:summary] = item["description"]
     end
 
     def process
       sub_sections.each do |sub_section|
         add_string("####{sub_section['title']}") if sub_section["title"].present?
         sub_section["list"].each do |item|
-          add_string "[#{item['label']}](#{remove_priority_taxon_param(item['url'])})"
-          add_featured_link(item["url"]) if item["featured_link"]
+          if item["featured_link"]
+            add_action_link(item)
+          else
+            add_string "[#{item['label']}](#{remove_priority_taxon_param(item['url'])})"
+          end
         end
       end
     end

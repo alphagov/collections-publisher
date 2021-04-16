@@ -34,18 +34,36 @@ RSpec.describe Coronavirus::SubSection do
       expect(sub_section.errors).to have_key(:content)
     end
 
-    it "validates that the featured link is in content" do
-      sub_section.content = "[test](/bananas)"
-      sub_section.featured_link = "/bananas"
+    describe "action link fields" do
+      it { should validate_length_of(:action_link_url).is_at_most(255) }
+      it { should validate_length_of(:action_link_content).is_at_most(255) }
+      it { should validate_length_of(:action_link_summary).is_at_most(255) }
 
-      expect(sub_section).to be_valid
-    end
+      it "validates if none of the action link fields are filled in" do
+        sub_section.action_link_url = ""
+        sub_section.action_link_content = nil
+        sub_section.action_link_summary = ""
 
-    it "fails if featured link is not in content" do
-      sub_section.featured_link = "/bananas"
+        expect(sub_section).to be_valid
+      end
 
-      expect(sub_section).not_to be_valid
-      expect(sub_section.errors).to have_key(:featured_link)
+      it "validates if all of the action link fields are filled in" do
+        sub_section.action_link_url = "/bananas"
+        sub_section.action_link_content = "Bananas"
+        sub_section.action_link_summary = "Bananas"
+
+        expect(sub_section).to be_valid
+      end
+
+      it "fails if not all of the action link fields are filled in" do
+        sub_section.action_link_url = "/bananas"
+        sub_section.action_link_content = ""
+        sub_section.action_link_summary = nil
+
+        expect(sub_section).not_to be_valid
+        expect(sub_section.errors).to have_key(:action_link_content)
+        expect(sub_section.errors).to have_key(:action_link_summary)
+      end
     end
   end
 end

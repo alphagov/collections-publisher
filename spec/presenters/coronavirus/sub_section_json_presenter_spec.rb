@@ -43,47 +43,6 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
     it "has expected content" do
       expect(subject.output).to eq(expected)
     end
-
-    context "with featured links" do
-      it "looks up the description in Publishing API for a relative featured link" do
-        sub_section.featured_link = path
-        description = Faker::Lorem.sentence
-
-        content_id = SecureRandom.uuid
-        stub_publishing_api_has_item(
-          base_path: path,
-          content_id: content_id,
-          description: description,
-        )
-        stub_publishing_api_has_lookups(path.to_s => content_id)
-
-        sub_sections_list = subject.output[:sub_sections].first[:list]
-
-        expect(sub_sections_list).to include(
-          hash_including(
-            url: path,
-            featured_link: true,
-            description: description,
-          ),
-        )
-      end
-
-      it "sets a nil description for an absolute featured link" do
-        link = "https://example.com/path"
-        sub_section.featured_link = link
-        sub_section.content = "[text](#{link})"
-
-        sub_sections_list = subject.output[:sub_sections].first[:list]
-
-        expect(sub_sections_list).to include(
-          hash_including(
-            url: link,
-            featured_link: true,
-            description: nil,
-          ),
-        )
-      end
-    end
   end
 
   describe "#build_link" do
@@ -91,31 +50,6 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
       it "builds a link hash for the publishing api" do
         expected_output = { label: "title", url: "/link" }
         expect(subject.build_link("title", "/link")).to eq(expected_output)
-      end
-    end
-
-    context "given a featured link" do
-      it "builds a link hash for the publishing api with a featured link" do
-        allow(subject).to receive(:description_for_featured_link).and_return("description")
-
-        sub_section.featured_link = "/link"
-        expected_output = { label: "title", url: "/link", description: "description", featured_link: true }
-        expect(subject.build_link("title", "/link")).to eq(expected_output)
-      end
-    end
-
-    context "when link is to a subtopic path" do
-      let(:business) { create :coronavirus_page, :business }
-      let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
-      let(:subtopic_content_item_description) { "Find out about the government response to coronavirus (COVID-19) and what you need to do." }
-
-      before do
-        stub_request(:get, Regexp.new(business.raw_content_url))
-          .to_return(body: File.read(fixture_path))
-      end
-      it "builds a link hash for the publishing api with a featured link" do
-        expected_output = { label: "business", url: business.base_path, description: subtopic_content_item_description, featured_link: true }
-        expect(subject.build_link("business", business.base_path)).to eq(expected_output)
       end
     end
   end
@@ -154,6 +88,103 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
             },
           ]
         expect(subject.sub_sections).to eq(expected_output)
+      end
+    end
+
+    context "when a sub-section contains an action link" do
+      let(:title) { Faker::Lorem.sentence }
+      let(:label) { Faker::Lorem.sentence }
+      let(:path)  { "/#{File.join(Faker::Lorem.words)}" }
+      let(:sub_section) do
+        create :coronavirus_sub_section, content: "###{title}\n[#{label}](#{path})"
+      end
+
+      it "includes an action link with a description and featured set to true" do
+        sub_section.action_link_url = "/bananas"
+        sub_section.action_link_content = "Bananas"
+        sub_section.action_link_summary = "Bananas"
+
+        expected = [
+          {
+            list: [
+              {
+                url: "/bananas",
+                label: "Bananas",
+                description: "Bananas",
+                featured_link: true,
+              },
+            ],
+            title: nil,
+          },
+          {
+            list: [
+              {
+                url: path,
+                label: label,
+              },
+            ],
+            title: title,
+          },
+        ]
+
+        expect(subject.sub_sections).to eq(expected)
+      end
+    end
+
+    context "when a priority taxon is provided" do
+      it "appends the priority_taxon to the url if the link is relative" do
+        link_url = "/hello-there"
+        sub_section = build(:coronavirus_sub_section, content: "[General Kenobi](#{link_url})")
+        priority_taxon = SecureRandom.uuid
+
+        subject = described_class.new(sub_section, priority_taxon)
+        sub_sections_list = subject.sub_sections.first[:list]
+
+        expect(sub_sections_list).to include(
+          hash_including(url: "#{link_url}?priority-taxon=#{priority_taxon}"),
+        )
+      end
+
+      it "does not append a priority_taxon to the url if the link is external" do
+        link_url = "http://www.hello-there.com"
+        sub_section = build(:coronavirus_sub_section, content: "[General Kenobi](#{link_url})")
+
+        subject = described_class.new(sub_section)
+        sub_sections_list = subject.output[:sub_sections].first[:list]
+
+        expect(sub_sections_list).to include(
+          hash_including(url: link_url),
+        )
+      end
+    end
+
+    context "when a priority taxon is not provided" do
+      it "does not append the priority-taxon to list urls" do
+        sub_section = build(:coronavirus_sub_section, content: "[test](/coronavirus)")
+
+        subject = described_class.new(sub_section)
+        sub_sections_list = subject.sub_sections.first[:list]
+
+        expect(sub_sections_list).to include(hash_including(url: "/coronavirus"))
+      end
+    end
+
+    context "when a sub-section has an action link and a priority taxon is provided" do
+      it "appends the priority_taxon to the action link url" do
+        sub_section = build(:coronavirus_sub_section,
+                            content: "#Title",
+                            action_link_url: "/bananas",
+                            action_link_content: Faker::Lorem.sentence,
+                            action_link_summary: Faker::Lorem.sentence)
+
+        priority_taxon = SecureRandom.uuid
+
+        subject = described_class.new(sub_section, priority_taxon)
+        sub_sections_list = subject.sub_sections.first[:list]
+
+        expect(sub_sections_list).to include(
+          hash_including(url: "/bananas?priority-taxon=#{priority_taxon}"),
+        )
       end
     end
   end
