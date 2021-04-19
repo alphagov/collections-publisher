@@ -126,6 +126,12 @@ Rails.application.routes.draw do
     GovukHealthcheck::SidekiqRedis,
   )
 
+  get "/healthcheck/live", to: proc { [200, {}, %w[OK]] }
+  get "/healthcheck/ready", to: GovukHealthcheck.rack_response(
+    GovukHealthcheck::ActiveRecord,
+    GovukHealthcheck::SidekiqRedis,
+  )
+
   mount GovukAdminTemplate::Engine, at: "/style-guide"
   mount GovukPublishingComponents::Engine, at: "/component-guide"
 
