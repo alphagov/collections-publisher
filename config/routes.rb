@@ -121,7 +121,16 @@ Rails.application.routes.draw do
 
   post "/link_report", to: "link_report#update"
 
-  get "/healthcheck", to: "healthcheck#index"
+  get "/healthcheck", to: GovukHealthcheck.rack_response(
+    GovukHealthcheck::ActiveRecord,
+    GovukHealthcheck::SidekiqRedis,
+  )
+
+  get "/healthcheck/live", to: proc { [200, {}, %w[OK]] }
+  get "/healthcheck/ready", to: GovukHealthcheck.rack_response(
+    GovukHealthcheck::ActiveRecord,
+    GovukHealthcheck::SidekiqRedis,
+  )
 
   mount GovukAdminTemplate::Engine, at: "/style-guide"
   mount GovukPublishingComponents::Engine, at: "/component-guide"
