@@ -91,7 +91,7 @@ module Coronavirus::Pages
     end
 
     def timeline_data
-      page
+      @timeline_data ||= page
         .timeline_entries
         .order(:position)
         .pluck(:heading, :content)
@@ -139,9 +139,9 @@ module Coronavirus::Pages
     end
 
     def search_terms_in_timeline
-      return [] if github_data["timeline"].blank?
+      return [] if timeline_data.blank?
 
-      timeline = github_data["timeline"]["list"].map do |item|
+      timeline = timeline_data.map do |item|
         [
           item["heading"],
           MarkdownService.new.strip_markdown(item["paragraph"]),
