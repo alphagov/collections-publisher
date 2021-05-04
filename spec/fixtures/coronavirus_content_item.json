@@ -124,14 +124,6 @@
   },
   "description": "Find out about the government response to coronavirus (COVID-19) and what you need to do.",
   "details": {
-    "announcements_label": "Announcements",
-    "live_stream": {
-      "video_url" : "https://www.youtube.com/watch?v=UF8mC-T0u6k",
-      "date" : "1 April 2020",
-      "date_text": "Live streamed",
-      "previous_videos": {
-        "url": "https://www.youtube.com/user/Number10gov/videos"
-      }
-    }
+    "announcements_label": "Announcements"
   }
 }
