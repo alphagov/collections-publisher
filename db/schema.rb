@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_29_150719) do
+ActiveRecord::Schema.define(version: 2021_05_04_120417) do
 
   create_table "coronavirus_announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "coronavirus_page_id", null: false
@@ -20,13 +20,6 @@ ActiveRecord::Schema.define(version: 2021_03_29_150719) do
     t.datetime "updated_at", null: false
     t.integer "position", null: false
     t.date "published_on"
-  end
-
-  create_table "coronavirus_live_streams", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "url", null: false
-    t.string "formatted_stream_date"
   end
 
   create_table "coronavirus_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
