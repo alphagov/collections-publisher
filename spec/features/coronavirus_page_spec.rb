@@ -12,7 +12,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       stub_coronavirus_publishing_api
       stub_all_github_requests
       stub_any_publishing_api_put_intent
-      stub_youtube
     end
 
     scenario "User views the page" do
@@ -28,7 +27,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       stub_coronavirus_publishing_api
       stub_all_github_requests
       stub_any_publishing_api_put_intent
-      given_a_livestream_exists
     end
 
     scenario "Publishing landing page" do
@@ -71,7 +69,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       stub_coronavirus_publishing_api
       stub_all_github_requests
       stub_any_publishing_api_put_intent
-      given_a_livestream_exists
     end
 
     context "Landing page" do
@@ -208,7 +205,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
         stub_coronavirus_publishing_api
         stub_all_github_requests
         stub_any_publishing_api_put_intent
-        stub_youtube
       end
 
       scenario "User selects business page" do
