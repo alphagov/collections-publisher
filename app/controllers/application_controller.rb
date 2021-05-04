@@ -46,10 +46,6 @@ private
     authorise_user!("GDS Editor")
   end
 
-  def require_livestream_editor_permissions!
-    authorise_user!(any_of: ["Livestream editor", "Coronavirus editor"])
-  end
-
   def require_skip_review_permissions!
     authorise_user!("Skip review")
   end
