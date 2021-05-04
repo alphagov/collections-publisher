@@ -17,10 +17,6 @@ Rails.application.routes.draw do
   root to: redirect("/step-by-step-pages", status: 302)
 
   namespace :coronavirus do
-    resources :live_stream, only: %i[index update] do
-      post "publish", to: "live_stream#publish"
-    end
-
     resources :pages,
               path: "",
               only: %i[index show],
