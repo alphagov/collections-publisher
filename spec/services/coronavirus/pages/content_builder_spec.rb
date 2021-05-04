@@ -43,16 +43,6 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     let!(:sub_section) { create :coronavirus_sub_section, page: page }
     let!(:announcement) { create :coronavirus_announcement, page: page }
     let!(:timeline_entry) { create :coronavirus_timeline_entry, page: page }
-    let!(:live_stream) { create :coronavirus_live_stream, :without_validations }
-    let(:github_livestream_data) { github_content.dig("content", "live_stream") }
-
-    let(:live_stream_data) do
-      github_livestream_data.merge(
-        "video_url" => live_stream.url,
-        "date" => live_stream.formatted_stream_date,
-      )
-    end
-
     let(:data) { github_content["content"].deep_dup }
 
     let(:hidden_search_terms) do
@@ -66,7 +56,6 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
 
     before do
       data["sections"] = [sub_section_json]
-      data["live_stream"] = live_stream_data
       data["announcements"] = [announcement_json]
       data["timeline"]["list"] = [timeline_json]
       data["hidden_search_terms"] = hidden_search_terms
@@ -123,22 +112,6 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
         { "heading" => timeline_entry_1.heading, "paragraph" => timeline_entry_1.content },
         { "heading" => timeline_entry_0.heading, "paragraph" => timeline_entry_0.content },
       ]
-    end
-  end
-
-  describe "#add_live_stream" do
-    let(:data) { github_content["content"] }
-
-    it "adds livestream data from github and the database" do
-      live_stream = create(:coronavirus_live_stream, :without_validations)
-
-      subject.add_live_stream(data)
-      expect(data["live_stream"]["video_url"]).to eq(live_stream.url)
-    end
-
-    it "only adds livestream data from github if there isn't a livestream in the database" do
-      subject.add_live_stream(data)
-      expect(data["live_stream"]["video_url"]).to be_nil
     end
   end
 end

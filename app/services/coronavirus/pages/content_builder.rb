@@ -19,7 +19,6 @@ module Coronavirus::Pages
         data["timeline"] ||= {}
         data["timeline"]["list"] = timeline_data
 
-        add_live_stream(data)
         data["hidden_search_terms"] = hidden_search_terms
         data
       end
@@ -48,7 +47,6 @@ module Coronavirus::Pages
         sections
         topic_section
         notifications
-        live_stream
       ]
     end
 
@@ -72,10 +70,6 @@ module Coronavirus::Pages
       @github_data ||= github_raw_data["content"]
     end
 
-    def github_live_stream_data
-      github_data["live_stream"] || {}
-    end
-
     def sub_sections_data
       page.sub_sections.order(:position).map do |sub_section|
         presenter = Coronavirus::SubSectionJsonPresenter.new(sub_section, page.content_id)
@@ -96,22 +90,6 @@ module Coronavirus::Pages
         .order(:position)
         .pluck(:heading, :content)
         .map { |(heading, content)| { "heading" => heading, "paragraph" => content } }
-    end
-
-    def persisted_live_stream_data
-      return {} unless Coronavirus::LiveStream.any?
-
-      live_stream = Coronavirus::LiveStream.last
-      {
-        "video_url" => live_stream.url,
-        "date" => live_stream.formatted_stream_date,
-      }
-    end
-
-    def add_live_stream(data)
-      if page.slug == "landing"
-        data["live_stream"] = github_live_stream_data.merge(persisted_live_stream_data)
-      end
     end
 
     def hidden_search_terms
