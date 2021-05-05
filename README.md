@@ -19,14 +19,6 @@ See the [README of collections frontend](https://github.com/alphagov/collections
 
 This is a Ruby on Rails application.
 
-This application uses the [sidekiq](http://sidekiq.org/) message queue for background work (mainly publishing to the Publishing API).
-
-### Dependencies
-
-- [alphagov/publishing-api](https://github.com/alphagov/publishing-api) -
-  - used for the publishing workflow of `mainstream_browse_page`s, `topic`s, curated lists and `step_by_step_page`s.
-  - Publishing API sends data onto [Rummager](https://github.com/alphagov/rummager) for search indexing `topic`, `mainstream_browse_page` and `step_by_step_page` pages.
-
 ### Running the test suite
 
 The test suite includes testing against
