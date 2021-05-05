@@ -115,5 +115,29 @@ RSpec.describe Coronavirus::Pages::SubSectionProcessor do
 
       expect(lines.first).to eq "[#{label}](#{url})"
     end
+
+    it "removes any priority-taxons query parameters from featured links" do
+      url = "/#{File.join(Faker::Lorem.words)}"
+      query_string = "?priority-taxon=774cee22-d896-44c1-a611-e3109cce8eae"
+      url_with_querystring = "#{url}#{query_string}"
+
+      sub_section_payload_data = [
+        {
+          "title" => nil,
+          "list" => [
+            {
+              "label" => "Label",
+              "url" => url_with_querystring,
+              "featured_link" => true,
+              "description" => "description",
+            },
+          ],
+        },
+      ]
+
+      output = described_class.call(sub_section_payload_data)
+
+      expect(output[:action_link_url]).to eq(url)
+    end
   end
 end
