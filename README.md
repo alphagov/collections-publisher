@@ -29,6 +29,10 @@ You can use the [GOV.UK Docker environment](https://github.com/alphagov/govuk-do
 bundle exec rake
 ```
 
+### Further documentation
+
+See the [docs/](docs/) directory for guidance and architectural decisions.
+
 ## Licence
 
 [MIT License](LICENSE.txt)
