@@ -39,21 +39,13 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
     end
   end
 
-  describe "#build_link" do
-    context "given a normal link" do
-      it "builds a link hash for the publishing api" do
-        expected_output = { label: "title", url: "/link" }
-        expect(subject.build_link("title", "/link")).to eq(expected_output)
-      end
-    end
-  end
-
   describe "#sub_sections" do
     context "given multiple titles" do
       let(:content) { "#title \n [test](/coronavirus) \n #title2 \n [test2](/government)" }
       it "creates multiple groups" do
-        expected_output =
-          [
+        expected_output = {
+          title: sub_section.title,
+          sub_sections: [
             {
               list: [{ label: "test", url: "/coronavirus" }],
               title: "title",
@@ -62,16 +54,19 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
               list: [{ label: "test2", url: "/government" }],
               title: "title2",
             },
-          ]
-        expect(subject.sub_sections).to eq(expected_output)
+          ],
+        }
+
+        expect(subject.output).to eq(expected_output)
       end
     end
 
     context "when the first group has no title" do
       let(:content) { "[test](/coronavirus) \n #title2 \n [test2](/government)" }
       it "groups the links as expected" do
-        expected_output =
-          [
+        expected_output = {
+          title: sub_section.title,
+          sub_sections: [
             {
               list: [{ label: "test", url: "/coronavirus" }],
               title: nil,
@@ -80,8 +75,10 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
               list: [{ label: "test2", url: "/government" }],
               title: "title2",
             },
-          ]
-        expect(subject.sub_sections).to eq(expected_output)
+          ],
+        }
+
+        expect(subject.output).to eq(expected_output)
       end
     end
 
@@ -98,30 +95,33 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
         sub_section.action_link_content = "Bananas"
         sub_section.action_link_summary = "Bananas"
 
-        expected = [
-          {
-            list: [
-              {
-                url: "/bananas",
-                label: "Bananas",
-                description: "Bananas",
-                featured_link: true,
-              },
-            ],
-            title: nil,
-          },
-          {
-            list: [
-              {
-                url: path,
-                label: label,
-              },
-            ],
-            title: title,
-          },
-        ]
+        expected_output = {
+          title: sub_section.title,
+          sub_sections: [
+            {
+              list: [
+                {
+                  url: "/bananas",
+                  label: "Bananas",
+                  description: "Bananas",
+                  featured_link: true,
+                },
+              ],
+              title: nil,
+            },
+            {
+              list: [
+                {
+                  url: path,
+                  label: label,
+                },
+              ],
+              title: title,
+            },
+          ],
+        }
 
-        expect(subject.sub_sections).to eq(expected)
+        expect(subject.output).to eq(expected_output)
       end
     end
 
@@ -132,7 +132,7 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
         priority_taxon = SecureRandom.uuid
 
         subject = described_class.new(sub_section, priority_taxon)
-        sub_sections_list = subject.sub_sections.first[:list]
+        sub_sections_list = subject.output[:sub_sections].first[:list]
 
         expect(sub_sections_list).to include(
           hash_including(url: "#{link_url}?priority-taxon=#{priority_taxon}"),
@@ -157,7 +157,7 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
         sub_section = build(:coronavirus_sub_section, content: "[test](/coronavirus)")
 
         subject = described_class.new(sub_section)
-        sub_sections_list = subject.sub_sections.first[:list]
+        sub_sections_list = subject.output[:sub_sections].first[:list]
 
         expect(sub_sections_list).to include(hash_including(url: "/coronavirus"))
       end
@@ -174,7 +174,7 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
         priority_taxon = SecureRandom.uuid
 
         subject = described_class.new(sub_section, priority_taxon)
-        sub_sections_list = subject.sub_sections.first[:list]
+        sub_sections_list = subject.output[:sub_sections].first[:list]
 
         expect(sub_sections_list).to include(
           hash_including(url: "/bananas?priority-taxon=#{priority_taxon}"),

@@ -16,6 +16,8 @@ class Coronavirus::SubSectionJsonPresenter
       }
   end
 
+private
+
   def sub_sections
     sub_sections = [build_action_link].compact
     sub_sections += sub_section.structured_content.items.each_with_object([]) do |item, memo|
@@ -39,8 +41,6 @@ class Coronavirus::SubSectionJsonPresenter
       url: append_priority_taxon_query_param(url),
     }
   end
-
-private
 
   def append_priority_taxon_query_param(url)
     return url unless priority_taxon.present? && url.starts_with?("/")
