@@ -8,12 +8,10 @@ class Coronavirus::SubSectionJsonPresenter
     @priority_taxon = priority_taxon
   end
 
-  delegate :title, to: :sub_section
-
   def output
     @output ||=
       {
-        title: title,
+        title: sub_section.title,
         sub_sections: sub_sections,
       }
   end

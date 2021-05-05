@@ -9,12 +9,6 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
   let(:sub_section) { build :coronavirus_sub_section, content: content }
   subject { described_class.new(sub_section) }
 
-  describe "#title" do
-    it "returns the sub section title" do
-      expect(subject.title).to eq(sub_section.title)
-    end
-  end
-
   describe "#output" do
     let(:title) { Faker::Lorem.sentence }
     let(:title_markup) { "###{title}" }
@@ -25,7 +19,7 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
 
     let(:expected) do
       {
-        title: subject.title,
+        title: sub_section.title,
         sub_sections: [
           {
             list: [
