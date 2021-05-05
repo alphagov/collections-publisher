@@ -29,7 +29,7 @@ module Coronavirus::Pages
           if item["featured_link"]
             add_action_link(item)
           else
-            add_string "[#{item['label']}](#{remove_priority_taxon_param(item['url'])})"
+            add_string(link_markdown(item["url"], item["label"]))
           end
         end
       end
@@ -51,6 +51,11 @@ module Coronavirus::Pages
 
     def action_link
       @action_link ||= {}
+    end
+
+    def link_markdown(url, label)
+      link_url = remove_priority_taxon_param(url)
+      "[#{label}](#{link_url})"
     end
 
     def remove_priority_taxon_param(url)
