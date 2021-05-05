@@ -24,19 +24,15 @@ module Coronavirus::Pages
 
     def process
       sub_sections.each do |sub_section|
-        add_string(title_markdown(sub_section["title"])) if sub_section["title"].present?
+        output_array << title_markdown(sub_section["title"]) if sub_section["title"].present?
         sub_section["list"].each do |item|
           if item["featured_link"]
             add_action_link(item["url"], item["label"], item["description"])
           else
-            add_string(link_markdown(item["url"], item["label"]))
+            output_array << link_markdown(item["url"], item["label"])
           end
         end
       end
-    end
-
-    def add_string(text)
-      output_array << text
     end
 
     def output_array
