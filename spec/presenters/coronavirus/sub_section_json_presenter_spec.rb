@@ -16,8 +16,8 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
     let(:link) { "[#{label}](#{path})" }
     let(:content) { [title_markup, link].join("\n") }
 
-    let(:expected) do
-      {
+    it "has expected content" do
+      expected_output = {
         title: sub_section.title,
         sub_sections: [
           {
@@ -31,11 +31,9 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
           },
         ],
       }
-    end
 
-    it "has expected content" do
       presenter = described_class.new(sub_section)
-      expect(presenter.output).to eq(expected)
+      expect(presenter.output).to eq(expected_output)
     end
   end
 
