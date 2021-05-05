@@ -4,11 +4,10 @@ module Coronavirus::Pages
       new(*args).output
     end
 
-    attr_reader :sub_sections, :action_link
+    attr_reader :sub_sections
 
     def initialize(sub_sections)
       @sub_sections = [sub_sections].flatten
-      @action_link = {}
     end
 
     def output
@@ -48,6 +47,10 @@ module Coronavirus::Pages
       action_link[:url] = remove_priority_taxon_param(item["url"])
       action_link[:content] = item["label"]
       action_link[:summary] = item["description"]
+    end
+
+    def action_link
+      @action_link ||= {}
     end
 
     def remove_priority_taxon_param(url)
