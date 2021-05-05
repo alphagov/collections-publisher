@@ -21,6 +21,8 @@ module Coronavirus::Pages
       }
     end
 
+  private
+
     def output_array
       @output_array ||= []
     end
