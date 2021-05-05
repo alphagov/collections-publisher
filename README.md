@@ -1,13 +1,15 @@
 # Collections Publisher
 
-The Collections Publisher publishes:
+This app is used by GDS and some departmental editors. It can publish:
 
 - [/browse pages](https://www.gov.uk/browse/births-deaths-marriages/register-offices)
 - [/topic pages](https://www.gov.uk/topic/business-enterprise/export-finance)
 - [step by step pages](https://www.gov.uk/learn-to-drive-a-car) and [step by step sidebar navigation](https://www.gov.uk/driving-eyesight-rules)
-- [coronavirus pages](https://www.gov.uk/coronavirus)
+- [coronavirus pages](docs/coronavirus_page_publishing_tool.md)
 
-These pages are then served by the [collections app](https://github.com/alphagov/collections).
+These pages are then served by the [collections app](https://github.com/alphagov/collections). It is also used to curate pages tagged to a topic or browse page into "curated lists", instead of a single 'A-Z' list, as the following screenshots illustrate.
+
+![Screenshot of curated and non-curated pages](docs/screenshot-curated-topics.png)
 
 ## Nomenclature
 
@@ -15,18 +17,7 @@ See the [README of collections frontend](https://github.com/alphagov/collections
 
 ## Technical documentation
 
-This is a Ruby on Rails application for internal use by GDS and some departmental editors.
-
-It has these features:
-
-- Creating & editing topics and mainstream browse pages.
-- Creating & editing step by step navigation pages, and where they are used as sidebar and sticky navigation.
-- Curate the pages tagged to a topic or browse page into "curated lists". This means they'll be displayed in a group with a title. By default, the links are not curated and will appear with a 'A-Z' heading.
-- [Curating, and editing coronavirus pages](docs/coronavirus_page_publishing_tool.md).
-
-![Screenshot of curated and non-curated pages](docs/screenshot-curated-topics.png)
-
-Left, a [curated mainstream browse page](https://www.gov.uk/browse/childcare-parenting/childcare), right, an [uncurated browse page](https://www.gov.uk/browse/justice/prisons-probation).
+This is a Ruby on Rails application.
 
 This application uses the [sidekiq](http://sidekiq.org/) message queue for background work (mainly publishing to the Publishing API).
 
