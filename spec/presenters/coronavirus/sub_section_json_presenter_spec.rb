@@ -1,13 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Coronavirus::SubSectionJsonPresenter do
-  let(:link_one) { random_link_markdown }
-  let(:link_two) { random_link_markdown }
-  let(:link_three) { random_link_markdown }
-  let(:content) { link_one }
-
-  let(:sub_section) { build :coronavirus_sub_section, content: content }
-
   describe "#output" do
     let(:title) { Faker::Lorem.sentence }
     let(:title_markup) { "###{title}" }
@@ -15,6 +8,7 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
     let(:path)  { "/#{File.join(Faker::Lorem.words)}" }
     let(:link) { "[#{label}](#{path})" }
     let(:content) { [title_markup, link].join("\n") }
+    let(:sub_section) { build :coronavirus_sub_section, content: content }
 
     it "has expected content" do
       expected_output = {
@@ -39,6 +33,8 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
 
   context "given multiple titles" do
     let(:content) { "#title \n [test](/coronavirus) \n #title2 \n [test2](/government)" }
+    let(:sub_section) { build :coronavirus_sub_section, content: content }
+
     it "creates multiple groups" do
       expected_output = {
         title: sub_section.title,
@@ -61,6 +57,8 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
 
   context "when the first group has no title" do
     let(:content) { "[test](/coronavirus) \n #title2 \n [test2](/government)" }
+    let(:sub_section) { build :coronavirus_sub_section, content: content }
+
     it "groups the links as expected" do
       expected_output = {
         title: sub_section.title,
@@ -180,15 +178,5 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
         hash_including(url: "/bananas?priority-taxon=#{priority_taxon}"),
       )
     end
-  end
-
-  def random_link_markdown
-    label = Faker::Lorem.sentence
-    path = "/#{File.join(Faker::Lorem.words)}"
-    "[#{label}](#{path})"
-  end
-
-  def random_title
-    "### #{Faker::Lorem.sentence}"
   end
 end
