@@ -9,10 +9,6 @@ The Collections Publisher publishes:
 
 These pages are then served by the [collections app](https://github.com/alphagov/collections).
 
-## Live examples
-
-- [collections-publisher](https://collections-publisher.publishing.service.gov.uk/)
-
 ## Nomenclature
 
 See the [README of collections frontend](https://github.com/alphagov/collections).
