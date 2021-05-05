@@ -24,7 +24,7 @@ module Coronavirus::Pages
 
     def process
       sub_sections.each do |sub_section|
-        add_string("####{sub_section['title']}") if sub_section["title"].present?
+        add_string(title_markdown(sub_section["title"])) if sub_section["title"].present?
         sub_section["list"].each do |item|
           if item["featured_link"]
             add_action_link(item["url"], item["label"], item["description"])
@@ -41,6 +41,10 @@ module Coronavirus::Pages
 
     def output_array
       @output_array ||= []
+    end
+
+    def title_markdown(title)
+      "####{title}"
     end
 
     def add_action_link(url, label, description)
