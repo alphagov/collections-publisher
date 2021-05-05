@@ -23,20 +23,6 @@ module Coronavirus::Pages
 
   private
 
-    def output_array
-      @output_array ||= []
-    end
-
-    def add_string(text)
-      output_array << text
-    end
-
-    def add_action_link(item)
-      action_link[:url] = remove_priority_taxon_param(item["url"])
-      action_link[:content] = item["label"]
-      action_link[:summary] = item["description"]
-    end
-
     def process
       sub_sections.each do |sub_section|
         add_string("####{sub_section['title']}") if sub_section["title"].present?
@@ -48,6 +34,20 @@ module Coronavirus::Pages
           end
         end
       end
+    end
+
+    def add_string(text)
+      output_array << text
+    end
+
+    def output_array
+      @output_array ||= []
+    end
+
+    def add_action_link(item)
+      action_link[:url] = remove_priority_taxon_param(item["url"])
+      action_link[:content] = item["label"]
+      action_link[:summary] = item["description"]
     end
 
     def remove_priority_taxon_param(url)
