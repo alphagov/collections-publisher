@@ -7,7 +7,6 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
   let(:content) { link_one }
 
   let(:sub_section) { build :coronavirus_sub_section, content: content }
-  subject { described_class.new(sub_section) }
 
   describe "#output" do
     let(:title) { Faker::Lorem.sentence }
@@ -35,7 +34,8 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
     end
 
     it "has expected content" do
-      expect(subject.output).to eq(expected)
+      presenter = described_class.new(sub_section)
+      expect(presenter.output).to eq(expected)
     end
   end
 
@@ -56,7 +56,8 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
         ],
       }
 
-      expect(subject.output).to eq(expected_output)
+      presenter = described_class.new(sub_section)
+      expect(presenter.output).to eq(expected_output)
     end
   end
 
@@ -77,7 +78,8 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
         ],
       }
 
-      expect(subject.output).to eq(expected_output)
+      presenter = described_class.new(sub_section)
+      expect(presenter.output).to eq(expected_output)
     end
   end
 
@@ -120,7 +122,8 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
         ],
       }
 
-      expect(subject.output).to eq(expected_output)
+      presenter = described_class.new(sub_section)
+      expect(presenter.output).to eq(expected_output)
     end
   end
 
@@ -130,8 +133,8 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
       sub_section = build(:coronavirus_sub_section, content: "[General Kenobi](#{link_url})")
       priority_taxon = SecureRandom.uuid
 
-      subject = described_class.new(sub_section, priority_taxon)
-      sub_sections_list = subject.output[:sub_sections].first[:list]
+      presenter = described_class.new(sub_section, priority_taxon)
+      sub_sections_list = presenter.output[:sub_sections].first[:list]
 
       expect(sub_sections_list).to include(
         hash_including(url: "#{link_url}?priority-taxon=#{priority_taxon}"),
@@ -142,8 +145,8 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
       link_url = "http://www.hello-there.com"
       sub_section = build(:coronavirus_sub_section, content: "[General Kenobi](#{link_url})")
 
-      subject = described_class.new(sub_section)
-      sub_sections_list = subject.output[:sub_sections].first[:list]
+      presenter = described_class.new(sub_section)
+      sub_sections_list = presenter.output[:sub_sections].first[:list]
 
       expect(sub_sections_list).to include(
         hash_including(url: link_url),
@@ -155,8 +158,8 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
     it "does not append the priority-taxon to list urls" do
       sub_section = build(:coronavirus_sub_section, content: "[test](/coronavirus)")
 
-      subject = described_class.new(sub_section)
-      sub_sections_list = subject.output[:sub_sections].first[:list]
+      presenter = described_class.new(sub_section)
+      sub_sections_list = presenter.output[:sub_sections].first[:list]
 
       expect(sub_sections_list).to include(hash_including(url: "/coronavirus"))
     end
@@ -172,8 +175,8 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
 
       priority_taxon = SecureRandom.uuid
 
-      subject = described_class.new(sub_section, priority_taxon)
-      sub_sections_list = subject.output[:sub_sections].first[:list]
+      presenter = described_class.new(sub_section, priority_taxon)
+      sub_sections_list = presenter.output[:sub_sections].first[:list]
 
       expect(sub_sections_list).to include(
         hash_including(url: "/bananas?priority-taxon=#{priority_taxon}"),
