@@ -9,8 +9,6 @@ The Collections Publisher publishes:
 
 These pages are then served by the [collections app](https://github.com/alphagov/collections).
 
-![Screenshot of Collections Publisher](docs/screenshot.png)
-
 ## Live examples
 
 - [collections-publisher](https://collections-publisher.publishing.service.gov.uk/)
@@ -33,14 +31,6 @@ It has these features:
 ![Screenshot of curated and non-curated pages](docs/screenshot-curated-topics.png)
 
 Left, a [curated mainstream browse page](https://www.gov.uk/browse/childcare-parenting/childcare), right, an [uncurated browse page](https://www.gov.uk/browse/justice/prisons-probation).
-
-![Screenshot of a step by step navigation page](docs/screenshot-step-by-step-page.png)
-
-Example of a [step by step navigation page](https://www.gov.uk/learn-to-drive-a-car).
-
-![Screenshot of step by step navigation sidebar](docs/screenshot-step-by-step-sidebar-navigation.png)
-
-Example of [step by step navigation](https://www.gov.uk/driving-eyesight-rules) used as sidebar navigation for one of the primary pages.
 
 This application uses the [sidekiq](http://sidekiq.org/) message queue for background work (mainly publishing to the Publishing API).
 
