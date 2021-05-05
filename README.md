@@ -17,17 +17,13 @@ See the [README of collections frontend](https://github.com/alphagov/collections
 
 ## Technical documentation
 
-This is a Ruby on Rails application.
+This is a Ruby on Rails app, and should follow [our Rails app conventions](https://docs.publishing.service.gov.uk/manual/conventions-for-rails-applications.html).
+
+You can use the [GOV.UK Docker environment](https://github.com/alphagov/govuk-docker) to run the application and its tests with all the necessary dependencies. Follow [the usage instructions](https://github.com/alphagov/govuk-docker#usage) to get started.
+
+**Use GOV.UK Docker to run any commands that follow.**
 
 ### Running the test suite
-
-The test suite includes testing against
-[govuk-content-schemas](http://github.com/alphagov/govuk-content-schemas), so
-you will need a copy of this repo on your file system. By default this should
-be in a sibling directory to your project. Alternatively, you can specify their
-location with the `GOVUK_CONTENT_SCHEMAS_PATH` environment variable.
-
-To run the test suite:
 
 ```
 bundle exec rake
