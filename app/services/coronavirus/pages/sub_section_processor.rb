@@ -27,7 +27,7 @@ module Coronavirus::Pages
         add_string("####{sub_section['title']}") if sub_section["title"].present?
         sub_section["list"].each do |item|
           if item["featured_link"]
-            add_action_link(item)
+            add_action_link(item["url"], item["label"], item["description"])
           else
             add_string(link_markdown(item["url"], item["label"]))
           end
@@ -43,10 +43,10 @@ module Coronavirus::Pages
       @output_array ||= []
     end
 
-    def add_action_link(item)
-      action_link[:url] = remove_priority_taxon_param(item["url"])
-      action_link[:content] = item["label"]
-      action_link[:summary] = item["description"]
+    def add_action_link(url, label, description)
+      action_link[:url] = remove_priority_taxon_param(url)
+      action_link[:content] = label
+      action_link[:summary] = description
     end
 
     def action_link
