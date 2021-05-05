@@ -1,26 +1,7 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  class RoleConstraint
-    def initialize(role)
-      @role = role
-    end
-
-    def matches?(request)
-      user = request.env["warden"].user
-      user && user.has_permission?(@role)
-    end
-  end
-
-  root to: redirect("/coronavirus/live_stream", status: 302),
-       constraints: RoleConstraint.new("Livestream editor"),
-       as: nil
   root to: redirect("/step-by-step-pages", status: 302)
 
   namespace :coronavirus do
-    resources :live_stream, only: %i[index update] do
-      post "publish", to: "live_stream#publish"
-    end
-
     resources :pages,
               path: "",
               only: %i[index show],

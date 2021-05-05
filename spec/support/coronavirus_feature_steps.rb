@@ -12,10 +12,6 @@ module CoronavirusFeatureSteps
     stub_user.permissions << "Unreleased feature"
   end
 
-  def given_a_livestream_exists
-    FactoryBot.create(:coronavirus_live_stream, :without_validations)
-  end
-
   def given_there_is_a_coronavirus_page
     @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
   end
@@ -36,24 +32,6 @@ module CoronavirusFeatureSteps
     @coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
   end
 
-  def the_payload_contains_the_valid_url
-    live_stream_payload = coronavirus_live_stream_hash.merge(
-      {
-        "video_url" => valid_url,
-        "date" => todays_date,
-      },
-    )
-    assert_publishing_api_put_content(
-      coronavirus_content_id,
-      request_json_includes(
-        "details" => {
-          "announcements_label" => "Announcements",
-          "live_stream" => live_stream_payload,
-        },
-      ),
-    )
-  end
-
   def live_coronavirus_content_item
     File.read(Rails.root.join("spec/fixtures/coronavirus_content_item.json"))
   end
@@ -62,28 +40,12 @@ module CoronavirusFeatureSteps
     @coronavirus_content_json ||= JSON.parse(live_coronavirus_content_item)
   end
 
-  def coronavirus_live_stream_hash
-    coronavirus_content_json.dig("details", "live_stream")
-  end
-
   def coronavirus_content_id
     coronavirus_content_json["content_id"]
   end
 
   def todays_date
     Time.zone.now.strftime("%-d %B %Y")
-  end
-
-  def invalid_url
-    "https://www.yotbe.com/watch?v=UF8mC-T0u6k"
-  end
-
-  def valid_url
-    "https://www.youtube.com/watch?v=UF8mC-T0u6k"
-  end
-
-  def stub_youtube
-    stub_request(:get, valid_url)
   end
 
   def stub_coronavirus_publishing_api
@@ -149,41 +111,12 @@ module CoronavirusFeatureSteps
     expect(page).to have_link(I18n.t("coronavirus.pages.index.subtopic_edit.something_else", page_name: "business hub"))
   end
 
-  def i_see_livestream_button
-    expect(page).to have_link(I18n.t("coronavirus.pages.index.landing_page_edit.live_stream_url"))
-  end
-
   def and_i_select_landing_page
     click_link(I18n.t("coronavirus.pages.index.landing_page_edit.something_else"))
   end
 
   def and_i_select_business_page
     click_link(I18n.t("coronavirus.pages.index.subtopic_edit.something_else", page_name: "business hub"))
-  end
-
-  def and_i_select_live_stream
-    click_link(I18n.t("coronavirus.pages.index.landing_page_edit.live_stream_url"))
-    expect(page).to have_text(I18n.t("coronavirus.live_stream.index.title"))
-  end
-
-  def i_am_able_to_update_draft_content_with_valid_url
-    fill_in("url", with: valid_url)
-    click_on(I18n.t("coronavirus.live_stream.index.instructions.one.button_text"))
-    the_payload_contains_the_valid_url
-  end
-
-  def and_i_can_publish_the_url
-    click_on(I18n.t("coronavirus.live_stream.index.instructions.three.button_text"))
-    assert_publishing_api_publish("774cee22-d896-44c1-a611-e3109cce8eae", update_type: "minor")
-  end
-
-  def and_i_can_check_the_preview
-    expect(page).to have_link(I18n.t("coronavirus.live_stream.index.instructions.two.button_text"), href: "https://draft-origin.test.gov.uk/coronavirus")
-  end
-
-  def i_am_able_to_submit_an_invalid_url
-    fill_in("url", with: invalid_url)
-    click_on(I18n.t("coronavirus.live_stream.index.instructions.one.button_text"))
   end
 
   def when_i_visit_the_coronavirus_index_page
@@ -604,28 +537,5 @@ module CoronavirusFeatureSteps
 
   def and_i_see_github_changes_published_message
     expect(page).to have_text(I18n.t("coronavirus.github_changes.publish.success"))
-  end
-
-  def and_i_see_live_stream_is_updated_message
-    expect(page).to have_text(I18n.t("coronavirus.live_stream.update.success"))
-  end
-
-  def and_i_see_live_stream_is_published_message
-    expect(page).to have_text(I18n.t("coronavirus.live_stream.publish.success"))
-  end
-
-  def and_i_see_the_error_message
-    expect(page).to have_text("Url is not valid. Please check it and try again.")
-  end
-
-  def and_nothing_is_sent_publishing_api
-    assert_publishing_api_not_published("774cee22-d896-44c1-a611-e3109cce8eae")
-  end
-
-  def and_i_see_a_link_to_the_landing_page
-    expect(page).to have_link(
-      I18n.t("coronavirus.live_stream.index.instructions.four.button_text"),
-      href: "https://www.test.gov.uk/coronavirus",
-    )
   end
 end

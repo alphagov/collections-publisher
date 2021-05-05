@@ -40,34 +40,6 @@ content:
         url: /search/news-and-communications?topical_events%5B%5D=coronavirus-covid-19-uk-government-response
       - label: "Guidance"
         url: /search/all?topical_events%5B%5D=coronavirus-covid-19-uk-government-response&order=updated-newest
-  live_stream:
-    show_live_stream: true
-    title: Press conferences and speeches
-    date_text: Broadcast
-    no_cookies:
-      change_settings: "Change your cookie settings"
-      change_settings_link: "/help/cookies"
-      to_watch: "to watch the video"
-      or: "or"
-      watch_link_text: "Watch on YouTube"
-      icon_text: "Video"
-    previous_videos:
-      url: https://www.youtube.com/user/Number10gov/videos
-      previous_videos_text: Watch all press conferences on YouTube
-      next_conference_text: The next live press conference will be shown here
-    # set spaced_links to true to insert breaks in the list of links, for increased legibility
-    spaced_links: true
-    ask_a_question_visible: false
-    ask_a_question_text: Ask a question at a press conference
-    ask_a_question_link: /ask
-    popular_questions_link_visible: false
-    see_popular_questions_text: See answers to the most common topics asked about by the public
-    see_popular_questions_link: /guidance/answers-to-the-most-common-topics-asked-about-by-the-public-for-the-coronavirus-press-conference
-    transcript_text: Read all press conference statements
-    transcript_link: /government/collections/slides-and-datasets-to-accompany-coronavirus-press-conferences#transcripts
-    # video_url and date are set by https://collections-publisher.publishing.service.gov.uk/coronavirus/live_stream.
-    video_url:
-    date:
   notifications:
     intro: "Stay up to date with GOV.UK"
     email_link: "Sign up to get emails when we change any coronavirus information on the GOV.UK website"
