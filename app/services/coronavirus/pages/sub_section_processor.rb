@@ -13,7 +13,7 @@ module Coronavirus::Pages
     def output
       process
       {
-        content: output_array.join("\n"),
+        content: content_array.join("\n"),
         action_link_url: action_link[:url],
         action_link_content: action_link[:content],
         action_link_summary: action_link[:summary],
@@ -24,19 +24,19 @@ module Coronavirus::Pages
 
     def process
       sub_sections.each do |sub_section|
-        output_array << title_markdown(sub_section["title"]) if sub_section["title"].present?
+        content_array << title_markdown(sub_section["title"]) if sub_section["title"].present?
         sub_section["list"].each do |item|
           if item["featured_link"]
             add_action_link(item["url"], item["label"], item["description"])
           else
-            output_array << link_markdown(item["url"], item["label"])
+            content_array << link_markdown(item["url"], item["label"])
           end
         end
       end
     end
 
-    def output_array
-      @output_array ||= []
+    def content_array
+      @content_array ||= []
     end
 
     def title_markdown(title)
