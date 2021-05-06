@@ -2,22 +2,21 @@ require "rails_helper"
 
 RSpec.describe Coronavirus::SubSectionJsonPresenter do
   describe "#output" do
-    let(:title) { Faker::Lorem.sentence }
-    let(:title_markup) { "###{title}" }
-    let(:label) { Faker::Lorem.sentence }
-    let(:path)  { "/#{File.join(Faker::Lorem.words)}" }
-    let(:link) { "[#{label}](#{path})" }
-    let(:content) { [title_markup, link].join("\n") }
-    let(:sub_section) { build :coronavirus_sub_section, content: content }
+    let(:sub_section) { build :coronavirus_sub_section }
 
     it "has expected content" do
+      title = Faker::Lorem.sentence
+      label = Faker::Lorem.sentence
+      url = "/#{File.join(Faker::Lorem.words)}"
+      sub_section.content = "###{title} \n [#{label}](#{url})"
+
       expected_output = {
         title: sub_section.title,
         sub_sections: [
           {
             list: [
               {
-                url: path,
+                url: url,
                 label: label,
               },
             ],
@@ -31,10 +30,9 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
     end
 
     context "given multiple titles" do
-      let(:content) { "#title \n [test](/coronavirus) \n #title2 \n [test2](/government)" }
-      let(:sub_section) { build :coronavirus_sub_section, content: content }
-
       it "creates multiple groups" do
+        sub_section.content = "#title \n [test](/coronavirus) \n #title2 \n [test2](/government)"
+
         expected_output = {
           title: sub_section.title,
           sub_sections: [
@@ -55,10 +53,9 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
     end
 
     context "when the first group has no title" do
-      let(:content) { "[test](/coronavirus) \n #title2 \n [test2](/government)" }
-      let(:sub_section) { build :coronavirus_sub_section, content: content }
-
       it "groups the links as expected" do
+        sub_section.content = "[test](/coronavirus) \n #title2 \n [test2](/government)"
+
         expected_output = {
           title: sub_section.title,
           sub_sections: [
@@ -79,14 +76,12 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
     end
 
     context "when a sub-section contains an action link" do
-      let(:title) { Faker::Lorem.sentence }
-      let(:label) { Faker::Lorem.sentence }
-      let(:path)  { "/#{File.join(Faker::Lorem.words)}" }
-      let(:sub_section) do
-        create :coronavirus_sub_section, content: "###{title}\n[#{label}](#{path})"
-      end
-
       it "includes an action link with a description and featured set to true" do
+        title = Faker::Lorem.sentence
+        label = Faker::Lorem.sentence
+        url = "/#{File.join(Faker::Lorem.words)}"
+        sub_section.content = "###{title}\n[#{label}](#{url})"
+
         sub_section.action_link_url = "/bananas"
         sub_section.action_link_content = "Bananas"
         sub_section.action_link_summary = "Bananas"
@@ -108,7 +103,7 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
             {
               list: [
                 {
-                  url: path,
+                  url: url,
                   label: label,
                 },
               ],
@@ -125,7 +120,7 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
     context "when a priority taxon is provided" do
       it "appends the priority_taxon to the url if the link is relative" do
         link_url = "/hello-there"
-        sub_section = build(:coronavirus_sub_section, content: "[General Kenobi](#{link_url})")
+        sub_section.content = "[General Kenobi](#{link_url})"
         priority_taxon = SecureRandom.uuid
 
         presenter = described_class.new(sub_section, priority_taxon)
@@ -138,7 +133,7 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
 
       it "does not append a priority_taxon to the url if the link is external" do
         link_url = "http://www.hello-there.com"
-        sub_section = build(:coronavirus_sub_section, content: "[General Kenobi](#{link_url})")
+        sub_section.content = "[General Kenobi](#{link_url})"
 
         presenter = described_class.new(sub_section)
         sub_sections_list = presenter.output[:sub_sections].first[:list]
@@ -151,30 +146,27 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
 
     context "when a priority taxon is not provided" do
       it "does not append the priority-taxon to list urls" do
-        sub_section = build(:coronavirus_sub_section, content: "[test](/coronavirus)")
+        link_url = "/coronavirus"
+        sub_section.content = "[test](#{link_url})"
 
         presenter = described_class.new(sub_section)
         sub_sections_list = presenter.output[:sub_sections].first[:list]
 
-        expect(sub_sections_list).to include(hash_including(url: "/coronavirus"))
+        expect(sub_sections_list).to include(hash_including(url: link_url))
       end
     end
 
     context "when a sub-section has an action link and a priority taxon is provided" do
       it "appends the priority_taxon to the action link url" do
-        sub_section = build(:coronavirus_sub_section,
-                            content: "#Title",
-                            action_link_url: "/bananas",
-                            action_link_content: Faker::Lorem.sentence,
-                            action_link_summary: Faker::Lorem.sentence)
-
+        link_url = "/bananas"
+        sub_section.action_link_url = link_url
         priority_taxon = SecureRandom.uuid
 
         presenter = described_class.new(sub_section, priority_taxon)
         sub_sections_list = presenter.output[:sub_sections].first[:list]
 
         expect(sub_sections_list).to include(
-          hash_including(url: "/bananas?priority-taxon=#{priority_taxon}"),
+          hash_including(url: "#{link_url}?priority-taxon=#{priority_taxon}"),
         )
       end
     end
