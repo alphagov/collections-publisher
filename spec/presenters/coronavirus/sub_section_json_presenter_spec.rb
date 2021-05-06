@@ -162,22 +162,8 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
           hash_including(url: link_url),
         )
       end
-    end
 
-    context "when a priority taxon is not provided" do
-      it "does not append the priority-taxon to list urls" do
-        link_url = "/coronavirus"
-        sub_section.content = "[test](#{link_url})"
-
-        presenter = described_class.new(sub_section)
-        sub_sections_list = presenter.output[:sub_sections].first[:list]
-
-        expect(sub_sections_list).to include(hash_including(url: link_url))
-      end
-    end
-
-    context "when a sub-section has an action link and a priority taxon is provided" do
-      it "appends the priority_taxon to the action link url" do
+      it "appends the priority_taxon to action link urls" do
         link_url = "/bananas"
         sub_section.action_link_url = link_url
         priority_taxon = SecureRandom.uuid
