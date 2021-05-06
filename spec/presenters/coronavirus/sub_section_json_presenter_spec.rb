@@ -37,11 +37,21 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
           title: sub_section.title,
           sub_sections: [
             {
-              list: [{ label: "test", url: "/coronavirus" }],
+              list: [
+                {
+                  label: "test",
+                  url: "/coronavirus",
+                },
+              ],
               title: "title",
             },
             {
-              list: [{ label: "test2", url: "/government" }],
+              list: [
+                {
+                  label: "test2",
+                  url: "/government",
+                },
+              ],
               title: "title2",
             },
           ],
@@ -60,11 +70,21 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
           title: sub_section.title,
           sub_sections: [
             {
-              list: [{ label: "test", url: "/coronavirus" }],
+              list: [
+                {
+                  label: "test",
+                  url: "/coronavirus",
+                },
+              ],
               title: nil,
             },
             {
-              list: [{ label: "test2", url: "/government" }],
+              list: [
+                {
+                  label: "test2",
+                  url: "/government",
+                },
+              ],
               title: "title2",
             },
           ],
