@@ -7,7 +7,7 @@ module Coronavirus::Pages
     attr_reader :sub_sections
 
     def initialize(sub_sections)
-      @sub_sections = [sub_sections].flatten
+      @sub_sections = sub_sections
     end
 
     def output
