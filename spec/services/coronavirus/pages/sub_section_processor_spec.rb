@@ -2,6 +2,40 @@ require "rails_helper"
 
 RSpec.describe Coronavirus::Pages::SubSectionProcessor do
   describe ".call" do
+    it "converts a sub_section data into a block of markdown" do
+      sub_section_payload_data = [
+        {
+          "title" => "Title",
+          "list" => [
+            {
+              "label" => "Label",
+              "url" => "/path",
+            },
+          ],
+        },
+        {
+          "title" => "Another Title",
+          "list" => [
+            {
+              "label" => "Another Label",
+              "url" => "/another-path",
+            },
+          ],
+        },
+      ]
+
+      output = described_class.call(sub_section_payload_data)
+      lines = output[:content].split("\n")
+
+      expect(lines.count).to eq(4)
+      expect(lines).to eq([
+        "###Title",
+        "[Label](/path)",
+        "###Another Title",
+        "[Another Label](/another-path)",
+      ])
+    end
+
     it "doesn't add featured links to the lines of content" do
       sub_section_payload_data = [
         {
