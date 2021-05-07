@@ -4,10 +4,12 @@ module Coronavirus::Pages
       new(*args).output
     end
 
-    attr_reader :sub_sections
+    attr_reader :sub_sections, :content_array, :action_link
 
     def initialize(sub_sections)
       @sub_sections = sub_sections
+      @content_array = []
+      @action_link = {}
     end
 
     def output
@@ -35,10 +37,6 @@ module Coronavirus::Pages
       end
     end
 
-    def content_array
-      @content_array ||= []
-    end
-
     def title_markdown(title)
       "####{title}"
     end
@@ -47,10 +45,6 @@ module Coronavirus::Pages
       action_link[:url] = remove_priority_taxon_param(url)
       action_link[:content] = label
       action_link[:summary] = description
-    end
-
-    def action_link
-      @action_link ||= {}
     end
 
     def link_markdown(url, label)
