@@ -25,6 +25,7 @@ RSpec.describe Coronavirus::Pages::SubSectionProcessor do
       lines = output[:content].split("\n")
 
       expect(lines.count).to eq(2)
+      expect(lines).to eq(["###Title", "[Another label](/another-path)"])
     end
 
     it "adds the title as the first line" do
