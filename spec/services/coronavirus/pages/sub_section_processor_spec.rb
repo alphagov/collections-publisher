@@ -1,59 +1,87 @@
 require "rails_helper"
 
 RSpec.describe Coronavirus::Pages::SubSectionProcessor do
-  let(:title) { Faker::Lorem.sentence }
-  let(:label) { Faker::Lorem.sentence }
-  let(:description) { Faker::Lorem.sentence }
-  let(:url) { "/#{File.join(Faker::Lorem.words)}" }
-  let(:label_1) { Faker::Lorem.sentence }
-  let(:url_1) { "/#{File.join(Faker::Lorem.words)}?priority-taxon=774cee22-d896-44c1-a611-e3109cce8eae" }
-  let(:data) do
-    [
-      {
-        "title" => title,
-        "list" => [
-          {
-            "label" => label,
-            "url" => url,
-            "featured_link" => true,
-            "description" => description,
-          },
-          {
-            "label" => label_1,
-            "url" => url_1,
-          },
-        ],
-      },
-    ]
-  end
-
   describe ".call" do
-    subject { described_class.call(data) }
-    let(:lines) { subject[:content].split("\n") }
+    it "converts a sub_section data into a block of markdown" do
+      sub_section_payload_data = [
+        {
+          "title" => "Title",
+          "list" => [
+            {
+              "label" => "Label",
+              "url" => "/path",
+            },
+          ],
+        },
+        {
+          "title" => "Another Title",
+          "list" => [
+            {
+              "label" => "Another Label",
+              "url" => "/another-path",
+            },
+          ],
+        },
+      ]
 
-    it "creates the correct number of lines" do
-      # 2 = 1 title plus 1 link - feature_link's aren't created
-      expect(lines.count).to eq(2)
+      output = described_class.call(sub_section_payload_data)
+      lines = output[:content].split("\n")
+
+      expect(lines.count).to eq(4)
+      expect(lines).to eq([
+        "###Title",
+        "[Label](/path)",
+        "###Another Title",
+        "[Another Label](/another-path)",
+      ])
     end
 
-    it "has title as the first line" do
+    it "doesn't add featured links to the lines of content" do
+      sub_section_payload_data = [
+        {
+          "title" => "Title",
+          "list" => [
+            {
+              "label" => "Label",
+              "url" => "/path",
+              "featured_link" => true,
+              "description" => "description",
+            },
+            {
+              "label" => "Another label",
+              "url" => "/another-path",
+            },
+          ],
+        },
+      ]
+
+      output = described_class.call(sub_section_payload_data)
+      lines = output[:content].split("\n")
+
+      expect(lines.count).to eq(2)
+      expect(lines).to eq(["###Title", "[Another label](/another-path)"])
+    end
+
+    it "adds the title as the first line" do
+      title = Faker::Lorem.sentence
+      sub_section_payload_data = [
+        {
+          "title" => title,
+          "list" => [],
+        },
+      ]
+
+      output = described_class.call(sub_section_payload_data)
+      lines = output[:content].split("\n")
+
       expect(lines.first).to eq "####{title}"
     end
 
-    it "stores the url, label and description in the appropriate action_link fields" do
-      expect(subject).to match hash_including(
-        action_link_url: url,
-        action_link_content: label,
-        action_link_summary: description,
-      )
-    end
+    it "adds the first link as the first line if the title is blank" do
+      label = Faker::Lorem.sentence
+      url = "/#{File.join(Faker::Lorem.words)}"
 
-    it "removes any priority-taxons query parameters from any non-featured links" do
-      expect(lines.second).to eq "[#{label_1}](#{url_1.gsub('?priority-taxon=774cee22-d896-44c1-a611-e3109cce8eae', '')})"
-    end
-
-    context "with blank title" do
-      let(:data) do
+      sub_section_payload_data = [
         {
           "title" => nil,
           "list" => [
@@ -62,12 +90,89 @@ RSpec.describe Coronavirus::Pages::SubSectionProcessor do
               "url" => url,
             },
           ],
-        }
-      end
+        },
+      ]
 
-      it "has the first link as its first line" do
-        expect(lines.first).to eq "[#{label}](#{url})"
-      end
+      output = described_class.call(sub_section_payload_data)
+      lines = output[:content].split("\n")
+
+      expect(lines.first).to eq "[#{label}](#{url})"
+    end
+
+    it "stores the url, label and description in the appropriate action_link fields" do
+      url = "/#{File.join(Faker::Lorem.words)}"
+      label = Faker::Lorem.sentence
+      description = Faker::Lorem.sentence
+
+      sub_section_payload_data = [
+        {
+          "title" => nil,
+          "list" => [
+            {
+              "label" => label,
+              "url" => url,
+              "featured_link" => true,
+              "description" => description,
+            },
+          ],
+        },
+      ]
+
+      output = described_class.call(sub_section_payload_data)
+
+      expect(output).to match hash_including(
+        action_link_url: url,
+        action_link_content: label,
+        action_link_summary: description,
+      )
+    end
+
+    it "removes any priority-taxons query parameters from links" do
+      url = "/#{File.join(Faker::Lorem.words)}"
+      query_string = "?priority-taxon=774cee22-d896-44c1-a611-e3109cce8eae"
+      url_with_querystring = "#{url}#{query_string}"
+      label = Faker::Lorem.sentence
+
+      sub_section_payload_data = [
+        {
+          "title" => nil,
+          "list" => [
+            {
+              "label" => label,
+              "url" => url_with_querystring,
+            },
+          ],
+        },
+      ]
+
+      output = described_class.call(sub_section_payload_data)
+      lines = output[:content].split("\n")
+
+      expect(lines.first).to eq "[#{label}](#{url})"
+    end
+
+    it "removes any priority-taxons query parameters from featured links" do
+      url = "/#{File.join(Faker::Lorem.words)}"
+      query_string = "?priority-taxon=774cee22-d896-44c1-a611-e3109cce8eae"
+      url_with_querystring = "#{url}#{query_string}"
+
+      sub_section_payload_data = [
+        {
+          "title" => nil,
+          "list" => [
+            {
+              "label" => "Label",
+              "url" => url_with_querystring,
+              "featured_link" => true,
+              "description" => "description",
+            },
+          ],
+        },
+      ]
+
+      output = described_class.call(sub_section_payload_data)
+
+      expect(output[:action_link_url]).to eq(url)
     end
   end
 end
