@@ -8,15 +8,15 @@ class Coronavirus::SubSectionJsonPresenter
     @priority_taxon = priority_taxon
   end
 
-  delegate :title, to: :sub_section
-
   def output
     @output ||=
       {
-        title: title,
+        title: sub_section.title,
         sub_sections: sub_sections,
       }
   end
+
+private
 
   def sub_sections
     sub_sections = [build_action_link].compact
@@ -41,8 +41,6 @@ class Coronavirus::SubSectionJsonPresenter
       url: append_priority_taxon_query_param(url),
     }
   end
-
-private
 
   def append_priority_taxon_query_param(url)
     return url unless priority_taxon.present? && url.starts_with?("/")
