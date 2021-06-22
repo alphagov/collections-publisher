@@ -94,7 +94,7 @@ private
   def link_content(section)
     section.map do |line|
       payload = {}
-      if /\[(?<text>(.+))\]\((?<href>(.+))\)((?<context>.*))$/ =~ line && safely_parse_path(href)
+      if /\[(?<text>.+)\]\((?<href>.+)\)(?<context>.*)$/ =~ line && safely_parse_path(href)
         payload = {
           "text": text,
           "href": href,

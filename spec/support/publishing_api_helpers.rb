@@ -10,7 +10,7 @@ module PublishingApiHelpers
   end
 
   def extract_content_id_from(current_path)
-    /.*\/(?<content_id>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(\/.*)?$/ =~ current_path
+    /.*\/(?<content_id>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(?:\/.*)?$/ =~ current_path
     content_id || "no-content-id-found-in-#{current_path}"
   end
 
