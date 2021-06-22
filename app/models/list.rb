@@ -11,11 +11,9 @@ class List < ApplicationRecord
   end
 
   def list_items_with_tagging_status
-    @list_items_with_tagging_status ||= begin
-      list_items.order(:index).map do |list_item|
-        list_item.tagged = tagged_base_paths.include?(list_item.base_path)
-        list_item
-      end
+    @list_items_with_tagging_status ||= list_items.order(:index).map do |list_item|
+      list_item.tagged = tagged_base_paths.include?(list_item.base_path)
+      list_item
     end
   end
 

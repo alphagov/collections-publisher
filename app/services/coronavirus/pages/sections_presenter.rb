@@ -1,6 +1,7 @@
 module Coronavirus::Pages
   class SectionsPresenter
     attr_reader :data
+
     def initialize(data)
       @data = [data].flatten
     end

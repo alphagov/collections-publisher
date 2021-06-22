@@ -69,7 +69,7 @@ RSpec.feature "Curating topic contents" do
         expect(page).to have_selector("td.title", count: 2)
         titles = page.all("td.title").map(&:text)
 
-        # Note: order reversed because we dragged the items to the top of the list above.
+        # NOTE: order reversed because we dragged the items to the top of the list above.
         expect(titles).to eq([
           "Oil rig staffing",
           "Oil rig safety requirements",

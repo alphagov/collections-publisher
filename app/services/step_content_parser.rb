@@ -4,7 +4,7 @@ class StepContentParser
   # - [Link text](url) context
   # * A bullet point without a link
   # - A bullet point without a link
-  BULLETED_LIST_REGEX = /^[\*\-]\s(\[.+\]\(.+\))?.*$/.freeze
+  BULLETED_LIST_REGEX = /^[*\-]\s(\[.+\]\(.+\))?.*$/.freeze
 
   # it matches [Link text](url)context
   LIST_REGEX = /^\[.+\]\(.+\).*$/.freeze
@@ -76,7 +76,7 @@ private
   end
 
   def prefix_govuk(path_to_prefix)
-    "https://www.gov.uk" + path_to_prefix
+    "https://www.gov.uk#{path_to_prefix}"
   end
 
   def strip_govuk_prefix(url)
@@ -101,7 +101,7 @@ private
         }
         payload[:context] = context.strip if context.present?
       else
-        payload[:text] = line[2..-1]
+        payload[:text] = line[2..]
       end
       payload
     end

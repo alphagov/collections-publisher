@@ -47,7 +47,7 @@ class PatternMaker
       capture(element)
     when /^within\(/
       within(element)
-    when /^\'.*\'$/
+    when /^'.*'$/
       remove_outer(element)
     when /(then|and)/
       # ignore
@@ -89,7 +89,7 @@ class PatternMaker
   #
   def within(element)
     element = remove_command(:within, element)
-    type, pattern = element.split(/\,/, 2)
+    type, pattern = element.split(/,/, 2)
     start, finish = WITHIN[type.to_sym].chars
     [escaped(start), process_element(pattern), escaped(finish)].join
   end

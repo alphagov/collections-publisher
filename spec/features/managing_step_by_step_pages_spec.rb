@@ -303,7 +303,7 @@ RSpec.feature "Managing step by step pages" do
         "https://www.gov.uk/also/good/stuff",
         "https://www.gov.uk/not/as/great",
       ],
-      webhook_uri: Plek.new.external_url_for("collections-publisher") + "/link_report",
+      webhook_uri: "#{Plek.new.external_url_for('collections-publisher')}/link_report",
       checked_within: 0,
     )
     stub_link_checker_api_get_batch(id: 0)
@@ -486,11 +486,9 @@ RSpec.feature "Managing step by step pages" do
     end
   end
 
-  def within_summary_section
+  def within_summary_section(&block)
     expect(page).to have_css(".gem-c-summary-list#content")
-    within(".gem-c-summary-list#content") do
-      yield
-    end
+    within(".gem-c-summary-list#content", &block)
   end
 
   def and_i_can_see_a_steps_overview_section_with_no_steps

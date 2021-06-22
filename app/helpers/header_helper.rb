@@ -22,7 +22,7 @@ module HeaderHelper
 
     title = "#{icon tag.sort_mode} #{tag.title_including_parent}"
     title = "#{title}: #{mode}" if mode
-    title = title + " " + labels_for_tag(tag)
+    title = "#{title} #{labels_for_tag(tag)}"
 
     header title, breadcrumbs: breadcrumbs, page_title: tag.title_including_parent do
       yield if block_given?
