@@ -5,7 +5,7 @@ class PatternMaker
   PATTERNS = {
     starts_with: "^",
     nothing_else: "$",
-    words: '\w[\w\s\.\,]+',
+    words: '\w[\w\s.,]+',
     perhaps_spaces: '\s*',
     anything: ".*",
   }.freeze
