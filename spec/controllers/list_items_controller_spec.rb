@@ -248,16 +248,6 @@ RSpec.describe ListItemsController, type: :controller do
       }
     end
 
-    class StubbedTag
-      def initialize(tag)
-        @tag = tag
-      end
-
-      def find_by!(_content_id)
-        @tag
-      end
-    end
-
     def stub_tag_class
       stubbed_list_item = double(
         "stubbed ListItem",
@@ -269,7 +259,7 @@ RSpec.describe ListItemsController, type: :controller do
       )
       stubbed_list = double("stubbed List", list_items: double("stubbed list_items", find: stubbed_list_item))
       stubbed_tag = double("stubbed Tag", to_param: tag.content_id, lists: double("stubbed lists", find: stubbed_list))
-      stub_const("Tag", StubbedTag.new(stubbed_tag))
+      stub_const("Tag", double("stubbed Tag class", find_by!: stubbed_tag))
     end
   end
 end
