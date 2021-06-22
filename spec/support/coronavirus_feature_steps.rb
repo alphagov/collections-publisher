@@ -78,11 +78,11 @@ module CoronavirusFeatureSteps
   end
 
   def github_response
-    File.read("#{Rails.root.join}spec/fixtures/coronavirus_landing_page.yml")
+    File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
   end
 
   def github_business_response
-    File.read("#{Rails.root.join}spec/fixtures/coronavirus_business_page.yml")
+    File.read(Rails.root.join("spec/fixtures/coronavirus_business_page.yml"))
   end
 
   def then_the_content_is_sent_to_publishing_api
@@ -492,7 +492,7 @@ module CoronavirusFeatureSteps
   end
 
   def invalid_github_response
-    File.read("#{Rails.root.join}spec/fixtures/invalid_corona_page.yml")
+    File.read(Rails.root.join("spec/fixtures/invalid_corona_page.yml"))
   end
 
   def and_i_see_an_alert
