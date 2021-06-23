@@ -116,9 +116,9 @@ private
   end
 
   def done_page_base_path(page)
-    return page.base_path + "/y" if page.smartanswer?
+    return "#{page.base_path}/y" if page.smartanswer?
 
-    "/done" + page.base_path
+    "/done#{page.base_path}"
   end
 
   def base_paths_for_navigation_rules

@@ -47,7 +47,7 @@ module Coronavirus::Pages
     def sub_sections
       sections = SectionsPresenter.new(sections_from_payload).output
 
-      new_sub_sections = sections.each_with_index.map do |attributes, index|
+      sections.each_with_index.map do |attributes, index|
         Coronavirus::SubSection.new(
           title: attributes[:title],
           content: attributes[:content],
@@ -57,8 +57,6 @@ module Coronavirus::Pages
           action_link_summary: attributes[:action_link_summary],
         )
       end
-
-      new_sub_sections
     end
 
     def sections_from_payload

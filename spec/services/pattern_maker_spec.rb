@@ -76,7 +76,7 @@ RSpec.describe PatternMaker do
       let(:description) { "starts_with within(sq_brackets,words) then perhaps_spaces and capture(anything)" }
 
       it "combines the result" do
-        expect(pattern).to eq(/^\[\w[\w\s\.\,]+\]\s*(?<anything>.*)/)
+        expect(pattern).to eq(/^\[\w[\w\s.,]+\]\s*(?<anything>.*)/)
       end
     end
   end

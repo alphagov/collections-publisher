@@ -47,7 +47,7 @@ private
 
   def steps
     steps_in_step_by_step = step_by_step_nav_details[:steps]
-    new_steps = steps_in_step_by_step.map.with_index do |step, index|
+    steps_in_step_by_step.map.with_index do |step, index|
       Step.new(
         title: step[:title],
         logic: logic(step),
@@ -56,8 +56,6 @@ private
         contents: contents(step[:contents]),
       )
     end
-
-    new_steps
   end
 
   def logic(step)
