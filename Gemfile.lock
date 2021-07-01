@@ -180,6 +180,9 @@ GEM
       domain_name (~> 0.5)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
+    inline_svg (1.7.2)
+      activesupport (>= 3.0)
+      nokogiri (>= 1.6)
     jasmine (3.7.0)
       jasmine-core (~> 3.7.0)
       phantomjs
@@ -453,6 +456,7 @@ DEPENDENCIES
   govuk_publishing_components
   govuk_sidekiq
   govuk_test
+  inline_svg
   jasmine
   jasmine_selenium_runner
   kramdown

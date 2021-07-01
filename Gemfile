@@ -4,6 +4,7 @@ gem "rails", "6.1.4"
 
 gem "aasm"
 gem "generic_form_builder"
+gem "inline_svg"
 gem "kramdown"
 gem "mysql2"
 gem "sass-rails"
