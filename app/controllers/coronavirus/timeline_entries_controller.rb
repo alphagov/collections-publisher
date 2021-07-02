@@ -63,6 +63,19 @@ module Coronavirus
       redirect_to coronavirus_page_path(page.slug), alert: I18n.t("coronavirus.timeline_entries.destroy.failed")
     end
 
+    helper_method :national_applicability_options
+    def national_applicability_options
+      uk_nations = %w[england northen_ireland scotland wales]
+
+      uk_nations.map do |nation|
+        {
+          label: nation.titleize,
+          value: nation,
+          checked: @timeline_entry.national_applicability.include?(nation),
+        }
+      end
+    end
+
   private
 
     def timeline_entry_params

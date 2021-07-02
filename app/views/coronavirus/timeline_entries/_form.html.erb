@@ -15,28 +15,7 @@
   heading_size: "s",
   no_hint_text: true,
   error: error_items(@timeline_entry.errors.messages, :national_applicability),
-  items: [
-    {
-      label: "England",
-      value: "england",
-      checked: false,
-    },
-    {
-      label: "Northen Ireland",
-      value: "northen_ireland",
-      checked: false,
-    },
-    {
-      label: "Scotland",
-      value: "scotland",
-      checked: false,
-    },
-    {
-      label: "Wales",
-      value: "wales",
-      checked: false,
-    },
-  ],
+  items: national_applicability_options,
 } %>
 
 <%= render "components/markdown_editor", {
