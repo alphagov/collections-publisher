@@ -73,6 +73,7 @@ module Coronavirus::Pages
         Coronavirus::TimelineEntry.new(
           heading: attributes[:heading],
           content: attributes[:paragraph],
+          national_applicability: attributes[:national_applicability],
         )
       end
     end
