@@ -66,7 +66,7 @@ module Coronavirus
   private
 
     def timeline_entry_params
-      params.require(:timeline_entry).permit(:heading, :content)
+      params.require(:timeline_entry).permit(:heading, :content, national_applicability: [])
     end
 
     def page

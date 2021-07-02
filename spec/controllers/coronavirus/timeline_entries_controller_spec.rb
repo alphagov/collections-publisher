@@ -27,10 +27,12 @@ RSpec.describe Coronavirus::TimelineEntriesController do
     let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
     let(:heading) { Faker::Lorem.sentence }
     let(:content) { Faker::Lorem.sentence }
+    let(:national_applicability) { %w[england wales] }
     let(:timeline_entry_params) do
       {
         heading: heading,
         content: content,
+        national_applicability: national_applicability,
       }
     end
 
@@ -120,11 +122,13 @@ RSpec.describe Coronavirus::TimelineEntriesController do
     let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
     let!(:timeline_entry) { create(:coronavirus_timeline_entry, page: page) }
     let(:heading) { "Updated heading" }
+    let(:national_applicability) { %w[england wales] }
 
     let(:updated_timeline_entry_params) do
       {
         heading: heading,
         content: "##Updated content",
+        national_applicability: national_applicability,
       }
     end
 
