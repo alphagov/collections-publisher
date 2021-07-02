@@ -9,6 +9,35 @@
   error_message: error_items(@timeline_entry.errors.messages, :heading),
 } %>
 
+<%= render "govuk_publishing_components/components/checkboxes", {
+  name: "timeline_entry[national_applicability][]",
+  heading: "Entry applies to:",
+  heading_size: "s",
+  no_hint_text: true,
+  items: [
+    {
+      label: "England",
+      value: "england",
+      checked: false,
+    },
+    {
+      label: "Northen Ireland",
+      value: "northen_ireland",
+      checked: false,
+    },
+    {
+      label: "Scotland",
+      value: "scotland",
+      checked: false,
+    },
+    {
+      label: "Wales",
+      value: "wales",
+      checked: false,
+    },
+  ],
+} %>
+
 <%= render "components/markdown_editor", {
   label: {
     text: t("coronavirus.timeline_entries.form.content.label"),
