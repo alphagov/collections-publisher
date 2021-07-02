@@ -12,6 +12,8 @@ class Coronavirus::TimelineEntry < ApplicationRecord
   before_create :set_position
   after_destroy :set_parent_positions
 
+  UK_NATIONS = %w[england northern_ireland scotland wales].freeze
+
   def set_position
     page.timeline_entries.update_all("position = position + 1")
     self.position = 1
@@ -24,10 +26,8 @@ class Coronavirus::TimelineEntry < ApplicationRecord
 private
 
   def applies_to_uk_nations
-    uk_nations = %w[england northern_ireland scotland wales]
-
     national_applicability.each do |nation|
-      unless uk_nations.include?(nation)
+      unless UK_NATIONS.include?(nation)
         errors.add(:national_applicability, "has an invalid nation selected")
       end
     end

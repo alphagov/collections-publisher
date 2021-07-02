@@ -65,9 +65,7 @@ module Coronavirus
 
     helper_method :national_applicability_options
     def national_applicability_options
-      uk_nations = %w[england northen_ireland scotland wales]
-
-      uk_nations.map do |nation|
+      Coronavirus::TimelineEntry::UK_NATIONS.map do |nation|
         {
           label: nation.titleize,
           value: nation,
