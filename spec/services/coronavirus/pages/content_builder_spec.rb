@@ -6,7 +6,13 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
   let(:sub_section_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section, page.content_id).output }
   let(:announcement_json) { Coronavirus::AnnouncementJsonPresenter.new(announcement).output }
-  let(:timeline_json) { { "heading" => timeline_entry["heading"], "paragraph" => timeline_entry["content"] } }
+  let(:timeline_json) do
+    {
+      "heading" => timeline_entry["heading"],
+      "paragraph" => timeline_entry["content"],
+      "national_applicability" => timeline_entry["national_applicability"],
+    }
+  end
 
   subject { described_class.new(page) }
   before do
@@ -109,8 +115,16 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
 
     it "returns the timeline JSON ordered by position" do
       expect(subject.timeline_data).to eq [
-        { "heading" => timeline_entry_1.heading, "paragraph" => timeline_entry_1.content },
-        { "heading" => timeline_entry_0.heading, "paragraph" => timeline_entry_0.content },
+        {
+          "heading" => timeline_entry_1.heading,
+          "paragraph" => timeline_entry_1.content,
+          "national_applicability" => timeline_entry_1.national_applicability,
+        },
+        {
+          "heading" => timeline_entry_0.heading,
+          "paragraph" => timeline_entry_0.content,
+          "national_applicability" => timeline_entry_0.national_applicability,
+        },
       ]
     end
   end
