@@ -4,6 +4,7 @@ RSpec.describe Coronavirus::TimelineEntry do
   it { should validate_presence_of(:heading) }
   it { should validate_length_of(:heading).is_at_most(255) }
   it { should validate_presence_of(:content) }
+  it { should validate_presence_of(:national_applicability) }
 
   describe "position" do
     let(:page) { create(:coronavirus_page) }
@@ -41,6 +42,29 @@ RSpec.describe Coronavirus::TimelineEntry do
 
       expect(original_timeline_entry_one.position).to eq 1
       expect(page.timeline_entries.count).to eq 1
+    end
+  end
+
+  describe "national_applicability" do
+    let(:timeline_entry) { create(:coronavirus_timeline_entry) }
+
+    it "must have valid UK nations" do
+      timeline_entry.national_applicability = %w[france]
+
+      expect(timeline_entry).not_to be_valid
+      expect(timeline_entry.errors).to have_key(:national_applicability)
+    end
+
+    it "allows national_applicability to be set to a UK nation" do
+      timeline_entry.national_applicability = %w[wales]
+
+      expect(timeline_entry).to be_valid
+    end
+
+    it "allows national_applicability to be set to multiple UK nations" do
+      timeline_entry.national_applicability = %w[england wales]
+
+      expect(timeline_entry).to be_valid
     end
   end
 end
