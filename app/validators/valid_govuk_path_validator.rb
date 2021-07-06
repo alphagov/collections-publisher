@@ -4,6 +4,6 @@ class ValidGovukPathValidator < ActiveModel::EachValidator
 
     Services.content_store.content_item(value)
   rescue GdsApi::ContentStore::ItemNotFound, GdsApi::InvalidUrl, URI::InvalidURIError
-    record.errors[attribute] << "This URL isn't a valid target for a redirect on GOV.UK."
+    record.errors.add(attribute, "This URL isn't a valid target for a redirect on GOV.UK.")
   end
 end
