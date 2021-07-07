@@ -1,6 +1,12 @@
 <%
   timeline_entries = @page.timeline_entries.order(:position)
-  timeline_entries = timeline_entries.map { |te| { id: te.id, title: te.heading } }
+  timeline_entries = timeline_entries.map do |te|
+    {
+      id: te.id,
+      title: te.heading,
+      description: te.national_applicability.join(", ").titleize
+    }
+  end
 %>
 
 <div class="covid-manage-page__summary-list">
