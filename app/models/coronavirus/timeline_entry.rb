@@ -23,6 +23,14 @@ class Coronavirus::TimelineEntry < ApplicationRecord
     page.make_timeline_entry_positions_sequential
   end
 
+  def national_applicability_text
+    if national_applicability.uniq.sort == UK_NATIONS
+      "UK Wide"
+    else
+      national_applicability.join(", ").titleize
+    end
+  end
+
 private
 
   def applies_to_uk_nations

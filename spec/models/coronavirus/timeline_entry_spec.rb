@@ -67,4 +67,20 @@ RSpec.describe Coronavirus::TimelineEntry do
       expect(timeline_entry).to be_valid
     end
   end
+
+  describe "national_applicability_text" do
+    let(:timeline_entry) { create(:coronavirus_timeline_entry) }
+
+    it "displays a list of nations" do
+      timeline_entry.national_applicability = %w[england wales]
+
+      expect(timeline_entry.national_applicability_text).to eq("England, Wales")
+    end
+
+    it "displays UK Wide when tagged to all nations" do
+      timeline_entry.national_applicability = %w[england wales northern_ireland scotland]
+
+      expect(timeline_entry.national_applicability_text).to eq("UK Wide")
+    end
+  end
 end
