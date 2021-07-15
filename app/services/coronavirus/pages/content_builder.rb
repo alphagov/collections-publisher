@@ -89,8 +89,14 @@ module Coronavirus::Pages
       @timeline_data ||= page
         .timeline_entries
         .order(:position)
-        .pluck(:heading, :content)
-        .map { |(heading, content)| { "heading" => heading, "paragraph" => content } }
+        .pluck(:heading, :content, :national_applicability)
+        .map do |(heading, content, national_applicability)|
+          {
+            "heading" => heading,
+            "paragraph" => content,
+            "national_applicability" => national_applicability,
+          }
+        end
     end
 
     def hidden_search_terms

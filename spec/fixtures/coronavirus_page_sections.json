@@ -66,11 +66,13 @@
       "list": [
         {
           "heading": "5 January",
-          "paragraph": "[National lockdown rules apply in England](/guidance/national-lockdown-stay-at-home). Stay at home."
+          "paragraph": "[National lockdown rules apply in England](/guidance/national-lockdown-stay-at-home). Stay at home.",
+          "national_applicability": ["england", "wales"]
         },
         {
           "heading": "4 January",
-          "paragraph": "[Changes expected](/guidance/tiering-changes-expected). Watch this space."
+          "paragraph": "[Changes expected](/guidance/tiering-changes-expected). Watch this space.",
+          "national_applicability": ["england"]
         }
       ],
       "heading": "Recent and upcoming changes"

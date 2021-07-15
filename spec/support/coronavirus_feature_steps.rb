@@ -266,6 +266,7 @@ module CoronavirusFeatureSteps
     stub_coronavirus_landing_page_content(@coronavirus_page)
     fill_in("heading", with: "Fancy title")
     fill_in("content", with: "##Form content")
+    check("England")
     click_on("Save")
   end
 

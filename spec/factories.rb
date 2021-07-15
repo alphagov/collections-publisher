@@ -256,6 +256,7 @@ FactoryBot.define do
   factory :coronavirus_timeline_entry, class: Coronavirus::TimelineEntry do
     content { "Amazing fantastic content" }
     heading { "Unbelievable heading" }
+    national_applicability { %w[england] }
     page factory: :coronavirus_page
   end
 end

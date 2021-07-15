@@ -9,6 +9,15 @@
   error_message: error_items(@timeline_entry.errors.messages, :heading),
 } %>
 
+<%= render "govuk_publishing_components/components/checkboxes", {
+  name: "timeline_entry[national_applicability][]",
+  heading: t("coronavirus.timeline_entries.form.national_applicability.heading"),
+  heading_size: "s",
+  no_hint_text: true,
+  error: error_items(@timeline_entry.errors.messages, :national_applicability),
+  items: national_applicability_options,
+} %>
+
 <%= render "components/markdown_editor", {
   label: {
     text: t("coronavirus.timeline_entries.form.content.label"),
