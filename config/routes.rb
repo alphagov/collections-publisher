@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root to: redirect("/step-by-step-pages", status: 302)
 
+  get "/trigger-error" => "trigger_error#now"
+
   namespace :coronavirus do
     resources :pages,
               path: "",
