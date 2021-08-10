@@ -4,20 +4,13 @@
 
 <div class="covid-edit-page govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_for @coronavirus_yaml, coronavirus_yaml: @coronavirus_yaml, url: coronavirus_page_coronavirus_yamls_path do %>
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: "Edit YAML!!",
-          bold: true,
-        },
-        name: "coronavirus_yaml[content]",
-        id: "content",
-      } %>
-
-      <%= render "govuk_publishing_components/components/button", {
-        text: "Save",
-        margin_bottom: true
-      } %>
+     <%= form_for @coronavirus_yaml, coronavirus_yaml: @coronavirus_yaml, url: coronavirus_page_coronavirus_yamls_path do %>
+    <div id="editor" style=" position: relative; width: 500px; height: 400px;">some: yaml</div>
+    <br>
+    <%= render "govuk_publishing_components/components/button", {
+    text: "Save",
+    margin_bottom: true
+    } %>
     <% end %>
   </div>
 </div>
