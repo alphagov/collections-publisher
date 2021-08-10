@@ -13,6 +13,8 @@ Rails.application.routes.draw do
       post "github_changes/update", to: "github_changes#update", on: :member
       post "github_changes/publish", to: "github_changes#publish", on: :member
 
+      resources :coronavirus_yamls
+
       resources :sub_sections do
         collection do
           get "reorder", to: "reorder_sub_sections#index"
