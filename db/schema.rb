@@ -2,17 +2,17 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_02_095110) do
+ActiveRecord::Schema.define(version: 2021_08_10_160135) do
 
-  create_table "coronavirus_announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "coronavirus_announcements", charset: "utf8", force: :cascade do |t|
     t.bigint "coronavirus_page_id", null: false
     t.string "title", null: false
     t.text "url", null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.date "published_on"
   end
 
-  create_table "coronavirus_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "coronavirus_pages", charset: "utf8", force: :cascade do |t|
     t.string "sections_title"
     t.string "base_path"
     t.datetime "created_at", null: false
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.string "title"
   end
 
-  create_table "coronavirus_sub_sections", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "coronavirus_sub_sections", charset: "utf8", force: :cascade do |t|
     t.string "title"
     t.text "content"
     t.bigint "coronavirus_page_id"
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.index ["coronavirus_page_id"], name: "index_coronavirus_sub_sections_on_coronavirus_page_id"
   end
 
-  create_table "coronavirus_timeline_entries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "coronavirus_timeline_entries", charset: "utf8", force: :cascade do |t|
     t.bigint "coronavirus_page_id", null: false
     t.text "content", null: false
     t.string "heading", null: false
@@ -60,7 +60,14 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.index ["coronavirus_page_id"], name: "index_coronavirus_timeline_entries_on_coronavirus_page_id"
   end
 
-  create_table "internal_change_notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "coronavirus_yamls", charset: "utf8", force: :cascade do |t|
+    t.text "content"
+    t.bigint "coronavirus_page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "internal_change_notes", charset: "utf8", force: :cascade do |t|
     t.string "author"
     t.text "description"
     t.bigint "step_by_step_page_id"
@@ -70,7 +77,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.index ["step_by_step_page_id"], name: "index_internal_change_notes_on_step_by_step_page_id"
   end
 
-  create_table "link_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "link_reports", charset: "utf8", force: :cascade do |t|
     t.integer "batch_id"
     t.datetime "completed"
     t.bigint "step_id"
@@ -79,7 +86,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.index ["step_id"], name: "index_link_reports_on_step_id"
   end
 
-  create_table "list_items", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "list_items", id: :integer, charset: "utf8", force: :cascade do |t|
     t.string "base_path"
     t.integer "index", default: 0, null: false
     t.integer "list_id"
@@ -89,14 +96,14 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.index ["list_id", "index"], name: "index_list_items_on_list_id_and_index"
   end
 
-  create_table "lists", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "lists", id: :integer, charset: "utf8", force: :cascade do |t|
     t.string "name"
     t.integer "index", default: 0, null: false
     t.integer "tag_id", null: false
     t.index ["tag_id"], name: "index_lists_on_tag_id"
   end
 
-  create_table "navigation_rules", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "navigation_rules", charset: "utf8", force: :cascade do |t|
     t.string "title", null: false
     t.string "base_path", null: false
     t.string "content_id", null: false
@@ -111,7 +118,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.index ["step_by_step_page_id"], name: "index_navigation_rules_on_step_by_step_page_id"
   end
 
-  create_table "redirect_items", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "redirect_items", id: :integer, charset: "utf8", force: :cascade do |t|
     t.string "content_id", null: false
     t.string "from_base_path", null: false
     t.string "to_base_path", null: false
@@ -121,7 +128,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.index ["from_base_path"], name: "index_redirect_items_on_from_base_path", unique: true
   end
 
-  create_table "redirect_routes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "redirect_routes", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "redirect_id"
     t.string "from_base_path"
     t.string "to_base_path"
@@ -133,7 +140,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.index ["tag_id"], name: "index_redirect_routes_on_tag_id"
   end
 
-  create_table "secondary_content_links", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "secondary_content_links", charset: "utf8", force: :cascade do |t|
     t.string "base_path"
     t.string "title"
     t.string "content_id"
@@ -143,7 +150,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.index ["step_by_step_page_id"], name: "index_secondary_content_links_on_step_by_step_page_id"
   end
 
-  create_table "step_by_step_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "step_by_step_pages", charset: "utf8", force: :cascade do |t|
     t.string "title"
     t.string "slug"
     t.text "introduction"
@@ -165,7 +172,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.index ["slug"], name: "index_step_by_step_pages_on_slug", unique: true
   end
 
-  create_table "steps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "steps", charset: "utf8", force: :cascade do |t|
     t.string "title"
     t.string "logic"
     t.boolean "optional"
@@ -177,7 +184,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.index ["step_by_step_page_id"], name: "index_steps_on_step_by_step_page_id"
   end
 
-  create_table "tag_associations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "tag_associations", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "from_tag_id", null: false
     t.integer "to_tag_id", null: false
     t.datetime "created_at"
@@ -186,7 +193,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.index ["to_tag_id"], name: "index_tag_associations_on_to_tag_id"
   end
 
-  create_table "tags", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "tags", id: :integer, charset: "utf8", force: :cascade do |t|
     t.string "type"
     t.string "slug", null: false
     t.string "title", null: false
@@ -205,7 +212,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.index ["slug", "parent_id"], name: "index_tags_on_slug_and_parent_id", unique: true
   end
 
-  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "users", id: :integer, charset: "utf8", force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "uid", null: false

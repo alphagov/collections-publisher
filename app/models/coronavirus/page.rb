@@ -5,6 +5,7 @@ class Coronavirus::Page < ApplicationRecord
   has_many :sub_sections, dependent: :destroy, foreign_key: "coronavirus_page_id"
   has_many :announcements, dependent: :destroy, foreign_key: "coronavirus_page_id"
   has_many :timeline_entries, dependent: :destroy, foreign_key: "coronavirus_page_id"
+  has_many :coronavirus_yamls, dependent: :destroy, foreign_key: "coronavirus_page_id"
 
   scope :topic_page, -> { where(slug: "landing") }
   scope :subtopic_pages, -> { where.not(slug: "landing") }
