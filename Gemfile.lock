@@ -190,10 +190,10 @@ GEM
     inline_svg (1.7.2)
       activesupport (>= 3.0)
       nokogiri (>= 1.6)
-    jasmine (3.8.0)
+    jasmine (3.8.1)
       jasmine-core (~> 3.8.0)
       phantomjs
-      rack (>= 1.2.1)
+      rack (>= 2.1.4)
       rake
       webrick
     jasmine-core (3.8.0)
