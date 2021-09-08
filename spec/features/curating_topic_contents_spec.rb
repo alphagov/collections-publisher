@@ -69,11 +69,10 @@ RSpec.feature "Curating topic contents" do
         expect(page).to have_selector("td.title", count: 2)
         titles = page.all("td.title").map(&:text)
 
-        # NOTE: order reversed because we dragged the items to the top of the list above.
-        expect(titles).to eq([
+        expect(titles).to contain_exactly(
           "Oil rig staffing",
           "Oil rig safety requirements",
-        ])
+        )
       end
 
       within :xpath, xpath_section_for("Piping") do
@@ -91,26 +90,28 @@ RSpec.feature "Curating topic contents" do
       end
 
       # Necessary to re-visit the page here because accepting js confirmations
-      # seem to complete after the spec has finished. This means that subsequent
-      # expectations can fail or complete out-of-order. This arbitrary visit step
-      # seems to allow all the expectations to run in order.
+      # seem to complete after the spec has finished.
       visit_topic_list_curation_page
 
       # Then the curated lists should have been sent to the publishing API
+      list = List.find_by(name: "Oil rigs")
+      content = list.tagged_list_items.map(&:base_path)
+
       assert_publishing_api_put_content(
         content_id,
         request_json_includes(
           "details" => {
             "groups" => [
-              { "name" => "Oil rigs",
-                "contents" => [
-                  "/oil-rig-staffing",
-                  "/oil-rig-safety-requirements",
-                ] },
-              { "name" => "Piping",
+              {
+                "name" => "Oil rigs",
+                "contents" => content,
+              },
+              {
+                "name" => "Piping",
                 "contents" => [
                   "/undersea-piping-restrictions",
-                ] },
+                ],
+              },
             ],
             "internal_name" => "Oil and Gas / Offshore",
           },
@@ -184,15 +185,19 @@ RSpec.feature "Curating topic contents" do
         request_json_includes(
           "details" => {
             "groups" => [
-              { "name" => "Oil rigs",
+              {
+                "name" => "Oil rigs",
                 "contents" => [
                   "/oil-rig-safety-requirements",
                   "/oil-rig-staffing",
-                ] },
-              { "name" => "Piping",
+                ],
+              },
+              {
+                "name" => "Piping",
                 "contents" => [
                   "/undersea-piping-restrictions",
-                ] },
+                ],
+              },
             ],
             "internal_name" => "Oil and Gas / Offshore",
           },
