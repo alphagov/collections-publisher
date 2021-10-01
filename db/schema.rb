@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_02_095110) do
+ActiveRecord::Schema.define(version: 2021_10_01_131132) do
 
   create_table "coronavirus_announcements", charset: "utf8", force: :cascade do |t|
     t.bigint "coronavirus_page_id", null: false
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_095110) do
     t.string "action_link_url"
     t.string "action_link_content"
     t.string "action_link_summary"
+    t.string "sub_heading"
     t.index ["coronavirus_page_id"], name: "index_coronavirus_sub_sections_on_coronavirus_page_id"
   end
 
