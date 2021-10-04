@@ -127,6 +127,9 @@ en:
         heading:
           title: Accordion heading
           label: Accordion heading content
+        sub_heading:
+          title: Accordion sub heading (optional)
+          label: Accordion sub heading content
         action_link:
           title: Accordion action link (optional)
           hint: All fields below must be completed in order to display an action link within the accordion.
