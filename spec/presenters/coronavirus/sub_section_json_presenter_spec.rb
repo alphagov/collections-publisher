@@ -12,6 +12,7 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
 
       expected_output = {
         title: sub_section.title,
+        sub_heading: sub_section.sub_heading,
         sub_sections: [
           {
             list: [
@@ -35,6 +36,7 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
 
         expected_output = {
           title: sub_section.title,
+          sub_heading: sub_section.sub_heading,
           sub_sections: [
             {
               list: [
@@ -68,6 +70,7 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
 
         expected_output = {
           title: sub_section.title,
+          sub_heading: sub_section.sub_heading,
           sub_sections: [
             {
               list: [
@@ -108,6 +111,7 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
 
         expected_output = {
           title: sub_section.title,
+          sub_heading: sub_section.sub_heading,
           sub_sections: [
             {
               list: [
