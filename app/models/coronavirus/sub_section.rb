@@ -3,6 +3,7 @@ class Coronavirus::SubSection < ApplicationRecord
 
   belongs_to :page, foreign_key: "coronavirus_page_id"
   validates :title, :content, presence: true
+  validates :sub_heading, allow_blank: true, length: { maximum: 255 }
   validates :page, presence: true
   validates :action_link_url,
             :action_link_content,
