@@ -347,11 +347,13 @@ module CoronavirusFeatureSteps
                       page: @coronavirus_page,
                       position: 0,
                       title: "I am first",
+                      sub_heading: "sub heading",
                       content: "###title\n[label](/url?priority-taxon=#{@coronavirus_page.content_id})")
     FactoryBot.create(:coronavirus_sub_section,
                       page: @coronavirus_page,
                       position: 1,
                       title: "I am second",
+                      sub_heading: nil,
                       content: "###title\n[label](/url?priority-taxon=#{@coronavirus_page.content_id})")
     path = Rails.root.join "spec/fixtures/simple_coronavirus_page.yml"
     github_yaml_content = File.read(path)
@@ -407,10 +409,12 @@ module CoronavirusFeatureSteps
     reordered_sections = [
       {
         "title" => "I am second",
+        "sub_heading" => nil,
         "sub_sections" => [section],
       },
       {
         "title" => "I am first",
+        "sub_heading" => "sub heading",
         "sub_sections" => [section],
       },
     ]

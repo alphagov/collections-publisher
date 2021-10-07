@@ -12,6 +12,7 @@ class Coronavirus::SubSectionJsonPresenter
     @output ||=
       {
         title: sub_section.title,
+        sub_heading: sub_section.sub_heading,
         sub_sections: sub_sections,
       }
   end

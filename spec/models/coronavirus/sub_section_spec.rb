@@ -34,6 +34,13 @@ RSpec.describe Coronavirus::SubSection do
       expect(sub_section.errors).to have_key(:content)
     end
 
+    it "is invalid with a sub heading of more than 255 characters" do
+      sub_section.sub_heading = Faker::Lorem.paragraph_by_chars(number: 256)
+
+      expect(sub_section).not_to be_valid
+      expect(sub_section.errors).to have_key(:sub_heading)
+    end
+
     describe "action link fields" do
       it { should validate_length_of(:action_link_url).is_at_most(255) }
       it { should validate_length_of(:action_link_content).is_at_most(255) }

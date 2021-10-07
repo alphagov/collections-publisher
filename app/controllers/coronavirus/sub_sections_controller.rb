@@ -70,7 +70,7 @@ module Coronavirus
     end
 
     def sub_section_params
-      params.require(:sub_section).permit(:title, :content, :action_link_url, :action_link_content, :action_link_summary)
+      params.require(:sub_section).permit(:title, :sub_heading, :content, :action_link_url, :action_link_content, :action_link_summary)
     end
 
     def draft_updater
