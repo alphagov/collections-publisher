@@ -20,18 +20,34 @@ RSpec.describe Coronavirus::Page do
   describe "validations" do
     let(:page) { create :coronavirus_page }
 
-    it "has a default state when created" do
-      expect(page.state).to eq "draft"
+    describe "state validations" do
+      it "has a default state when created" do
+        expect(page.state).to eq "draft"
+      end
+
+      it "state cannot be nil" do
+        page.state = ""
+        expect(page).not_to be_valid
+      end
+
+      it "state must be draft or published" do
+        page.state = "lovely"
+        expect(page).not_to be_valid
+      end
     end
 
-    it "state cannot be nil" do
-      page.state = ""
-      expect(page).not_to be_valid
-    end
+    describe "header section validations" do
+      it { should validate_length_of(:header_title).is_at_most(255) }
 
-    it "state must be draft or published" do
-      page.state = "lovely"
-      expect(page).not_to be_valid
+      describe "header_link_url validation" do
+        it { should allow_values("/path", "https://example.com").for(:header_link_url) }
+        it { should_not allow_values("not a url").for(:header_link_url) }
+
+        it "doesn't apply the URL format validation when the field is blank" do
+          page.header_link_url = ""
+          expect(page).to be_valid
+        end
+      end
     end
   end
 
