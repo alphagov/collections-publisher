@@ -10,6 +10,9 @@ class Coronavirus::Page < ApplicationRecord
   scope :subtopic_pages, -> { where.not(slug: "landing") }
   validates :state, inclusion: { in: STATUSES }, presence: true
 
+  validates :header_title, length: { maximum: 255 }
+  validates :header_link_url, absolute_path_or_https_url: { allow_blank: true }
+
   def topic_page?
     slug == "landing"
   end
