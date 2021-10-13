@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Coronavirus::Pages::ModelBuilder do
   let(:slug) { "landing" }
   let(:model_builder) { Coronavirus::Pages::ModelBuilder.new(slug) }
-  let(:page_config) { Coronavirus::Pages::Configuration.page(slug) }
+  let(:page_config) { Coronavirus::Pages::Configuration.page }
   let(:raw_content_url) { page_config[:raw_content_url] }
   let(:raw_content_url_regex) { Regexp.new(raw_content_url) }
   let(:yaml_fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }

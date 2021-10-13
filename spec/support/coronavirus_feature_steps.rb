@@ -58,23 +58,13 @@ module CoronavirusFeatureSteps
     stub_publishing_api_has_item(coronavirus_content_json)
   end
 
-  def raw_content_urls
-    @raw_content_urls ||=
-      Coronavirus::Pages::Configuration.all_pages.map do |config|
-        config.second[:raw_content_url]
-      end
+  def raw_content_url
+    @raw_content_url ||= Coronavirus::Pages::Configuration.page[:raw_content_url]
   end
 
-  def stub_all_github_requests
-    raw_content_urls.each do |url|
-      stub_request(:get, Regexp.new(url))
-        .to_return(status: 200, body: github_response)
-    end
-  end
-
-  def stub_github_business_request
-    stub_request(:get, Regexp.new("https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_business_page.yml"))
-      .to_return(status: 200, body: github_business_response)
+  def stub_github_request
+    stub_request(:get, Regexp.new(raw_content_url))
+      .to_return(status: 200, body: github_response)
   end
 
   def github_response

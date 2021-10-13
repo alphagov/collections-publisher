@@ -10,7 +10,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
     before do
       given_i_am_a_coronavirus_editor
       stub_coronavirus_publishing_api
-      stub_all_github_requests
+      stub_github_request
       stub_any_publishing_api_put_intent
     end
 
@@ -25,7 +25,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
     before do
       given_i_am_a_coronavirus_editor
       stub_coronavirus_publishing_api
-      stub_all_github_requests
+      stub_github_request
       stub_any_publishing_api_put_intent
     end
 
@@ -67,7 +67,7 @@ RSpec.feature "Publish updates to Coronavirus pages" do
     before do
       given_i_am_a_coronavirus_editor
       stub_coronavirus_publishing_api
-      stub_all_github_requests
+      stub_github_request
       stub_any_publishing_api_put_intent
     end
 

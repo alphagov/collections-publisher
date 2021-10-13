@@ -45,13 +45,7 @@ module Coronavirus
     end
 
     def initialise_pages
-      page_configs.keys.map do |page_config|
-        Pages::ModelBuilder.new(page_config.to_s).page
-      end
-    end
-
-    def page_configs
-      Pages::Configuration.all_pages
+      Pages::ModelBuilder.new("landing").page
     end
   end
 end

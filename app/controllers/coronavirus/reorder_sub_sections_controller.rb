@@ -38,9 +38,5 @@ module Coronavirus
     def draft_updater
       @draft_updater ||= Pages::DraftUpdater.new(page)
     end
-
-    def page_configs
-      Pages::Configuration.all_pages
-    end
   end
 end
