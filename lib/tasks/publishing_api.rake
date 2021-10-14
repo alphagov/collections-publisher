@@ -84,12 +84,4 @@ namespace :publishing_api do
     )
     puts "Links patched for root page..."
   end
-
-  desc "Unpublish all Coronavirus hub pages"
-  task unpublish_all_coronavirus_hub_pages: :environment do
-    %i[business education workers].map do |hub|
-      page = Coronavirus::Pages::Configuration.page(hub)
-      GdsApi.publishing_api.unpublish(page[:content_id], type: "redirect", alternative_path: "/coronavirus", discard_drafts: true)
-    end
-  end
 end
