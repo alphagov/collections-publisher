@@ -62,9 +62,6 @@ en:
         landing_page_edit:
           accordions: Edit landing page accordions, announcements and timeline
           something_else: Edit something else on the landing page
-        subtopic_edit:
-          accordions: "Edit %{page_name} accordions"
-          something_else: Edit something else on the %{page_name}
       show:
         context: Coronavirus landing page
         actions:

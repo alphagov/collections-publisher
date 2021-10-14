@@ -5,8 +5,7 @@ module Coronavirus
     layout "admin_layout"
 
     def index
-      @topic_page = Page.topic_page.first
-      @subtopic_pages = Page.subtopic_pages
+      @topic_page = Page.find_by!(slug: "landing")
     end
 
     def show
