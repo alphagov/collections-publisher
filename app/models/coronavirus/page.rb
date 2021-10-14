@@ -13,10 +13,6 @@ class Coronavirus::Page < ApplicationRecord
   validates :header_title, length: { maximum: 255 }
   validates :header_link_url, absolute_path_or_https_url: { allow_blank: true }
 
-  def topic_page?
-    slug == "landing"
-  end
-
   def make_announcement_positions_sequential
     make_positions_sequential(announcements)
   end
