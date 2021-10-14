@@ -3,6 +3,7 @@ en:
     shared:
       breadcrumbs:
         link_text: Coronavirus pages
+      title: Coronavirus (COVID-19)
     announcements:
       new:
         title: Add announcement
@@ -65,6 +66,7 @@ en:
           accordions: "Edit %{page_name} accordions"
           something_else: Edit something else on the %{page_name}
       show:
+        context: Coronavirus landing page
         actions:
           discard_changes: Discard changes
           view_on_govuk: View on GOV.UK

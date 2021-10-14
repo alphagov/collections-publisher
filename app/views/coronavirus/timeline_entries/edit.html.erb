@@ -1,5 +1,5 @@
 <%= render 'coronavirus/shared/breadcrumbs', text: t("coronavirus.timeline_entries.edit.title")  %>
-<% content_for :title, formatted_title(@page) %>
+<% content_for :title, t("coronavirus.shared.title") %>
 <% content_for :context, t("coronavirus.timeline_entries.edit.title") %>
 <% if @timeline_entry.errors.any? %>
   <%= render "shared/sub_sections/form_errors", resource: @timeline_entry %>
