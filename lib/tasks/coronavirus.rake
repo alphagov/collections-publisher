@@ -23,13 +23,6 @@ namespace :coronavirus do
     puts "sections_title: #{page.sections_title}"
   end
 
-  desc "Sync timeline entries with entries in the yaml file"
-  task sync_timeline_entries: :environment do
-    Coronavirus::Pages::TimelineEntryBuilder.new.create_timeline_entries
-
-    puts "Timeline Entries synced for coronavirus landing page..."
-  end
-
   desc "Remove hub pages"
   task remove_hub_pages: :environment do
     %w[business education workers].each do |hub|
