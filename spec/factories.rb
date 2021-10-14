@@ -219,24 +219,12 @@ FactoryBot.define do
 
   factory :coronavirus_page, class: Coronavirus::Page do
     name { Faker::Company.industry }
-    slug { Faker::Lorem.word }
+    slug { "landing" }
     content_id { SecureRandom.uuid }
     sections_title { Faker::Lorem.sentence }
     github_url { Faker::Internet.url(host: "example.com") }
     raw_content_url { Faker::Internet.url(host: "example.com") }
     base_path { "/#{File.join(Faker::Lorem.words)}" }
-
-    slugs = %w[landing business education workers]
-
-    trait :of_known_type do
-      slug { slugs.sample }
-    end
-
-    slugs.each do |slug|
-      trait slug.to_sym do
-        slug { slug }
-      end
-    end
   end
 
   factory :coronavirus_sub_section, class: Coronavirus::SubSection do

@@ -4,7 +4,6 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
   let(:page) do
     create(
       :coronavirus_page,
-      :landing,
       state: "draft",
       content_id: "774cee22-d896-44c1-a611-e3109cce8eae",
     )

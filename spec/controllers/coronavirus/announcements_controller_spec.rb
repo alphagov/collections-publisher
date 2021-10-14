@@ -6,7 +6,7 @@ RSpec.describe Coronavirus::AnnouncementsController do
   render_views
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
-  let(:page) { create :coronavirus_page, :landing }
+  let(:page) { create :coronavirus_page }
   let!(:announcement) { create :coronavirus_announcement, page: page }
   let(:title) { Faker::Lorem.sentence }
   let(:url) { "/government/foo/vader/baby/yoda" }

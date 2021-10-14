@@ -5,7 +5,7 @@ RSpec.describe Coronavirus::ReorderSubSectionsController do
 
   render_views
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
-  let(:page) { create :coronavirus_page, :of_known_type }
+  let(:page) { create :coronavirus_page }
   let(:slug) { page.slug }
 
   describe "GET /coronavirus/:page_slug/sub_sections/reorder" do

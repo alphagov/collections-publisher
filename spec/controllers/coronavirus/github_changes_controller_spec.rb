@@ -4,7 +4,7 @@ RSpec.describe Coronavirus::GithubChangesController do
   include CoronavirusFeatureSteps
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
-  let(:coronavirus_page) { create(:coronavirus_page, slug: "landing") }
+  let(:coronavirus_page) { create(:coronavirus_page) }
 
   before do
     stub_coronavirus_landing_page_content(coronavirus_page)

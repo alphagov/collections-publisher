@@ -4,7 +4,7 @@ RSpec.describe Coronavirus::PagesController do
   render_views
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
-  let!(:page) { create :coronavirus_page, :of_known_type }
+  let!(:page) { create :coronavirus_page }
   let(:slug) { page.slug }
   let(:raw_content_url) { Coronavirus::Pages::Configuration.page[:raw_content_url] }
   let(:raw_content_url_regex) { Regexp.new(raw_content_url) }

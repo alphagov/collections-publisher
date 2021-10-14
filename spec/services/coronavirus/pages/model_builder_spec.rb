@@ -35,7 +35,7 @@ RSpec.describe Coronavirus::Pages::ModelBuilder do
     end
 
     context "a coronavirus page with matching slug is present in database" do
-      let!(:page) { create :coronavirus_page, :landing }
+      let!(:page) { create :coronavirus_page }
 
       it "does not create a coronavirus page" do
         expect { model_builder.page }

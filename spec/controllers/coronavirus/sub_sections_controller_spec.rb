@@ -6,7 +6,7 @@ RSpec.describe Coronavirus::SubSectionsController do
   render_views
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
-  let(:page) { create :coronavirus_page, :of_known_type }
+  let(:page) { create :coronavirus_page }
   let!(:sub_section) { create :coronavirus_sub_section, page: page }
   let(:title) { Faker::Lorem.sentence }
   let(:content) { "###{Faker::Lorem.sentence}" }

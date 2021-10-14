@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Coronavirus::Pages::ContentBuilder do
-  let(:page) { create :coronavirus_page, :landing }
+  let(:page) { create :coronavirus_page }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
   let(:sub_section_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section, page.content_id).output }

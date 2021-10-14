@@ -4,7 +4,7 @@ RSpec.describe Coronavirus::PagePresenter do
   include CoronavirusFeatureSteps
   include GovukContentSchemaTestHelpers
 
-  let(:page) { create :coronavirus_page, :landing }
+  let(:page) { create :coronavirus_page }
   let(:base_path) { page.base_path }
   let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
   let(:github_content) { YAML.safe_load(File.read(fixture_path)) }

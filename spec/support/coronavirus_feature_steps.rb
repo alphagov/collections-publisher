@@ -13,23 +13,23 @@ module CoronavirusFeatureSteps
   end
 
   def given_there_is_a_coronavirus_page
-    @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
+    @coronavirus_page = FactoryBot.create(:coronavirus_page)
   end
 
   def given_there_is_coronavirus_page_with_announcements
-    @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
+    @coronavirus_page = FactoryBot.create(:coronavirus_page)
     @announcement_one = FactoryBot.create(:coronavirus_announcement, position: 0, page: @coronavirus_page)
     @announcement_two = FactoryBot.create(:coronavirus_announcement, position: 1, page: @coronavirus_page)
   end
 
   def given_there_is_a_coronavirus_page_with_timeline_entries
-    @coronavirus_page = FactoryBot.create(:coronavirus_page, slug: "landing")
+    @coronavirus_page = FactoryBot.create(:coronavirus_page)
     @timeline_entry_two = FactoryBot.create(:coronavirus_timeline_entry, page: @coronavirus_page, heading: "Two")
     @timeline_entry_one = FactoryBot.create(:coronavirus_timeline_entry, page: @coronavirus_page, heading: "One")
   end
 
   def given_there_is_a_published_coronavirus_page
-    @coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
+    @coronavirus_page = FactoryBot.create(:coronavirus_page, state: "published")
   end
 
   def live_coronavirus_content_item
@@ -303,7 +303,7 @@ module CoronavirusFeatureSteps
   end
 
   def set_up_basic_sub_sections
-    @coronavirus_page = FactoryBot.create(:coronavirus_page, :landing, state: "published")
+    @coronavirus_page = FactoryBot.create(:coronavirus_page, state: "published")
     FactoryBot.create(:coronavirus_sub_section,
                       page: @coronavirus_page,
                       position: 0,

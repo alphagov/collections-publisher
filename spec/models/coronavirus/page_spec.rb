@@ -1,22 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Coronavirus::Page do
-  describe "scopes" do
-    let!(:business) { create :coronavirus_page, :business }
-    let!(:landing) { create :coronavirus_page, :landing }
-    let!(:education) { create :coronavirus_page, :education }
-    let!(:workers) { create :coronavirus_page, :workers }
-
-    it "topic_page" do
-      expect(described_class.topic_page.first).to eq landing
-    end
-
-    it "sub_topics" do
-      expect(described_class.subtopic_pages)
-        .to eq [business, education, workers]
-    end
-  end
-
   describe "validations" do
     let(:page) { create :coronavirus_page }
 
@@ -52,11 +36,11 @@ RSpec.describe Coronavirus::Page do
   end
 
   describe "dependencies" do
-    let!(:workers) { create :coronavirus_page, :workers }
-    let!(:sub_section) { create :coronavirus_sub_section, page: workers }
+    let!(:page) { create :coronavirus_page }
+    let!(:sub_section) { create :coronavirus_sub_section, page: page }
 
     it "deletion destroys all child subsections" do
-      expect { workers.destroy }
+      expect { page.destroy }
         .to change { Coronavirus::SubSection.count }.by(-1)
     end
   end
