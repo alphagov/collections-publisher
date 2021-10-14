@@ -71,10 +71,6 @@ module CoronavirusFeatureSteps
     File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
   end
 
-  def github_business_response
-    File.read(Rails.root.join("spec/fixtures/coronavirus_business_page.yml"))
-  end
-
   def then_the_content_is_sent_to_publishing_api
     assert_publishing_api_put_content(
       "774cee22-d896-44c1-a611-e3109cce8eae",
@@ -84,29 +80,12 @@ module CoronavirusFeatureSteps
     )
   end
 
-  def then_the_business_content_is_sent_to_publishing_api
-    assert_publishing_api_put_content(
-      "09944b84-02ba-4742-a696-9e562fc9b29d",
-      request_json_includes(
-        "title" => "Business support",
-      ),
-    )
-  end
-
   def i_see_a_publish_landing_page_link
     expect(page).to have_link(I18n.t("coronavirus.pages.index.landing_page_edit.something_else"))
   end
 
-  def i_see_a_publish_business_page_link
-    expect(page).to have_link(I18n.t("coronavirus.pages.index.subtopic_edit.something_else", page_name: "business hub"))
-  end
-
   def and_i_select_landing_page
     click_link(I18n.t("coronavirus.pages.index.landing_page_edit.something_else"))
-  end
-
-  def and_i_select_business_page
-    click_link(I18n.t("coronavirus.pages.index.subtopic_edit.something_else", page_name: "business hub"))
   end
 
   def when_i_visit_the_coronavirus_index_page
@@ -137,14 +116,6 @@ module CoronavirusFeatureSteps
     expect(page).to have_content(I18n.t("coronavirus.pages.show.timeline_entries.title"))
     expect(page).to have_link(I18n.t("coronavirus.pages.show.timeline_entries.reorder"), href: reorder_coronavirus_page_timeline_entries_path(@coronavirus_page.slug))
     expect(page).to have_link(I18n.t("coronavirus.pages.show.timeline_entries.add"))
-  end
-
-  def then_i_cannot_see_an_announcements_section
-    expect(page).to_not have_content(I18n.t("coronavirus.pages.show.announcements.title"))
-  end
-
-  def then_i_cannot_see_a_timeline_entries_section
-    expect(page).to_not have_content(I18n.t("coronavirus.pages.show.announcements.title"))
   end
 
   def and_i_can_see_existing_announcements
@@ -464,23 +435,12 @@ module CoronavirusFeatureSteps
     expect(page).to have_button(I18n.t("coronavirus.github_changes.index.instructions.five.button_text"))
   end
 
-  def and_a_view_live_business_content_button
-    expect(page).to have_link(I18n.t("coronavirus.github_changes.index.instructions.six.button_text"), href: "https://www.test.gov.uk/coronavirus/business-support")
-  end
-
   def and_i_push_a_new_draft_version
     click_on(I18n.t("coronavirus.github_changes.index.instructions.three.button_text"))
   end
 
   def and_i_push_a_new_draft_version_with_invalid_content
     stub_request(:get, Regexp.new("https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_landing_page.yml"))
-    .to_return(status: 200, body: invalid_github_response)
-
-    and_i_push_a_new_draft_version
-  end
-
-  def and_i_push_a_new_draft_business_version_with_invalid_content
-    stub_request(:get, Regexp.new("https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_business_page.yml"))
     .to_return(status: 200, body: invalid_github_response)
 
     and_i_push_a_new_draft_version
@@ -512,10 +472,6 @@ module CoronavirusFeatureSteps
 
   def then_the_page_publishes_a_minor_update
     assert_publishing_api_publish(@coronavirus_page.content_id, update_type: "minor")
-  end
-
-  def then_the_business_page_publishes
-    assert_publishing_api_publish("09944b84-02ba-4742-a696-9e562fc9b29d", update_type: "major")
   end
 
   def and_i_remain_on_the_coronavirus_page
