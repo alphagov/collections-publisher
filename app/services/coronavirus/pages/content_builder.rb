@@ -43,6 +43,7 @@ module Coronavirus::Pages
         announcements_label
         announcements
         nhs_banner
+        sections_heading
         sections
         topic_section
         notifications
