@@ -5,8 +5,7 @@ module Coronavirus
     layout "admin_layout"
 
     def index
-      @topic_page = Page.topic_page.first
-      @subtopic_pages = Page.subtopic_pages
+      @topic_page = Page.find_by!(slug: "landing")
     end
 
     def show
@@ -45,13 +44,7 @@ module Coronavirus
     end
 
     def initialise_pages
-      page_configs.keys.map do |page_config|
-        Pages::ModelBuilder.new(page_config.to_s).page
-      end
-    end
-
-    def page_configs
-      Pages::Configuration.all_pages
+      Pages::ModelBuilder.new("landing").page
     end
   end
 end

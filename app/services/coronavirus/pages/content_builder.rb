@@ -26,9 +26,7 @@ module Coronavirus::Pages
     end
 
     def validate_content
-      required_keys =
-        type.to_sym == :landing ? required_landing_page_keys : required_hub_page_keys
-      missing_keys = (required_keys - github_data.keys)
+      missing_keys = (required_landing_page_keys - github_data.keys)
 
       raise GitHubInvalidContentError if missing_keys.any?
     end
@@ -45,16 +43,6 @@ module Coronavirus::Pages
         announcements_label
         announcements
         nhs_banner
-        sections
-        topic_section
-        notifications
-      ]
-    end
-
-    def required_hub_page_keys
-      %w[
-        title
-        header_section
         sections
         topic_section
         notifications

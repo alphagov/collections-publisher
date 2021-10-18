@@ -6,7 +6,7 @@ RSpec.describe Coronavirus::TimelineEntriesController do
   render_views
 
   let(:stub_user) { create :user, name: "Name Surname" }
-  let(:page) { create :coronavirus_page, :landing }
+  let(:page) { create :coronavirus_page }
 
   describe "GET /coronavirus/:page_slug/timeline_entries/new" do
     it "can only be accessed by users with Coronavirus editor permissions" do

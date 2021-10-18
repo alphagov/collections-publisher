@@ -28,7 +28,7 @@ module Coronavirus::Pages
   private
 
     def page_config
-      Configuration.page(slug)
+      Configuration.page
     end
 
     def page_attributes

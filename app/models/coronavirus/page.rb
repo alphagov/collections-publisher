@@ -6,16 +6,10 @@ class Coronavirus::Page < ApplicationRecord
   has_many :announcements, dependent: :destroy, foreign_key: "coronavirus_page_id"
   has_many :timeline_entries, dependent: :destroy, foreign_key: "coronavirus_page_id"
 
-  scope :topic_page, -> { where(slug: "landing") }
-  scope :subtopic_pages, -> { where.not(slug: "landing") }
   validates :state, inclusion: { in: STATUSES }, presence: true
 
   validates :header_title, length: { maximum: 255 }
   validates :header_link_url, absolute_path_or_https_url: { allow_blank: true }
-
-  def topic_page?
-    slug == "landing"
-  end
 
   def make_announcement_positions_sequential
     make_positions_sequential(announcements)
