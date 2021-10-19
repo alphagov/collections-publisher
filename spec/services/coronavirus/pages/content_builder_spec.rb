@@ -60,7 +60,20 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
       ]
     end
 
+    let(:header_json) do
+      {
+        "title" => page.header_title,
+        "intro" => page.header_body,
+        "link" => {
+          "href" => page.header_link_url,
+          "link_text" => page.header_link_pre_wrap_text,
+          "link_nowrap_text" => page.header_link_post_wrap_text,
+        },
+      }
+    end
+
     before do
+      data["header_section"] = header_json
       data["sections"] = [sub_section_json]
       data["announcements"] = [announcement_json]
       data["timeline"]["list"] = [timeline_json]
@@ -126,6 +139,31 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
           "national_applicability" => timeline_entry_0.national_applicability,
         },
       ]
+    end
+
+    describe "#header_data" do
+      it "returns the header" do
+        page = create(
+          :coronavirus_page,
+          header_title: "Header section title",
+          header_body: "Header section body",
+          header_link_url: "/foo-bar",
+          header_link_pre_wrap_text: "Text before the wrap",
+          header_link_post_wrap_text: "and text after",
+        )
+
+        expected_header_section = {
+          "title" => page.header_title,
+          "intro" => page.header_body,
+          "link" => {
+            "href" => page.header_link_url,
+            "link_text" => page.header_link_pre_wrap_text,
+            "link_nowrap_text" => page.header_link_post_wrap_text,
+          },
+        }
+
+        expect(described_class.new(page).header_data).to eq(expected_header_section)
+      end
     end
   end
 end

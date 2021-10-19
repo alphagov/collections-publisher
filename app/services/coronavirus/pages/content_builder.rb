@@ -14,6 +14,7 @@ module Coronavirus::Pages
       @data ||= begin
         validate_content
         data = github_data
+        data["header_section"] = header_data
         data["sections"] = sub_sections_data
         data["announcements"] = announcements_data
 
@@ -39,7 +40,6 @@ module Coronavirus::Pages
       %w[
         title
         meta_description
-        header_section
         announcements_label
         announcements
         nhs_banner
@@ -58,6 +58,18 @@ module Coronavirus::Pages
 
     def github_data
       @github_data ||= github_raw_data["content"]
+    end
+
+    def header_data
+      {
+        "title" => page.header_title,
+        "intro" => page.header_body,
+        "link" => {
+          "href" => page.header_link_url,
+          "link_text" => page.header_link_pre_wrap_text,
+          "link_nowrap_text" => page.header_link_post_wrap_text,
+        },
+      }
     end
 
     def sub_sections_data
