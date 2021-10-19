@@ -32,6 +32,14 @@ RSpec.describe Coronavirus::Page do
           expect(page).to be_valid
         end
       end
+
+      describe "header_link_post_wrap_text validation" do
+        it "is not valid if present whilst header_link_pre_wrap_text is blank" do
+          page.header_link_pre_wrap_text = ""
+          page.header_link_post_wrap_text = "post wrap link text"
+          expect(page).not_to be_valid
+        end
+      end
     end
   end
 

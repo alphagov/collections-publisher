@@ -11,6 +11,8 @@ class Coronavirus::Page < ApplicationRecord
   validates :header_title, length: { maximum: 255 }
   validates :header_link_url, absolute_path_or_https_url: { allow_blank: true }
 
+  validate :valid_header_link_post_wrap_text
+
   def make_announcement_positions_sequential
     make_positions_sequential(announcements)
   end
@@ -24,6 +26,12 @@ private
   def make_positions_sequential(collection)
     collection.sort_by(&:position).each.with_index(1) do |object, index|
       object.update_column(:position, index)
+    end
+  end
+
+  def valid_header_link_post_wrap_text
+    if header_link_post_wrap_text.present? && header_link_pre_wrap_text.blank?
+      errors.add(:header_link_post_wrap_text, "cannot be used because header link pre wrap text is blank")
     end
   end
 end
