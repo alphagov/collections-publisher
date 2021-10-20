@@ -8,8 +8,32 @@ module Coronavirus
       @topic_page = Page.find_by!(slug: "landing")
     end
 
+    def edit_header
+      page
+    end
+
     def show
       page
+    end
+
+    def update_header
+      @page = Page.find_by!(slug: "landing")
+      @page.assign_attributes(landing_page_params)
+
+      unless @page.valid?
+        render :edit_header, status: :unprocessable_entity
+        return
+      end
+
+      Page.transaction do
+        @page.update!(landing_page_params)
+        draft_updater.send
+      end
+
+      redirect_to coronavirus_page_path(@page.slug), notice: "Success"
+    rescue Pages::DraftUpdater::DraftUpdaterError => e
+      flash.now[:alert] = e.message
+      render :edit_header, status: :internal_server_error
     end
 
     def publish
@@ -28,7 +52,7 @@ module Coronavirus
   private
 
     def page
-      @page ||= Page.find_by!(slug: params[:slug])
+      @page ||= Page.find_by!(slug: "landing")
     end
 
     def draft_updater
@@ -45,6 +69,16 @@ module Coronavirus
 
     def initialise_pages
       Pages::ModelBuilder.new("landing").page
+    end
+
+    def landing_page_params
+      params.require(:landing_page).permit(
+        :header_title,
+        :header_body,
+        :header_link_url,
+        :header_link_pre_wrap_text,
+        :header_link_post_wrap_text,
+      )
     end
   end
 end
