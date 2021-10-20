@@ -1,0 +1,85 @@
+<%= render "govuk_publishing_components/components/input", {
+  label: {
+    text: "Title",
+    bold: true,
+  },
+  name: "landing_page[header_title]",
+  value: @page.header_title,
+  id: "header_title",
+  error_message: error_items(@page.errors.messages, :header_title),
+} %>
+
+<%= render "components/markdown_editor", {
+  label: {
+    text: "Header body",
+    bold: true
+  },
+  textarea: {
+    name: "landing_page[header_body]",
+    id: "header_body",
+    rows: 20,
+    value: @page.header_body
+  },
+  error_message: error_items(@page.errors.messages, :header_body),
+  controls: [:headings, :numbered_list, :bullets]
+} %>
+
+<%= render "govuk_publishing_components/components/heading", {
+  text: "Header action link",
+  heading_level: 4,
+  margin_bottom: 5
+} %>
+
+<%= render "govuk_publishing_components/components/hint", {
+  text: "Add content across two lines for the header action link. This allows mobile users to see the link text correctly wrap over 2 lines in a block, rather than allowing their device to choose."
+} %>
+
+<%= render "govuk_publishing_components/components/character_count", {
+  textarea: {
+    label: {
+      text: "Action link text line one",
+      bold: true
+    },
+    name: "landing_page[header_link_pre_wrap_text]",
+    value: @page.header_link_pre_wrap_text,
+    hint: "40 characters recommended. Any content that goes over the recommended character limit should be added to line 2 and checked in the preview.",
+    error_message: error_items(@page.errors.messages, :header_link_pre_wrap_text),
+    rows: 1,
+  },
+  id: "header_link_pre_wrap_text",
+  maxlength: 40
+} %>
+
+<%= render "govuk_publishing_components/components/character_count", {
+  textarea: {
+    label: {
+      text: "Action link text line 2",
+      bold: true
+    },
+    name: "landing_page[header_link_post_wrap_text]",
+    value: @page.header_link_post_wrap_text,
+    hint: "40 characters recommended.",
+    error_message: error_items(@page.errors.messages, :header_link_post_wrap_text),
+    rows: 1,
+  },
+  id: "header_link_post_wrap_text",
+  maxlength: 40
+} %>
+
+<%= render "govuk_publishing_components/components/input", {
+  label: {
+    text: "Action link URL",
+    bold: true,
+  },
+  name: "landing_page[header_link_url]",
+  value: @page.header_link_url,
+  id: "header_link_url",
+  hint: "For example, '/government/news/coronavirus-covid-19' or 'https://www.nhs.uk/coronavirus-announcement'",
+  error_message: error_items(@page.errors.messages, :header_link_url),
+} %>
+
+<%= render "govuk_publishing_components/components/button", {
+  text: "Save",
+  margin_bottom: true
+} %>
+<%= tag.p (link_to 'Cancel', coronavirus_page_path(@page.slug), class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>
