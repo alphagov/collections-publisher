@@ -42,6 +42,32 @@ RSpec.describe Coronavirus::Page do
           expect(page).not_to be_valid
         end
       end
+
+      describe "header link url and text validation" do
+        it "is valid if both header_link_url and header_link_pre_wrap_text are present" do
+          page.header_link_url = "/path"
+          page.header_link_pre_wrap_text = "Text"
+          expect(page).to be_valid
+        end
+
+        it "is valid if neither header_link_url and header_link_pre_wrap_text are present" do
+          page.header_link_url = ""
+          page.header_link_pre_wrap_text = ""
+          expect(page).to be_valid
+        end
+
+        it "is not valid if header_link_url is present, but header_link_pre_wrap_text is not" do
+          page.header_link_url = "/path"
+          page.header_link_pre_wrap_text = ""
+          expect(page).to_not be_valid
+        end
+
+        it "is not valid if header_link_pre_wrap_text is present, but header_link_url is not" do
+          page.header_link_url = ""
+          page.header_link_pre_wrap_text = "Text"
+          expect(page).to_not be_valid
+        end
+      end
     end
   end
 
