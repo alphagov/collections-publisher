@@ -22,6 +22,8 @@ RSpec.describe Coronavirus::Page do
 
     describe "header section validations" do
       it { should validate_length_of(:header_title).is_at_most(255) }
+      it { should validate_length_of(:header_link_pre_wrap_text).is_at_most(40) }
+      it { should validate_length_of(:header_link_post_wrap_text).is_at_most(40) }
 
       describe "header_link_url validation" do
         it { should allow_values("/path", "https://example.com").for(:header_link_url) }

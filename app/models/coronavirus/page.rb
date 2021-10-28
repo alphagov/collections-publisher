@@ -9,6 +9,8 @@ class Coronavirus::Page < ApplicationRecord
   validates :state, inclusion: { in: STATUSES }, presence: true
 
   validates :header_title, length: { maximum: 255 }
+  validates :header_link_pre_wrap_text, length: { maximum: 40 }
+  validates :header_link_post_wrap_text, length: { maximum: 40 }
   validates :header_link_url, absolute_path_or_https_url: { allow_blank: true }
 
   validate :valid_header_link_post_wrap_text
