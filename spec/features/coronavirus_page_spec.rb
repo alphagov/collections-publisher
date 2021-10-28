@@ -60,6 +60,93 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       i_see_error_message_no_changes_to_discard
       and_i_see_state_is_published
     end
+
+    scenario "Viewing announcements" do
+      given_there_is_coronavirus_page_with_announcements
+      when_i_visit_a_coronavirus_page
+      then_i_can_see_an_announcements_section
+      and_i_can_see_existing_announcements
+    end
+
+    scenario "Adding announcements" do
+      given_there_is_coronavirus_page_with_announcements
+      when_i_visit_a_coronavirus_page
+      then_i_can_see_an_announcements_section
+      and_i_add_a_new_announcement
+      then_i_see_the_create_announcement_form
+      when_i_fill_in_the_announcement_form_with_valid_data
+      then_i_can_see_a_new_announcement_has_been_created
+    end
+
+    scenario "Editing announcements" do
+      given_there_is_coronavirus_page_with_announcements
+      when_i_visit_a_coronavirus_page
+      then_i_can_see_an_announcements_section
+      when_i_can_click_change_for_an_announcement
+      then_i_see_the_edit_announcement_form
+      when_i_can_edit_the_announcement_form_with_valid_data
+      then_i_can_see_that_the_announcement_has_been_updated
+    end
+
+    scenario "Deleting announcements", js: true do
+      given_there_is_coronavirus_page_with_announcements
+      when_i_visit_a_coronavirus_page
+      then_i_can_see_an_announcements_section
+      when_i_delete_an_announcement
+      then_i_can_see_an_announcement_has_been_deleted
+    end
+
+    scenario "Reordering announcements", js: true do
+      given_there_is_coronavirus_page_with_announcements
+      when_i_visit_the_reorder_announcements_page
+      then_i_see_the_announcements_in_order
+      when_i_move_announcement_one_down
+      then_i_see_announcement_updated_message
+      and_i_see_the_announcements_have_changed_order
+    end
+
+    scenario "Adding timeline entries" do
+      given_there_is_a_coronavirus_page
+      when_i_visit_a_coronavirus_page
+      and_i_add_a_new_timeline_entry
+      then_i_see_the_timeline_entry_form
+      when_i_fill_in_the_timeline_entry_form_with_valid_data
+      then_i_see_a_new_timeline_entry_has_been_created
+    end
+
+    scenario "Editing timeline entries" do
+      given_there_is_a_coronavirus_page_with_timeline_entries
+      when_i_visit_a_coronavirus_page
+      and_i_change_a_timeline_entry
+      then_i_see_the_timeline_entry_form
+      and_i_see_the_existing_timeline_entry_data
+      when_i_fill_in_the_timeline_entry_form_with_valid_data
+      then_i_see_the_timeline_entry_has_been_updated
+    end
+
+    scenario "Reordering timeline entries", js: true do
+      given_there_is_a_coronavirus_page_with_timeline_entries
+      when_i_visit_the_reorder_timeline_entries_page
+      then_i_see_the_timeline_entries_in_order
+      when_i_move_timeline_entry_one_down
+      then_i_see_timeline_entries_updated_message
+      and_i_see_the_timeline_entries_have_changed_order
+    end
+
+    scenario "Viewing timeline entries" do
+      given_there_is_a_coronavirus_page_with_timeline_entries
+      when_i_visit_a_coronavirus_page
+      then_i_can_see_a_timeline_entries_section
+      and_i_can_see_existing_timeline_entries
+    end
+
+    scenario "Deleting timeline entries", js: true do
+      given_there_is_a_coronavirus_page_with_timeline_entries
+      when_i_visit_a_coronavirus_page
+      then_i_can_see_a_timeline_entries_section
+      when_i_delete_a_timeline_entry
+      then_i_can_see_the_timeline_entry_has_been_deleted
+    end
   end
 
   describe "Changes made in github" do
@@ -70,126 +157,37 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       stub_any_publishing_api_put_intent
     end
 
-    context "Landing page" do
-      scenario "User selects landing page" do
-        when_i_visit_the_coronavirus_index_page
-        and_i_select_landing_page
-        i_see_an_update_draft_button
-        and_a_preview_button
-        and_a_publish_button
-      end
+    scenario "User selects landing page" do
+      when_i_visit_the_coronavirus_index_page
+      and_i_select_landing_page
+      i_see_an_update_draft_button
+      and_a_preview_button
+      and_a_publish_button
+    end
 
-      scenario "Updating draft landing page" do
-        when_i_visit_the_coronavirus_index_page
-        and_i_select_landing_page
-        and_i_push_a_new_draft_version
-        then_the_content_is_sent_to_publishing_api
-        and_i_see_a_draft_updated_message
-      end
+    scenario "Updating draft landing page" do
+      when_i_visit_the_coronavirus_index_page
+      and_i_select_landing_page
+      and_i_push_a_new_draft_version
+      then_the_content_is_sent_to_publishing_api
+      and_i_see_a_draft_updated_message
+    end
 
-      scenario "Updating landing draft with invalid content" do
-        when_i_visit_the_coronavirus_index_page
-        and_i_select_landing_page
-        and_i_push_a_new_draft_version_with_invalid_content
-        and_i_see_an_alert
-      end
+    scenario "Updating landing draft with invalid content" do
+      when_i_visit_the_coronavirus_index_page
+      and_i_select_landing_page
+      and_i_push_a_new_draft_version_with_invalid_content
+      and_i_see_an_alert
+    end
 
-      scenario "Publishing landing page" do
-        when_i_visit_the_coronavirus_index_page
-        and_i_select_landing_page
-        and_i_choose_a_major_update
-        and_i_publish_the_page
-        and_i_remain_on_the_coronavirus_github_changes_page
-        then_the_page_publishes
-        and_i_see_github_changes_published_message
-      end
-
-      scenario "Viewing announcements" do
-        given_there_is_coronavirus_page_with_announcements
-        when_i_visit_a_coronavirus_page
-        then_i_can_see_an_announcements_section
-        and_i_can_see_existing_announcements
-      end
-
-      scenario "Adding announcements" do
-        given_there_is_coronavirus_page_with_announcements
-        when_i_visit_a_coronavirus_page
-        then_i_can_see_an_announcements_section
-        and_i_add_a_new_announcement
-        then_i_see_the_create_announcement_form
-        when_i_fill_in_the_announcement_form_with_valid_data
-        then_i_can_see_a_new_announcement_has_been_created
-      end
-
-      scenario "Editing announcements" do
-        given_there_is_coronavirus_page_with_announcements
-        when_i_visit_a_coronavirus_page
-        then_i_can_see_an_announcements_section
-        when_i_can_click_change_for_an_announcement
-        then_i_see_the_edit_announcement_form
-        when_i_can_edit_the_announcement_form_with_valid_data
-        then_i_can_see_that_the_announcement_has_been_updated
-      end
-
-      scenario "Deleting announcements", js: true do
-        given_there_is_coronavirus_page_with_announcements
-        when_i_visit_a_coronavirus_page
-        then_i_can_see_an_announcements_section
-        when_i_delete_an_announcement
-        then_i_can_see_an_announcement_has_been_deleted
-      end
-
-      scenario "Reordering announcements", js: true do
-        given_there_is_coronavirus_page_with_announcements
-        when_i_visit_the_reorder_announcements_page
-        then_i_see_the_announcements_in_order
-        when_i_move_announcement_one_down
-        then_i_see_announcement_updated_message
-        and_i_see_the_announcements_have_changed_order
-      end
-
-      scenario "Adding timeline entries" do
-        given_there_is_a_coronavirus_page
-        when_i_visit_a_coronavirus_page
-        and_i_add_a_new_timeline_entry
-        then_i_see_the_timeline_entry_form
-        when_i_fill_in_the_timeline_entry_form_with_valid_data
-        then_i_see_a_new_timeline_entry_has_been_created
-      end
-
-      scenario "Editing timeline entries" do
-        given_there_is_a_coronavirus_page_with_timeline_entries
-        when_i_visit_a_coronavirus_page
-        and_i_change_a_timeline_entry
-        then_i_see_the_timeline_entry_form
-        and_i_see_the_existing_timeline_entry_data
-        when_i_fill_in_the_timeline_entry_form_with_valid_data
-        then_i_see_the_timeline_entry_has_been_updated
-      end
-
-      scenario "Reordering timeline entries", js: true do
-        given_there_is_a_coronavirus_page_with_timeline_entries
-        when_i_visit_the_reorder_timeline_entries_page
-        then_i_see_the_timeline_entries_in_order
-        when_i_move_timeline_entry_one_down
-        then_i_see_timeline_entries_updated_message
-        and_i_see_the_timeline_entries_have_changed_order
-      end
-
-      scenario "Viewing timeline entries" do
-        given_there_is_a_coronavirus_page_with_timeline_entries
-        when_i_visit_a_coronavirus_page
-        then_i_can_see_a_timeline_entries_section
-        and_i_can_see_existing_timeline_entries
-      end
-
-      scenario "Deleting timeline entries", js: true do
-        given_there_is_a_coronavirus_page_with_timeline_entries
-        when_i_visit_a_coronavirus_page
-        then_i_can_see_a_timeline_entries_section
-        when_i_delete_a_timeline_entry
-        then_i_can_see_the_timeline_entry_has_been_deleted
-      end
+    scenario "Publishing landing page" do
+      when_i_visit_the_coronavirus_index_page
+      and_i_select_landing_page
+      and_i_choose_a_major_update
+      and_i_publish_the_page
+      and_i_remain_on_the_coronavirus_github_changes_page
+      then_the_page_publishes
+      and_i_see_github_changes_published_message
     end
   end
 end
