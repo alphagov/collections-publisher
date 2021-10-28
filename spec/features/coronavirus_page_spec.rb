@@ -147,6 +147,16 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       when_i_delete_a_timeline_entry
       then_i_can_see_the_timeline_entry_has_been_deleted
     end
+
+    scenario "Editing the header section" do
+      given_there_is_a_coronavirus_page
+      when_i_visit_a_coronavirus_page
+      then_i_can_see_a_header_section
+      when_i_edit_the_header_section
+      then_i_can_see_the_edit_header_form
+      when_i_fill_in_the_edit_header_form_with_valid_data
+      then_i_see_header_updated_message
+    end
   end
 
   describe "Changes made in github" do

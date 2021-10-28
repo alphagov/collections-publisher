@@ -302,6 +302,35 @@ module CoronavirusFeatureSteps
     expect(page).not_to have_text(@timeline_entry_one.heading)
   end
 
+  # Editing the header section
+
+  def then_i_can_see_a_header_section
+    expect(page).to have_content("Header")
+  end
+
+  def when_i_edit_the_header_section
+    page.find("a[href=\"/coronavirus/landing/edit-header\"]", text: "Change").click
+  end
+
+  def then_i_can_see_the_edit_header_form
+    expect(page).to have_text("Header body")
+    expect(page).to have_text("Header action link")
+  end
+
+  def when_i_fill_in_the_edit_header_form_with_valid_data
+    stub_coronavirus_landing_page_content(@coronavirus_page)
+    fill_in("header_title", with: "Fancy title")
+    fill_in("header_body", with: "##Form content")
+    fill_in("header_link_pre_wrap_text", with: "Pre wrap text")
+    fill_in("header_link_post_wrap_text", with: "Post wrap text")
+    fill_in("header_link_url", with: "/link")
+    click_on("Save")
+  end
+
+  def then_i_see_header_updated_message
+    expect(page).to have_text("Success")
+  end
+
   def set_up_basic_sub_sections
     @coronavirus_page = FactoryBot.create(:coronavirus_page, state: "published")
     FactoryBot.create(:coronavirus_sub_section,
