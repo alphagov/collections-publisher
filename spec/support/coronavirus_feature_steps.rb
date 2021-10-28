@@ -305,7 +305,7 @@ module CoronavirusFeatureSteps
   # Editing the header section
 
   def then_i_can_see_a_header_section
-    expect(page).to have_content("Header")
+    expect(page).to have_content(I18n.t("coronavirus.pages.show.header_section.title"))
   end
 
   def when_i_edit_the_header_section
@@ -313,8 +313,8 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_can_see_the_edit_header_form
-    expect(page).to have_text("Header body")
-    expect(page).to have_text("Header action link")
+    expect(page).to have_text(I18n.t("coronavirus.pages.edit_header.form.body.label"))
+    expect(page).to have_text(I18n.t("coronavirus.pages.edit_header.form.header_link.title"))
   end
 
   def when_i_fill_in_the_edit_header_form_with_valid_data
@@ -328,7 +328,7 @@ module CoronavirusFeatureSteps
   end
 
   def then_i_see_header_updated_message
-    expect(page).to have_text("Success")
+    expect(page).to have_text(I18n.t("coronavirus.pages.update_header.success"))
   end
 
   def set_up_basic_sub_sections

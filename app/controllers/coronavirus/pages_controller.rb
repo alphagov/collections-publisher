@@ -30,7 +30,7 @@ module Coronavirus
         draft_updater.send
       end
 
-      redirect_to coronavirus_page_path(@page.slug), notice: "Success"
+      redirect_to coronavirus_page_path(@page.slug), notice: helpers.t("coronavirus.pages.update_header.success")
     rescue Pages::DraftUpdater::DraftUpdaterError => e
       flash.now[:alert] = e.message
       render :edit_header, status: :internal_server_error

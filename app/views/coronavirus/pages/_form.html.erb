@@ -1,6 +1,6 @@
 <%= render "govuk_publishing_components/components/input", {
   label: {
-    text: "Title",
+    text: t("coronavirus.pages.edit_header.form.title.label"),
     bold: true,
   },
   name: "landing_page[header_title]",
@@ -11,7 +11,7 @@
 
 <%= render "components/markdown_editor", {
   label: {
-    text: "Header body",
+    text: t("coronavirus.pages.edit_header.form.body.label"),
     bold: true
   },
   textarea: {
@@ -25,24 +25,24 @@
 } %>
 
 <%= render "govuk_publishing_components/components/heading", {
-  text: "Header action link",
+  text: t("coronavirus.pages.edit_header.form.header_link.title"),
   heading_level: 4,
   margin_bottom: 5
 } %>
 
 <%= render "govuk_publishing_components/components/hint", {
-  text: "Add content across two lines for the header action link. This allows mobile users to see the link text correctly wrap over 2 lines in a block, rather than allowing their device to choose."
+  text: t("coronavirus.pages.edit_header.form.header_link.hint")
 } %>
 
 <%= render "govuk_publishing_components/components/character_count", {
   textarea: {
     label: {
-      text: "Action link text line one",
+      text: t("coronavirus.pages.edit_header.form.header_link.header_link_pre_wrap_text.label"),
       bold: true
     },
     name: "landing_page[header_link_pre_wrap_text]",
     value: @page.header_link_pre_wrap_text,
-    hint: "40 characters recommended. Any content that goes over the recommended character limit should be added to line 2 and checked in the preview.",
+    hint: t("coronavirus.pages.edit_header.form.header_link.header_link_pre_wrap_text.hint"),
     error_message: error_items(@page.errors.messages, :header_link_pre_wrap_text),
     rows: 1,
   },
@@ -53,12 +53,12 @@
 <%= render "govuk_publishing_components/components/character_count", {
   textarea: {
     label: {
-      text: "Action link text line 2",
+      text: t("coronavirus.pages.edit_header.form.header_link.header_link_post_wrap_text.label"),
       bold: true
     },
     name: "landing_page[header_link_post_wrap_text]",
     value: @page.header_link_post_wrap_text,
-    hint: "40 characters recommended.",
+    hint: t("coronavirus.pages.edit_header.form.header_link.header_link_post_wrap_text.hint"),
     error_message: error_items(@page.errors.messages, :header_link_post_wrap_text),
     rows: 1,
   },
@@ -68,13 +68,13 @@
 
 <%= render "govuk_publishing_components/components/input", {
   label: {
-    text: "Action link URL",
+    text: t("coronavirus.pages.edit_header.form.header_link.header_link_url.label"),
     bold: true,
   },
   name: "landing_page[header_link_url]",
   value: @page.header_link_url,
   id: "header_link_url",
-  hint: "For example, '/government/news/coronavirus-covid-19' or 'https://www.nhs.uk/coronavirus-announcement'",
+  hint: t("coronavirus.pages.edit_header.form.header_link.header_link_url.hint"),
   error_message: error_items(@page.errors.messages, :header_link_url),
 } %>
 

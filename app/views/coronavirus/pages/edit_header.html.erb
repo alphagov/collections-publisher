@@ -1,6 +1,6 @@
 <%= render 'coronavirus/shared/breadcrumbs', text: "Edit" %>
-<% content_for :title, "Edit Landing Page Header" %>
-<% content_for :context, "Landing Page Header" %>
+<% content_for :title, t("coronavirus.shared.title") %>
+<% content_for :context, t("coronavirus.pages.edit_header.title") %>
 <% if @page.errors.any? %>
   <%= render "shared/sub_sections/form_errors", resource: @page %>
 <% end %>
