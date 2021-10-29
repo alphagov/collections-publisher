@@ -2,15 +2,15 @@ content:
   title: "Coronavirus (COVID-19): what you need to do"
   meta_description: "Find out about the government response to coronavirus (COVID-19) and what you need to do."
   header_section:
-    pretext-1: Stay alert
-    pretext-2: Anyone can spread the virus.
-    list:
+    title: Stay alert
+    intro: |
       - Only go outside for food, health reasons or work (where this absolutely cannot be done from home)
       - Stay 2 metres (6ft) away from other people
       - Wash your hands as soon as you get home
     link:
       href: /government/publications/full-guidance-on-staying-at-home-and-away-from-others
-      text: Full guidance on staying at home and away from others
+      link_text: Full guidance on staying at home
+      link_nowrap_text: and preventing the spread
   announcements_label: Announcements
   announcements:
   nhs_banner:
