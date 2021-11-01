@@ -58,9 +58,17 @@ RSpec.describe Coronavirus::PagesController do
   end
 
   describe "GET /coronavirus/:slug/edit-header" do
-    it "renders page successfully" do
+    it "can only be accessed by users with Unreleased feature permissions" do
+      stub_user.permissions << "Unreleased feature"
+
       get :edit_header, params: { page_slug: page.slug }
       expect(response).to have_http_status(:success)
+    end
+
+    it "cannot be accessed by users without Unreleased feature permissions" do
+      get :edit_header, params: { page_slug: page.slug }
+
+      expect(response).to have_http_status(:forbidden)
     end
   end
 
@@ -97,6 +105,7 @@ RSpec.describe Coronavirus::PagesController do
     before do
       stub_coronavirus_landing_page_content(page)
       stub_coronavirus_publishing_api
+      stub_user.permissions << "Unreleased feature"
     end
 
     context "when header is valid" do

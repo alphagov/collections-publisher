@@ -1,5 +1,6 @@
 module Coronavirus
   class PagesController < ApplicationController
+    before_action :require_unreleased_feature_permissions!, only: %w[edit_header update_header]
     before_action :require_coronavirus_editor_permissions!
     before_action :initialise_pages, only: %w[index]
     layout "admin_layout"
