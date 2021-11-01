@@ -142,7 +142,15 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     end
 
     describe "#header_data" do
-      it "returns the header" do
+      it "includes the header section from github when unreleased features are turned off" do
+        allow(Rails.configuration).to receive(:unreleased_features).and_return(false)
+        expect(subject.data["header_section"]["title"])
+          .to eq(github_content["content"]["header_section"]["title"])
+      end
+
+      it "returns the header section from the database when unreleased_features are turned on" do
+        allow(Rails.configuration).to receive(:unreleased_features).and_return(true)
+
         page = create(
           :coronavirus_page,
           header_title: "Header section title",

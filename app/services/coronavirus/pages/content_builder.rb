@@ -14,7 +14,7 @@ module Coronavirus::Pages
       @data ||= begin
         validate_content
         data = github_data
-        data["header_section"] = header_data
+        data["header_section"] = header_data if Rails.application.config.unreleased_features
         data["sections"] = sub_sections_data
         data["announcements"] = announcements_data
 
