@@ -9,6 +9,9 @@ Rails.application.routes.draw do
       get "discard", on: :member
       post "publish", to: "pages#publish", on: :member
 
+      get "edit-header", to: "pages#edit_header"
+      patch "edit-header", to: "pages#update_header"
+
       get "github_changes", to: "github_changes#index", on: :member
       post "github_changes/update", to: "github_changes#update", on: :member
       post "github_changes/publish", to: "github_changes#publish", on: :member

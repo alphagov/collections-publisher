@@ -62,6 +62,25 @@ en:
         landing_page_edit:
           accordions: Edit landing page accordions, announcements and timeline
           something_else: Edit something else on the landing page
+      edit_header:
+        title: Edit Landing Page Header
+        form:
+          title:
+            label: Title
+          body:
+            label: Header body
+          header_link:
+            title: Header action link
+            hint: Add content across two lines for the header action link. This allows mobile users to see the link text correctly wrap over 2 lines in a block, rather than allowing their device to choose.
+            header_link_pre_wrap_text:
+              label: Action link text line one
+              hint: 40 characters recommended. Any content that goes over the recommended character limit should be added to line 2 and checked in the preview.
+            header_link_post_wrap_text:
+              label: Action link text line 2
+              hint: 40 characters recommended.
+            header_link_url:
+              label: Action link URL
+              hint: "For example, '/government/news/coronavirus-covid-19' or 'https://www.nhs.uk/coronavirus-announcement'"
       show:
         context: Coronavirus landing page
         actions:
@@ -70,6 +89,8 @@ en:
           preview: Preview
           publish: Publish
         link_text: Coronavirus pages
+        header_section:
+          title: Header
         timeline_entries:
           title: Timeline entries
           confirm: Are you sure?
@@ -84,6 +105,8 @@ en:
           confirm: Are you sure?
           reorder: Reorder
           add: Add announcement
+      update_header:
+        success: Success
       publish:
         success: Page published!
         failed: You have already published this page.

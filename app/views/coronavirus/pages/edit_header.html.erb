@@ -1,0 +1,14 @@
+<%= render 'coronavirus/shared/breadcrumbs', text: "Edit" %>
+<% content_for :title, t("coronavirus.shared.title") %>
+<% content_for :context, t("coronavirus.pages.edit_header.title") %>
+<% if @page.errors.any? %>
+  <%= render "shared/sub_sections/form_errors", resource: @page %>
+<% end %>
+
+<div class="covid-edit-page govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with method: :patch, url: coronavirus_page_edit_header_path do %>
+      <%= render "form" %>
+    <% end %>
+  </div>
+</div>
