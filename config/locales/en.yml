@@ -60,7 +60,7 @@ en:
     pages:
       index:
         landing_page_edit:
-          accordions: Edit landing page accordions, announcements and timeline
+          sections: Edit landing page header section, accordions, announcements and timeline
           something_else: Edit something else on the landing page
       edit_header:
         title: Edit Landing Page Header
