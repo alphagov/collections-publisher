@@ -149,7 +149,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
     end
 
     scenario "Editing the header section" do
-      given_i_can_access_unreleased_features
       given_there_is_a_coronavirus_page
       when_i_visit_a_coronavirus_page
       then_i_can_see_a_header_section
