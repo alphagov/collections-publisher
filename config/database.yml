@@ -12,8 +12,7 @@ development:
 test: &test
   <<: *default
   database: collections_publisher_test
-  url: <%= ENV["DATABASE_URL"].try(:sub, /(development)?$/, 'test')%>
-
+  url: <%= ENV["TEST_DATABASE_URL"] %>
 production:
   <<: *default
 
