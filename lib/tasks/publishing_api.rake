@@ -84,4 +84,22 @@ namespace :publishing_api do
     )
     puts "Links patched for root page..."
   end
+
+  desc "Merge mainstream browse pages into topics"
+  task merge_mainstream_browse_pages_into_topics: :environment do
+    MainstreamBrowsePage.all.each do |page|
+      Topic.new(
+        title: page.title,
+        description: page.description,
+        subtopic?: !page.top_level_mainstream_browse_page?
+        parent_id: "placeholder" #This is gonna take some thinking...
+        links: page.links #This also needs thinking as the children will obviously be browse pages...
+        details: {
+          "groups" => page.details.groups,
+          "internal_name" => page.details.internal_name
+        }
+      )
+    end
+  end
+
 end
