@@ -247,4 +247,9 @@ FactoryBot.define do
     national_applicability { %w[england] }
     page factory: :coronavirus_page
   end
+
+  factory :nhs_section do
+    heading { "Testing and vaccinations" }
+    sections { "Find out how to get tested, what your test result means and how to report your result." }
+  end
 end
