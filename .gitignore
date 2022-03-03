@@ -1,8 +1,13 @@
 log/*.log
 tmp
 db/dumps
-node_modules
 yarn-error.log
 npm-debug.log
 public
 coverage
+
+# Ignore JavaScript dependencies
+/node_modules
+
+# Ignore compiled assets
+/public/assets
