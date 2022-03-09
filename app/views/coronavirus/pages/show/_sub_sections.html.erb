@@ -3,7 +3,7 @@
    {
      id: sub_section.id,
      field: sub_section.title,
-     edit: { href: edit_coronavirus_page_sub_section_path(@page.slug, sub_section) },
+     edit: { href: edit_coronavirus_page_sub_section_path(@page.slug, sub_section), link_text: t("coronavirus.pages.show.sub_sections.edit") },
      delete: {
        href: coronavirus_page_sub_section_path(@page.slug, sub_section),
        data_attributes: {
