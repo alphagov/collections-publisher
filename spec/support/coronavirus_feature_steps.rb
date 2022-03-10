@@ -194,7 +194,7 @@ module CoronavirusFeatureSteps
   end
 
   def when_i_can_click_change_for_an_announcement
-    page.find("a[href=\"/coronavirus/landing/announcements/#{@announcement_one.id}/edit\"]", text: "Change").click
+    page.find("a[href=\"/coronavirus/landing/announcements/#{@announcement_one.id}/edit\"]", text: I18n.t("coronavirus.pages.show.announcements.edit")).click
   end
 
   def then_i_see_the_edit_announcement_form
@@ -239,7 +239,7 @@ module CoronavirusFeatureSteps
   # Editing timeline entries
 
   def and_i_change_a_timeline_entry
-    page.find("a[href=\"/coronavirus/landing/timeline_entries/#{@timeline_entry_one.id}/edit\"]", text: "Change").click
+    page.find("a[href=\"/coronavirus/landing/timeline_entries/#{@timeline_entry_one.id}/edit\"]", text: I18n.t("coronavirus.pages.show.timeline_entries.edit")).click
   end
 
   def when_i_visit_the_edit_timeline_entry_page

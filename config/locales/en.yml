@@ -96,15 +96,18 @@ en:
           confirm: Are you sure?
           reorder: Reorder
           add: Add timeline entry
+          edit: Edit
         sub_sections:
           confirm: Are you sure?
           reorder: Reorder
           add: Add accordion
+          edit: Edit
         announcements:
           title: Announcements
           confirm: Are you sure?
           reorder: Reorder
           add: Add announcement
+          edit: Edit
       update_header:
         success: Success
       publish:
