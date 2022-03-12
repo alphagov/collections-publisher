@@ -34,7 +34,9 @@ module StatusHelper
 
   def govuk_status(tag_object)
     text, colour = return_tag_text_and_colour(tag_object)
-    tag.span text, class: "govuk-tag govuk-tag--#{colour}"
+    classes = "govuk-tag govuk-tag--#{colour} govuk-tag--small"
+
+    tag.span text, class: classes
   end
 
 private

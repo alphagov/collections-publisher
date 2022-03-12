@@ -111,3 +111,7 @@
   margin-top: 0;
   background-color: govuk-colour("light-grey");
 }
+
+.govuk-tag--small {
+  @include govuk-font(14, $weight: bold, $line-height: 1);
+}

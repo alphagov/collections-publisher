@@ -1,0 +1,12 @@
+<% content_for :breadcrumbs do %>
+  <% if links.any? %>
+    <%= render "govuk_publishing_components/components/breadcrumbs", {
+      breadcrumbs: links.map do |link|
+        {
+          :title => link[:text],
+          :url => ( url_for(link[:href]) if link[:href].present? )
+        }
+      end
+    } %>
+  <% end %>
+<% end %>

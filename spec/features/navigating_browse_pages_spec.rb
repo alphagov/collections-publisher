@@ -20,15 +20,15 @@ RSpec.feature "Managing browse pages" do
   end
 
   def given_there_are_browse_pages
-    create(:mainstream_browse_page, :published, title: "Money and Tax")
-    citizenship = create(:mainstream_browse_page, :published, title: "Citizenship")
-    create(:mainstream_browse_page, parent: citizenship, title: "Voting")
-    british_citizenship = create(:mainstream_browse_page, parent: citizenship, title: "British citizenship")
+    @money_and_tax = create(:mainstream_browse_page, :published, title: "Money and Tax")
+    @citizenship = create(:mainstream_browse_page, :published, title: "Citizenship")
+    @voting = create(:mainstream_browse_page, parent: @citizenship, title: "Voting")
+    @british_citizenship = create(:mainstream_browse_page, parent: @citizenship, title: "British citizenship")
 
     @linked_item_content_id1 = "6896f0f3-9b79-4ec3-9f16-892f7f35e921"
     @linked_item_content_id2 = "f608313e-524a-478a-ae73-03cfdc920bdd"
     publishing_api_has_linked_items(
-      british_citizenship.content_id,
+      @british_citizenship.content_id,
       items: [
         { base_path: "/naturalisation", title: "Naturalisation", content_id: @linked_item_content_id1 },
         { base_path: "/marriage", title: "Marriage", content_id: @linked_item_content_id2 },
@@ -37,11 +37,12 @@ RSpec.feature "Managing browse pages" do
   end
 
   def then_i_see_the_top_level_pages
-    titles = page.all(".tags-list tbody td:first-child").map(&:text)
-    expect(titles).to eq([
-      "Citizenship",
-      "Money and Tax",
-    ])
+    title_cells = page.all(".govuk-table__row td:first-child")
+
+    expect(title_cells[0]).to have_link(@citizenship.title)
+    expect(title_cells[0]).to have_link(@citizenship.base_path)
+    expect(title_cells[1]).to have_link(@money_and_tax.title)
+    expect(title_cells[1]).to have_link(@money_and_tax.base_path)
   end
 
   def when_i_click_on_a_browse_page
