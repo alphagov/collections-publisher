@@ -156,7 +156,8 @@ RSpec.feature "Managing browse pages" do
   end
 
   def then_i_see_a_validation_error
-    expect(page).to have_content("Title can't be blank")
+    expect(page).to have_content("Enter a title")
+    expect(page).to have_content("Enter a slug")
     expect(find("#mainstream_browse_page_description").value).to eql "A changed description"
   end
 end

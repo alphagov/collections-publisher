@@ -16,8 +16,10 @@ class Tag < ApplicationRecord
   has_many :list_items, through: :lists
   has_many :redirect_routes
 
-  validates :slug, :title, :content_id, presence: true
-  validates :slug, uniqueness: { scope: %w[parent_id], case_sensitive: false }, format: { with: /\A[a-z0-9-]*\z/ }
+  validates :slug, presence: { message: "Enter a slug" }
+  validates :title, presence: { message: "Enter a title" }
+  validates :content_id, presence: true
+  validates :slug, uniqueness: { scope: %w[parent_id], case_sensitive: false }, format: { with: /\A[a-z0-9-]*\z/, message: "Enter a valid slug" }
   validates :child_ordering, inclusion: { in: ORDERING_TYPES }
   validate :parent_is_not_a_child
   validate :cannot_change_slug
