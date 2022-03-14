@@ -1,18 +1,74 @@
-<%= tag_header @browse_page, 'Edit' %>
+<%= render 'breadcrumbs', {
+  links: [
+    {
+      text: 'Mainstream browse pages',
+      href: mainstream_browse_pages_url
+    },
+    *([
+      text: @browse_page.parent[:title],
+      href: mainstream_browse_page_url(@browse_page.parent)
+    ] if @browse_page.parent.present? ),
+    {
+      text: @browse_page[:title],
+      href: mainstream_browse_page_url(@browse_page)
+    },
+    {
+      text: 'Edit',
+    }
+  ]
+} %>
 
-<%= form_for @browse_page do |f| %>
-  <%= f.text_field :slug, :disabled => true %>
-  <%= f.text_field :title %>
-  <%= f.text_field :description %>
+<% content_for :title, govuk_tag_heading(tag: @browse_page, prepend: 'Edit') %>
 
-  <% if @browse_page.child? %>
-    <%= f.select :topics,
-        options_from_collection_for_select(@topics_for_select, :id, :title_including_parent, @browse_page.topics.map(&:id)),
-        {},
-        { multiple: true,
-          class: "select2",
-          data: { placeholder: "Choose additional topics..." } } %>
-  <% end %>
+<%= render 'error_summary', object: @browse_page %>
 
-  <%= f.submit 'Save', class: 'btn-submit' %>
-<% end %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_for @browse_page do |f| %>
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: "Slug (read only)"
+        },
+        id: "mainstream_browse_page_slug",
+        name: "mainstream_browse_page[slug]",
+        readonly: true,
+        value: @browse_page[:slug],
+      } %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: "Title"
+        },
+        id: "mainstream_browse_page_title",
+        name: "mainstream_browse_page[title]",
+        value: @browse_page[:title],
+        error_items: issues_for(@browse_page, :title),
+      } %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: "Description"
+        },
+        id: "mainstream_browse_page_description",
+        name: "mainstream_browse_page[description]",
+        value: @browse_page[:description],
+        error_items: issues_for(@browse_page, :description),
+      } %>
+
+      <% if @browse_page.child? %>
+        <%= render "govuk_publishing_components/components/checkboxes", {
+          name: "mainstream_browse_page[topics][]",
+          heading: "Topics",
+          small: true,
+          items: @topics_for_select.map { |topic| { label: topic[:title], value: topic[:id], checked: @browse_page.topics.map(&:id).include?(topic[:id])  } }
+        } %>
+      <% end %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Save",
+        margin_bottom: true
+      } %>
+    <% end %>
+
+  </div>
+</div>
