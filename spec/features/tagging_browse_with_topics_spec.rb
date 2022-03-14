@@ -50,7 +50,7 @@ RSpec.feature "Tagging browse pages with topics" do
 
   def and_i_add_a_new_tag_and_submit
     within "form" do
-      select "Alpha", from: "mainstream_browse_page_topics"
+      check "Alpha"
       click_on "Save"
     end
 
@@ -62,7 +62,6 @@ RSpec.feature "Tagging browse pages with topics" do
   end
 
   def then_i_my_browse_page_is_selected
-    expect(page).to have_select("mainstream_browse_page_topics",
-                                selected: %w[Alpha])
+    expect(find_field("Alpha")).to be_checked
   end
 end
