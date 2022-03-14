@@ -1,0 +1,17 @@
+ {
+   "srcDir": "public/assets",
+   "srcFiles": [
+     "admin_layout-*.js"
+   ],
+   "cssFiles": [
+     "admin_layout-*.css"
+   ],
+   "specDir": "spec/javascripts",
+   "specFiles": [
+     "**/*[sS]pec.js"
+   ],
+   "helpers": [
+     "helpers/*.js"
+   ],
+   "browser": "headlessChrome"
+ }
