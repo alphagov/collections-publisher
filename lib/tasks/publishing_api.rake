@@ -88,43 +88,7 @@ namespace :publishing_api do
   desc "Copy Mainstream browse pages to Topics"
   task copy_mainstream_browse_pages_to_topics: :environment do
     MainstreamBrowsePage.all.each do |page|
-      pp page
-      # PARAMS :slug, :title, :description, :parent_id, :child_ordering, children_attributes: %i[index id])
-      # if params.require(:mainstream_browse_page).key? :topics
-      #   topic_ids = params.require(:mainstream_browse_page)[:topics]
-      #   topics = topic_ids.reject(&:blank?).map { |t| Topic.find(t) }
-      #   tag_params.merge("topics" => topics)
-      # else
-      #   tag_params
-      # end
-
-      # CreateTopicService
-      topic = Topic.new
-      topic.attributes = {
-        slug: page.slug + "-copy", # Validation failed: Slug has already been taken
-        title: page.title,
-        description: page.description,
-        parent_id: page.parent_id,
-        # mainstream_browse_copy: true,
-      }
-
-
-      TagBroadcaster.broadcast(topic) if topic.save!
+      CopyMainstreamBrowsePageToTopic.call(page)
     end
-    # Topic.all.each do |page|
-    #   Services.publishing_api.patch_links(
-    #     page.content_id,
-    #     TopicPresenter.new(page).render_links_for_publishing_api,
-    #   )
-    #
-    #   puts "Patching links for #{page.content_id}..."
-    # end
-    #
-    # root_page = RootTopicPresenter.new("state" => "published")
-    # Services.publishing_api.patch_links(
-    #   root_page.content_id,
-    #   root_page.render_links_for_publishing_api,
-    # )
-    # puts "Links patched for root page..."
   end
 end
