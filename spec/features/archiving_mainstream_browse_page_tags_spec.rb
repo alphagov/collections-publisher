@@ -84,7 +84,7 @@ RSpec.feature "Archiving mainstream browse page tags" do
   end
 
   def when_i_click_the_remove_button
-    click_link "Remove mainstream browse page"
+    click_link "Delete page"
   end
 
   def and_i_go_to_the_archive_page

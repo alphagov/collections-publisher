@@ -56,7 +56,7 @@ RSpec.feature "Order browse pages" do
   end
 
   def then_i_see_my_curated_ordering
-    titles = page.all(".tags-list tbody td:first-child").map(&:text)
+    titles = page.all(".gem-c-document-list__item-title").map(&:text)
     expect(titles).to eq([
       "Pepperoni",
       "Four seasons",
@@ -69,7 +69,7 @@ RSpec.feature "Order browse pages" do
   end
 
   def then_i_see_the_alphabetical_order
-    titles = page.all(".tags-list tbody td:first-child").map(&:text)
+    titles = page.all(".gem-c-document-list__item-title").map(&:text)
     expect(titles).to eq([
       "Four seasons",
       "Pepperoni",

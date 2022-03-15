@@ -1,45 +1,126 @@
-<%= tag_header @browse_page do %>
-  <%= link_to "Edit page",
-    edit_mainstream_browse_page_path(@browse_page) %>
+<%= render 'breadcrumbs', {
+  links: [
+    {
+      text: 'Mainstream browse pages',
+      href: mainstream_browse_pages_url
+    },
+    *([
+      text: @browse_page.parent[:title],
+      href: mainstream_browse_page_url(@browse_page.parent)
+    ] if @browse_page.parent.present? ),
+    {
+      text: @browse_page[:title]
+    }
+  ]
+} %>
 
-  <% if @browse_page.can_have_children? %>
-    <%= link_to "Manage child ordering",
-      manage_child_ordering_mainstream_browse_page_path(@browse_page) %>
-  <% end %>
+<% content_for :title, govuk_heading_with_parent(@browse_page) %>
 
-  <% if @browse_page.may_publish? %>
-    <%= link_to "Publish mainstream browse page",
-               publish_mainstream_browse_page_path(@browse_page),
-               method: :post %>
-  <% end %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <section class="govuk-!-margin-bottom-3">
+      <%= render "govuk_publishing_components/components/summary_list", {
+        borderless: true,
+        title: "Content",
+        items: [
+          {
+            field: "URL",
+            value: link_to(@browse_page.base_path, Plek.new.website_root + @browse_page.base_path, target: "_blank", class: "govuk-link")
+          },
+          *([
+            field: "Parent",
+            value: link_to(@browse_page.parent[:title], mainstream_browse_page_url(@browse_page.parent), class: "govuk-link")
+          ] if @browse_page.parent.present? ),
+          {
+            field: "Description",
+            value: @browse_page[:description].present? ? @browse_page[:description] : "Empty"
+          },
+          {
+            field: "Status",
+            value: govuk_status(@browse_page)
+          },
+          *([
+            field: "Child ordering",
+            value: @browse_page.child_ordering.capitalize
+          ] if @browse_page.top_level_mainstream_browse_page? )
+        ],
+        edit: {
+          href: edit_mainstream_browse_page_path(@browse_page),
+          link_text: "Edit page"
+        }
+      } %>
+    </section>
 
-  <% if @browse_page.child? %>
-    <% if @browse_page.published? %>
-      <%= link_to 'Archive mainstream browse page', propose_archive_mainstream_browse_page_path(@browse_page) %>
-    <% else %>
-      <%= link_to 'Remove mainstream browse page', archive_mainstream_browse_page_path(@browse_page),
-        method: 'post',
-        data: { confirm: 'Are you sure?' } %>
+    <% if @browse_page.can_have_children? %>
+      <section class="govuk-!-margin-bottom-3">
+        <%= render "list-children-pages" %>
+      </section>
     <% end %>
-  <% end %>
-<% end %>
 
-<%= render 'shared/tags/metadata', resource: @browse_page %>
-<%= render 'shared/tags/children', resource: @browse_page %>
+    <% if @browse_page.topics.any? %>
+      <section class="govuk-!-margin-bottom-3">
+        <%= render "list-specialist-sector-pages" %>
+      </section>
+    <% end %>
 
-<% if @browse_page.topics.any? %>
-  <section class="children">
-    <header class="heading-with-actions">
-      <h2>Specialist sector pages</h2>
-    </header>
+    <% if @browse_page.child? %>
+      <section class="govuk-!-margin-bottom-3">
+        <%= render 'list-links-preview', tag: @browse_page %>
+      </section>
+    <% end %>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <aside class="app-side__wrapper">
+      <div class="app-side">
+        <div class="app-side__actions">
+          <% if @browse_page.may_publish? %>
+            <div class="govuk-!-margin-bottom-1">
+              <%= link_to "Publish",
+                publish_mainstream_browse_page_path(@browse_page),
+                method: :post,
+                class: %w(govuk-button),
+                data: { module: "govuk-button" } %>
+            </div>
+          <% end %>
+          <% if @browse_page.can_have_children? %>
+            <div class="govuk-!-margin-bottom-1">
+              <% if gds_editor? %>
+                <%= link_to "Add child page",
+                  new_polymorphic_path(@browse_page, parent_id: @browse_page.id),
+                  class: %w(govuk-link govuk-link--no-visited-state) %>
+              <% end %>
+            </div>
+            <div class="govuk-!-margin-bottom-1">
+              <%= link_to "Manage child ordering",
+                manage_child_ordering_mainstream_browse_page_path(@browse_page),
+                class: %w(govuk-link govuk-link--no-visited-state)
+              %>
+            </div>
+          <% end %>
+          <% if @browse_page.child? %>
+            <div class="govuk-!-margin-bottom-1">
+              <% if @browse_page.published? %>
+                <%= link_to 'Archive mainstream browse page',
+                  propose_archive_mainstream_browse_page_path(@browse_page),
+                  class: %w(govuk-link govuk-link--no-visited-state)
+                %>
+              <% else %>
+                <%= link_to 'Delete page', archive_mainstream_browse_page_path(@browse_page),
+                  method: 'post',
+                  data: { confirm: 'Are you sure?' },
+                  class: %w(govuk-link app-link--destructive)
+                %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
 
-    <%= render 'shared/tags/table',
-          resources: @browse_page.topics,
-          include_children_column: false,
-          empty_message: "No topics exist yet." %>
-  </section>
-<% end %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<% if @browse_page.child? %>
-  <%= render 'shared/tags/lists_of_links_preview', tag: @browse_page %>
-<% end %>
+  </div>
+</div>

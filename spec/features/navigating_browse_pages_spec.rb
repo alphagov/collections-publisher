@@ -50,11 +50,12 @@ RSpec.feature "Managing browse pages" do
   end
 
   def then_i_see_the_child_pages
-    child_titles = page.all(".children .tags-list tbody td:first-child").map(&:text)
-    expect(child_titles).to eq([
-      "British citizenship",
-      "Voting",
-    ])
+    child_titles = page.all(".govuk-table__row td[1]")
+
+    expect(child_titles[0]).to have_link(@british_citizenship.title)
+    expect(child_titles[0]).to have_link(@british_citizenship.base_path)
+    expect(child_titles[1]).to have_link(@voting.title)
+    expect(child_titles[1]).to have_link(@voting.base_path)
   end
 
   def when_i_click_on_a_child_page
@@ -62,11 +63,9 @@ RSpec.feature "Managing browse pages" do
   end
 
   def then_i_see_the_documents_tagged_to_it
-    tagged_document_titles = page.all(".tagged-document").map(&:text)
-    expect(tagged_document_titles).to eq(%w[
-      Naturalisation
-      Marriage
-    ])
+    tagged_document_titles = page.all(".govuk-list li")
+    expect(tagged_document_titles[0].text).to eq("Naturalisation")
+    expect(tagged_document_titles[1].text).to eq("Marriage")
     expect(page).to have_link(nil, href: "#{Plek.new.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id1}")
     expect(page).to have_link(nil, href: "#{Plek.new.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id2}")
   end
