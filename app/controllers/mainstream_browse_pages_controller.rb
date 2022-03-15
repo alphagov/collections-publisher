@@ -122,7 +122,7 @@ private
   def protect_archived_browse_pages!
     browse_page = find_browse_page
     if browse_page.archived?
-      flash[:danger] = "You cannot modify an archived mainstream browse page."
+      flash[:alert] = "You cannot modify an archived mainstream browse page."
       redirect_to browse_page
     end
   end
