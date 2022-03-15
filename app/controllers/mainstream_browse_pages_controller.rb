@@ -22,6 +22,9 @@ class MainstreamBrowsePagesController < ApplicationController
     if browse_page.update(browse_page_params)
       TagBroadcaster.broadcast(browse_page)
       redirect_to browse_page
+    elsif browse_page_params.keys.include?("child_ordering")
+      @browse_page = browse_page
+      render :manage_child_ordering
     else
       @browse_page = browse_page
       @topics_for_select = topics_for_select
