@@ -1,3 +1,4 @@
+//= require jquery/dist/jquery
 //= require components/autocomplete.js
 //= require jquery-ui.sortable.min
 //= require jquery.clicktoggle
