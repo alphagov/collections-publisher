@@ -28,22 +28,32 @@ RSpec.describe CopyMainstreamBrowsePageToTopic do
            slug: "disabilities/equipment")
   }
 
+  # let(:child) do
+  #   allow(Services.publishing_api).to receive(:lookup_content_id).and_return(nil)
+  #   page = create(:published_step_by_step_page)
+  #   # .and_return( {page.base_path => page.content_id})
+  # end
+
   let(:mainstream_browse_page) do
     create(:mainstream_browse_page, :published,
            title: "Carers",
-           slug: "carers")
+           slug: "carers",
+
+         )
   end
 
   before do
     # Docs: https://github.com/alphagov/gds-api-adapters/blob/master/lib/gds_api/test_helpers/publishing_api.rb
     stub_any_publishing_api_put_content
     stub_any_publishing_api_patch_links
+
     mainstream_browse_page.parent = parent
+    # mainstream_browse_page.children = [child]
   end
 
   describe ".call" do
     it "saves the Topic" do
-      described_class.call(mainstream_browse_page)
+      described_class.call([mainstream_browse_page])
       topic = Topic.find_by(title: "Carers")
 
       expect(topic.type).to eq("Topic")
@@ -65,7 +75,7 @@ RSpec.describe CopyMainstreamBrowsePageToTopic do
     end
 
     fit "saves the links" do
-      described_class.call(mainstream_browse_page)
+      described_class.call([parent, mainstream_browse_page])
       topic = Topic.find_by(title: "Carers")
 
       expect(topic.type).to eq("Topic")
@@ -77,6 +87,13 @@ RSpec.describe CopyMainstreamBrowsePageToTopic do
           "title" => "Carers",
           "document_type" => "topic",
           "schema_name": "topic",
+          "links": {
+            "parent": [
+              {
+                "title": "Disabled people",
+              }
+            ]
+          }
         }),
       )
     end
