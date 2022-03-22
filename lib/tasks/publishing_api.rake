@@ -85,10 +85,8 @@ namespace :publishing_api do
     puts "Links patched for root page..."
   end
 
-  desc "Copy Mainstream browse pages to Topics"
+  desc "Copy all Mainstream browse pages to Topics"
   task copy_mainstream_browse_pages_to_topics: :environment do
-    MainstreamBrowsePage.all.each do |page|
-      CopyMainstreamBrowsePageToTopic.call(page)
-    end
+    CopyMainstreamBrowsePageToTopic.call(MainstreamBrowsePage.all)
   end
 end

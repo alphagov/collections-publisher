@@ -11,39 +11,47 @@ class CopyMainstreamBrowsePageToTopic
 
   def copy
     new_topics = mainstream_browse_pages.map do |page|
-      save_as_basic_topic(page)
+      create_basic_topic(page)
+    rescue StandardError => e
+      Rails.logger.debug "Saving topic `#{page.title}` failed with error: #{e}"
+      nil
     end
 
-    new_topics.each do |topic|
+    new_topics.compact.each do |topic|
       update_assossiations_to_topics(topic)
+      send_to_publishing_api(topic)
+    rescue StandardError => e
+      Rails.logger.debug "`#{topic.title}` failed with error: #{e}"
     end
   end
 
-  private
+private
 
-  def save_as_basic_topic(mainstream_browse_page)
+  def create_basic_topic(mainstream_browse_page)
     topic = Topic.new
 
     topic.attributes = {
-      slug: "#{mainstream_browse_page.slug}-copy", # TODO: fix Validation failed: Slug has already been taken
+      slug: "#{mainstream_browse_page.slug}-mbp-copy", # TODO: fix Validation failed: Slug has already been taken
       title: mainstream_browse_page.title,
       description: mainstream_browse_page.description,
-      # parent has to be a Topic
       parent_id: mainstream_browse_page.parent_id,
-      # example https://www.gov.uk/api/content/topic/schools-colleges-childrens-services
-      # https://www.gov.uk/api/content/topic/schools-colleges-childrens-services/special-educational-needs-disabilities
-      # children need to be topics, children also reference parents
-      # in MBP no concept of children, association with "mainstream_browse_pages"
-      children: mainstream_browse_page.children,
-      # mainstream_browse_copy: true,
+      # mainstream_browse_copy: true, #TODO: Depends on https://github.com/alphagov/govuk-content-schemas/pull/1087
     }
 
-    TagBroadcaster.broadcast(topic) if topic.save!
-
-    topic
+    topic if topic.save!
   end
 
   def update_assossiations_to_topics(topic)
+    parent_topic = Topic.find_by(title: topic.parent&.title)
 
+    topic.attributes = {
+      parent_id: parent_topic.try(:id),
+    }
+
+    topic.save!
+  end
+
+  def send_to_publishing_api(topic)
+    TagBroadcaster.broadcast(topic)
   end
 end

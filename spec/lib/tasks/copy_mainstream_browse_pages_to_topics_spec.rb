@@ -12,8 +12,9 @@ RSpec.describe "rake publishing_api:copy_mainstream_browse_pages_to_topics", typ
 
     Rake::Task["publishing_api:copy_mainstream_browse_pages_to_topics"].invoke
 
-    expect(CopyMainstreamBrowsePageToTopic).to have_received(:call).exactly(2).times
-    expect(CopyMainstreamBrowsePageToTopic).to have_received(:call).with(mainstream_browse_page1)
-    expect(CopyMainstreamBrowsePageToTopic).to have_received(:call).with(mainstream_browse_page2)
+    expect(CopyMainstreamBrowsePageToTopic).to have_received(:call).exactly(1).time
+    expect(CopyMainstreamBrowsePageToTopic).to have_received(:call).with(
+      [mainstream_browse_page1, mainstream_browse_page2],
+    )
   end
 end
