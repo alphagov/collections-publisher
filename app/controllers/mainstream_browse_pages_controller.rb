@@ -72,6 +72,17 @@ class MainstreamBrowsePagesController < ApplicationController
     @browse_page = find_browse_page
   end
 
+  helper_method :issues_for
+  def issues_for(object, attribute)
+    object.errors.errors.filter_map do |error|
+      if error.attribute == attribute
+        {
+          text: error.options[:message],
+        }
+      end
+    end
+  end
+
 private
 
   def topics_for_select

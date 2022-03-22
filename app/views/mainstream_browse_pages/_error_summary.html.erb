@@ -1,0 +1,12 @@
+<% if object.errors.present? %>
+  <%= render "govuk_publishing_components/components/error_summary", {
+    id: "error-summary",
+    title: "There is a problem",
+    items: object.errors.errors.map do |error|
+        {
+          href:"##{@browse_page.type.underscore}_#{error.attribute.to_s}",
+          text: error.options[:message],
+        }
+      end
+  } %>
+<% end %>
