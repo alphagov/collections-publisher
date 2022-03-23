@@ -4,8 +4,8 @@
     title: "There is a problem",
     items: object.errors.errors.map do |error|
         {
-          href:"##{@browse_page.type.underscore}_#{error.attribute.to_s}",
-          text: error.options[:message],
+          href:"##{object.class.to_s.underscore}_#{error.attribute.to_s}",
+          text: error.options[:message] || error.type,
         }
       end
   } %>
