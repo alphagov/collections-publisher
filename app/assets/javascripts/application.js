@@ -5,7 +5,7 @@
 //= require govuk_publishing_components/all_components
 //= require components/autocomplete
 
-//= require jquery_ujs
+//= require rails-ujs
 
 // support ES5
 //= require es5-polyfill/dist/polyfill.js
