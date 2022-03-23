@@ -1,7 +1,6 @@
 // This file is used as the root JS file for the govuk_admin_template
 // system aspects of Collections Publisher
 
-//= require components/autocomplete.js
 //= require jquery-ui.sortable.min
 //= require jquery.clicktoggle
 //= require ./curated_lists
