@@ -1,10 +1,10 @@
 // This file is used as the root JS file for the govuk_publishing_components/design
 // system aspects of Collections Publisher
+
 //= require govuk_publishing_components/dependencies
 //= require govuk_publishing_components/all_components
 //= require components/autocomplete
 
-//= require jquery-ui.sortable.min
 //= require jquery_ujs
 
 // support ES5
