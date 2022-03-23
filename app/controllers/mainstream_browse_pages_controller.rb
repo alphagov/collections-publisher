@@ -66,7 +66,7 @@ class MainstreamBrowsePagesController < ApplicationController
     if @archival.archive_or_remove
       redirect_to mainstream_browse_pages_path, success: "The mainstream browse page has been archived or removed."
     else
-      render "propose_archive"
+      render :propose_archive
     end
   end
 
