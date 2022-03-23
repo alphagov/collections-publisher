@@ -28,4 +28,26 @@ module StatusHelper
   def draft_tag
     status "draft", :draft
   end
+
+  # Everything above this comment can be pulled out once we've finished porting
+  # over to the design system
+
+  def govuk_status(tag_object)
+    text, colour = return_tag_text_and_colour(tag_object)
+    tag.span text, class: "govuk-tag govuk-tag--#{colour}"
+  end
+
+private
+
+  def return_tag_text_and_colour(tag)
+    if tag.archived?
+      ["archived", :grey]
+    elsif tag.dirty?
+      ["unpublished changes", :red]
+    elsif tag.published?
+      ["published", :green]
+    elsif tag.draft?
+      ["draft", :blue]
+    end
+  end
 end

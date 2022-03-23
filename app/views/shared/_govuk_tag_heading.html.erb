@@ -1,0 +1,9 @@
+<%= content_for :page_title, page_title %>
+
+<% content_for :title, raw(title) %>
+
+<% if block_given? %>
+  <nav class="actions">
+    <%= yield %>
+  </nav>
+<% end %>
