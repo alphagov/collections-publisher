@@ -6,7 +6,7 @@
     },
     *([
       text: @topic.parent[:title],
-      href: mainstream_browse_page_url(@topic.parent)
+      href: topic_url(@topic.parent)
     ] if @topic.parent.present? ),
     {
       text: @topic[:title].present? ? @topic[:title] : "Topic",
@@ -24,45 +24,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-
-    <%= form_for @topic do |f| %>
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: "Slug (read only)"
-        },
-        id: "topic_slug",
-        readonly: true,
-        name: "topic[slug]",
-        value: @topic.slug,
-        error_items: issues_for(@topic, :slug)
-      } %>
-
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: "Title"
-        },
-        id: "topic_title",
-        name: "topic[title]",
-        value: @topic.title,
-        error_items: issues_for(@topic, :title)
-      } %>
-
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: "Description"
-        },
-        id: "topic_description",
-        name: "topic[description]",
-        hint: "This description will be displayed in the search results.",
-        value: @topic.description,
-        error_items: issues_for(@topic, :description)
-      } %>
-
-      <%= render "govuk_publishing_components/components/button", {
-        text: "Save",
-        margin_bottom: true
-      } %>
-    <% end %>
-
+    <%= render "create_update_form", update: true %>
   </div>
 </div>
