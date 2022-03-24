@@ -1,4 +1,5 @@
 class MainstreamBrowsePagesController < ApplicationController
+  layout "legacy"
   before_action :require_gds_editor_permissions!
   before_action :protect_archived_browse_pages!, only: %i[edit update publish]
 

@@ -2,7 +2,6 @@ module Coronavirus
   class PagesController < ApplicationController
     before_action :require_coronavirus_editor_permissions!
     before_action :initialise_pages, only: %w[index]
-    layout "admin_layout"
 
     def index
       @topic_page = Page.find_by!(slug: "landing")

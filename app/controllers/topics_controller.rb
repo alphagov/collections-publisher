@@ -1,4 +1,5 @@
 class TopicsController < ApplicationController
+  layout "legacy"
   before_action :require_gds_editor_permissions!, except: %i[index show]
   before_action :protect_archived_tags!, only: %i[edit update publish]
 

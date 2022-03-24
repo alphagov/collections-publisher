@@ -1,7 +1,6 @@
 module Coronavirus
   class AnnouncementsController < ApplicationController
     before_action :require_coronavirus_editor_permissions!
-    layout "admin_layout"
 
     def new
       @announcement = page.announcements.new

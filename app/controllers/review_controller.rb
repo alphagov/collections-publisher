@@ -1,6 +1,4 @@
 class ReviewController < ApplicationController
-  layout "admin_layout"
-
   before_action :set_step_by_step_page
   before_action :require_gds_editor_permissions!
   before_action :require_2i_reviewer_permissions!, only: %i[

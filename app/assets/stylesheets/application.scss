@@ -1,2 +1,11 @@
+// This file is used as the root SCSS file for the govuk_publishing_components/design
+// system aspects of Collections Publisher
+
 @import "govuk_publishing_components/all_components";
-@import "./components/autocomplete";
+@import "./components/all";
+@import "./objects/broken-link-status";
+@import "./objects/grid";
+@import "./objects/side";
+@import "./utilities/overrides";
+@import "./steps";
+@import "./views/coronavirus_manage_pages";

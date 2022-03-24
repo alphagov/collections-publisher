@@ -1,4 +1,5 @@
 class ListItemsController < ApplicationController
+  layout "legacy"
   before_action :find_tag
   before_action :find_list
   before_action :require_gds_editor_permissions_to_edit_browse_pages!

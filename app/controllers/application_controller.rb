@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  layout "design_system"
+
   include GDS::SSO::ControllerMethods
   before_action :authenticate_user!
   before_action :set_authenticated_user_header

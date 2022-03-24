@@ -1,7 +1,6 @@
 module Coronavirus
   class SubSectionsController < ApplicationController
     before_action :require_coronavirus_editor_permissions!
-    layout "admin_layout"
 
     def new
       @sub_section = page.sub_sections.new

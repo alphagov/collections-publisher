@@ -2,8 +2,7 @@
 
 <% content_for :head do %>
   <%= csrf_meta_tags %>
-  <%= stylesheet_link_tag 'application', media: 'all' %>
-  <%= stylesheet_link_tag 'application_bootstrap', media: 'all' %>
+  <%= stylesheet_link_tag 'application_legacy', media: 'all' %>
 <% end %>
 
 <% content_for :navbar_items do %>
@@ -12,7 +11,7 @@
       <%= link_to 'Mainstream browse pages', mainstream_browse_pages_path %>
     </li>
   <% end %>
-  
+
   <li class="<%= active_navigation_item == 'topics' ? 'active' : nil %>">
     <%= link_to 'Specialist sector pages', topics_path %>
   </li>
@@ -31,7 +30,7 @@
 <% end %>
 
 <% content_for :body_end do %>
-  <%= javascript_include_tag 'application' %>
+  <%= javascript_include_tag 'application_legacy' %>
 <% end %>
 
 <% content_for :content do %>

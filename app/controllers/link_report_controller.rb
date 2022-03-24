@@ -1,4 +1,5 @@
 class LinkReportController < ApplicationController
+  layout "legacy"
   before_action :set_link_report
   skip_before_action :verify_authenticity_token
 

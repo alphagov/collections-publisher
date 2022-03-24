@@ -1,7 +1,6 @@
 module Coronavirus
   class TimelineEntriesController < ApplicationController
     before_action :require_coronavirus_editor_permissions!
-    layout "admin_layout"
 
     def new
       @timeline_entry = page.timeline_entries.new

@@ -1,21 +1,19 @@
-//= require components/autocomplete.js
-//= require jquery-ui.sortable.min
-//= require jquery.clicktoggle
-//= require ./curated_lists
-//= require ./ordered_lists
-//= require ./publishing
+// This file is used as the root JS file for the govuk_publishing_components/design
+// system aspects of Collections Publisher
 
-//= require select2
+//= require govuk_publishing_components/dependencies
+//= require govuk_publishing_components/all_components
+//= require components/autocomplete
 
-GOVUK.orderedLists.init()
-GOVUK.curatedLists.init();
+//= require rails-ujs
 
-(function () {
-  'use strict'
-  window.GOVUK = window.GOVUK || {}
-  var $ = window.jQuery
+// support ES5
+//= require es5-polyfill/dist/polyfill.js
 
-  $(document).ready(function () {
-    $('.select2').select2({ allowClear: true })
-  })
-}())
+// support ES6 (promises, functions, etc. - see docs)
+//= require core-js-bundle/index.js
+
+// support ES6 custom elements
+//= require @webcomponents/custom-elements/custom-elements.min.js
+
+//= require components/markdown-editor.js
