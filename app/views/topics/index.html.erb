@@ -1,11 +1,16 @@
-<%= header 'Specialist sector pages', breadcrumbs: ['Specialist sector pages'] do %>
-  <% if gds_editor? %>
-    <%= link_to new_topic_path, class: 'new' do %>
-      <%= icon :add %> Add a specialist sector page
-    <% end %>
-  <% end %>
+<% content_for :title, "Specialist sector pages" %>
+
+<% if gds_editor? %>
+  <% content_for :title_side, render("govuk_publishing_components/components/button", {
+    text: "Add a specialist sector page",
+    href: new_topic_path,
+    margin_bottom: true
+  }) %>
 <% end %>
 
-<%= render 'shared/tags/table',
-      resources: @topics,
-      empty_message: "No specialist sector pages exist yet" %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <p class="govuk-body govuk-!-margin-bottom-3"><%= pluralize(@topics.count, "topic") %></p>
+    <%= render "shared/list-browse-pages", pages: @topics %>
+  </div>
+</div>
