@@ -1,24 +1,67 @@
-<%= tag_header @archival.tag, 'Archive' %>
+<%= render 'shared/breadcrumbs', {
+  links: [
+    {
+      text: 'Topics',
+      href: topics_url
+    },
+    *([
+      text: @archival.tag.parent[:title],
+      href: topic_url(@archival.tag.parent)
+    ] if @archival.tag.parent.present? ),
+    {
+      text: @archival.tag[:title],
+      href: topic_url(@archival.tag)
+    },
+    {
+      text: 'Archive',
+    }
+  ]
+} %>
 
-<% if @archival.errors[:base].any? %>
-  <div class="alert alert-danger">
-    <%= @archival.errors[:base].to_sentence %>
+<%= govuk_tag_heading(tag: @archival.tag, append: 'Archive topic') %>
+
+<%= render 'shared/error_summary', object: @archival %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_for @archival, url: archive_topic_path do |f| %>
+      <div class="govuk-!-margin-bottom-4">
+        <%= render "govuk_publishing_components/components/select", {
+          id: "topic_archival_form_successor",
+          name: "topic_archival_form[successor]",
+          label: "Choose a specialist sector to redirect to:",
+          options: @archival.topics.map do |topic|
+            {
+              text: topic.title_including_parent,
+              value: topic.id
+            }
+          end
+        } %>
+      </div>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Archive and redirect to a specialist sector",
+        margin_bottom: true,
+        destructive: true,
+      } %>
+    <% end %>
+
+    <%= form_for @archival, url: archive_topic_path do |f| %>
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: "Or type in a URL to redirect to a page:"
+        },
+        hint: 'Please specify it as a relative path (for example "/government/publications/what-hmrc-does-to-prevent-tax-evasion")',
+        id: "topic_archival_form_successor_path",
+        name: "topic_archival_form[successor_path]",
+        error_items: issues_for(@archival, :successor_path)
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Archive and redirect to a page",
+        margin_bottom: true,
+        destructive: true,
+      } %>
+    <% end %>
   </div>
-<% end %>
-
-<%= form_for @archival, url: archive_topic_path(@archival.tag) do |f| %>
-  <%= f.select :successor,
-    options_from_collection_for_select(@archival.topics, :id, :title_including_parent),
-    { label: 'Choose a specialist sector to redirect to:' },
-    { class: 'select2' } %>
-
-  <%= f.submit 'Archive and redirect to a specialist sector', class: 'btn-submit btn-danger' %>
-<% end %>
-
-<%= form_for @archival, url: archive_topic_path(@archival.tag) do |f| %>
-  <%= f.text_field :successor_path,
-    { label: 'Or type in a URL to redirect to a page:',
-      placeholder: 'Please specify it as a relative path (for example "/government/publications/what-hmrc-does-to-prevent-tax-evasion")' } %>
-
-  <%= f.submit 'Archive and redirect to a page', class: 'btn-submit btn-danger' %>
-<% end %>
+</div>
