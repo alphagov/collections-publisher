@@ -1,4 +1,4 @@
-<%= render 'breadcrumbs', {
+<%= render 'shared/breadcrumbs', {
   links: [
     {
       text: 'Mainstream browse pages',
@@ -16,7 +16,7 @@
 
 <% content_for :title, govuk_tag_heading(tag: @browse_page, append: "Manage child ordering") %>
 
-<%= render 'error_summary', object: @browse_page %>
+<%= render 'shared/error_summary', object: @browse_page %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

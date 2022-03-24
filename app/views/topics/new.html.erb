@@ -1,17 +1,71 @@
-<%= header "New specialist sector page",
-  breadcrumbs: [:topics, @topic.parent, "New"] %>
+<%= render 'shared/breadcrumbs', {
+  links: [
+    {
+      text: 'Topics',
+      href: topics_url
+    },
+    {
+      text: 'New',
+    }
+  ]
+} %>
 
-<%= form_for @topic, html: { class: 'topic' } do |f| %>
-  <%= f.select :parent_id,
-      Topic.sorted_parents.map { |topic| [topic.title, topic.id] },
-      { include_blank: true },
-      { class: 'select2',
-        data: { placeholder: "Choose a parent specialist sector (optional)" } } %>
+<% content_for :title, "New specialist sector page" %>
 
-  <%= f.text_field :slug %>
-  <%= f.text_field :title %>
-  <%= f.text_field :description %>
-  <em>This description will be displayed in the search results.</em>
+<%= render 'shared/error_summary', object: @topic %>
 
-  <%= f.submit 'Create', class: 'btn-submit' %>
-<% end %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <%= form_for @topic do |f| %>
+      <div class="govuk-!-margin-bottom-4">
+        <%= render "govuk_publishing_components/components/select", {
+          id: "topic_parent_id",
+          name: "topic[parent_id]",
+          label: "Parent (optional)",
+          options: Topic.sorted_parents
+                    .map { |topic| {text: topic.title, value: topic.id, selected: topic.id == f.object.parent_id} }
+                    .prepend( { text: "", value: "" } )
+        } %>
+      </div>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: "Slug"
+        },
+        hint: "For example: lower-case-hyphen-separated",
+        id: "topic_slug",
+        name: "topic[slug]",
+        value: @topic.slug,
+        error_items: issues_for(@topic, :slug)
+      } %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: "Title"
+        },
+        id: "topic_title",
+        name: "topic[title]",
+        value: @topic.title,
+        error_items: issues_for(@topic, :title)
+      } %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: "Description"
+        },
+        id: "topic_description",
+        name: "topic[description]",
+        hint: "This description will be displayed in the search results.",
+        value: @topic.description,
+        error_items: issues_for(@topic, :description)
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Create",
+        margin_bottom: true
+      } %>
+    <% end %>
+
+  </div>
+</div>

@@ -1,4 +1,4 @@
-<%= render 'breadcrumbs', {
+<%= render 'shared/breadcrumbs', {
   links: [
     {
       text: 'Mainstream browse pages',
@@ -20,7 +20,7 @@
 
 <%= govuk_tag_heading(tag: @archival.tag, append: 'Archive mainstream browse page') %>
 
-<%= render 'error_summary', object: @archival %>
+<%= render 'shared/error_summary', object: @archival %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

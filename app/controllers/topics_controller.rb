@@ -66,6 +66,18 @@ class TopicsController < ApplicationController
     end
   end
 
+  helper_method :issues_for
+  def issues_for(object, attribute)
+    errors_for_input = object.errors.errors.select do |error|
+      error.attribute == attribute
+    end
+    errors_for_input.map do |error|
+      {
+        text: error.options[:message],
+      }
+    end
+  end
+
 private
 
   def topic_params
