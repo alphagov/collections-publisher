@@ -58,11 +58,18 @@ module HeaderHelper
               tag.title_including_parent
             end
 
-    locals = {
-      context: context,
-      title: title,
-      page_title: tag.title_including_parent,
-    }
+    locals = if tag.title_including_parent.blank?
+               {
+                 title: nil,
+                 page_title: "Error",
+               }
+             else
+               {
+                 context: context,
+                 title: title,
+                 page_title: tag.title_including_parent,
+               }
+             end
 
     render layout: "shared/govuk_tag_heading", locals: locals do
       yield if block_given?
