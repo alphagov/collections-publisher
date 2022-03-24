@@ -16,55 +16,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-
-    <%= form_for @browse_page do |f| %>
-      <div class="govuk-!-margin-bottom-4">
-        <%= render "govuk_publishing_components/components/select", {
-          id: "mainstream_browse_page_parent_id",
-          name: "mainstream_browse_page[parent_id]",
-          label: "Parent (optional)",
-          options: MainstreamBrowsePage.sorted_parents
-                    .map { |topic| {text: topic.title, value: topic.id, selected: topic.id == f.object.parent_id} }
-                    .prepend( { text: "", value: "" } )
-        } %>
-      </div>
-
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: "Slug"
-        },
-        hint: "For example: lower-case-hyphen-separated",
-        id: "mainstream_browse_page_slug",
-        name: "mainstream_browse_page[slug]",
-        value: @browse_page.slug,
-        error_items: issues_for(@browse_page, :slug)
-      } %>
-
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: "Title"
-        },
-        id: "mainstream_browse_page_title",
-        name: "mainstream_browse_page[title]",
-        value: @browse_page.title,
-        error_items: issues_for(@browse_page, :title)
-      } %>
-
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: "Description"
-        },
-        id: "mainstream_browse_page_description",
-        name: "mainstream_browse_page[description]",
-        value: @browse_page.description,
-        error_items: issues_for(@browse_page, :description)
-      } %>
-
-      <%= render "govuk_publishing_components/components/button", {
-        text: "Create",
-        margin_bottom: true
-      } %>
-    <% end %>
-
+    <%= render 'create_update_form', update: false %>
   </div>
 </div>
