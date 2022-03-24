@@ -24,51 +24,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_for @browse_page do |f| %>
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: "Slug (read only)"
-        },
-        id: "mainstream_browse_page_slug",
-        name: "mainstream_browse_page[slug]",
-        readonly: true,
-        value: @browse_page[:slug],
-      } %>
-
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: "Title"
-        },
-        id: "mainstream_browse_page_title",
-        name: "mainstream_browse_page[title]",
-        value: @browse_page[:title],
-        error_items: issues_for(@browse_page, :title),
-      } %>
-
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: "Description"
-        },
-        id: "mainstream_browse_page_description",
-        name: "mainstream_browse_page[description]",
-        value: @browse_page[:description],
-        error_items: issues_for(@browse_page, :description),
-      } %>
-
-      <% if @browse_page.child? %>
-        <%= render "govuk_publishing_components/components/checkboxes", {
-          name: "mainstream_browse_page[topics][]",
-          heading: "Topics",
-          small: true,
-          items: @topics_for_select.map { |topic| { label: topic[:title], value: topic[:id], checked: @browse_page.topics.map(&:id).include?(topic[:id])  } }
-        } %>
-      <% end %>
-
-      <%= render "govuk_publishing_components/components/button", {
-        text: "Save",
-        margin_bottom: true
-      } %>
-    <% end %>
-
+    <%= render 'create_update_form', update: true %>
   </div>
 </div>
