@@ -1,7 +1,27 @@
-<%= tag_header @topic %>
+<%= render 'shared/breadcrumbs', {
+  links: [
+    {
+      text: 'Topics',
+      href: topics_url
+    },
+    *([
+      text: @topic.parent[:title],
+      href: topic_url(@topic.parent)
+    ] if @topic.parent.present? ),
+    {
+      text: @topic[:title],
+    }
+  ]
+} %>
 
-<p class="no-content">
-  This topic has been archived.
-</p>
+<% content_for :title, govuk_tag_heading(tag: @topic) %>
 
-<%= render 'redirects', redirect_routes: @topic.redirect_routes %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <p class="govuk-body">
+      This topic has been archived.
+    </p>
+
+    <%= render 'shared/redirects', redirect_routes: @topic.redirect_routes %>
+  </div>
+</div>

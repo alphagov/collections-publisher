@@ -85,7 +85,7 @@ RSpec.feature "Archiving topic tags" do
   end
 
   def when_i_click_the_delete_button
-    click_link "Delete"
+    click_on "Delete"
   end
 
   def and_i_go_to_the_archive_page
