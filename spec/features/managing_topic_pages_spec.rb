@@ -101,13 +101,13 @@ RSpec.feature "Managing topics" do
   end
 
   def then_i_see_that_the_page_is_in_draft
-    within ".attributes" do
+    within ".govuk-summary-list--no-border" do
       expect(page).to have_content("draft")
     end
   end
 
   def then_i_see_that_the_page_is_published
-    within ".attributes" do
+    within ".govuk-summary-list--no-border" do
       expect(page).to have_content("published")
     end
   end

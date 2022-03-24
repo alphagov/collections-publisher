@@ -76,7 +76,7 @@ RSpec.feature "Navigating topics" do
   end
 
   def when_i_go_to_the_parent_page
-    within ".breadcrumb" do
+    within ".govuk-breadcrumbs__list" do
       click_on "Business Tax"
     end
   end

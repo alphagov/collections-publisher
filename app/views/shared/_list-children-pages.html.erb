@@ -7,29 +7,29 @@
   <% end %>
 
   <%= table.body do %>
-    <% @browse_page.sorted_children.each do | browse_page | %>
+    <% page.sorted_children.each do |child_page| %>
       <%= table.row do %>
         <%= table.cell render "govuk_publishing_components/components/document_list", {
           remove_top_border: true,
           items: [
             {
               link: {
-                text: browse_page.title,
-                path: browse_page
+                text: child_page.title,
+                path: child_page
               },
               metadata: {
-                preview_link: link_to(browse_page.base_path, Plek.new.website_root + browse_page.base_path, target: "_blank", class: "govuk-link")
+                preview_link: link_to(child_page.base_path, Plek.new.website_root + child_page.base_path, target: "_blank", class: "govuk-link")
               },
               edit:  {
-                href: edit_mainstream_browse_page_path(@browse_page),
+                href: edit_polymorphic_path(page),
                 link_text: "Edit page"
               }
             }
           ]
         } %>
 
-        <%= table.cell govuk_status(browse_page) %>
-        <%= table.cell link_to('Edit', edit_polymorphic_path(browse_page), class: "govuk-link") if gds_editor? %>
+        <%= table.cell govuk_status(child_page) %>
+        <%= table.cell link_to('Edit', edit_polymorphic_path(child_page), class: "govuk-link") if gds_editor? %>
       <% end %>
     <% end %>
   <% end %>

@@ -344,7 +344,7 @@ RSpec.feature "Curating topic contents" do
   def visit_topic_list_curation_page
     visit topics_path
     click_on "Offshore"
-    find("#edit-list").click
+    click_on "Edit list"
   end
 
   def xpath_section_for(list_name)
