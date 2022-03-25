@@ -129,7 +129,21 @@ private
 
   def manage_child_ordering_params
     params.require(:mainstream_browse_page)
-      .permit(:child_ordering, children_attributes: %i[index id])
+      .permit(:child_ordering)
+      .merge(children_params)
+  end
+
+  def children_params
+    return unless params.dig("mainstream_browse_page", "child_ordering") == "curated"
+
+    children_attributes_hash = {}
+
+    params[:ordering].each do |input|
+      child_id, order = input
+      children_attributes_hash[order] = { "index" => order, "id" => child_id }
+    end
+
+    { children_attributes: children_attributes_hash }
   end
 
   def protect_archived_browse_pages!
