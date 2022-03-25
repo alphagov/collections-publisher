@@ -49,6 +49,7 @@ module HeaderHelper
   end
 
   def govuk_tag_heading(tag:, prepend: nil, append: nil)
+    context = govuk_status(tag)
     title = if prepend
               "#{prepend} #{tag.title_including_parent}"
             elsif append
@@ -58,6 +59,7 @@ module HeaderHelper
             end
 
     locals = {
+      context: context,
       title: title,
       page_title: tag.title_including_parent,
     }
