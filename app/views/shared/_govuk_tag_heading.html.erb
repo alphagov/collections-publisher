@@ -1,6 +1,7 @@
 <%= content_for :page_title, page_title %>
 
-<% content_for :title, raw(title) %>
+<% content_for :context, context %>
+<% content_for :title, title %>
 
 <% if block_given? %>
   <nav class="actions">
