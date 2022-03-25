@@ -26,10 +26,11 @@ RSpec.feature "Order browse pages" do
     then_i_see_the_alphabetical_order
   end
 
-  scenario "User triggers validation errors by leaving blank inputs" do
+  scenario "User triggers validation errors when curating child order" do
     given_there_are_browse_pages
     when_i_visit_the_browse_pages_index
     when_i_navigate_to_the_child_ordering_page
+    and_i_select_curated_ordering
     and_i_fill_in_the_form_with_a_blank_input
     then_i_see_a_validation_error
   end

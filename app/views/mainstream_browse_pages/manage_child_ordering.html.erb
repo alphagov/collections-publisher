@@ -21,7 +21,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_for @browse_page, url: update_child_ordering_mainstream_browse_page_path, method: :patch do |f| %>
-
       <div class="govuk-!-margin-bottom-6">
         <%= render "govuk_publishing_components/components/select", {
           id: "mainstream_browse_page_child_ordering",
@@ -31,24 +30,14 @@
         } %>
       </div>
 
-      <%= render "govuk_publishing_components/components/fieldset", {
-        legend_text: "Ordering of child pages",
-        heading_size: "s"
-      } do %>
-        <% @browse_page.sorted_children_that_are_not_archived.each_with_index do | child, index | %>
-          <%# @TODO: Needs backend controller redesigned so it does not require a input and hidden field to update the ordering %>
-          <%= render "govuk_publishing_components/components/input", {
-            label: {
-              text: child.title
-            },
-            id: "mainstream_browse_page_children_attributes_#{index}_index",
-            name: "mainstream_browse_page[children_attributes][#{index}][index]",
-            value: child.index,
-            error_items: issues_for(@browse_page, "children_attributes_#{index}_index".to_sym)
-          } %>
-          <input type="hidden" value="<%= child.id %>" name="mainstream_browse_page[children_attributes][<%= index %>][id]" id="mainstream_browse_page_children_attributes_<%= index %>_id">
-        <% end %>
-      <% end %>
+      <%= render "govuk_publishing_components/components/reorderable_list", {
+        items: @browse_page.sorted_children_that_are_not_archived.map do |child|
+          {
+            id: child.id,
+            title: child.title,
+          }
+        end
+      } %>
 
       <%= render "govuk_publishing_components/components/button", {
         text: "Save",
