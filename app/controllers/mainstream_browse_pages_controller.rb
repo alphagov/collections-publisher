@@ -22,9 +22,6 @@ class MainstreamBrowsePagesController < ApplicationController
     if browse_page.update(browse_page_params)
       TagBroadcaster.broadcast(browse_page)
       redirect_to browse_page
-    elsif browse_page_params.keys.include?("child_ordering")
-      @browse_page = browse_page
-      render :manage_child_ordering
     else
       @browse_page = browse_page
       @topics_for_select = topics_for_select
@@ -74,6 +71,17 @@ class MainstreamBrowsePagesController < ApplicationController
     @browse_page = find_browse_page
   end
 
+  def update_child_ordering
+    @browse_page = find_browse_page
+
+    if @browse_page.update(manage_child_ordering_params)
+      TagBroadcaster.broadcast(@browse_page)
+      redirect_to @browse_page
+    else
+      render :manage_child_ordering
+    end
+  end
+
   helper_method :issues_for
   def issues_for(object, attribute)
     object.errors.errors.filter_map do |error|
@@ -116,7 +124,12 @@ private
 
   def tag_params
     params.require(:mainstream_browse_page)
-      .permit(:slug, :title, :description, :parent_id, :child_ordering, children_attributes: %i[index id])
+      .permit(:slug, :title, :description, :parent_id)
+  end
+
+  def manage_child_ordering_params
+    params.require(:mainstream_browse_page)
+      .permit(:child_ordering, children_attributes: %i[index id])
   end
 
   def protect_archived_browse_pages!
