@@ -4,7 +4,6 @@
     <%= table.header "Title" %>
     <%= table.header "Status" %>
     <%= table.header "Children" %>
-    <%= table.header "Actions" if gds_editor? %>
   <% end %>
 
   <%= table.body do %>
@@ -26,7 +25,6 @@
         } %>
         <%= table.cell govuk_status(browse_page) %>
         <%= table.cell render "children-list", { browse_page: browse_page } %>
-        <%= table.cell link_to('Edit', edit_polymorphic_path(browse_page), class: "govuk-link") if gds_editor? %>
       <% end %>
     <% end %>
   <% end %>
