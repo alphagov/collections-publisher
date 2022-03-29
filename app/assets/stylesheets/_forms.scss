@@ -1,5 +1,5 @@
 // import govuk_admin_template to get bootstrap styles
-@import 'govuk_admin_template';
+@import "govuk_admin_template";
 
 .new-list {
   margin-bottom: 20px;
@@ -24,7 +24,7 @@ form label {
   }
 }
 
-input[type='text'] {
+input[type="text"] {
   @extend .form-control; // stylelint-disable-line scss/at-extend-no-missing-placeholder
 }
 
