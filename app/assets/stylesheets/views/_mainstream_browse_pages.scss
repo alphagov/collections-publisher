@@ -1,5 +1,5 @@
 // import govuk_admin_template to get bootstrap styles
-@import 'govuk_admin_template';
+@import "govuk_admin_template";
 
 $light-grey: #eeeeee;
 $grey: #888888;
@@ -25,7 +25,7 @@ $dark-grey: #2a2a2a;
       @extend .btn-xs; // stylelint-disable-line scss/at-extend-no-missing-placeholder
     }
 
-    li a[rel='view'] {
+    li a[rel="view"] {
       @extend .btn-primary; // stylelint-disable-line scss/at-extend-no-missing-placeholder
     }
   }
