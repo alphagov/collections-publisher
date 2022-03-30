@@ -49,19 +49,19 @@ RSpec.describe CopyMainstreamBrowsePageToTopic do
     stub_any_publishing_api_patch_links
   end
 
-  describe ".call" do
+  fdescribe ".call" do
     it "saves the Topic" do
       described_class.call([mainstream_browse_page])
       topic = Topic.find_by(title: "Carers")
 
       expect(topic.type).to eq("Topic")
-      expect(topic.slug).to eq("carers-mbp-copy")
+      expect(topic.slug).to eq("carers-mainstream-copy")
 
       assert_publishing_api_put_content(
         topic.content_id,
         request_json_includes({
           "title" => "Carers",
-          "base_path": "/topic/carers-mbp-copy",
+          "base_path": "/topic/carers-mainstream-copy",
           "document_type" => "topic",
           "schema_name": "topic",
         }),
@@ -102,7 +102,7 @@ RSpec.describe CopyMainstreamBrowsePageToTopic do
         topic.content_id,
         request_json_includes(
           "details" => {
-            "mainstream_browse_copy" => "true", # TODO: Depends on https://github.com/alphagov/govuk-content-schemas/pull/1087
+            "mainstream_browse_type" => "true",
           },
         ),
       )

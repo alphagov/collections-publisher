@@ -31,7 +31,7 @@ private
     topic = Topic.new
 
     topic.attributes = {
-      slug: "#{mainstream_browse_page.slug}-mbp-copy", # TODO: fix Validation failed: Slug has already been taken
+      slug: "#{mainstream_browse_page.slug}-mainstream-copy", # Validation failed: Slug has already been taken
       title: mainstream_browse_page.title,
       description: mainstream_browse_page.description,
       parent_id: mainstream_browse_page.parent_id,
@@ -44,8 +44,12 @@ private
   def update_assossiations_to_topics(topic)
     parent_topic = Topic.find_by(title: topic.parent&.title)
 
+    # mbp_children_titles = topic.children.map(&:title)
+    # children_topics = Topic.where(title: mbp_children_titles)
+
     topic.attributes = {
       parent_id: parent_topic.try(:id),
+      # children: children_topics,
     }
 
     topic.save!
