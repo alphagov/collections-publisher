@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_19_142632) do
+ActiveRecord::Schema.define(version: 2022_03_31_095756) do
 
   create_table "coronavirus_announcements", charset: "utf8", force: :cascade do |t|
     t.bigint "coronavirus_page_id", null: false
@@ -206,6 +206,7 @@ ActiveRecord::Schema.define(version: 2021_10_19_142632) do
     t.text "published_groups", size: :medium
     t.string "child_ordering", default: "alphabetical", null: false
     t.integer "index", default: 0, null: false
+    t.boolean "mainstream_browse_type", default: false
     t.index ["content_id"], name: "index_tags_on_content_id", unique: true
     t.index ["parent_id"], name: "tags_parent_id_fk"
     t.index ["slug", "parent_id"], name: "index_tags_on_slug_and_parent_id", unique: true
