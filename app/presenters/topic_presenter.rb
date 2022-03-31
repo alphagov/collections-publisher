@@ -12,4 +12,10 @@ private
       "primary_publishing_organisation" => [GDS_CONTENT_ID],
     )
   end
+
+  def details
+    super.merge(
+      "mainstream_browse_type" => @tag.mainstream_browse_type?,
+    )
+  end
 end

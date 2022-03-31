@@ -114,6 +114,7 @@ RSpec.feature "Curating topic contents" do
               },
             ],
             "internal_name" => "Oil and Gas / Offshore",
+            "mainstream_browse_type": false,
           },
         ),
       )
@@ -200,6 +201,7 @@ RSpec.feature "Curating topic contents" do
               },
             ],
             "internal_name" => "Oil and Gas / Offshore",
+            "mainstream_browse_type": false,
           },
         ),
       )

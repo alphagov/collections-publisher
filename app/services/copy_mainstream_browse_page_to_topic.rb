@@ -35,7 +35,7 @@ private
       title: mainstream_browse_page.title,
       description: mainstream_browse_page.description,
       parent_id: mainstream_browse_page.parent_id,
-      # mainstream_browse_copy: true, #TODO: Depends on https://github.com/alphagov/govuk-content-schemas/pull/1087
+      mainstream_browse_type: true,
     }
 
     topic if topic.save!

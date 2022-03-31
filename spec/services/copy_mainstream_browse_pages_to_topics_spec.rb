@@ -49,7 +49,7 @@ RSpec.describe CopyMainstreamBrowsePageToTopic do
     stub_any_publishing_api_patch_links
   end
 
-  fdescribe ".call" do
+  describe ".call" do
     it "saves the Topic" do
       described_class.call([mainstream_browse_page])
       topic = Topic.find_by(title: "Carers")
@@ -94,15 +94,17 @@ RSpec.describe CopyMainstreamBrowsePageToTopic do
       )
     end
 
-    xit "flags that the Topic used to be a Mainstream Browse Page" do
-      described_class.call(mainstream_browse_page)
+    it "flags that the Topic used to be a Mainstream Browse Page" do
+      described_class.call([mainstream_browse_page])
       topic = Topic.find_by(title: "Carers")
 
       assert_publishing_api_put_content(
         topic.content_id,
         request_json_includes(
-          "details" => {
-            "mainstream_browse_type" => "true",
+          "details": {
+            "groups": [],
+            "internal_name": "Carers",
+            "mainstream_browse_type": true,
           },
         ),
       )
