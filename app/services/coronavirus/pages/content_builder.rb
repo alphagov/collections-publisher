@@ -41,7 +41,6 @@ module Coronavirus::Pages
         title
         meta_description
         announcements_label
-        nhs_banner
         sections_heading
         topic_section
         notifications
