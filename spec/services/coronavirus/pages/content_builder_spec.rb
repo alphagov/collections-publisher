@@ -29,22 +29,6 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     end
   end
 
-  describe "#validate_content" do
-    it "returns an error if GitHub is missing required keys" do
-      allow(subject)
-        .to receive(:github_data)
-        .and_return(github_content["content"].except("title"))
-
-      expect { subject.validate_content }.to raise_error(Coronavirus::Pages::ContentBuilder::GitHubInvalidContentError)
-    end
-  end
-
-  describe "#github_data" do
-    it "returns github content" do
-      expect(subject.github_data).to eq github_content["content"]
-    end
-  end
-
   describe "#data" do
     let!(:sub_section) { create :coronavirus_sub_section, page: page }
     let!(:announcement) { create :coronavirus_announcement, page: page }

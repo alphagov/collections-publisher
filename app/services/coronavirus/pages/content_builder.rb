@@ -12,8 +12,8 @@ module Coronavirus::Pages
 
     def data
       @data ||= begin
-        validate_content
-        data = github_data
+        # validate_content
+        data = {}
         data["header_section"] = header_data
         data["sections"] = sub_sections_data
         data["announcements"] = announcements_data
@@ -26,36 +26,8 @@ module Coronavirus::Pages
       end
     end
 
-    def validate_content
-      missing_keys = (required_landing_page_keys - github_data.keys)
-
-      raise GitHubInvalidContentError if missing_keys.any?
-    end
-
     def type
       page.slug.to_sym
-    end
-
-    def required_landing_page_keys
-      %w[
-        title
-        meta_description
-        announcements_label
-        nhs_banner
-        sections_heading
-        topic_section
-        notifications
-      ]
-    end
-
-    def github_raw_data
-      YamlFetcher.new(page.raw_content_url).body_as_hash
-    rescue RestClient::Exception
-      raise GitHubConnectionError
-    end
-
-    def github_data
-      @github_data ||= github_raw_data["content"]
     end
 
     def header_data
