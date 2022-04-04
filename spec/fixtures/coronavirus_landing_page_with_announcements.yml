@@ -22,14 +22,6 @@ content:
     - text: All non-essential shops and community spaces are closed
       href: /government/publications/further-businesses-and-premises-to-close
       published_text: Published 3 November 2020
-  nhs_banner:
-    heading: "Do not leave home if you or someone you live with has either:"
-    list:
-      - a high temperature
-      - a new, continuous cough
-    call_to_action:
-      title: Check the NHS website if you have symptoms
-      href: https://www.nhs.uk/conditions/coronavirus-covid-19/
   sections_heading: Guidance and support
   sections:
   topic_section:
