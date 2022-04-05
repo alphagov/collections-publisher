@@ -43,15 +43,5 @@ RSpec.describe Coronavirus::PagePresenter do
       expect(subject.payload).to be_valid_against_schema("coronavirus_landing_page")
       expect(subject.payload).to eq payload
     end
-
-    it "includes announcements" do
-      announcement = create(:coronavirus_announcement, page: page)
-      expect(subject.payload["details"]["announcements"].count).to eq 1
-      expect(subject.payload["details"]["announcements"].first).to eq({
-        "href" => announcement.url,
-        "text" => announcement.title,
-        "published_text" => announcement.published_on.strftime("Published %-d %B %Y"),
-      })
-    end
   end
 end
