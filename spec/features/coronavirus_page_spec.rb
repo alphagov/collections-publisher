@@ -61,50 +61,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       and_i_see_state_is_published
     end
 
-    scenario "Viewing announcements" do
-      given_there_is_coronavirus_page_with_announcements
-      when_i_visit_a_coronavirus_page
-      then_i_can_see_an_announcements_section
-      and_i_can_see_existing_announcements
-    end
-
-    scenario "Adding announcements" do
-      given_there_is_coronavirus_page_with_announcements
-      when_i_visit_a_coronavirus_page
-      then_i_can_see_an_announcements_section
-      and_i_add_a_new_announcement
-      then_i_see_the_create_announcement_form
-      when_i_fill_in_the_announcement_form_with_valid_data
-      then_i_can_see_a_new_announcement_has_been_created
-    end
-
-    scenario "Editing announcements" do
-      given_there_is_coronavirus_page_with_announcements
-      when_i_visit_a_coronavirus_page
-      then_i_can_see_an_announcements_section
-      when_i_can_click_change_for_an_announcement
-      then_i_see_the_edit_announcement_form
-      when_i_can_edit_the_announcement_form_with_valid_data
-      then_i_can_see_that_the_announcement_has_been_updated
-    end
-
-    scenario "Deleting announcements", js: true do
-      given_there_is_coronavirus_page_with_announcements
-      when_i_visit_a_coronavirus_page
-      then_i_can_see_an_announcements_section
-      when_i_delete_an_announcement
-      then_i_can_see_an_announcement_has_been_deleted
-    end
-
-    scenario "Reordering announcements", js: true do
-      given_there_is_coronavirus_page_with_announcements
-      when_i_visit_the_reorder_announcements_page
-      then_i_see_the_announcements_in_order
-      when_i_move_announcement_one_down
-      then_i_see_announcement_updated_message
-      and_i_see_the_announcements_have_changed_order
-    end
-
     scenario "Adding timeline entries" do
       given_there_is_a_coronavirus_page
       when_i_visit_a_coronavirus_page
