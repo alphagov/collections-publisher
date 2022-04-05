@@ -4,28 +4,6 @@ en:
       breadcrumbs:
         link_text: Coronavirus pages
       title: Coronavirus (COVID-19)
-    announcements:
-      new:
-        title: Add announcement
-      create:
-        success: Announcement was successfully created.
-      edit:
-        title: Edit announcement
-      destroy:
-        success: Announcement was successfully deleted.
-        failed: Announcement couldn't be deleted
-      update:
-        success: Announcement was successfully updated.
-      form:
-        title:
-          label: Title of announcement
-          hint: "Add source in brackets at the end of the title if the the link is not on GOV.UK. For example, '80% of adult population is vaccinated (on NHS.UK)'"
-        url:
-          label: URL to the announcement
-          hint: "For example, '/government/news/coronavirus-covid-19' or 'https://www.nhs.uk/coronavirus-announcement'"
-        date:
-          legend: Date of announcement publication (optional)
-          hint: For example, 31 3 2020
     github_changes:
       index:
         description: "Follow the steps below to make changes to any part of the %{coronavirus_page_name}, except the accordions."
@@ -60,7 +38,7 @@ en:
     pages:
       index:
         landing_page_edit:
-          sections: Edit landing page header section, accordions, announcements and timeline
+          sections: Edit landing page header section, accordions and timeline
           something_else: Edit something else on the landing page
       edit_header:
         title: Edit Landing Page Header
@@ -102,12 +80,6 @@ en:
           reorder: Reorder
           add: Add accordion
           edit: Edit
-        announcements:
-          title: Announcements
-          confirm: Are you sure?
-          reorder: Reorder
-          add: Add announcement
-          edit: Edit
       update_header:
         success: Success
       publish:
@@ -115,13 +87,6 @@ en:
         failed: You have already published this page.
       discard:
         success: Changes to subsections have been discarded
-    reorder_announcements:
-      index:
-        title: Reorder announcements
-        hint_markdown: Use the up/down buttons on the right to reorder the announcements, or click and hold on a section to reorder using drag and drop.
-      update:
-        success: Announcements were successfully reordered.
-        failed: "Sorry! Announcements have not been reordered: %{error}."
     reorder_sub_sections:
       index:
         title: "Reorder %{section} accordion"
@@ -325,7 +290,7 @@ en:
 
           - could help you complete a task but is not the main piece of content included in the step by step.
           - is optional and not useful enough to be included in the step by step
-          
+
         Do not add links to Done pages, as these are automatically included for links to supported formats.
     summary_page:
       sidebar_settings: Choose to hide the sidebar on certain pages.
