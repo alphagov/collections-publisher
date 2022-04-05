@@ -11,33 +11,12 @@ module Coronavirus::Pages
 
       Coronavirus::Page.transaction do
         page.update!(state: "published")
-        update_announcements
         update_sub_sections
         update_timeline_entries
       end
     end
 
   private
-
-    def update_announcements
-      page.announcements.delete_all
-      page.announcements = announcements
-    end
-
-    def announcements
-      announcements_from_payload.map.with_index do |announcement, index|
-        Coronavirus::Announcement.new(
-          title: announcement[:text],
-          url: announcement[:href],
-          published_on: Date.parse(announcement[:published_text]),
-          position: index + 1,
-        )
-      end
-    end
-
-    def announcements_from_payload
-      payload_from_publishing_api[:details][:announcements] || []
-    end
 
     def update_sub_sections
       page.sub_sections.destroy_all
