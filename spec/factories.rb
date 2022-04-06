@@ -233,11 +233,4 @@ FactoryBot.define do
     position { (Coronavirus::SubSection.maximum(:position) || 0) + 1 }
     page factory: :coronavirus_page
   end
-
-  factory :coronavirus_timeline_entry, class: Coronavirus::TimelineEntry do
-    content { "Amazing fantastic content" }
-    heading { "Unbelievable heading" }
-    national_applicability { %w[england] }
-    page factory: :coronavirus_page
-  end
 end
