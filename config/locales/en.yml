@@ -38,7 +38,7 @@ en:
     pages:
       index:
         landing_page_edit:
-          sections: Edit landing page header section, accordions and timeline
+          sections: Edit landing page header section and accordions
           something_else: Edit something else on the landing page
       edit_header:
         title: Edit Landing Page Header
@@ -69,12 +69,6 @@ en:
         link_text: Coronavirus pages
         header_section:
           title: Header
-        timeline_entries:
-          title: Timeline entries
-          confirm: Are you sure?
-          reorder: Reorder
-          add: Add timeline entry
-          edit: Edit
         sub_sections:
           confirm: Are you sure?
           reorder: Reorder
@@ -94,13 +88,6 @@ en:
       update:
         success: Sections were successfully reordered.
         failed: "Sorry! Sections have not been reordered: %{error}."
-    reorder_timeline_entries:
-      index:
-        title: Reorder timeline entries
-        hint_markdown: Use the up/down buttons on the right to reorder the timeline entries, or click and hold on a section to reorder using drag and drop.
-      update:
-        success: Timeline entries were successfully reordered.
-        failed: "Sorry! Timeline entries have not been reordered: %{error}."
     sub_sections:
       new:
         title: Add accordion
@@ -132,25 +119,6 @@ en:
         content:
           title: Accordion content
           label: Accordion link and texts
-    timeline_entries:
-      new:
-        title: Add timeline entry
-      create:
-        success: Timeline entry was successfully created.
-      edit:
-        title: Edit timeline entry
-      update:
-        success: Timeline entry was successfully updated.
-      destroy:
-        success: Timeline entry was successfully deleted.
-        failed: Timeline entry couldn't be deleted
-      form:
-        heading:
-          label: Enter the heading of the timeline entry
-        content:
-          label: Content
-        national_applicability:
-          heading: "Entry applies to:"
   step_by_step_page:
     statuses:
       draft: Draft
