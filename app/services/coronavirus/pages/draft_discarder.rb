@@ -12,7 +12,6 @@ module Coronavirus::Pages
       Coronavirus::Page.transaction do
         page.update!(state: "published")
         update_sub_sections
-        update_timeline_entries
       end
     end
 
@@ -40,25 +39,6 @@ module Coronavirus::Pages
 
     def sections_from_payload
       payload_from_publishing_api[:details][:sections] || []
-    end
-
-    def update_timeline_entries
-      page.timeline_entries.delete_all
-      page.timeline_entries = timeline_entries
-    end
-
-    def timeline_entries
-      timeline_entries_from_payload.reverse.map do |attributes|
-        Coronavirus::TimelineEntry.new(
-          heading: attributes[:heading],
-          content: attributes[:paragraph],
-          national_applicability: attributes[:national_applicability],
-        )
-      end
-    end
-
-    def timeline_entries_from_payload
-      payload_from_publishing_api.dig(:details, :timeline, :list) || []
     end
 
     def payload_from_publishing_api
