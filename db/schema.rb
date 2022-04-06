@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_05_121718) do
+ActiveRecord::Schema.define(version: 2022_04_06_082243) do
 
   create_table "coronavirus_pages", charset: "utf8mb3", force: :cascade do |t|
     t.string "sections_title"
@@ -43,17 +43,6 @@ ActiveRecord::Schema.define(version: 2022_04_05_121718) do
     t.string "action_link_summary"
     t.string "sub_heading"
     t.index ["coronavirus_page_id"], name: "index_coronavirus_sub_sections_on_coronavirus_page_id"
-  end
-
-  create_table "coronavirus_timeline_entries", charset: "utf8mb3", force: :cascade do |t|
-    t.bigint "coronavirus_page_id", null: false
-    t.text "content", null: false
-    t.string "heading", null: false
-    t.integer "position", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "national_applicability"
-    t.index ["coronavirus_page_id"], name: "index_coronavirus_timeline_entries_on_coronavirus_page_id"
   end
 
   create_table "internal_change_notes", charset: "utf8mb3", force: :cascade do |t|
@@ -215,7 +204,6 @@ ActiveRecord::Schema.define(version: 2022_04_05_121718) do
   end
 
   add_foreign_key "coronavirus_sub_sections", "coronavirus_pages"
-  add_foreign_key "coronavirus_timeline_entries", "coronavirus_pages"
   add_foreign_key "internal_change_notes", "step_by_step_pages"
   add_foreign_key "link_reports", "steps"
   add_foreign_key "list_items", "lists", name: "list_items_list_id_fk", on_delete: :cascade
