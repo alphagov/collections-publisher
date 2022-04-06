@@ -1,16 +1,29 @@
-<h3>Redirects</h3>
-
-<table class='table'>
-  <tr>
-    <th>Added</th>
-    <th>From</th>
-    <th>To</th>
-  </tr>
-  <% redirect_routes.order('created_at DESC').each do |redirect_route| %>
-    <tr>
-      <td><%= redirect_route.created_at.to_formatted_s(:long) %></td>
-      <td><%= link_to redirect_route.from_base_path, website_url(redirect_route.from_base_path), target: '_blank' %></td>
-      <td><%= link_to redirect_route.to_base_path, website_url(redirect_route.to_base_path), target: '_blank' %></td>
-    </tr>
-  <% end %>
-</table>
+<%= render "govuk_publishing_components/components/table", {
+  caption: "Redirects",
+  caption_classes: "govuk-heading-m",
+  first_cell_is_header: true,
+  head: [
+    {
+      text: "Added",
+    },
+    {
+      text: "From",
+    },
+    {
+      text: "To",
+    }
+  ],
+  rows: redirect_routes.order('created_at DESC').map { |redirect_route|
+      [
+        {
+          text: redirect_route.created_at.to_formatted_s(:long)
+        },
+        {
+          text: tag.a(redirect_route.from_base_path, href: website_url(redirect_route.from_base_path), class: "govuk-link", target: '_blank')
+        },
+        {
+          text: tag.a(redirect_route.to_base_path, href: website_url(redirect_route.to_base_path), class: "govuk-link", target: '_blank')
+        }
+      ]
+    }
+} %>

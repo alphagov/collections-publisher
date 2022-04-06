@@ -1,0 +1,8 @@
+<ul class="govuk-list govuk-list--bullet">
+  <% browse_page.sorted_children.each do |child_tag| %>
+    <li>
+      <%= link_to(child_tag.title, polymorphic_path(child_tag), class: "govuk-link govuk-!-font-size-16") %>
+      <%= govuk_status(child_tag) %>
+    </li>
+  <% end %>
+</ul>

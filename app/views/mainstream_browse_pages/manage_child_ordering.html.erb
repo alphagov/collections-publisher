@@ -1,9 +1,48 @@
-<%= tag_header @browse_page, 'Manage child ordering' %>
+<%= render 'breadcrumbs', {
+  links: [
+    {
+      text: 'Mainstream browse pages',
+      href: mainstream_browse_pages_url
+    },
+    {
+      text: @browse_page[:title],
+      href: mainstream_browse_page_url(@browse_page)
+    },
+    {
+      text: 'Manage child ordering',
+    }
+  ]
+} %>
 
-<%= form_for @browse_page do |f| %>
-  <%= f.select :child_ordering, Tag::ORDERING_TYPES %>
-  <%= f.fields_for :children, @browse_page.sorted_children_that_are_not_archived do |c| %>
-    <%= c.text_field :index, label: "#{c.object.title} (#{c.object.slug})" %>
-  <% end %>
-  <%= f.submit 'Save', class: 'btn-submit' %>
-<% end %>
+<% content_for :title, govuk_tag_heading(tag: @browse_page, append: "Manage child ordering") %>
+
+<%= render 'error_summary', object: @browse_page %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_for @browse_page, url: update_child_ordering_mainstream_browse_page_path, method: :patch do |f| %>
+      <div class="govuk-!-margin-bottom-6">
+        <%= render "govuk_publishing_components/components/select", {
+          id: "mainstream_browse_page_child_ordering",
+          name: "mainstream_browse_page[child_ordering]",
+          label: "Child ordering",
+          options: Tag::ORDERING_TYPES.map { |type| { text: type.capitalize, value: type, selected: @browse_page.child_ordering == type } }
+        } %>
+      </div>
+
+      <%= render "govuk_publishing_components/components/reorderable_list", {
+        items: @browse_page.sorted_children_that_are_not_archived.map do |child|
+          {
+            id: child.id,
+            title: child.title,
+          }
+        end
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Save",
+        margin_bottom: true
+      } %>
+    <% end %>
+  </div>
+</div>

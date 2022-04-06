@@ -38,4 +38,34 @@ module HeaderHelper
       link_to object.to_s.humanize, object.to_sym
     end
   end
+
+  # Everything above this comment can be pulled out once we've finished porting
+  # over to the design system
+
+  # Generates a header with govuk-tags's
+
+  def govuk_heading_with_parent(tag)
+    tag.title_including_parent
+  end
+
+  def govuk_tag_heading(tag:, prepend: nil, append: nil)
+    context = govuk_status(tag)
+    title = if prepend
+              "#{prepend} #{tag.title_including_parent}"
+            elsif append
+              "#{tag.title_including_parent}: #{append}"
+            else
+              tag.title_including_parent
+            end
+
+    locals = {
+      context: context,
+      title: title,
+      page_title: tag.title_including_parent,
+    }
+
+    render layout: "shared/govuk_tag_heading", locals: locals do
+      yield if block_given?
+    end
+  end
 end

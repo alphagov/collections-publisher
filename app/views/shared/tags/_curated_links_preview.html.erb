@@ -1,41 +1,27 @@
-<%= link_to 'Edit list', tag_lists_path(tag),
-      class: 'btn btn-md btn-default pull-right',
-      id: 'edit-list' %>
+<p class="govuk-body">Links for this tag have been curated into lists. Click on the title for editing on Content Tagger.</p>
 
-<h2>Links</h2>
-
-<p>
-  Links for this tag have been curated into lists. Click on the title for editing on Content Tagger.
-</p>
-
-<% tag.lists.each do |list| %>
-  <h4><%= list.name %></h4>
+<% tag_object.lists.each do |list| %>
+  <h3 class="govuk-heading-s"><%= list.name %></h3>
   <% if list.list_items.empty? %>
-    <em>No items in list</em>
+    <em class="govuk-body">No items in list</em>
   <% end %>
-  <ul>
-  <% list.list_items_with_tagging_status.each do |list_item| %>
-    <li>
-      <% if list_item.tagged? %>
-        <a href=<%= content_tagger_url + '/taggings/' + list_item.content_id %>>
-          <%= raw list_item.display_title || "<em>Unknown title (#{list_item.base_path})</em>" %>
-        </a>
-      <% else %>
-        <p class='label label-warning'>Tag was removed</p>
-        <%= raw list_item.display_title || "<em>Unknown title (#{list_item.base_path})</em>" %>
-      <% end %>
-    </li>
-  <% end %>
-  </ul>
+
+  <%= render "govuk_publishing_components/components/list", {
+    visible_counters: true,
+    items: list.list_items_with_tagging_status.map do |list_item|
+      if list_item.tagged?
+        link_to(list_item.display_title || tag.em("Unknown title (#{list_item.base_path}", class: 'govuk-body-s'),
+         content_tagger_url + '/taggings/' + list_item.content_id, class: 'govuk-link')
+      else
+        list_item.display_title || tag.em("Unknown title (#{list_item.base_path})", class: 'govuk-body-s')
+      end
+    end
+  } %>
 <% end %>
 
-<h4>Uncurated items <em>(not shown to user)</em></h4>
-<ul>
-<% tag.uncurated_tagged_documents.each do |item| %>
-  <li class="tagged-document">
-    <a href=<%= content_tagger_url + '/taggings/lookup' + item.content_id %>>
-      <%= item.title %>
-    </a>
-  </li>
-<% end %>
-</ul>
+<h3 class="govuk-heading-s">Uncurated items <em class="govuk-body">(not shown to user)</em></h3>
+
+<%= render "govuk_publishing_components/components/list", {
+  visible_counters: true,
+  items: tag_object.uncurated_tagged_documents.map { |item| link_to item.title, content_tagger_url + '/taggings/lookup' + item.content_id, class: 'govuk-link' }
+} %>

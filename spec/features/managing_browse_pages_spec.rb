@@ -62,7 +62,7 @@ RSpec.feature "Managing browse pages" do
   end
 
   def when_i_click_on_the_publish_button
-    click_on "Publish mainstream browse page"
+    click_on "Publish"
   end
 
   def when_i_navigate_to_the_edit_page
@@ -101,13 +101,13 @@ RSpec.feature "Managing browse pages" do
   end
 
   def then_i_see_that_the_page_is_in_draft
-    within ".attributes" do
+    within ".govuk-summary-list--no-border" do
       expect(page).to have_content("draft")
     end
   end
 
   def then_i_see_that_the_page_is_published
-    within ".attributes" do
+    within ".govuk-summary-list--no-border" do
       expect(page).to have_content("published")
     end
   end
@@ -156,7 +156,8 @@ RSpec.feature "Managing browse pages" do
   end
 
   def then_i_see_a_validation_error
-    expect(page).to have_content("Title can't be blank")
+    expect(page).to have_content("Enter a title")
+    expect(page).to have_content("Enter a slug")
     expect(find("#mainstream_browse_page_description").value).to eql "A changed description"
   end
 end

@@ -1,5 +1,4 @@
 class MainstreamBrowsePagesController < ApplicationController
-  layout "legacy"
   before_action :require_gds_editor_permissions!
   before_action :protect_archived_browse_pages!, only: %i[edit update publish]
 
@@ -64,12 +63,34 @@ class MainstreamBrowsePagesController < ApplicationController
     if @archival.archive_or_remove
       redirect_to mainstream_browse_pages_path, success: "The mainstream browse page has been archived or removed."
     else
-      render "propose_archive"
+      render :propose_archive
     end
   end
 
   def manage_child_ordering
     @browse_page = find_browse_page
+  end
+
+  def update_child_ordering
+    @browse_page = find_browse_page
+
+    if @browse_page.update(manage_child_ordering_params)
+      TagBroadcaster.broadcast(@browse_page)
+      redirect_to @browse_page
+    else
+      render :manage_child_ordering
+    end
+  end
+
+  helper_method :issues_for
+  def issues_for(object, attribute)
+    object.errors.errors.filter_map do |error|
+      if error.attribute == attribute
+        {
+          text: error.options[:message],
+        }
+      end
+    end
   end
 
 private
@@ -103,13 +124,32 @@ private
 
   def tag_params
     params.require(:mainstream_browse_page)
-      .permit(:slug, :title, :description, :parent_id, :child_ordering, children_attributes: %i[index id])
+      .permit(:slug, :title, :description, :parent_id)
+  end
+
+  def manage_child_ordering_params
+    params.require(:mainstream_browse_page)
+      .permit(:child_ordering)
+      .merge(children_params)
+  end
+
+  def children_params
+    return unless params.dig("mainstream_browse_page", "child_ordering") == "curated"
+
+    children_attributes_hash = {}
+
+    params[:ordering].each do |input|
+      child_id, order = input
+      children_attributes_hash[order] = { "index" => order, "id" => child_id }
+    end
+
+    { children_attributes: children_attributes_hash }
   end
 
   def protect_archived_browse_pages!
     browse_page = find_browse_page
     if browse_page.archived?
-      flash[:danger] = "You cannot modify an archived mainstream browse page."
+      flash[:alert] = "You cannot modify an archived mainstream browse page."
       redirect_to browse_page
     end
   end

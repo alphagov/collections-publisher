@@ -22,9 +22,17 @@ RSpec.feature "Order browse pages" do
     given_there_are_browse_pages
     when_i_visit_the_browse_pages_index
     when_i_navigate_to_the_child_ordering_page
-    and_i_select_alphabetical_ordering
-    and_i_submit_the_form
+    and_i_select_alphabetical_ordering_and_submit
     then_i_see_the_alphabetical_order
+  end
+
+  scenario "User triggers validation errors when curating child order" do
+    given_there_are_browse_pages
+    when_i_visit_the_browse_pages_index
+    when_i_navigate_to_the_child_ordering_page
+    and_i_select_curated_ordering
+    and_i_fill_in_the_form_with_a_blank_input
+    then_i_see_a_validation_error
   end
 
   def given_there_are_browse_pages
@@ -39,32 +47,42 @@ RSpec.feature "Order browse pages" do
   end
 
   def and_i_select_curated_ordering
-    select "curated", from: "Child ordering"
+    select "Curated", from: "Child ordering"
   end
 
   def and_i_submit_an_ordering
-    fill_in @four_seasons.slug.to_s, with: "1"
-    fill_in @pepperoni.slug.to_s, with: "0"
+    fill_in @four_seasons.title.to_s, with: "1"
+    fill_in @pepperoni.title.to_s, with: "0"
     click_on "Save"
   end
 
   def then_i_see_my_curated_ordering
-    titles = page.all(".tags-list tbody td:first-child").map(&:text)
+    titles = page.all(".gem-c-document-list__item-title").map(&:text)
     expect(titles).to eq([
       "Pepperoni",
       "Four seasons",
     ])
   end
 
-  def and_i_select_alphabetical_ordering
-    select "alphabetical", from: "Child ordering"
+  def and_i_select_alphabetical_ordering_and_submit
+    select "Alphabetical", from: "Child ordering"
+    click_on "Save"
   end
 
   def then_i_see_the_alphabetical_order
-    titles = page.all(".tags-list tbody td:first-child").map(&:text)
+    titles = page.all(".gem-c-document-list__item-title").map(&:text)
     expect(titles).to eq([
       "Four seasons",
       "Pepperoni",
     ])
+  end
+
+  def and_i_fill_in_the_form_with_a_blank_input
+    fill_in @four_seasons.title.to_s, with: ""
+    click_on "Save"
+  end
+
+  def then_i_see_a_validation_error
+    expect(page).to have_content "Enter an index for #{@four_seasons.title}"
   end
 end

@@ -1,0 +1,31 @@
+<%= GovukPublishingComponents::AppHelpers::TableHelper.helper(self, "Documents list", { sortable: true, caption_classes: "govuk-visually-hidden" }) do |table| %>
+
+  <%= table.head do %>
+    <%= table.header "Title" %>
+    <%= table.header "Status" %>
+    <%= table.header "Children" %>
+  <% end %>
+
+  <%= table.body do %>
+    <% @browse_pages.each do | browse_page | %>
+      <%= table.row do %>
+        <%= table.cell render "govuk_publishing_components/components/document_list", {
+          remove_top_border: true,
+          items: [
+            {
+              link: {
+                text: browse_page.title,
+                path: browse_page
+              },
+              metadata: {
+                preview_link: link_to(browse_page.base_path, Plek.new.website_root + browse_page.base_path, target: "_blank", class: "govuk-link")
+              }
+            }
+          ]
+        } %>
+        <%= table.cell govuk_status(browse_page) %>
+        <%= table.cell render "children-list", { browse_page: browse_page } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

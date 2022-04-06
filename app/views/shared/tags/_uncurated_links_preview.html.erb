@@ -1,19 +1,6 @@
-<%= link_to 'Start curating links', tag_lists_path(tag),
-      class: 'btn btn-md btn-default pull-right',
-      id: 'edit-list' %>
+<p class="govuk-body-s">Links for this tag have not been curated into lists. Click on the title for editing on Content Tagger.</p>
 
-<h2>Links</h2>
-
-<p>
-  Links for this tag have not been curated into lists. Click on the title for editing on Content Tagger.
-</p>
-
-<ul>
-<% tag.tagged_documents.each do |link| %>
-  <li class="tagged-document">
-    <a href=<%= content_tagger_url + '/taggings/' + link.content_id %>>
-      <%= link.title %>
-    </a>
-  </li>
-<% end %>
-</ul>
+<%= render "govuk_publishing_components/components/list", {
+  visible_counters: true,
+  items: tag.tagged_documents.map { |link|  link_to link.title, content_tagger_url + '/taggings/' + link.content_id, class: 'govuk-link' }
+} %>

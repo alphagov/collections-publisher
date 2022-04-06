@@ -1,10 +1,13 @@
-<%= header "Mainstream browse pages", breadcrumbs: ["Mainstream browse pages"] do %>
-  <%= link_to new_mainstream_browse_page_path, class: 'new' do %>
-    <%= icon :add %> Add a mainstream browse page
-  <% end %>
-<% end %>
+<% content_for :title, "Mainstream browse pages" %>
+<% content_for :title_side, render("govuk_publishing_components/components/button", {
+  text: "Add a mainstream browse page",
+  href: new_mainstream_browse_page_path,
+  margin_bottom: true
+}) %>
 
-<%= render 'shared/tags/table',
-      resources: @browse_pages,
-      empty_message: "No mainstream browse pages exist yet.
-        #{link_to('Add one', new_mainstream_browse_page_path)}".html_safe %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <p class="govuk-body govuk-!-margin-bottom-3"><%= pluralize(@browse_pages.count, "mainstream browse pages") %></p>
+    <%= render "list-browse-pages" %>
+  </div>
+</div>

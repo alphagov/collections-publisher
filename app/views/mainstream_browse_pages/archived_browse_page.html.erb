@@ -1,7 +1,27 @@
-<%= tag_header @browse_page %>
+<%= render 'breadcrumbs', {
+  links: [
+    {
+      text: 'Mainstream browse pages',
+      href: mainstream_browse_pages_url
+    },
+    *([
+      text: @browse_page.parent[:title],
+      href: mainstream_browse_page_url(@browse_page.parent)
+    ] if @browse_page.parent.present? ),
+    {
+      text: @browse_page[:title],
+    }
+  ]
+} %>
 
-<p class="no-content">
-  This mainstream browse page has been archived.
-</p>
+<% content_for :title, govuk_tag_heading(tag: @browse_page) %>
 
-<%= render 'redirects', redirect_routes: @browse_page.redirect_routes %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <p class="govuk-body">
+      This mainstream browse page has been archived.
+    </p>
+
+    <%= render 'redirects', redirect_routes: @browse_page.redirect_routes %>
+  </div>
+</div>
