@@ -3,7 +3,6 @@ class Coronavirus::Page < ApplicationRecord
 
   STATUSES = %w[draft published].freeze
   has_many :sub_sections, dependent: :destroy, foreign_key: "coronavirus_page_id"
-  has_many :timeline_entries, dependent: :destroy, foreign_key: "coronavirus_page_id"
 
   validates :state, inclusion: { in: STATUSES }, presence: true
 
@@ -14,12 +13,6 @@ class Coronavirus::Page < ApplicationRecord
 
   validate :valid_header_link_post_wrap_text
   validate :validate_header_link
-
-  def make_timeline_entry_positions_sequential
-    timeline_entries.sort_by(&:position).each.with_index(1) do |object, index|
-      object.update_column(:position, index)
-    end
-  end
 
 private
 
