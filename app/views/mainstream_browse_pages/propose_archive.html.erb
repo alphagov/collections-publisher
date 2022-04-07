@@ -1,4 +1,4 @@
-<%= render 'breadcrumbs', {
+<%= render 'shared/breadcrumbs', {
   links: [
     {
       text: 'Mainstream browse pages',
@@ -20,7 +20,7 @@
 
 <%= govuk_tag_heading(tag: @archival.tag, append: 'Archive mainstream browse page') %>
 
-<%= render 'error_summary', object: @archival %>
+<%= render 'shared/error_summary', object: @archival %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -53,7 +53,7 @@
         hint: 'Please specify it as a relative path (for example "/government/publications/what-hmrc-does-to-prevent-tax-evasion")',
         id: "mainstream_browse_page_archival_form_successor_path",
         name: "mainstream_browse_page_archival_form[successor_path]",
-        error_items: issues_for(@archival, :successor_path)
+        error_items: errors_for(@archival, :successor_path)
       } %>
 
       <%= render "govuk_publishing_components/components/button", {

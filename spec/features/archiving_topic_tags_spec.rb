@@ -35,7 +35,7 @@ RSpec.feature "Archiving topic tags" do
   scenario "User archives draft tag" do
     given_there_is_a_draft_topic
     and_i_visit_the_topic
-    when_i_click_the_remove_button
+    when_i_click_the_delete_button
     then_the_tag_is_deleted
   end
 
@@ -84,8 +84,8 @@ RSpec.feature "Archiving topic tags" do
     create(:topic, :published, title: "The Successor Topic")
   end
 
-  def when_i_click_the_remove_button
-    click_link "Remove"
+  def when_i_click_the_delete_button
+    click_on "Delete"
   end
 
   def and_i_go_to_the_archive_page

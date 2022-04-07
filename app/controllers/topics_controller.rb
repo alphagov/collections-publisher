@@ -1,5 +1,4 @@
 class TopicsController < ApplicationController
-  layout "legacy"
   before_action :require_gds_editor_permissions!, except: %i[index show]
   before_action :protect_archived_tags!, only: %i[edit update publish]
 
@@ -86,7 +85,7 @@ private
   def protect_archived_tags!
     topic = find_topic
     if topic.archived?
-      flash[:danger] = "You cannot modify an archived topic."
+      flash[:alert] = "You cannot modify an archived topic."
       redirect_to topic
     end
   end

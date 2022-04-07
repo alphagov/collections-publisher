@@ -21,7 +21,7 @@
     name: "mainstream_browse_page[slug]",
     readonly: update,
     value: @browse_page[:slug],
-    error_items: issues_for(@browse_page, :slug)
+    error_items: errors_for(@browse_page, :slug)
   } %>
 
   <%= render "govuk_publishing_components/components/input", {
@@ -31,7 +31,7 @@
     id: "mainstream_browse_page_title",
     name: "mainstream_browse_page[title]",
     value: @browse_page.title,
-    error_items: issues_for(@browse_page, :title)
+    error_items: errors_for(@browse_page, :title)
   } %>
 
   <%= render "govuk_publishing_components/components/input", {
@@ -41,7 +41,7 @@
     id: "mainstream_browse_page_description",
     name: "mainstream_browse_page[description]",
     value: @browse_page.description,
-    error_items: issues_for(@browse_page, :description)
+    error_items: errors_for(@browse_page, :description)
   } %>
 
   <% if @browse_page.child? && update %>

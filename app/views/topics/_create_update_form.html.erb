@@ -1,0 +1,52 @@
+<%= form_for @topic do |f| %>  
+  <% unless update %>
+    <div class="govuk-!-margin-bottom-4">
+      <%= render "govuk_publishing_components/components/select", {
+        id: "topic_parent_id",
+        name: "topic[parent_id]",
+        label: "Parent (optional)",
+        options: Topic.sorted_parents
+                  .map { |topic| {text: topic.title, value: topic.id, selected: topic.id == f.object.parent_id} }
+                  .prepend( { text: "", value: "" } )
+      } %>
+    </div>
+  <% end %>
+
+  <%= render "govuk_publishing_components/components/input", {
+    label: {
+      text: update ? "Slug (read only)" : "Slug"
+    },
+    id: "topic_slug",
+    hint: update ? nil : "For example: lower-case-hyphen-separated",
+    readonly: update,
+    name: "topic[slug]",
+    value: @topic.slug,
+    error_items: errors_for(@topic, :slug)
+  } %>
+
+  <%= render "govuk_publishing_components/components/input", {
+    label: {
+      text: "Title"
+    },
+    id: "topic_title",
+    name: "topic[title]",
+    value: @topic.title,
+    error_items: errors_for(@topic, :title)
+  } %>
+
+  <%= render "govuk_publishing_components/components/input", {
+    label: {
+      text: "Description"
+    },
+    id: "topic_description",
+    name: "topic[description]",
+    hint: "This description will be displayed in the search results.",
+    value: @topic.description,
+    error_items: errors_for(@topic, :description)
+  } %>
+
+  <%= render "govuk_publishing_components/components/button", {
+    text: update ? "Save" : "Create",
+    margin_bottom: true
+  } %>
+<% end %>

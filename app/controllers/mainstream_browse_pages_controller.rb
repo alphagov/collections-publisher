@@ -82,8 +82,8 @@ class MainstreamBrowsePagesController < ApplicationController
     end
   end
 
-  helper_method :issues_for
-  def issues_for(object, attribute)
+  helper_method :errors_for
+  def errors_for(object, attribute)
     object.errors.errors.filter_map do |error|
       if error.attribute == attribute
         {

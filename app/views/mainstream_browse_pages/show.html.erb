@@ -1,4 +1,4 @@
-<%= render 'breadcrumbs', {
+<%= render 'shared/breadcrumbs', {
   links: [
     {
       text: 'Mainstream browse pages',
@@ -53,7 +53,7 @@
 
     <% if @browse_page.can_have_children? %>
       <section class="govuk-!-margin-bottom-3">
-        <%= render "list-children-pages" %>
+        <%= render "shared/list-children-pages", page: @browse_page %>
       </section>
     <% end %>
 
@@ -65,10 +65,11 @@
 
     <% if @browse_page.child? %>
       <section class="govuk-!-margin-bottom-3">
-        <%= render 'list-links-preview', tag: @browse_page %>
+        <%= render 'shared/list-links-preview', tag: @browse_page %>
       </section>
     <% end %>
   </div>
+
   <div class="govuk-grid-column-one-third">
     <aside class="app-side__wrapper">
       <div class="app-side">

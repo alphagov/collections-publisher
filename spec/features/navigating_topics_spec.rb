@@ -5,12 +5,12 @@ RSpec.feature "Navigating topics" do
     given_there_are_topics_with_children
     when_i_visit_the_topics_page
     then_i_should_see_topics_in_alphabetical_order
-    when_i_visit_a_topic_page
+    and_i_should_see_children_topics_in_alphabetical_order
 
     given_topic_page_has_links
-    when_i_visit_a_subtopic_page_without_lists
+    when_i_visit_a_topic_page
+    and_i_visit_a_subtopic_page_without_lists
     then_i_should_see_that_the_items_have_not_been_curated
-
     and_i_see_the_linked_items_of_this_page
 
     when_i_go_to_the_parent_page
@@ -20,7 +20,7 @@ RSpec.feature "Navigating topics" do
   end
 
   def given_there_are_topics_with_children
-    create(:topic, :published, title: "Oil and Gas")
+    @oil_and_gas = create(:topic, :published, title: "Oil and Gas")
     @business_tax = create(:topic, :published, title: "Business Tax")
     @vat_topic = create(:topic, parent: @business_tax, title: "VAT")
     @paye = create(:topic, parent: @business_tax, title: "PAYE")
@@ -31,15 +31,17 @@ RSpec.feature "Navigating topics" do
   end
 
   def then_i_should_see_topics_in_alphabetical_order
-    titles = page.all(".tags-list tbody td:first-child").map(&:text)
-    expect(titles).to eq([
-      "Business Tax",
-      "Oil and Gas",
-    ])
+    title_cells = page.all(".govuk-table__row td:first-child")
+    expect(title_cells[0]).to have_link(@business_tax.title)
+    expect(title_cells[0]).to have_link(@business_tax.base_path)
+    expect(title_cells[1]).to have_link(@oil_and_gas.title)
+    expect(title_cells[1]).to have_link(@oil_and_gas.base_path)
+  end
 
-    child_titles = page.all("td.children li").map(&:text)
-    first_words_of_titles = child_titles.map(&:split).map(&:first)
-    expect(first_words_of_titles).to eq(%w[PAYE VAT])
+  def and_i_should_see_children_topics_in_alphabetical_order
+    child_titles = page.all(".govuk-table__row td[3]")
+    expect(child_titles[0]).to have_link(@paye.title)
+    expect(child_titles[0]).to have_link(@vat_topic.title)
   end
 
   def when_i_visit_a_topic_page
@@ -55,7 +57,7 @@ RSpec.feature "Navigating topics" do
     )
   end
 
-  def when_i_visit_a_subtopic_page_without_lists
+  def and_i_visit_a_subtopic_page_without_lists
     publishing_api_has_linked_items(
       @paye.content_id,
       items: [
@@ -74,7 +76,7 @@ RSpec.feature "Navigating topics" do
   end
 
   def when_i_go_to_the_parent_page
-    within ".breadcrumb" do
+    within ".govuk-breadcrumbs__list" do
       click_on "Business Tax"
     end
   end
