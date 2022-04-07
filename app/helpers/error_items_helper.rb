@@ -5,7 +5,7 @@ module ErrorItemsHelper
     end
   end
 
-  def issues_for(object, attribute)
+  def errors_for(object, attribute)
     object.errors.errors.filter_map do |error|
       if error.attribute == attribute
         {
