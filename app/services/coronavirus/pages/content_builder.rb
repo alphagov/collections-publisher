@@ -16,7 +16,6 @@ module Coronavirus::Pages
         data = github_data
         data["header_section"] = header_data
         data["sections"] = sub_sections_data
-        data["announcements"] = announcements_data
 
         data["timeline"] ||= {}
         data["timeline"]["list"] = timeline_data
@@ -40,7 +39,6 @@ module Coronavirus::Pages
       %w[
         title
         meta_description
-        announcements_label
         sections_heading
         topic_section
         notifications
@@ -72,13 +70,6 @@ module Coronavirus::Pages
     def sub_sections_data
       page.sub_sections.order(:position).map do |sub_section|
         presenter = Coronavirus::SubSectionJsonPresenter.new(sub_section, page.content_id)
-        presenter.output
-      end
-    end
-
-    def announcements_data
-      page.announcements.order(:position).map do |announcement|
-        presenter = Coronavirus::AnnouncementJsonPresenter.new(announcement)
         presenter.output
       end
     end

@@ -16,12 +16,6 @@ module CoronavirusFeatureSteps
     @coronavirus_page = FactoryBot.create(:coronavirus_page)
   end
 
-  def given_there_is_coronavirus_page_with_announcements
-    @coronavirus_page = FactoryBot.create(:coronavirus_page)
-    @announcement_one = FactoryBot.create(:coronavirus_announcement, position: 0, page: @coronavirus_page)
-    @announcement_two = FactoryBot.create(:coronavirus_announcement, position: 1, page: @coronavirus_page)
-  end
-
   def given_there_is_a_coronavirus_page_with_timeline_entries
     @coronavirus_page = FactoryBot.create(:coronavirus_page)
     @timeline_entry_two = FactoryBot.create(:coronavirus_timeline_entry, page: @coronavirus_page, heading: "Two")
@@ -102,114 +96,15 @@ module CoronavirusFeatureSteps
     visit "/coronavirus/landing/sub_sections/reorder"
   end
 
-  def when_i_visit_the_reorder_announcements_page
-    visit "/coronavirus/landing/announcements/reorder"
-  end
-
-  def then_i_can_see_an_announcements_section
-    expect(page).to have_content(I18n.t("coronavirus.pages.show.announcements.title"))
-    expect(page).to have_link(I18n.t("coronavirus.pages.show.announcements.reorder"), href: reorder_coronavirus_page_announcements_path(@coronavirus_page.slug))
-    expect(page).to have_link(I18n.t("coronavirus.pages.show.announcements.add"))
-  end
-
   def then_i_can_see_a_timeline_entries_section
     expect(page).to have_content(I18n.t("coronavirus.pages.show.timeline_entries.title"))
     expect(page).to have_link(I18n.t("coronavirus.pages.show.timeline_entries.reorder"), href: reorder_coronavirus_page_timeline_entries_path(@coronavirus_page.slug))
     expect(page).to have_link(I18n.t("coronavirus.pages.show.timeline_entries.add"))
   end
 
-  def and_i_can_see_existing_announcements
-    expect(page).to have_content(@announcement_one.title)
-    expect(page).to have_content(@announcement_two.title)
-  end
-
   def and_i_can_see_existing_timeline_entries
     expect(page).to have_content(@timeline_entry_one.heading)
     expect(page).to have_content(@timeline_entry_two.heading)
-  end
-
-  def then_i_see_the_announcements_in_order
-    expect(page).to have_content(
-      /#{@announcement_one.title}.*#{@announcement_two.title}/,
-      normalize_ws: true,
-    )
-  end
-
-  def when_i_move_announcement_one_down
-    stub_coronavirus_landing_page_content(@coronavirus_page)
-
-    within(".gem-c-reorderable-list__item:first-child") { click_button "Down" }
-    click_button "Save"
-  end
-
-  def then_i_see_announcement_updated_message
-    expect(page).to have_content I18n.t("coronavirus.reorder_announcements.update.success")
-  end
-
-  def and_i_see_the_announcements_have_changed_order
-    expect(page).to have_content(
-      /#{@announcement_two.title}.*#{@announcement_one.title}/,
-      normalize_ws: true,
-    )
-  end
-
-  # Adding an announcement
-
-  def and_i_add_a_new_announcement
-    click_on(I18n.t("coronavirus.pages.show.announcements.add"))
-  end
-
-  def then_i_see_the_create_announcement_form
-    expect(page).to have_text(I18n.t("coronavirus.announcements.form.title.label"))
-    expect(page).to have_text(I18n.t("coronavirus.announcements.form.url.label"))
-    expect(page).to have_text(I18n.t("coronavirus.announcements.form.date.legend"))
-  end
-
-  def when_i_fill_in_the_announcement_form_with_valid_data
-    stub_coronavirus_landing_page_content(@coronavirus_page)
-    fill_in("title", with: "fancy title")
-    fill_in("url", with: "/government")
-    fill_in("announcement[published_on][day]", with: "12")
-    fill_in("announcement[published_on][month]", with: "1")
-    fill_in("announcement[published_on][year]", with: "2020")
-    click_on("Save")
-  end
-
-  def then_i_can_see_a_new_announcement_has_been_created
-    expect(current_path).to eq("/coronavirus/landing")
-    expect(expect(page).to(have_text("fancy title")))
-  end
-
-  def when_i_delete_an_announcement
-    stub_coronavirus_landing_page_content(@coronavirus_page)
-
-    page.accept_alert I18n.t("coronavirus.pages.show.announcements.confirm") do
-      page.find("a[href=\"/coronavirus/landing/announcements/#{@announcement_one.id}\"]", text: "Delete").click
-    end
-  end
-
-  def then_i_can_see_an_announcement_has_been_deleted
-    expect(page).to have_text(I18n.t("coronavirus.announcements.destroy.success"))
-    expect(page).not_to(have_text(@announcement_one.title))
-  end
-
-  def when_i_can_click_change_for_an_announcement
-    page.find("a[href=\"/coronavirus/landing/announcements/#{@announcement_one.id}/edit\"]", text: I18n.t("coronavirus.pages.show.announcements.edit")).click
-  end
-
-  def then_i_see_the_edit_announcement_form
-    expect(page).to have_text(I18n.t("coronavirus.announcements.edit.title"))
-  end
-
-  def when_i_can_edit_the_announcement_form_with_valid_data
-    stub_coronavirus_landing_page_content(@coronavirus_page)
-    fill_in("title", with: "Updated title")
-    click_on("Save")
-  end
-
-  def then_i_can_see_that_the_announcement_has_been_updated
-    expect(page).to have_content(I18n.t("coronavirus.announcements.update.success"))
-    expect(page).to have_content("Updated title")
   end
 
   # Adding a timeline entry

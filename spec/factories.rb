@@ -234,13 +234,6 @@ FactoryBot.define do
     page factory: :coronavirus_page
   end
 
-  factory :coronavirus_announcement, class: Coronavirus::Announcement do
-    title { Faker::Lorem.words }
-    url { "/government/foo/vader/baby/yoda" }
-    published_on { Date.new(2020, 9, 11) }
-    page factory: :coronavirus_page
-  end
-
   factory :coronavirus_timeline_entry, class: Coronavirus::TimelineEntry do
     content { "Amazing fantastic content" }
     heading { "Unbelievable heading" }

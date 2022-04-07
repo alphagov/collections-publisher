@@ -13,35 +13,6 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
     allow(GdsApi.publishing_api).to receive(:lookup_content_ids).and_return({})
   end
 
-  describe "announcements" do
-    it "replaces the existing announcement" do
-      create(:coronavirus_announcement, page: page, title: "Foo")
-
-      stub_publishing_api_has_item(payload_from_publishing_api)
-
-      described_class.new(page).call
-      page.reload
-
-      expect(page.announcements.count).to eq(1)
-      expect(page.announcements.first.title).to eq("More rapid COVID-19 tests to be rolled out across England")
-      expect(page.announcements.first.position).to eq(1)
-    end
-
-    it "removes the announcements if there aren't any announcements in publishing_api" do
-      create(:coronavirus_announcement, page: page)
-
-      payload = payload_from_publishing_api
-      payload["details"]["announcements"].clear
-
-      stub_publishing_api_has_item(payload)
-
-      described_class.new(page).call
-      page.reload
-
-      expect(page.announcements.count).to eq(0)
-    end
-  end
-
   describe "sub_sections" do
     it "replaces the existing sub_sections" do
       create(:coronavirus_sub_section, page: page, title: "Foo")

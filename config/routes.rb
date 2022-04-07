@@ -23,13 +23,6 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :announcements do
-        collection do
-          get "reorder", to: "reorder_announcements#index"
-          put "reorder", to: "reorder_announcements#update"
-        end
-      end
-
       resources :timeline_entries, only: %i[new create edit update destroy] do
         collection do
           get "reorder", to: "reorder_timeline_entries#index"
