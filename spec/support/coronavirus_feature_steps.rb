@@ -16,12 +16,6 @@ module CoronavirusFeatureSteps
     @coronavirus_page = FactoryBot.create(:coronavirus_page)
   end
 
-  def given_there_is_a_coronavirus_page_with_timeline_entries
-    @coronavirus_page = FactoryBot.create(:coronavirus_page)
-    @timeline_entry_two = FactoryBot.create(:coronavirus_timeline_entry, page: @coronavirus_page, heading: "Two")
-    @timeline_entry_one = FactoryBot.create(:coronavirus_timeline_entry, page: @coronavirus_page, heading: "One")
-  end
-
   def given_there_is_a_published_coronavirus_page
     @coronavirus_page = FactoryBot.create(:coronavirus_page, state: "published")
   end
@@ -94,107 +88,6 @@ module CoronavirusFeatureSteps
 
   def when_i_visit_the_reorder_page
     visit "/coronavirus/landing/sub_sections/reorder"
-  end
-
-  def then_i_can_see_a_timeline_entries_section
-    expect(page).to have_content(I18n.t("coronavirus.pages.show.timeline_entries.title"))
-    expect(page).to have_link(I18n.t("coronavirus.pages.show.timeline_entries.reorder"), href: reorder_coronavirus_page_timeline_entries_path(@coronavirus_page.slug))
-    expect(page).to have_link(I18n.t("coronavirus.pages.show.timeline_entries.add"))
-  end
-
-  def and_i_can_see_existing_timeline_entries
-    expect(page).to have_content(@timeline_entry_one.heading)
-    expect(page).to have_content(@timeline_entry_two.heading)
-  end
-
-  # Adding a timeline entry
-
-  def and_i_add_a_new_timeline_entry
-    click_on(I18n.t("coronavirus.pages.show.timeline_entries.add"))
-  end
-
-  def then_i_see_the_timeline_entry_form
-    expect(page).to have_text(I18n.t("coronavirus.timeline_entries.form.heading.label"))
-    expect(page).to have_text(I18n.t("coronavirus.timeline_entries.form.content.label"))
-  end
-
-  def when_i_fill_in_the_timeline_entry_form_with_valid_data
-    stub_coronavirus_landing_page_content(@coronavirus_page)
-    fill_in("heading", with: "Fancy title")
-    fill_in("content", with: "##Form content")
-    check("England")
-    click_on("Save")
-  end
-
-  def then_i_see_a_new_timeline_entry_has_been_created
-    expect(current_path).to eq("/coronavirus/landing")
-    expect(page).to have_text("Fancy title")
-  end
-
-  # Editing timeline entries
-
-  def and_i_change_a_timeline_entry
-    page.find("a[href=\"/coronavirus/landing/timeline_entries/#{@timeline_entry_one.id}/edit\"]", text: I18n.t("coronavirus.pages.show.timeline_entries.edit")).click
-  end
-
-  def when_i_visit_the_edit_timeline_entry_page
-    visit "/coronavirus/landing/timeline_entries/#{@timeline_entry_one.id}/edit"
-  end
-
-  def and_i_see_the_existing_timeline_entry_data
-    expect(page).to have_selector("input[value='#{@timeline_entry_one.heading}']")
-    expect(page).to have_content(@timeline_entry_one.content)
-  end
-
-  def then_i_see_the_timeline_entry_has_been_updated
-    expect(current_path).to eq("/coronavirus/landing")
-    expect(page).to have_text("Fancy title")
-  end
-
-  # Reordering timeline entries
-
-  def when_i_visit_the_reorder_timeline_entries_page
-    visit "/coronavirus/landing/timeline_entries/reorder"
-  end
-
-  def then_i_see_the_timeline_entries_in_order
-    expect(page).to have_content(
-      /#{@timeline_entry_one.heading}.*#{@timeline_entry_two.heading}/,
-      normalize_ws: true,
-    )
-  end
-
-  def when_i_move_timeline_entry_one_down
-    stub_coronavirus_landing_page_content(@coronavirus_page)
-
-    within(".gem-c-reorderable-list__item:first-child") { click_button "Down" }
-    click_button "Save"
-  end
-
-  def then_i_see_timeline_entries_updated_message
-    expect(page).to have_content I18n.t("coronavirus.reorder_timeline_entries.update.success")
-  end
-
-  def and_i_see_the_timeline_entries_have_changed_order
-    expect(page).to have_content(
-      /#{@timeline_entry_two.heading}.*#{@timeline_entry_one.heading}/,
-      normalize_ws: true,
-    )
-  end
-
-  # Deleting timeline entries
-
-  def when_i_delete_a_timeline_entry
-    stub_coronavirus_landing_page_content(@coronavirus_page)
-
-    page.accept_alert "Are you sure?" do
-      page.find("a[href=\"/coronavirus/landing/timeline_entries/#{@timeline_entry_one.id}\"]", text: "Delete").click
-    end
-  end
-
-  def then_i_can_see_the_timeline_entry_has_been_deleted
-    expect(page).to have_text(I18n.t("coronavirus.timeline_entries.destroy.success"))
-    expect(page).not_to have_text(@timeline_entry_one.heading)
   end
 
   # Editing the header section

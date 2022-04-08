@@ -55,10 +55,10 @@
             },
             content: {
               html: sanitize(records.map { |note|
-                  "<div class='app-c-timeline-entry'>
-                    <h4 class='app-c-timeline-entry__type'>#{note.headline}</h4>
-                    <p class='app-c-timeline-entry__dateline'>#{note.readable_created_date} by #{note.author}</p>
-                    <pre class='app-c-timeline-entry__description'>#{note.description}</pre>
+                  "<div class='app-c-internal-change-note'>
+                    <h4 class='app-c-internal-change-note__headline'>#{note.headline}</h4>
+                    <p class='app-c-internal-change-note__timestamp'>#{note.readable_created_date} by #{note.author}</p>
+                    <pre class='app-c-internal-change-note__description'>#{note.description}</pre>
                   </div>"
                 }.join
               )

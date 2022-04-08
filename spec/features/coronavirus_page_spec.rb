@@ -61,49 +61,6 @@ RSpec.feature "Publish updates to Coronavirus pages" do
       and_i_see_state_is_published
     end
 
-    scenario "Adding timeline entries" do
-      given_there_is_a_coronavirus_page
-      when_i_visit_a_coronavirus_page
-      and_i_add_a_new_timeline_entry
-      then_i_see_the_timeline_entry_form
-      when_i_fill_in_the_timeline_entry_form_with_valid_data
-      then_i_see_a_new_timeline_entry_has_been_created
-    end
-
-    scenario "Editing timeline entries" do
-      given_there_is_a_coronavirus_page_with_timeline_entries
-      when_i_visit_a_coronavirus_page
-      and_i_change_a_timeline_entry
-      then_i_see_the_timeline_entry_form
-      and_i_see_the_existing_timeline_entry_data
-      when_i_fill_in_the_timeline_entry_form_with_valid_data
-      then_i_see_the_timeline_entry_has_been_updated
-    end
-
-    scenario "Reordering timeline entries", js: true do
-      given_there_is_a_coronavirus_page_with_timeline_entries
-      when_i_visit_the_reorder_timeline_entries_page
-      then_i_see_the_timeline_entries_in_order
-      when_i_move_timeline_entry_one_down
-      then_i_see_timeline_entries_updated_message
-      and_i_see_the_timeline_entries_have_changed_order
-    end
-
-    scenario "Viewing timeline entries" do
-      given_there_is_a_coronavirus_page_with_timeline_entries
-      when_i_visit_a_coronavirus_page
-      then_i_can_see_a_timeline_entries_section
-      and_i_can_see_existing_timeline_entries
-    end
-
-    scenario "Deleting timeline entries", js: true do
-      given_there_is_a_coronavirus_page_with_timeline_entries
-      when_i_visit_a_coronavirus_page
-      then_i_can_see_a_timeline_entries_section
-      when_i_delete_a_timeline_entry
-      then_i_can_see_the_timeline_entry_has_been_deleted
-    end
-
     scenario "Editing the header section" do
       given_there_is_a_coronavirus_page
       when_i_visit_a_coronavirus_page

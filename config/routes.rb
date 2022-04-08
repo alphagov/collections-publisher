@@ -22,13 +22,6 @@ Rails.application.routes.draw do
           put "reorder", to: "reorder_sub_sections#update"
         end
       end
-
-      resources :timeline_entries, only: %i[new create edit update destroy] do
-        collection do
-          get "reorder", to: "reorder_timeline_entries#index"
-          put "reorder", to: "reorder_timeline_entries#update"
-        end
-      end
     end
   end
 

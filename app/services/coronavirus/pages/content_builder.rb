@@ -17,9 +17,6 @@ module Coronavirus::Pages
         data["header_section"] = header_data
         data["sections"] = sub_sections_data
 
-        data["timeline"] ||= {}
-        data["timeline"]["list"] = timeline_data
-
         data["hidden_search_terms"] = hidden_search_terms
         data
       end
@@ -74,25 +71,7 @@ module Coronavirus::Pages
       end
     end
 
-    def timeline_data
-      @timeline_data ||= page
-        .timeline_entries
-        .order(:position)
-        .pluck(:heading, :content, :national_applicability)
-        .map do |(heading, content, national_applicability)|
-          {
-            "heading" => heading,
-            "paragraph" => content,
-            "national_applicability" => national_applicability,
-          }
-        end
-    end
-
     def hidden_search_terms
-      search_terms_in_sections + search_terms_in_timeline
-    end
-
-    def search_terms_in_sections
       sections = sub_sections_data.map do |section|
         next if section.blank?
 
@@ -110,19 +89,6 @@ module Coronavirus::Pages
 
         [subsection[:title], labels]
       end
-    end
-
-    def search_terms_in_timeline
-      return [] if timeline_data.blank?
-
-      timeline = timeline_data.map do |item|
-        [
-          item["heading"],
-          MarkdownService.new.strip_markdown(item["paragraph"]),
-        ]
-      end
-
-      timeline.flatten.select(&:present?).uniq
     end
   end
 end

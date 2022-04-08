@@ -1,27 +1,21 @@
-.app-c-timeline-entry {
+.app-c-internal-change-note {
   margin-bottom: govuk-spacing(6);
 }
 
-.app-c-timeline-entry__title {
-  @include govuk-font(24, $weight: bold);
-  margin-top: 0;
-  margin-bottom: govuk-spacing(4);
-}
-
-.app-c-timeline-entry__type {
+.app-c-internal-change-note__headline {
   @include govuk-font(19, $weight: bold);
   margin-top: 0;
   margin-bottom: govuk-spacing(1);
 }
 
-.app-c-timeline-entry__dateline {
+.app-c-internal-change-note__timestamp {
   @include govuk-font(19);
   margin-top: 0;
   margin-bottom: govuk-spacing(4);
   color: $govuk-secondary-text-colour;
 }
 
-.app-c-timeline-entry__description {
+.app-c-internal-change-note__description {
   @include govuk-font(16);
   margin-top: 0;
   white-space: pre-line;
