@@ -6,18 +6,14 @@ RSpec.describe Coronavirus::PagePresenter do
 
   let(:page) { create :coronavirus_page }
   let(:base_path) { page.base_path }
-  let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
-  let(:github_content) { YAML.safe_load(File.read(fixture_path)) }
-  let(:title) { github_content["content"]["title"] }
-  let(:meta_description) { github_content["content"]["meta_description"] }
   let(:data) { Coronavirus::Pages::ContentBuilder.new(page).data }
-  let(:details) { data.except(title, meta_description) }
+  let!(:title) { data["title"] }
+  let(:details) { data.except("title") }
 
   let(:payload) do
     {
       "base_path" => base_path,
       "title" => title,
-      "description" => meta_description,
       "document_type" => "coronavirus_landing_page",
       "schema_name" => "coronavirus_landing_page",
       "details" => details,
@@ -33,8 +29,6 @@ RSpec.describe Coronavirus::PagePresenter do
   subject { described_class.new(data, base_path) }
 
   before do
-    stub_request(:get, Regexp.new(page.raw_content_url))
-      .to_return(status: 200, body: github_content.to_json)
     stub_coronavirus_publishing_api
   end
 
