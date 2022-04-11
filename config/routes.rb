@@ -12,10 +12,6 @@ Rails.application.routes.draw do
       get "edit-header", to: "pages#edit_header"
       patch "edit-header", to: "pages#update_header"
 
-      get "github_changes", to: "github_changes#index", on: :member
-      post "github_changes/update", to: "github_changes#update", on: :member
-      post "github_changes/publish", to: "github_changes#publish", on: :member
-
       resources :sub_sections do
         collection do
           get "reorder", to: "reorder_sub_sections#index"

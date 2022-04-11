@@ -4,37 +4,6 @@ en:
       breadcrumbs:
         link_text: Coronavirus pages
       title: Coronavirus (COVID-19)
-    github_changes:
-      index:
-        description: "Follow the steps below to make changes to any part of the %{coronavirus_page_name}, except the accordions."
-        instructions:
-          one:
-            step: 1. Update GitHub
-            description_html: "Update the <a href=\"%{github_url}\">coronavirus content on Github</a>"
-          two:
-            step: 2. Get changes reviewed and merged
-            description: Get the changes approved and merged into master.
-          three:
-            step: 3. Update draft
-            button_text: Update draft
-          four:
-            step: 4. Preview changes
-            button_text: Preview
-          five:
-            step: 5. Publish changes
-            radio_heading: Update type
-            radio_options:
-              major: Major
-              minor: Minor
-            button_text: Publish
-          six:
-            step: 6. Check live
-            button_text: View live version
-      update:
-        success: Draft content updated
-      publish:
-        success: Page published!
-        failed: You have already published this page.
     pages:
       index:
         landing_page_edit:
