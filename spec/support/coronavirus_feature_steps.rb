@@ -68,8 +68,8 @@ module CoronavirusFeatureSteps
     )
   end
 
-  def i_see_a_publish_landing_page_link
-    expect(page).to have_link(I18n.t("coronavirus.pages.index.landing_page_edit.something_else"))
+  def then_i_see_an_edit_landing_page_link
+    expect(page).to have_link(I18n.t("coronavirus.pages.index.landing_page_edit.sections"))
   end
 
   def and_i_select_landing_page

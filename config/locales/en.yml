@@ -39,7 +39,6 @@ en:
       index:
         landing_page_edit:
           sections: Edit landing page header section and accordions
-          something_else: Edit something else on the landing page
       edit_header:
         title: Edit Landing Page Header
         form:

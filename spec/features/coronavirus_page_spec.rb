@@ -15,8 +15,9 @@ RSpec.feature "Publish updates to Coronavirus pages" do
     end
 
     scenario "User views the page" do
+      given_there_is_a_coronavirus_page
       when_i_visit_the_coronavirus_index_page
-      i_see_a_publish_landing_page_link
+      then_i_see_an_edit_landing_page_link
     end
   end
 
