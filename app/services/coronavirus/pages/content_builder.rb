@@ -1,9 +1,5 @@
 module Coronavirus::Pages
   class ContentBuilder
-    class GitHubConnectionError < RuntimeError; end
-
-    class GitHubInvalidContentError < RuntimeError; end
-
     attr_reader :page
 
     def initialize(page)

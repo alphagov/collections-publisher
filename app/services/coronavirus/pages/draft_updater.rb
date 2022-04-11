@@ -16,10 +16,6 @@ module Coronavirus::Pages
 
     def payload
       Coronavirus::PagePresenter.new(content_builder.data, base_path).payload
-    rescue ContentBuilder::GitHubInvalidContentError
-      raise DraftUpdaterError, "Invalid content in GitHub YAML"
-    rescue ContentBuilder::GitHubConnectionError
-      raise DraftUpdaterError, "Unable to load content from GitHub"
     end
 
     def send

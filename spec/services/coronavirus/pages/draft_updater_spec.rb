@@ -20,28 +20,6 @@ RSpec.describe Coronavirus::Pages::DraftUpdater do
 
       expect(described_class.new(page).payload).to eq expected_payload
     end
-
-    it "catches GitHubInvalidContentError from ContentBuilder and adds a user friendly message" do
-      allow(Coronavirus::Pages::ContentBuilder)
-        .to receive(:new)
-        .and_raise(Coronavirus::Pages::ContentBuilder::GitHubInvalidContentError)
-
-      expect { described_class.new(page).payload }.to raise_error(
-        Coronavirus::Pages::DraftUpdater::DraftUpdaterError,
-        "Invalid content in GitHub YAML",
-      )
-    end
-
-    it "catches GitHubConnectionError from ContentBuilder and adds a user friendly message" do
-      allow(Coronavirus::Pages::ContentBuilder)
-        .to receive(:new)
-        .and_raise(Coronavirus::Pages::ContentBuilder::GitHubConnectionError)
-
-      expect { described_class.new(page).payload }.to raise_error(
-        Coronavirus::Pages::DraftUpdater::DraftUpdaterError,
-        "Unable to load content from GitHub",
-      )
-    end
   end
 
   describe "#discard" do
