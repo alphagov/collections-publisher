@@ -46,19 +46,6 @@ module CoronavirusFeatureSteps
     stub_publishing_api_has_item(coronavirus_content_json)
   end
 
-  def raw_content_url
-    @raw_content_url ||= Coronavirus::Pages::Configuration.page[:raw_content_url]
-  end
-
-  def stub_github_request
-    stub_request(:get, Regexp.new(raw_content_url))
-      .to_return(status: 200, body: github_response)
-  end
-
-  def github_response
-    File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
-  end
-
   def then_the_content_is_sent_to_publishing_api
     assert_publishing_api_put_content(
       "774cee22-d896-44c1-a611-e3109cce8eae",
@@ -133,10 +120,6 @@ module CoronavirusFeatureSteps
                       title: "I am second",
                       sub_heading: nil,
                       content: "###title\n[label](/url?priority-taxon=#{@coronavirus_page.content_id})")
-    path = Rails.root.join "spec/fixtures/simple_coronavirus_page.yml"
-    github_yaml_content = File.read(path)
-    stub_request(:get, /#{@coronavirus_page.raw_content_url}\?cache-bust=\d+/)
-      .to_return(status: 200, body: github_yaml_content)
     stub_live_sub_sections_content_request(@coronavirus_page.content_id)
   end
 
