@@ -1,8 +1,4 @@
-require_relative "coronavirus_helpers"
-
 module CoronavirusFeatureSteps
-  include CoronavirusHelpers
-
   def given_i_am_a_coronavirus_editor
     stub_user.permissions << "Coronavirus editor"
     stub_user.name = "Test author"
@@ -93,7 +89,6 @@ module CoronavirusFeatureSteps
   end
 
   def when_i_fill_in_the_edit_header_form_with_valid_data
-    stub_coronavirus_landing_page_content(@coronavirus_page)
     fill_in("header_title", with: "Fancy title")
     fill_in("header_body", with: "##Form content")
     fill_in("header_link_pre_wrap_text", with: "Pre wrap text")

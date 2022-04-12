@@ -86,7 +86,6 @@ RSpec.describe Coronavirus::PagesController do
     end
 
     before do
-      stub_coronavirus_landing_page_content(page)
       stub_coronavirus_publishing_api
     end
 

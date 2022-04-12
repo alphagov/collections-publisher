@@ -17,7 +17,6 @@ RSpec.describe Coronavirus::ReorderSubSectionsController do
 
   describe "PUT /coronavirus/:page_slug/sub_sections/reorder" do
     before do
-      stub_coronavirus_landing_page_content(page)
       stub_coronavirus_publishing_api
     end
 
