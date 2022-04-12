@@ -24,10 +24,6 @@ module CoronavirusFeatureSteps
     @coronavirus_content_json ||= JSON.parse(live_coronavirus_content_item)
   end
 
-  def coronavirus_content_id
-    coronavirus_content_json["content_id"]
-  end
-
   def todays_date
     Time.zone.now.strftime("%-d %B %Y")
   end
@@ -130,10 +126,6 @@ module CoronavirusFeatureSteps
 
   def stub_discard_subsection_changes
     stub_publishing_api_discard_draft(@coronavirus_page.content_id)
-  end
-
-  def stub_discard_coronavirus_page_draft
-    stub_publishing_api_discard_draft(coronavirus_content_id)
   end
 
   def stub_discard_coronavirus_page_no_draft
