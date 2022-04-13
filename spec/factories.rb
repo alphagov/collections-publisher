@@ -222,8 +222,6 @@ FactoryBot.define do
     slug { "landing" }
     content_id { SecureRandom.uuid }
     sections_title { Faker::Lorem.sentence }
-    github_url { Faker::Internet.url(host: "example.com") }
-    raw_content_url { Faker::Internet.url(host: "example.com") }
     base_path { "/#{File.join(Faker::Lorem.words)}" }
   end
 
