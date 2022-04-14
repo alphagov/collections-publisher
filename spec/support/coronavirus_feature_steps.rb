@@ -1,8 +1,4 @@
-require_relative "coronavirus_helpers"
-
 module CoronavirusFeatureSteps
-  include CoronavirusHelpers
-
   def given_i_am_a_coronavirus_editor
     stub_user.permissions << "Coronavirus editor"
     stub_user.name = "Test author"
@@ -28,10 +24,6 @@ module CoronavirusFeatureSteps
     @coronavirus_content_json ||= JSON.parse(live_coronavirus_content_item)
   end
 
-  def coronavirus_content_id
-    coronavirus_content_json["content_id"]
-  end
-
   def todays_date
     Time.zone.now.strftime("%-d %B %Y")
   end
@@ -46,19 +38,6 @@ module CoronavirusFeatureSteps
     stub_publishing_api_has_item(coronavirus_content_json)
   end
 
-  def raw_content_url
-    @raw_content_url ||= Coronavirus::Pages::Configuration.page[:raw_content_url]
-  end
-
-  def stub_github_request
-    stub_request(:get, Regexp.new(raw_content_url))
-      .to_return(status: 200, body: github_response)
-  end
-
-  def github_response
-    File.read(Rails.root.join("spec/fixtures/coronavirus_landing_page.yml"))
-  end
-
   def then_the_content_is_sent_to_publishing_api
     assert_publishing_api_put_content(
       "774cee22-d896-44c1-a611-e3109cce8eae",
@@ -68,8 +47,8 @@ module CoronavirusFeatureSteps
     )
   end
 
-  def i_see_a_publish_landing_page_link
-    expect(page).to have_link(I18n.t("coronavirus.pages.index.landing_page_edit.something_else"))
+  def then_i_see_an_edit_landing_page_link
+    expect(page).to have_link(I18n.t("coronavirus.pages.index.landing_page_edit.sections"))
   end
 
   def and_i_select_landing_page
@@ -106,7 +85,6 @@ module CoronavirusFeatureSteps
   end
 
   def when_i_fill_in_the_edit_header_form_with_valid_data
-    stub_coronavirus_landing_page_content(@coronavirus_page)
     fill_in("header_title", with: "Fancy title")
     fill_in("header_body", with: "##Form content")
     fill_in("header_link_pre_wrap_text", with: "Pre wrap text")
@@ -133,10 +111,6 @@ module CoronavirusFeatureSteps
                       title: "I am second",
                       sub_heading: nil,
                       content: "###title\n[label](/url?priority-taxon=#{@coronavirus_page.content_id})")
-    path = Rails.root.join "spec/fixtures/simple_coronavirus_page.yml"
-    github_yaml_content = File.read(path)
-    stub_request(:get, /#{@coronavirus_page.raw_content_url}\?cache-bust=\d+/)
-      .to_return(status: 200, body: github_yaml_content)
     stub_live_sub_sections_content_request(@coronavirus_page.content_id)
   end
 
@@ -152,10 +126,6 @@ module CoronavirusFeatureSteps
 
   def stub_discard_subsection_changes
     stub_publishing_api_discard_draft(@coronavirus_page.content_id)
-  end
-
-  def stub_discard_coronavirus_page_draft
-    stub_publishing_api_discard_draft(coronavirus_content_id)
   end
 
   def stub_discard_coronavirus_page_no_draft
@@ -239,48 +209,8 @@ module CoronavirusFeatureSteps
     expect(page).to have_text("You do not have a draft to discard")
   end
 
-  def i_see_an_update_draft_button
-    expect(page).to have_button(I18n.t("coronavirus.github_changes.index.instructions.three.button_text"))
-  end
-
-  def and_a_preview_button
-    expect(page).to have_link(I18n.t("coronavirus.github_changes.index.instructions.four.button_text"))
-    expect(find_link(I18n.t("coronavirus.github_changes.index.instructions.four.button_text"))[:target]).to eq("_blank")
-  end
-
-  def and_a_publish_button
-    expect(page).to have_button(I18n.t("coronavirus.github_changes.index.instructions.five.button_text"))
-  end
-
-  def and_i_push_a_new_draft_version
-    click_on(I18n.t("coronavirus.github_changes.index.instructions.three.button_text"))
-  end
-
-  def and_i_push_a_new_draft_version_with_invalid_content
-    stub_request(:get, Regexp.new("https://raw.githubusercontent.com/alphagov/govuk-coronavirus-content/master/content/coronavirus_landing_page.yml"))
-    .to_return(status: 200, body: invalid_github_response)
-
-    and_i_push_a_new_draft_version
-  end
-
-  def invalid_github_response
-    File.read(Rails.root.join("spec/fixtures/invalid_corona_page.yml"))
-  end
-
-  def and_i_see_an_alert
-    expect(page).to have_text("Invalid content in GitHub YAML")
-  end
-
-  def and_i_see_a_draft_updated_message
-    expect(page).to have_text(I18n.t("coronavirus.github_changes.update.success"))
-  end
-
-  def and_i_choose_a_major_update
-    choose(I18n.t("coronavirus.github_changes.index.instructions.five.radio_options.major"))
-  end
-
   def and_i_publish_the_page
-    click_on(I18n.t("coronavirus.github_changes.index.instructions.five.button_text"))
+    click_on(I18n.t("coronavirus.pages.show.actions.publish"))
   end
 
   def then_the_page_publishes
@@ -295,15 +225,7 @@ module CoronavirusFeatureSteps
     expect(current_path).to eq("/coronavirus/landing")
   end
 
-  def and_i_remain_on_the_coronavirus_github_changes_page
-    expect(current_path).to eq("/coronavirus/landing/github_changes")
-  end
-
   def and_i_see_a_page_published_message
     expect(page).to have_text(I18n.t("coronavirus.pages.publish.success"))
-  end
-
-  def and_i_see_github_changes_published_message
-    expect(page).to have_text(I18n.t("coronavirus.github_changes.publish.success"))
   end
 end

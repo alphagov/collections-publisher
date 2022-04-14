@@ -7,18 +7,9 @@ RSpec.describe Coronavirus::PagesController do
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
   let!(:page) { create :coronavirus_page }
   let(:slug) { page.slug }
-  let(:raw_content_url) { Coronavirus::Pages::Configuration.page[:raw_content_url] }
-  let(:raw_content_url_regex) { Regexp.new(raw_content_url) }
-  let(:fixture_path) { Rails.root.join "spec/fixtures/coronavirus_landing_page.yml" }
-  let(:raw_content) { File.read(fixture_path) }
-  let(:stub_content_url) do
-    stub_request(:get, Regexp.new(raw_content_url))
-      .to_return(status: 200, body: raw_content)
-  end
 
   describe "GET /coronavirus" do
     it "renders page successfully" do
-      stub_content_url
       get :index
       expect(response).to have_http_status(:success)
     end
@@ -95,7 +86,6 @@ RSpec.describe Coronavirus::PagesController do
     end
 
     before do
-      stub_coronavirus_landing_page_content(page)
       stub_coronavirus_publishing_api
     end
 
