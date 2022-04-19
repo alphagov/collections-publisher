@@ -1,7 +1,7 @@
 <%= render 'shared/breadcrumbs', {
   links: [
     {
-      text: 'Topics',
+      text: 'Specialist topic pages',
       href: topics_url
     },
     *([
@@ -19,7 +19,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <p class="govuk-body">
-      This topic has been archived.
+      This specialist topic has been archived.
     </p>
 
     <%= render 'shared/redirects', redirect_routes: @topic.redirect_routes %>
