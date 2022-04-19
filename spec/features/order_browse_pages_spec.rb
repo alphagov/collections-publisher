@@ -43,11 +43,11 @@ RSpec.feature "Order browse pages" do
 
   def when_i_navigate_to_the_child_ordering_page
     click_on "Pizzas"
-    click_on "Manage child ordering"
+    click_on "Manage subtopic ordering"
   end
 
   def and_i_select_curated_ordering
-    select "Curated", from: "Child ordering"
+    select "Curated", from: "Subtopic ordering"
   end
 
   def and_i_submit_an_ordering
@@ -65,7 +65,7 @@ RSpec.feature "Order browse pages" do
   end
 
   def and_i_select_alphabetical_ordering_and_submit
-    select "Alphabetical", from: "Child ordering"
+    select "Alphabetical", from: "Subtopic ordering"
     click_on "Save"
   end
 

@@ -80,7 +80,7 @@
           <% if @topic.can_have_children? %>
             <div class="govuk-!-margin-bottom-1">
               <% if gds_editor? %>
-                <%= link_to "Add child page",
+                <%= link_to "Add subtopic page",
                   new_polymorphic_path(@topic, parent_id: @topic.id),
                   class: %w(govuk-link govuk-link--no-visited-state) %>
               <% end %>

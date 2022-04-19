@@ -9,12 +9,12 @@
       href: mainstream_browse_page_url(@browse_page)
     },
     {
-      text: 'Manage child ordering',
+      text: 'Manage subtopic ordering',
     }
   ]
 } %>
 
-<% content_for :title, govuk_tag_heading(tag: @browse_page, append: "Manage child ordering") %>
+<% content_for :title, govuk_tag_heading(tag: @browse_page, append: "Manage subtopic ordering") %>
 
 <%= render 'shared/error_summary', object: @browse_page %>
 
@@ -25,7 +25,7 @@
         <%= render "govuk_publishing_components/components/select", {
           id: "mainstream_browse_page_child_ordering",
           name: "mainstream_browse_page[child_ordering]",
-          label: "Child ordering",
+          label: "Subtopic ordering",
           options: Tag::ORDERING_TYPES.map { |type| { text: type.capitalize, value: type, selected: @browse_page.child_ordering == type } }
         } %>
       </div>

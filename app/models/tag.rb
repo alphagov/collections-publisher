@@ -6,7 +6,7 @@ class Tag < ApplicationRecord
   ORDERING_TYPES = %w[alphabetical curated].freeze
 
   belongs_to :parent, class_name: "Tag"
-  has_many :children, class_name: "Tag", foreign_key: :parent_id
+  has_many :children, class_name: "Tag", foreign_key: :parent_id # called Subtopics in the frontend
 
   has_many :tag_associations, foreign_key: :from_tag_id
   has_many :reverse_tag_associations, foreign_key: :to_tag_id,

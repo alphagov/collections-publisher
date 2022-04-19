@@ -40,7 +40,7 @@
             value: govuk_status(@browse_page)
           },
           *([
-            field: "Child ordering",
+            field: "Subtopic ordering",
             value: @browse_page.child_ordering.capitalize
           ] if @browse_page.top_level_mainstream_browse_page? )
         ],
@@ -90,13 +90,13 @@
           <% if @browse_page.can_have_children? %>
             <div class="govuk-!-margin-bottom-1">
               <% if gds_editor? %>
-                <%= link_to "Add child page",
+                <%= link_to "Add subtopic page",
                   new_polymorphic_path(@browse_page, parent_id: @browse_page.id),
                   class: %w(govuk-link govuk-link--no-visited-state) %>
               <% end %>
             </div>
             <div class="govuk-!-margin-bottom-1">
-              <%= link_to "Manage child ordering",
+              <%= link_to "Manage subtopic ordering",
                 manage_child_ordering_mainstream_browse_page_path(@browse_page),
                 class: %w(govuk-link govuk-link--no-visited-state)
               %>
