@@ -20,7 +20,7 @@ class TopicsController < ApplicationController
 
     if topic.update(topic_params)
       TagBroadcaster.broadcast(topic)
-      redirect_to topic, success: "Specialist sector updated"
+      redirect_to topic, notice: "Specialist sector updated"
     else
       @topic = topic
       render "edit"
@@ -60,7 +60,7 @@ class TopicsController < ApplicationController
     @archival.tag = find_topic
 
     if @archival.archive_or_remove
-      redirect_to topics_path, success: "The topic has been archived or removed."
+      redirect_to topics_path, notice: "The topic has been archived or removed."
     else
       render "propose_archive"
     end

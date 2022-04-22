@@ -34,7 +34,7 @@ RSpec.describe ListItemsController, type: :controller do
         end
 
         it "indicates a success state to the user" do
-          expect(flash.key?(:success)).to be(true)
+          expect(flash.key?(:notice)).to be(true)
         end
       end
 
@@ -50,7 +50,7 @@ RSpec.describe ListItemsController, type: :controller do
         end
 
         it "indicates a fail state to the user" do
-          expect(flash.key?(:danger)).to be(true)
+          expect(flash.key?(:alert)).to be(true)
         end
       end
     end
@@ -167,7 +167,7 @@ RSpec.describe ListItemsController, type: :controller do
         end
 
         it "indicates a success state to the user" do
-          expect(flash.key?(:success)).to be(true)
+          expect(flash.key?(:notice)).to be(true)
         end
 
         it "redirects to tag lists path" do
@@ -189,7 +189,7 @@ RSpec.describe ListItemsController, type: :controller do
 
         it "indicates a fail state to the user" do
           destroy_list_item
-          expect(flash.key?(:danger)).to be(true)
+          expect(flash.key?(:alert)).to be(true)
         end
       end
     end
