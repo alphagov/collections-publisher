@@ -94,8 +94,8 @@ class StepByStepPage < ApplicationRecord
   end
 
   def self.validate_redirect(redirect_url)
-    regex = /\A\/([a-z0-9]+-)*[a-z0-9]+\z/
-    redirect_url =~ regex
+    regex = /\A\/[\/.a-zA-Z0-9-]*\z/
+    regex.match?(redirect_url)
   end
 
   def status
