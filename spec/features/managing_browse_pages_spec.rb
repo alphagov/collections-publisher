@@ -42,6 +42,13 @@ RSpec.feature "Managing browse pages" do
     then_i_see_a_validation_error
   end
 
+  scenario "Unique slug validation unique slug fails" do
+    given_there_is_published_browse_page
+    when_i_visit_the_new_browse_page_form
+    and_i_fill_in_the_form_with_already_existing_slug
+    then_i_see_uniqueness_validation_error
+  end
+
   def given_there_is_published_browse_page
     @page = create(:mainstream_browse_page, :published, slug: "citizenship", title: "Citizenship")
   end
@@ -89,6 +96,8 @@ RSpec.feature "Managing browse pages" do
     click_on "Create"
     @content_id = extract_content_id_from(current_path)
   end
+
+  alias_method :and_i_fill_in_the_form_with_already_existing_slug, :and_i_fill_in_the_form
 
   def and_i_fill_in_the_form_with_invalid_data
     fill_in "Title", with: ""
@@ -159,5 +168,15 @@ RSpec.feature "Managing browse pages" do
     expect(page).to have_content("Enter a title")
     expect(page).to have_content("Enter a slug")
     expect(find("#mainstream_browse_page_description").value).to eql "A changed description"
+  end
+
+  def then_i_see_uniqueness_validation_error
+    within(".govuk-error-summary__list") do
+      expect(page).to have_content("Slug has been taken")
+    end
+
+    within(".govuk-error-message") do
+      expect(page).to have_content("Slug has been taken")
+    end
   end
 end
