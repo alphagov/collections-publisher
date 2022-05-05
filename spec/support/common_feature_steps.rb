@@ -9,6 +9,10 @@ module CommonFeatureSteps
     stub_user.name = "Test author"
   end
 
+  def and_i_have_the_redesigned_lists_permission
+    stub_user.permissions << "Redesigned lists"
+  end
+
   def given_i_am_not_a_gds_editor
     stub_user.permissions = %w[signin]
   end
