@@ -3,6 +3,8 @@ class Topic < Tag
 
   alias_method :subtopic?, :has_parent?
 
+  attr_accessor :mainstream_browse_origin
+
   def base_path
     "/topic/#{full_slug}"
   end
