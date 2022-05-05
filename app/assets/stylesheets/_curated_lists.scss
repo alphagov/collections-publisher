@@ -1,0 +1,22 @@
+.curated-lists .gem-c-document-list__item-title {
+  margin-bottom: 10px;
+}
+
+.curated-lists .gem-c-document-list__attribute:first-child {
+  border-right: 1px solid $govuk-border-colour;
+  padding-right: 10px;
+}
+
+.curated-lists .gem-c-document-list__attribute:not(:first-child):not(:last-child) {
+  border-right: 1px solid $govuk-border-colour;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.curated-lists .gem-c-document-list__attribute:last-child {
+  padding-left: 10px;
+}
+
+.curated-lists .gem-c-document-list__item {
+  margin-bottom: 10px;
+}

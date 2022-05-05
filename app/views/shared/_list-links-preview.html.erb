@@ -7,14 +7,22 @@
       } %>
   </div>
   <div class="govuk-grid-column-one-third app-grid-column--align-right">
-    <% if !tag.tagged_documents.empty? %>
-      <div class="govuk-body">
-        <%= link_to 'Edit list',
-          tag_lists_path(tag),
+    <ul class="govuk-summary-list__actions-list gem-c-summary-list__group-actions-list">
+      <li class="govuk-summary-list__actions-list-item">
+        <%= link_to 'Add list',
+          "#",
           class: %w(govuk-link govuk-link--no-visited-state)
         %>
-      </div>
-    <% end %>
+      </li>
+      <% if tag.lists.count > 1 %>
+        <li class="govuk-summary-list__actions-list-item">
+          <%= link_to 'Reorder list',
+            "#",
+            class: %w(govuk-link govuk-link--no-visited-state)
+          %>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </div>
 
