@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-  layout "legacy"
+  layout :get_layout
   before_action :find_tag
   before_action :require_gds_editor_permissions_to_edit_browse_pages!
 
@@ -8,22 +8,37 @@ class ListsController < ApplicationController
     render "start_curating_lists" unless @lists.any?
   end
 
+  def new
+    @list = List.new
+  end
+
   def edit
     @list = @tag.lists.find(params[:id])
   end
 
   def create
-    list = @tag.lists.build(list_params)
-    list.index = (@tag.lists.maximum(:index) || 0) + 1
+    @list = @tag.lists.build(list_params)
+    @list.index = (@tag.lists.maximum(:index) || 0) + 1
 
-    if list.save
-      @tag.mark_as_dirty!
-      flash[:notice] = "List created"
+    if redesigned_lists_permission?
+      if @list.save
+        @tag.mark_as_dirty!
+        ListPublisher.new(@tag).perform
+        flash[:notice] = "List created"
+
+        redirect_to polymorphic_path(@tag)
+      else
+        render :new
+      end
     else
-      flash[:alert] = "Could not create your list"
+      if @list.save
+        @tag.mark_as_dirty!
+        flash[:success] = "List created"
+      else
+        flash[:danger] = "Could not create your list"
+      end
+      redirect_to tag_lists_path(@tag)
     end
-
-    redirect_to tag_lists_path(@tag)
   end
 
   def destroy
@@ -67,6 +82,14 @@ class ListsController < ApplicationController
   end
 
 private
+
+  def get_layout
+    if redesigned_lists_permission? && action_name.in?(%w[new create])
+      "design_system"
+    else
+      "legacy"
+    end
+  end
 
   def list_params
     params.require(:list).permit(:name, :index)

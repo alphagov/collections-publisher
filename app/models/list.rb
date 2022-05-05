@@ -5,6 +5,7 @@ class List < ApplicationRecord
   scope :ordered, -> { order(:index) }
 
   validates :tag, presence: true
+  validates :name, presence: { message: "Enter a name" }
 
   def tagged_list_items
     @tagged_list_items ||= list_items_with_tagging_status.select(&:tagged?)

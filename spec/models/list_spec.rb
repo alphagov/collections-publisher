@@ -8,6 +8,11 @@ RSpec.describe List do
       list.tag = nil
       expect(list).not_to be_valid
     end
+
+    it "requires a name" do
+      list.name = nil
+      expect(list).not_to be_valid
+    end
   end
 
   describe "#delete" do

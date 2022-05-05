@@ -88,7 +88,7 @@ RSpec.feature "Navigating topics" do
         { title: "A link that only exists in Publishing API.", content_id: "29941ec1-4a41-4bfd-86a9-5c866bbd4c7a" },
       ],
     )
-    @vat_topic.lists.create!
+    @vat_topic.lists.create!(name: "name")
     click_on "VAT"
   end
 

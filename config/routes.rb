@@ -76,7 +76,7 @@ Rails.application.routes.draw do
   resources :tags, only: [] do
     post :publish_lists
 
-    resources :lists, only: %i[index edit create update destroy] do
+    resources :lists, only: %i[index new edit create update destroy] do
       resources :list_items, only: %i[create update destroy]
     end
   end
