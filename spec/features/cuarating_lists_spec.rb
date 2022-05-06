@@ -37,6 +37,13 @@ RSpec.feature "Curating lists" do
     and_the_correct_calls_are_made_to_the_publishing_api_for_reordering_a_list
   end
 
+  scenario "Deleting a list" do
+    when_i_click_the_delete_list_link
+    and_i_confirm_the_deletion
+    then_the_list_has_been_deleted
+    and_the_correct_calls_are_made_to_the_publishing_api_for_deleting_a_list
+  end
+
   def and_there_are_is_a_child_object_with_curated_lists
     @parent = create(:topic, :published)
     @child = create(:topic, :published, parent: @parent)
@@ -166,6 +173,38 @@ RSpec.feature "Curating lists" do
             },
             {
               "name" => @list1.name,
+              "contents" => [],
+            },
+          ],
+          "internal_name" => @child.title_including_parent,
+        },
+      ),
+    )
+    assert_publishing_api_publish(@child.content_id)
+    assert_publishing_api_patch_links(@child.content_id)
+  end
+
+  def when_i_click_the_delete_list_link
+    click_link "Delete list", match: :first
+  end
+
+  def and_i_confirm_the_deletion
+    click_button "Delete list"
+  end
+
+  def then_the_list_has_been_deleted
+    expect(all(".gem-c-document-list__item-title").count).to eq 1
+    expect(all(".gem-c-document-list__item-title")[0].text).to eq @list2.name
+  end
+
+  def and_the_correct_calls_are_made_to_the_publishing_api_for_deleting_a_list
+    assert_publishing_api_put_content(
+      @child.content_id,
+      request_json_includes(
+        "details" => {
+          "groups" => [
+            {
+              "name" => @list2.name,
               "contents" => [],
             },
           ],
