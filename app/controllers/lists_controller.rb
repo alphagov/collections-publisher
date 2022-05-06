@@ -42,18 +42,34 @@ class ListsController < ApplicationController
     end
   end
 
+  def confirm_destroy
+    @list = @tag.lists.find(params[:id])
+  end
+
   def destroy
     list = @tag.lists.find(params[:id])
     list.destroy!
 
-    if list.destroyed?
-      @tag.mark_as_dirty!
-      flash[:notice] = "List deleted"
-    else
-      flash[:alert] = "Could not delete the list"
-    end
+    if redesigned_lists_permission?
+      if list.destroyed?
+        @tag.mark_as_dirty!
+        ListPublisher.new(@tag).perform
+        flash[:notice] = "List deleted"
+      else
+        flash[:alert] = "Could not delete the list"
+      end
 
-    redirect_to tag_lists_path(@tag)
+      redirect_to polymorphic_path(@tag)
+    else
+      if list.destroyed?
+        @tag.mark_as_dirty!
+        flash[:success] = "List deleted"
+      else
+        flash[:danger] = "Could not delete the list"
+      end
+
+      redirect_to tag_lists_path(@tag)
+    end
   end
 
   def update
@@ -98,7 +114,7 @@ class ListsController < ApplicationController
 private
 
   def get_layout
-    if redesigned_lists_permission? && action_name.in?(%w[new create edit update])
+    if redesigned_lists_permission? && action_name.in?(%w[new create edit update confirm_destroy])
       "design_system"
     else
       "legacy"
