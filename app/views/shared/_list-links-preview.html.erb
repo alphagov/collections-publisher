@@ -17,7 +17,7 @@
       <% if tag.lists.count > 1 %>
         <li class="govuk-summary-list__actions-list-item">
           <%= link_to 'Reorder list',
-            "#",
+            tag_manage_list_ordering_path(tag),
             class: %w(govuk-link govuk-link--no-visited-state)
           %>
         </li>

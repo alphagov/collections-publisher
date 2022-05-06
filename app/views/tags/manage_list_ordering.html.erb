@@ -1,0 +1,29 @@
+<%= content_for :back_link, render("govuk_publishing_components/components/back_link", {
+  href: polymorphic_path(@tag)
+}) %>
+
+<%= content_for :context, @tag.title_including_parent %>
+
+<% content_for :title, "Reorder list" %>
+
+<%= render 'shared/error_summary', object: @tag %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_for @tag, url: tag_update_list_ordering_path(@tag), method: :patch do |f| %>
+      <div class="govuk-!-margin-bottom-6">
+        <%= render "govuk_publishing_components/components/reorderable_list", {
+          items: @tag.lists.ordered.map do |list|
+            {
+              id: list.id,
+              title: list.name,
+            }
+          end
+        } %>
+        <%= render "govuk_publishing_components/components/button", {
+          text: "Update order",
+        } %>
+      </div>
+    <% end %>
+  </div>
+</div>

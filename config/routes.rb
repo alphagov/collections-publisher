@@ -75,6 +75,8 @@ Rails.application.routes.draw do
 
   resources :tags, only: [] do
     post :publish_lists
+    get :manage_list_ordering
+    patch :update_list_ordering
 
     resources :lists, only: %i[index new edit create update destroy] do
       resources :list_items, only: %i[create update destroy]
