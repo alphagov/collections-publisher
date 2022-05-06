@@ -21,6 +21,18 @@ RSpec.feature "Curating lists" do
     and_the_correct_calls_are_made_to_the_publishing_api_for_creating_a_list
   end
 
+  scenario "Renaming a list" do
+    given_i_am_a_gds_editor
+    and_i_have_the_redesigned_lists_permission
+    and_there_are_is_a_child_object_with_curated_lists
+
+    when_i_visit_the_child_show_page
+    and_i_click_the_rename_list_link
+    and_i_update_the_list_name
+    then_i_see_the_list_name_has_been_updated
+    and_the_correct_calls_are_made_to_the_publishing_api_for_renaming_a_list
+  end
+
   def and_there_are_is_a_child_object_with_curated_lists
     @parent = create(:topic, :published)
     @child = create(:topic, :published, parent: @parent)
@@ -75,6 +87,42 @@ RSpec.feature "Curating lists" do
             },
             {
               "name" => "David Lister",
+              "contents" => [],
+            },
+          ],
+          "internal_name" => @child.title_including_parent,
+        },
+      ),
+    )
+    assert_publishing_api_publish(@child.content_id)
+    assert_publishing_api_patch_links(@child.content_id)
+  end
+
+  def and_i_click_the_rename_list_link
+    click_link "Rename list", match: :first
+  end
+
+  def and_i_update_the_list_name
+    fill_in "Update a list", with: "Updated list name"
+    click_button "Update name"
+  end
+
+  def then_i_see_the_list_name_has_been_updated
+    expect(all(".gem-c-document-list__item")[0]).to have_content "Updated list name"
+  end
+
+  def and_the_correct_calls_are_made_to_the_publishing_api_for_renaming_a_list
+    assert_publishing_api_put_content(
+      @child.content_id,
+      request_json_includes(
+        "details" => {
+          "groups" => [
+            {
+              "name" => "Updated list name",
+              "contents" => [],
+            },
+            {
+              "name" => @list2.name,
               "contents" => [],
             },
           ],
