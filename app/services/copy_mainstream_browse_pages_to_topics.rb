@@ -14,6 +14,7 @@ class CopyMainstreamBrowsePagesToTopics
       new_topic = create_basic_topic(page)
 
       tag_documents_to_topics(page.tagged_documents, new_topic) if page.tagged_documents.any?
+      copy_curated_lists_and_items(page.lists, new_topic) if page.lists.any?
 
       new_topic
     rescue StandardError => e
@@ -61,6 +62,24 @@ private
     end
   end
 
+  def copy_curated_lists_and_items(lists_to_copy, new_topic)
+    lists_to_copy.map do |list|
+      new_list = List.new(list.attributes.except("id"))
+      new_list.tag_id = new_topic.id
+      new_list.save!
+
+      new_list_items = list.list_items.map do |list_item|
+        new_list_item = ListItem.new(list_item.attributes.except("id"))
+        new_list_item.list_id = new_list.id
+
+        new_list_item if new_list_item.save!
+      end
+
+      new_list.list_items = new_list_items
+      new_list.save!
+    end
+  end
+
   def update_parent_to_new_topic(topic)
     parent_topic = Topic.find_by(title: topic.parent&.title)
 
@@ -73,5 +92,7 @@ private
 
   def send_to_publishing_api(topic)
     TagPublisher.new(topic).publish
+
+    ListPublisher.new(topic).perform if topic.lists.any?
   end
 end

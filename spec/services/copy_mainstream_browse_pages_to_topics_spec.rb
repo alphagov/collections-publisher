@@ -165,5 +165,75 @@ RSpec.describe CopyMainstreamBrowsePagesToTopics do
         bulk_publishing: true,
       )
     end
+
+    it "copies curated lists and publishes them as groups" do
+      create(:list,
+             name: "Guidance",
+             tag: mainstream_browse_page,
+             list_items: [create(:list_item, base_path: "/carers-allowance")])
+
+      # GET https://publishing-api.test.gov.uk/v2/links/f508898d-1ba0-46f7-b150-828166886d97
+      stub_publishing_api_has_links(
+        {
+          "content_id" => "f508898d-1ba0-46f7-b150-828166886d97",
+          "links" => {
+            "mainstream_browse_pages" => %W[#{mainstream_browse_page.content_id} affe9184-22a0-4e27-9254-2e43f6b2c870],
+            "parent" => %w[d35b8c98-7419-42f6-b7af-443e4f25edfc],
+          },
+        },
+      )
+
+      # GET https://publishing-api.test.gov.uk/v2/linked/mainstream_browse_page.content_id?fields%5B%5D=base_path&fields%5B%5D=content_id&fields%5B%5D=title&link_type=mainstream_browse_pages
+      allow(Services.publishing_api).to receive(:get_linked_items).with(
+        mainstream_browse_page.content_id,
+        hash_including(link_type: :mainstream_browse_pages),
+      ).and_call_original
+
+      stub_publishing_api_has_linked_items(
+        [
+          { base_path: "/carers-allowance", title: "Carer's Allowance", content_id: "f508898d-1ba0-46f7-b150-828166886d97" },
+        ],
+        {
+          content_id: mainstream_browse_page.content_id,
+          link_type: "mainstream_browse_pages",
+          fields: %i[title base_path content_id],
+        },
+      )
+
+      allow(Services.publishing_api).to receive(:get_linked_items).with(
+        /./,  # the content_id of the new topic is unknown at this point
+        hash_including(link_type: :topics),
+      ).and_return(
+        [{ "title" => "Carer's Allowance",
+           "base_path" => "/carers-allowance",
+           "content_id" => "f508898d-1ba0-46f7-b150-828166886d97" }],
+      )
+
+      described_class.call([mainstream_browse_page])
+      topic = Topic.find_by(title: "Carers")
+
+      expect(topic.lists.count).to eq(1)
+      expect(topic.lists.first.name).to eq("Guidance")
+      expect(topic.lists.first.list_items.first.base_path).to eq("/carers-allowance")
+      expect(topic.lists.first.tagged_list_items.first.base_path).to eq("/carers-allowance")
+
+      assert_publishing_api_put_content(
+        topic.content_id,
+        request_json_includes(
+          "details": {
+            "groups": [
+              {
+                "name": "Guidance",
+                "contents": [
+                  "/carers-allowance",
+                ],
+              },
+            ],
+            "internal_name": "Carers",
+            "mainstream_browse_origin": mainstream_browse_page.content_id,
+          },
+        ),
+      )
+    end
   end
 end
