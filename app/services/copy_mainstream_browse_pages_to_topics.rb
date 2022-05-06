@@ -18,6 +18,7 @@ class CopyMainstreamBrowsePagesToTopics
     end
 
     new_topics.compact.each do |topic|
+      update_parent_to_new_topic(topic) if topic.has_parent?
       send_to_publishing_api(topic)
     rescue StandardError => e
       Rails.logger.debug "`#{topic.title}` failed with error: #{e}"
@@ -36,6 +37,16 @@ private
       topic.child_ordering = mainstream_browse_page.child_ordering
       topic.mainstream_browse_origin = mainstream_browse_page.content_id
     end
+  end
+
+  def update_parent_to_new_topic(topic)
+    parent_topic = Topic.find_by(title: topic.parent&.title)
+
+    topic.attributes = {
+      parent_id: parent_topic.try(:id),
+    }
+
+    topic.save!
   end
 
   def send_to_publishing_api(topic)

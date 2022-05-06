@@ -21,6 +21,7 @@ RSpec.describe CopyMainstreamBrowsePagesToTopics do
   before do
     stub_any_publishing_api_put_content
     stub_any_publishing_api_publish
+    stub_any_publishing_api_patch_links
   end
 
   describe ".call" do
@@ -59,6 +60,34 @@ RSpec.describe CopyMainstreamBrowsePagesToTopics do
             "mainstream_browse_origin": mainstream_browse_page.content_id,
           },
         ),
+      )
+    end
+
+    it "saves the parent and child associations between the new Topics" do
+      publishing_api_has_no_linked_items
+
+      described_class.call([parent, mainstream_browse_page])
+      parent_topic = Topic.find_by(title: "Disabled people")
+      topic = Topic.find_by(title: "Carers")
+
+      expect(topic.parent).to eq(parent_topic)
+      expect(parent_topic.parent).to eq(nil)
+      expect(parent_topic.children).to eq([topic])
+
+      assert_publishing_api_patch_links(
+        topic.content_id,
+        links: {
+          parent: [parent_topic.content_id],
+          primary_publishing_organisation: [RootTopicPresenter::GDS_CONTENT_ID],
+        },
+      )
+
+      assert_publishing_api_patch_links(
+        parent_topic.content_id,
+        links: {
+          children: [topic.content_id],
+          primary_publishing_organisation: [RootTopicPresenter::GDS_CONTENT_ID],
+        },
       )
     end
   end
