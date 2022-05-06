@@ -8,7 +8,7 @@
           },
           metadata: {
             edit_list: tag.a("Edit list", href: "#", class: "govuk-link"),
-            rename_list: tag.a("Rename list", href: "##", class: "govuk-link"),
+            rename_list: tag.a("Rename list", href: edit_tag_list_path(tag_object, list), class: "govuk-link"),
             delete_list: tag.a("Delete list", href: "###", class: "govuk-link"),
           }
         },

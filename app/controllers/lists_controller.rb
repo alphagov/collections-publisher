@@ -14,6 +14,7 @@ class ListsController < ApplicationController
 
   def edit
     @list = @tag.lists.find(params[:id])
+    render "edit_legacy" unless redesigned_lists_permission?
   end
 
   def create
@@ -56,26 +57,39 @@ class ListsController < ApplicationController
   end
 
   def update
-    list = @tag.lists.find(params[:id])
-    saved = list.update(list_params)
+    @list = @tag.lists.find(params[:id])
 
-    @tag.mark_as_dirty! if saved
+    if redesigned_lists_permission?
+      if @list.update(list_params)
+        @tag.mark_as_dirty!
+        ListPublisher.new(@tag).perform
+        flash[:notice] = "List updated"
 
-    respond_to do |format|
-      format.html do
-        if saved
-          flash[:notice] = "List updated"
-        else
-          flash[:alert] = "Could not save your list"
-        end
-
-        redirect_to tag_lists_path(@tag)
+        redirect_to polymorphic_path(@tag)
+      else
+        render :edit
       end
-      format.js do
-        if saved
-          render json: { errors: [] }
-        else
-          render json: { errors: list.errors.to_json }, status: :unprocessable_entity
+    else
+      saved = @list.update(list_params)
+
+      @tag.mark_as_dirty! if saved
+
+      respond_to do |format|
+        format.html do
+          if saved
+            flash[:success] = "List updated"
+          else
+            flash[:danger] = "Could not save your list"
+          end
+
+          redirect_to tag_lists_path(@tag)
+        end
+        format.js do
+          if saved
+            render json: { errors: [] }
+          else
+            render json: { errors: list.errors.to_json }, status: :unprocessable_entity
+          end
         end
       end
     end
@@ -84,7 +98,7 @@ class ListsController < ApplicationController
 private
 
   def get_layout
-    if redesigned_lists_permission? && action_name.in?(%w[new create])
+    if redesigned_lists_permission? && action_name.in?(%w[new create edit update])
       "design_system"
     else
       "legacy"

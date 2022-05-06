@@ -1,8 +1,33 @@
-<%= header "Edit '#{@list.name}'",
-  breadcrumbs: [active_navigation_item, @tag.parent, @tag,
-    link_to('Links', tag_lists_path(@tag)), @list.name] %>
+<%= content_for :back_link, render("govuk_publishing_components/components/back_link", {
+  href: polymorphic_path(@tag)
+}) %>
 
-<%= form_for @list, :url => tag_list_path(@tag, @list) do |f| %>
-  <%= f.text_field :name %>
-  <%= f.submit 'Update list', class: 'btn-submit' %>
-<% end %>
+<%= content_for :page_title, "Update list name" %>
+
+<%= render 'shared/error_summary', object: @list %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl gem-c-title__context">
+      Rename a list
+    </span>
+
+    <%= form_for @list, url: tag_list_path(@tag, @list), method: :patch do |f| %>
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: "Update a list"
+        },
+        name: "list[name]",
+        id: "list_name",
+        value: @list.name,
+        heading_level: 1,
+        heading_size: "l",
+        error_items: errors_for(@list, :name)
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Update name"
+      } %>
+    <% end %>
+  </div>
+</div>
