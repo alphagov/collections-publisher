@@ -9,9 +9,11 @@ RSpec.feature "Curating lists" do
     given_i_am_a_gds_editor
     and_i_have_the_redesigned_lists_permission
     and_there_are_is_a_child_object_with_curated_lists
+    and_i_visit_the_child_show_page
+  end
 
-    when_i_visit_the_child_show_page
-    and_i_click_the_add_list_link
+  scenario "adding a list" do
+    when_i_click_the_add_list_link
     and_i_save_the_list
     then_i_am_told_to_provide_a_list_name
 
@@ -22,15 +24,17 @@ RSpec.feature "Curating lists" do
   end
 
   scenario "Renaming a list" do
-    given_i_am_a_gds_editor
-    and_i_have_the_redesigned_lists_permission
-    and_there_are_is_a_child_object_with_curated_lists
-
-    when_i_visit_the_child_show_page
-    and_i_click_the_rename_list_link
+    when_i_click_the_rename_list_link
     and_i_update_the_list_name
     then_i_see_the_list_name_has_been_updated
     and_the_correct_calls_are_made_to_the_publishing_api_for_renaming_a_list
+  end
+
+  scenario "Reordering a list" do
+    when_i_click_the_reorder_list_link
+    and_i_reorder_the_list
+    then_i_see_the_list_order_has_been_updated
+    and_the_correct_calls_are_made_to_the_publishing_api_for_reordering_a_list
   end
 
   def and_there_are_is_a_child_object_with_curated_lists
@@ -51,7 +55,7 @@ RSpec.feature "Curating lists" do
     visit topic_path(@child)
   end
 
-  def and_i_click_the_add_list_link
+  def when_i_click_the_add_list_link
     click_link "Add list"
   end
 
@@ -98,7 +102,7 @@ RSpec.feature "Curating lists" do
     assert_publishing_api_patch_links(@child.content_id)
   end
 
-  def and_i_click_the_rename_list_link
+  def when_i_click_the_rename_list_link
     click_link "Rename list", match: :first
   end
 
@@ -123,6 +127,45 @@ RSpec.feature "Curating lists" do
             },
             {
               "name" => @list2.name,
+              "contents" => [],
+            },
+          ],
+          "internal_name" => @child.title_including_parent,
+        },
+      ),
+    )
+    assert_publishing_api_publish(@child.content_id)
+    assert_publishing_api_patch_links(@child.content_id)
+  end
+
+  def when_i_click_the_reorder_list_link
+    click_link "Reorder list"
+  end
+
+  def and_i_reorder_the_list
+    fill_in @list1.name, with: "2"
+    fill_in @list2.name, with: "1"
+    click_button "Update order"
+  end
+
+  def then_i_see_the_list_order_has_been_updated
+    within "#curated-lists" do
+      expect(all(".gem-c-document-list__item-title")[0].text).to eq @list2.name
+    end
+  end
+
+  def and_the_correct_calls_are_made_to_the_publishing_api_for_reordering_a_list
+    assert_publishing_api_put_content(
+      @child.content_id,
+      request_json_includes(
+        "details" => {
+          "groups" => [
+            {
+              "name" => @list2.name,
+              "contents" => [],
+            },
+            {
+              "name" => @list1.name,
               "contents" => [],
             },
           ],
