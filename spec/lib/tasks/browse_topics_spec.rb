@@ -19,4 +19,14 @@ RSpec.describe "rake browse_topics:copy_mainstream_browse_pages_to_topics", type
       [mainstream_browse_page1, mainstream_browse_page2],
     )
   end
+
+  it "doesn't run in production" do
+    allow(Rails).to receive(:env) { "production".inquiry }
+
+    expect { Rake::Task["browse_topics:copy_mainstream_browse_pages_to_topics"].invoke }.to raise_error(
+      "This rake task is not intended to be run in production",
+    )
+
+    expect(CopyMainstreamBrowsePagesToTopics).not_to have_received(:call)
+  end
 end
