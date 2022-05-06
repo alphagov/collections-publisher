@@ -12,6 +12,10 @@ class CopyMainstreamBrowsePagesToTopics
   def copy
     new_topics = mainstream_browse_pages.map do |page|
       new_topic = create_basic_topic(page)
+
+      tag_documents_to_topics(page.tagged_documents, new_topic) if page.tagged_documents.any?
+
+      new_topic
     rescue StandardError => e
       Rails.logger.debug "Saving topic `#{page.title}` failed with error: #{e}"
       nil
@@ -36,6 +40,24 @@ private
       topic.parent_id = mainstream_browse_page.parent_id
       topic.child_ordering = mainstream_browse_page.child_ordering
       topic.mainstream_browse_origin = mainstream_browse_page.content_id
+    end
+  end
+
+  def tag_documents_to_topics(documents_to_tag, new_topic)
+    documents_to_tag.each do |document|
+      links_payload = Services.publishing_api.get_links(document.content_id)["links"]
+
+      if links_payload.key?("topics")
+        links_payload["topics"] << new_topic.content_id
+      else
+        links_payload.merge!("topics": [new_topic.content_id])
+      end
+
+      Services.publishing_api.patch_links(
+        document.content_id,
+        links: links_payload,
+        bulk_publishing: true,
+      )
     end
   end
 
