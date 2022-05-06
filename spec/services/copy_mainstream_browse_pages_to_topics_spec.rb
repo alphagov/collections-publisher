@@ -43,5 +43,23 @@ RSpec.describe CopyMainstreamBrowsePagesToTopics do
         }),
       )
     end
+
+    it "flags that the Topic used to be a Mainstream Browse Page" do
+      publishing_api_has_no_linked_items
+
+      described_class.call([mainstream_browse_page])
+      topic = Topic.find_by(title: "Carers")
+
+      assert_publishing_api_put_content(
+        topic.content_id,
+        request_json_includes(
+          "details": {
+            "groups": [],
+            "internal_name": "Carers",
+            "mainstream_browse_origin": mainstream_browse_page.content_id,
+          },
+        ),
+      )
+    end
   end
 end

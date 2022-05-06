@@ -34,6 +34,7 @@ private
       topic.description = mainstream_browse_page.description
       topic.parent_id = mainstream_browse_page.parent_id
       topic.child_ordering = mainstream_browse_page.child_ordering
+      topic.mainstream_browse_origin = mainstream_browse_page.content_id
     end
   end
 

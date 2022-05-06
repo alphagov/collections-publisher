@@ -14,8 +14,8 @@ private
   end
 
   def details
-    if @tag.mainstream_browse_origin
-      return super.merge("mainstream_browse_origin" => @tag.mainstream_browse_origin)
+    if tag.mainstream_browse_origin
+      return super.merge("mainstream_browse_origin" => tag.mainstream_browse_origin)
     end
 
     super
