@@ -183,7 +183,9 @@ FactoryBot.define do
   end
 
   factory :list_item do
-    title { "A list item title" }
+    sequence(:title) { |n| "List item #{n}" }
+    sequence(:base_path) { |n| "/base-path-#{n}" }
+    sequence(:index)
   end
 
   factory :tag do
