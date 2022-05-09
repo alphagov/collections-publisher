@@ -3,6 +3,8 @@ class ListItem < ApplicationRecord
 
   validates :index, numericality: { greater_than_or_equal_to: 0 }
 
+  scope :ordered, -> { order(:index) }
+
   attr_accessor :tagged
   alias_method :tagged?, :tagged
 
