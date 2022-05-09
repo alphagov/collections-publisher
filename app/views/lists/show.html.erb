@@ -1,0 +1,79 @@
+<%= render 'shared/breadcrumbs', {
+  links: [
+    {
+      text: @tag.is_a?(MainstreamBrowsePage) ? "Mainstream browse pages" : "Topics",
+      href: @tag.is_a?(MainstreamBrowsePage) ? mainstream_browse_pages_url : topics_url
+    },
+    *([
+      text: @tag.parent[:title],
+      href: polymorphic_path(@tag.parent)
+    ] if @tag.parent.present? ),
+    {
+      text: @tag[:title],
+      href: polymorphic_path(@tag),
+    },
+    {
+      text: "List",
+    }
+  ]
+} %>
+
+<%= content_for :context, "List" %>
+
+<% content_for :title, @list.name %>
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        <%= render "govuk_publishing_components/components/heading", {
+            text: "Links",
+            font_size: "m",
+            margin_bottom: 4
+          } %>
+      </div>
+
+      <div class="govuk-grid-column-one-half app-grid-column--align-right">
+        <ul class="govuk-summary-list__actions-list gem-c-summary-list__group-actions-list">
+          <li class="govuk-summary-list__actions-list-item">
+            <%= link_to 'Add links to list',
+              tag_list_list_items_path(@tag, @list),
+              class: %w(govuk-link govuk-link--no-visited-state)
+            %>
+          </li>
+          <% if @list.list_items.count > 1 %>
+            <li class="govuk-summary-list__actions-list-item">
+              <%= link_to 'Reorder links',
+                "#",
+                class: %w(govuk-link govuk-link--no-visited-state)
+              %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <p class="govuk-body-s">Select page to edit tagging in Content Tagger</p>
+
+
+    <div class="list-items">
+      <% @list.list_items.ordered.each do |list_item| %>
+        <%= render "govuk_publishing_components/components/document_list", {
+          items: [
+            {
+              link: {
+                text: list_item.title,
+                path: Plek.new.website_root + list_item.base_path
+              },
+              metadata: {
+                move_list_item: tag.a("Move to a different list", href: "#", class: "govuk-link"),
+                removelist_item: tag.a("Remove", href: "#", class: "govuk-link"),
+              }
+            },
+          ]
+        } %>
+      <% end %>
+    </div>
+  </div>
+</div>

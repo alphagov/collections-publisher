@@ -8,6 +8,10 @@ class ListsController < ApplicationController
     render "start_curating_lists" unless @lists.any?
   end
 
+  def show
+    @list = @tag.lists.find(params[:id])
+  end
+
   def new
     @list = List.new
   end
@@ -111,7 +115,7 @@ class ListsController < ApplicationController
 private
 
   def get_layout
-    if redesigned_lists_permission? && action_name.in?(%w[new create edit update confirm_destroy])
+    if redesigned_lists_permission? && action_name.in?(%w[new create edit update confirm_destroy show])
       "design_system"
     else
       "legacy"
