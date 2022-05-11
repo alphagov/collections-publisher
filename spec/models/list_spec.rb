@@ -48,4 +48,23 @@ RSpec.describe List do
       expect(list_item.tagged?).to eql(false)
     end
   end
+
+  describe "#available_list_items" do
+    it "returns tagged list items from the publishing api that are in the list" do
+      list = create(:list)
+      create(:list_item, list: list, base_path: "/item-in-list")
+      publishing_api_has_linked_items(
+        list.tag.content_id,
+        items: [
+          { base_path: "/item-in-list", title: "Item in list", content_id: "123" },
+          { base_path: "/item-not-in-list", title: "Item not in list", content_id: "456" },
+        ],
+      )
+
+      expect(list.available_list_items.count).to eq 1
+      expect(list.available_list_items.first.base_path).to eq "/item-not-in-list"
+      expect(list.available_list_items.first.title).to eq "Item not in list"
+      expect(list.available_list_items.first.content_id).to eq "456"
+    end
+  end
 end
