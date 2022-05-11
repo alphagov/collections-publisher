@@ -130,10 +130,28 @@ class ListsController < ApplicationController
     end
   end
 
+  def manage_list_item_ordering
+    @list = @tag.lists.find(params[:id])
+  end
+
+  def update_list_item_ordering
+    @list = @tag.lists.find(params[:id])
+
+    if save_ordering
+      @tag.mark_as_dirty!
+      ListPublisher.new(@tag).perform
+      flash["notice"] = "List items reordered successfully"
+
+      redirect_to tag_list_path(@tag, @list)
+    else
+      render :manage_list_item_ordering
+    end
+  end
+
 private
 
   def get_layout
-    if redesigned_lists_permission? && action_name.in?(%w[new create edit update confirm_destroy show edit_list_items update_list_items])
+    if redesigned_lists_permission? && action_name.in?(%w[new create edit update confirm_destroy show edit_list_items update_list_items manage_list_item_ordering update_list_item_ordering])
       "design_system"
     else
       "legacy"
@@ -158,6 +176,14 @@ private
         title: linked_item.title,
         index: @list.list_items.length + 1,
       )
+    end
+  end
+
+  def save_ordering
+    params[:ordering].each do |link_order|
+      id, index = link_order
+      list_item = @list.list_items.find(id)
+      list_item.update!(index: index)
     end
   end
 

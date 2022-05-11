@@ -45,7 +45,7 @@
           <% if @list.list_items.count > 1 %>
             <li class="govuk-summary-list__actions-list-item">
               <%= link_to 'Reorder links',
-                "#",
+                manage_list_item_ordering_tag_list_path(@tag, @list),
                 class: %w(govuk-link govuk-link--no-visited-state)
               %>
             </li>
