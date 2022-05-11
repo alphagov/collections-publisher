@@ -18,6 +18,17 @@ class List < ApplicationRecord
     end
   end
 
+  def available_list_items
+    tag
+    .tagged_documents
+    .documents
+    .reject do |link|
+      list_items
+      .map(&:base_path)
+      .include?(link["base_path"])
+    end
+  end
+
 private
 
   def tagged_base_paths
