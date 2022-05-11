@@ -38,8 +38,8 @@ RSpec.feature "Curating a list" do
     @parent = create(:topic, :published)
     @child = create(:topic, :published, parent: @parent)
     @list = create(:list, tag: @child)
-    @list_item1 = create(:list_item, list: @list, index: 0)
-    @list_item2 = create(:list_item, list: @list, index: 1)
+    @list_item1 = create(:list_item, list: @list, index: 1)
+    @list_item2 = create(:list_item, list: @list, index: 2)
     publishing_api_has_linked_items(
       @child.content_id,
       items: [
