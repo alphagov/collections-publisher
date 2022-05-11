@@ -82,6 +82,7 @@ Rails.application.routes.draw do
       member do
         get :confirm_destroy
         get :edit_list_items
+        patch :update_list_items
       end
 
       resources :list_items, only: %i[create update destroy]

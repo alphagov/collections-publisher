@@ -1,0 +1,34 @@
+<%= content_for :back_link, render("govuk_publishing_components/components/back_link", {
+  href: tag_list_path(@tag, @list)
+}) %>
+
+<%= content_for :page_title, "Add links to current list" %>
+
+<%= render 'shared/error_summary', object: @list %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_for @list, url: update_list_items_tag_list_path(@tag, @list), method: :patch do |f| %>
+      <%= render "govuk_publishing_components/components/checkboxes", {
+        heading: "Add links to current list",
+        heading_caption: "List",
+        heading_size: "l",
+        is_page_heading: true,
+        no_hint_text: true,
+        name: "list[list_items][]",
+        id: "list_list_items",
+        error: (@list.errors[:list_items].first if errors_for(@list, :list_items).present?),
+        items: @list.available_list_items.map do |list_item|
+          {
+            label: list_item.title,
+            value: list_item.base_path,
+          }
+        end
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Add link to list"
+      } %>
+    <% end %>
+  </div>
+</div>
