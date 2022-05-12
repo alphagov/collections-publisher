@@ -90,6 +90,8 @@ Rails.application.routes.draw do
       resources :list_items, only: %i[create update destroy] do
         member do
           get :confirm_destroy
+          get :move
+          patch :update_move
         end
       end
     end

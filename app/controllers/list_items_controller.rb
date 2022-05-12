@@ -85,10 +85,34 @@ class ListItemsController < ApplicationController
     @list_item = @list.list_items.find(params[:id])
   end
 
+  def move
+    @list_item = @list.list_items.find(params[:id])
+  end
+
+  def update_move
+    @list_item = @list.list_items.find(params[:id])
+    @list_item.errors.add(:new_list_id, "Choose a list") if move_list_item_params.blank?
+    render :move and return if @list_item.errors.present?
+
+    new_list = @tag.lists.find(move_list_item_params)
+    new_list.list_items.create!(
+      base_path: @list_item.base_path,
+      title: @list_item.title,
+      index: @list.list_items.map(&:index).max + 1,
+    )
+
+    @list_item.destroy!
+    @tag.mark_as_dirty!
+    ListPublisher.new(@tag).perform
+    flash[:success] = "Item moved to new list successfully"
+
+    redirect_to tag_list_path(@tag, @list)
+  end
+
 private
 
   def get_layout
-    if redesigned_lists_permission? && action_name.in?(%w[confirm_destroy])
+    if redesigned_lists_permission? && action_name.in?(%w[confirm_destroy move update_move])
       "design_system"
     else
       "legacy"
@@ -101,5 +125,9 @@ private
 
   def list_item_params
     params.require(:list_item).permit(:title, :base_path, :index)
+  end
+
+  def move_list_item_params
+    params.dig(:list_item, :new_list_id)
   end
 end
