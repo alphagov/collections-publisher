@@ -239,6 +239,59 @@ RSpec.describe ListItemsController, type: :controller do
       end
     end
 
+    context "user has the `Redesigned lists` permission" do
+      let(:tag) { create(:mainstream_browse_page, :published) }
+
+      before do
+        stub_any_publishing_api_call
+      end
+
+      it "destroys a list item and makes the correct calls to the Publishing API" do
+        stub_user.update!(permissions: ["signin", "GDS Editor", "Redesigned lists"])
+
+        patch :destroy, params: {
+          tag_id: tag.content_id,
+          list_id: list.id,
+          id: list_item.id,
+        }
+
+        expect { ListItem.find(list_item.id) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(tag_list_path(tag, list))
+        expect(flash.notice).to eq "Content removed from list"
+        assert_publishing_api_put_content(
+          tag.content_id,
+          request_json_includes(
+            "details" => {
+              "groups" => [
+                {
+                  "name" => list.name,
+                  "contents" => [],
+                },
+              ],
+              "internal_name" => tag.title,
+              "second_level_ordering" => "alphabetical",
+              "ordered_second_level_browse_pages" => [],
+            },
+          ),
+        )
+        assert_publishing_api_publish(tag.content_id)
+        assert_publishing_api_patch_links(tag.content_id)
+      end
+
+      it "does not allow users without GDS Editor permissions access" do
+        stub_user.update!(permissions: ["signin", "Redesigned lists"])
+
+        patch :destroy, params: {
+          tag_id: tag.content_id,
+          list_id: list.id,
+          id: list_item.id,
+        }
+
+        expect(response.status).to eq(403)
+      end
+    end
+
     def destroy_list_item
       delete :destroy, params: {
         tag_id: tag.content_id,
@@ -260,6 +313,51 @@ RSpec.describe ListItemsController, type: :controller do
       stubbed_list = double("stubbed List", list_items: double("stubbed list_items", find: stubbed_list_item))
       stubbed_tag = double("stubbed Tag", to_param: tag.content_id, lists: double("stubbed lists", find: stubbed_list))
       stub_const("Tag", double("stubbed Tag class", find_by!: stubbed_tag))
+    end
+  end
+
+  describe "GET confirm_destroy" do
+    let(:list) { create(:list, tag: tag) }
+    let!(:list_item) { create(:list_item, list: list) }
+
+    context "Tag is a MainstreamBrowsePage" do
+      let(:tag) { create(:mainstream_browse_page) }
+
+      it "assigns the correct instance variables and renders the confirm_destroy template" do
+        stub_user.update!(permissions: ["signin", "GDS Editor", "Redesigned lists"])
+
+        get :confirm_destroy, params: { tag_id: tag.content_id, list_id: list.id, id: list_item.id }
+
+        expect(assigns(:tag).id).to eq tag.id
+        expect(assigns(:list).id).to eq list.id
+        expect(assigns(:list_item).id).to eq list_item.id
+        expect(response.status).to eq(200)
+        expect(response).to render_template :confirm_destroy
+      end
+
+      it "does not allow users without GDS Editor permissions access" do
+        stub_user.update!(permissions: ["signin", "Redesigned lists"])
+
+        get :confirm_destroy, params: { tag_id: tag.content_id, list_id: list.id, id: list_item.id }
+
+        expect(response.status).to eq(403)
+      end
+    end
+
+    context "Tag is a topic and user does not have `GDS Editor permissions`" do
+      let(:tag) { create(:topic) }
+
+      it "assigns the correct instance vaiables and renders the confirm_destroy template" do
+        stub_user.update!(permissions: ["signin", "Redesigned lists"])
+
+        get :confirm_destroy, params: { tag_id: tag.content_id, list_id: list.id, id: list_item.id }
+
+        expect(assigns(:tag).id).to eq tag.id
+        expect(assigns(:list).id).to eq list.id
+        expect(assigns(:list_item).id).to eq list_item.id
+        expect(response.status).to eq(200)
+        expect(response).to render_template :confirm_destroy
+      end
     end
   end
 end

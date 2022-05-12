@@ -1,0 +1,20 @@
+<%= content_for :back_link, render("govuk_publishing_components/components/back_link", {
+  href: tag_list_path(@tag, @list)
+}) %>
+
+<%= content_for :context, "List" %>
+
+<% content_for :title, "Confirm removal of link" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_for @list_item, url: tag_list_list_item_path(@tag, @list, @list_item), method: :delete do |f| %>
+      <p class="govuk-body-s">Are you sure you want to delete "<%= @list_item.title %>"?</p>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Remove link",
+        destructive: true,
+      } %>
+    <% end %>
+  </div>
+</div>
