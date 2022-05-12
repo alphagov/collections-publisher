@@ -268,4 +268,19 @@ RSpec.describe Tag do
       ])
     end
   end
+
+  describe "#lists_that_do_not_include_list_item" do
+    let(:tag) { create(:tag, slug: "a-tag") }
+    let(:subtag) { create(:tag, parent: tag, slug: "a-subtag") }
+
+    it "returns all lists that include a specific list item" do
+      list1 = create(:list, tag: subtag)
+      list_item = create(:list_item, list: list1, base_path: "/content-page-1")
+      list2 = create(:list, tag: subtag)
+      create(:list_item, list: list2, base_path: "/content-page-1")
+      list3 = create(:list, tag: subtag)
+
+      expect(subtag.lists_that_do_not_include_list_item(list_item)).to match_array([list3])
+    end
+  end
 end
