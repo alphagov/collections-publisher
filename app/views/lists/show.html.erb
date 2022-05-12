@@ -59,6 +59,15 @@
 
     <div class="list-items">
       <% @list.list_items.ordered.each do |list_item| %>
+        <% if @tag.lists_that_do_not_include_list_item(list_item).present? %>
+          <% metadata = {
+                move_list_item: tag.a("Move to a different list", href: "#", class: "govuk-link"),
+                remove_list_item: tag.a("Remove", href: confirm_destroy_tag_list_list_item_path(@tag, @list, list_item), class: "govuk-link"),
+              } %>
+        <% else %>
+          <% metadata = { remove_list_item: tag.a("Remove", href: confirm_destroy_tag_list_list_item_path(@tag, @list, list_item), class: "govuk-link") } %>
+        <% end %>
+
         <%= render "govuk_publishing_components/components/document_list", {
           items: [
             {
@@ -66,10 +75,7 @@
                 text: list_item.title,
                 path: Plek.new.website_root + list_item.base_path
               },
-              metadata: {
-                move_list_item: tag.a("Move to a different list", href: "#", class: "govuk-link"),
-                remove_list_item: tag.a("Remove", href: confirm_destroy_tag_list_list_item_path(@tag, @list, list_item), class: "govuk-link"),
-              }
+              metadata: metadata
             },
           ]
         } %>
