@@ -1,0 +1,32 @@
+<%= content_for :back_link, render("govuk_publishing_components/components/back_link", {
+  href: tag_list_path(@tag, @list)
+}) %>
+
+<%= content_for :page_title, "Move link to a different list" %>
+
+<%= render 'shared/error_summary', object: @list_item %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_for @list, url: update_move_tag_list_list_item_path(@tag, @list, @list_item), method: :patch do |f| %>
+      <%= render "govuk_publishing_components/components/radio", {
+        name: "list_item[new_list_id]",
+        id: "list_item_new_list_id",
+        heading: "Move link to a different list",
+        heading_size: "l",
+        heading_caption: "List",
+        heading_level: 1,
+        items: @tag.lists_that_do_not_include_list_item(@list_item).map do |list|
+        {
+          value: list.id,
+          text: list.name,
+        }
+        end
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Next"
+      } %>
+    <% end %>
+  </div>
+</div>
