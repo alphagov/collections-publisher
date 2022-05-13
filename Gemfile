@@ -9,6 +9,7 @@ gem "kramdown"
 gem "mysql2"
 gem "sass-rails"
 gem "select2-rails"
+gem "sentry-sidekiq"
 gem "uglifier"
 
 # GDS managed dependencies

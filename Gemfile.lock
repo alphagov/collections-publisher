@@ -140,12 +140,12 @@ GEM
       jquery-rails (~> 4.3)
       plek (>= 2.1)
       rails (>= 6)
-    govuk_app_config (4.5.0)
+    govuk_app_config (4.6.0)
       logstasher (~> 2.1)
       prometheus_exporter (~> 2.0)
       puma (~> 5.6)
-      sentry-rails (~> 5.2)
-      sentry-ruby (~> 5.2)
+      sentry-rails (~> 5.3)
+      sentry-ruby (~> 5.3)
       statsd-ruby (~> 1.5)
       unicorn (~> 6.1)
     govuk_personalisation (0.11.2)
@@ -221,7 +221,7 @@ GEM
     mysql2 (0.5.3)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.4)
+    nokogiri (1.13.6)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     notifications-ruby-client (5.3.0)
@@ -375,6 +375,9 @@ GEM
       sentry-ruby-core (= 5.3.0)
     sentry-ruby-core (5.3.0)
       concurrent-ruby
+    sentry-sidekiq (5.3.0)
+      sentry-ruby-core (~> 5.3.0)
+      sidekiq (>= 3.0)
     shoulda-matchers (4.3.0)
       activesupport (>= 4.2.0)
     sidekiq (5.2.10)
@@ -462,6 +465,7 @@ DEPENDENCIES
   rubocop-govuk
   sass-rails
   select2-rails
+  sentry-sidekiq
   shoulda-matchers
   simplecov
   timecop
