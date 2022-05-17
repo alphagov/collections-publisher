@@ -497,6 +497,7 @@ DEPENDENCIES
   sentry-sidekiq
   shoulda-matchers
   simplecov
+  sprockets-rails
   timecop
   uglifier
   webmock
