@@ -23,7 +23,6 @@ class ListsController < ApplicationController
 
     if redesigned_lists_permission?
       if @list.save
-        @tag.mark_as_dirty!
         ListPublisher.new(@tag).perform
         flash[:notice] = "List created"
 
@@ -52,7 +51,6 @@ class ListsController < ApplicationController
 
     if redesigned_lists_permission?
       if list.destroyed?
-        @tag.mark_as_dirty!
         ListPublisher.new(@tag).perform
         flash[:notice] = "List deleted"
       else
@@ -77,7 +75,6 @@ class ListsController < ApplicationController
 
     if redesigned_lists_permission?
       if @list.update(list_params)
-        @tag.mark_as_dirty!
         ListPublisher.new(@tag).perform
         flash[:notice] = "List updated"
 

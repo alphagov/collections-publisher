@@ -17,7 +17,6 @@ class TagsController < ApplicationController
       list.update!(index: index)
     end
 
-    @tag.mark_as_dirty!
     ListPublisher.new(@tag).perform
     flash["notice"] = "Lists reordered successfully"
 
