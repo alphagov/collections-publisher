@@ -13,9 +13,9 @@ class ListItemsController < ApplicationController
     respond_to do |format|
       format.html do
         if saved
-          flash[:success] = "Content added"
+          flash[:notice] = "Content added"
         else
-          flash[:danger] = "Could not add that list item to your list"
+          flash[:alert] = "Could not add that list item to your list"
         end
 
         redirect_to tag_lists_path(@tag)
@@ -41,9 +41,9 @@ class ListItemsController < ApplicationController
     respond_to do |format|
       format.html do
         if destroyed
-          flash[:success] = "Content removed from list"
+          flash[:notice] = "Content removed from list"
         else
-          flash[:danger] = "Could not remove the list item from this list"
+          flash[:alert] = "Could not remove the list item from this list"
         end
 
         redirect_to tag_lists_path(@tag)

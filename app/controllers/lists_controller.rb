@@ -18,9 +18,9 @@ class ListsController < ApplicationController
 
     if list.save
       @tag.mark_as_dirty!
-      flash[:success] = "List created"
+      flash[:notice] = "List created"
     else
-      flash[:danger] = "Could not create your list"
+      flash[:alert] = "Could not create your list"
     end
 
     redirect_to tag_lists_path(@tag)
@@ -32,9 +32,9 @@ class ListsController < ApplicationController
 
     if list.destroyed?
       @tag.mark_as_dirty!
-      flash[:success] = "List deleted"
+      flash[:notice] = "List deleted"
     else
-      flash[:danger] = "Could not delete the list"
+      flash[:alert] = "Could not delete the list"
     end
 
     redirect_to tag_lists_path(@tag)
@@ -49,9 +49,9 @@ class ListsController < ApplicationController
     respond_to do |format|
       format.html do
         if saved
-          flash[:success] = "List updated"
+          flash[:notice] = "List updated"
         else
-          flash[:danger] = "Could not save your list"
+          flash[:alert] = "Could not save your list"
         end
 
         redirect_to tag_lists_path(@tag)
