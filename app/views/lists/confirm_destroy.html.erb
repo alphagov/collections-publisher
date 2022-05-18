@@ -1,0 +1,23 @@
+<%= content_for :back_link, render("govuk_publishing_components/components/back_link", {
+  href: polymorphic_path(@tag)
+}) %>
+
+<%= content_for :context, @tag.title_including_parent %>
+
+<% content_for :title, "Confirm deletion of list" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_for @list, url: tag_list_path(@tag, @list), method: :delete do |f| %>
+      <p class="govuk-body-s">Are you sure you want to delete <%= @list.name %>?</p>
+      <p class="govuk-body-s">Links will still be tagged to the <%= "mainstream browse" if @tag.is_a? MainstreamBrowsePage %> sub-topic after the list is deleted.</p>
+
+      <div class="govuk-button-group">
+        <%= render "govuk_publishing_components/components/button", {
+          text: "Delete list",
+          destructive: true,
+        } %>
+      </div>
+    <% end %>
+  </div>
+</div>

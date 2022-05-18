@@ -178,6 +178,7 @@ FactoryBot.define do
   end
 
   factory :list do
+    sequence(:name) { |n| "List #{n}" }
     tag
   end
 

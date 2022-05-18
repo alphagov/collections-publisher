@@ -2,31 +2,30 @@
   href: polymorphic_path(@tag)
 }) %>
 
-<%= content_for :page_title, "Update list name" %>
+<%= content_for :page_title, "Add new list" %>
 
 <%= render 'shared/error_summary', object: @list %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <span class="govuk-caption-xl gem-c-title__context">
-      Rename a list
+      <%= @tag.title_including_parent %>
     </span>
 
-    <%= form_for @list, url: tag_list_path(@tag, @list), method: :patch do |f| %>
+    <%= form_for @list, url: tag_lists_path(@tag), method: :post do |f| %>
       <%= render "govuk_publishing_components/components/input", {
         label: {
-          text: "Update a list"
+          text: "Add new list"
         },
         name: "list[name]",
         id: "list_name",
-        value: @list.name,
         heading_level: 1,
         heading_size: "l",
         error_items: errors_for(@list, :name)
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
-        text: "Update name"
+        text: "Add list"
       } %>
     <% end %>
   </div>

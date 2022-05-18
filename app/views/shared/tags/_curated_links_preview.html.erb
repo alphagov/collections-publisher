@@ -1,27 +1,28 @@
-<p class="govuk-body">Links for this tag have been curated into lists. Click on the title for editing on Content Tagger.</p>
-
-<% tag_object.lists.each do |list| %>
-  <h3 class="govuk-heading-s"><%= list.name %></h3>
-  <% if list.list_items.empty? %>
-    <em class="govuk-body">No items in list</em>
+<div id="curated-lists" class="curated-lists">
+  <% tag_object.lists.ordered.each do |list| %>
+    <%= render "govuk_publishing_components/components/document_list", {
+      items: [
+        {
+          link: {
+            text: list.name
+          },
+          metadata: {
+            edit_list: tag.a("Edit list", href: "#", class: "govuk-link"),
+            rename_list: tag.a("Rename list", href: edit_tag_list_path(tag_object, list), class: "govuk-link"),
+            delete_list: tag.a("Delete list", href: confirm_destroy_tag_list_path(tag_object, list), class: "govuk-link"),
+          }
+        },
+      ]
+    } %>
   <% end %>
+</div>
 
-  <%= render "govuk_publishing_components/components/list", {
-    visible_counters: true,
-    items: list.list_items_with_tagging_status.map do |list_item|
-      if list_item.tagged?
-        link_to(list_item.display_title || tag.em("Unknown title (#{list_item.base_path}", class: 'govuk-body-s'),
-         content_tagger_url + '/taggings/' + list_item.content_id, class: 'govuk-link')
-      else
-        list_item.display_title || tag.em("Unknown title (#{list_item.base_path})", class: 'govuk-body-s')
-      end
-    end
-  } %>
-<% end %>
+<h3 class="govuk-heading-m govuk-!-margin-top-8">Unused links</h3>
 
-<h3 class="govuk-heading-s">Uncurated items <em class="govuk-body">(not shown to user)</em></h3>
+<p class="govuk-body-s">
+  Unused links have not been included in any of the curated lists. These links will not be shown to users. Select the page title to edit page tagging in Content Tagger.
+</p>
 
 <%= render "govuk_publishing_components/components/list", {
-  visible_counters: true,
   items: tag_object.uncurated_tagged_documents.map { |item| link_to item.title, content_tagger_url + '/taggings/lookup' + item.content_id, class: 'govuk-link' }
 } %>

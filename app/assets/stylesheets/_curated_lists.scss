@@ -1,131 +1,22 @@
-$light-grey: #f1f1f1;
-$grey: #cccccc;
-$dark-grey: #333333;
-$white: #ffffff;
-$light-yellow: #ffff99;
-
-// Hide the new item form.
-.js {
-  // to fix [W] SelectorFormat: Selector `new_list_item` should be written in hyphenated BEM (Block Element Modifier) format
-  // @TODO: Investigate and remove element if element not used.
-  .new_list_item {
-    display: none;
-  }
-
-  .base-path {
-    display: none;
-  }
+.curated-lists .gem-c-document-list__item-title {
+  margin-bottom: 10px;
 }
 
-.all-list-items {
-  // Remove-buttons have no use in the uncategorized section, but we would like
-  // to have them appear when dragged to a list.
-  .removal-button form {
-    display: none;
-  }
-
-  .is-curated {
-    font-weight: bold;
-  }
+.curated-lists .gem-c-document-list__attribute:first-child {
+  border-right: 1px solid $govuk-border-colour;
+  padding-right: 10px;
 }
 
-.links-table {
-  width: 100%;
-  margin-bottom: 30px;
-
-  .remove-button {
-    float: right;
-  }
-
-  td,
-  th {
-    padding: 3px 0;
-  }
-
-  td {
-    border-bottom: 1px solid $light-grey;
-  }
-
-  .item:hover {
-    cursor: move;
-    background-color: $light-grey;
-  }
-
-  // Placeholders are created when a user drags a row to another place,
-  // but hasn't dropped the item yet.
-  .droppable-placeholder {
-    width: 100%;
-    margin-top: 40px;
-
-    td {
-      border-top: 1px dashed $dark-grey;
-      border-bottom: 1px dashed $dark-grey;
-    }
-  }
-
-  .ui-sortable-helper {
-    width: 300px;
-
-    td {
-      max-height: 30px;
-    }
-
-    .removal-button form {
-      display: none;
-    }
-  }
-
-  // Prevent the row from schrinking when it is being dragged.
-  .ui-draggable {
-    min-width: 560px;
-  }
+.curated-lists .gem-c-document-list__attribute:not(:first-child):not(:last-child) {
+  border-right: 1px solid $govuk-border-colour;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-.droppable-placeholder,
-.sortable-placeholder {
-  background-color: $white;
-  border: 1px dashed $dark-grey;
+.curated-lists .gem-c-document-list__attribute:last-child {
+  padding-left: 10px;
 }
 
-.list {
-  cursor: move;
-}
-
-.list-drag-in-progress {
-  .curated-list {
-    display: none;
-  }
-
-  .links-table {
-    margin-bottom: 10px;
-  }
-
-  .sortable-placeholder {
-    height: 30px !important; // stylelint-disable-line declaration-no-important
-  }
-}
-
-.curated-list {
-  .untagged .title span {
-    text-decoration: line-through;
-  }
-
-  .working {
-    background-color: $light-yellow;
-
-    .remove-button {
-      visibility: none;
-    }
-  }
-
-  .empty-list {
-    font-style: italic;
-    color: $grey;
-    text-align: center;
-    display: none;
-
-    td {
-      border: none;
-    }
-  }
+.curated-lists .gem-c-document-list__item {
+  margin-bottom: 10px;
 }
