@@ -4,7 +4,7 @@ class Step < ApplicationRecord
   validates :title, :logic, presence: true
   has_many :link_reports, dependent: :destroy
   after_create :set_step_position
-  after_destroy :set_parent_step_positions
+  after_commit :set_parent_step_positions, on: :destroy
 
   def broken_links?
     broken_links.present? && broken_links.any?

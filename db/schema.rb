@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_13_150444) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_04_13_150444) do
   create_table "coronavirus_pages", charset: "utf8mb3", force: :cascade do |t|
     t.string "sections_title"
     t.string "base_path"
@@ -47,7 +46,7 @@ ActiveRecord::Schema.define(version: 2022_04_13_150444) do
     t.string "author"
     t.text "description"
     t.bigint "step_by_step_page_id"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.integer "edition_number"
     t.string "headline"
     t.index ["step_by_step_page_id"], name: "index_internal_change_notes_on_step_by_step_page_id"
@@ -55,10 +54,10 @@ ActiveRecord::Schema.define(version: 2022_04_13_150444) do
 
   create_table "link_reports", charset: "utf8mb3", force: :cascade do |t|
     t.integer "batch_id"
-    t.datetime "completed"
+    t.datetime "completed", precision: nil
     t.bigint "step_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["step_id"], name: "index_link_reports_on_step_id"
   end
 
@@ -66,8 +65,8 @@ ActiveRecord::Schema.define(version: 2022_04_13_150444) do
     t.string "base_path"
     t.integer "index", default: 0, null: false
     t.integer "list_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "title"
     t.index ["list_id", "index"], name: "index_list_items_on_list_id_and_index"
   end
@@ -84,8 +83,8 @@ ActiveRecord::Schema.define(version: 2022_04_13_150444) do
     t.string "base_path", null: false
     t.string "content_id", null: false
     t.bigint "step_by_step_page_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "publishing_app"
     t.string "schema_name"
     t.string "include_in_links", default: "always", null: false
@@ -98,8 +97,8 @@ ActiveRecord::Schema.define(version: 2022_04_13_150444) do
     t.string "content_id", null: false
     t.string "from_base_path", null: false
     t.string "to_base_path", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["content_id"], name: "index_redirect_items_on_content_id", unique: true
     t.index ["from_base_path"], name: "index_redirect_items_on_from_base_path", unique: true
   end
@@ -108,8 +107,8 @@ ActiveRecord::Schema.define(version: 2022_04_13_150444) do
     t.integer "redirect_id"
     t.string "from_base_path"
     t.string "to_base_path"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "tag_id"
     t.index ["from_base_path"], name: "index_redirect_routes_on_from_base_path", unique: true
     t.index ["redirect_id"], name: "index_redirect_routes_on_redirect_id"
@@ -131,13 +130,13 @@ ActiveRecord::Schema.define(version: 2022_04_13_150444) do
     t.string "slug"
     t.text "introduction"
     t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "content_id", null: false
-    t.datetime "published_at"
-    t.datetime "draft_updated_at"
+    t.datetime "published_at", precision: nil
+    t.datetime "draft_updated_at", precision: nil
     t.string "assigned_to"
-    t.datetime "scheduled_at"
+    t.datetime "scheduled_at", precision: nil
     t.string "status", null: false
     t.string "review_requester_id"
     t.string "reviewer_id"
@@ -155,16 +154,16 @@ ActiveRecord::Schema.define(version: 2022_04_13_150444) do
     t.text "contents"
     t.integer "position"
     t.bigint "step_by_step_page_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["step_by_step_page_id"], name: "index_steps_on_step_by_step_page_id"
   end
 
   create_table "tag_associations", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.integer "from_tag_id", null: false
     t.integer "to_tag_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["from_tag_id", "to_tag_id"], name: "index_tag_associations_on_from_tag_id_and_to_tag_id", unique: true
     t.index ["to_tag_id"], name: "index_tag_associations_on_to_tag_id"
   end
@@ -175,8 +174,8 @@ ActiveRecord::Schema.define(version: 2022_04_13_150444) do
     t.string "title", null: false
     t.string "description"
     t.integer "parent_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "content_id", null: false
     t.string "state", null: false
     t.boolean "dirty", default: false, null: false

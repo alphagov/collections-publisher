@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "6.1.6"
+gem "rails", "7.0.3"
 
 gem "aasm"
 gem "generic_form_builder"
@@ -10,6 +10,7 @@ gem "mysql2"
 gem "sass-rails"
 gem "select2-rails"
 gem "sentry-sidekiq"
+gem "sprockets-rails"
 gem "uglifier"
 
 # GDS managed dependencies

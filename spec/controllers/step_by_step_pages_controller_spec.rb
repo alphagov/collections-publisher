@@ -273,7 +273,7 @@ RSpec.describe StepByStepPagesController do
     it "sets `scheduled_at` to a datetime" do
       schedule_for_future
 
-      expect(step_by_step_page.scheduled_at.class.name).to eq "Time"
+      expect(step_by_step_page.scheduled_at.class.name).to eq "ActiveSupport::TimeWithZone"
       expect(format_full_date_and_time(step_by_step_page.scheduled_at)).to eq "10:26am on 20 April 2030"
     end
 
