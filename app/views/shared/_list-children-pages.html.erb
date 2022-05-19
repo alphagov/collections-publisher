@@ -1,11 +1,11 @@
 <%= render "govuk_publishing_components/components/heading", {
-  text: "Children",
+  text: "Subtopics",
   margin_bottom: 3,
 } %>
 
 <% if page.sorted_children.any? %>
 
-  <%= GovukPublishingComponents::AppHelpers::TableHelper.helper(self, "Children", { caption_classes: "govuk-visually-hidden" }) do |table| %>
+  <%= GovukPublishingComponents::AppHelpers::TableHelper.helper(self, "Subtopics", { caption_classes: "govuk-visually-hidden" }) do |table| %>
 
     <%= table.head do %>
       <%= table.header "Title" %>
@@ -44,5 +44,5 @@
   <% end %>
 
 <% else %>
-  <p class="govuk-body">No children has been added for this page</p>
+  <p class="govuk-body">No subtopic has been added for this page</p>
 <% end %>

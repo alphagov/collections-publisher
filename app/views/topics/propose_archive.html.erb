@@ -1,7 +1,7 @@
 <%= render 'shared/breadcrumbs', {
   links: [
     {
-      text: 'Topics',
+      text: 'Specialist topic pages',
       href: topics_url
     },
     *([
@@ -18,7 +18,7 @@
   ]
 } %>
 
-<%= govuk_tag_heading(tag: @archival.tag, append: 'Archive topic') %>
+<%= govuk_tag_heading(tag: @archival.tag, append: 'Archive specialist topic page') %>
 
 <%= render 'shared/error_summary', object: @archival %>
 
@@ -29,7 +29,7 @@
         <%= render "govuk_publishing_components/components/select", {
           id: "topic_archival_form_successor",
           name: "topic_archival_form[successor]",
-          label: "Choose a specialist sector to redirect to:",
+          label: "Choose a specialist topic to redirect to:",
           options: @archival.topics.map do |topic|
             {
               text: topic.title_including_parent,
@@ -40,7 +40,7 @@
       </div>
 
       <%= render "govuk_publishing_components/components/button", {
-        text: "Archive and redirect to a specialist sector",
+        text: "Archive and redirect to a specialist topic",
         margin_bottom: true,
         destructive: true,
       } %>

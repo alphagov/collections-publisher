@@ -53,7 +53,7 @@ RSpec.feature "Archiving topic tags" do
 
   def when_i_redirect_the_topic_to_a_successor_topic
     select "The Successor Topic", from: "topic_archival_form_successor"
-    click_button "Archive and redirect to a specialist sector"
+    click_button "Archive and redirect to a specialist topic"
   end
 
   def when_i_visit_the_topic_edit_page
@@ -65,7 +65,7 @@ RSpec.feature "Archiving topic tags" do
   end
 
   def then_i_see_that_archived_topics_cannot_be_modified
-    expect(page).to have_content "You cannot modify an archived topic."
+    expect(page).to have_content "You cannot modify an archived specialist topic."
   end
 
   def given_there_is_an_archived_topic
@@ -97,7 +97,7 @@ RSpec.feature "Archiving topic tags" do
   end
 
   def then_i_see_that_i_cannot_edit_the_page
-    expect(page).to have_content "You cannot modify an archived topic."
+    expect(page).to have_content "You cannot modify an archived specialist topic."
   end
 
   def when_i_submit_an_invalid_base_path_as_redirect

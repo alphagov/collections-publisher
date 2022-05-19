@@ -23,7 +23,7 @@ en:
               hint: 40 characters recommended. Any content that goes over the recommended character limit should be added to line 2 and checked in the preview.
             header_link_post_wrap_text:
               label: Action link text line 2
-              hint: 40 characters recommended.
+              hint: 40 characters recommended
             header_link_url:
               label: Action link URL
               hint: "For example, '/government/news/coronavirus-covid-19' or 'https://www.nhs.uk/coronavirus-announcement'"
@@ -77,7 +77,7 @@ en:
           label: Accordion sub heading content
         action_link:
           title: Accordion action link (optional)
-          hint: All fields below must be completed in order to display an action link within the accordion.
+          hint: All fields below must be completed in order to display an action link within the accordion
           action_link_url:
             label: Action link URL
           action_link_content:

@@ -57,7 +57,7 @@ RSpec.feature "Browse hierarchy" do
   def when_i_create_a_child_page
     visit mainstream_browse_pages_path
     click_on "Citizenship"
-    click_on "Add child page"
+    click_on "Add subtopic page"
     fill_in_browse_form
   end
 

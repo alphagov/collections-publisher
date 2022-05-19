@@ -1,7 +1,7 @@
 <%= render 'shared/breadcrumbs', {
   links: [
     {
-      text: 'Topics',
+      text: 'Specialist topic pages',
       href: topics_url
     },
     *([
@@ -80,7 +80,7 @@
           <% if @topic.can_have_children? %>
             <div class="govuk-!-margin-bottom-1">
               <% if gds_editor? %>
-                <%= link_to "Add child page",
+                <%= link_to "Add subtopic page",
                   new_polymorphic_path(@topic, parent_id: @topic.id),
                   class: %w(govuk-link govuk-link--no-visited-state) %>
               <% end %>
@@ -89,7 +89,7 @@
           <% if @topic.child? %>
             <div class="govuk-!-margin-bottom-1">
               <% if @topic.published? %>
-                <%= link_to 'Archive mainstream browse page',
+                <%= link_to 'Archive specialist topic page',
                   propose_archive_topic_path(@topic),
                   class: %w(govuk-link govuk-link--no-visited-state)
                 %>
