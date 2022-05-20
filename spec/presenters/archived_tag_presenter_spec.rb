@@ -38,7 +38,7 @@ RSpec.describe ArchivedTagPresenter do
     it "is valid against the schemas" do
       presenter = ArchivedTagPresenter.new(child)
 
-      expect(presenter.render_for_publishing_api).to be_valid_against_schema("redirect")
+      expect(presenter.render_for_publishing_api).to be_valid_against_publisher_schema("redirect")
     end
   end
 

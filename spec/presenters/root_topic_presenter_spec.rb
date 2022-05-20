@@ -14,7 +14,7 @@ RSpec.describe RootTopicPresenter do
 
       rendered = RootTopicPresenter.new("state" => "published").render_for_publishing_api
 
-      expect(rendered).to be_valid_against_schema("topic")
+      expect(rendered).to be_valid_against_publisher_schema("topic")
     end
 
     it ":public_updated_at equals the time of last browse page update" do

@@ -13,7 +13,7 @@ RSpec.describe RootBrowsePagePresenter do
       create(:mainstream_browse_page, title: "Top-Level Page 2")
 
       rendered = RootBrowsePagePresenter.new("state" => "draft").render_for_publishing_api
-      expect(rendered).to be_valid_against_schema("mainstream_browse_page")
+      expect(rendered).to be_valid_against_publisher_schema("mainstream_browse_page")
     end
 
     it ":public_updated_at equals the time of last browse page update" do

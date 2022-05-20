@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe StepNavPresenter do
-  include GovukContentSchemaTestHelpers
-
   describe "#render_for_publishing_api" do
     before do
       allow(Services.publishing_api).to receive(:lookup_content_id)
@@ -18,7 +16,7 @@ RSpec.describe StepNavPresenter do
 
     it "presents a step by step page in the correct format" do
       presented = subject.render_for_publishing_api
-      expect(presented).to be_valid_against_schema("step_by_step_nav")
+      expect(presented).to be_valid_against_publisher_schema("step_by_step_nav")
 
       expect(presented[:update_type]).to eq("minor")
       expect(presented[:base_path]).to eq("/how-to-be-the-amazing-1")
@@ -47,7 +45,7 @@ RSpec.describe StepNavPresenter do
         <p>This is another great step</p>
       BODY
 
-      expect(presented).to be_valid_against_schema("step_by_step_nav")
+      expect(presented).to be_valid_against_publisher_schema("step_by_step_nav")
       expect(presented[:details][:body]).to eq(expected)
     end
 
@@ -76,7 +74,7 @@ RSpec.describe StepNavPresenter do
       intent = PublishIntent.new(update_type: "major", change_note: "All your update belong to us")
       presented = subject.render_for_publishing_api(intent)
 
-      expect(presented).to be_valid_against_schema("step_by_step_nav")
+      expect(presented).to be_valid_against_publisher_schema("step_by_step_nav")
       expect(presented[:update_type]).to eq("major")
       expect(presented[:change_note]).to eq("All your update belong to us")
     end

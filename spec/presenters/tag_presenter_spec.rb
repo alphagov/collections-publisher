@@ -43,7 +43,7 @@ RSpec.describe TagPresenter do
     it "is valid against the schema without lists" do
       presented_data = TopicPresenter.new(tag).render_for_publishing_api
 
-      expect(presented_data).to be_valid_against_schema("topic")
+      expect(presented_data).to be_valid_against_publisher_schema("topic")
     end
 
     it "is valid against the schema with lists" do
@@ -58,7 +58,7 @@ RSpec.describe TagPresenter do
 
       presented_data = TopicPresenter.new(tag).render_for_publishing_api
 
-      expect(presented_data).to be_valid_against_schema("topic")
+      expect(presented_data).to be_valid_against_publisher_schema("topic")
     end
 
     it "uses the published groups if it's set" do

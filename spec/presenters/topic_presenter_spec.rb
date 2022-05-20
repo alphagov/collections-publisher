@@ -24,7 +24,7 @@ RSpec.describe TopicPresenter do
       end
 
       it "is valid against the schema" do
-        expect(presented_data).to be_valid_against_schema("topic")
+        expect(presented_data).to be_valid_against_publisher_schema("topic")
       end
 
       it "returns the base_path for the topic" do
@@ -99,7 +99,7 @@ RSpec.describe TopicPresenter do
       end
 
       it "is valid against the schema" do
-        expect(presented_data).to be_valid_against_schema("topic")
+        expect(presented_data).to be_valid_against_publisher_schema("topic")
       end
 
       it "sets public_updated_at based on the topic update time" do
