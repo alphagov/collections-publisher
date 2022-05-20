@@ -7,7 +7,7 @@ RSpec.describe RedirectItemPresenter do
 
       rendered = RedirectItemPresenter.new(item).render_for_publishing_api
 
-      expect(rendered).to be_valid_against_schema("redirect")
+      expect(rendered).to be_valid_against_publisher_schema("redirect")
     end
   end
 end

@@ -2,7 +2,6 @@ require "rails_helper"
 
 RSpec.describe Coronavirus::PagePresenter do
   include CoronavirusFeatureSteps
-  include GovukContentSchemaTestHelpers
 
   let(:page) { create :coronavirus_page }
   let(:base_path) { page.base_path }
@@ -34,7 +33,7 @@ RSpec.describe Coronavirus::PagePresenter do
 
   describe "#payload" do
     it "presents the payload correctly" do
-      expect(subject.payload).to be_valid_against_schema("coronavirus_landing_page")
+      expect(subject.payload).to be_valid_against_publisher_schema("coronavirus_landing_page")
       expect(subject.payload).to eq payload
     end
   end

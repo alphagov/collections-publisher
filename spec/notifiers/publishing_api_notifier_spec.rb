@@ -93,7 +93,7 @@ RSpec.describe PublishingAPINotifier do
         PublishingAPINotifier.notify(tag)
 
         expect(stubbed_content_store).to have_draft_content_item_slug("/topic/foo")
-        expect(stubbed_content_store.last_updated_item).to be_valid_against_schema("topic")
+        expect(stubbed_content_store.last_updated_item).to be_valid_against_publisher_schema("topic")
       end
     end
 
@@ -104,7 +104,7 @@ RSpec.describe PublishingAPINotifier do
         PublishingAPINotifier.notify(tag)
 
         expect(stubbed_content_store).to have_content_item_slug("/topic/foo")
-        expect(stubbed_content_store.last_updated_item).to be_valid_against_schema("topic")
+        expect(stubbed_content_store.last_updated_item).to be_valid_against_publisher_schema("topic")
       end
 
       it "sends topic redirects to the publishing-api" do
@@ -119,7 +119,7 @@ RSpec.describe PublishingAPINotifier do
 
         PublishingAPINotifier.notify(tag)
         content_item = stubbed_content_store.item_by_content_id(tag.content_id)
-        expect(content_item).to be_valid_against_schema("topic")
+        expect(content_item).to be_valid_against_publisher_schema("topic")
         expect(content_item[:redirects]).to eq([{ path: "/foo", destination: "/topic/foo", type: "exact" }])
       end
     end

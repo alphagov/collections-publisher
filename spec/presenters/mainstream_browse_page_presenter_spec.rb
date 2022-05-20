@@ -56,7 +56,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
     end
 
     it "is valid against the schema" do
-      expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
+      expect(presented_data).to be_valid_against_publisher_schema("mainstream_browse_page")
     end
 
     describe "linking to related topics" do
@@ -92,7 +92,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
+          expect(presented_data).to be_valid_against_publisher_schema("mainstream_browse_page")
         end
       end
     end
@@ -184,7 +184,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
+          expect(presented_data).to be_valid_against_publisher_schema("mainstream_browse_page")
         end
       end
 
@@ -200,7 +200,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
+          expect(presented_data).to be_valid_against_publisher_schema("mainstream_browse_page")
         end
       end
 
@@ -229,7 +229,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
+          expect(presented_data).to be_valid_against_publisher_schema("mainstream_browse_page")
         end
       end
 
@@ -246,7 +246,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
+          expect(presented_data).to be_valid_against_publisher_schema("mainstream_browse_page")
         end
       end
     end
@@ -289,7 +289,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
+          expect(presented_data).to be_valid_against_publisher_schema("mainstream_browse_page")
         end
       end
 
@@ -306,7 +306,7 @@ RSpec.describe MainstreamBrowsePagePresenter do
         end
 
         it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_schema("mainstream_browse_page")
+          expect(presented_data).to be_valid_against_publisher_schema("mainstream_browse_page")
         end
       end
     end
