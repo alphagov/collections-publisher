@@ -45,3 +45,7 @@ group :development, :test do
   gem "timecop"
   gem "webmock", require: false
 end
+
+group :test do
+  gem "rails-controller-testing"
+end
