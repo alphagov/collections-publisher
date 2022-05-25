@@ -2,7 +2,8 @@
   margin-bottom: 10px;
 }
 
-.curated-lists .gem-c-document-list__attribute:first-child {
+.curated-lists .gem-c-document-list__attribute:first-child,
+.list-items .gem-c-document-list__attribute:first-child {
   border-right: 1px solid $govuk-border-colour;
   padding-right: 10px;
 }
@@ -13,10 +14,12 @@
   padding-right: 10px;
 }
 
-.curated-lists .gem-c-document-list__attribute:last-child {
+.curated-lists .gem-c-document-list__attribute:last-child,
+.list-items .gem-c-document-list__attribute:last-child {
   padding-left: 10px;
 }
 
-.curated-lists .gem-c-document-list__item {
+.curated-lists .gem-c-document-list__item,
+.list-items .gem-c-document-list__item {
   margin-bottom: 10px;
 }

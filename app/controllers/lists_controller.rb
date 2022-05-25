@@ -8,6 +8,10 @@ class ListsController < ApplicationController
     render "start_curating_lists" unless @lists.any?
   end
 
+  def show
+    @list = @tag.lists.find(params[:id])
+  end
+
   def new
     @list = List.new
   end
@@ -108,10 +112,28 @@ class ListsController < ApplicationController
     end
   end
 
+  def edit_list_items
+    @list = @tag.lists.find(params[:id])
+  end
+
+  def update_list_items
+    @list = @tag.lists.find(params[:id])
+    @available_list_items = @list.available_list_items
+
+    if save_list_items
+      ListPublisher.new(@tag).perform
+      flash[:notice] = "Items added to list successfully"
+
+      redirect_to tag_list_path(@tag, @list)
+    else
+      render :edit_list_items
+    end
+  end
+
 private
 
   def get_layout
-    if redesigned_lists_permission? && action_name.in?(%w[new create edit update confirm_destroy])
+    if redesigned_lists_permission? && action_name.in?(%w[new create edit update confirm_destroy show edit_list_items update_list_items])
       "design_system"
     else
       "legacy"
@@ -120,6 +142,23 @@ private
 
   def list_params
     params.require(:list).permit(:name, :index)
+  end
+
+  def edit_list_items_params
+    params.dig(:list, :list_items)
+  end
+
+  def save_list_items
+    @list.errors.add(:list_items, "Select a link to add to the list") and return false if edit_list_items_params.blank?
+
+    edit_list_items_params.each do |base_path|
+      linked_item = @available_list_items.select { |item| item.base_path == base_path }.first
+      @list.list_items.create!(
+        base_path: linked_item.base_path,
+        title: linked_item.title,
+        index: @list.list_items.length + 1,
+      )
+    end
   end
 
   def active_navigation_item
