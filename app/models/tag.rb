@@ -147,6 +147,12 @@ class Tag < ApplicationRecord
     false # should be overridden in subclasses
   end
 
+  def lists_that_do_not_include_list_item(list_item)
+    lists.reject do |list|
+      list.list_items.any? { |item| item.base_path == list_item.base_path }
+    end
+  end
+
 private
 
   def parent_is_not_a_child
