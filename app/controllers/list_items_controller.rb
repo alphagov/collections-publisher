@@ -1,5 +1,5 @@
 class ListItemsController < ApplicationController
-  layout "legacy"
+  layout :get_layout
   before_action :find_tag
   before_action :find_list
   before_action :require_gds_editor_permissions_to_edit_browse_pages!
@@ -33,26 +33,31 @@ class ListItemsController < ApplicationController
   def destroy
     list_item = @list.list_items.find(params[:id])
     list_item.destroy!
-
     destroyed = list_item.destroyed?
-
     @tag.mark_as_dirty! if destroyed
 
-    respond_to do |format|
-      format.html do
-        if destroyed
-          flash[:notice] = "Content removed from list"
-        else
-          flash[:alert] = "Could not remove the list item from this list"
-        end
+    if redesigned_lists_permission?
+      ListPublisher.new(@tag).perform
+      flash[:notice] = "Content removed from list"
 
-        redirect_to tag_lists_path(@tag)
-      end
-      format.js do
-        if destroyed
-          render json: { errors: [] }
-        else
-          render json: { errors: list_item.errors }, status: :unprocessable_entity
+      redirect_to tag_list_path(@tag, @list)
+    else
+      respond_to do |format|
+        format.html do
+          if destroyed
+            flash[:notice] = "Content removed from list"
+          else
+            flash[:alert] = "Could not remove the list item from this list"
+          end
+
+          redirect_to tag_lists_path(@tag)
+        end
+        format.js do
+          if destroyed
+            render json: { errors: [] }
+          else
+            render json: { errors: list_item.errors }, status: :unprocessable_entity
+          end
         end
       end
     end
@@ -76,7 +81,19 @@ class ListItemsController < ApplicationController
     end
   end
 
+  def confirm_destroy
+    @list_item = @list.list_items.find(params[:id])
+  end
+
 private
+
+  def get_layout
+    if redesigned_lists_permission? && action_name.in?(%w[confirm_destroy])
+      "design_system"
+    else
+      "legacy"
+    end
+  end
 
   def find_list
     @list = @tag.lists.find(params[:list_id])

@@ -34,6 +34,14 @@ RSpec.feature "Curating a list" do
     and_the_correct_calls_are_made_to_the_publishing_api_for_reordering_list_items
   end
 
+  scenario "Deleting a list item" do
+    when_i_visit_the_list_show_page
+    and_i_click_remove
+    and_i_confirm_the_removal
+    then_i_see_the_link_has_been_removed
+    and_the_correct_calls_are_made_to_the_publishing_api_for_deleting_list_items
+  end
+
   def and_there_are_is_a_child_object_with_list_items
     @parent = create(:topic, :published)
     @child = create(:topic, :published, parent: @parent)
@@ -144,6 +152,39 @@ RSpec.feature "Curating a list" do
               "contents" => [
                 @list_item2.base_path,
                 @list_item1.base_path,
+              ],
+            },
+          ],
+          "internal_name" => @child.title_including_parent,
+        },
+      ),
+    )
+    assert_publishing_api_publish(@child.content_id)
+    assert_publishing_api_patch_links(@child.content_id)
+  end
+
+  def and_i_click_remove
+    click_link "Remove", match: :first
+  end
+
+  def and_i_confirm_the_removal
+    click_button "Remove link"
+  end
+
+  def then_i_see_the_link_has_been_removed
+    expect(all(".list-items")[0].text).not_to have_content @list_item1.title
+  end
+
+  def and_the_correct_calls_are_made_to_the_publishing_api_for_deleting_list_items
+    assert_publishing_api_put_content(
+      @child.content_id,
+      request_json_includes(
+        "details" => {
+          "groups" => [
+            {
+              "name" => @list.name,
+              "contents" => [
+                @list_item2.base_path,
               ],
             },
           ],
