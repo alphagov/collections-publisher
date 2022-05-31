@@ -16,6 +16,7 @@
         heading_size: "l",
         heading_caption: "List",
         heading_level: 1,
+        error_message: errors_for(@list_item, :new_list_id),
         items: @tag.lists_that_do_not_include_list_item(@list_item).map do |list|
         {
           value: list.id,
