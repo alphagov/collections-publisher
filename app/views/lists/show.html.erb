@@ -39,14 +39,14 @@
           <li class="govuk-summary-list__actions-list-item">
             <%= link_to 'Add links to list',
               edit_list_items_tag_list_path(@tag, @list),
-              class: %w(govuk-link govuk-link--no-visited-state)
+              class: %w(govuk-link govuk-link--no-visited-state govuk-body)
             %>
           </li>
           <% if @list.list_items.count > 1 %>
             <li class="govuk-summary-list__actions-list-item">
               <%= link_to 'Reorder links',
                 manage_list_item_ordering_tag_list_path(@tag, @list),
-                class: %w(govuk-link govuk-link--no-visited-state)
+                class: %w(govuk-link govuk-link--no-visited-state govuk-body)
               %>
             </li>
           <% end %>
@@ -54,18 +54,19 @@
       </div>
     </div>
 
-    <p class="govuk-body-s">Select page to edit tagging in Content Tagger</p>
-
+    <% if @list.list_items.present? %>
+      <p class="govuk-body">Select page to edit tagging in Content Tagger</p>
+    <% end %>
 
     <div class="list-items">
       <% @list.list_items.ordered.each do |list_item| %>
         <% if @tag.lists_that_do_not_include_list_item(list_item).present? %>
           <% metadata = {
-                move_list_item: tag.a("Move to a different list", href: move_tag_list_list_item_path(@tag, @list, list_item), class: "govuk-link"),
-                remove_list_item: tag.a("Remove", href: confirm_destroy_tag_list_list_item_path(@tag, @list, list_item), class: "govuk-link"),
+                move_list_item: tag.a("Move to a different list", href: move_tag_list_list_item_path(@tag, @list, list_item), class: "govuk-link govuk-body"),
+                remove_list_item: tag.a("Remove", href: confirm_destroy_tag_list_list_item_path(@tag, @list, list_item), class: "govuk-link govuk-body"),
               } %>
         <% else %>
-          <% metadata = { remove_list_item: tag.a("Remove", href: confirm_destroy_tag_list_list_item_path(@tag, @list, list_item), class: "govuk-link") } %>
+          <% metadata = { remove_list_item: tag.a("Remove", href: confirm_destroy_tag_list_list_item_path(@tag, @list, list_item), class: "govuk-link govuk-body") } %>
         <% end %>
 
         <%= render "govuk_publishing_components/components/document_list", {
