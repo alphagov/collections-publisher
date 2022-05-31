@@ -24,5 +24,6 @@
 </p>
 
 <%= render "govuk_publishing_components/components/list", {
+  extra_spacing: true,
   items: tag_object.uncurated_tagged_documents.map { |item| link_to item.title, content_tagger_url + '/taggings/lookup' + item.content_id, class: 'govuk-link' }
 } %>
