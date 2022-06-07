@@ -68,7 +68,7 @@ RSpec.feature "Navigating topics" do
   end
 
   def then_i_should_see_that_the_items_have_not_been_curated
-    expect(page).to have_content "Links for this tag have not been curated into lists"
+    expect(page).to have_content "There are currently no curated lists for this topic. This topic will appear as an A to Z list."
   end
 
   def and_i_see_the_linked_items_of_this_page
