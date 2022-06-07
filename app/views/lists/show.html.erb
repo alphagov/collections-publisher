@@ -74,7 +74,7 @@
             {
               link: {
                 text: list_item.title,
-                path: Plek.new.website_root + list_item.base_path
+                path: content_tagger_url + '/taggings/' + @tag.tagged_document_for_base_path(list_item.base_path).content_id,
               },
               metadata: metadata
             },
