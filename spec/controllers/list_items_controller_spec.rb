@@ -258,7 +258,7 @@ RSpec.describe ListItemsController, type: :controller do
         expect { ListItem.find(list_item.id) }.to raise_error(ActiveRecord::RecordNotFound)
         expect(response.status).to eq(302)
         expect(response).to redirect_to(tag_list_path(tag, list))
-        expect(flash.notice).to eq "Content removed from list"
+        expect(flash.notice).to eq "#{list_item.title} removed from list"
         assert_publishing_api_put_content(
           tag.content_id,
           request_json_includes(
@@ -441,7 +441,7 @@ RSpec.describe ListItemsController, type: :controller do
         expect(list2.reload.list_items.count).to eq 1
         expect(response.status).to eq(302)
         expect(response).to redirect_to(tag_list_path(tag, list1))
-        expect(flash.notice).to eq "Item moved to new list successfully"
+        expect(flash.notice).to eq "#{list_item1.title} moved to #{list2.name} successfully"
         assert_publishing_api_put_content(
           tag.content_id,
           request_json_includes(
@@ -510,7 +510,7 @@ RSpec.describe ListItemsController, type: :controller do
         patch :update_move, params: {
           tag_id: tag.content_id,
           list_id: list1.id,
-          id: list_item2.id,
+          id: list_item1.id,
           list_item: { new_list_id: list2.id },
         }
 
@@ -519,7 +519,7 @@ RSpec.describe ListItemsController, type: :controller do
         expect(list2.list_items.first.index).to eq 1
         expect(response.status).to eq(302)
         expect(response).to redirect_to(tag_list_path(tag, list1))
-        expect(flash.notice).to eq "Item moved to new list successfully"
+        expect(flash.notice).to eq "#{list_item1.title} moved to #{list2.name} successfully"
         assert_publishing_api_put_content(
           tag.content_id,
           request_json_includes(
@@ -528,13 +528,13 @@ RSpec.describe ListItemsController, type: :controller do
                 {
                   "name" => list1.name,
                   "contents" => [
-                    list_item1.base_path,
+                    list_item2.base_path,
                   ],
                 },
                 {
                   "name" => list2.name,
                   "contents" => [
-                    list_item2.base_path,
+                    list_item1.base_path,
                   ],
                 },
               ],

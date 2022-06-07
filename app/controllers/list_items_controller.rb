@@ -38,7 +38,7 @@ class ListItemsController < ApplicationController
 
     if redesigned_lists_permission?
       ListPublisher.new(@tag).perform
-      flash[:notice] = "Content removed from list"
+      flash[:notice] = "#{list_item.title} removed from list"
 
       redirect_to tag_list_path(@tag, @list)
     else
@@ -98,7 +98,7 @@ class ListItemsController < ApplicationController
     new_index = new_list.list_items.map(&:index).max.to_i + 1
     @list_item.update!(list: new_list, index: new_index)
     ListPublisher.new(@tag).perform
-    flash[:notice] = "Item moved to new list successfully"
+    flash[:notice] = "#{@list_item.title} moved to #{new_list.name} successfully"
 
     redirect_to tag_list_path(@tag, @list)
   end

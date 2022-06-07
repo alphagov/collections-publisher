@@ -96,6 +96,7 @@ RSpec.describe ListsController do
         TaggedDocuments::Document.new(list_item1.title, list_item1.base_path, "123"),
         TaggedDocuments::Document.new(list_item2.title, list_item2.base_path, "456"),
         TaggedDocuments::Document.new("New list", "/new-list", "789"),
+        TaggedDocuments::Document.new("Newer list", "/newer-list", "012"),
       ]
     end
 
@@ -110,16 +111,24 @@ RSpec.describe ListsController do
       it "creates a new list item and makes the correct calls to the Publishing API" do
         stub_user.update!(permissions: ["signin", "GDS Editor", "Redesigned lists"])
 
-        patch :update_list_items, params: { tag_id: tag.content_id, id: list.id, list: { list_items: ["/new-list"] } }
+        patch :update_list_items, params: {
+          tag_id: tag.content_id,
+          id: list.id,
+          list: { list_items: ["/new-list", "/newer-list"] },
+        }
 
-        new_list_item = list.reload.list_items.last
+        new_list_item1, new_list_item2 = list.list_items.last(2)
 
-        expect(list.list_items.count).to eq 3
-        expect(new_list_item.title).to eq "New list"
-        expect(new_list_item.base_path).to eq "/new-list"
-        expect(new_list_item.index).to eq 3
+        expect(list.list_items.count).to eq 4
+        expect(new_list_item1.title).to eq "New list"
+        expect(new_list_item1.base_path).to eq "/new-list"
+        expect(new_list_item1.index).to eq 3
+        expect(new_list_item2.title).to eq "Newer list"
+        expect(new_list_item2.base_path).to eq "/newer-list"
+        expect(new_list_item2.index).to eq 4
         expect(response.status).to eq(302)
         expect(response).to redirect_to(tag_list_path(tag, list))
+        expect(flash.notice).to eq "2 links successfully added to the list"
         assert_publishing_api_put_content(
           tag.content_id,
           request_json_includes(
@@ -131,6 +140,7 @@ RSpec.describe ListsController do
                     list_item1.base_path,
                     list_item2.base_path,
                     "/new-list",
+                    "/newer-list",
                   ],
                 },
               ],
@@ -178,6 +188,7 @@ RSpec.describe ListsController do
         expect(new_list_item.index).to eq 3
         expect(response.status).to eq(302)
         expect(response).to redirect_to(tag_list_path(tag, list))
+        expect(flash.notice).to eq "1 link successfully added to the list"
         assert_publishing_api_put_content(
           tag.content_id,
           request_json_includes(
@@ -264,7 +275,7 @@ RSpec.describe ListsController do
     context "Tag is a MainstreamBrowsePage" do
       let(:tag) { create(:mainstream_browse_page, :published) }
 
-      it "creates a new list item and makes the correct calls to the Publishing API" do
+      it "updates the list link ordering and makes the correct calls to the Publishing API" do
         stub_user.update!(permissions: ["signin", "GDS Editor", "Redesigned lists"])
 
         patch :update_list_item_ordering, params: {
@@ -277,7 +288,7 @@ RSpec.describe ListsController do
         expect(list_item1.reload.index).to eq 2
         expect(response.status).to eq(302)
         expect(response).to redirect_to(tag_list_path(tag, list))
-        expect(flash.notice).to eq "List items reordered successfully"
+        expect(flash.notice).to eq "List links reordered successfully"
         assert_publishing_api_put_content(
           tag.content_id,
           request_json_includes(
@@ -317,7 +328,7 @@ RSpec.describe ListsController do
     context "Tag is a topic and user does not have `GDS Editor permissions`" do
       let(:tag) { create(:topic, :published) }
 
-      it "creates a new list item and makes the correct calls to the Publishing API" do
+      it "updates the list link ordering and makes the correct calls to the Publishing API" do
         stub_user.update!(permissions: ["signin", "Redesigned lists"])
 
         patch :update_list_item_ordering, params: {
@@ -330,7 +341,7 @@ RSpec.describe ListsController do
         expect(list_item1.reload.index).to eq 2
         expect(response.status).to eq(302)
         expect(response).to redirect_to(tag_list_path(tag, list))
-        expect(flash.notice).to eq "List items reordered successfully"
+        expect(flash.notice).to eq "List links reordered successfully"
         assert_publishing_api_put_content(
           tag.content_id,
           request_json_includes(
