@@ -109,7 +109,6 @@ Rails.application.routes.draw do
     GovukHealthcheck::SidekiqRedis,
   )
 
-  mount GovukAdminTemplate::Engine, at: "/style-guide"
   mount GovukPublishingComponents::Engine, at: "/component-guide"
 
   require "sidekiq/web"

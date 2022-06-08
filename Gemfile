@@ -16,7 +16,6 @@ gem "uglifier"
 # GDS managed dependencies
 gem "gds-api-adapters"
 gem "gds-sso"
-gem "govuk_admin_template"
 gem "govuk_app_config"
 gem "govuk_publishing_components"
 gem "govuk_sidekiq"
