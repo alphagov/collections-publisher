@@ -87,7 +87,7 @@ Rails.application.routes.draw do
         patch :update_list_item_ordering
       end
 
-      resources :list_items, only: %i[create update destroy] do
+      resources :list_items, only: %i[destroy] do
         member do
           get :confirm_destroy
           get :move
