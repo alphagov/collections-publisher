@@ -74,7 +74,6 @@ Rails.application.routes.draw do
   end
 
   resources :tags, only: [] do
-    post :publish_lists
     get :manage_list_ordering
     patch :update_list_ordering
 
