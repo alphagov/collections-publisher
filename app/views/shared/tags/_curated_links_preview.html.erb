@@ -7,9 +7,9 @@
             text: list.name
           },
           metadata: {
-            edit_list: tag.a("Edit list", href: tag_list_path(tag_object, list), class: "govuk-link"),
-            rename_list: tag.a("Rename list", href: edit_tag_list_path(tag_object, list), class: "govuk-link"),
-            delete_list: tag.a("Delete list", href: confirm_destroy_tag_list_path(tag_object, list), class: "govuk-link"),
+            edit_list: tag.a("Edit list", href: tag_list_path(tag_object, list), class: "govuk-link govuk-body"),
+            rename_list: tag.a("Rename list", href: edit_tag_list_path(tag_object, list), class: "govuk-link govuk-body"),
+            delete_list: tag.a("Delete list", href: confirm_destroy_tag_list_path(tag_object, list), class: "govuk-link govuk-body"),
           }
         },
       ]
@@ -19,10 +19,11 @@
 
 <h3 class="govuk-heading-m govuk-!-margin-top-8">Unused links</h3>
 
-<p class="govuk-body-s">
+<p class="govuk-body">
   Unused links have not been included in any of the curated lists. These links will not be shown to users. Select the page title to edit page tagging in Content Tagger.
 </p>
 
 <%= render "govuk_publishing_components/components/list", {
+  extra_spacing: true,
   items: tag_object.uncurated_tagged_documents.map { |item| link_to item.title, content_tagger_url + '/taggings/lookup' + item.content_id, class: 'govuk-link' }
 } %>

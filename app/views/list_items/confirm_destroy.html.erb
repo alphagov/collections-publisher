@@ -9,7 +9,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_for @list_item, url: tag_list_list_item_path(@tag, @list, @list_item), method: :delete do |f| %>
-      <p class="govuk-body-s">Are you sure you want to delete "<%= @list_item.title %>"?</p>
+      <p class="govuk-body">Are you sure you want to delete "<%= @list_item.title %>"?</p>
 
       <%= render "govuk_publishing_components/components/button", {
         text: "Remove link",

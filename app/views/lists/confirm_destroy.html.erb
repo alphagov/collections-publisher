@@ -9,8 +9,8 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_for @list, url: tag_list_path(@tag, @list), method: :delete do |f| %>
-      <p class="govuk-body-s">Are you sure you want to delete <%= @list.name %>?</p>
-      <p class="govuk-body-s">Links will still be tagged to the <%= "mainstream browse" if @tag.is_a? MainstreamBrowsePage %> sub-topic after the list is deleted.</p>
+      <p class="govuk-body">Are you sure you want to delete "<%= @list.name %>"?</p>
+      <p class="govuk-body">Links will still be tagged to the <%= "mainstream browse" if @tag.is_a? MainstreamBrowsePage %> sub-topic after the list is deleted.</p>
 
       <div class="govuk-button-group">
         <%= render "govuk_publishing_components/components/button", {
