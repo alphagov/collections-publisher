@@ -6,6 +6,8 @@ module ErrorItemsHelper
   end
 
   def errors_for(object, attribute)
+    return nil if object.errors.blank?
+
     object.errors.errors.filter_map do |error|
       if error.attribute == attribute
         {
