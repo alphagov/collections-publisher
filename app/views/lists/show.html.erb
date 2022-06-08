@@ -74,7 +74,7 @@
             {
               link: {
                 text: list_item.title,
-                path: content_tagger_url + '/taggings/' + @tag.tagged_document_for_base_path(list_item.base_path).content_id,
+                path: content_tagger_url + '/taggings/' + (@tag.tagged_document_for_base_path(list_item.base_path)&.content_id || "lookup"),
               },
               metadata: metadata
             },
