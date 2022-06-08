@@ -1,12 +1,6 @@
 class ListsController < ApplicationController
-  layout :get_layout
   before_action :find_tag
   before_action :require_gds_editor_permissions_to_edit_browse_pages!
-
-  def index
-    @lists = @tag.lists.ordered
-    render "start_curating_lists" unless @lists.any?
-  end
 
   def show
     @list = @tag.lists.find(params[:id])
@@ -18,30 +12,19 @@ class ListsController < ApplicationController
 
   def edit
     @list = @tag.lists.find(params[:id])
-    render "edit_legacy" unless redesigned_lists_permission?
   end
 
   def create
     @list = @tag.lists.build(list_params)
     @list.index = (@tag.lists.maximum(:index) || 0) + 1
 
-    if redesigned_lists_permission?
-      if @list.save
-        ListPublisher.new(@tag).perform
-        flash[:notice] = "#{@list.name} list created"
+    if @list.save
+      ListPublisher.new(@tag).perform
+      flash[:notice] = "#{@list.name} list created"
 
-        redirect_to polymorphic_path(@tag)
-      else
-        render :new
-      end
+      redirect_to polymorphic_path(@tag)
     else
-      if @list.save
-        @tag.mark_as_dirty!
-        flash[:success] = "List created"
-      else
-        flash[:danger] = "Could not create your list"
-      end
-      redirect_to tag_lists_path(@tag)
+      render :new
     end
   end
 
@@ -53,62 +36,26 @@ class ListsController < ApplicationController
     list = @tag.lists.find(params[:id])
     list.destroy!
 
-    if redesigned_lists_permission?
-      if list.destroyed?
-        ListPublisher.new(@tag).perform
-        flash[:notice] = "#{list.name} list deleted"
-      else
-        flash[:alert] = "Could not delete the list"
-      end
-
-      redirect_to polymorphic_path(@tag)
+    if list.destroyed?
+      ListPublisher.new(@tag).perform
+      flash[:notice] = "#{list.name} list deleted"
     else
-      if list.destroyed?
-        @tag.mark_as_dirty!
-        flash[:success] = "List deleted"
-      else
-        flash[:danger] = "Could not delete the list"
-      end
-
-      redirect_to tag_lists_path(@tag)
+      flash[:alert] = "Could not delete the list"
     end
+
+    redirect_to polymorphic_path(@tag)
   end
 
   def update
     @list = @tag.lists.find(params[:id])
 
-    if redesigned_lists_permission?
-      if @list.update(list_params)
-        ListPublisher.new(@tag).perform
-        flash[:notice] = "#{@list.name} list updated"
+    if @list.update(list_params)
+      ListPublisher.new(@tag).perform
+      flash[:notice] = "#{@list.name} list updated"
 
-        redirect_to polymorphic_path(@tag)
-      else
-        render :edit
-      end
+      redirect_to polymorphic_path(@tag)
     else
-      saved = @list.update(list_params)
-
-      @tag.mark_as_dirty! if saved
-
-      respond_to do |format|
-        format.html do
-          if saved
-            flash[:success] = "List updated"
-          else
-            flash[:danger] = "Could not save your list"
-          end
-
-          redirect_to tag_lists_path(@tag)
-        end
-        format.js do
-          if saved
-            render json: { errors: [] }
-          else
-            render json: { errors: list.errors.to_json }, status: :unprocessable_entity
-          end
-        end
-      end
+      render :edit
     end
   end
 
@@ -145,14 +92,6 @@ class ListsController < ApplicationController
 
 private
 
-  def get_layout
-    if redesigned_lists_permission? && action_name.in?(%w[new create edit update confirm_destroy show edit_list_items update_list_items manage_list_item_ordering update_list_item_ordering])
-      "design_system"
-    else
-      "legacy"
-    end
-  end
-
   def list_params
     params.require(:list).permit(:name, :index)
   end
@@ -180,9 +119,5 @@ private
       list_item = @list.list_items.find(id)
       list_item.update!(index: index)
     end
-  end
-
-  def active_navigation_item
-    @tag.is_a?(MainstreamBrowsePage) ? "mainstream_browse_pages" : "topics"
   end
 end

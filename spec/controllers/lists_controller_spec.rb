@@ -10,7 +10,7 @@ RSpec.describe ListsController do
       let(:tag) { create(:mainstream_browse_page) }
 
       it "assign the correct instance variables and renders the show template" do
-        stub_user.update!(permissions: ["signin", "GDS Editor", "Redesigned lists"])
+        stub_user.update!(permissions: ["signin", "GDS Editor"])
 
         get :show, params: { tag_id: tag.content_id, id: list.id }
 
@@ -21,7 +21,7 @@ RSpec.describe ListsController do
       end
 
       it "does not allow users without GDS Editor permissions access" do
-        stub_user.update!(permissions: ["signin", "Redesigned lists"])
+        stub_user.update!(permissions: %w[signin])
 
         get :show, params: { tag_id: tag.content_id, id: list.id }
 
@@ -33,7 +33,7 @@ RSpec.describe ListsController do
       let(:tag) { create(:topic) }
 
       it "assign the correct instance vaiables and renders the show template" do
-        stub_user.update!(permissions: ["signin", "Redesigned lists"])
+        stub_user.update!(permissions: %w[signin])
 
         get :show, params: { tag_id: tag.content_id, id: list.id }
 
@@ -52,7 +52,7 @@ RSpec.describe ListsController do
       let(:tag) { create(:mainstream_browse_page) }
 
       it "assign the correct instance variables and renders the edit_list_items template" do
-        stub_user.update!(permissions: ["signin", "GDS Editor", "Redesigned lists"])
+        stub_user.update!(permissions: ["signin", "GDS Editor"])
 
         get :edit_list_items, params: { tag_id: tag.content_id, id: list.id }
 
@@ -63,7 +63,7 @@ RSpec.describe ListsController do
       end
 
       it "does not allow users without GDS Editor permissions access" do
-        stub_user.update!(permissions: ["signin", "Redesigned lists"])
+        stub_user.update!(permissions: %w[signin])
 
         get :edit_list_items, params: { tag_id: tag.content_id, id: list.id }
 
@@ -75,7 +75,7 @@ RSpec.describe ListsController do
       let(:tag) { create(:topic) }
 
       it "assign the correct instance vaiables and renders the edit_list_items template" do
-        stub_user.update!(permissions: ["signin", "Redesigned lists"])
+        stub_user.update!(permissions: %w[signin])
 
         get :edit_list_items, params: { tag_id: tag.content_id, id: list.id }
 
@@ -109,7 +109,7 @@ RSpec.describe ListsController do
       let(:tag) { create(:mainstream_browse_page, :published) }
 
       it "creates a new list item and makes the correct calls to the Publishing API" do
-        stub_user.update!(permissions: ["signin", "GDS Editor", "Redesigned lists"])
+        stub_user.update!(permissions: ["signin", "GDS Editor"])
 
         patch :update_list_items, params: {
           tag_id: tag.content_id,
@@ -155,7 +155,7 @@ RSpec.describe ListsController do
       end
 
       it "does not allow users without GDS Editor permissions access" do
-        stub_user.update!(permissions: ["signin", "Redesigned lists"])
+        stub_user.update!(permissions: %w[signin])
 
         patch :update_list_items, params: { tag_id: tag.content_id, id: list.id, list: { list_items: ["/new-list"] } }
 
@@ -163,7 +163,7 @@ RSpec.describe ListsController do
       end
 
       it "adds an error to the list and rerenders then page when no list items are passed into the params" do
-        stub_user.update!(permissions: ["signin", "GDS Editor", "Redesigned lists"])
+        stub_user.update!(permissions: ["signin", "GDS Editor"])
 
         patch :update_list_items, params: { tag_id: tag.content_id, id: list.id, list: { list_items: [] } }
 
@@ -176,7 +176,7 @@ RSpec.describe ListsController do
       let(:tag) { create(:topic, :published) }
 
       it "creates a new list item and makes the correct calls to the Publishing API" do
-        stub_user.update!(permissions: ["signin", "Redesigned lists"])
+        stub_user.update!(permissions: %w[signin])
 
         patch :update_list_items, params: { tag_id: tag.content_id, id: list.id, list: { list_items: ["/new-list"] } }
 
@@ -220,7 +220,7 @@ RSpec.describe ListsController do
       let(:tag) { create(:mainstream_browse_page) }
 
       it "assign the correct instance variables and renders the manage_list_item_ordering template" do
-        stub_user.update!(permissions: ["signin", "GDS Editor", "Redesigned lists"])
+        stub_user.update!(permissions: ["signin", "GDS Editor"])
 
         get :manage_list_item_ordering, params: { tag_id: tag.content_id, id: list.id }
 
@@ -231,7 +231,7 @@ RSpec.describe ListsController do
       end
 
       it "does not allow users without GDS Editor permissions access" do
-        stub_user.update!(permissions: ["signin", "Redesigned lists"])
+        stub_user.update!(permissions: %w[signin])
 
         get :manage_list_item_ordering, params: { tag_id: tag.content_id, id: list.id }
 
@@ -243,7 +243,7 @@ RSpec.describe ListsController do
       let(:tag) { create(:topic) }
 
       it "assign the correct instance vaiables and renders the manage_list_item_ordering template" do
-        stub_user.update!(permissions: ["signin", "Redesigned lists"])
+        stub_user.update!(permissions: %w[signin])
 
         get :manage_list_item_ordering, params: { tag_id: tag.content_id, id: list.id }
 
@@ -276,7 +276,7 @@ RSpec.describe ListsController do
       let(:tag) { create(:mainstream_browse_page, :published) }
 
       it "updates the list link ordering and makes the correct calls to the Publishing API" do
-        stub_user.update!(permissions: ["signin", "GDS Editor", "Redesigned lists"])
+        stub_user.update!(permissions: ["signin", "GDS Editor"])
 
         patch :update_list_item_ordering, params: {
           tag_id: tag.content_id,
@@ -313,7 +313,7 @@ RSpec.describe ListsController do
       end
 
       it "does not allow users without GDS Editor permissions access" do
-        stub_user.update!(permissions: ["signin", "Redesigned lists"])
+        stub_user.update!(permissions: %w[signin])
 
         patch :update_list_item_ordering, params: {
           tag_id: tag.content_id,
@@ -329,7 +329,7 @@ RSpec.describe ListsController do
       let(:tag) { create(:topic, :published) }
 
       it "updates the list link ordering and makes the correct calls to the Publishing API" do
-        stub_user.update!(permissions: ["signin", "Redesigned lists"])
+        stub_user.update!(permissions: %w[signin])
 
         patch :update_list_item_ordering, params: {
           tag_id: tag.content_id,
