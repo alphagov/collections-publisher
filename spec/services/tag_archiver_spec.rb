@@ -2,10 +2,16 @@ require "rails_helper"
 
 RSpec.describe TagArchiver do
   describe "#archive" do
+    let(:email_alert_api) { instance_double(GdsApi::EmailAlertApi) }
+    let(:govuk_request_id) { "govuk-request-id-123" }
+
     before do
       stub_any_publishing_api_call
 
       allow(Services.publishing_api).to receive(:put_content)
+
+      allow(Services).to receive(:email_alert_api).and_return(email_alert_api)
+      allow(email_alert_api).to receive(:bulk_unsubscribe)
     end
 
     it "won't archive parent tags" do
@@ -87,6 +93,35 @@ RSpec.describe TagArchiver do
       TagArchiver.new(tag, build(:topic)).archive
 
       expect(Services.publishing_api).to have_received(:put_content)
+    end
+
+    it "unsubscribes from email alerts for the specialist topic" do
+      tag = create(:topic, :published, parent: create(:topic, slug: "mot"),
+                                       slug: "provide-mot-training",
+                                       title: "Provide MOT training")
+      successor = OpenStruct.new(base_path: "/guidance/become-an-mot-training-provider", subroutes: [])
+      expected_email_body = <<~BODY
+        This topic has been archived. You will not get any more emails about it.
+
+        You can find more information about this topic at [#{Plek.new.website_root}/guidance/become-an-mot-training-provider](#{Plek.new.website_root}/guidance/become-an-mot-training-provider).
+      BODY
+
+      TagArchiver.new(tag, successor).archive
+
+      expect(Services.email_alert_api).to have_received(:bulk_unsubscribe).with(
+        hash_including(
+          slug: "provide-mot-training",
+          body: expected_email_body,
+        ),
+      )
+    end
+
+    it "doesn't attempt to unsbscribe from email alerts when mainstream browse page is archived" do
+      tag = create(:mainstream_browse_page, :published, parent: create(:mainstream_browse_page))
+
+      TagArchiver.new(tag, build(:mainstream_browse_page)).archive
+
+      expect(Services.email_alert_api).to_not have_received(:bulk_unsubscribe)
     end
 
     it "doesn't have side effects when a API call fails" do

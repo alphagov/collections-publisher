@@ -15,6 +15,7 @@ class TagArchiver
       update_tag
       setup_redirects
       republish_tag
+      unsubscribe_from_email_alerts if tag.is_a?(Topic)
     end
   end
 
@@ -55,5 +56,20 @@ private
   def republish_tag
     presenter = TagPresenter.presenter_for(tag)
     ContentItemPublisher.new(presenter).send_to_publishing_api
+  end
+
+  def unsubscribe_from_email_alerts
+    EmailAlertsUnsubscriber.call(
+      slug: tag.slug,
+      body: unsubscribe_email_body,
+    )
+  end
+
+  def unsubscribe_email_body
+    <<~BODY
+      This topic has been archived. You will not get any more emails about it.
+
+      You can find more information about this topic at [#{Plek.new.website_root + successor.base_path}](#{Plek.new.website_root + successor.base_path}).
+    BODY
   end
 end

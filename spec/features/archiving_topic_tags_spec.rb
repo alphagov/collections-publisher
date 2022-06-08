@@ -1,12 +1,15 @@
 require "rails_helper"
 require "gds_api/test_helpers/content_store"
+require "gds_api/test_helpers/email_alert_api"
 
 RSpec.feature "Archiving topic tags" do
   include CommonFeatureSteps
   include GdsApi::TestHelpers::ContentStore
+  include GdsApi::TestHelpers::EmailAlertApi
 
   before do
     stub_any_publishing_api_call
+    stub_any_email_alert_api_call
     publishing_api_has_no_linked_items
 
     # Background
