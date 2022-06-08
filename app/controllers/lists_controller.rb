@@ -28,7 +28,7 @@ class ListsController < ApplicationController
     if redesigned_lists_permission?
       if @list.save
         ListPublisher.new(@tag).perform
-        flash[:notice] = "List created"
+        flash[:notice] = "#{@list.name} list created"
 
         redirect_to polymorphic_path(@tag)
       else
@@ -56,7 +56,7 @@ class ListsController < ApplicationController
     if redesigned_lists_permission?
       if list.destroyed?
         ListPublisher.new(@tag).perform
-        flash[:notice] = "List deleted"
+        flash[:notice] = "#{list.name} list deleted"
       else
         flash[:alert] = "Could not delete the list"
       end
@@ -80,7 +80,7 @@ class ListsController < ApplicationController
     if redesigned_lists_permission?
       if @list.update(list_params)
         ListPublisher.new(@tag).perform
-        flash[:notice] = "List updated"
+        flash[:notice] = "#{@list.name} list updated"
 
         redirect_to polymorphic_path(@tag)
       else
@@ -122,7 +122,7 @@ class ListsController < ApplicationController
 
     if save_list_items
       ListPublisher.new(@tag).perform
-      flash[:notice] = "Items added to list successfully"
+      flash[:notice] = "#{helpers.pluralize(edit_list_items_params.count, 'link')} successfully added to the list"
 
       redirect_to tag_list_path(@tag, @list)
     else
@@ -138,7 +138,7 @@ class ListsController < ApplicationController
     @list = @tag.lists.find(params[:id])
     save_ordering
     ListPublisher.new(@tag).perform
-    flash["notice"] = "List items reordered successfully"
+    flash["notice"] = "List links reordered successfully"
 
     redirect_to tag_list_path(@tag, @list)
   end
