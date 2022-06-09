@@ -1,6 +1,7 @@
 require_relative "../report_writer"
 require_relative "../links_fetcher"
 require_relative "../topic_data"
+require_relative "../file_maker"
 
 require "csv"
 
@@ -9,12 +10,19 @@ namespace :tagging_report do
   # rake tagging_report:fetch_tagged_pages[topics,"/topic/running-charity"]
   # rake tagging_report:fetch_tagged_pages[mainstream_browse_pages,"/browse/abroad"]
 
-  task :tagged_pages, %i[tag_type base_path] => [:environment] do |_task, args|
-    raise "Pass in a tag_type and base_path" unless args[:tag_type] && args[:base_path]
+  task :tagged_pages, %i[base_path] => [:environment] do |_task, args|
+    error = "Pass in a base_path of format '/topic/foo' or '/browse/baz'"
+    raise error if args[:base_path].nil?
 
-    data = TopicData.new(args[:tag_type])
-    csv = data.all_topics_csv
-    ReportWriter.new(args[:tag_type], args[:base_path]).tagged_pages(csv)
+    tag = args[:base_path].split("/")[1]
+
+    raise error unless %w[topic browse].include?(tag)
+
+    schema_tag =
+      tag == "topic" ? "topics" : "mainstream_browse_pages"
+
+    file_maker = FileMaker.new(schema_tag, args[:base_path])
+    ReportWriter.new(schema_tag, args[:base_path], file_maker).tagged_pages
   end
 
   desc "add duplicate tagging information to a csv produced from the :tagged_pages task"
@@ -23,7 +31,7 @@ namespace :tagging_report do
   task :add_duplicate_tagging_info, %i[tag_type base_path] => [:environment] do |_task, args|
     raise "Pass in a tag_type and base_path" unless args[:tag_type] && args[:base_path]
 
-    reporter = ReportWriter.new(args[:tag_type], args[:base_path])
+    reporter = ReportWriter.new(args[:tag_type], args[:base_path], FileMaker)
     file = reporter.tagged_pages_file
     no_file_yet = "The tagged pages csv for this subtopic hasn't been written yet"
     raise no_file_yet unless File.exist?(Rails.root.join(file))
@@ -38,10 +46,11 @@ namespace :tagging_report do
 
     data = TopicData.new(args[:tag_type])
     parent_topics = data.parent_topics
-    csv = data.all_topics_csv
+
     parent_topics.each do |topic|
-      reporter = ReportWriter.new(args[:tag_type], topic)
-      reporter.tagged_pages(csv)
+      file_maker = FileMaker.new(args[:tag_type], topic)
+      reporter = ReportWriter.new(args[:tag_type], topic, file_maker)
+      reporter.tagged_pages
       file = reporter.tagged_pages_file
       no_file_yet = "The tagged pages csv for this subtopic hasn't been written yet"
       raise no_file_yet unless File.exist?(Rails.root.join(file))

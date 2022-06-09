@@ -1,13 +1,14 @@
 class ReportWriter
-  def initialize(tag_type, parent_base_path)
+  def initialize(tag_type, parent_base_path, file_maker)
     @tag_type = tag_type
     @parent_base_path = parent_base_path
+    @file_maker = file_maker
   end
 
-  attr_reader :tag_type, :parent_base_path
+  attr_reader :tag_type, :parent_base_path, :file_maker
 
   # produce a csv of all content items tagged to the given browse tree
-  def tagged_pages(all_topics_csv)
+  def tagged_pages
     make_directory
     headers = %i[base_path content_id subtopic]
     new_csv = CSV.open(tagged_pages_file, "a+", write_headers: true, headers: headers)
@@ -31,7 +32,7 @@ class ReportWriter
 
   def add_duplicate_tagging_info(tagged_pages_file)
     tagged_pages_csv = CSV.read(tagged_pages_file, headers: true)
-    new_column = "#{duplicate_tag}_content_ids"
+    new_column = "#{duplicate_tag}_ids"
 
     duplicate_tagging_file = Tempfile.new
     duplicate_tagging_csv =
@@ -53,21 +54,17 @@ class ReportWriter
     FileUtils.move(duplicate_tagging_file.path, tagged_pages_file)
   end
 
-  def make_directory
-    unless File.directory?(tag_type)
-      FileUtils.mkdir_p(tag_type)
-    end
-  end
+  delegate :make_directory, to: :file_maker
 
   def tagged_pages_file
-    "#{tag_type}/tagged_to_#{tag_type}_#{parent_topic}.csv"
-  end
-
-  def parent_topic
-    parent_base_path.split("/").last
+    file_maker.file_path
   end
 
   def duplicate_tag
     tag_type == "topics" ? "mainstream_browse_pages" : "topics"
+  end
+
+  def all_topics_csv
+    TopicData.new(tag_type).all_topics_csv
   end
 end
