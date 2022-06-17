@@ -1,10 +1,9 @@
 class ListsController < ApplicationController
   before_action :find_tag
+  before_action :find_list, except: %i[new create]
   before_action :require_gds_editor_permissions_to_edit_browse_pages!
 
-  def show
-    @list = @tag.lists.find(params[:id])
-  end
+  def show; end
 
   def new
     @list = List.new
@@ -28,17 +27,14 @@ class ListsController < ApplicationController
     end
   end
 
-  def confirm_destroy
-    @list = @tag.lists.find(params[:id])
-  end
+  def confirm_destroy; end
 
   def destroy
-    list = @tag.lists.find(params[:id])
-    list.destroy!
+    @list.destroy!
 
-    if list.destroyed?
+    if @list.destroyed?
       ListPublisher.new(@tag).perform
-      flash[:notice] = "#{list.name} list deleted"
+      flash[:notice] = "#{@list.name} list deleted"
     else
       flash[:alert] = "Could not delete the list"
     end
@@ -47,8 +43,6 @@ class ListsController < ApplicationController
   end
 
   def update
-    @list = @tag.lists.find(params[:id])
-
     if @list.update(list_params)
       ListPublisher.new(@tag).perform
       flash[:notice] = "#{@list.name} list updated"
@@ -59,12 +53,9 @@ class ListsController < ApplicationController
     end
   end
 
-  def edit_list_items
-    @list = @tag.lists.find(params[:id])
-  end
+  def edit_list_items; end
 
   def update_list_items
-    @list = @tag.lists.find(params[:id])
     @available_list_items = @list.available_list_items
 
     if save_list_items
@@ -77,12 +68,9 @@ class ListsController < ApplicationController
     end
   end
 
-  def manage_list_item_ordering
-    @list = @tag.lists.find(params[:id])
-  end
+  def manage_list_item_ordering; end
 
   def update_list_item_ordering
-    @list = @tag.lists.find(params[:id])
     save_ordering
     ListPublisher.new(@tag).perform
     flash["notice"] = "List links reordered successfully"
@@ -91,6 +79,10 @@ class ListsController < ApplicationController
   end
 
 private
+
+  def find_list
+    @list = @tag.lists.find(params[:id])
+  end
 
   def list_params
     params.require(:list).permit(:name, :index)
