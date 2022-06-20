@@ -74,11 +74,10 @@ Rails.application.routes.draw do
   end
 
   resources :tags, only: [] do
-    post :publish_lists
     get :manage_list_ordering
     patch :update_list_ordering
 
-    resources :lists, only: %i[index new edit create update destroy show] do
+    resources :lists, only: %i[new edit create update destroy show] do
       member do
         get :confirm_destroy
         get :edit_list_items
@@ -87,7 +86,7 @@ Rails.application.routes.draw do
         patch :update_list_item_ordering
       end
 
-      resources :list_items, only: %i[create update destroy] do
+      resources :list_items, only: %i[destroy] do
         member do
           get :confirm_destroy
           get :move
@@ -110,7 +109,6 @@ Rails.application.routes.draw do
     GovukHealthcheck::SidekiqRedis,
   )
 
-  mount GovukAdminTemplate::Engine, at: "/style-guide"
   mount GovukPublishingComponents::Engine, at: "/component-guide"
 
   require "sidekiq/web"

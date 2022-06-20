@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
 private
 
-  helper_method :gds_editor?, :active_navigation_item, :coronavirus_editor?, :unreleased_feature_user?, :redesigned_lists_permission?
+  helper_method :gds_editor?, :active_navigation_item, :coronavirus_editor?, :unreleased_feature_user?
 
   def gds_editor?
     current_user.has_permission? "GDS Editor"
@@ -25,10 +25,6 @@ private
 
   def coronavirus_editor?
     current_user.has_permission? "Coronavirus editor"
-  end
-
-  def redesigned_lists_permission?
-    current_user.has_permission? "Redesigned lists"
   end
 
   # Can be overridden to allow controllers to choose the active menu item.

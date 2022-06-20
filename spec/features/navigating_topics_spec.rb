@@ -93,6 +93,6 @@ RSpec.feature "Navigating topics" do
   end
 
   def then_i_see_curated_lists
-    expect(page).to have_content "Links for this tag have been curated into lists"
+    expect(all(".gem-c-document-list__item-title").first).to have_content "name"
   end
 end

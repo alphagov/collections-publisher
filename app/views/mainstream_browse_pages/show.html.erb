@@ -65,11 +65,7 @@
 
     <% if @browse_page.child? %>
       <section class="govuk-!-margin-bottom-3">
-        <% if redesigned_lists_permission? %>
-          <%= render 'shared/list-links-preview', tag: @browse_page %>
-        <% else %>
-          <%= render 'shared/list-links-preview-legacy', tag: @browse_page %>
-        <% end %>
+        <%= render 'shared/list-links-preview', tag: @browse_page %>
       </section>
     <% end %>
   </div>

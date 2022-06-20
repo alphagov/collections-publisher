@@ -2,5 +2,3 @@
 //= link application.css
 //= link print.css
 //= link application.js
-//= link application_legacy.css
-//= link application_legacy.js
