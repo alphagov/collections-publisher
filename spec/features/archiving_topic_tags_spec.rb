@@ -23,6 +23,7 @@ RSpec.feature "Archiving topic tags" do
 
   scenario "User archives published tag" do
     given_there_is_a_published_topic
+    and_there_is_a_subscriber_list_for_the_topic
     and_i_visit_the_topic
     and_i_go_to_the_archive_page
 
@@ -109,5 +110,12 @@ RSpec.feature "Archiving topic tags" do
 
   def then_i_see_that_the_url_isnt_valid
     expect(page).to have_content("This URL isn't a valid target for a redirect on GOV.UK.")
+  end
+
+  def and_there_is_a_subscriber_list_for_the_topic
+    email_alert_api_has_subscriber_list_for_topic(
+      content_id: @topic.content_id,
+      list: { "title" => "Topic", "slug" => "bar" },
+    )
   end
 end

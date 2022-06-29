@@ -3,16 +3,16 @@ class EmailAlertsUnsubscriber
     new(*args).unsubscribe
   end
 
-  attr_reader :slug, :body, :govuk_request_id
+  attr_reader :item, :body, :govuk_request_id
 
-  def initialize(slug:, body: nil, govuk_request_id: nil)
-    @slug = slug
+  def initialize(item:, body: nil, govuk_request_id: nil)
+    @item = item
     @body = body
     @govuk_request_id = govuk_request_id
   end
 
   def unsubscribe
-    args = { slug: slug }
+    args = { slug: subscriber_list_slug }
 
     if body
       args.merge!({
@@ -27,5 +27,14 @@ class EmailAlertsUnsubscriber
     end
 
     Services.email_alert_api.bulk_unsubscribe(args)
+  end
+
+private
+
+  def subscriber_list_slug
+    subscriber_list = Services.email_alert_api.find_subscriber_list(
+      item.subscriber_list_search_attributes,
+    )
+    subscriber_list.dig("subscriber_list", "slug")
   end
 end

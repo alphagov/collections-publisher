@@ -22,4 +22,8 @@ class Topic < Tag
       []
     end
   end
+
+  def subscriber_list_search_attributes
+    { "links" => { topics: [content_id] } }
+  end
 end

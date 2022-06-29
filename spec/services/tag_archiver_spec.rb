@@ -12,6 +12,9 @@ RSpec.describe TagArchiver do
 
       allow(Services).to receive(:email_alert_api).and_return(email_alert_api)
       allow(email_alert_api).to receive(:bulk_unsubscribe)
+      allow(email_alert_api).to receive(:find_subscriber_list).and_return(
+        { "subscriber_list" => { "slug" => "subscriber-list-slug" } },
+      )
     end
 
     it "won't archive parent tags" do
@@ -95,7 +98,7 @@ RSpec.describe TagArchiver do
       expect(Services.publishing_api).to have_received(:put_content)
     end
 
-    it "unsubscribes from email alerts for the specialist topic" do
+    it "unsubscribes from email alerts for the specialist topic (level 2)" do
       tag = create(:topic, :published, parent: create(:topic, slug: "mot"),
                                        slug: "provide-mot-training",
                                        title: "Provide MOT training")
@@ -110,7 +113,7 @@ RSpec.describe TagArchiver do
 
       expect(Services.email_alert_api).to have_received(:bulk_unsubscribe).with(
         hash_including(
-          slug: "provide-mot-training",
+          slug: "subscriber-list-slug",
           body: expected_email_body,
         ),
       )

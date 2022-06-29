@@ -18,4 +18,15 @@ RSpec.describe Topic do
       expect(base_path).to eql("/topic/foo/bar")
     end
   end
+
+  describe "#subscriber_list_search_attributes" do
+    it "returns search attributes to search subscriber list for the topic" do
+      content_id = SecureRandom.uuid
+      topic = create(:topic, content_id: content_id)
+
+      subscriber_list_search_attributes = topic.subscriber_list_search_attributes
+
+      expect(subscriber_list_search_attributes).to eql({ "links" => { topics: [topic.content_id] } })
+    end
+  end
 end

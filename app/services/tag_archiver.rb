@@ -60,7 +60,7 @@ private
 
   def unsubscribe_from_email_alerts
     EmailAlertsUnsubscriber.call(
-      slug: tag.slug,
+      item: tag,
       body: unsubscribe_email_body,
     )
   end
