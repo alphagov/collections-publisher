@@ -1,7 +1,4 @@
-require "gds_api/test_helpers/email_alert_api"
-
 RSpec.describe EmailAlertsUnsubscriber do
-  include GdsApi::TestHelpers::EmailAlertApi
 
   describe ".call" do
     it "calls the email-alert-api with the slug" do
