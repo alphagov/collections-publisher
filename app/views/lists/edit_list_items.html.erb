@@ -20,7 +20,7 @@
         error: (@list.errors[:list_items].first if errors_for(@list, :list_items).present?),
         items: @list.available_list_items.map do |list_item|
           {
-            label: list_item.title,
+            label: (list_item.tag_type == "MainstreamBrowsePage" ? list_item.title : "Specialist Topic: #{list_item.title}"),
             value: list_item.base_path,
           }
         end

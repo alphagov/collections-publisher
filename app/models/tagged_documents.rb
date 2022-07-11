@@ -9,7 +9,7 @@ class TaggedDocuments
 
   def documents
     @documents ||= search_result.map do |result|
-      Document.new(result["title"], result["base_path"], result["content_id"])
+      Document.new(result["title"], result["base_path"], result["content_id"], tag.type)
     end
   end
 
@@ -31,5 +31,5 @@ private
     end
   end
 
-  Document = Struct.new(:title, :base_path, :content_id)
+  Document = Struct.new(:title, :base_path, :content_id, :tag_type)
 end
