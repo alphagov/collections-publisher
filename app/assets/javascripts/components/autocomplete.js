@@ -8,11 +8,25 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
   }
 
   Autocomplete.prototype.init = function () {
+    console.log('init!')
+
+    var $select = this.$module.querySelector('select')
     var $input = this.$module.querySelector('input')
 
-    if ($input) {
+    if ($select) {
+      this.initAutoCompleteSelect($select)
+    } else if ($input) {
       this.initAutoCompleteInput($input)
     }
+  }
+
+  Autocomplete.prototype.initAutoCompleteSelect = function ($select) {
+    // disabled eslint because we can not control the name of the constructor (expected to be EnhanceSelectElement)
+    new window.accessibleAutocomplete.enhanceSelectElement({ // eslint-disable-line no-new, new-cap
+      selectElement: $select,
+      minLength: 3,
+      showNoOptionsFound: true
+    })
   }
 
   Autocomplete.prototype.initAutoCompleteInput = function ($input) {
