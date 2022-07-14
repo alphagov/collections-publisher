@@ -32,12 +32,27 @@
 
       <% options = Array(input[:options]) %>
 
-      <%= tag.input name: name,
-                    value: input[:value],
-                    class: "govuk-input",
-                    id: id,
-                    list: options.any? ? "#{id}-list" : nil,
-                    type: "text" %>
+      <% if select.any? %>
+        <% if select[:multiple] %>
+          <%= tag.span "To select multiple items in a list, hold down Ctrl (PC) or Command (Mac) key.",
+                       class: "govuk-hint app-c-autocomplete__multiselect-instructions" %>
+        <% end %>
+
+        <%= select_tag name,
+          options_for_select(select[:options], select[:selected]),
+          id: id,
+          class: "govuk-select",
+          size: select[:size],
+          multiple: select[:multiple]
+        %>
+      <% else %>
+        <% tag.input name: name,
+                     value: input[:value],
+                     class: "govuk-input",
+                     id: id,
+                     list: options.any? ? "#{id}-list" : nil,
+                     type: "text" %>
+      <% end %>
 
       <% if options.any? %>
         <%= tag.datalist id: "#{id}-list" do %>
