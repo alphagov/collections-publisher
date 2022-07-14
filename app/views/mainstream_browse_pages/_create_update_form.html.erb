@@ -45,6 +45,24 @@
   } %>
 
   <% if @browse_page.child? && update %>
+    <% tag_field_id = "primary_publishing_organisation" %>
+
+    <%= render "components/autocomplete", {
+      id: "#{tag_field_id}-field",
+      type: "select",
+      name: "#{tag_field_id}[]",
+      label: {
+        text: "Primary organisation",
+        bold: true,
+      },
+      hint: "Primary organisation",
+      select: {
+        options: ["hello", "goodbye", "help", "helicopter"],
+        selected: false
+      },
+      error_items: false
+    } %>
+
     <%= render "govuk_publishing_components/components/checkboxes", {
       name: "mainstream_browse_page[topics][]",
       heading: "Topics",
