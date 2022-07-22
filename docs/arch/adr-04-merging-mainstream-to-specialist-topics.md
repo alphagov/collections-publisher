@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Rejected 22/07/22
 
 ## Context
 
