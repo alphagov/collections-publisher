@@ -23,8 +23,8 @@ RSpec.feature "Archiving topic tags" do
     then_i_see_that_archived_topics_cannot_be_modified
   end
 
-  scenario "User archives published tag" do
-    given_there_is_a_published_topic
+  scenario "User archives published level 2 tag" do
+    given_there_is_a_published_level_2_topic
     and_there_is_a_subscriber_list_for_the_topic
     and_i_visit_the_topic
     and_i_go_to_the_archive_page
@@ -43,8 +43,20 @@ RSpec.feature "Archiving topic tags" do
     then_the_tag_is_deleted
   end
 
+  scenario "User archives published level 1 tag" do
+    given_there_is_a_published_level_1_topic
+    and_i_visit_the_topic
+    and_i_go_to_the_archive_page
+
+    when_i_redirect_the_topic_to_a_successor_topic
+    then_the_tag_is_archived
+
+    when_i_visit_the_topic_edit_page
+    then_i_see_that_i_cannot_edit_the_page
+  end
+
   scenario "User redirects to invalid basepath" do
-    given_there_is_a_published_topic
+    given_there_is_a_published_level_2_topic
     and_i_visit_the_topic
     and_i_go_to_the_archive_page
     when_i_submit_an_invalid_base_path_as_redirect
@@ -76,12 +88,16 @@ RSpec.feature "Archiving topic tags" do
     @topic = create(:topic, :archived)
   end
 
-  def given_there_is_a_published_topic
+  def given_there_is_a_published_level_2_topic
     @topic = create(:topic, :published, slug: "bar", parent: create(:topic, slug: "foo"))
   end
 
   def given_there_is_a_draft_topic
     @topic = create(:topic, :draft, slug: "bar", parent: create(:topic, slug: "foo"))
+  end
+
+  def given_there_is_a_published_level_1_topic
+    @topic = create(:topic, :published, slug: "bar")
   end
 
   def and_there_is_a_topic_that_can_be_used_as_a_replacement
