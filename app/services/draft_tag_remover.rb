@@ -7,7 +7,10 @@ class DraftTagRemover
 
   def remove
     raise "Can't unpublish published tags with this class" if tag.published?
-    raise "Can't unpublish parent tags" if tag.level_one?
+
+    raise "Can't remove Level 1 Mainstream browse page" if tag.level_one? && tag.is_a?(MainstreamBrowsePage)
+
+    raise "Can't remove Level 1 Specialist topic with subtopics" if tag.level_one? && tag.children.any?
 
     Tag.transaction do
       add_gone_item

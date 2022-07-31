@@ -13,14 +13,28 @@ RSpec.describe DraftTagRemover do
       expect { DraftTagRemover.new(topic).remove }.to raise_error(RuntimeError)
     end
 
-    it "guards against removing parent (level 1) tags" do
-      topic = create(:topic, :draft)
+    it "guards against removing parent (level 1) Mainstream browse page" do
+      topic = create(:mainstream_browse_page, :draft)
 
       expect { DraftTagRemover.new(topic).remove }.to raise_error(RuntimeError)
     end
 
-    it "removes the tag from the database" do
+    it "guards against removing parent (level 1) Topic which has children" do
+      topic = create(:topic, :draft, children: [create(:topic, :draft)])
+
+      expect { DraftTagRemover.new(topic).remove }.to raise_error(RuntimeError)
+    end
+
+    it "removes level 2 tag from the database" do
       topic = create(:topic, :draft, parent: create(:topic))
+
+      DraftTagRemover.new(topic).remove
+
+      expect { topic.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it "removes level 1 tag from the database as long as it has no children" do
+      topic = create(:topic, :draft, children: [])
 
       DraftTagRemover.new(topic).remove
 
