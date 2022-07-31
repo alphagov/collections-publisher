@@ -15,7 +15,7 @@ class TagArchiver
       update_tag
       setup_redirects
       republish_tag
-      unsubscribe_from_email_alerts if tag.is_a?(Topic)
+      unsubscribe_from_email_alerts
     end
   end
 
@@ -59,6 +59,8 @@ private
   end
 
   def unsubscribe_from_email_alerts
+    return unless tag.can_have_email_subscriptions?
+
     EmailAlertsUnsubscriber.call(
       item: tag,
       body: unsubscribe_email_body,

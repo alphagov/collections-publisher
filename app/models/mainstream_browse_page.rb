@@ -26,6 +26,10 @@ class MainstreamBrowsePage < Tag
     level_two? && published?
   end
 
+  def can_have_email_subscriptions?
+    false
+  end
+
 private
 
   def parents_cannot_have_topics_associated

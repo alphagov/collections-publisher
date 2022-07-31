@@ -134,8 +134,16 @@ RSpec.describe TagArchiver do
       )
     end
 
-    it "doesn't attempt to unsbscribe from email alerts when mainstream browse page is archived" do
+    it "doesn't attempt to unsubscribe from email alerts when mainstream browse page is archived" do
       tag = create(:mainstream_browse_page, :published, parent: create(:mainstream_browse_page))
+
+      TagArchiver.new(tag, build(:mainstream_browse_page)).archive
+
+      expect(Services.email_alert_api).to_not have_received(:bulk_unsubscribe)
+    end
+
+    it "doesn't attempt to unsubscribe from email alerts when level one topic is archived" do
+      tag = create(:topic, :published, children: [create(:topic, :archived)])
 
       TagArchiver.new(tag, build(:mainstream_browse_page)).archive
 

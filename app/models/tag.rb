@@ -157,6 +157,10 @@ class Tag < ApplicationRecord
     raise NotImplementedError
   end
 
+  def can_have_email_subscriptions?
+    raise NotImplementedError
+  end
+
 private
 
   def parent_is_not_a_child

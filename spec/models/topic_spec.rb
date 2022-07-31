@@ -63,6 +63,20 @@ RSpec.describe Topic do
     end
   end
 
+  describe "#can_have_email_subscriptions?" do
+    it "returns true for level two topic" do
+      topic = create(:topic, parent: create(:topic))
+
+      expect(topic.can_have_email_subscriptions?).to eql(true)
+    end
+
+    it "returns false for level one topic" do
+      topic = create(:topic, parent: nil)
+
+      expect(topic.can_have_email_subscriptions?).to eql(false)
+    end
+  end
+
   describe "#subscriber_list_search_attributes" do
     it "returns search attributes to search subscriber list for the topic" do
       content_id = SecureRandom.uuid
