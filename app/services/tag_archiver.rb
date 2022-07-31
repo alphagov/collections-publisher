@@ -9,7 +9,7 @@ class TagArchiver
   end
 
   def archive
-    raise "Can't archive parent tags" if tag.level_one?
+    raise "Can't archive parent tags" unless tag.can_be_archived?
 
     Tag.transaction do
       update_tag

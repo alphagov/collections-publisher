@@ -98,22 +98,20 @@
               %>
             </div>
           <% end %>
-          <% if @browse_page.level_two? %>
-            <div class="govuk-!-margin-bottom-1">
-              <% if @browse_page.published? %>
-                <%= link_to 'Archive mainstream browse page',
-                  propose_archive_mainstream_browse_page_path(@browse_page),
-                  class: %w(govuk-link govuk-link--no-visited-state)
-                %>
-              <% else %>
-                <%= link_to 'Delete page', archive_mainstream_browse_page_path(@browse_page),
-                  method: 'post',
-                  data: { confirm: 'Are you sure?' },
-                  class: %w(govuk-link app-link--destructive)
-                %>
-              <% end %>
-            </div>
-          <% end %>
+          <div class="govuk-!-margin-bottom-1">
+            <% if @browse_page.can_be_archived? %>
+              <%= link_to 'Archive mainstream browse page',
+                propose_archive_mainstream_browse_page_path(@browse_page),
+                class: %w(govuk-link govuk-link--no-visited-state)
+              %>
+            <% elsif @browse_page.level_two? %>
+              <%= link_to 'Delete page', archive_mainstream_browse_page_path(@browse_page),
+                method: 'post',
+                data: { confirm: 'Are you sure?' },
+                class: %w(govuk-link app-link--destructive)
+              %>
+            <% end %>
+          </div>
         </div>
       </div>
     </aside>

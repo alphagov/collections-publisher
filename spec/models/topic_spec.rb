@@ -19,6 +19,32 @@ RSpec.describe Topic do
     end
   end
 
+  describe "#can_be_archived?" do
+    it "returns true for published level two topic" do
+      topic = create(:topic, :published, parent: create(:topic))
+
+      expect(topic.can_be_archived?).to eql(true)
+    end
+
+    it "returns false for draft level two topic" do
+      topic = create(:topic, :draft, parent: create(:topic))
+
+      expect(topic.can_be_archived?).to eql(false)
+    end
+
+    it "returns false for archived level two topic" do
+      topic = create(:topic, :archived, parent: create(:topic))
+
+      expect(topic.can_be_archived?).to eql(false)
+    end
+
+    it "returns false for level one topic" do
+      topic = create(:topic, :published, parent: nil)
+
+      expect(topic.can_be_archived?).to eql(false)
+    end
+  end
+
   describe "#subscriber_list_search_attributes" do
     it "returns search attributes to search subscriber list for the topic" do
       content_id = SecureRandom.uuid

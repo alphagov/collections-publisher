@@ -149,6 +149,10 @@ class Tag < ApplicationRecord
     end
   end
 
+  def can_be_archived?
+    level_two? && published?
+  end
+
 private
 
   def parent_is_not_a_child
