@@ -17,7 +17,7 @@ class TagArchiver
       update_tag
       setup_redirects
       republish_tag
-      unsubscribe_from_email_alerts if tag.is_a?(Topic)
+      unsubscribe_from_email_alerts if tag.is_a?(Topic) && tag.level_two?
     end
   end
 

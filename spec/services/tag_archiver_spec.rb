@@ -142,6 +142,14 @@ RSpec.describe TagArchiver do
       expect(Services.email_alert_api).to_not have_received(:bulk_unsubscribe)
     end
 
+    it "doesn't attempt to unsbscribe from email alerts when level one topic is archived" do
+      tag = create(:topic, :published, children: [create(:topic, :archived)])
+
+      TagArchiver.new(tag, build(:mainstream_browse_page)).archive
+
+      expect(Services.email_alert_api).to_not have_received(:bulk_unsubscribe)
+    end
+
     it "doesn't have side effects when a API call fails" do
       tag = create(:topic, :published, parent: create(:topic))
 
