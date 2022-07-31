@@ -88,7 +88,7 @@
                   propose_archive_topic_path(@topic),
                   class: %w(govuk-link govuk-link--no-visited-state)
                 %>
-              <% elsif @topic.level_two? %>
+              <% else %>
                 <%= link_to 'Delete', archive_topic_path(@topic),
                   method: 'post',
                   data: { confirm: 'Are you sure?' },
