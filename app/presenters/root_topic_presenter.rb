@@ -44,7 +44,7 @@ class RootTopicPresenter
 private
 
   def topics
-    Topic.sorted_parents
+    Topic.sorted_level_one
   end
 
   def public_updated_at

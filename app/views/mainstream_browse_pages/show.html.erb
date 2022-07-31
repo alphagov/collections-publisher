@@ -42,7 +42,7 @@
           *([
             field: "Subtopic ordering",
             value: @browse_page.child_ordering.capitalize
-          ] if @browse_page.top_level_mainstream_browse_page? )
+          ] if @browse_page.level_one? )
         ],
         edit: {
           href: edit_mainstream_browse_page_path(@browse_page),
@@ -63,7 +63,7 @@
       </section>
     <% end %>
 
-    <% if @browse_page.child? %>
+    <% if @browse_page.level_two? %>
       <section class="govuk-!-margin-bottom-3">
         <%= render 'shared/list-links-preview', tag: @browse_page %>
       </section>
@@ -98,7 +98,7 @@
               %>
             </div>
           <% end %>
-          <% if @browse_page.child? %>
+          <% if @browse_page.level_two? %>
             <div class="govuk-!-margin-bottom-1">
               <% if @browse_page.published? %>
                 <%= link_to 'Archive mainstream browse page',

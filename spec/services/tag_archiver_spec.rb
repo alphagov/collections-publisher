@@ -17,13 +17,13 @@ RSpec.describe TagArchiver do
       )
     end
 
-    it "won't archive parent tags" do
+    it "won't archive parent (level 1) tags" do
       tag = create(:topic, :published)
 
       expect { TagArchiver.new(tag, build(:topic)).archive }.to raise_error(RuntimeError)
     end
 
-    it "archives the tag" do
+    it "archives the level 2 tag" do
       tag = create(:topic, :published, parent: create(:topic))
 
       TagArchiver.new(tag, build(:topic)).archive

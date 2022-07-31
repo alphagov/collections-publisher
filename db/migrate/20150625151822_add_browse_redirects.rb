@@ -4,7 +4,7 @@ class AddBrowseRedirects < ActiveRecord::Migration
       'business',
       'visas-immigration',
     ].each do |slug|
-      page = MainstreamBrowsePage.only_parents.where(:slug => slug).first
+      page = MainstreamBrowsePage.only_level_two.where(:slug => slug).first
       raise "Failed to find top-level browse page with slug #{slug}" unless page
 
       Redirect.create!(

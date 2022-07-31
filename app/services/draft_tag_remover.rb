@@ -7,7 +7,7 @@ class DraftTagRemover
 
   def remove
     raise "Can't unpublish published tags with this class" if tag.published?
-    raise "Can't unpublish parent tags" if tag.parent?
+    raise "Can't unpublish parent tags" if tag.level_one?
 
     Tag.transaction do
       add_gone_item

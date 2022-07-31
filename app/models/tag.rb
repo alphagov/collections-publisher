@@ -27,8 +27,8 @@ class Tag < ApplicationRecord
 
   before_validation :generate_content_id, on: :create
 
-  scope :only_parents, -> { where("parent_id IS NULL") }
-  scope :only_children, -> { where("parent_id IS NOT NULL") }
+  scope :only_level_two, -> { where("parent_id IS NULL") }
+  scope :only_level_one, -> { where("parent_id IS NOT NULL") }
 
   # The links last sent to the content-store.
   serialize :published_groups, JSON
@@ -65,11 +65,11 @@ class Tag < ApplicationRecord
     parent.present?
   end
 
-  alias_method :child?, :has_parent?
-  alias_method :parent?, :can_have_children?
+  alias_method :level_two?, :has_parent?
+  alias_method :level_one?, :can_have_children?
 
-  def self.sorted_parents
-    only_parents.includes(children: [:lists]).order(:title)
+  def self.sorted_level_one
+    only_level_two.includes(children: [:lists]).order(:title)
   end
 
   def sorted_children
@@ -141,10 +141,6 @@ class Tag < ApplicationRecord
 
   def dependent_tags
     [] # should be overridden in subclasses
-  end
-
-  def top_level_mainstream_browse_page?
-    false # should be overridden in subclasses
   end
 
   def lists_that_do_not_include_list_item(list_item)
