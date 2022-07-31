@@ -11,7 +11,7 @@ class MainstreamBrowsePage < Tag
   end
 
   def dependent_tags
-    if child?
+    if level_two?
       parent.children - [self] + [parent]
     else
       MainstreamBrowsePage.all - [self]
@@ -20,10 +20,6 @@ class MainstreamBrowsePage < Tag
 
   def subroutes
     %w[.json]
-  end
-
-  def top_level_mainstream_browse_page?
-    !child?
   end
 
 private

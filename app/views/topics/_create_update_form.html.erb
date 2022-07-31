@@ -5,7 +5,7 @@
         id: "topic_parent_id",
         name: "topic[parent_id]",
         label: "Parent (optional)",
-        options: Topic.sorted_parents
+        options: Topic.sorted_level_one
                   .map { |topic| {text: topic.title, value: topic.id, selected: topic.id == f.object.parent_id} }
                   .prepend( { text: "", value: "" } )
       } %>

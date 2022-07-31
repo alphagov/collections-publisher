@@ -5,7 +5,7 @@
         id: "mainstream_browse_page_parent_id",
         name: "mainstream_browse_page[parent_id]",
         label: "Parent (optional)",
-        options: MainstreamBrowsePage.sorted_parents
+        options: MainstreamBrowsePage.sorted_level_one
                   .map { |topic| {text: topic.title, value: topic.id, selected: topic.id == f.object.parent_id} }
                   .prepend( { text: "", value: "" } )
       } %>
@@ -44,7 +44,7 @@
     error_items: errors_for(@browse_page, :description)
   } %>
 
-  <% if @browse_page.child? && update %>
+  <% if @browse_page.level_two? && update %>
     <%= render "govuk_publishing_components/components/checkboxes", {
       name: "mainstream_browse_page[topics][]",
       heading: "Topics",

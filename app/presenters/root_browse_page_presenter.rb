@@ -42,7 +42,7 @@ class RootBrowsePagePresenter
 private
 
   def top_level_browse_pages
-    MainstreamBrowsePage.sorted_parents
+    MainstreamBrowsePage.sorted_level_one
   end
 
   def public_updated_at

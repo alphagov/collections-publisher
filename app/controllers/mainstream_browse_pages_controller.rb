@@ -3,7 +3,7 @@ class MainstreamBrowsePagesController < ApplicationController
   before_action :protect_archived_browse_pages!, only: %i[edit update publish]
 
   def index
-    @browse_pages = MainstreamBrowsePage.sorted_parents
+    @browse_pages = MainstreamBrowsePage.sorted_level_one
   end
 
   def show
