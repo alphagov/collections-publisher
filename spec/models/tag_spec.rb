@@ -155,6 +155,32 @@ RSpec.describe Tag do
     end
   end
 
+  describe "#has_not_archived_children?" do
+    it "returns true when tag has any published children" do
+      tag = create(:tag, children: [create(:tag, :published)])
+
+      expect(tag.has_not_archived_children?).to eql true
+    end
+
+    it "returns true when tag has any draft children" do
+      tag = create(:tag, children: [create(:tag, :draft)])
+
+      expect(tag.has_not_archived_children?).to eql true
+    end
+
+    it "returns false when tag has only archived children" do
+      tag = create(:tag, children: [create(:tag, :archived)])
+
+      expect(tag.has_not_archived_children?).to eql false
+    end
+
+    it "returns false when tag has no children" do
+      tag = create(:tag, children: [])
+
+      expect(tag.has_not_archived_children?).to eql false
+    end
+  end
+
   describe "generating a content ID" do
     it "generates a UUID on creation" do
       expect(SecureRandom).to receive(:uuid).and_return("a random UUID")

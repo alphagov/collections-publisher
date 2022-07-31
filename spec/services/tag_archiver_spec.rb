@@ -17,14 +17,29 @@ RSpec.describe TagArchiver do
       )
     end
 
-    it "won't archive parent (level 1) tags" do
-      tag = create(:topic, :published)
+    it "won't archive parent (level 1) mainstream_browse_page tags" do
+      tag = create(:mainstream_browse_page, :published)
+
+      expect { TagArchiver.new(tag, build(:mainstream_browse_page)).archive }.to raise_error(RuntimeError)
+    end
+
+    it "won't archive parent (level 1) topic tags with published or draft children (level 2) tags" do
+      tag = create(:topic, :published, children: [create(:topic, :published)])
 
       expect { TagArchiver.new(tag, build(:topic)).archive }.to raise_error(RuntimeError)
     end
 
     it "archives the level 2 tag" do
       tag = create(:topic, :published, parent: create(:topic))
+
+      TagArchiver.new(tag, build(:topic)).archive
+      tag.reload
+
+      expect(tag.archived?).to be(true)
+    end
+
+    it "archives the level 1 tag with archived children" do
+      tag = create(:topic, :published, children: [create(:topic, :archived)])
 
       TagArchiver.new(tag, build(:topic)).archive
       tag.reload

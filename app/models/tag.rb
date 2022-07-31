@@ -86,6 +86,10 @@ class Tag < ApplicationRecord
     sorted_children.reject { |child| child.state == "archived" }
   end
 
+  def has_not_archived_children?
+    children.reject { |child| child.state == "archived" }.any?
+  end
+
   def title_including_parent
     if has_parent?
       "#{parent.title} / #{title}"

@@ -9,7 +9,9 @@ class TagArchiver
   end
 
   def archive
-    raise "Can't archive parent tags" if tag.level_one?
+    raise "Can't archive Level 1 Mainstream browse page" if tag.level_one? && tag.is_a?(MainstreamBrowsePage)
+
+    raise "Can't archive Level 1 Specialist topic with published subtopics" if tag.level_one? && tag.has_not_archived_children?
 
     Tag.transaction do
       update_tag
