@@ -86,6 +86,10 @@ class Tag < ApplicationRecord
     sorted_children.reject { |child| child.state == "archived" }
   end
 
+  def has_active_children?
+    children.draft.any? || children.published.any?
+  end
+
   def title_including_parent
     if has_parent?
       "#{parent.title} / #{title}"
@@ -150,7 +154,7 @@ class Tag < ApplicationRecord
   end
 
   def can_be_archived?
-    level_two? && published?
+    raise NotImplementedError
   end
 
 private

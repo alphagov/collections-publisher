@@ -38,8 +38,26 @@ RSpec.describe Topic do
       expect(topic.can_be_archived?).to eql(false)
     end
 
-    it "returns false for level one topic" do
-      topic = create(:topic, :published, parent: nil)
+    it "returns true for published level one topic without children (subtopics)" do
+      topic = create(:topic, :published, parent: nil, children: [])
+
+      expect(topic.can_be_archived?).to eql(true)
+    end
+
+    it "returns true for published level one topic when all children (subtopics) are archived" do
+      topic = create(:topic, :published, parent: nil, children: [create(:topic, :archived)])
+
+      expect(topic.can_be_archived?).to eql(true)
+    end
+
+    it "returns false for published level one topic when it has draft children (subtopics)" do
+      topic = create(:topic, :published, parent: nil, children: [create(:topic, :draft)])
+
+      expect(topic.can_be_archived?).to eql(false)
+    end
+
+    it "returns false for published level one topic when it has published children (subtopics)" do
+      topic = create(:topic, :published, parent: nil, children: [create(:topic, :published)])
 
       expect(topic.can_be_archived?).to eql(false)
     end

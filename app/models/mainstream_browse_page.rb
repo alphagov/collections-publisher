@@ -22,6 +22,10 @@ class MainstreamBrowsePage < Tag
     %w[.json]
   end
 
+  def can_be_archived?
+    level_two? && published?
+  end
+
 private
 
   def parents_cannot_have_topics_associated

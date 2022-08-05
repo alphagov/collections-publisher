@@ -23,6 +23,10 @@ class Topic < Tag
     end
   end
 
+  def can_be_archived?
+    published? && !has_active_children?
+  end
+
   def subscriber_list_search_attributes
     { "links" => { topics: [content_id] } }
   end
