@@ -3,7 +3,7 @@ class TopicsController < ApplicationController
   before_action :protect_archived_tags!, only: %i[edit update publish]
 
   def index
-    @topics = Topic.sorted_parents
+    @topics = Topic.sorted_level_one
   end
 
   def show

@@ -1,6 +1,6 @@
 class AddRedirectsForTopicsNamespace < ActiveRecord::Migration
   def up
-    Topic.published.only_parents.each do |topic|
+    Topic.published.only_level_two.each do |topic|
       original_topic_base_path = '/' + topic.full_slug
 
       Redirect.create!(
@@ -11,7 +11,7 @@ class AddRedirectsForTopicsNamespace < ActiveRecord::Migration
       )
     end
 
-    Topic.published.only_children.each do |topic|
+    Topic.published.only_level_one.each do |topic|
       original_topic_base_path = '/' + topic.full_slug
 
       Redirect.create!(

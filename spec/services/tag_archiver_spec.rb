@@ -17,14 +17,29 @@ RSpec.describe TagArchiver do
       )
     end
 
-    it "won't archive parent tags" do
-      tag = create(:topic, :published)
+    it "won't archive parent (level 1) mainstream_browse_page tags" do
+      tag = create(:mainstream_browse_page, :published)
+
+      expect { TagArchiver.new(tag, build(:mainstream_browse_page)).archive }.to raise_error(RuntimeError)
+    end
+
+    it "won't archive parent (level 1) topic tags with published or draft children (level 2) tags" do
+      tag = create(:topic, :published, children: [create(:topic, :published)])
 
       expect { TagArchiver.new(tag, build(:topic)).archive }.to raise_error(RuntimeError)
     end
 
-    it "archives the tag" do
+    it "archives the level 2 tag" do
       tag = create(:topic, :published, parent: create(:topic))
+
+      TagArchiver.new(tag, build(:topic)).archive
+      tag.reload
+
+      expect(tag.archived?).to be(true)
+    end
+
+    it "archives the level 1 tag with archived children" do
+      tag = create(:topic, :published, children: [create(:topic, :archived)])
 
       TagArchiver.new(tag, build(:topic)).archive
       tag.reload
@@ -119,8 +134,16 @@ RSpec.describe TagArchiver do
       )
     end
 
-    it "doesn't attempt to unsbscribe from email alerts when mainstream browse page is archived" do
+    it "doesn't attempt to unsubscribe from email alerts when mainstream browse page is archived" do
       tag = create(:mainstream_browse_page, :published, parent: create(:mainstream_browse_page))
+
+      TagArchiver.new(tag, build(:mainstream_browse_page)).archive
+
+      expect(Services.email_alert_api).to_not have_received(:bulk_unsubscribe)
+    end
+
+    it "doesn't attempt to unsubscribe from email alerts when level one topic is archived" do
+      tag = create(:topic, :published, children: [create(:topic, :archived)])
 
       TagArchiver.new(tag, build(:mainstream_browse_page)).archive
 

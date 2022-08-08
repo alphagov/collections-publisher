@@ -11,7 +11,7 @@ class ImportRouterDataTopicRedirects < ActiveRecord::Migration
 
   def create_redirects
     # /childrens-services,/topic/schools-colleges-childrens-services
-    schools_colleges_childrens_services = Topic.only_parents.find_by!(:slug => 'schools-colleges-childrens-services')
+    schools_colleges_childrens_services = Topic.only_level_two.find_by!(:slug => 'schools-colleges-childrens-services')
     @redirects << Redirect.create!(
       :tag => schools_colleges_childrens_services,
       :original_tag_base_path => "/childrens-services",
@@ -41,7 +41,7 @@ class ImportRouterDataTopicRedirects < ActiveRecord::Migration
 
     # /commercial-fishing-fisheries/monitoring-enforcement,/topic/commercial-fishing-fisheries/regulations-monitoring-enforcement
     # /commercial-fishing-fisheries/regulations-restrictions,/topic/commercial-fishing-fisheries/regulations-monitoring-enforcement
-    commercial_fishing_fisheries = Topic.only_parents.find_by!(:slug => 'commercial-fishing-fisheries')
+    commercial_fishing_fisheries = Topic.only_level_two.find_by!(:slug => 'commercial-fishing-fisheries')
     {
       "monitoring-enforcement" => "regulations-monitoring-enforcement",
       "regulations-restrictions" => "regulations-monitoring-enforcement",
@@ -55,7 +55,7 @@ class ImportRouterDataTopicRedirects < ActiveRecord::Migration
       )
     end
 
-    competition = Topic.only_parents.find_by!(:slug => 'competition')
+    competition = Topic.only_level_two.find_by!(:slug => 'competition')
     [
       "business-law-compliance",
       "competition-law-compliance",
@@ -86,7 +86,7 @@ class ImportRouterDataTopicRedirects < ActiveRecord::Migration
     end
 
     # /health-protection/migrant-health,/topic/health-protection
-    health_protection = Topic.only_parents.find_by!(:slug => 'health-protection')
+    health_protection = Topic.only_level_two.find_by!(:slug => 'health-protection')
     @redirects << Redirect.create!(
       :tag => health_protection,
       :original_tag_base_path => "/health-protection/migrant-health",
@@ -118,7 +118,7 @@ class ImportRouterDataTopicRedirects < ActiveRecord::Migration
     end
 
     # /schools-colleges,/topic/schools-colleges-childrens-services
-    schools_colleges_childrens_services = Topic.only_parents.find_by!(:slug => 'schools-colleges-childrens-services')
+    schools_colleges_childrens_services = Topic.only_level_two.find_by!(:slug => 'schools-colleges-childrens-services')
     @redirects << Redirect.create!(
       :tag => schools_colleges_childrens_services,
       :original_tag_base_path => "/schools-colleges",

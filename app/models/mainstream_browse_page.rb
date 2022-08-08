@@ -11,7 +11,7 @@ class MainstreamBrowsePage < Tag
   end
 
   def dependent_tags
-    if child?
+    if level_two?
       parent.children - [self] + [parent]
     else
       MainstreamBrowsePage.all - [self]
@@ -22,8 +22,12 @@ class MainstreamBrowsePage < Tag
     %w[.json]
   end
 
-  def top_level_mainstream_browse_page?
-    !child?
+  def can_be_archived?
+    level_two? && published?
+  end
+
+  def can_have_email_subscriptions?
+    false
   end
 
 private

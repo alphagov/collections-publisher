@@ -13,7 +13,7 @@ RSpec.describe DraftTagRemover do
       expect { DraftTagRemover.new(topic).remove }.to raise_error(RuntimeError)
     end
 
-    it "guards against removing parent tags" do
+    it "guards against removing parent (level 1) tags" do
       topic = create(:topic, :draft)
 
       expect { DraftTagRemover.new(topic).remove }.to raise_error(RuntimeError)

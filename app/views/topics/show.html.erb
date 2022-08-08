@@ -53,7 +53,7 @@
       </section>
     <% end %>
 
-    <% if @topic.child? %>
+    <% if @topic.level_two? %>
       <section class="govuk-!-margin-bottom-3">
         <%= render 'shared/list-links-preview', tag: @topic %>
       </section>
@@ -82,22 +82,20 @@
               <% end %>
             </div>
           <% end %>
-          <% if @topic.child? %>
-            <div class="govuk-!-margin-bottom-1">
-              <% if @topic.published? %>
-                <%= link_to 'Archive specialist topic page',
-                  propose_archive_topic_path(@topic),
-                  class: %w(govuk-link govuk-link--no-visited-state)
-                %>
-              <% else %>
-                <%= link_to 'Delete', archive_topic_path(@topic),
-                  method: 'post',
-                  data: { confirm: 'Are you sure?' },
-                  class: %w(govuk-link app-link--destructive)
-                %>
-              <% end %>
-            </div>
-          <% end %>
+          <div class="govuk-!-margin-bottom-1">
+            <% if @topic.can_be_archived? %>
+              <%= link_to 'Archive specialist topic page',
+                propose_archive_topic_path(@topic),
+                class: %w(govuk-link govuk-link--no-visited-state)
+              %>
+            <% elsif @topic.level_two? %>
+              <%= link_to 'Delete', archive_topic_path(@topic),
+                method: 'post',
+                data: { confirm: 'Are you sure?' },
+                class: %w(govuk-link app-link--destructive)
+              %>
+            <% end %>
+          </div>
         </div>
       </div>
     </aside>
