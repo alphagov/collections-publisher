@@ -70,6 +70,12 @@ RSpec.describe Topic do
       expect(topic.can_be_removed?).to eql(true)
     end
 
+    it "returns true for draft level one specialist topic without children" do
+      topic = create(:topic, :draft, parent: nil, children: [])
+
+      expect(topic.can_be_removed?).to eql(true)
+    end
+
     it "returns false for published level two specialist topic" do
       topic = create(:topic, :published, parent: create(:topic))
 
@@ -82,7 +88,7 @@ RSpec.describe Topic do
       expect(topic.can_be_removed?).to eql(false)
     end
 
-    it "returns false for level one specialist topic" do
+    it "returns false for level one specialist topic with children" do
       topic = create(:topic, :draft, parent: nil, children: [create(:topic, :draft)])
 
       expect(topic.can_be_removed?).to eql(false)

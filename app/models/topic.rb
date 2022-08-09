@@ -27,6 +27,10 @@ class Topic < Tag
     published? && !has_active_children?
   end
 
+  def can_be_removed?
+    draft? && children.empty?
+  end
+
   def can_have_email_subscriptions?
     level_two?
   end

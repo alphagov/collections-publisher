@@ -26,6 +26,10 @@ class MainstreamBrowsePage < Tag
     level_two? && published?
   end
 
+  def can_be_removed?
+    level_two? && draft?
+  end
+
   def can_have_email_subscriptions?
     false
   end
