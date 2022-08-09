@@ -104,7 +104,8 @@
                 propose_archive_mainstream_browse_page_path(@browse_page),
                 class: %w(govuk-link govuk-link--no-visited-state)
               %>
-            <% elsif @browse_page.level_two? %>
+            <% end %>
+            <% if @browse_page.can_be_removed? %>
               <%= link_to 'Delete page', archive_mainstream_browse_page_path(@browse_page),
                 method: 'post',
                 data: { confirm: 'Are you sure?' },

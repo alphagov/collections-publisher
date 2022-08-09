@@ -157,6 +157,10 @@ class Tag < ApplicationRecord
     raise NotImplementedError
   end
 
+  def can_be_removed?
+    level_two? && draft?
+  end
+
   def can_have_email_subscriptions?
     raise NotImplementedError
   end
