@@ -23,5 +23,11 @@
     </p>
 
     <%= render 'shared/redirects', redirect_routes: @topic.redirect_routes %>
+
+    <% if @topic.children.any? %>
+      <section class="govuk-!-margin-bottom-3">
+        <%= render "shared/list-children-pages", page: @topic %>
+      </section>
+    <% end %>
   </div>
 </div>
