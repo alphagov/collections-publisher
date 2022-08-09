@@ -54,6 +54,7 @@ RSpec.feature "Archiving topic tags" do
     when_i_visit_the_topic_edit_page
     then_i_see_that_i_cannot_edit_the_page
     and_i_see_archived_subtopics
+    and_i_cannot_see_the_action_to_edit_subtopics
   end
 
   scenario "User redirects to invalid basepath" do
@@ -123,6 +124,11 @@ RSpec.feature "Archiving topic tags" do
 
   def and_i_see_archived_subtopics
     expect(page).to have_content "Subtopics"
+  end
+
+  def and_i_cannot_see_the_action_to_edit_subtopics
+    expect(page).not_to have_css(".govuk-table__header", text: "Actions")
+    expect(page).not_to have_link("Edit")
   end
 
   def when_i_submit_an_invalid_base_path_as_redirect
