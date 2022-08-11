@@ -9,7 +9,8 @@ This app is used by GDS and some departmental editors. It can publish:
 
 These pages are then served by the [collections app](https://github.com/alphagov/collections). It is also used to curate pages tagged to a topic or browse page into "curated lists", instead of a single 'A-Z' list, as the following screenshots illustrate.
 
-![Screenshot of curated and non-curated pages](docs/screenshot-curated-topics.png)
+![Screenshot of curated page](docs/screenshot-curated-childcare-topics.png)
+![Screenshot of A-Z auto-generated list](docs/screenshot-a-z-prisons-topic.png)
 
 ## Nomenclature
 
