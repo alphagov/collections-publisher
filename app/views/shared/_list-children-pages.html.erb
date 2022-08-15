@@ -10,7 +10,7 @@
     <%= table.head do %>
       <%= table.header "Title" %>
       <%= table.header "Status" %>
-      <%= table.header "Actions" if gds_editor? %>
+      <%= table.header "Actions" if gds_editor? && page.has_active_children? %>
     <% end %>
 
     <%= table.body do %>
@@ -36,7 +36,7 @@
           } %>
 
           <%= table.cell govuk_status(child_page) %>
-          <%= table.cell link_to('Edit', edit_polymorphic_path(child_page), class: "govuk-link") if gds_editor? %>
+          <%= table.cell link_to('Edit', edit_polymorphic_path(child_page), class: "govuk-link") if gds_editor? && page.has_active_children?%>
         <% end %>
       <% end %>
     <% end %>
