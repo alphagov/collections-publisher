@@ -63,6 +63,38 @@ RSpec.describe Topic do
     end
   end
 
+  describe "#can_be_removed?" do
+    it "returns true for draft level two specialist topic" do
+      topic = create(:topic, :draft, parent: create(:topic))
+
+      expect(topic.can_be_removed?).to eql(true)
+    end
+
+    it "returns true for draft level one specialist topic without children" do
+      topic = create(:topic, :draft, parent: nil, children: [])
+
+      expect(topic.can_be_removed?).to eql(true)
+    end
+
+    it "returns false for published level two specialist topic" do
+      topic = create(:topic, :published, parent: create(:topic))
+
+      expect(topic.can_be_removed?).to eql(false)
+    end
+
+    it "returns false for archived level two specialist topic" do
+      topic = create(:topic, :archived, parent: create(:topic))
+
+      expect(topic.can_be_removed?).to eql(false)
+    end
+
+    it "returns false for level one specialist topic with children" do
+      topic = create(:topic, :draft, parent: nil, children: [create(:topic, :draft)])
+
+      expect(topic.can_be_removed?).to eql(false)
+    end
+  end
+
   describe "#can_have_email_subscriptions?" do
     it "returns true for level two topic" do
       topic = create(:topic, parent: create(:topic))

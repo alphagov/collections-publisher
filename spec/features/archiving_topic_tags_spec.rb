@@ -36,8 +36,8 @@ RSpec.feature "Archiving topic tags" do
     then_i_see_that_i_cannot_edit_the_page
   end
 
-  scenario "User archives draft tag" do
-    given_there_is_a_draft_topic
+  scenario "User archives draft level 2 tag" do
+    given_there_is_a_draft_level_2_topic
     and_i_visit_the_topic
     when_i_click_the_delete_button
     then_the_tag_is_deleted
@@ -55,6 +55,13 @@ RSpec.feature "Archiving topic tags" do
     then_i_see_that_i_cannot_edit_the_page
     and_i_see_archived_subtopics
     and_i_cannot_see_the_action_to_edit_subtopics
+  end
+
+  scenario "User archives draft level 1 tag" do
+    given_there_is_a_draft_level_1_topic
+    and_i_visit_the_topic
+    when_i_click_the_delete_button
+    then_the_tag_is_deleted
   end
 
   scenario "User redirects to invalid basepath" do
@@ -94,12 +101,16 @@ RSpec.feature "Archiving topic tags" do
     @topic = create(:topic, :published, slug: "bar", parent: create(:topic, slug: "foo"))
   end
 
-  def given_there_is_a_draft_topic
+  def given_there_is_a_draft_level_2_topic
     @topic = create(:topic, :draft, slug: "bar", parent: create(:topic, slug: "foo"))
   end
 
   def given_there_is_a_published_level_1_topic
     @topic = create(:topic, :published, slug: "bar", children: [create(:topic, :archived)])
+  end
+
+  def given_there_is_a_draft_level_1_topic
+    @topic = create(:topic, :draft, slug: "bar")
   end
 
   def and_there_is_a_topic_that_can_be_used_as_a_replacement

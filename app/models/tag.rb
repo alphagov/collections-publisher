@@ -154,11 +154,15 @@ class Tag < ApplicationRecord
   end
 
   def can_be_archived?
-    raise NotImplementedError
+    raise NoMethodError
+  end
+
+  def can_be_removed?
+    raise NoMethodError
   end
 
   def can_have_email_subscriptions?
-    raise NotImplementedError
+    raise NoMethodError
   end
 
 private
