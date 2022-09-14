@@ -18,9 +18,7 @@ RUN bundle exec rails assets:precompile && \
 
 FROM $base_image
 
-ENV GOVUK_APP_NAME=collections-publisher \
-    DATABASE_URL mysql2://root:root@mysql/collections_publisher_development \
-    PORT 3071
+ENV GOVUK_APP_NAME=collections-publisher
 
 WORKDIR /app
 
