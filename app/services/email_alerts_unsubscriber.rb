@@ -26,7 +26,7 @@ class EmailAlertsUnsubscriber
       args.merge!({ govuk_request_id: }) if govuk_request_id
     end
 
-    Services.email_alert_api.bulk_unsubscribe(args)
+    Services.email_alert_api.bulk_unsubscribe(**args)
   end
 
 private
