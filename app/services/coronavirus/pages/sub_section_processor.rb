@@ -1,7 +1,7 @@
 module Coronavirus::Pages
   class SubSectionProcessor
-    def self.call(*args)
-      new(*args).output
+    def self.call(...)
+      new(...).output
     end
 
     attr_reader :sub_sections, :content_array, :action_link

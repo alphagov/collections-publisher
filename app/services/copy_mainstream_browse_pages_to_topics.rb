@@ -1,6 +1,6 @@
 class CopyMainstreamBrowsePagesToTopics
-  def self.call(*args)
-    new(*args).copy
+  def self.call(...)
+    new(...).copy
   end
 
   attr_reader :mainstream_browse_pages

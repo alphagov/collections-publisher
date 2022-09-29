@@ -1,6 +1,6 @@
 class EmailAlertsUnsubscriber
-  def self.call(*args)
-    new(*args).unsubscribe
+  def self.call(...)
+    new(...).unsubscribe
   end
 
   attr_reader :item, :body, :govuk_request_id

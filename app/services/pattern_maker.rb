@@ -20,8 +20,8 @@ class PatternMaker
   #   PatternMaker.call "starts_with x then perhaps_spaces and y", x: '[xX]', y: '[yY]'
   #
   # outputs -> /^[xX]\s*[yY]/
-  def self.call(*args)
-    new(*args).pattern
+  def self.call(...)
+    new(...).pattern
   end
 
   attr_reader :description, :patterns
