@@ -4,15 +4,15 @@ class StepContentParser
   # - [Link text](url) context
   # * A bullet point without a link
   # - A bullet point without a link
-  BULLETED_LIST_REGEX = /^[*\-]\s(\[.+\]\(.+\))?.*$/.freeze
+  BULLETED_LIST_REGEX = /^[*\-]\s(\[.+\]\(.+\))?.*$/
 
   # it matches [Link text](url)context
-  LIST_REGEX = /^\[.+\]\(.+\).*$/.freeze
+  LIST_REGEX = /^\[.+\]\(.+\).*$/
 
   # matches [Link text](url)
-  LINK_REGEX = /\[[^\[\]]+\]\(([^)]+)/.freeze
+  LINK_REGEX = /\[[^\[\]]+\]\(([^)]+)/
 
-  GOVUK_DOMAIN_REGEX = /^(https?:\/\/)?(www\.)?gov\.uk\//.freeze
+  GOVUK_DOMAIN_REGEX = /^(https?:\/\/)?(www\.)?gov\.uk\//
 
   def parse(step_text)
     sections = step_text.rstrip.delete("\r").split("\n\n").map do |section|

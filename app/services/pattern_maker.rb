@@ -38,7 +38,7 @@ class PatternMaker
   def pattern
     pattern = elements.map { |e| process_element(e) }
     pattern.compact!
-    /#{pattern.join}/.freeze
+    /#{pattern.join}/
   end
 
   def process_element(element)
