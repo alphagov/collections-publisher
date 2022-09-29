@@ -37,8 +37,8 @@ RSpec.feature "Order browse pages" do
 
   def given_there_are_browse_pages
     parent = create(:mainstream_browse_page, :published, title: "Pizzas")
-    @four_seasons = create(:mainstream_browse_page, parent: parent, title: "Four seasons")
-    @pepperoni = create(:mainstream_browse_page, parent: parent, title: "Pepperoni")
+    @four_seasons = create(:mainstream_browse_page, parent:, title: "Four seasons")
+    @pepperoni = create(:mainstream_browse_page, parent:, title: "Pepperoni")
   end
 
   def when_i_navigate_to_the_child_ordering_page

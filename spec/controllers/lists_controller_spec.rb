@@ -4,7 +4,7 @@ RSpec.describe ListsController do
   include PublishingApiHelpers
 
   describe "GET show" do
-    let(:list) { create(:list, tag: tag) }
+    let(:list) { create(:list, tag:) }
 
     context "Tag is a MainstreamBrowsePage" do
       let(:tag) { create(:mainstream_browse_page) }
@@ -46,7 +46,7 @@ RSpec.describe ListsController do
   end
 
   describe "GET edit_list_items" do
-    let(:list) { create(:list, tag: tag) }
+    let(:list) { create(:list, tag:) }
 
     context "Tag is a MainstreamBrowsePage" do
       let(:tag) { create(:mainstream_browse_page) }
@@ -88,9 +88,9 @@ RSpec.describe ListsController do
   end
 
   describe "PATCH update_list_items" do
-    let(:list) { create(:list, tag: tag) }
-    let!(:list_item1) { create(:list_item, list: list, index: 1) }
-    let!(:list_item2) { create(:list_item, list: list, index: 2) }
+    let(:list) { create(:list, tag:) }
+    let!(:list_item1) { create(:list_item, list:, index: 1) }
+    let!(:list_item2) { create(:list_item, list:, index: 2) }
     let(:tagged_documents) do
       [
         TaggedDocuments::Document.new(list_item1.title, list_item1.base_path, "123"),
@@ -214,7 +214,7 @@ RSpec.describe ListsController do
   end
 
   describe "GET manage_list_item_ordering" do
-    let(:list) { create(:list, tag: tag) }
+    let(:list) { create(:list, tag:) }
 
     context "Tag is a MainstreamBrowsePage" do
       let(:tag) { create(:mainstream_browse_page) }
@@ -256,9 +256,9 @@ RSpec.describe ListsController do
   end
 
   describe "PATCH update_list_item_ordering" do
-    let(:list) { create(:list, tag: tag) }
-    let!(:list_item1) { create(:list_item, list: list, index: 1) }
-    let!(:list_item2) { create(:list_item, list: list, index: 2) }
+    let(:list) { create(:list, tag:) }
+    let!(:list_item1) { create(:list_item, list:, index: 1) }
+    let!(:list_item2) { create(:list_item, list:, index: 2) }
     let(:tagged_documents) do
       [
         TaggedDocuments::Document.new(list_item1.title, list_item1.base_path, "123"),

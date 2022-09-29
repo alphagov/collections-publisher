@@ -17,11 +17,11 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
           {
             list: [
               {
-                url: url,
-                label: label,
+                url:,
+                label:,
               },
             ],
-            title: title,
+            title:,
           },
         ],
       }
@@ -127,11 +127,11 @@ RSpec.describe Coronavirus::SubSectionJsonPresenter do
             {
               list: [
                 {
-                  url: url,
-                  label: label,
+                  url:,
+                  label:,
                 },
               ],
-              title: title,
+              title:,
             },
           ],
         }

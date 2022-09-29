@@ -30,7 +30,7 @@ RSpec.feature "Tagging browse pages with topics" do
 
   def given_there_is_a_browse_page
     parent = create(:mainstream_browse_page)
-    @page = create(:mainstream_browse_page, parent: parent)
+    @page = create(:mainstream_browse_page, parent:)
   end
 
   def when_i_visit_that_browse_page

@@ -28,17 +28,17 @@ private
 
   def required_fields
     {
-      base_path: base_path,
+      base_path:,
       description: step_nav.description,
-      details: details,
+      details:,
       document_type: "step_by_step_nav",
       links: edition_links,
       locale: "en",
-      public_updated_at: public_updated_at,
+      public_updated_at:,
       publishing_app: "collections-publisher",
       redirects: [],
       rendering_app: "collections",
-      routes: routes,
+      routes:,
       schema_name: "step_by_step_nav",
       title: step_nav.title,
     }
@@ -68,9 +68,9 @@ private
             content: step_nav.introduction,
           },
         ],
-        steps: steps,
+        steps:,
       },
-      body: body,
+      body:,
     }
   end
 

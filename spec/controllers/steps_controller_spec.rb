@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe StepsController do
   describe "GET Step edit page" do
     let(:step_by_step_page) { create_step_by_step_page }
-    let(:step) { create(:step, step_by_step_page: step_by_step_page) }
+    let(:step) { create(:step, step_by_step_page:) }
 
     it "can only be accessed by users with GDS editor permissions" do
       stub_user.permissions << "GDS Editor"

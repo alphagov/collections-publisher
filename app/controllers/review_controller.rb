@@ -25,7 +25,7 @@ class ReviewController < ApplicationController
     if @step_by_step_page.update(
       review_requester_id: nil,
       reviewer_id: nil,
-      status: status,
+      status:,
     )
       generate_change_note("2i approved", params[:additional_comment])
 
@@ -40,7 +40,7 @@ class ReviewController < ApplicationController
 
     if @step_by_step_page.update(
       reviewer_id: current_user.uid,
-      status: status,
+      status:,
     )
       generate_change_note("Claimed for review")
 
@@ -58,7 +58,7 @@ class ReviewController < ApplicationController
     if @step_by_step_page.update(
       reviewer_id: nil,
       review_requester_id: nil,
-      status: status,
+      status:,
     )
       generate_change_note("2i changes requested", params[:requested_change])
 
@@ -74,7 +74,7 @@ class ReviewController < ApplicationController
 
       if @step_by_step_page.update(
         review_requester_id: current_user.uid,
-        status: status,
+        status:,
       )
         generate_change_note(I18n.t!("step_by_step_page.statuses.#{status}"), params[:additional_comments])
 
@@ -91,7 +91,7 @@ class ReviewController < ApplicationController
     if @step_by_step_page.update(
       reviewer_id: nil,
       review_requester_id: nil,
-      status: status,
+      status:,
     )
       generate_change_note("Reverted to draft")
 
@@ -104,7 +104,7 @@ private
   def generate_change_note(headline, change_note = nil)
     @step_by_step_page.internal_change_notes.create(
       author: current_user.name,
-      headline: headline,
+      headline:,
       description: change_note,
     )
   end

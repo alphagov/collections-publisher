@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe SecondaryContentLink do
   let(:step_by_step_page) { create(:step_by_step_page_with_secondary_content) }
-  let(:secondary_content_link) { build(:secondary_content_link, step_by_step_page: step_by_step_page) }
+  let(:secondary_content_link) { build(:secondary_content_link, step_by_step_page:) }
 
   before do
     allow(Services.publishing_api).to receive(:lookup_content_id)
@@ -58,7 +58,7 @@ RSpec.describe SecondaryContentLink do
       it "is created with valid attributes when the base_path is unique to the step_by_step_page" do
         secondary_content_link = build(
           :secondary_content_link,
-          step_by_step_page: step_by_step_page,
+          step_by_step_page:,
           base_path: "/same-step-by-step/shiny-new-path",
         )
         expect(secondary_content_link).to be_valid
@@ -81,7 +81,7 @@ RSpec.describe SecondaryContentLink do
     it "returns true for transaction schema published by smartanswers" do
       secondary_content_link = build(
         :secondary_content_link,
-        step_by_step_page: step_by_step_page,
+        step_by_step_page:,
         publishing_app: "smartanswers",
         schema_name: "transaction",
       )
@@ -92,7 +92,7 @@ RSpec.describe SecondaryContentLink do
     it "returns true for smart_answer schema" do
       secondary_content_link = build(
         :secondary_content_link,
-        step_by_step_page: step_by_step_page,
+        step_by_step_page:,
         publishing_app: "smartanswers",
         schema_name: "smart_answer",
       )

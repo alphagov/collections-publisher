@@ -112,7 +112,7 @@ RSpec.describe Topic do
   describe "#subscriber_list_search_attributes" do
     it "returns search attributes to search subscriber list for the topic" do
       content_id = SecureRandom.uuid
-      topic = create(:topic, content_id: content_id)
+      topic = create(:topic, content_id:)
 
       subscriber_list_search_attributes = topic.subscriber_list_search_attributes
 

@@ -24,10 +24,10 @@ class RootTopicPresenter
       document_type: "topic",
       title: "Topics",
       locale: "en",
-      public_updated_at: public_updated_at,
+      public_updated_at:,
       publishing_app: "collections-publisher",
       rendering_app: "collections",
-      routes: routes,
+      routes:,
       details: {
         internal_name: "Topic index page",
       },
@@ -37,7 +37,7 @@ class RootTopicPresenter
 
   def render_links_for_publishing_api
     {
-      links: links,
+      links:,
     }
   end
 

@@ -13,7 +13,7 @@ class Coronavirus::SubSectionJsonPresenter
       {
         title: sub_section.title,
         sub_heading: sub_section.sub_heading,
-        sub_sections: sub_sections,
+        sub_sections:,
       }
   end
 
@@ -38,7 +38,7 @@ private
 
   def build_link(label, url)
     {
-      label: label,
+      label:,
       url: append_priority_taxon_query_param(url),
     }
   end

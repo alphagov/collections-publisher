@@ -84,7 +84,7 @@ RSpec.describe StepNavActionsHelper do
 
     it "returns false if there aren't any steps with links" do
       step_by_step_page = create(:step_by_step_page)
-      create(:or_step, step_by_step_page: step_by_step_page)
+      create(:or_step, step_by_step_page:)
 
       expect(helper.must_check_for_broken_links?(step_by_step_page)).to be false
     end
@@ -98,7 +98,7 @@ RSpec.describe StepNavActionsHelper do
 
       it "returns true if there are external links and link checker hasn't been run" do
         step_by_step_page = create(:step_by_step_page)
-        create(:step, step_by_step_page: step_by_step_page, contents: "- [Good stuff](http://foo.co.uk/good/stuff)")
+        create(:step, step_by_step_page:, contents: "- [Good stuff](http://foo.co.uk/good/stuff)")
 
         expect(helper.must_check_for_broken_links?(step_by_step_page)).to be true
       end

@@ -11,7 +11,7 @@ RSpec.describe LinkReport, type: :model do
     context "when the step content has links" do
       it "should create a record with the right batch_id" do
         step = create(:step)
-        link_report = create(:link_report, step: step)
+        link_report = create(:link_report, step:)
         stub_link_checker_api_create_batch(
           uris: [
             "http://example.com/good",
@@ -30,7 +30,7 @@ RSpec.describe LinkReport, type: :model do
     context "when the step content does not have links" do
       it "should return delete itself" do
         step = create(:step, contents: "Lorem ipsum")
-        link_report = create(:link_report, step: step)
+        link_report = create(:link_report, step:)
         link_report.create_record
         expect(LinkReport.find_by(batch_id: 0)).to be_nil
       end

@@ -48,7 +48,7 @@ private
 
       tag.redirect_routes.create!(
         from_base_path: [tag.base_path, route_suffix].join,
-        to_base_path: to_base_path,
+        to_base_path:,
       )
     end
   end

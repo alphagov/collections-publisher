@@ -68,7 +68,7 @@ private
         hour += 12
       end
 
-      { hour: hour, minute: minute }
+      { hour:, minute: }
     end
   end
 end

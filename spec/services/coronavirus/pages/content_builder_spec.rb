@@ -7,7 +7,7 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
   subject { described_class.new(page) }
 
   describe "#data" do
-    let!(:sub_section) { create :coronavirus_sub_section, page: page }
+    let!(:sub_section) { create :coronavirus_sub_section, page: }
     let(:hidden_search_terms) do
       [
         sub_section_json[:title],
@@ -44,8 +44,8 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     end
 
     context "with subsections" do
-      let!(:sub_section_0) { create :coronavirus_sub_section, position: 0, page: page }
-      let!(:sub_section_1) { create :coronavirus_sub_section, position: 1, page: page }
+      let!(:sub_section_0) { create :coronavirus_sub_section, position: 0, page: }
+      let!(:sub_section_1) { create :coronavirus_sub_section, position: 1, page: }
       let(:sub_section_0_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section_0).output }
       let(:sub_section_1_json) { Coronavirus::SubSectionJsonPresenter.new(sub_section_1).output }
 

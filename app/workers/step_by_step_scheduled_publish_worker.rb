@@ -7,7 +7,7 @@ class StepByStepScheduledPublishWorker
   end
 
   def perform(id)
-    step_nav = StepByStepPage.find_by(id: id)
+    step_nav = StepByStepPage.find_by(id:)
 
     if publish_now?(step_nav)
       step_nav.with_lock do

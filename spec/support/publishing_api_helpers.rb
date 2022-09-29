@@ -29,7 +29,7 @@ module PublishingApiHelpers
   def publishing_api_receives_request_to_lookup_content_id(base_path:)
     allow(Services.publishing_api).to(
       receive(:lookup_content_id).with(
-        base_path: base_path,
+        base_path:,
         with_drafts: true,
       ),
     )
@@ -37,7 +37,7 @@ module PublishingApiHelpers
 
   def publishing_api_receives_request_to_lookup_content_ids(base_paths:, return_data: nil)
     expectation = expect(Services.publishing_api).to receive(:lookup_content_ids).with(
-      base_paths: base_paths,
+      base_paths:,
       with_drafts: true,
     )
 

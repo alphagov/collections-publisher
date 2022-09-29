@@ -8,10 +8,10 @@ class StepByStepPageReverter
 
   def repopulate_from_publishing_api
     step_by_step_page.update!(
-      title: title,
-      slug: slug,
-      introduction: introduction,
-      description: description,
+      title:,
+      slug:,
+      introduction:,
+      description:,
       draft_updated_at: step_by_step_page.published_at,
       status: "published",
     )
@@ -131,7 +131,7 @@ private
       SecondaryContentLink.new(
         base_path: content_item["base_path"],
         title: content_item["title"],
-        content_id: content_id,
+        content_id:,
         publishing_app: content_item["publishing_app"],
         schema_name: content_item["schema_name"],
       )

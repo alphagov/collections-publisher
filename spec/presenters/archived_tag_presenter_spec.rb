@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe ArchivedTagPresenter do
   let(:parent)   { create :topic, slug: "parent", title: "Parent topic", description: "Description of parent topic." }
-  let(:child)    { create :topic, slug: "child-1", title: "Child topic", description: "Description of child topic.", parent: parent }
+  let(:child)    { create :topic, slug: "child-1", title: "Child topic", description: "Description of child topic.", parent: }
 
   describe "#render_for_publishing_api" do
     before(:each) do

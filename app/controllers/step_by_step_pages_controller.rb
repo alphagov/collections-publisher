@@ -112,7 +112,7 @@ class StepByStepPagesController < ApplicationController
           @step_by_step_page.errors.add :base, issue.values.first
         end
         render :schedule_datetime
-      elsif @step_by_step_page.update(scheduled_at: scheduled_at)
+      elsif @step_by_step_page.update(scheduled_at:)
         schedule_to_publish(session[:update_type], session[:public_change_note])
         note_headline = "Scheduled to publish"
         note_description = "Scheduled at #{format_full_date_and_time(scheduled_at)}"
@@ -205,7 +205,7 @@ private
   end
 
   def schedule_to_publish(update_type, change_note)
-    publish_intent = PublishIntent.new(update_type: update_type, change_note: change_note)
+    publish_intent = PublishIntent.new(update_type:, change_note:)
     StepNavPublisher.schedule_for_publishing(@step_by_step_page)
     StepNavPublisher.update_draft(@step_by_step_page, publish_intent)
     @step_by_step_page.mark_as_scheduled

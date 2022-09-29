@@ -61,7 +61,7 @@ RSpec.describe ReviewController do
 
             post :submit_for_2i, params: {
               step_by_step_page_id: step_by_step_page.id,
-              additional_comments: additional_comments,
+              additional_comments:,
             }
 
             expect(step_by_step_page.internal_change_notes.first.description).to include(additional_comments)

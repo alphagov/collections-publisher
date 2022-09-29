@@ -42,7 +42,7 @@ private
   def content_item
     base_path = params[:base_path].gsub(/^\s+|\s+$/, "")
     base_path = URI.parse(base_path).path
-    content_id = Services.publishing_api.lookup_content_id(base_path: base_path, with_drafts: true)
+    content_id = Services.publishing_api.lookup_content_id(base_path:, with_drafts: true)
 
     if content_id.nil?
       @error = "#{base_path} doesn't exist on GOV.UK."
@@ -54,7 +54,7 @@ private
     {
       base_path: content_item["base_path"],
       title: content_item["title"],
-      content_id: content_id,
+      content_id:,
       publishing_app: content_item["publishing_app"],
       schema_name: content_item["schema_name"],
     }

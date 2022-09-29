@@ -2,12 +2,12 @@ require "rails_helper"
 
 RSpec.describe ListItemsController, type: :controller do
   let(:tag) { create(:tag) }
-  let(:list) { create(:list, tag: tag) }
+  let(:list) { create(:list, tag:) }
   let(:title) { "List item title" }
   let(:path) { "/government/foo/vader/baby/yoda" }
 
   describe "destroy" do
-    let!(:list_item) { create(:list_item, list: list) }
+    let!(:list_item) { create(:list_item, list:) }
     let(:tag) { create(:mainstream_browse_page, :published) }
 
     before do
@@ -61,8 +61,8 @@ RSpec.describe ListItemsController, type: :controller do
   end
 
   describe "GET confirm_destroy" do
-    let(:list) { create(:list, tag: tag) }
-    let!(:list_item) { create(:list_item, list: list) }
+    let(:list) { create(:list, tag:) }
+    let!(:list_item) { create(:list_item, list:) }
 
     context "Tag is a MainstreamBrowsePage" do
       let(:tag) { create(:mainstream_browse_page) }
@@ -106,8 +106,8 @@ RSpec.describe ListItemsController, type: :controller do
   end
 
   describe "GET move" do
-    let(:list) { create(:list, tag: tag) }
-    let!(:list_item) { create(:list_item, list: list) }
+    let(:list) { create(:list, tag:) }
+    let!(:list_item) { create(:list_item, list:) }
 
     context "Tag is a MainstreamBrowsePage" do
       let(:tag) { create(:mainstream_browse_page) }
@@ -151,8 +151,8 @@ RSpec.describe ListItemsController, type: :controller do
   end
 
   describe "PATCH update_move" do
-    let(:list1) { create(:list, tag: tag) }
-    let(:list2) { create(:list, tag: tag) }
+    let(:list1) { create(:list, tag:) }
+    let(:list2) { create(:list, tag:) }
     let!(:list_item1) { create(:list_item, list: list1, index: 1) }
     let!(:list_item2) { create(:list_item, list: list1, index: 2) }
     let(:tagged_documents) do

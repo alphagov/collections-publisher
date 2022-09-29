@@ -46,7 +46,7 @@ RSpec.describe Step do
       step_by_step_page = create(:step_by_step_page)
       expect(step_by_step_page.steps.count).to eq 0
 
-      step = create(:step, step_by_step_page: step_by_step_page)
+      step = create(:step, step_by_step_page:)
       expect(step.position).to eq 1
     end
 
@@ -54,7 +54,7 @@ RSpec.describe Step do
       step_by_step_page = create(:step_by_step_page_with_steps)
       expect(step_by_step_page.steps.count).to eq 2
 
-      step = create(:step, step_by_step_page: step_by_step_page)
+      step = create(:step, step_by_step_page:)
       expect(step.position).to eq 3
     end
 

@@ -31,10 +31,10 @@ module TimeOptionsHelper
     time: format_time_12_hour_clock(1.day.from_now.change(hour: 9))
   )
     {
-      year: year,
-      month: month,
-      day: day,
-      time: time,
+      year:,
+      month:,
+      day:,
+      time:,
     }
   end
 end

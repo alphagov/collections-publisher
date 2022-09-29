@@ -5,7 +5,7 @@ class StepLinksForRules
   end
 
   def self.call(step_by_step_page)
-    new(step_by_step_page: step_by_step_page).call
+    new(step_by_step_page:).call
   end
 
   def call
@@ -92,7 +92,7 @@ private
 
   def lookup_content_ids(base_paths)
     # this returns something like { "base_path_1" => "content_id_1", "base_path_2" => "content_id_2"}
-    Services.publishing_api.lookup_content_ids(base_paths: base_paths, with_drafts: true)
+    Services.publishing_api.lookup_content_ids(base_paths:, with_drafts: true)
   end
 
   def content_items

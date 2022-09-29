@@ -8,8 +8,8 @@ RSpec.describe PublishingAPINotifier do
 
   def browse_page_with_slug(slug, parent = nil)
     create(:mainstream_browse_page,
-           slug: slug,
-           parent: parent)
+           slug:,
+           parent:)
   end
 
   before do
@@ -114,7 +114,7 @@ RSpec.describe PublishingAPINotifier do
           :redirect_route,
           from_base_path: "/foo",
           to_base_path: "/topic/foo",
-          tag: tag,
+          tag:,
         )
 
         PublishingAPINotifier.notify(tag)
