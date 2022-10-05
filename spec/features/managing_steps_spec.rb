@@ -168,8 +168,8 @@ RSpec.feature "Managing step by step pages" do
 
   def content_item(content_id, base_path)
     {
-      content_id: content_id,
-      base_path: base_path,
+      content_id:,
+      base_path:,
       title: "BLAH BLAH",
     }
   end

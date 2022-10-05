@@ -28,7 +28,7 @@ RSpec.describe NavigationRule do
         resource = described_class.new(
           base_path: "/a-base-path",
           content_id: "A-CONTENT-ID-BOOM",
-          step_by_step_page: step_by_step_page,
+          step_by_step_page:,
         )
 
         expect(resource).to_not be_valid
@@ -41,7 +41,7 @@ RSpec.describe NavigationRule do
         resource = described_class.new(
           title: "A Title",
           content_id: "A-CONTENT-ID-BOOM",
-          step_by_step_page: step_by_step_page,
+          step_by_step_page:,
         )
 
         expect(resource).to_not be_valid
@@ -54,7 +54,7 @@ RSpec.describe NavigationRule do
         resource = described_class.new(
           title: "A Title",
           base_path: "/a-base-path",
-          step_by_step_page: step_by_step_page,
+          step_by_step_page:,
         )
 
         expect(resource).to_not be_valid
@@ -68,7 +68,7 @@ RSpec.describe NavigationRule do
           title: "A Title",
           base_path: "/a-base-path",
           content_id: "A-CONTENT-ID-BOOM",
-          step_by_step_page: step_by_step_page,
+          step_by_step_page:,
         )
 
         expect(resource).to_not be_valid
@@ -82,7 +82,7 @@ RSpec.describe NavigationRule do
           title: "A Title",
           base_path: "/a-base-path",
           content_id: "A-CONTENT-ID-BOOM",
-          step_by_step_page: step_by_step_page,
+          step_by_step_page:,
           publishing_app: "transaction",
         )
 
@@ -97,7 +97,7 @@ RSpec.describe NavigationRule do
           title: "A Title",
           base_path: "/a-base-path",
           content_id: "A-CONTENT-ID-BOOM",
-          step_by_step_page: step_by_step_page,
+          step_by_step_page:,
           publishing_app: "publisher",
           schema_name: "transaction",
         )
@@ -118,7 +118,7 @@ RSpec.describe NavigationRule do
         title: "A Title",
         base_path: "/a-base-path",
         content_id: "A-CONTENT-ID-BOOM",
-        step_by_step_page: step_by_step_page,
+        step_by_step_page:,
         publishing_app: "smartanswers",
         schema_name: "smart_answer",
       )
@@ -131,7 +131,7 @@ RSpec.describe NavigationRule do
         title: "A Title",
         base_path: "/a-base-path",
         content_id: "A-CONTENT-ID-BOOM",
-        step_by_step_page: step_by_step_page,
+        step_by_step_page:,
         publishing_app: "smartanswers",
         schema_name: "transaction",
       )
@@ -144,7 +144,7 @@ RSpec.describe NavigationRule do
         title: "A Title",
         base_path: "/a-base-path",
         content_id: "A-CONTENT-ID-BOOM",
-        step_by_step_page: step_by_step_page,
+        step_by_step_page:,
         publishing_app: "publisher",
         schema_name: "transaction",
       )

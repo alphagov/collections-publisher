@@ -5,7 +5,7 @@ class BackportCoronavirusAnnouncementsPublishedOnField < ActiveRecord::Migration
     add_column :coronavirus_announcements, :published_on, :date
 
     CoronavirusAnnouncement.pluck(:id, :published_at).each do |id, time|
-      CoronavirusAnnouncement.where(id: id).update_all(published_on: time&.to_date)
+      CoronavirusAnnouncement.where(id:).update_all(published_on: time&.to_date)
     end
   end
 end

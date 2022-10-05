@@ -20,8 +20,8 @@ RSpec.describe Coronavirus::ReorderSubSectionsController do
       stub_coronavirus_publishing_api
     end
 
-    let(:sub_section_0) { create :coronavirus_sub_section, position: 1, page: page }
-    let(:sub_section_1) { create :coronavirus_sub_section, position: 2, page: page }
+    let(:sub_section_0) { create :coronavirus_sub_section, position: 1, page: }
+    let(:sub_section_1) { create :coronavirus_sub_section, position: 2, page: }
     let(:section_params) { { sub_section_0.id => 2, sub_section_1.id => 1 } }
 
     subject { put :update, params: { page_slug: slug, section_order_save: section_params } }

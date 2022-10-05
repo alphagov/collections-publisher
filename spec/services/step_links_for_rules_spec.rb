@@ -86,7 +86,7 @@ RSpec.describe StepLinksForRules do
         expect(rule.reload.include_in_links).to eq("conditionally")
 
         publishing_api_receives_request_to_lookup_content_ids(
-          base_paths: base_paths,
+          base_paths:,
           return_data: step_link_fixtures_return_data,
         )
 

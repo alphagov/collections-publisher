@@ -7,13 +7,13 @@ RSpec.describe Coronavirus::SubSectionsController do
 
   let(:stub_user) { create :user, :coronovirus_editor, name: "Name Surname" }
   let(:page) { create :coronavirus_page }
-  let!(:sub_section) { create :coronavirus_sub_section, page: page }
+  let!(:sub_section) { create :coronavirus_sub_section, page: }
   let(:title) { Faker::Lorem.sentence }
   let(:content) { "###{Faker::Lorem.sentence}" }
   let(:sub_section_params) do
     {
-      title: title,
-      content: content,
+      title:,
+      content:,
     }
   end
 
@@ -38,8 +38,8 @@ RSpec.describe Coronavirus::SubSectionsController do
 
     context "when a subsection is valid" do
       it "creates a subsection" do
-        expect { post :create, params: params }
-          .to change { Coronavirus::SubSection.where(title: title).count }.by(1)
+        expect { post :create, params: }
+          .to change { Coronavirus::SubSection.where(title:).count }.by(1)
       end
 
       it "redirects to coronavirus page" do
@@ -53,7 +53,7 @@ RSpec.describe Coronavirus::SubSectionsController do
         let(:title) { "" }
 
         it "doesn't create a subsection" do
-          expect { post :create, params: params }
+          expect { post :create, params: }
             .not_to(change { Coronavirus::SubSection.count })
         end
 
@@ -72,7 +72,7 @@ RSpec.describe Coronavirus::SubSectionsController do
         let(:content) { "###Title \n [label](/brexit" }
 
         it "doesn't create a subsection" do
-          expect { post :create, params: params }
+          expect { post :create, params: }
             .not_to(change { Coronavirus::SubSection.count })
         end
 
@@ -87,7 +87,7 @@ RSpec.describe Coronavirus::SubSectionsController do
       before { stub_publishing_api_isnt_available }
 
       it "doesn't create a subsection" do
-        expect { post :create, params: params }
+        expect { post :create, params: }
           .not_to(change { Coronavirus::SubSection.count })
       end
 
@@ -125,7 +125,7 @@ RSpec.describe Coronavirus::SubSectionsController do
 
     context "when a subsection is valid" do
       it "updates a subsection" do
-        expect { patch :update, params: params }
+        expect { patch :update, params: }
           .to change { sub_section.reload.title }.to(title)
       end
 
@@ -140,7 +140,7 @@ RSpec.describe Coronavirus::SubSectionsController do
         let(:title) { "" }
 
         it "doesn't update a subsection" do
-          expect { patch :update, params: params }
+          expect { patch :update, params: }
             .not_to(change { sub_section.reload.title })
         end
 
@@ -159,7 +159,7 @@ RSpec.describe Coronavirus::SubSectionsController do
         let(:content) { "###Title \n [label](/brexit" }
 
         it "doesn't update the structured content" do
-          expect { patch :update, params: params }
+          expect { patch :update, params: }
             .not_to(change { sub_section.reload.structured_content })
         end
 
@@ -174,7 +174,7 @@ RSpec.describe Coronavirus::SubSectionsController do
       before { stub_publishing_api_isnt_available }
 
       it "doesn't update a subsection" do
-        expect { patch :update, params: params }
+        expect { patch :update, params: }
           .not_to(change { sub_section.reload.title })
       end
 
@@ -200,7 +200,7 @@ RSpec.describe Coronavirus::SubSectionsController do
         page_slug: page.slug,
       }
     end
-    subject { delete :destroy, params: params }
+    subject { delete :destroy, params: }
 
     it "redirects to the coronavirus page on success" do
       expect(subject).to redirect_to(coronavirus_page_path(page.slug))

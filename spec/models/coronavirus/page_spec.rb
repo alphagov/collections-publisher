@@ -73,7 +73,7 @@ RSpec.describe Coronavirus::Page do
 
   describe "dependencies" do
     let!(:page) { create :coronavirus_page }
-    let!(:sub_section) { create :coronavirus_sub_section, page: page }
+    let!(:sub_section) { create :coronavirus_sub_section, page: }
 
     it "deletion destroys all child subsections" do
       expect { page.destroy }

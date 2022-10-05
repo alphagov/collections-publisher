@@ -81,7 +81,7 @@ RSpec.describe Tag do
         end
 
         it "is invalid when the slug has been taken by a tag with the same parent" do
-          create(:tag, slug: "passports", parent: parent)
+          create(:tag, slug: "passports", parent:)
 
           tag.parent = parent
           tag.slug = "passports"
@@ -92,7 +92,7 @@ RSpec.describe Tag do
     end
 
     it "is invalid when its parent has a parent" do
-      first_child = create(:tag, parent: parent)
+      first_child = create(:tag, parent:)
       tag.parent = first_child
 
       expect(tag).not_to be_valid
@@ -104,7 +104,7 @@ RSpec.describe Tag do
     parent = create(:tag)
     tag = Tag.create!(
       slug: "child",
-      parent: parent,
+      parent:,
       title: "Child browse page",
     )
     tag.reload
@@ -149,7 +149,7 @@ RSpec.describe Tag do
 
     it "returns false when parent_id is present" do
       parent = create(:tag)
-      tag = create(:tag, parent: parent)
+      tag = create(:tag, parent:)
 
       expect(tag.can_have_children?).to eql false
     end
@@ -206,7 +206,7 @@ RSpec.describe Tag do
 
     it "joins the parent slug for a child tag" do
       parent = create(:tag)
-      tag = build(:tag, slug: "example", parent: parent)
+      tag = build(:tag, slug: "example", parent:)
 
       expect(tag.full_slug).to eq("#{parent.slug}/example")
     end
@@ -244,8 +244,8 @@ RSpec.describe Tag do
 
   describe "lists association" do
     let(:tag) { create(:tag) }
-    let!(:list1) { create(:list, tag: tag) }
-    let!(:list2) { create(:list, tag: tag) }
+    let!(:list1) { create(:list, tag:) }
+    let!(:list2) { create(:list, tag:) }
     let!(:list3) { create(:list) }
 
     it "returns all lists for the tag" do

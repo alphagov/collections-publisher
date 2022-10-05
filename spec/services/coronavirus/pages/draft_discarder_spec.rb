@@ -15,7 +15,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
 
   describe "sub_sections" do
     it "replaces the existing sub_sections" do
-      create(:coronavirus_sub_section, page: page, title: "Foo")
+      create(:coronavirus_sub_section, page:, title: "Foo")
 
       stub_publishing_api_has_item(payload_from_publishing_api)
 
@@ -35,7 +35,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
     end
 
     it "removes the sub_sections if there aren't any sub_sections in publishing_api" do
-      create(:coronavirus_sub_section, page: page)
+      create(:coronavirus_sub_section, page:)
 
       payload = payload_from_publishing_api
       payload["details"]["sections"].clear

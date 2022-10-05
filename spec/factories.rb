@@ -16,8 +16,8 @@ FactoryBot.define do
 
     factory :step_by_step_page_with_steps, aliases: [:draft_step_by_step_page] do
       after(:create) do |step_by_step_page|
-        create(:step, step_by_step_page: step_by_step_page)
-        create(:or_step, step_by_step_page: step_by_step_page)
+        create(:step, step_by_step_page:)
+        create(:or_step, step_by_step_page:)
       end
     end
   end
@@ -40,30 +40,30 @@ FactoryBot.define do
 
   factory :step_by_step_page_with_navigation_rules, parent: :step_by_step_page_with_steps do
     after(:create) do |step_by_step_page|
-      create(:navigation_rule, step_by_step_page: step_by_step_page)
-      create(:navigation_rule, step_by_step_page: step_by_step_page, title: "Also good stuff", base_path: "/also/good/stuff")
+      create(:navigation_rule, step_by_step_page:)
+      create(:navigation_rule, step_by_step_page:, title: "Also good stuff", base_path: "/also/good/stuff")
     end
   end
 
   factory :step_by_step_page_with_smartanswer_navigation_rules, parent: :step_by_step_page do
     after(:create) do |step_by_step_page|
-      create(:navigation_rule, step_by_step_page: step_by_step_page)
-      create(:smartanswer_step, step_by_step_page: step_by_step_page)
-      create(:smartanswer_navigation_rule, step_by_step_page: step_by_step_page)
+      create(:navigation_rule, step_by_step_page:)
+      create(:smartanswer_step, step_by_step_page:)
+      create(:smartanswer_navigation_rule, step_by_step_page:)
     end
   end
 
   factory :step_by_step_page_with_secondary_content, parent: :step_by_step_page_with_steps do
     after(:create) do |step_by_step_page|
-      create(:secondary_content_link, step_by_step_page: step_by_step_page)
+      create(:secondary_content_link, step_by_step_page:)
     end
   end
 
   factory :step_by_step_page_with_secondary_content_and_navigation_rules, parent: :step_by_step_page_with_steps do
     after(:create) do |step_by_step_page|
-      create(:secondary_content_link, step_by_step_page: step_by_step_page)
-      create(:navigation_rule, step_by_step_page: step_by_step_page)
-      create(:navigation_rule, step_by_step_page: step_by_step_page, title: "Also good stuff", base_path: "/also/good/stuff")
+      create(:secondary_content_link, step_by_step_page:)
+      create(:navigation_rule, step_by_step_page:)
+      create(:navigation_rule, step_by_step_page:, title: "Also good stuff", base_path: "/also/good/stuff")
     end
   end
 

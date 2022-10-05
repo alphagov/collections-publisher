@@ -8,7 +8,7 @@ class TagsController < ApplicationController
     params["ordering"].each do |list_order|
       id, index = list_order
       list = @tag.lists.find(id)
-      list.update!(index: index)
+      list.update!(index:)
     end
 
     ListPublisher.new(@tag).perform

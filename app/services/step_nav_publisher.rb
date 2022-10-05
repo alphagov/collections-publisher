@@ -11,7 +11,7 @@ class StepNavPublisher
   end
 
   def self.lookup_content_ids(base_paths)
-    Services.publishing_api.lookup_content_ids(base_paths: base_paths, with_drafts: true)
+    Services.publishing_api.lookup_content_ids(base_paths:, with_drafts: true)
   end
 
   def self.publish(step_by_step_page)

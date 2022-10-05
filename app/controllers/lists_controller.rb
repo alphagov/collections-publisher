@@ -109,7 +109,7 @@ private
     params[:ordering].each do |link_order|
       id, index = link_order
       list_item = @list.list_items.find(id)
-      list_item.update!(index: index)
+      list_item.update!(index:)
     end
   end
 end

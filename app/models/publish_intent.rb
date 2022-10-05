@@ -21,8 +21,8 @@ class PublishIntent
 
   def present
     {
-      update_type: update_type,
-      change_note: change_note,
+      update_type:,
+      change_note:,
     }
   end
 end

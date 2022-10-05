@@ -30,7 +30,7 @@ class TagPresenter
 
   def render_for_publishing_api
     {
-      base_path: base_path,
+      base_path:,
       document_type: format,
       schema_name: format,
       title: @tag.title,
@@ -39,16 +39,16 @@ class TagPresenter
       public_updated_at: @tag.updated_at.iso8601,
       publishing_app: "collections-publisher",
       rendering_app: "collections",
-      routes: routes,
+      routes:,
       redirects: RedirectRoutePresenter.new(@tag).routes,
-      details: details,
+      details:,
       update_type: "minor",
     }
   end
 
   def render_links_for_publishing_api
     {
-      links: links,
+      links:,
     }
   end
 

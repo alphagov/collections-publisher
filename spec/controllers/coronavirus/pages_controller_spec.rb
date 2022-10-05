@@ -32,10 +32,10 @@ RSpec.describe Coronavirus::PagesController do
       create :coronavirus_page,
              content_id: live_content_item["content_id"],
              base_path: live_content_item["base_path"],
-             slug: slug
+             slug:
     end
-    let!(:subsection) { create :coronavirus_sub_section, page: page, title: "foo" }
-    subject { get :discard, params: { slug: slug } }
+    let!(:subsection) { create :coronavirus_sub_section, page:, title: "foo" }
+    subject { get :discard, params: { slug: } }
 
     before do
       stub_publishing_api_has_item(live_content_item)

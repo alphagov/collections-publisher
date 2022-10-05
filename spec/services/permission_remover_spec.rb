@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe PermissionRemover do
-  subject { described_class.new(permission: permission, user: user) }
+  subject { described_class.new(permission:, user:) }
   let(:permission) { "My Permission" }
 
   context "without the permission present" do

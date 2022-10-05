@@ -72,7 +72,7 @@ RSpec.describe TopicPresenter do
     context "for a subtopic" do
       let(:parent) { create(:topic, slug: "oil-and-gas") }
       let(:topic) do
-        topic = create(:topic, parent: parent,
+        topic = create(:topic, parent:,
                                slug: "offshore",
                                title: "Offshore",
                                description: "Oil rigs, pipelines etc.")

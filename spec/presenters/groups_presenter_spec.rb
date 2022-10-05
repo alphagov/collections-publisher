@@ -14,8 +14,8 @@ RSpec.describe GroupsPresenter do
     end
 
     context "with some curated lists" do
-      let(:oil_rigs) { create(:list, tag: tag, index: 1, name: "Oil rigs") }
-      let(:piping) { create(:list, tag: tag, index: 0, name: "Piping") }
+      let(:oil_rigs) { create(:list, tag:, index: 1, name: "Oil rigs") }
+      let(:piping) { create(:list, tag:, index: 0, name: "Piping") }
 
       it "provides the curated lists ordered by their index" do
         allow(oil_rigs).to receive(:tagged_list_items).and_return([

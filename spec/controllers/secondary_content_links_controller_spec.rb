@@ -4,7 +4,7 @@ RSpec.describe SecondaryContentLinksController do
   let(:step_by_step_page) { create_step_by_step_page }
 
   describe "GET secondary content index page" do
-    let(:secondary_content_link) { create(:secondary_content_link, step_by_step_page: step_by_step_page) }
+    let(:secondary_content_link) { create(:secondary_content_link, step_by_step_page:) }
 
     it "can only be accessed by users with GDS editor permissions" do
       stub_user.permissions << "GDS Editor"
@@ -71,7 +71,7 @@ RSpec.describe SecondaryContentLinksController do
       stub_user.permissions << "GDS Editor"
       allow(Services.publishing_api).to receive(:put_content)
 
-      create(:secondary_content_link, step_by_step_page: step_by_step_page)
+      create(:secondary_content_link, step_by_step_page:)
 
       post :destroy, params: { step_by_step_page_id: step_by_step_page.id, id: step_by_step_page.secondary_content_links.first.id }
 

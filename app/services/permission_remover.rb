@@ -5,7 +5,7 @@ class PermissionRemover
   attr_reader :permission, :user
 
   def self.run(permission:, user:)
-    new(permission: permission, user: user).run
+    new(permission:, user:).run
   end
 
   def initialize(permission:, user:)

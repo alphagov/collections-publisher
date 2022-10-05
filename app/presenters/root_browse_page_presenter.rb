@@ -24,10 +24,10 @@ class RootBrowsePagePresenter
       base_path: "/browse",
       title: "Browse",
       locale: "en",
-      public_updated_at: public_updated_at,
+      public_updated_at:,
       publishing_app: "collections-publisher",
       rendering_app: "collections",
-      routes: routes,
+      routes:,
       details: {},
       update_type: "minor",
     }
@@ -35,7 +35,7 @@ class RootBrowsePagePresenter
 
   def render_links_for_publishing_api
     {
-      links: links,
+      links:,
     }
   end
 

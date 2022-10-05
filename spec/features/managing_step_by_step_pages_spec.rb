@@ -510,7 +510,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def have_step_text_in_row(row:, text:)
-    have_selector(".govuk-summary-list__row:nth-child(#{row}) .govuk-summary-list__value", text: text)
+    have_selector(".govuk-summary-list__row:nth-child(#{row}) .govuk-summary-list__value", text:)
   end
 
   def and_i_can_edit_and_delete_steps
@@ -718,7 +718,7 @@ RSpec.feature "Managing step by step pages" do
   alias_method :then_i_should_see_an_inset_prompt, :and_i_should_see_an_inset_prompt
 
   def and_inset_prompt_should_say(text)
-    expect(page).to have_css(".govuk-inset-text", text: text)
+    expect(page).to have_css(".govuk-inset-text", text:)
   end
 
   def then_there_should_be_no_inset_prompt

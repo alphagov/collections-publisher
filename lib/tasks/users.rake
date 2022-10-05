@@ -5,7 +5,7 @@ namespace :users do
       User.all.each do |user|
         permission = "Edit Taxonomy"
         Rails.logger.info "Removing '#{permission}' permission from #{user.email}"
-        result = PermissionRemover.run(permission: permission, user: user)
+        result = PermissionRemover.run(permission:, user:)
         raise "Unable to save user record, aborting" if result == PermissionRemover::FAILURE
       end
     end

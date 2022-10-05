@@ -12,7 +12,7 @@ RSpec.describe ListItem do
         ],
       )
 
-      list_item = create(:list_item, base_path: "/some-link", list: create(:list, tag: tag))
+      list_item = create(:list_item, base_path: "/some-link", list: create(:list, tag:))
 
       expect(list_item.display_title).to eql("The Title")
     end
@@ -21,7 +21,7 @@ RSpec.describe ListItem do
       publishing_api_has_no_linked_items
 
       tag = create(:topic, slug: "my-tag-slug")
-      list_item = create(:list_item, base_path: "/some-link", title: "My persisted title", list: create(:list, tag: tag))
+      list_item = create(:list_item, base_path: "/some-link", title: "My persisted title", list: create(:list, tag:))
 
       expect(list_item.display_title).to eql("My persisted title")
     end

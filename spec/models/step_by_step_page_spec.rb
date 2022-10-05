@@ -478,7 +478,7 @@ RSpec.describe StepByStepPage do
     end
 
     it "cannot be published if all steps do not have content" do
-      create(:step, step_by_step_page: step_by_step_page, contents: "")
+      create(:step, step_by_step_page:, contents: "")
       step_by_step_page.mark_draft_updated
 
       expect(step_by_step_page.can_be_published?).to be false
