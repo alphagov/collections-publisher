@@ -488,8 +488,7 @@ RSpec.describe StepByStepPageReverter do
           42ce66de-04f3-4192-bf31-8394538e0734
         ],
       },
-      "warnings": {
-      },
+      "warnings": {},
     }
   end
 
