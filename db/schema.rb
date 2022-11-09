@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_13_150444) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_09_124352) do
   create_table "coronavirus_pages", charset: "utf8mb3", force: :cascade do |t|
     t.string "sections_title"
     t.string "base_path"
@@ -182,7 +182,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_13_150444) do
     t.text "published_groups", size: :medium
     t.string "child_ordering", default: "alphabetical", null: false
     t.integer "index", default: 0, null: false
-    t.boolean "mainstream_browse_type", default: false
     t.index ["content_id"], name: "index_tags_on_content_id", unique: true
     t.index ["parent_id"], name: "tags_parent_id_fk"
     t.index ["slug", "parent_id"], name: "index_tags_on_slug_and_parent_id", unique: true
