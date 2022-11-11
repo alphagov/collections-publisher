@@ -12,12 +12,4 @@ private
       "primary_publishing_organisation" => [GDS_CONTENT_ID],
     )
   end
-
-  def details
-    if tag.mainstream_browse_origin
-      return super.merge("mainstream_browse_origin" => tag.mainstream_browse_origin)
-    end
-
-    super
-  end
 end

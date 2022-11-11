@@ -62,22 +62,16 @@ RSpec.describe TopicPresenter do
           expect(rendered_links[:links]).to have_key("primary_publishing_organisation")
           expect(rendered_links[:links]["primary_publishing_organisation"]).to eq([organisation])
         end
-
-        it "does not include a mainstream browse origin if there isn't one" do
-          expect(presented_data[:details]).not_to have_key("mainstream_browse_origin")
-        end
       end
     end
 
     context "for a subtopic" do
       let(:parent) { create(:topic, slug: "oil-and-gas") }
       let(:topic) do
-        topic = create(:topic, parent:,
-                               slug: "offshore",
-                               title: "Offshore",
-                               description: "Oil rigs, pipelines etc.")
-        topic.mainstream_browse_origin = "test6df9-1178-41b1-abb1-1830fef79347"
-        topic
+        create(:topic, parent:,
+                       slug: "offshore",
+                       title: "Offshore",
+                       description: "Oil rigs, pipelines etc.")
       end
       let(:presenter) { TopicPresenter.new(topic) }
       let(:presented_data) { presenter.render_for_publishing_api }
@@ -120,11 +114,6 @@ RSpec.describe TopicPresenter do
       it "includes a link to its parent" do
         expect(rendered_links[:links]).to have_key("parent")
         expect(rendered_links[:links]["parent"]).to eq([parent.content_id])
-      end
-
-      it "includes a mainstream browse origin if the Topic derived from copying a Mainstream Browse Page" do
-        expect(presented_data[:details]).to have_key("mainstream_browse_origin")
-        expect(presented_data[:details]["mainstream_browse_origin"]).to eq("test6df9-1178-41b1-abb1-1830fef79347")
       end
     end
   end
