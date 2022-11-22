@@ -52,7 +52,7 @@ RSpec.describe TagPresenter do
 
       # We need to "publish" these lists.
       allow_any_instance_of(List).to receive(:tagged_list_items).and_return(
-        [OpenStruct.new(base_path: "/oil-rig-safety-requirements")],
+        [OpenStruct.new(base_path: "/oil-rig-safety-requirements", content_id: "5d2cd813-7631-11e4-a3cb-00505601111a")],
       )
       tag.update!(published_groups: GroupsPresenter.new(tag).groups, dirty: false)
 

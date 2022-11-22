@@ -129,6 +129,11 @@ RSpec.feature "Curating a list" do
                 @list_item2.base_path,
                 "/naturalisation",
               ],
+              "content_ids" => [
+                @list_item1.content_id,
+                @list_item2.content_id,
+                "29941ec1-4a41-4bfd-86a9-5c866bbd4c7c",
+              ],
             },
           ],
           "internal_name" => @child.title_including_parent,
@@ -170,6 +175,10 @@ RSpec.feature "Curating a list" do
                 @list_item2.base_path,
                 @list_item1.base_path,
               ],
+              "content_ids" => [
+                @list_item2.content_id,
+                @list_item1.content_id,
+              ],
             },
           ],
           "internal_name" => @child.title_including_parent,
@@ -202,6 +211,9 @@ RSpec.feature "Curating a list" do
               "name" => @list.name,
               "contents" => [
                 @list_item2.base_path,
+              ],
+              "content_ids" => [
+                @list_item2.content_id,
               ],
             },
           ],
@@ -259,12 +271,19 @@ RSpec.feature "Curating a list" do
               "contents" => [
                 @list_item1.base_path,
               ],
+              "content_ids" => [
+                @list_item1.content_id,
+              ],
             },
             {
               "name" => @list2.name,
               "contents" => [
                 @list_item1.base_path,
                 @list_item2.base_path,
+              ],
+              "content_ids" => [
+                @list_item1.content_id,
+                @list_item2.content_id,
               ],
             },
           ],

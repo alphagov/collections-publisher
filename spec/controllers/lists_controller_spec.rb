@@ -142,6 +142,12 @@ RSpec.describe ListsController do
                     "/new-list",
                     "/newer-list",
                   ],
+                  "content_ids" => [
+                    list_item1.content_id,
+                    list_item2.content_id,
+                    "789",
+                    "012",
+                  ],
                 },
               ],
               "internal_name" => tag.title,
@@ -200,6 +206,11 @@ RSpec.describe ListsController do
                     list_item1.base_path,
                     list_item2.base_path,
                     "/new-list",
+                  ],
+                  "content_ids" => [
+                    list_item1.content_id,
+                    list_item2.content_id,
+                    "789",
                   ],
                 },
               ],
@@ -300,6 +311,10 @@ RSpec.describe ListsController do
                     list_item2.base_path,
                     list_item1.base_path,
                   ],
+                  "content_ids" => [
+                    list_item2.content_id,
+                    list_item1.content_id,
+                  ],
                 },
               ],
               "internal_name" => tag.title,
@@ -352,6 +367,10 @@ RSpec.describe ListsController do
                   "contents" => [
                     list_item2.base_path,
                     list_item1.base_path,
+                  ],
+                  "content_ids" => [
+                    list_item2.content_id,
+                    list_item1.content_id,
                   ],
                 },
               ],
