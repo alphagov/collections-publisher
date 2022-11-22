@@ -25,7 +25,7 @@
                   path: child_page
                 },
                 metadata: {
-                  preview_link: link_to(child_page.base_path, Plek.new.website_root + child_page.base_path, target: "_blank", class: "govuk-link")
+                  preview_link: link_to(child_page.base_path, Plek.website_root + child_page.base_path, target: "_blank", class: "govuk-link")
                 },
                 edit:  {
                   href: edit_polymorphic_path(page),
