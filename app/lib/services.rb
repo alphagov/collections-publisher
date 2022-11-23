@@ -6,7 +6,7 @@ require "gds_api/email_alert_api"
 module Services
   def self.publishing_api
     @publishing_api ||= GdsApi::PublishingApi.new(
-      Plek.new.find("publishing-api"),
+      Plek.find("publishing-api"),
       disable_cache: true,
       bearer_token: ENV["PUBLISHING_API_BEARER_TOKEN"] || "example",
     )
@@ -14,21 +14,21 @@ module Services
 
   def self.content_store
     @content_store ||= GdsApi::ContentStore.new(
-      Plek.new.find("content-store"),
+      Plek.find("content-store"),
       disable_cache: true,
     )
   end
 
   def self.link_checker_api
     @link_checker_api ||= GdsApi::LinkCheckerApi.new(
-      Plek.new.find("link-checker-api"),
+      Plek.find("link-checker-api"),
       bearer_token: ENV["LINK_CHECKER_API_BEARER_TOKEN"],
     )
   end
 
   def self.email_alert_api
     @email_alert_api || GdsApi::EmailAlertApi.new(
-      Plek.new.find("email-alert-api"),
+      Plek.find("email-alert-api"),
       bearer_token: ENV["EMAIL_ALERT_API_BEARER_TOKEN"],
     )
   end

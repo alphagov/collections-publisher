@@ -25,7 +25,7 @@
         items: [
           {
             field: "URL",
-            value: link_to(@topic.base_path, Plek.new.website_root + @topic.base_path, target: "_blank", class: "govuk-link")
+            value: link_to(@topic.base_path, Plek.website_root + @topic.base_path, target: "_blank", class: "govuk-link")
           },
           *([
             field: "Parent",

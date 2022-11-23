@@ -121,7 +121,7 @@ RSpec.describe TagArchiver do
       expected_email_body = <<~BODY
         This topic has been archived. You will not get any more emails about it.
 
-        You can find more information about this topic at [#{Plek.new.website_root}/guidance/become-an-mot-training-provider](#{Plek.new.website_root}/guidance/become-an-mot-training-provider).
+        You can find more information about this topic at [#{Plek.website_root}/guidance/become-an-mot-training-provider](#{Plek.website_root}/guidance/become-an-mot-training-provider).
       BODY
 
       TagArchiver.new(tag, successor).archive

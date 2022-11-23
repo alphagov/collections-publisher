@@ -107,7 +107,7 @@ class Tag < ApplicationRecord
   end
 
   def web_url
-    Plek.new.website_root + base_path
+    Plek.website_root + base_path
   end
 
   def uncurated_tagged_documents

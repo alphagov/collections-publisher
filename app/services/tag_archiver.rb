@@ -71,7 +71,7 @@ private
     <<~BODY
       This topic has been archived. You will not get any more emails about it.
 
-      You can find more information about this topic at [#{Plek.new.website_root + successor.base_path}](#{Plek.new.website_root + successor.base_path}).
+      You can find more information about this topic at [#{Plek.website_root + successor.base_path}](#{Plek.website_root + successor.base_path}).
     BODY
   end
 end

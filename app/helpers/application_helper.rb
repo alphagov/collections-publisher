@@ -1,10 +1,10 @@
 module ApplicationHelper
   def website_url(base_path)
-    Plek.new.website_root + base_path
+    Plek.website_root + base_path
   end
 
   def content_tagger_url
-    Plek.new.external_url_for("content-tagger")
+    Plek.external_url_for("content-tagger")
   end
 
   def draft_govuk_url(path)
@@ -24,7 +24,7 @@ module ApplicationHelper
   end
 
   def published_url(slug)
-    "#{Plek.new.website_root}/#{slug}"
+    "#{Plek.website_root}/#{slug}"
   end
 
   def markdown_to_html(markdown)

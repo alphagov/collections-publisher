@@ -8,7 +8,7 @@ RSpec.describe ApplicationHelper do
 
     let(:step_nav) { create(:step_by_step_page) }
     let(:user) { create(:user) }
-    let(:draft_origin_url) { Plek.new.external_url_for("draft-origin") }
+    let(:draft_origin_url) { Plek.external_url_for("draft-origin") }
 
     describe "#draft_govuk_url" do
       it "returns a link to the draft content" do

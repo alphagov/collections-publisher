@@ -5,7 +5,7 @@ module PublishingApiHelpers
   include GdsApi::TestHelpers::PublishingApi
 
   def assert_publishing_api_not_published(content_id)
-    url = Plek.new.find("publishing-api") + "/v2/content/#{content_id}/publish"
+    url = Plek.find("publishing-api") + "/v2/content/#{content_id}/publish"
     assert_not_requested(:post, url)
   end
 

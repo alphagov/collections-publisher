@@ -66,7 +66,7 @@ RSpec.feature "Managing browse pages" do
     tagged_document_titles = page.all(".govuk-list li")
     expect(tagged_document_titles[0].text).to eq("Naturalisation")
     expect(tagged_document_titles[1].text).to eq("Marriage")
-    expect(page).to have_link(nil, href: "#{Plek.new.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id1}")
-    expect(page).to have_link(nil, href: "#{Plek.new.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id2}")
+    expect(page).to have_link(nil, href: "#{Plek.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id1}")
+    expect(page).to have_link(nil, href: "#{Plek.external_url_for('content-tagger')}/taggings/#{@linked_item_content_id2}")
   end
 end
