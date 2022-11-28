@@ -4,7 +4,7 @@ class StepContentParser
   # - [Link text](url) context
   # * A bullet point without a link
   # - A bullet point without a link
-  BULLETED_LIST_REGEX = /^[*\-]\s(\[.+\]\(.+\))?.*$/
+  BULLETED_LIST_REGEX = /^[*-]\s(\[.+\]\(.+\))?.*$/
 
   # it matches [Link text](url)context
   LIST_REGEX = /^\[.+\]\(.+\).*$/
