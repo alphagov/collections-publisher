@@ -35,6 +35,7 @@ RSpec.describe ListItemsController, type: :controller do
               {
                 "name" => list.name,
                 "contents" => [],
+                "content_ids" => [],
               },
             ],
             "internal_name" => tag.title,
@@ -196,11 +197,17 @@ RSpec.describe ListItemsController, type: :controller do
                   "contents" => [
                     list_item2.base_path,
                   ],
+                  "content_ids" => [
+                    list_item2.content_id,
+                  ],
                 },
                 {
                   "name" => list2.name,
                   "contents" => [
                     list_item1.base_path,
+                  ],
+                  "content_ids" => [
+                    list_item1.content_id,
                   ],
                 },
               ],
@@ -274,11 +281,17 @@ RSpec.describe ListItemsController, type: :controller do
                   "contents" => [
                     list_item2.base_path,
                   ],
+                  "content_ids" => [
+                    list_item2.content_id,
+                  ],
                 },
                 {
                   "name" => list2.name,
                   "contents" => [
                     list_item1.base_path,
+                  ],
+                  "content_ids" => [
+                    list_item1.content_id,
                   ],
                 },
               ],
