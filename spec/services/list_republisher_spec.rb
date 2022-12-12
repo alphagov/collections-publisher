@@ -41,7 +41,7 @@ RSpec.describe ListRepublisher do
 
       mainstream_browse_page.reload
       expect(mainstream_browse_page.published_groups).to eq([{
-        "content_ids" => [list_item.content_id], "contents" => [list_item.base_path], "name" => list.name
+        "content_ids" => [list_item.content_id], "name" => list.name
       }])
       assert_publishing_api_put_content(
         mainstream_browse_page.content_id,
@@ -50,7 +50,6 @@ RSpec.describe ListRepublisher do
             "groups": [
               {
                 "name": list.name,
-                "contents": [list_item.base_path],
                 "content_ids": [list_item.content_id],
               },
             ],
