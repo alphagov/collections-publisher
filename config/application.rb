@@ -46,6 +46,8 @@ module CollectionsPublisher
     # https://github.com/alphagov/govuk-frontend/issues/1350
     config.assets.css_compressor = nil
 
+    config.assets.prefix = ENV.fetch("ASSETS_PREFIX", "/assets")
+
     # Sets local to "true" in all forms that use form_with. This is only needed
     # until the application is upgraded to Rails 6.1.
     config.action_view.form_with_generates_remote_forms = false
