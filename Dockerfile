@@ -3,6 +3,8 @@ ARG builder_image=ghcr.io/alphagov/govuk-ruby-builder:3.1.2
 
 FROM $builder_image AS builder
 
+ENV ASSETS_PREFIX=/assets/collections-publisher
+
 WORKDIR /app
 
 COPY Gemfile* .ruby-version /app/
@@ -18,7 +20,8 @@ RUN bundle exec rails assets:precompile && \
 
 FROM $base_image
 
-ENV GOVUK_APP_NAME=collections-publisher
+ENV GOVUK_APP_NAME=collections-publisher \
+    ASSETS_PREFIX=/assets/collections-publisher
 
 WORKDIR /app
 
