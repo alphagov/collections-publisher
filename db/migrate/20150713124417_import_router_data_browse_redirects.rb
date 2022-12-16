@@ -20,7 +20,7 @@ class ImportRouterDataBrowseRedirects < ActiveRecord::Migration
     )
 
     # /browse/citizenship/coasts-countryside,/browse/environment-countryside
-    environment_countryside = MainstreamBrowsePage.only_level_two.find_by!(:slug => 'environment-countryside')
+    environment_countryside = MainstreamBrowsePage.only_level_one.find_by!(:slug => 'environment-countryside')
     @redirects << Redirect.create!(
       :tag => environment_countryside,
       :original_tag_base_path => "/browse/citizenship/coasts-countryside",
@@ -29,7 +29,7 @@ class ImportRouterDataBrowseRedirects < ActiveRecord::Migration
     )
 
     # /browse/driving/passports-travelling-abroad,/browse/abroad
-    abroad = MainstreamBrowsePage.only_level_two.find_by!(:slug => 'abroad')
+    abroad = MainstreamBrowsePage.only_level_one.find_by!(:slug => 'abroad')
     @redirects << Redirect.create!(
       :tag => abroad,
       :original_tag_base_path => "/browse/driving/passports-travelling-abroad",
@@ -46,7 +46,7 @@ class ImportRouterDataBrowseRedirects < ActiveRecord::Migration
     )
 
     # /browse/housing,/browse/housing-local-services
-    housing_local_services = MainstreamBrowsePage.only_level_two.find_by!(:slug => 'housing-local-services')
+    housing_local_services = MainstreamBrowsePage.only_level_one.find_by!(:slug => 'housing-local-services')
     @redirects << Redirect.create!(
       :tag => housing_local_services,
       :original_tag_base_path => "/browse/housing",
@@ -74,7 +74,7 @@ class ImportRouterDataBrowseRedirects < ActiveRecord::Migration
       )
     end
 
-    visas_immigration = MainstreamBrowsePage.only_level_two.find_by!(:slug => 'visas-immigration')
+    visas_immigration = MainstreamBrowsePage.only_level_one.find_by!(:slug => 'visas-immigration')
     {
       "after-youve-applied" => "manage-your-application",
       "employers-sponsorship" => "sponsor-workers-students",
