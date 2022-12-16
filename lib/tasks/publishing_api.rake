@@ -13,6 +13,11 @@ namespace :publishing_api do
     TagRepublisher.new.republish_tags(Tag.published)
   end
 
+  desc "Update groups and send published curated level two tags to the publishing-api"
+  task send_published_tags_with_lists: :environment do
+    ListRepublisher.new.republish_tags(Tag.only_level_two.published)
+  end
+
   desc "Publish the /api/organisations prefix route"
   task publish_organisations_api_route: :environment do
     PublishOrganisationsApiRoute.new.publish

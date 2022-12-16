@@ -27,8 +27,8 @@ class Tag < ApplicationRecord
 
   before_validation :generate_content_id, on: :create
 
-  scope :only_level_two, -> { where("parent_id IS NULL") }
-  scope :only_level_one, -> { where("parent_id IS NOT NULL") }
+  scope :only_level_one, -> { where("parent_id IS NULL") }
+  scope :only_level_two, -> { where("parent_id IS NOT NULL") }
 
   # The links last sent to the content-store.
   serialize :published_groups, JSON
@@ -69,7 +69,7 @@ class Tag < ApplicationRecord
   alias_method :level_one?, :can_have_children?
 
   def self.sorted_level_one
-    only_level_two.includes(children: [:lists]).order(:title)
+    only_level_one.includes(children: [:lists]).order(:title)
   end
 
   def sorted_children
