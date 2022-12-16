@@ -36,4 +36,4 @@ See the [docs/](docs/) directory for guidance and architectural decisions.
 
 ## Licence
 
-[MIT License](LICENSE.txt)
+[MIT License](LICENCE)
