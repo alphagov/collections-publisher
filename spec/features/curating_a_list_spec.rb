@@ -124,11 +124,6 @@ RSpec.feature "Curating a list" do
           "groups" => [
             {
               "name" => @list.name,
-              "contents" => [
-                @list_item1.base_path,
-                @list_item2.base_path,
-                "/naturalisation",
-              ],
               "content_ids" => [
                 @list_item1.content_id,
                 @list_item2.content_id,
@@ -171,10 +166,6 @@ RSpec.feature "Curating a list" do
           "groups" => [
             {
               "name" => @list.name,
-              "contents" => [
-                @list_item2.base_path,
-                @list_item1.base_path,
-              ],
               "content_ids" => [
                 @list_item2.content_id,
                 @list_item1.content_id,
@@ -209,9 +200,6 @@ RSpec.feature "Curating a list" do
           "groups" => [
             {
               "name" => @list.name,
-              "contents" => [
-                @list_item2.base_path,
-              ],
               "content_ids" => [
                 @list_item2.content_id,
               ],
@@ -268,19 +256,12 @@ RSpec.feature "Curating a list" do
           "groups" => [
             {
               "name" => @list.name,
-              "contents" => [
-                @list_item1.base_path,
-              ],
               "content_ids" => [
                 @list_item1.content_id,
               ],
             },
             {
               "name" => @list2.name,
-              "contents" => [
-                @list_item1.base_path,
-                @list_item2.base_path,
-              ],
               "content_ids" => [
                 @list_item1.content_id,
                 @list_item2.content_id,

@@ -90,17 +90,14 @@ RSpec.feature "Curating lists" do
           "groups" => [
             {
               "name" => @list1.name,
-              "contents" => [],
               "content_ids" => [],
             },
             {
               "name" => @list2.name,
-              "contents" => [],
               "content_ids" => [],
             },
             {
               "name" => "David Lister",
-              "contents" => [],
               "content_ids" => [],
             },
           ],
@@ -133,12 +130,10 @@ RSpec.feature "Curating lists" do
           "groups" => [
             {
               "name" => "Updated list name",
-              "contents" => [],
               "content_ids" => [],
             },
             {
               "name" => @list2.name,
-              "contents" => [],
               "content_ids" => [],
             },
           ],
@@ -174,12 +169,10 @@ RSpec.feature "Curating lists" do
           "groups" => [
             {
               "name" => @list2.name,
-              "contents" => [],
               "content_ids" => [],
             },
             {
               "name" => @list1.name,
-              "contents" => [],
               "content_ids" => [],
             },
           ],
@@ -212,7 +205,6 @@ RSpec.feature "Curating lists" do
           "groups" => [
             {
               "name" => @list2.name,
-              "contents" => [],
               "content_ids" => [],
             },
           ],
