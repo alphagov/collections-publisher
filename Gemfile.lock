@@ -483,7 +483,6 @@ DEPENDENCIES
   mail-notify
   mysql2
   nokogiri
-  parser
   plek
   pry-byebug
   rails (= 7.0.4)

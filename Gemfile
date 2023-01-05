@@ -35,7 +35,6 @@ group :development, :test do
   gem "govuk_schemas"
   gem "govuk_test"
   gem "nokogiri"
-  gem "parser"
   gem "pry-byebug"
   gem "rspec-rails"
   gem "rubocop-govuk"
