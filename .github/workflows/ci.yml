@@ -34,4 +34,3 @@ jobs:
   test-ruby:
     name: Test Ruby
     uses: ./.github/workflows/rspec.yml
-
