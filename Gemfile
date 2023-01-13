@@ -3,6 +3,7 @@ source "https://rubygems.org"
 gem "rails", "7.0.4"
 
 gem "aasm"
+gem "bootsnap", require: false
 gem "generic_form_builder"
 gem "inline_svg"
 gem "kramdown"
