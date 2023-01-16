@@ -485,7 +485,6 @@ DEPENDENCIES
   govuk_test
   inline_svg
   kramdown
-  mail (~> 2.8.0)
   mail-notify
   mysql2
   nokogiri
