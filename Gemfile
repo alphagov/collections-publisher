@@ -7,7 +7,6 @@ gem "bootsnap", require: false
 gem "generic_form_builder"
 gem "inline_svg"
 gem "kramdown"
-gem "mail", "~> 2.8.0"  # TODO: remove once https://github.com/mikel/mail/issues/1489 is fixed.
 gem "mysql2"
 gem "sass-rails"
 gem "sentry-sidekiq"
