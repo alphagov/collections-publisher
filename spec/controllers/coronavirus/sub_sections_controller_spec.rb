@@ -43,7 +43,7 @@ RSpec.describe Coronavirus::SubSectionsController do
       end
 
       it "redirects to coronavirus page" do
-        post :create, params: params
+        post(:create, params:)
         expect(response).to redirect_to(coronavirus_page_path(page.slug))
       end
     end
@@ -58,12 +58,12 @@ RSpec.describe Coronavirus::SubSectionsController do
         end
 
         it "returns an unprocessable entity response" do
-          post :create, params: params
+          post(:create, params:)
           expect(response).to have_http_status(:unprocessable_entity)
         end
 
         it "renders the errors" do
-          post :create, params: params
+          post(:create, params:)
           expect(response.body).to include(CGI.escapeHTML("Title can't be blank"))
         end
       end
@@ -77,7 +77,7 @@ RSpec.describe Coronavirus::SubSectionsController do
         end
 
         it "renders the errors" do
-          post :create, params: params
+          post(:create, params:)
           expect(response.body).to include(CGI.escapeHTML("unable to parse markdown"))
         end
       end
@@ -92,12 +92,12 @@ RSpec.describe Coronavirus::SubSectionsController do
       end
 
       it "returns a internal server error response" do
-        post :create, params: params
+        post(:create, params:)
         expect(response).to have_http_status(:internal_server_error)
       end
 
       it "renders the errors" do
-        post :create, params: params
+        post(:create, params:)
         expect(response.body).to include("Failed to update the draft content item. Try saving again.")
       end
     end
@@ -130,7 +130,7 @@ RSpec.describe Coronavirus::SubSectionsController do
       end
 
       it "redirects to coronavirus page" do
-        patch :update, params: params
+        patch(:update, params:)
         expect(response).to redirect_to(coronavirus_page_path(page.slug))
       end
     end
@@ -145,12 +145,12 @@ RSpec.describe Coronavirus::SubSectionsController do
         end
 
         it "returns an unprocessable entity response" do
-          patch :update, params: params
+          patch(:update, params:)
           expect(response).to have_http_status(:unprocessable_entity)
         end
 
         it "renders the errors" do
-          patch :update, params: params
+          patch(:update, params:)
           expect(response.body).to include(CGI.escapeHTML("Title can't be blank"))
         end
       end
@@ -164,7 +164,7 @@ RSpec.describe Coronavirus::SubSectionsController do
         end
 
         it "renders the errors" do
-          patch :update, params: params
+          patch(:update, params:)
           expect(response.body).to include(CGI.escapeHTML("unable to parse markdown"))
         end
       end
@@ -179,12 +179,12 @@ RSpec.describe Coronavirus::SubSectionsController do
       end
 
       it "returns an internal server error response" do
-        patch :update, params: params
+        patch(:update, params:)
         expect(response).to have_http_status(:internal_server_error)
       end
 
       it "renders the errors" do
-        patch :update, params: params
+        patch(:update, params:)
         expect(response.body).to include("Failed to update the draft content item. Try saving again.")
       end
     end
