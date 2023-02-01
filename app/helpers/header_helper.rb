@@ -12,7 +12,7 @@ module HeaderHelper
       active_item: active_item.try(:title) || active_item,
     }
 
-    render layout: "shared/header", locals: locals do
+    render(layout: "shared/header", locals:) do
       yield if block_given?
     end
   end
@@ -24,7 +24,7 @@ module HeaderHelper
     title = "#{title}: #{mode}" if mode
     title = "#{title} #{labels_for_tag(tag)}"
 
-    header title, breadcrumbs: breadcrumbs, page_title: tag.title_including_parent do
+    header title, breadcrumbs:, page_title: tag.title_including_parent do
       yield if block_given?
     end
   end
@@ -71,7 +71,7 @@ module HeaderHelper
                }
              end
 
-    render layout: "shared/govuk_tag_heading", locals: locals do
+    render(layout: "shared/govuk_tag_heading", locals:) do
       yield if block_given?
     end
   end
