@@ -14,7 +14,6 @@ RSpec.feature "Archiving topic tags" do
 
     # Background
     given_i_am_a_gds_editor
-    and_there_is_a_topic_that_can_be_used_as_a_replacement
   end
 
   scenario "User visits an archived tag" do
@@ -29,7 +28,7 @@ RSpec.feature "Archiving topic tags" do
     and_i_visit_the_topic
     and_i_go_to_the_archive_page
 
-    when_i_redirect_the_topic_to_a_successor_topic
+    when_i_redirect_the_topic_to_a_successor_page
     then_the_tag_is_archived
 
     when_i_visit_the_topic_edit_page
@@ -48,7 +47,7 @@ RSpec.feature "Archiving topic tags" do
     and_i_visit_the_topic
     and_i_go_to_the_archive_page
 
-    when_i_redirect_the_topic_to_a_successor_topic
+    when_i_redirect_the_topic_to_a_successor_page
     then_the_tag_is_archived
 
     when_i_visit_the_topic_edit_page
@@ -76,9 +75,10 @@ RSpec.feature "Archiving topic tags" do
     expect { @topic.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
 
-  def when_i_redirect_the_topic_to_a_successor_topic
-    select "The Successor Topic", from: "topic_archival_form_successor"
-    click_button "Archive and redirect to a specialist topic"
+  def when_i_redirect_the_topic_to_a_successor_page
+    stub_content_store_has_item("/a-successor-page")
+    fill_in "topic_archival_form[successor_path]", with: "/a-successor-page"
+    click_button "Archive and redirect to a page"
   end
 
   def when_i_visit_the_topic_edit_page
@@ -111,10 +111,6 @@ RSpec.feature "Archiving topic tags" do
 
   def given_there_is_a_draft_level_1_topic
     @topic = create(:topic, :draft, slug: "bar")
-  end
-
-  def and_there_is_a_topic_that_can_be_used_as_a_replacement
-    create(:topic, :published, title: "The Successor Topic")
   end
 
   def when_i_click_the_delete_button
