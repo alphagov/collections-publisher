@@ -24,9 +24,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">
-      Users who signed up to get emails for this topic will be sent an email that this topic has been archived.
-    </p>
     <%= form_for @archival, url: archive_topic_path do |f| %>
       <%= render "govuk_publishing_components/components/input", {
         label: {
@@ -36,6 +33,15 @@
         id: "topic_archival_form_successor_path",
         name: "topic_archival_form[successor_path]",
         error_items: errors_for(@archival, :successor_path)
+      } %>
+
+      <%= render "govuk_publishing_components/components/input", {
+        label: {
+          text: "Type in the URL of a page to which you would like email subscribers migrated:"
+        },
+        hint: 'Please specify it as a relative path (for example "/government/publications/what-hmrc-does-to-prevent-tax-evasion")',
+        id: "topic_archival_form_email_migration_path",
+        name: "topic_archival_form[email_migration_path]"
       } %>
 
       <%= render "govuk_publishing_components/components/button", {

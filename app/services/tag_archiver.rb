@@ -1,11 +1,12 @@
 # TagArchiver removes a tag from the site. It sets up a redirect for the page
 # to its successor.
 class TagArchiver
-  attr_reader :tag, :successor
+  attr_reader :tag, :successor, :email_migration_path
 
-  def initialize(tag, successor)
+  def initialize(tag, successor, email_migration_path = nil)
     @tag = tag
     @successor = successor
+    @email_migration_url = email_migration_path
   end
 
   def archive
