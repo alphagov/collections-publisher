@@ -75,7 +75,7 @@ private
   def topic_archival_form_params
     params
       .fetch(:topic_archival_form, {})
-      .permit(:tag, :successor, :successor_path)
+      .permit(:tag, :successor_path)
   end
 
   def find_topic
