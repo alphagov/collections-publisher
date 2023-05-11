@@ -14,7 +14,7 @@ gem "sprockets-rails"
 gem "uglifier"
 
 # GDS managed dependencies
-gem "gds-api-adapters"
+gem "gds-api-adapters", github: "alphagov/gds-api-adapters", branch: 'bulk-migrate'
 gem "gds-sso"
 gem "govuk_app_config"
 gem "govuk_publishing_components"
