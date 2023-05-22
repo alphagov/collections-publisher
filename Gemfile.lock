@@ -1,3 +1,15 @@
+GIT
+  remote: https://github.com/alphagov/gds-api-adapters
+  revision: 097559b9c2274a0d0810181efdbc72a97e1c2e32
+  branch: bulk-migrate
+  specs:
+    gds-api-adapters (87.1.0)
+      addressable
+      link_header
+      null_logger
+      plek (>= 1.9.0)
+      rest-client (~> 2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -124,12 +136,6 @@ GEM
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.1)
     ffi (1.15.5)
-    gds-api-adapters (87.1.0)
-      addressable
-      link_header
-      null_logger
-      plek (>= 1.9.0)
-      rest-client (~> 2.0)
     gds-sso (17.1.1)
       oauth2 (~> 2.0)
       omniauth (~> 2.1)
@@ -472,7 +478,7 @@ DEPENDENCIES
   database_cleaner
   factory_bot_rails
   faker
-  gds-api-adapters
+  gds-api-adapters!
   gds-sso
   generic_form_builder
   govuk_app_config

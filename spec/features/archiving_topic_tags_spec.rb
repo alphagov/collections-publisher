@@ -5,6 +5,7 @@ require "gds_api/test_helpers/email_alert_api"
 RSpec.feature "Archiving topic tags" do
   include CommonFeatureSteps
   include GdsApi::TestHelpers::ContentStore
+  include GdsApi::TestHelpers::ContentItemHelpers
   include GdsApi::TestHelpers::EmailAlertApi
 
   before do
@@ -29,6 +30,21 @@ RSpec.feature "Archiving topic tags" do
     and_i_go_to_the_archive_page
 
     when_i_redirect_the_topic_to_a_successor_page
+    then_the_tag_is_archived
+
+    when_i_visit_the_topic_edit_page
+    then_i_see_that_i_cannot_edit_the_page
+  end
+
+  scenario "User archives published level 2 tag and redirects to a document collection with a topic taxonomy override" do
+    skip("Work in progress")
+    given_there_is_a_published_level_2_topic
+    and_there_is_a_subscriber_list_for_the_topic
+    and_i_visit_the_topic
+    and_i_go_to_the_archive_page
+
+    expect_email_alert_api_to_receive_a_bulk_migrate_call(successor_slug: "successor-hmrc-document-collection", source_slug: "Bar")
+    when_i_redirect_the_topic_to_a_document_collection_with_a_mapped_specialist_topic_content_id_and_a_subscriber_list
     then_the_tag_is_archived
 
     when_i_visit_the_topic_edit_page
@@ -78,6 +94,26 @@ RSpec.feature "Archiving topic tags" do
   def when_i_redirect_the_topic_to_a_successor_page
     stub_content_store_has_item("/a-successor-page")
     fill_in "topic_archival_form[successor_path]", with: "/a-successor-page"
+    click_button "Archive and redirect to a page"
+  end
+
+  def expect_email_alert_api_to_receive_a_bulk_migrate_call(successor_slug:, source_slug:)
+    expect(Services.email_alert_api).to receive(:bulk_migrate).with(successor_slug:, source_slug: )
+  end
+
+  def when_i_redirect_the_topic_to_a_document_collection_with_a_mapped_specialist_topic_content_id_and_a_subscriber_list
+    @successor_url = "successor-hmrc-document-collection"
+    content_id = "3518c240-f8b3-11ed-be56-0242ac120002"
+    document_collection_content = content_item_for_base_path(@successor_url)
+                                    .merge({ mapped_specialist_topic_content_id: @topic.content_id,
+                                             schema_name: "document_collection",
+                                             document_type: "document_collection",
+                                             content_id:
+                                           })
+    there_is_a_subscriber_list_with_slug_for_content_id(content_id:, slug: @successor_url)
+
+    stub_content_store_has_item(@successor_url, document_collection_content)
+    fill_in "topic_archival_form[successor_path]", with: @successor_url
     click_button "Archive and redirect to a page"
   end
 
@@ -149,9 +185,14 @@ RSpec.feature "Archiving topic tags" do
   end
 
   def and_there_is_a_subscriber_list_for_the_topic
+    there_is_a_subscriber_list_with_slug_for_content_id(slug: "Bar", content_id: @topic.content_id)
+  end
+
+  def there_is_a_subscriber_list_with_slug_for_content_id(slug:, content_id:)
     email_alert_api_has_subscriber_list_for_topic(
-      content_id: @topic.content_id,
-      list: { "title" => "Topic", "slug" => "bar" },
-    )
+      content_id: content_id,
+      list: { "title" => "Topic", "slug" => slug },
+      )
   end
 end
+
