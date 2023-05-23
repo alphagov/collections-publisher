@@ -17,4 +17,8 @@ class ContentItem
   def mapped_specialist_topic_content_id
     data.dig("details", "mapped_specialist_topic_content_id")
   end
+
+  def subroutes
+    []
+  end
 end

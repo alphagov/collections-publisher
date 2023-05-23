@@ -36,4 +36,12 @@ RSpec.describe "ContentItem" do
       expect(content_item.mapped_specialist_topic_content_id).to eq mapped_specialist_topic_content_id
     end
   end
+
+  describe "#subroutes" do
+    it "returns an empty array" do
+      content_item = ContentItem.new(content_item_data)
+
+      expect(content_item.subroutes).to eq []
+    end
+  end
 end
