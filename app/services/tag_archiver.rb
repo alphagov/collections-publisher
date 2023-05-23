@@ -15,7 +15,7 @@ class TagArchiver
       update_tag
       setup_redirects
       republish_tag
-      unsubscribe_from_email_alerts
+      update_email_alerts
     end
   end
 
@@ -58,7 +58,7 @@ private
     ContentItemPublisher.new(presenter).send_to_publishing_api
   end
 
-  def unsubscribe_from_email_alerts
+  def update_email_alerts
     return unless tag.can_have_email_subscriptions?
 
     EmailAlertsUpdater.call(item: tag, successor:)

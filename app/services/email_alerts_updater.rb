@@ -1,6 +1,8 @@
 class EmailAlertsUpdater
+  include EmailAlertsApiParamsHelper
+
   def self.call(...)
-    new(...).unsubscribe
+    new(...).handle
   end
 
   attr_reader :item, :successor
@@ -10,9 +12,23 @@ class EmailAlertsUpdater
     @successor = successor
   end
 
-  def unsubscribe
+  def handle
+    if successor.is_a?(ContentItem) && subscribers_can_be_migrated_to_successor_list?
+      bulk_migrate
+    else
+      bulk_unsubscribe
+    end
+  end
+
+  def bulk_migrate
+    from_slug = topic_subscriber_list_slug
+    to_slug = existing_subscriber_list_slug_for_document_collection
+    Services.email_alert_api.bulk_migrate(from_slug:, to_slug:)
+  end
+
+  def bulk_unsubscribe
     args = {
-      slug: subscriber_list_slug,
+      slug: topic_subscriber_list_slug,
       body: unsubscribe_email_body,
       sender_message_id: SecureRandom.uuid,
     }
@@ -22,11 +38,19 @@ class EmailAlertsUpdater
 
 private
 
-  def subscriber_list_slug
-    subscriber_list = Services.email_alert_api.find_subscriber_list(
-      item.subscriber_list_search_attributes,
-    )
+  def subscribers_can_be_migrated_to_successor_list?
+    successor.mapped_specialist_topic_content_id == item.content_id
+  end
+
+  def topic_subscriber_list_slug
+    params = specialist_topic_subscriber_list_params(item)
+    subscriber_list = Services.email_alert_api.find_subscriber_list(params)
     subscriber_list.dig("subscriber_list", "slug")
+  end
+
+  def existing_subscriber_list_slug_for_document_collection
+    params = document_collection_subscriber_list_params(successor)
+    Services.email_alert_api.find_or_create_subscriber_list(params).dig("subscriber_list", "slug")
   end
 
   def unsubscribe_email_body

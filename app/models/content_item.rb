@@ -10,8 +10,8 @@ class ContentItem
     @data = data
   end
 
-  def base_path
-    data["base_path"]
+  %w[base_path title content_id description document_type].each do |field|
+    define_method(field.to_sym) { data[field] }
   end
 
   def mapped_specialist_topic_content_id
