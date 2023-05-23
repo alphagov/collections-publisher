@@ -98,7 +98,7 @@ RSpec.feature "Archiving topic tags" do
   end
 
   def expect_email_alert_api_to_receive_a_bulk_migrate_call(successor_slug:, source_slug:)
-    expect(Services.email_alert_api).to receive(:bulk_migrate).with(successor_slug:, source_slug: )
+    expect(Services.email_alert_api).to receive(:bulk_migrate).with(successor_slug:, source_slug:)
   end
 
   def when_i_redirect_the_topic_to_a_document_collection_with_a_mapped_specialist_topic_content_id_and_a_subscriber_list
@@ -108,8 +108,7 @@ RSpec.feature "Archiving topic tags" do
                                     .merge({ mapped_specialist_topic_content_id: @topic.content_id,
                                              schema_name: "document_collection",
                                              document_type: "document_collection",
-                                             content_id:
-                                           })
+                                             content_id: })
     there_is_a_subscriber_list_with_slug_for_content_id(content_id:, slug: @successor_url)
 
     stub_content_store_has_item(@successor_url, document_collection_content)
@@ -190,9 +189,8 @@ RSpec.feature "Archiving topic tags" do
 
   def there_is_a_subscriber_list_with_slug_for_content_id(slug:, content_id:)
     email_alert_api_has_subscriber_list_for_topic(
-      content_id: content_id,
+      content_id:,
       list: { "title" => "Topic", "slug" => slug },
-      )
+    )
   end
 end
-

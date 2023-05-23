@@ -58,30 +58,12 @@ private
     ContentItemPublisher.new(presenter).send_to_publishing_api
   end
 
-  # Temporary hack to prevent emails being sent to subscribers of a specialist topic that is being
-  # converted to a document collection. Those subscribers will be manually migrated to the new document
-  # collection subscription, which will be similar enough that a notification is not required.
-  def topic_successor_is_a_document_collection?
-    return unless tag.is_a? Topic
-
-    successor.base_path.include?("/government/collections/")
-  end
-
   def unsubscribe_from_email_alerts
     return unless tag.can_have_email_subscriptions?
-    return if topic_successor_is_a_document_collection?
 
-    EmailAlertsUnsubscriber.call(
+    EmailAlertsUpdater.call(
       item: tag,
-      body: unsubscribe_email_body,
+      successor:,
     )
-  end
-
-  def unsubscribe_email_body
-    <<~BODY
-      This topic has been archived. You will not get any more emails about it.
-
-      You can find more information about this topic at [#{Plek.website_root + successor.base_path}](#{Plek.website_root + successor.base_path}).
-    BODY
   end
 end
