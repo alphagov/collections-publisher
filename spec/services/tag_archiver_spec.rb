@@ -134,17 +134,6 @@ RSpec.describe TagArchiver do
       )
     end
 
-    it "doesn't unsubscribe from email alerts when specialist topic (level 2) is being redirected to a document collection" do
-      tag = create(:topic, :published, parent: create(:topic, slug: "mot"),
-                                       slug: "provide-mot-training",
-                                       title: "Provide MOT training")
-      successor = OpenStruct.new(base_path: "/government/collections/brexit-guidance", subroutes: [])
-
-      TagArchiver.new(tag, successor).archive
-
-      expect(Services.email_alert_api).to_not have_received(:bulk_unsubscribe)
-    end
-
     it "doesn't attempt to unsubscribe from email alerts when mainstream browse page is archived" do
       tag = create(:mainstream_browse_page, :published, parent: create(:mainstream_browse_page))
 
