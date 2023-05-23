@@ -61,17 +61,6 @@ private
   def unsubscribe_from_email_alerts
     return unless tag.can_have_email_subscriptions?
 
-    EmailAlertsUpdater.call(
-      item: tag,
-      body: unsubscribe_email_body,
-    )
-  end
-
-  def unsubscribe_email_body
-    <<~BODY
-      This topic has been archived. You will not get any more emails about it.
-
-      You can find more information about this topic at [#{Plek.website_root + successor.base_path}](#{Plek.website_root + successor.base_path}).
-    BODY
+    EmailAlertsUpdater.call(item: tag, successor:)
   end
 end
