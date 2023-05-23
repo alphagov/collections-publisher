@@ -11,9 +11,13 @@ class EmailAlertsUpdater
   end
 
   def update
-    return if topic_successor_is_a_document_collection?
-
-    EmailAlertsUnsubscriber.call(item:, body: unsubscribe_email_body)
+    if successor.topic_taxonomy_override
+      Services.email_alert_api.bulk_migrate(successor_slug: nil, source_slug: nil) # TODO
+    elsif topic_successor_is_a_document_collection?
+      nil
+    else
+      EmailAlertsUnsubscriber.call(item:, body: unsubscribe_email_body)
+    end
   end
 
 private
