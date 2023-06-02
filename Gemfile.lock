@@ -141,7 +141,7 @@ GEM
     generic_form_builder (0.13.1)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    govuk_app_config (7.2.1)
+    govuk_app_config (8.0.0)
       logstasher (~> 2.1)
       plek (>= 4, < 6)
       prometheus_exporter (~> 2.0)
