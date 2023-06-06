@@ -1,4 +1,4 @@
-class EmailAlertsUnsubscriber
+class EmailAlertsUpdater
   def self.call(...)
     new(...).unsubscribe
   end

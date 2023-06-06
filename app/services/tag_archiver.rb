@@ -61,7 +61,7 @@ private
   def unsubscribe_from_email_alerts
     return unless tag.can_have_email_subscriptions?
 
-    EmailAlertsUnsubscriber.call(
+    EmailAlertsUpdater.call(
       item: tag,
       body: unsubscribe_email_body,
     )
