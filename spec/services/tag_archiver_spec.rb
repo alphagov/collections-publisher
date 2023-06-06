@@ -3,7 +3,6 @@ require "rails_helper"
 RSpec.describe TagArchiver do
   describe "#archive" do
     let(:email_alert_api) { instance_double(GdsApi::EmailAlertApi) }
-    let(:govuk_request_id) { "govuk-request-id-123" }
 
     before do
       stub_any_publishing_api_call

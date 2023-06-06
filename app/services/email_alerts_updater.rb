@@ -3,12 +3,11 @@ class EmailAlertsUpdater
     new(...).unsubscribe
   end
 
-  attr_reader :item, :body, :govuk_request_id
+  attr_reader :item, :body
 
-  def initialize(item:, body: nil, govuk_request_id: nil)
+  def initialize(item:, body: nil)
     @item = item
     @body = body
-    @govuk_request_id = govuk_request_id
   end
 
   def unsubscribe
@@ -19,11 +18,6 @@ class EmailAlertsUpdater
         body:,
         sender_message_id: SecureRandom.uuid,
       })
-
-      # GOVUK-Request-Id HTTP header is set by Nginx and handled by gds-api-adapters.
-      # For out-of-band processes (asynchronous workers)
-      # it needs to be set explicitly to send emails.
-      args.merge!({ govuk_request_id: }) if govuk_request_id
     end
 
     Services.email_alert_api.bulk_unsubscribe(**args)

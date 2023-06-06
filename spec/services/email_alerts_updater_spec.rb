@@ -38,24 +38,6 @@ RSpec.describe EmailAlertsUpdater do
       }.to_not raise_error
     end
 
-    it "calls the email-alert-api with govuk_request_id when passed in" do
-      allow(SecureRandom).to receive(:uuid).and_return("some-uuid")
-      stub_email_alert_api_bulk_unsubscribe_with_message(
-        slug: "tax-credits-and-child-benefit-child-benefit",
-        govuk_request_id: "govuk-request-id-123",
-        body: "We archived this, soz",
-        sender_message_id: "some-uuid",
-      )
-
-      expect {
-        described_class.call(
-          item: topic,
-          body: "We archived this, soz",
-          govuk_request_id: "govuk-request-id-123",
-        )
-      }.to_not raise_error
-    end
-
     it "raises an error when there is an error from the email_alert_api" do
       stub_email_alert_api_does_not_have_subscriber_list({ "links" => { topics: %w[ABC] } })
 
