@@ -47,17 +47,6 @@ RSpec.describe EmailAlertsUpdater do
         described_class.call(item: topic, successor:)
         expect(bulk_unsubscribe_stub).to have_been_requested
       end
-
-      it "raises an error when there is an error from the email_alert_api" do
-        stub_email_alert_api_does_not_have_subscriber_list({ "links" => { topics: %w[ABC] } })
-
-        expect {
-          described_class.call(
-            item: OpenStruct.new(subscriber_list_search_attributes: { "links" => { topics: %w[ABC] } }, content_id: "ABC"),
-            successor:,
-          )
-        }.to raise_error(GdsApi::HTTPNotFound)
-      end
     end
 
     context "when the success has no mapped specialist topic content id" do

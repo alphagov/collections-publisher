@@ -149,11 +149,22 @@ RSpec.describe TagArchiver do
       expect(Services.email_alert_api).to_not have_received(:bulk_unsubscribe)
     end
 
-    it "doesn't have side effects when a API call fails" do
+    it "doesn't have side effects when the call to publishing API fails" do
       tag = create(:topic, :published, parent: create(:topic))
 
       expect(Services.publishing_api).to receive(:put_content).and_raise("publishing API call failed")
       expect { TagArchiver.new(tag, build(:topic)).archive }.to raise_error("publishing API call failed")
+      tag.reload
+
+      expect(tag.archived?).to be(false)
+      expect(tag.redirect_routes.size).to be(0)
+    end
+
+    it "doesn't have side effects when the call to email alert API fails" do
+      tag = create(:topic, :published, parent: create(:topic))
+
+      expect(email_alert_api).to receive(:bulk_unsubscribe).and_raise("email alert API call failed")
+      expect { TagArchiver.new(tag, build(:topic)).archive }.to raise_error("email alert API call failed")
       tag.reload
 
       expect(tag.archived?).to be(false)
