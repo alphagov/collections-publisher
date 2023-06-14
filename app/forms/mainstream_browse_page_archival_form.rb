@@ -27,8 +27,7 @@ private
 
   def successor_object
     if redirecting_to_path?
-      Struct.new("RedirectToPath", :base_path, :subroutes)
-      Struct::RedirectToPath.new(successor_path, [])
+      ContentItem.find!(successor_path)
     else
       MainstreamBrowsePage.find_by(id: successor)
     end

@@ -22,12 +22,10 @@ class TopicArchivalForm
 private
 
   def successor_object
-    RedirectToPath.new(successor_path, [])
+    ContentItem.find!(successor_path)
   end
 
   def published_topics
     Topic.includes(:parent).published.sort_by(&:title_including_parent)
   end
-
-  RedirectToPath = Struct.new(:base_path, :subroutes)
 end

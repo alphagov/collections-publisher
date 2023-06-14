@@ -15,7 +15,7 @@ class TagArchiver
       update_tag
       setup_redirects
       republish_tag
-      unsubscribe_from_email_alerts
+      update_email_alerts
     end
   end
 
@@ -58,20 +58,9 @@ private
     ContentItemPublisher.new(presenter).send_to_publishing_api
   end
 
-  def unsubscribe_from_email_alerts
+  def update_email_alerts
     return unless tag.can_have_email_subscriptions?
 
-    EmailAlertsUnsubscriber.call(
-      item: tag,
-      body: unsubscribe_email_body,
-    )
-  end
-
-  def unsubscribe_email_body
-    <<~BODY
-      This topic has been archived. You will not get any more emails about it.
-
-      You can find more information about this topic at [#{Plek.website_root + successor.base_path}](#{Plek.website_root + successor.base_path}).
-    BODY
+    EmailAlertsUpdater.call(item: tag, successor:)
   end
 end
