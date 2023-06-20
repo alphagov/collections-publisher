@@ -84,4 +84,36 @@ namespace :publishing_api do
     )
     puts "Links patched for root page..."
   end
+
+  desc "Update redirect for an archived tag"
+  task :update_redirect, %i[content_id new_redirect_path] => :environment do |_task, args|
+    new_redirect_path = args[:new_redirect_path]
+    unless new_redirect_path.present? && new_redirect_path.starts_with?("/")
+      raise "new_redirect_path is missing or invalid"
+    end
+
+    if Services.content_store.content_item(new_redirect_path)
+      tag = Tag.find_by(content_id: args[:content_id])
+
+      raise "No tag can be found for that content id" if tag.blank?
+
+      raise "This task can only be used for archived topics" unless tag.state == "archived" && tag.type == "Topic"
+
+      puts "Updating redirect for #{tag.title}"
+      puts "From: '#{tag.redirect_routes.pluck(:to_base_path).uniq.first}'"
+      puts "To: '#{new_redirect_path}'"
+
+      redirects = tag.redirect_routes
+
+      redirects.each do |redirect|
+        redirect.update!(to_base_path: new_redirect_path)
+      end
+
+      tag.reload
+      presenter = ArchivedTagPresenter.new(tag)
+      ContentItemPublisher.new(presenter).send_to_publishing_api
+
+      puts "Task complete"
+    end
+  end
 end
