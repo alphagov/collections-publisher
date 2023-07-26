@@ -2,7 +2,8 @@
   active ||= ''
 %>
 
-<%= render "components/tabs", {
+<%= render "govuk_publishing_components/components/tabs", {
+  as_links: true,
   tabs: [
     {
       href: @step_by_step_page,
