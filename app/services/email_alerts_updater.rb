@@ -21,14 +21,14 @@ class EmailAlertsUpdater
   end
 
   def bulk_migrate
-    from_slug = topic_subscriber_list_slug
-    to_slug = existing_subscriber_list_slug_for_document_collection
+    from_slug = subscriber_list_slug_for_specialist_topic
+    to_slug = subscriber_list_slug_for_document_collection
     Services.email_alert_api.bulk_migrate(from_slug:, to_slug:)
   end
 
   def bulk_unsubscribe
     args = {
-      slug: topic_subscriber_list_slug,
+      slug: subscriber_list_slug_for_specialist_topic,
       body: unsubscribe_email_body,
       sender_message_id: SecureRandom.uuid,
     }
@@ -42,13 +42,13 @@ private
     successor.mapped_specialist_topic_content_id == item.content_id
   end
 
-  def topic_subscriber_list_slug
+  def subscriber_list_slug_for_specialist_topic
     params = specialist_topic_subscriber_list_params(item)
     subscriber_list = Services.email_alert_api.find_subscriber_list(params)
     subscriber_list.dig("subscriber_list", "slug")
   end
 
-  def existing_subscriber_list_slug_for_document_collection
+  def subscriber_list_slug_for_document_collection
     params = document_collection_subscriber_list_params(successor)
     Services.email_alert_api.find_or_create_subscriber_list(params).dig("subscriber_list", "slug")
   end
