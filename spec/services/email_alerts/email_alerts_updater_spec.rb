@@ -1,7 +1,7 @@
 require "rails_helper"
 require "gds_api/test_helpers/email_alert_api"
 
-RSpec.describe EmailAlertsUpdater do
+RSpec.describe EmailAlerts::EmailAlertsUpdater do
   include GdsApi::TestHelpers::EmailAlertApi
 
   let(:topic) { create(:topic, title: "Child benefit", slug: "child-benefit") }
@@ -34,32 +34,33 @@ RSpec.describe EmailAlertsUpdater do
     end
 
     context "bulk unsubscribing specialist topic email subscribers" do
+      let!(:bulk_unsubscribe_stub) do
+        stub_request(:post, bulk_unsubscribe_link)
+          .with(body: { body: expected_unsubscribe_email_message, sender_message_id: "some-uuid" })
+          .to_return(status: 200)
+      end
 
-    let!(:bulk_unsubscribe_stub) do
-      stub_request(:post, bulk_unsubscribe_link)
-        .with(body: { body: expected_unsubscribe_email_message, sender_message_id: "some-uuid" })
-        .to_return(status: 200)
-    end
-
-      it "mapped_specialist_topic_content_id is nil" do
+      it "mapped_specialist_topic_content_id and taxonomy_topic_email_override are both nil" do
+        allow(successor).to receive(:taxonomy_topic_email_override).and_return(nil)
         allow(successor).to receive(:mapped_specialist_topic_content_id).and_return(nil)
 
-        described_class.call(item: topic, successor:)
+        described_class.call(specialist_topic: topic, successor:)
         expect(bulk_unsubscribe_stub).to have_been_requested
         expect(Services.email_alert_api).to receive(:bulk_migrate).never
       end
 
-      it "mapped_specialist_topic_content_id is present but does not match specialist topic content id" do
+      it "mapped_specialist_topic_content_id only is present but does not match specialist topic content id" do
         allow(successor).to receive(:mapped_specialist_topic_content_id).and_return("i-do-not-match")
+        allow(successor).to receive(:taxonomy_topic_email_override).and_return(nil)
 
-        described_class.call(item: topic, successor:)
+        described_class.call(specialist_topic: topic, successor:)
         expect(bulk_unsubscribe_stub).to have_been_requested
         expect(Services.email_alert_api).to receive(:bulk_migrate).never
       end
     end
 
-    context "bulk migrating specialist topic email subscribers" do
-      let(:successor_content_id){"835af2ae-ed12-49f0-9b3c-d6795d028484"}
+    context "bulk migrating specialist topic email subscribers to document collection lists" do
+      let(:successor_content_id) { "835af2ae-ed12-49f0-9b3c-d6795d028484" }
 
       let(:successor) do
         ContentItem.new(
@@ -84,7 +85,46 @@ RSpec.describe EmailAlertsUpdater do
                               .to_return(status: 200)
         expect(Services.email_alert_api).to receive(:bulk_unsubscribe).never
 
-        described_class.call(item: topic, successor:)
+        described_class.call(specialist_topic: topic, successor:)
+        expect(bulk_migrate_stub).to have_been_requested
+      end
+    end
+
+    context "bulk migrating specialist topic email subscribers to taxonomy topic override email lists" do
+      let(:successor_content_id) { "835af2ae-ed12-49f0-9b3c-d6795d028484" }
+
+      let(:successor) do
+        ContentItem.new(
+          "content_id" => successor_content_id,
+          "links" => {
+            "taxonomy_topic_email_override" => {
+              "title" => "overide_topic",
+              "base_path" => "/foo",
+              "content_id" => "123bar",
+            },
+          },
+          "details" => {
+            "mapped_specialist_topic_content_id" => topic.content_id,
+          },
+        )
+      end
+
+      before do
+        stub_email_alert_api_creates_subscriber_list(
+          "title" => "overide_topic",
+          "base_path" => "/foo",
+          "content_id" => "123bar",
+          "slug" => "email_override_slug",
+        )
+      end
+
+      it "successor has a taxonomy_topic_email_override and a mapped specialist topic content id that matches the specialist topic's content id" do
+        bulk_migrate_stub = stub_request(:post, bulk_migrate_link)
+                              .with(body: { to_slug: "email_override_slug", from_slug: "tax-credits-and-child-benefit-child-benefit" })
+                              .to_return(status: 200)
+        expect(Services.email_alert_api).to receive(:bulk_unsubscribe).never
+
+        described_class.call(specialist_topic: topic, successor:)
         expect(bulk_migrate_stub).to have_been_requested
       end
     end

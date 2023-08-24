@@ -18,6 +18,10 @@ class ContentItem
     data.dig("details", "mapped_specialist_topic_content_id")
   end
 
+  def taxonomy_topic_email_override
+    data.dig("links", "taxonomy_topic_email_override", 0)
+  end
+
   def subroutes
     []
   end

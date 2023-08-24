@@ -1,9 +1,9 @@
 require "rails_helper"
 require "gds_api/test_helpers/content_store"
 
-RSpec.describe "EmailAlertsApiParamsHelper" do
+RSpec.describe EmailAlerts::EmailAlertsApiParamsHelper do
   include GdsApi::TestHelpers::ContentStore
-  include EmailAlertsApiParamsHelper
+  include EmailAlerts::EmailAlertsApiParamsHelper
 
   describe "document_collection_subscriber_list_params" do
     let(:content_id) { "448fd2de-fb0d-11ed-be56-0242ac120002" }

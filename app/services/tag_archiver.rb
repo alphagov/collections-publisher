@@ -61,6 +61,6 @@ private
   def update_email_alerts
     return unless tag.can_have_email_subscriptions?
 
-    EmailAlertsUpdater.call(item: tag, successor:)
+    EmailAlerts::EmailAlertsUpdater.call(item: tag, successor:)
   end
 end
