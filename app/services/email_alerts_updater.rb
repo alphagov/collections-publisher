@@ -13,16 +13,24 @@ class EmailAlertsUpdater
   end
 
   def handle
-    if successor.is_a?(ContentItem) && subscribers_can_be_migrated_to_successor_list?
-      bulk_migrate
+    if subscribers_can_be_migrated_to_mapped_taxonomy_topic_list?
+      bulk_migrate_to_mapped_taxonomy_topic_list
+    elsif subscribers_can_be_migrated_to_successor_list?
+      bulk_migrate_to_successor_list
     else
       bulk_unsubscribe
     end
   end
 
-  def bulk_migrate
+  def bulk_migrate_to_successor_list
     from_slug = topic_subscriber_list_slug
     to_slug = existing_subscriber_list_slug_for_document_collection
+    Services.email_alert_api.bulk_migrate(from_slug:, to_slug:)
+  end
+
+  def bulk_migrate_to_mapped_taxonomy_topic_list
+    from_slug = topic_subscriber_list_slug
+    to_slug = existing_subscriber_list_slug_for_taxonomy_topic_email_override
     Services.email_alert_api.bulk_migrate(from_slug:, to_slug:)
   end
 
@@ -40,6 +48,20 @@ private
 
   def subscribers_can_be_migrated_to_successor_list?
     successor.mapped_specialist_topic_content_id == item.content_id
+  end
+
+  def subscribers_can_be_migrated_to_mapped_taxonomy_topic_list?
+    taxonomy_topic_email_override.present?
+  end
+
+  def taxonomy_topic_email_override
+    successor.taxonomy_topic_email_override
+  end
+
+  def existing_subscriber_list_slug_for_taxonomy_topic_email_override
+    params = taxonomy_topic_subscriber_list_params(item)
+    subscriber_list = Services.email_alert_api.find_subscriber_list(params)
+    subscriber_list.dig("subscriber_list", "slug")
   end
 
   def topic_subscriber_list_slug
