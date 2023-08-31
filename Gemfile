@@ -30,6 +30,7 @@ end
 group :development, :test do
   gem "byebug"
   gem "database_cleaner"
+  gem "erb_lint", require: false
   gem "factory_bot_rails"
   gem "faker"
   gem "govuk_schemas"
