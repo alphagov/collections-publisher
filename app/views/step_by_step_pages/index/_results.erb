@@ -11,9 +11,9 @@
 
       <% preview_link = capture do %>
         <% if step_by_step_page.has_draft? %>
-          <%= link_to "/#{step_by_step_page.slug}", step_by_step_preview_url(step_by_step_page), target: "_blank", class: "govuk-link" %>
+          <%= link_to "/#{step_by_step_page.slug}", step_by_step_preview_url(step_by_step_page), target: "_blank", class: "govuk-link", rel: "noopener" %>
         <% elsif step_by_step_page.status.published? %>
-          <%= link_to "/#{step_by_step_page.slug}", published_url(step_by_step_page.slug), target: "_blank", class: "govuk-link" %>
+          <%= link_to "/#{step_by_step_page.slug}", published_url(step_by_step_page.slug), target: "_blank", class: "govuk-link", rel: "noopener" %>
         <% else %>
           /<%= step_by_step_page.slug %>
         <% end %>
@@ -26,13 +26,13 @@
             {
               link: {
                 text: step_by_step_page.title,
-                path: step_by_step_page
+                path: step_by_step_page,
               },
               metadata: {
-                preview_link: preview_link
-              }
-            }
-          ]
+                preview_link: preview_link,
+              },
+            },
+          ],
         } %>
 
         <%= table.cell t("step_by_step_page.statuses.#{step_by_step_page.status}") %>

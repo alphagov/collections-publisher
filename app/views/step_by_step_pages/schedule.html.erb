@@ -1,20 +1,20 @@
 <%
   links = [
     {
-      text: 'Step by steps',
-      href: step_by_step_pages_path
+      text: "Step by steps",
+      href: step_by_step_pages_path,
     },
     {
       text: @step_by_step_page.title,
-      href: step_by_step_page_path(@step_by_step_page)
+      href: step_by_step_page_path(@step_by_step_page),
     },
     {
-      text: 'Schedule publish'
-    }
+      text: "Schedule publish",
+    },
   ]
 %>
 
-<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :breadcrumbs, render("shared/steps/step_breadcrumb", links: links) %>
 <% content_for :title, @step_by_step_page.title %>
 <% content_for :context, "Schedule publish" %>
 
@@ -27,7 +27,7 @@
 
   <%= render "govuk_publishing_components/components/button", {
     text: "Continue",
-    margin_bottom: true
+    margin_bottom: true,
   } %>
 
   <%= tag.p link_to("Cancel", @step_by_step_page, class: "govuk-link"), class: "govuk-body" %>

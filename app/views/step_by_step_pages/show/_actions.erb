@@ -2,7 +2,7 @@
   text: "Preview",
   href: step_by_step_preview_url(@step_by_step_page),
   target: "_blank",
-  secondary: true
+  secondary: true,
 } %>
 
 <div class="app-side">
@@ -13,13 +13,12 @@
       <%= link_to "Unschedule",
         step_by_step_page_unschedule_path(@step_by_step_page),
         method: :post,
-        class: %w(govuk-link govuk-link--no-visited-state app-link--right)
-      %>
+        class: %w(govuk-link govuk-link--no-visited-state app-link--right) %>
     <% elsif @step_by_step_page.can_be_published? %>
       <% if @step_by_step_page.has_been_published? %>
         <%= render "govuk_publishing_components/components/button", {
           text: "Publish",
-          href: step_by_step_page_publish_path(@step_by_step_page)
+          href: step_by_step_page_publish_path(@step_by_step_page),
         } %>
       <% else %>
         <%= form_for(@step_by_step_page, url: step_by_step_page_publish_path(@step_by_step_page), method: :post) do %>
@@ -29,29 +28,28 @@
       <%= preview_link %>
       <%= link_to "Schedule",
         step_by_step_page_schedule_path(@step_by_step_page),
-        class: %w(govuk-link govuk-link--no-visited-state app-link--right)
-      %>
+        class: %w(govuk-link govuk-link--no-visited-state app-link--right) %>
     <% elsif @step_by_step_page.has_draft? %>
       <% if can_review?(@step_by_step_page, current_user) %>
         <%= form_for(@step_by_step_page, url: step_by_step_page_claim_2i_review_path(@step_by_step_page), method: :post) do %>
           <%= render "govuk_publishing_components/components/button", {
-            text: "Claim for 2i review"
+            text: "Claim for 2i review",
           } %>
         <% end %>
       <% elsif @step_by_step_page.status.draft? %>
         <%= render "govuk_publishing_components/components/button", {
           text: "Submit for 2i review",
-          href: step_by_step_page_submit_for_2i_path(@step_by_step_page)
+          href: step_by_step_page_submit_for_2i_path(@step_by_step_page),
         } %>
       <% elsif can_submit_2i_review?(@step_by_step_page, current_user) %>
         <%= render "govuk_publishing_components/components/button", {
           text: "Approve",
-          href: step_by_step_page_approve_2i_review_path(@step_by_step_page)
+          href: step_by_step_page_approve_2i_review_path(@step_by_step_page),
         } %>
         <%= render "govuk_publishing_components/components/button", {
           text: "Request changes",
           href: step_by_step_page_request_change_2i_review_path(@step_by_step_page),
-          secondary: true
+          secondary: true,
         } %>
       <% end %>
       <%= preview_link %>
@@ -66,26 +64,25 @@
     <% end %>
 
     <% if can_revert_to_draft?(@step_by_step_page, current_user) %>
-      <%= link_to 'Revert to draft', { controller: "review", action: "revert_to_draft", step_by_step_page_id: @step_by_step_page.id }, method: :post, data: { confirm: 'This will remove existing 2i approval. Do you want to revert to draft?' }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
+      <%= link_to "Revert to draft", { controller: "review", action: "revert_to_draft", step_by_step_page_id: @step_by_step_page.id }, method: :post, data: { confirm: "This will remove existing 2i approval. Do you want to revert to draft?" }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
     <% end %>
 
     <% if @step_by_step_page.can_discard_changes? %>
-      <%= link_to 'Discard changes', { action: "revert", step_by_step_page_id: @step_by_step_page.id }, method: :post, data: { confirm: 'This will delete your draft. Do you want to discard your changes?' }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
+      <%= link_to "Discard changes", { action: "revert", step_by_step_page_id: @step_by_step_page.id }, method: :post, data: { confirm: "This will delete your draft. Do you want to discard your changes?" }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
     <% end %>
 
     <% if @step_by_step_page.can_be_unpublished? %>
       <%= link_to "Unpublish",
         step_by_step_page_unpublish_path(@step_by_step_page),
-        class: %w(govuk-link govuk-link--no-visited-state)
-      %>
+        class: %w(govuk-link govuk-link--no-visited-state) %>
     <% end %>
     <% if @step_by_step_page.can_be_deleted? %>
-      <%= link_to "Delete", @step_by_step_page, method: :delete, data: { confirm: 'Deleted step by steps cannot be recovered. Are you sure you want to delete this step by step page?' }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
+      <%= link_to "Delete", @step_by_step_page, method: :delete, data: { confirm: "Deleted step by steps cannot be recovered. Are you sure you want to delete this step by step page?" }, class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
     <% end %>
 
     <% if @step_by_step_page.has_been_published? %>
-      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
-      <%= link_to "View on GOV.UK", published_url(@step_by_step_page.slug), target: "_blank", class: "govuk-link govuk-link--no-visited-state" %>
+      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+      <%= link_to "View on GOV.UK", published_url(@step_by_step_page.slug), target: "_blank", class: "govuk-link govuk-link--no-visited-state", rel: "noopener" %>
     <% end %>
 
   </div>

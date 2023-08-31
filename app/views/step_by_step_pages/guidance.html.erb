@@ -1,19 +1,19 @@
 <%
   links = [
     {
-      text: 'Step by step publisher',
-      href: step_by_step_pages_path
+      text: "Step by step publisher",
+      href: step_by_step_pages_path,
     },
     {
       text: @step_by_step_page.title,
-      href: @step_by_step_page
+      href: @step_by_step_page,
     },
     {
-      text: 'Guidance'
-    }
+      text: "Guidance",
+    },
   ]
 %>
-<%= render 'shared/steps/step_breadcrumb', links: links %>
+<%= render "shared/steps/step_breadcrumb", links: links %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

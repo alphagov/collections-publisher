@@ -1,20 +1,20 @@
 <%
   links = [
     {
-      text: 'Step by steps',
-      href: step_by_step_pages_path
+      text: "Step by steps",
+      href: step_by_step_pages_path,
     },
     {
       text: @step_by_step_page.title,
-      href: step_by_step_page_path(@step_by_step_page)
+      href: step_by_step_page_path(@step_by_step_page),
     },
     {
-      text: 'Reorder steps'
-    }
+      text: "Reorder steps",
+    },
   ]
 %>
 
-<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :breadcrumbs, render("shared/steps/step_breadcrumb", links: links) %>
 <% content_for :title, @step_by_step_page.title %>
 <% content_for :context, "Reorder steps" %>
 
@@ -26,7 +26,7 @@
     <%
       step_number = 1
       steps = @step_by_step_page.steps.map do |step|
-        if step.logic == 'number'
+        if step.logic == "number"
           prefix = step_number
           step_number += 1
         else
@@ -39,7 +39,7 @@
 
     <% if steps.length > 0 %>
       <%= form_for(@step_by_step_page, url: step_by_step_page_reorder_path(@step_by_step_page), method: :post) do |form| %>
-        <%= render 'govuk_publishing_components/components/reorderable_list', {
+        <%= render "govuk_publishing_components/components/reorderable_list", {
           input_name: "step_order_save",
           items: steps,
         } %>
@@ -47,17 +47,17 @@
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-full">
             <%= render "govuk_publishing_components/components/button", {
-              text: "Save"
+              text: "Save",
             } %>
           </div>
           <div class="govuk-grid-column-full govuk-!-margin-top-3">
-            <%= link_to 'Cancel', @step_by_step_page, class: "govuk-link" %>
+            <%= link_to "Cancel", @step_by_step_page, class: "govuk-link" %>
           </div>
         </div>
       <% end %>
     <% else %>
       <p class="govuk-body"><strong>There are currently no steps to display.</strong></p>
-      <%= link_to 'Cancel', @step_by_step_page, class: "govuk-link" %>
+      <%= link_to "Cancel", @step_by_step_page, class: "govuk-link" %>
     <% end %>
   </div>
 </div>

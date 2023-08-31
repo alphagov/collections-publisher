@@ -1,20 +1,20 @@
 <%
   links = [
     {
-      text: 'Step by steps',
-      href: step_by_step_pages_path
+      text: "Step by steps",
+      href: step_by_step_pages_path,
     },
     {
       text: @step_by_step_page.title,
-      href: step_by_step_page_path(@step_by_step_page)
+      href: step_by_step_page_path(@step_by_step_page),
     },
     {
-      text: 'Set a date and time to publish'
-    }
+      text: "Set a date and time to publish",
+    },
   ]
 %>
 
-<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :breadcrumbs, render("shared/steps/step_breadcrumb", links: links) %>
 <% content_for :title, @step_by_step_page.title %>
 <% content_for :context, "Set a date and time to publish" %>
 
@@ -37,19 +37,19 @@
       {
         name: "day",
         width: 2,
-        value: @schedule_placeholder[:day]
+        value: @schedule_placeholder[:day],
       },
       {
         name: "month",
         width: 2,
-        value: @schedule_placeholder[:month]
+        value: @schedule_placeholder[:month],
       },
       {
         name: "year",
         width: 4,
-        value: @schedule_placeholder[:year]
-      }
-    ]
+        value: @schedule_placeholder[:year],
+      },
+    ],
   } %>
 
   <%= render "components/autocomplete", {
@@ -67,12 +67,12 @@
     data_attributes: {
       "autocomplete-without-narrowing-results": true,
     },
-    width: "narrow"
+    width: "narrow",
   } %>
 
   <%= render "govuk_publishing_components/components/button", {
     text: "Schedule to publish",
-    margin_bottom: true
+    margin_bottom: true,
   } %>
 
   <%= tag.p link_to("Cancel", @step_by_step_page, class: "govuk-link"), class: "govuk-body" %>

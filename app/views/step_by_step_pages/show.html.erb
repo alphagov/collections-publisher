@@ -1,20 +1,20 @@
 <%
   links = [
     {
-      text: 'Step by steps',
-      href: step_by_step_pages_path
+      text: "Step by steps",
+      href: step_by_step_pages_path,
     },
     {
-      text: @step_by_step_page.title
-    }
+      text: @step_by_step_page.title,
+    },
   ]
 %>
 
-<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :breadcrumbs, render("shared/steps/step_breadcrumb", links: links) %>
 <% content_for :title, @step_by_step_page.title %>
-<% content_for :context, 'Step by step' %>
+<% content_for :context, "Step by step" %>
 
-<%= render 'nav', step_by_step_page: @step_by_step_page, active:"edit-steps" %>
+<%= render "nav", step_by_step_page: @step_by_step_page, active:"edit-steps" %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -25,24 +25,24 @@
     <%
       step_number = 0
       steps = @step_by_step_page.steps.map do |step|
-        step_number = step_number + 1 if step.logic == 'number'
+        step_number = step_number + 1 if step.logic == "number"
         step_config = {
-          field: step.logic == 'number' ? step_number : step.logic,
-          value: render('shared/steps/broken-links-summary', step: step).html_safe
+          field: step.logic == "number" ? step_number : step.logic,
+          value: render("shared/steps/broken-links-summary", step: step).html_safe,
         }
 
         if @step_by_step_page.can_be_edited?
           step_config.merge!(
             edit: {
-              href: edit_step_by_step_page_step_path(@step_by_step_page.id, step.id)
+              href: edit_step_by_step_page_step_path(@step_by_step_page.id, step.id),
             },
             delete: {
               href: step_by_step_page_step_path(@step_by_step_page.id, step.id),
               data_attributes: {
                 confirm: "Are you sure?",
-                method: "delete"
-              }
-            }
+                method: "delete",
+              },
+            },
           )
         end
 
@@ -58,7 +58,7 @@
         <% if @step_by_step_page.can_be_edited? %>
           <%= render "govuk_publishing_components/components/button", {
             text: "Add step",
-            href: new_step_by_step_page_step_path(@step_by_step_page)
+            href: new_step_by_step_page_step_path(@step_by_step_page),
           } %>
         <% end %>
         <% if @step_by_step_page.steps.any? %>
@@ -73,9 +73,9 @@
       borderless: true,
       items: [
         @step_by_step_page_presenter.sidebar_settings,
-        @step_by_step_page_presenter.secondary_links_settings
-      ]
-    }  %>
+        @step_by_step_page_presenter.secondary_links_settings,
+      ],
+    } %>
 
     <%= render "govuk_publishing_components/components/summary_list", @step_by_step_page_presenter.tags_section %>
 
@@ -86,7 +86,7 @@
 
     <div class="app-side">
       <%= render "govuk_publishing_components/components/metadata", {
-        other: @step_by_step_page_presenter.summary_metadata
+        other: @step_by_step_page_presenter.summary_metadata,
       } %>
     </div>
   </div>
