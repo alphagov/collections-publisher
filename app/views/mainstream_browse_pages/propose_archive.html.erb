@@ -1,26 +1,26 @@
-<%= render 'shared/breadcrumbs', {
+<%= render "shared/breadcrumbs", {
   links: [
     {
-      text: 'Mainstream browse pages',
-      href: mainstream_browse_pages_url
+      text: "Mainstream browse pages",
+      href: mainstream_browse_pages_url,
     },
     *([
       text: @archival.tag.parent[:title],
-      href: mainstream_browse_page_url(@archival.tag.parent)
+      href: mainstream_browse_page_url(@archival.tag.parent),
     ] if @archival.tag.parent.present? ),
     {
       text: @archival.tag[:title],
-      href: mainstream_browse_page_url(@archival.tag)
+      href: mainstream_browse_page_url(@archival.tag),
     },
     {
-      text: 'Archive',
-    }
-  ]
+      text: "Archive",
+    },
+  ],
 } %>
 
-<%= govuk_tag_heading(tag: @archival.tag, append: 'Archive mainstream browse page') %>
+<%= govuk_tag_heading(tag: @archival.tag, append: "Archive mainstream browse page") %>
 
-<%= render 'shared/error_summary', object: @archival %>
+<%= render "shared/error_summary", object: @archival %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -33,9 +33,9 @@
           options: @archival.browse_pages.map do |browse_page|
             {
               text: browse_page.title_including_parent,
-              value: browse_page.id
+              value: browse_page.id,
             }
-          end
+          end,
         } %>
       </div>
 
@@ -48,12 +48,12 @@
     <%= form_for @archival, url: archive_mainstream_browse_page_path do |f| %>
       <%= render "govuk_publishing_components/components/input", {
         label: {
-          text: "Or type in a URL to redirect to a page:"
+          text: "Or type in a URL to redirect to a page:",
         },
         hint: 'Please specify it as a relative path (for example "/government/publications/what-hmrc-does-to-prevent-tax-evasion")',
         id: "mainstream_browse_page_archival_form_successor_path",
         name: "mainstream_browse_page_archival_form[successor_path]",
-        error_items: errors_for(@archival, :successor_path)
+        error_items: errors_for(@archival, :successor_path),
       } %>
 
       <%= render "govuk_publishing_components/components/button", {

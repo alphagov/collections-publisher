@@ -1,17 +1,17 @@
-<%= render 'shared/breadcrumbs', {
+<%= render "shared/breadcrumbs", {
   links: [
     {
-      text: 'Mainstream browse pages',
-      href: mainstream_browse_pages_url
+      text: "Mainstream browse pages",
+      href: mainstream_browse_pages_url,
     },
     *([
       text: @browse_page.parent[:title],
-      href: mainstream_browse_page_url(@browse_page.parent)
+      href: mainstream_browse_page_url(@browse_page.parent),
     ] if @browse_page.parent.present? ),
     {
       text: @browse_page[:title],
-    }
-  ]
+    },
+  ],
 } %>
 
 <% content_for :title, govuk_tag_heading(tag: @browse_page) %>
@@ -22,6 +22,6 @@
       This mainstream browse page has been archived.
     </p>
 
-    <%= render 'shared/redirects', redirect_routes: @browse_page.redirect_routes %>
+    <%= render "shared/redirects", redirect_routes: @browse_page.redirect_routes %>
   </div>
 </div>
