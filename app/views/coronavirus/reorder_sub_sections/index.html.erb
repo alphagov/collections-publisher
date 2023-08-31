@@ -1,5 +1,5 @@
-<%= render 'coronavirus/shared/breadcrumbs', text: t("coronavirus.reorder_sub_sections.index.title", section: @page.sections_title.downcase)  %>
-<% content_for :title, t("coronavirus.shared.title")%>
+<%= render "coronavirus/shared/breadcrumbs", text: t("coronavirus.reorder_sub_sections.index.title", section: @page.sections_title.downcase) %>
+<% content_for :title, t("coronavirus.shared.title") %>
 <% content_for :context, t("coronavirus.reorder_sub_sections.index.title", section: @page.sections_title.downcase) %>
 
 <div class="covid-manage-page govuk-grid-row">
@@ -11,9 +11,9 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
           <%= render "govuk_publishing_components/components/button", {
-            text: "Save"
+            text: "Save",
           } %>
-          <%= link_to 'Cancel', coronavirus_page_path(@page.slug), class: "govuk-link govuk-button" %>
+          <%= link_to "Cancel", coronavirus_page_path(@page.slug), class: "govuk-link govuk-button" %>
         </div>
       </div>
     <% end %>

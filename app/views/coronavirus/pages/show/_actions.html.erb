@@ -7,12 +7,12 @@
       text: t("coronavirus.pages.show.actions.preview"),
       href: draft_govuk_url(@page.base_path),
       target: "_blank",
-      secondary: true
+      secondary: true,
     } %>
 
     <%= link_to t("coronavirus.pages.show.actions.discard_changes"), discard_coronavirus_page_path,class: %w(govuk-link govuk-link--no-visited-state app-link--destructive) %>
 
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
-    <%= link_to t("coronavirus.pages.show.actions.view_on_govuk"), published_url(@page.base_path.delete_prefix("/")), target: "_blank", class: "govuk-link govuk-link--no-visited-state" %>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <%= link_to t("coronavirus.pages.show.actions.view_on_govuk"), published_url(@page.base_path.delete_prefix("/")), target: "_blank", class: "govuk-link govuk-link--no-visited-state", rel: "noopener" %>
   </div>
 </div>

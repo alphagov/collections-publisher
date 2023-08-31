@@ -1,89 +1,89 @@
 <%= render "govuk_publishing_components/components/heading", {
   text: t("coronavirus.sub_sections.form.heading.title"),
   heading_level: 4,
-  margin_bottom: 5
+  margin_bottom: 5,
 } %>
 <%= render "govuk_publishing_components/components/input", {
   label: {
     text: t("coronavirus.sub_sections.form.heading.label"),
-    bold: true
+    bold: true,
   },
   name: "sub_section[title]",
   id: "title",
-  value: @sub_section.title
+  value: @sub_section.title,
 } %>
 <%= render "govuk_publishing_components/components/heading", {
   text: t("coronavirus.sub_sections.form.sub_heading.title"),
   heading_level: 4,
-  margin_bottom: 5
+  margin_bottom: 5,
 } %>
 <%= render "govuk_publishing_components/components/input", {
   label: {
     text: t("coronavirus.sub_sections.form.sub_heading.label"),
-    bold: true
+    bold: true,
   },
   name: "sub_section[sub_heading]",
   id: "sub_heading",
-  value: @sub_section.sub_heading
+  value: @sub_section.sub_heading,
 } %>
 <%= render "govuk_publishing_components/components/heading", {
   text: t("coronavirus.sub_sections.form.action_link.title"),
   heading_level: 4,
-  margin_bottom: 5
+  margin_bottom: 5,
 } %>
 <%= render "govuk_publishing_components/components/hint", {
-  text: t("coronavirus.sub_sections.form.action_link.hint")
+  text: t("coronavirus.sub_sections.form.action_link.hint"),
 } %>
 <%= render "govuk_publishing_components/components/input", {
   label: {
     text: t("coronavirus.sub_sections.form.action_link.action_link_content.label"),
-    bold: true
+    bold: true,
   },
   name: "sub_section[action_link_content]",
   id: "action_link_content",
   value: @sub_section.action_link_content,
-  error_message: error_items(@sub_section.errors.messages, :action_link_content)
+  error_message: error_items(@sub_section.errors.messages, :action_link_content),
 } %>
 <%= render "govuk_publishing_components/components/textarea", {
   label: {
     text: t("coronavirus.sub_sections.form.action_link.action_link_summary.label"),
-    bold: true
+    bold: true,
   },
   name: "sub_section[action_link_summary]",
   id: "action_link_summary",
   value: @sub_section.action_link_summary,
   rows: 5,
-  error_message: error_items(@sub_section.errors.messages, :action_link_summary)
+  error_message: error_items(@sub_section.errors.messages, :action_link_summary),
 } %>
 <%= render "govuk_publishing_components/components/input", {
   label: {
     text: t("coronavirus.sub_sections.form.action_link.action_link_url.label"),
-    bold: true
+    bold: true,
   },
   name: "sub_section[action_link_url]",
   id: "action_link_url",
   value: @sub_section.action_link_url,
-  error_message: error_items(@sub_section.errors.messages, :action_link_url)
+  error_message: error_items(@sub_section.errors.messages, :action_link_url),
 } %>
 <%= render "govuk_publishing_components/components/heading", {
   text: t("coronavirus.sub_sections.form.content.title"),
   heading_level: 4,
-  margin_bottom: 5
+  margin_bottom: 5,
 } %>
 <%= render "components/markdown_editor", {
   label: {
     text: t("coronavirus.sub_sections.form.content.label"),
-    bold: true
+    bold: true,
   },
   textarea: {
     name: "sub_section[content]",
     id: "content",
     rows: 20,
-    value: @sub_section.content
-  }
+    value: @sub_section.content,
+  },
 } %>
 <%= render "govuk_publishing_components/components/button", {
   text: "Save",
-  margin_bottom: true
+  margin_bottom: true,
 } %>
-<%= tag.p (link_to 'Cancel', coronavirus_page_path(@page.slug), class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>
+<%= tag.p (link_to "Cancel", coronavirus_page_path(@page.slug), class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>

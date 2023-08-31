@@ -2,15 +2,15 @@
   links = [
     {
       text: t("coronavirus.shared.breadcrumbs.link_text"),
-      href: coronavirus_pages_path
+      href: coronavirus_pages_path,
     },
     {
       text: @page.name,
-      href: coronavirus_page_path(slug: @page.slug)
+      href: coronavirus_page_path(slug: @page.slug),
     },
     {
-      text: text
+      text: text,
     },
   ]
 %>
-<%= render 'shared/steps/step_breadcrumb', links: links %>
+<%= render "shared/steps/step_breadcrumb", links: links %>
