@@ -1,10 +1,10 @@
 <%= content_for :back_link, render("govuk_publishing_components/components/back_link", {
-  href: tag_list_path(@tag, @list)
+  href: tag_list_path(@tag, @list),
 }) %>
 
 <%= content_for :page_title, "Add links to current list" %>
 
-<%= render 'shared/error_summary', object: @list %>
+<%= render "shared/error_summary", object: @list %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -23,11 +23,11 @@
             label: list_item.title,
             value: list_item.base_path,
           }
-        end
+        end,
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
-        text: "Add link to list"
+        text: "Add link to list",
       } %>
     <% end %>
   </div>
