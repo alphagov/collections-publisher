@@ -1,17 +1,17 @@
-<%= render 'shared/breadcrumbs', {
+<%= render "shared/breadcrumbs", {
   links: [
     {
-      text: 'Specialist topic pages',
-      href: topics_url
+      text: "Specialist topic pages",
+      href: topics_url,
     },
     *([
       text: @topic.parent[:title],
-      href: topic_url(@topic.parent)
+      href: topic_url(@topic.parent),
     ] if @topic.parent.present? ),
     {
       text: @topic[:title],
-    }
-  ]
+    },
+  ],
 } %>
 
 <% content_for :title, govuk_tag_heading(tag: @topic) %>
@@ -22,7 +22,7 @@
       This specialist topic has been archived.
     </p>
 
-    <%= render 'shared/redirects', redirect_routes: @topic.redirect_routes %>
+    <%= render "shared/redirects", redirect_routes: @topic.redirect_routes %>
 
     <% if @topic.children.any? %>
       <section class="govuk-!-margin-bottom-3">
