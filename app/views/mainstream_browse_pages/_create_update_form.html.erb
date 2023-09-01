@@ -7,41 +7,41 @@
         label: "Parent (optional)",
         options: MainstreamBrowsePage.sorted_level_one
                   .map { |topic| {text: topic.title, value: topic.id, selected: topic.id == f.object.parent_id} }
-                  .prepend( { text: "", value: "" } )
+                  .prepend( { text: "", value: "" } ),
       } %>
     </div>
   <% end %>
 
   <%= render "govuk_publishing_components/components/input", {
     label: {
-      text: update ? "Slug (read only)" : "Slug"
+      text: update ? "Slug (read only)" : "Slug",
     },
     hint: ("For example: lower-case-hyphen-separated" if update),
     id: "mainstream_browse_page_slug",
     name: "mainstream_browse_page[slug]",
     readonly: update,
     value: @browse_page[:slug],
-    error_items: errors_for(@browse_page, :slug)
+    error_items: errors_for(@browse_page, :slug),
   } %>
 
   <%= render "govuk_publishing_components/components/input", {
     label: {
-      text: "Title"
+      text: "Title",
     },
     id: "mainstream_browse_page_title",
     name: "mainstream_browse_page[title]",
     value: @browse_page.title,
-    error_items: errors_for(@browse_page, :title)
+    error_items: errors_for(@browse_page, :title),
   } %>
 
   <%= render "govuk_publishing_components/components/input", {
     label: {
-      text: "Description"
+      text: "Description",
     },
     id: "mainstream_browse_page_description",
     name: "mainstream_browse_page[description]",
     value: @browse_page.description,
-    error_items: errors_for(@browse_page, :description)
+    error_items: errors_for(@browse_page, :description),
   } %>
 
   <% if @browse_page.level_two? && update %>
@@ -49,12 +49,12 @@
       name: "mainstream_browse_page[topics][]",
       heading: "Topics",
       small: true,
-      items: @topics_for_select.map { |topic| { label: topic[:title], value: topic[:id], checked: @browse_page.topics.map(&:id).include?(topic[:id])  } }
+      items: @topics_for_select.map { |topic| { label: topic[:title], value: topic[:id], checked: @browse_page.topics.map(&:id).include?(topic[:id])  } },
     } %>
   <% end %>
 
   <%= render "govuk_publishing_components/components/button", {
     text: update ? "Save" : "Create",
-    margin_bottom: true
+    margin_bottom: true,
   } %>
 <% end %>

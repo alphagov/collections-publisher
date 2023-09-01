@@ -1,26 +1,26 @@
-<%= render 'shared/breadcrumbs', {
+<%= render "shared/breadcrumbs", {
   links: [
     {
-      text: 'Specialist topic pages',
-      href: topics_url
+      text: "Specialist topic pages",
+      href: topics_url,
     },
     *([
       text: @topic.parent[:title],
-      href: topic_url(@topic.parent)
+      href: topic_url(@topic.parent),
     ] if @topic.parent.present? ),
     {
-      text: @topic[:title].present? ? @topic[:title] : "Topic",
-      href: topic_url(@topic)
+      text: (@topic[:title].presence || "Topic"),
+      href: topic_url(@topic),
     },
     {
-      text: 'Edit',
-    }
-  ]
+      text: "Edit",
+    },
+  ],
 } %>
 
-<% content_for :title, govuk_tag_heading(tag: @topic, prepend: 'Edit') %>
+<% content_for :title, govuk_tag_heading(tag: @topic, prepend: "Edit") %>
 
-<%= render 'shared/error_summary', object: @topic %>
+<%= render "shared/error_summary", object: @topic %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

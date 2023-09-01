@@ -1,5 +1,5 @@
 <%
-  active ||= ''
+  active ||= ""
 %>
 
 <%= render "govuk_publishing_components/components/tabs", {
@@ -8,12 +8,12 @@
     {
       href: @step_by_step_page,
       label: "Summary",
-      active: active == 'edit-steps'
+      active: active == "edit-steps",
     },
     {
       href: step_by_step_page_internal_change_notes_path(@step_by_step_page),
       label: "History",
-      active: active == 'internal-change-notes'
-    }
-  ]
+      active: active == "internal-change-notes",
+    },
+  ],
 } %>

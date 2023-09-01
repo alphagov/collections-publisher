@@ -6,11 +6,11 @@
     <th>From</th>
     <th>To</th>
   </tr>
-  <% redirect_routes.order('created_at DESC').each do |redirect_route| %>
+  <% redirect_routes.order("created_at DESC").each do |redirect_route| %>
     <tr>
       <td><%= redirect_route.created_at.to_formatted_s(:long) %></td>
-      <td><%= link_to redirect_route.from_base_path, website_url(redirect_route.from_base_path), target: '_blank' %></td>
-      <td><%= link_to redirect_route.to_base_path, website_url(redirect_route.to_base_path), target: '_blank' %></td>
+      <td><%= link_to redirect_route.from_base_path, website_url(redirect_route.from_base_path), target: "_blank", rel: "noopener" %></td>
+      <td><%= link_to redirect_route.to_base_path, website_url(redirect_route.to_base_path), target: "_blank", rel: "noopener" %></td>
     </tr>
   <% end %>
 </table>

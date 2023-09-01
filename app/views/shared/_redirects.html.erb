@@ -11,19 +11,19 @@
     },
     {
       text: "To",
-    }
+    },
   ],
-  rows: redirect_routes.order('created_at DESC').map { |redirect_route|
+  rows: redirect_routes.order("created_at DESC").map do |redirect_route|
       [
         {
-          text: redirect_route.created_at.to_formatted_s(:long)
+          text: redirect_route.created_at.to_formatted_s(:long),
         },
         {
-          text: tag.a(redirect_route.from_base_path, href: website_url(redirect_route.from_base_path), class: "govuk-link", target: '_blank')
+          text: tag.a(redirect_route.from_base_path, href: website_url(redirect_route.from_base_path), class: "govuk-link", target: "_blank"),
         },
         {
-          text: tag.a(redirect_route.to_base_path, href: website_url(redirect_route.to_base_path), class: "govuk-link", target: '_blank')
-        }
+          text: tag.a(redirect_route.to_base_path, href: website_url(redirect_route.to_base_path), class: "govuk-link", target: "_blank"),
+        },
       ]
-    }
+    end,
 } %>

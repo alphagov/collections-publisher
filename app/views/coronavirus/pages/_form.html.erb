@@ -12,33 +12,33 @@
 <%= render "components/markdown_editor", {
   label: {
     text: t("coronavirus.pages.edit_header.form.body.label"),
-    bold: true
+    bold: true,
   },
   textarea: {
     name: "landing_page[header_body]",
     id: "header_body",
     rows: 20,
-    value: @page.header_body
+    value: @page.header_body,
   },
   error_message: error_items(@page.errors.messages, :header_body),
-  controls: [:headings, :numbered_list, :bullets]
+  controls: [:headings, :numbered_list, :bullets],
 } %>
 
 <%= render "govuk_publishing_components/components/heading", {
   text: t("coronavirus.pages.edit_header.form.header_link.title"),
   heading_level: 4,
-  margin_bottom: 5
+  margin_bottom: 5,
 } %>
 
 <%= render "govuk_publishing_components/components/hint", {
-  text: t("coronavirus.pages.edit_header.form.header_link.hint")
+  text: t("coronavirus.pages.edit_header.form.header_link.hint"),
 } %>
 
 <%= render "govuk_publishing_components/components/character_count", {
   textarea: {
     label: {
       text: t("coronavirus.pages.edit_header.form.header_link.header_link_pre_wrap_text.label"),
-      bold: true
+      bold: true,
     },
     name: "landing_page[header_link_pre_wrap_text]",
     value: @page.header_link_pre_wrap_text,
@@ -47,14 +47,14 @@
     rows: 1,
   },
   id: "header_link_pre_wrap_text",
-  maxlength: 40
+  maxlength: 40,
 } %>
 
 <%= render "govuk_publishing_components/components/character_count", {
   textarea: {
     label: {
       text: t("coronavirus.pages.edit_header.form.header_link.header_link_post_wrap_text.label"),
-      bold: true
+      bold: true,
     },
     name: "landing_page[header_link_post_wrap_text]",
     value: @page.header_link_post_wrap_text,
@@ -63,7 +63,7 @@
     rows: 1,
   },
   id: "header_link_post_wrap_text",
-  maxlength: 40
+  maxlength: 40,
 } %>
 
 <%= render "govuk_publishing_components/components/input", {
@@ -80,6 +80,6 @@
 
 <%= render "govuk_publishing_components/components/button", {
   text: "Save",
-  margin_bottom: true
+  margin_bottom: true,
 } %>
-<%= tag.p (link_to 'Cancel', coronavirus_page_path(@page.slug), class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>
+<%= tag.p (link_to "Cancel", coronavirus_page_path(@page.slug), class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>

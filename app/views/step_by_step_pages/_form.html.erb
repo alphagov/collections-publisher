@@ -4,71 +4,71 @@
   <%= render "govuk_publishing_components/components/contextual_guidance", {
     html_for: "step_by_step_page_title",
     title: t("step_by_step_pages.form.title.label"),
-    content: t("guidance.new_step_by_step.title")
+    content: t("guidance.new_step_by_step.title"),
   } do %>
     <%= render "govuk_publishing_components/components/input", {
       label: {
         text: t("step_by_step_pages.form.title.label"),
-        bold: true
+        bold: true,
       },
       id: "step_by_step_page_title",
       name: "step_by_step_page[title]",
-      value: step_by_step_page.title
+      value: step_by_step_page.title,
     } %>
   <% end %>
 
   <%= render "govuk_publishing_components/components/contextual_guidance", {
     html_for: "step_by_step_page_slug",
     title: t("step_by_step_pages.form.slug.label"),
-    content: t("guidance.new_step_by_step.slug")
+    content: t("guidance.new_step_by_step.slug"),
   } do %>
     <%= render "govuk_publishing_components/components/input", {
       label: {
         text: t("step_by_step_pages.form.slug.label"),
-        bold: true
+        bold: true,
       },
       id: "step_by_step_page_slug",
       name: "step_by_step_page[slug]",
-      value: step_by_step_page.slug
+      value: step_by_step_page.slug,
     } %>
   <% end %>
 
   <%= render "govuk_publishing_components/components/contextual_guidance", {
     html_for: "step_by_step_page_introduction",
     title: t("step_by_step_pages.form.introduction.label"),
-    content: t("guidance.new_step_by_step.introduction")
+    content: t("guidance.new_step_by_step.introduction"),
   } do %>
     <%= render "govuk_publishing_components/components/textarea", {
       label: {
         text: t("step_by_step_pages.form.introduction.label"),
-        bold: true
+        bold: true,
       },
       id: "step_by_step_page_introduction",
       name: "step_by_step_page[introduction]",
-      value: step_by_step_page.introduction
+      value: step_by_step_page.introduction,
     } %>
   <% end %>
 
   <%= render "govuk_publishing_components/components/contextual_guidance", {
     html_for: "step_by_step_page_meta_description",
     title: t("step_by_step_pages.form.meta_description.label"),
-    content: t("guidance.new_step_by_step.meta_description")
+    content: t("guidance.new_step_by_step.meta_description"),
   } do %>
     <%= render "govuk_publishing_components/components/textarea", {
       label: {
         text: t("step_by_step_pages.form.meta_description.label"),
-        bold: true
+        bold: true,
       },
       id: "step_by_step_page_meta_description",
       name: "step_by_step_page[description]",
-      value: step_by_step_page.description
+      value: step_by_step_page.description,
     } %>
   <% end %>
 
   <%= render "govuk_publishing_components/components/button", {
     text: "Save",
-    margin_bottom: true
+    margin_bottom: true,
   } %>
 
-  <%= tag.p link_to('Cancel', @step_by_step_page, class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>
+  <%= tag.p link_to("Cancel", @step_by_step_page, class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>
 <% end %>

@@ -1,10 +1,10 @@
 <%= content_for :back_link, render("govuk_publishing_components/components/back_link", {
-  href: tag_list_path(@tag, @list)
+  href: tag_list_path(@tag, @list),
 }) %>
 
 <%= content_for :page_title, "Move link to a different list" %>
 
-<%= render 'shared/error_summary', object: @list_item %>
+<%= render "shared/error_summary", object: @list_item %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -22,11 +22,11 @@
           value: list.id,
           text: list.name,
         }
-        end
+        end,
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
-        text: "Next"
+        text: "Next",
       } %>
     <% end %>
   </div>

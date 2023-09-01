@@ -1,12 +1,12 @@
 <%= content_for :back_link, render("govuk_publishing_components/components/back_link", {
-  href: tag_list_path(@tag, @list)
+  href: tag_list_path(@tag, @list),
 }) %>
 
 <%= content_for :context, "List" %>
 
 <% content_for :title, "Reorder links" %>
 
-<%= render 'shared/error_summary', object: @list %>
+<%= render "shared/error_summary", object: @list %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -18,7 +18,7 @@
               id: list_item.id,
               title: list_item.title,
             }
-          end
+          end,
         } %>
         <%= render "govuk_publishing_components/components/button", {
           text: "Update order",

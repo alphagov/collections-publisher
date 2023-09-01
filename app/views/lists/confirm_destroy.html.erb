@@ -1,5 +1,5 @@
 <%= content_for :back_link, render("govuk_publishing_components/components/back_link", {
-  href: polymorphic_path(@tag)
+  href: polymorphic_path(@tag),
 }) %>
 
 <%= content_for :context, @tag.title_including_parent %>

@@ -2,18 +2,18 @@
   <%= render "govuk_publishing_components/components/input", {
     label: {
       text: "Title or URL",
-      bold: true
+      bold: true,
     },
     name: "title_or_url",
     value: params[:title_or_url],
-    id: "title_or_url"
+    id: "title_or_url",
   } %>
 
   <div class="govuk-form-group">
     <%= render "govuk_publishing_components/components/label", {
       text: "Status",
       html_for: "status",
-      bold: true
+      bold: true,
     } %>
     <%
       statuses = StepByStepPage::STATUSES.map do |status|
@@ -32,19 +32,18 @@
       name: "status",
       label: "",
       full_width: true,
-      options: statuses
+      options: statuses,
     } %>
   </div>
 
   <%= render "govuk_publishing_components/components/button", {
     text: "Filter",
-    margin_bottom: true
+    margin_bottom: true,
   } %>
 
   <p class="govuk-body">
     <%= link_to "Clear all filters",
       step_by_step_pages_path,
-      class: "govuk-link govuk-link--no-visited-state"
-    %>
+      class: "govuk-link govuk-link--no-visited-state" %>
   </p>
 <% end %>

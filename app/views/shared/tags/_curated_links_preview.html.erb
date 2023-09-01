@@ -4,15 +4,15 @@
       items: [
         {
           link: {
-            text: list.name
+            text: list.name,
           },
           metadata: {
             edit_list: tag.a("Edit list", href: tag_list_path(tag_object, list), class: "govuk-link govuk-body"),
             rename_list: tag.a("Rename list", href: edit_tag_list_path(tag_object, list), class: "govuk-link govuk-body"),
             delete_list: tag.a("Delete list", href: confirm_destroy_tag_list_path(tag_object, list), class: "govuk-link govuk-body"),
-          }
+          },
         },
-      ]
+      ],
     } %>
   <% end %>
 </div>
@@ -25,5 +25,5 @@
 
 <%= render "govuk_publishing_components/components/list", {
   extra_spacing: true,
-  items: tag_object.uncurated_tagged_documents.map { |item| link_to item.title, content_tagger_url + '/taggings/' + item.content_id, class: 'govuk-link' }
+  items: tag_object.uncurated_tagged_documents.map { |item| link_to item.title, content_tagger_url + "/taggings/" + item.content_id, class: "govuk-link" },
 } %>

@@ -1,17 +1,17 @@
 <%
   links = [
     {
-      text: 'Step by steps',
-      href: step_by_step_pages_path
+      text: "Step by steps",
+      href: step_by_step_pages_path,
     },
     {
-      text: 'Create a new step by step'
-    }
+      text: "Create a new step by step",
+    },
   ]
 %>
 
-<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
-<% content_for :title, 'Create a new step by step' %>
-<% content_for :context, 'Step by step' %>
+<% content_for :breadcrumbs, render("shared/steps/step_breadcrumb", links: links) %>
+<% content_for :title, "Create a new step by step" %>
+<% content_for :context, "Step by step" %>
 
-<%= render 'form', step_by_step_page: @step_by_step_page %>
+<%= render "form", step_by_step_page: @step_by_step_page %>

@@ -1,21 +1,21 @@
-<%= render 'shared/breadcrumbs', {
+<%= render "shared/breadcrumbs", {
   links: [
     {
-      text: 'Mainstream browse pages',
-      href: mainstream_browse_pages_url
+      text: "Mainstream browse pages",
+      href: mainstream_browse_pages_url,
     },
     {
-      text: 'New',
-    }
-  ]
+      text: "New",
+    },
+  ],
 } %>
 
 <% content_for :title, "New mainstream browse page" %>
 
-<%= render 'shared/error_summary', object: @browse_page %>
+<%= render "shared/error_summary", object: @browse_page %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render 'create_update_form', update: false %>
+    <%= render "create_update_form", update: false %>
   </div>
 </div>

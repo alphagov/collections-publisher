@@ -2,11 +2,11 @@
   links = [
     {
       text: t("coronavirus.pages.show.link_text"),
-      href: coronavirus_pages_path
+      href: coronavirus_pages_path,
     },
     {
-      text: @page.name
-    }
+      text: @page.name,
+    },
   ]
 
   metadata = {
@@ -15,7 +15,7 @@
   }
 %>
 
-<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :breadcrumbs, render("shared/steps/step_breadcrumb", links: links) %>
 <% content_for :title, t("coronavirus.shared.title") %>
 <% content_for :context, t("coronavirus.pages.show.context") %>
 
@@ -28,7 +28,7 @@
     <%= render "coronavirus/pages/show/actions" %>
     <div class="app-side">
       <%= render "govuk_publishing_components/components/metadata", {
-        other: metadata
+        other: metadata,
       } %>
     </div>
   </div>

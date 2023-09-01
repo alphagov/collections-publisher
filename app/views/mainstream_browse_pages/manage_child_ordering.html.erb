@@ -1,22 +1,22 @@
-<%= render 'shared/breadcrumbs', {
+<%= render "shared/breadcrumbs", {
   links: [
     {
-      text: 'Mainstream browse pages',
-      href: mainstream_browse_pages_url
+      text: "Mainstream browse pages",
+      href: mainstream_browse_pages_url,
     },
     {
       text: @browse_page[:title],
-      href: mainstream_browse_page_url(@browse_page)
+      href: mainstream_browse_page_url(@browse_page),
     },
     {
-      text: 'Manage subtopic ordering',
-    }
-  ]
+      text: "Manage subtopic ordering",
+    },
+  ],
 } %>
 
 <% content_for :title, govuk_tag_heading(tag: @browse_page, append: "Manage subtopic ordering") %>
 
-<%= render 'shared/error_summary', object: @browse_page %>
+<%= render "shared/error_summary", object: @browse_page %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -26,7 +26,7 @@
           id: "mainstream_browse_page_child_ordering",
           name: "mainstream_browse_page[child_ordering]",
           label: "Subtopic ordering",
-          options: Tag::ORDERING_TYPES.map { |type| { text: type.capitalize, value: type, selected: @browse_page.child_ordering == type } }
+          options: Tag::ORDERING_TYPES.map { |type| { text: type.capitalize, value: type, selected: @browse_page.child_ordering == type } },
         } %>
       </div>
 
@@ -36,12 +36,12 @@
             id: child.id,
             title: child.title,
           }
-        end
+        end,
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
         text: "Save",
-        margin_bottom: true
+        margin_bottom: true,
       } %>
     <% end %>
   </div>

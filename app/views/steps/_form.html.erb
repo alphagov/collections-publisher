@@ -3,16 +3,16 @@
 <%= render "govuk_publishing_components/components/contextual_guidance", {
   html_for: "step-title",
   title: t("step_by_step_pages.step.title.label"),
-  content: t("guidance.new_step.step_title")
+  content: t("guidance.new_step.step_title"),
 } do %>
   <%= render "govuk_publishing_components/components/input", {
     label: {
       text: t("step_by_step_pages.step.title.label"),
-      bold: true
+      bold: true,
     },
     id: "step-title",
     name: "step[title]",
-    value: step.title
+    value: step.title,
   } %>
 <% end %>
 
@@ -28,23 +28,23 @@
           text: t("step_by_step_pages.step.step_label.number.label"),
           hint_text: t("guidance.new_step.step_label.number"),
           bold: true,
-          checked: !step.logic.present? || step.logic == "number"
+          checked: step.logic.blank? || step.logic == "number",
         },
         {
           value: "and",
           text: t("step_by_step_pages.step.step_label.and.label"),
           hint_text: t("guidance.new_step.step_label.and"),
           bold: true,
-          checked: step.logic == "and"
+          checked: step.logic == "and",
         },
         {
           value: "or",
           text: t("step_by_step_pages.step.step_label.or.label"),
           hint_text: t("guidance.new_step.step_label.or"),
           bold: true,
-          checked: step.logic == "or"
-        }
-      ]
+          checked: step.logic == "or",
+        },
+      ],
     } %>
   </div>
 </div>
@@ -53,7 +53,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <%= render "govuk_publishing_components/components/details", {
-        title: t("step_by_step_pages.step.view_broken_links")
+        title: t("step_by_step_pages.step.view_broken_links"),
       } do %>
           <% step.broken_links.each.with_index do |link, index| %>
             <dl class="govuk-summary-list">
@@ -62,8 +62,8 @@
                   URL
                 </dt>
                 <dd class="govuk-summary-list__value">
-                  <a href="<%= link['uri'] %>" target="_blank" class="govuk-link">
-                    <%= link['uri'] %>
+                  <a href="<%= link["uri"] %>" target="_blank" class="govuk-link">
+                    <%= link["uri"] %>
                   </a>
                 </dd>
               </div>
@@ -72,7 +72,7 @@
                   Last checked
                 </dt>
                 <dd class="govuk-summary-list__value">
-                  <%= link['checked'].to_datetime.to_formatted_s(:rfc822) %>
+                  <%= link["checked"].to_time.to_formatted_s(:rfc822) %>
                 </dd>
               </div>
               <% if link['errors'] && link['errors'].count > 0 %>
@@ -81,8 +81,8 @@
                     Errors
                   </dt>
                   <dd class="govuk-summary-list__value">
-                    <% link['errors'].each do |error| %>
-                      <%= error %> <br/>
+                    <% link["errors"].each do |error| %>
+                      <%= error %> <br>
                     <% end %>
                   </dd>
                 </div>
@@ -91,8 +91,8 @@
                 <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key">Warnings</dt>
                   <dd class="govuk-summary-list__value">
-                    <% link['warnings'].each do |warning| %>
-                      <%= warning %> <br/>
+                    <% link["warnings"].each do |warning| %>
+                      <%= warning %> <br>
                     <% end %>
                   </dd>
                 </div>
@@ -106,26 +106,26 @@
 
 <%= render "govuk_publishing_components/components/contextual_guidance", {
   html_for: "step-content",
-  content: render_markdown(t("guidance.new_step.content_tasks_links_markdown"))
+  content: render_markdown(t("guidance.new_step.content_tasks_links_markdown")),
 } do %>
   <%= render "components/markdown_editor", {
     label: {
       text: t("step_by_step_pages.step.content_tasks_links.label"),
-      bold: true
+      bold: true,
     },
     textarea: {
       name: "step[contents]",
       id: "step-content",
       rows: 20,
-      value: step.contents
+      value: step.contents,
     },
-    controls: [:bullets]
+    controls: [:bullets],
   } %>
 <% end %>
 
 <%= render "govuk_publishing_components/components/button", {
   text: "Save step",
-  margin_bottom: true
+  margin_bottom: true,
 } %>
 
-<%= tag.p (link_to 'Return to overview', @step_by_step_page, class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>
+<%= tag.p (link_to "Return to overview", @step_by_step_page, class: "govuk-link govuk-link--no-visited-state"), class: "govuk-body" %>

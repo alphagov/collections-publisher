@@ -1,12 +1,12 @@
-<%= render 'shared/breadcrumbs', {
+<%= render "shared/breadcrumbs", {
   links: [
     {
       text: @tag.is_a?(MainstreamBrowsePage) ? "Mainstream browse pages" : "Topics",
-      href: @tag.is_a?(MainstreamBrowsePage) ? mainstream_browse_pages_url : topics_url
+      href: @tag.is_a?(MainstreamBrowsePage) ? mainstream_browse_pages_url : topics_url,
     },
     *([
       text: @tag.parent[:title],
-      href: polymorphic_path(@tag.parent)
+      href: polymorphic_path(@tag.parent),
     ] if @tag.parent.present? ),
     {
       text: @tag[:title],
@@ -14,14 +14,13 @@
     },
     {
       text: "List",
-    }
-  ].compact
+    },
+  ].compact,
 } %>
 
 <%= content_for :context, "List" %>
 
 <% content_for :title, @list.name %>
-
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -30,24 +29,22 @@
         <%= render "govuk_publishing_components/components/heading", {
             text: "Links",
             font_size: "m",
-            margin_bottom: 4
+            margin_bottom: 4,
           } %>
       </div>
 
       <div class="govuk-grid-column-one-half app-grid-column--align-right">
         <ul class="govuk-summary-list__actions-list gem-c-summary-list__group-actions-list">
           <li class="govuk-summary-list__actions-list-item">
-            <%= link_to 'Add links to list',
+            <%= link_to "Add links to list",
               edit_list_items_tag_list_path(@tag, @list),
-              class: %w(govuk-link govuk-link--no-visited-state govuk-body)
-            %>
+              class: %w(govuk-link govuk-link--no-visited-state govuk-body) %>
           </li>
           <% if @list.list_items.count > 1 %>
             <li class="govuk-summary-list__actions-list-item">
-              <%= link_to 'Reorder links',
+              <%= link_to "Reorder links",
                 manage_list_item_ordering_tag_list_path(@tag, @list),
-                class: %w(govuk-link govuk-link--no-visited-state govuk-body)
-              %>
+                class: %w(govuk-link govuk-link--no-visited-state govuk-body) %>
             </li>
           <% end %>
         </ul>
@@ -74,11 +71,11 @@
             {
               link: {
                 text: list_item.title,
-                path: content_tagger_url + '/taggings/' + (@tag.tagged_document_for_base_path(list_item.base_path)&.content_id || "lookup"),
+                path: content_tagger_url + "/taggings/" + (@tag.tagged_document_for_base_path(list_item.base_path)&.content_id || "lookup"),
               },
-              metadata: metadata
+              metadata: metadata,
             },
-          ]
+          ],
         } %>
       <% end %>
     </div>

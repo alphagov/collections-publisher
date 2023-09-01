@@ -3,23 +3,21 @@
     <%= render "govuk_publishing_components/components/heading", {
         text: "Lists",
         font_size: "m",
-        margin_bottom: 4
+        margin_bottom: 4,
       } %>
   </div>
   <div class="govuk-grid-column-one-third app-grid-column--align-right">
     <ul class="govuk-summary-list__actions-list gem-c-summary-list__group-actions-list">
       <li class="govuk-summary-list__actions-list-item">
-        <%= link_to 'Add list',
+        <%= link_to "Add list",
           new_tag_list_path(tag),
-          class: %w(govuk-link govuk-link--no-visited-state govuk-body)
-        %>
+          class: %w(govuk-link govuk-link--no-visited-state govuk-body) %>
       </li>
       <% if tag.lists.count > 1 %>
         <li class="govuk-summary-list__actions-list-item">
-          <%= link_to 'Reorder list',
+          <%= link_to "Reorder list",
             tag_manage_list_ordering_path(tag),
-            class: %w(govuk-link govuk-link--no-visited-state govuk-body)
-          %>
+            class: %w(govuk-link govuk-link--no-visited-state govuk-body) %>
         </li>
       <% end %>
     </ul>
@@ -29,7 +27,7 @@
 <% if tag.tagged_documents.empty? %>
   <p class="govuk-body">There are no documents tagged to this item.</p>
 <% elsif tag.display_curated_links? %>
-  <%= render 'shared/tags/curated_links_preview', tag_object: tag %>
+  <%= render "shared/tags/curated_links_preview", tag_object: tag %>
 <% else %>
-  <%= render 'shared/tags/uncurated_links_preview', tag: tag %>
+  <%= render "shared/tags/uncurated_links_preview", tag: tag %>
 <% end %>

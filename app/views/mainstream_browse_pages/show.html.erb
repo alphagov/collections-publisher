@@ -1,17 +1,17 @@
-<%= render 'shared/breadcrumbs', {
+<%= render "shared/breadcrumbs", {
   links: [
     {
-      text: 'Mainstream browse pages',
-      href: mainstream_browse_pages_url
+      text: "Mainstream browse pages",
+      href: mainstream_browse_pages_url,
     },
     *([
       text: @browse_page.parent[:title],
-      href: mainstream_browse_page_url(@browse_page.parent)
+      href: mainstream_browse_page_url(@browse_page.parent),
     ] if @browse_page.parent.present? ),
     {
-      text: @browse_page[:title]
-    }
-  ]
+      text: @browse_page[:title],
+    },
+  ],
 } %>
 
 <% content_for :title, govuk_heading_with_parent(@browse_page) %>
@@ -25,29 +25,29 @@
         items: [
           {
             field: "URL",
-            value: link_to(@browse_page.base_path, Plek.website_root + @browse_page.base_path, target: "_blank", class: "govuk-link")
+            value: link_to(@browse_page.base_path, Plek.website_root + @browse_page.base_path, target: "_blank", class: "govuk-link", rel: "noopener"),
           },
           *([
             field: "Parent",
-            value: link_to(@browse_page.parent[:title], mainstream_browse_page_url(@browse_page.parent), class: "govuk-link")
+            value: link_to(@browse_page.parent[:title], mainstream_browse_page_url(@browse_page.parent), class: "govuk-link"),
           ] if @browse_page.parent.present? ),
           {
             field: "Description",
-            value: @browse_page[:description].present? ? @browse_page[:description] : "Empty"
+            value: (@browse_page[:description].presence || "Empty"),
           },
           {
             field: "Status",
-            value: govuk_status(@browse_page)
+            value: govuk_status(@browse_page),
           },
           *([
             field: "Subtopic ordering",
-            value: @browse_page.child_ordering.capitalize
-          ] if @browse_page.level_one? )
+            value: @browse_page.child_ordering.capitalize,
+          ] if @browse_page.level_one? ),
         ],
         edit: {
           href: edit_mainstream_browse_page_path(@browse_page),
-          link_text: "Edit page"
-        }
+          link_text: "Edit page",
+        },
       } %>
     </section>
 
@@ -65,7 +65,7 @@
 
     <% if @browse_page.level_two? %>
       <section class="govuk-!-margin-bottom-3">
-        <%= render 'shared/list-links-preview', tag: @browse_page %>
+        <%= render "shared/list-links-preview", tag: @browse_page %>
       </section>
     <% end %>
   </div>
@@ -94,23 +94,20 @@
             <div class="govuk-!-margin-bottom-1">
               <%= link_to "Manage subtopic ordering",
                 manage_child_ordering_mainstream_browse_page_path(@browse_page),
-                class: %w(govuk-link govuk-link--no-visited-state)
-              %>
+                class: %w(govuk-link govuk-link--no-visited-state) %>
             </div>
           <% end %>
           <div class="govuk-!-margin-bottom-1">
             <% if @browse_page.can_be_archived? %>
-              <%= link_to 'Archive mainstream browse page',
+              <%= link_to "Archive mainstream browse page",
                 propose_archive_mainstream_browse_page_path(@browse_page),
-                class: %w(govuk-link govuk-link--no-visited-state)
-              %>
+                class: %w(govuk-link govuk-link--no-visited-state) %>
             <% end %>
             <% if @browse_page.can_be_removed? %>
-              <%= link_to 'Delete page', archive_mainstream_browse_page_path(@browse_page),
-                method: 'post',
-                data: { confirm: 'Are you sure?' },
-                class: %w(govuk-link app-link--destructive)
-              %>
+              <%= link_to "Delete page", archive_mainstream_browse_page_path(@browse_page),
+                method: "post",
+                data: { confirm: "Are you sure?" },
+                class: %w(govuk-link app-link--destructive) %>
             <% end %>
           </div>
         </div>

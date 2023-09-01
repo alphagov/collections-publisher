@@ -1,18 +1,18 @@
-<%= render 'shared/breadcrumbs', {
+<%= render "shared/breadcrumbs", {
   links: [
     {
-      text: 'Specialist topic pages',
-      href: topics_url
+      text: "Specialist topic pages",
+      href: topics_url,
     },
     {
-      text: 'New',
-    }
-  ]
+      text: "New",
+    },
+  ],
 } %>
 
 <% content_for :title, "New specialist topic page" %>
 
-<%= render 'shared/error_summary', object: @topic %>
+<%= render "shared/error_summary", object: @topic %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

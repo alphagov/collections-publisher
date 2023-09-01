@@ -1,29 +1,29 @@
-<%= render 'shared/breadcrumbs', {
+<%= render "shared/breadcrumbs", {
   links: [
     {
-      text: 'Mainstream browse pages',
-      href: mainstream_browse_pages_url
+      text: "Mainstream browse pages",
+      href: mainstream_browse_pages_url,
     },
     *([
       text: @browse_page.parent[:title],
-      href: mainstream_browse_page_url(@browse_page.parent)
+      href: mainstream_browse_page_url(@browse_page.parent),
     ] if @browse_page.parent.present? ),
     {
       text: @browse_page[:title],
-      href: mainstream_browse_page_url(@browse_page)
+      href: mainstream_browse_page_url(@browse_page),
     },
     {
-      text: 'Edit',
-    }
-  ]
+      text: "Edit",
+    },
+  ],
 } %>
 
-<% content_for :title, govuk_tag_heading(tag: @browse_page, prepend: 'Edit') %>
+<% content_for :title, govuk_tag_heading(tag: @browse_page, prepend: "Edit") %>
 
-<%= render 'shared/error_summary', object: @browse_page %>
+<%= render "shared/error_summary", object: @browse_page %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render 'create_update_form', update: true %>
+    <%= render "create_update_form", update: true %>
   </div>
 </div>
