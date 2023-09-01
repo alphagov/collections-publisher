@@ -72,7 +72,7 @@
                   Last checked
                 </dt>
                 <dd class="govuk-summary-list__value">
-                  <%= link["checked"].to_datetime.to_formatted_s(:rfc822) %>
+                  <%= link["checked"].to_time.to_formatted_s(:rfc822) %>
                 </dd>
               </div>
               <% if link['errors'] && link['errors'].count > 0 %>
