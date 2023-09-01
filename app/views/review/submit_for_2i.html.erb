@@ -1,42 +1,42 @@
 <%
   links = [
     {
-      text: 'Step by steps',
-      href: step_by_step_pages_path
+      text: "Step by steps",
+      href: step_by_step_pages_path,
     },
     {
       text: @step_by_step_page.title,
-      href: step_by_step_page_path(@step_by_step_page)
+      href: step_by_step_page_path(@step_by_step_page),
     },
     {
-      text: 'Submit for 2i'
-    }
+      text: "Submit for 2i",
+    },
   ]
 %>
 
-<% content_for :breadcrumbs, render('shared/steps/step_breadcrumb', links: links) %>
+<% content_for :breadcrumbs, render("shared/steps/step_breadcrumb", links: links) %>
 <% content_for :title, @step_by_step_page.title %>
-<% content_for :context, 'Submit for 2i' %>
+<% content_for :context, "Submit for 2i" %>
 
 <%= form_tag do %>
   <%= render "govuk_publishing_components/components/contextual_guidance", {
     html_for: "additional-comments",
     title: t("step_by_step_pages.submit_for_2i.title"),
-    content: t("step_by_step_pages.submit_for_2i.guidance")
+    content: t("step_by_step_pages.submit_for_2i.guidance"),
   } do %>
     <%= render "govuk_publishing_components/components/textarea", {
       label: {
         text: t("step_by_step_pages.submit_for_2i.label"),
-        bold: true
+        bold: true,
       },
       id: "additional-comments",
-      name: "additional_comments"
+      name: "additional_comments",
     } %>
   <% end %>
 
   <%= render "govuk_publishing_components/components/button", {
     text: "Submit for 2i",
-    margin_bottom: true
+    margin_bottom: true,
   } %>
   <%= tag.p link_to("Cancel", @step_by_step_page, class: "govuk-link"), class: "govuk-body" %>
 <% end %>
