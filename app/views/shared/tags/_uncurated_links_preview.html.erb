@@ -4,5 +4,5 @@
 
 <%= render "govuk_publishing_components/components/list", {
   extra_spacing: true,
-  items: tag.tagged_documents.map { |link|  link_to link.title, content_tagger_url + '/taggings/' + link.content_id, class: 'govuk-link' }
+  items: tag.tagged_documents.map { |link|  link_to link.title, content_tagger_url + "/taggings/" + link.content_id, class: "govuk-link" },
 } %>

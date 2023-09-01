@@ -10,12 +10,12 @@
     visible_counters: true,
     items: list.list_items_with_tagging_status.map do |list_item|
       if list_item.tagged?
-        link_to(list_item.display_title || tag.em("Unknown title (#{list_item.base_path}", class: 'govuk-body-s'),
-         content_tagger_url + '/taggings/' + list_item.content_id, class: 'govuk-link')
+        link_to(list_item.display_title || tag.em("Unknown title (#{list_item.base_path}", class: "govuk-body-s"),
+         content_tagger_url + "/taggings/" + list_item.content_id, class: "govuk-link")
       else
-        list_item.display_title || tag.em("Unknown title (#{list_item.base_path})", class: 'govuk-body-s')
+        list_item.display_title || tag.em("Unknown title (#{list_item.base_path})", class: "govuk-body-s")
       end
-    end
+    end,
   } %>
 <% end %>
 
@@ -23,5 +23,5 @@
 
 <%= render "govuk_publishing_components/components/list", {
   visible_counters: true,
-  items: tag_object.uncurated_tagged_documents.map { |item| link_to item.title, content_tagger_url + '/taggings/lookup' + item.content_id, class: 'govuk-link' }
+  items: tag_object.uncurated_tagged_documents.map { |item| link_to item.title, content_tagger_url + "/taggings/lookup" + item.content_id, class: "govuk-link" },
 } %>
