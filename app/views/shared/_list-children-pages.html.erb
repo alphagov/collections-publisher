@@ -22,21 +22,21 @@
               {
                 link: {
                   text: child_page.title,
-                  path: child_page
+                  path: child_page,
                 },
                 metadata: {
-                  preview_link: link_to(child_page.base_path, Plek.website_root + child_page.base_path, target: "_blank", class: "govuk-link")
+                  preview_link: link_to(child_page.base_path, Plek.website_root + child_page.base_path, target: "_blank", class: "govuk-link", rel: "noopener"),
                 },
                 edit:  {
                   href: edit_polymorphic_path(page),
-                  link_text: "Edit page"
-                }
-              }
-            ]
+                  link_text: "Edit page",
+                },
+              },
+            ],
           } %>
 
           <%= table.cell govuk_status(child_page) %>
-          <%= table.cell link_to('Edit', edit_polymorphic_path(child_page), class: "govuk-link") if gds_editor? && page.has_active_children?%>
+          <%= table.cell link_to("Edit", edit_polymorphic_path(child_page), class: "govuk-link") if gds_editor? && page.has_active_children? %>
         <% end %>
       <% end %>
     <% end %>

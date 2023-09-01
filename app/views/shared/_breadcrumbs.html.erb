@@ -4,9 +4,9 @@
       breadcrumbs: links.map do |link|
         {
           :title => link[:text],
-          :url => ( url_for(link[:href]) if link[:href].present? )
+          :url => ( url_for(link[:href]) if link[:href].present? ),
         }
-      end
+      end,
     } %>
   <% end %>
 <% end %>

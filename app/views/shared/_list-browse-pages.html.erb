@@ -15,13 +15,13 @@
             {
               link: {
                 text: page.title,
-                path: page
+                path: page,
               },
               metadata: {
-                preview_link: link_to(page.base_path, Plek.website_root + page.base_path, target: "_blank", class: "govuk-link")
-              }
-            }
-          ]
+                preview_link: link_to(page.base_path, Plek.website_root + page.base_path, target: "_blank", class: "govuk-link", rel: "noopener"),
+              },
+            },
+          ],
         } %>
         <%= table.cell govuk_status(page) %>
         <%= table.cell render "shared/children-list", { page: page } %>
