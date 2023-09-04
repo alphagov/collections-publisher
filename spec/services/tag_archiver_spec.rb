@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe TagArchiver do
   describe "#archive" do
     let(:email_alert_api) { instance_double(GdsApi::EmailAlertApi) }
-    let(:email_alert_updater) { class_double(EmailAlertsUpdater) }
+    let(:email_alert_updater) { class_double(EmailAlertApi::SubscriberListUpdater) }
     let(:content_item_data) do
       {
         "base_path" => "/successor_base_path",

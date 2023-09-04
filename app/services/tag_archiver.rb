@@ -3,7 +3,7 @@
 class TagArchiver
   attr_reader :tag, :successor, :email_alert_updater
 
-  def initialize(tag, successor, email_alert_updater = EmailAlertsUpdater)
+  def initialize(tag, successor, email_alert_updater = EmailAlertApi::SubscriberListUpdater)
     @tag = tag
     @successor = successor
     @email_alert_updater = email_alert_updater

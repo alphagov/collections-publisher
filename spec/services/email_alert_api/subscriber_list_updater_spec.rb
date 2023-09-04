@@ -1,7 +1,7 @@
 require "rails_helper"
 require "gds_api/test_helpers/email_alert_api"
 
-RSpec.describe EmailAlertsUpdater do
+RSpec.describe EmailAlertApi::SubscriberListUpdater do
   include GdsApi::TestHelpers::EmailAlertApi
 
   let(:topic) { create(:topic, title: "Child benefit", slug: "child-benefit") }
