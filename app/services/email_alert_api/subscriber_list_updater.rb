@@ -44,14 +44,15 @@ module EmailAlertApi
     end
 
     def subscriber_list_slug_for_specialist_topic
-      params = specialist_topic_subscriber_list_params(item)
-      subscriber_list = Services.email_alert_api.find_subscriber_list(params)
-      subscriber_list.dig("subscriber_list", "slug")
+      EmailAlertApi::SubscriberListFetcher.new(
+        specialist_topic_subscriber_list_params(item),
+      ).find_slug
     end
 
     def subscriber_list_slug_for_document_collection
-      params = document_collection_subscriber_list_params(successor)
-      Services.email_alert_api.find_or_create_subscriber_list(params).dig("subscriber_list", "slug")
+      EmailAlertApi::SubscriberListFetcher.new(
+        document_collection_subscriber_list_params(successor),
+      ).find_or_create_slug
     end
 
     def unsubscribe_email_body
