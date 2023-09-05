@@ -34,13 +34,13 @@ $dark-grey-2: #6f777b;
 .nav.step-by-step-tabs {
   margin-bottom: 2em;
 
-  @media screen and (min-width: 1001px) and (max-width: 1500px) {
+  @media screen and (min-width: 1001px) and (max-width: 1500px) { // stylelint-disable-line max-nesting-depth, media-feature-range-notation
     .step-by-step-tab-link {
       min-height: 65px;
     }
   }
 
-  @media screen and (min-width: 769px) and (max-width: 1000px) {
+  @media screen and (min-width: 769px) and (max-width: 1000px) { // stylelint-disable-line max-nesting-depth, media-feature-range-notation
     .step-by-step-tab-link {
       min-height: 85px;
     }
