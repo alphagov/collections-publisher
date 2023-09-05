@@ -14,17 +14,23 @@ module EmailAlertApi
     end
 
     def handle
-      if subscribers_can_be_migrated_to_successor_list?
-        bulk_migrate
+      if subscribers_can_be_migrated_to_mapped_taxonomy_topic_list?
+        bulk_migrate(subscriber_list_slug_for_taxonomy_topic_email_override)
+      elsif subscribers_can_be_migrated_to_successor_list?
+        bulk_migrate(subscriber_list_slug_for_document_collection)
       else
         bulk_unsubscribe
       end
     end
 
-    def bulk_migrate
-      from_slug = subscriber_list_slug_for_specialist_topic
-      to_slug = subscriber_list_slug_for_document_collection
-      Services.email_alert_api.bulk_migrate(from_slug:, to_slug:)
+  private
+
+    def bulk_migrate(destination_list_slug)
+      Services.email_alert_api
+      .bulk_migrate(
+        from_slug: subscriber_list_slug_for_specialist_topic,
+        to_slug: destination_list_slug,
+      )
     end
 
     def bulk_unsubscribe
@@ -37,10 +43,12 @@ module EmailAlertApi
       Services.email_alert_api.bulk_unsubscribe(**args)
     end
 
-  private
-
     def subscribers_can_be_migrated_to_successor_list?
       successor.mapped_specialist_topic_content_id == item.content_id
+    end
+
+    def subscribers_can_be_migrated_to_mapped_taxonomy_topic_list?
+      successor.taxonomy_topic_email_override.present?
     end
 
     def subscriber_list_slug_for_specialist_topic
@@ -52,6 +60,12 @@ module EmailAlertApi
     def subscriber_list_slug_for_document_collection
       EmailAlertApi::SubscriberListFetcher.new(
         document_collection_subscriber_list_params(successor),
+      ).find_or_create_slug
+    end
+
+    def subscriber_list_slug_for_taxonomy_topic_email_override
+      EmailAlertApi::SubscriberListFetcher.new(
+        taxonomy_topic_subscriber_list_params(successor.taxonomy_topic_email_override),
       ).find_or_create_slug
     end
 

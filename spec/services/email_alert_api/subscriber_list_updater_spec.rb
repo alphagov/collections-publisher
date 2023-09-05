@@ -40,16 +40,18 @@ RSpec.describe EmailAlertApi::SubscriberListUpdater do
           .to_return(status: 200)
       end
 
-      it "mapped_specialist_topic_content_id is nil" do
+      it "mapped_specialist_topic_content_id and taxonomy_topic_email_override are both nil" do
         allow(successor).to receive(:mapped_specialist_topic_content_id).and_return(nil)
+        allow(successor).to receive(:taxonomy_topic_email_override).and_return(nil)
 
         described_class.call(item: topic, successor:)
         expect(bulk_unsubscribe_stub).to have_been_requested
         expect(Services.email_alert_api).to receive(:bulk_migrate).never
       end
 
-      it "mapped_specialist_topic_content_id is present but does not match specialist topic content id" do
+      it "mapped_specialist_topic_content_id is present but does not match the specialist topic's content id" do
         allow(successor).to receive(:mapped_specialist_topic_content_id).and_return("i-do-not-match")
+        allow(successor).to receive(:taxonomy_topic_email_override).and_return(nil)
 
         described_class.call(item: topic, successor:)
         expect(bulk_unsubscribe_stub).to have_been_requested
@@ -90,6 +92,63 @@ RSpec.describe EmailAlertApi::SubscriberListUpdater do
           described_class.call(item: topic, successor:)
 
           expect(bulk_migrate_stub).to have_been_requested
+        end
+      end
+
+      context "moving subscribers to a taxonomy topic subscriber list" do
+        let(:taxonomy_topic_content_id) { "b20215a9-25fb-4fa6-80a3-42e23f5352c2" }
+        let(:taxonomy_topic_base_path) { "/money/dealing-with-hmrc" }
+        let(:links_data_for_taxonomy_topic) do
+          [
+            {
+              "content_id" => taxonomy_topic_content_id,
+              "base_path" => taxonomy_topic_base_path,
+              "document_type" => "taxon",
+              "title" => "Dealing with HMRC",
+            },
+          ]
+        end
+
+        before do
+          stub_email_alert_api_creates_subscriber_list(
+            "links" => { "taxon_tree" => [taxonomy_topic_content_id] },
+            "title" => "Dealing with HMRC",
+            "url" => taxonomy_topic_base_path,
+            "slug" => "taxonomy_topic_slug",
+          )
+        end
+
+        it "successor has a taxonomy topic email override only" do
+          data = base_content_item_data
+          base_content_item_data["links"] = { "taxonomy_topic_email_override" => links_data_for_taxonomy_topic }
+          successor = ContentItem.new(data)
+
+          bulk_migrate_to_taxonomy_topic_stub = stub_request(:post, bulk_migrate_link)
+                                .with(body: { to_slug: "taxonomy_topic_slug", from_slug: "tax-credits-and-child-benefit-child-benefit" })
+                                .to_return(status: 200)
+
+          expect(Services.email_alert_api).to receive(:bulk_unsubscribe).never
+
+          described_class.call(item: topic, successor:)
+
+          expect(bulk_migrate_to_taxonomy_topic_stub).to have_been_requested
+        end
+
+        it "successor has a mapped specialist topic content id that matches the specialist topic's content id and also a taxonomy topic email override" do
+          data = base_content_item_data
+          data["details"] = { "mapped_specialist_topic_content_id" => topic.content_id }
+          data["links"] = { "taxonomy_topic_email_override" => links_data_for_taxonomy_topic }
+          successor = ContentItem.new(data)
+
+          bulk_migrate_to_taxonomy_topic_stub = stub_request(:post, bulk_migrate_link)
+                                .with(body: { to_slug: "taxonomy_topic_slug", from_slug: "tax-credits-and-child-benefit-child-benefit" })
+                                .to_return(status: 200)
+
+          expect(Services.email_alert_api).to receive(:bulk_unsubscribe).never
+
+          described_class.call(item: topic, successor:)
+
+          expect(bulk_migrate_to_taxonomy_topic_stub).to have_been_requested
         end
       end
     end
