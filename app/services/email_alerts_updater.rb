@@ -13,7 +13,7 @@ class EmailAlertsUpdater
   end
 
   def handle
-    if successor.is_a?(ContentItem) && subscribers_can_be_migrated_to_successor_list?
+    if subscribers_can_be_migrated_to_successor_list?
       bulk_migrate
     else
       bulk_unsubscribe
