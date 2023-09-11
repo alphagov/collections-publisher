@@ -25,9 +25,9 @@ module EmailAlertApi
 
     def taxonomy_topic_subscriber_list_params(content_item)
       {
-        "title" => content_item["title"],
-        "url" => content_item["base_path"],
-        "links" => { "taxon_tree" => [content_item["content_id"]] },
+        "title" => content_item.title,
+        "url" => content_item.base_path,
+        "links" => { "taxon_tree" => [content_item.content_id] },
       }
     end
   end

@@ -1,8 +1,10 @@
 require "rails_helper"
 require "gds_api/test_helpers/email_alert_api"
+require "gds_api/test_helpers/content_store"
 
 RSpec.describe EmailAlertApi::SubscriberListUpdater do
   include GdsApi::TestHelpers::EmailAlertApi
+  include GdsApi::TestHelpers::ContentStore
 
   let(:topic) { create(:topic, title: "Child benefit", slug: "child-benefit") }
 
@@ -123,6 +125,7 @@ RSpec.describe EmailAlertApi::SubscriberListUpdater do
           base_content_item_data["links"] = { "taxonomy_topic_email_override" => links_data_for_taxonomy_topic }
           successor = ContentItem.new(data)
 
+          stub_content_store_has_item(taxonomy_topic_base_path)
           bulk_migrate_to_taxonomy_topic_stub = stub_request(:post, bulk_migrate_link)
                                 .with(body: { to_slug: "taxonomy_topic_slug", from_slug: "tax-credits-and-child-benefit-child-benefit" })
                                 .to_return(status: 200)
@@ -140,6 +143,7 @@ RSpec.describe EmailAlertApi::SubscriberListUpdater do
           data["links"] = { "taxonomy_topic_email_override" => links_data_for_taxonomy_topic }
           successor = ContentItem.new(data)
 
+          stub_content_store_has_item(taxonomy_topic_base_path)
           bulk_migrate_to_taxonomy_topic_stub = stub_request(:post, bulk_migrate_link)
                                 .with(body: { to_slug: "taxonomy_topic_slug", from_slug: "tax-credits-and-child-benefit-child-benefit" })
                                 .to_return(status: 200)
@@ -149,6 +153,18 @@ RSpec.describe EmailAlertApi::SubscriberListUpdater do
           described_class.call(item: topic, successor:)
 
           expect(bulk_migrate_to_taxonomy_topic_stub).to have_been_requested
+        end
+
+        it "successor has a taxonomy topic email override that is not in the content store" do
+          data = base_content_item_data
+          base_content_item_data["links"] = { "taxonomy_topic_email_override" => links_data_for_taxonomy_topic }
+          successor = ContentItem.new(data)
+
+          stub_content_store_does_not_have_item(taxonomy_topic_base_path)
+
+          expect{ described_class.call(item: topic, successor:) }.to raise_error(GdsApi::ContentStore::ItemNotFound)
+          expect(Services.email_alert_api).to receive(:bulk_unsubscribe).never
+          expect(Services.email_alert_api).to receive(:bulk_migrate).never
         end
       end
     end
