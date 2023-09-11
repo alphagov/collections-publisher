@@ -63,9 +63,14 @@ module EmailAlertApi
       ).find_or_create_slug
     end
 
+    def taxonomy_topic_content_item
+      links_data = successor.taxonomy_topic_email_override
+      ContentItem.find!(links_data["base_path"])
+    end
+
     def subscriber_list_slug_for_taxonomy_topic_email_override
       EmailAlertApi::SubscriberListFetcher.new(
-        taxonomy_topic_subscriber_list_params(successor.taxonomy_topic_email_override),
+        taxonomy_topic_subscriber_list_params(taxonomy_topic_content_item),
       ).find_or_create_slug
     end
 
