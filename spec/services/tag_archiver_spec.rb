@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe TagArchiver do
   describe "#archive" do
     let(:email_alert_api) { instance_double(GdsApi::EmailAlertApi) }
-    let(:email_alert_updater) { class_double(EmailAlertsUpdater) }
+    let(:email_alert_updater) { class_double(EmailAlertApi::SubscriberListUpdater) }
     let(:content_item_data) do
       {
         "base_path" => "/successor_base_path",
@@ -90,7 +90,7 @@ RSpec.describe TagArchiver do
         tag = create(:mainstream_browse_page, :published, parent: create(:mainstream_browse_page))
         any_successor = create(:mainstream_browse_page)
 
-        expect(email_alert_updater).to receive(:call).with(item: tag, successor: any_successor).never
+        expect(email_alert_updater).to receive(:call).with(item: tag, content_item: any_successor).never
         TagArchiver.new(tag, any_successor).archive
       end
     end
@@ -151,7 +151,7 @@ RSpec.describe TagArchiver do
 
       it "calls the email alert updater when archiving level 2 specialist topics" do
         tag = create(:topic, :published, parent: create(:topic))
-        expect(email_alert_updater).to receive(:call).with(item: tag, successor: content_item_successor)
+        expect(email_alert_updater).to receive(:call).with(item: tag, content_item: content_item_successor)
 
         TagArchiver.new(tag, content_item_successor, email_alert_updater).archive
       end
@@ -160,7 +160,7 @@ RSpec.describe TagArchiver do
         tag = create(:topic, :published, children: [create(:topic, :archived)])
         any_successor = create(:mainstream_browse_page)
 
-        expect(email_alert_updater).to receive(:call).with(item: tag, successor: any_successor).never
+        expect(email_alert_updater).to receive(:call).with(item: tag, content_item: any_successor).never
         TagArchiver.new(tag, any_successor).archive
       end
     end
