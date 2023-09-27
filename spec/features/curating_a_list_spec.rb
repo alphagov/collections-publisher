@@ -90,7 +90,7 @@ RSpec.feature "Curating a list" do
 
   def and_the_link_items_should_link_to_the_live_page
     expect(all(".gem-c-document-list__item-title")[0].text).to eq @list.list_items.first.title
-    expect(all(".gem-c-document-list__item-title")[0][:href]).to eq "#{Plek.external_url_for('content-tagger')}/taggings/29941ec1-4a41-4bfd-86a9-5c866bbd4c7a"
+    expect(all(".gem-c-document-list__item-title")[0].find_link[:href]).to eq "#{Plek.external_url_for('content-tagger')}/taggings/29941ec1-4a41-4bfd-86a9-5c866bbd4c7a"
   end
 
   def when_i_click_add_links_to_list
