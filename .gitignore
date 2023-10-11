@@ -15,3 +15,5 @@ coverage
 # vim swap files and tags
 *.sw[a-z]
 /tags
+/app/assets/builds/*
+!/app/assets/builds/.keep
