@@ -1,8 +1,9 @@
 class Coronavirus::PagePresenter
-  attr_reader :details, :title, :path
+  attr_reader :details, :title, :path, :description
 
   def initialize(corona_content, path)
     @title = corona_content.delete("title")
+    @description = corona_content.delete("description")
     @details = corona_content
     @path = path
   end
@@ -11,6 +12,7 @@ class Coronavirus::PagePresenter
     {
       "base_path" => path,
       "title" => title,
+      "description" => description,
       "document_type" => "coronavirus_landing_page",
       "schema_name" => "coronavirus_landing_page",
       "details" => details,
