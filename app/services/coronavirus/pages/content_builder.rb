@@ -10,6 +10,7 @@ module Coronavirus::Pages
       @data ||= begin
         data = {}
         data["title"] = "Coronavirus (COVID-19): guidance and support"
+        data["description"] = "Find information on COVID-19, including guidance and support."
         data["header_section"] = header_data
         data["sections"] = sub_sections_data
 
