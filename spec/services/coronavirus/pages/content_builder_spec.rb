@@ -30,6 +30,7 @@ RSpec.describe Coronavirus::Pages::ContentBuilder do
     it "returns model data" do
       data = {}
       data["title"] = "Coronavirus (COVID-19): guidance and support"
+      data["description"] = "Find information on COVID-19, including guidance and support."
       data["header_section"] = header_json
       data["sections"] = [sub_section_json]
       data["hidden_search_terms"] = hidden_search_terms

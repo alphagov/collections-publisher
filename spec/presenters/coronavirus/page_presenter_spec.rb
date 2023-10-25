@@ -7,12 +7,14 @@ RSpec.describe Coronavirus::PagePresenter do
   let(:base_path) { page.base_path }
   let(:data) { Coronavirus::Pages::ContentBuilder.new(page).data }
   let!(:title) { data["title"] }
-  let(:details) { data.except("title") }
+  let!(:description) { data["description"] }
+  let(:details) { data.except("title", "description") }
 
   let(:payload) do
     {
       "base_path" => base_path,
       "title" => title,
+      "description" => description,
       "document_type" => "coronavirus_landing_page",
       "schema_name" => "coronavirus_landing_page",
       "details" => details,
