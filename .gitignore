@@ -11,3 +11,7 @@ coverage
 
 # Ignore compiled assets
 /public/assets
+
+# vim swap files and tags
+*.sw[a-z]
+/tags
