@@ -1,0 +1,5 @@
+development:
+test:
+  /topic/current/path: /government/successor/path
+production:
+  /topic/personal-tax/foreign-entertainer-rules: /government/collections/foreign-entertainers-forms

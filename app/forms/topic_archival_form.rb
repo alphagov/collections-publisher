@@ -14,6 +14,9 @@ class TopicArchivalForm
     end
 
     true
+  rescue EmailAlertApi::SubscriberListUpdater::SuccessorDestinationError => e
+    errors.add :base, e.message
+    false
   rescue GdsApi::HTTPClientError
     errors.add :base, "The tag could not be deleted because of an error."
     false

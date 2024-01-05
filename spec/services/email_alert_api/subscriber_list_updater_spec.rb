@@ -8,8 +8,19 @@ RSpec.describe EmailAlertApi::SubscriberListUpdater do
 
   let(:topic) { create(:topic, title: "Child benefit", slug: "child-benefit") }
 
-  let(:content_item) { instance_double(ContentItem) }
+  let(:content_item) do
+    instance_double(
+      ContentItem,
+      base_path:,
+      title: "Content Item Title",
+      content_id:,
+      description: "Content Item Description",
+      document_type:,
+    )
+  end
   let(:base_path) { "/base-path" }
+  let(:content_id) { SecureRandom.uuid }
+  let(:document_type) { "document_collection" }
 
   let(:email_alert_api_endpoint) { GdsApi::TestHelpers::EmailAlertApi::EMAIL_ALERT_API_ENDPOINT }
   let(:bulk_unsubscribe_link) { "#{email_alert_api_endpoint}/subscriber-lists/tax-credits-and-child-benefit-child-benefit/bulk-unsubscribe" }
@@ -24,8 +35,6 @@ RSpec.describe EmailAlertApi::SubscriberListUpdater do
 
   describe ".call" do
     before do
-      allow(content_item).to receive(:base_path).and_return(base_path)
-      allow(SecureRandom).to receive(:uuid).and_return("some-uuid")
       email_alert_api_has_subscriber_list_for_topic(
         content_id: topic.content_id,
         list: {
@@ -36,6 +45,10 @@ RSpec.describe EmailAlertApi::SubscriberListUpdater do
     end
 
     context "bulk unsubscribing specialist topic email subscribers" do
+      before do
+        allow(SecureRandom).to receive(:uuid).and_return("some-uuid")
+      end
+
       let!(:bulk_unsubscribe_stub) do
         stub_request(:post, bulk_unsubscribe_link)
           .with(body: { body: expected_unsubscribe_email_message, sender_message_id: "some-uuid" })
@@ -69,6 +82,67 @@ RSpec.describe EmailAlertApi::SubscriberListUpdater do
           "details" => {},
           "links" => {},
         }
+      end
+
+      it "has a list of exceptional bulk migrations" do
+        expect(described_class::EXCEPTIONAL_BULK_MIGRATIONS).to eq({
+          "/topic/current/path": "/government/successor/path",
+        })
+      end
+
+      context "when the source specialist topic matches a special exception" do
+        let(:topic) do
+          parent = create(:topic, slug: "current")
+          create(:topic, parent:, slug: "path")
+        end
+        let(:document_type) { "document_collection" }
+
+        before do
+          stub_email_alert_api_creates_subscriber_list(
+            "links" => { "document_collections" => [content_id] },
+            "content_id" => content_id,
+            "slug" => "document_collection_slug",
+          )
+        end
+
+        context "when the content item base path does not match the destination path in the special exception" do
+          let(:base_path) { "/some/other/path" }
+
+          it "raises SuccessorDestinationError" do
+            expect { described_class.call(item: topic, content_item:) }
+              .to raise_error(described_class::SuccessorDestinationError)
+          end
+        end
+
+        context "when the content item base path matches the destination path in the special exception" do
+          let(:base_path) { "/government/successor/path" }
+
+          context "when the destination type matches the content item document type" do
+            it "migrates to the specified successor topic" do
+              expect(Services.email_alert_api).not_to receive(:bulk_unsubscribe)
+
+              bulk_migrate_stub = stub_request(:post, bulk_migrate_link)
+                .with(
+                  body: {
+                    to_slug: "document_collection_slug",
+                    from_slug: "tax-credits-and-child-benefit-child-benefit",
+                  },
+                )
+                .to_return(status: 200)
+              described_class.call(item: topic, content_item:)
+              expect(bulk_migrate_stub).to have_been_requested
+            end
+          end
+
+          context "when the destination item does not match the content item document type" do
+            let(:document_type) { "topic" }
+
+            it "raises SuccessorDestinationError" do
+              expect { described_class.call(item: topic, content_item:) }
+                .to raise_error(described_class::SuccessorDestinationError)
+            end
+          end
+        end
       end
 
       context "moving subscribers to a document collection subscriber list" do

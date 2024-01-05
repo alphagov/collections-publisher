@@ -2,6 +2,13 @@ module EmailAlertApi
   class SubscriberListUpdater
     include ParamsFormatter
 
+    EXCEPTIONAL_BULK_MIGRATIONS = Rails
+      .application
+      .config_for("exceptional_bulk_migrations")
+      .freeze
+
+    class SuccessorDestinationError < StandardError; end
+
     def self.call(...)
       new(...).handle
     end
@@ -14,7 +21,10 @@ module EmailAlertApi
     end
 
     def handle
-      if subscribers_can_be_migrated_to_mapped_taxonomy_topic_list?
+      if document_collection_override_destination.present?
+        check_for_some_destination_errors(document_collection_override_destination)
+        bulk_migrate(subscriber_list_slug_for_document_collection)
+      elsif subscribers_can_be_migrated_to_mapped_taxonomy_topic_list?
         bulk_migrate(subscriber_list_slug_for_taxonomy_topic_email_override)
       elsif subscribers_can_be_migrated_to_document_collection_list?
         bulk_migrate(subscriber_list_slug_for_document_collection)
@@ -43,12 +53,37 @@ module EmailAlertApi
       Services.email_alert_api.bulk_unsubscribe(**args)
     end
 
+    def document_collection_override_destination
+      @document_collection_override_destination ||=
+        EXCEPTIONAL_BULK_MIGRATIONS[item.base_path.to_sym]
+    end
+
     def subscribers_can_be_migrated_to_document_collection_list?
       content_item.mapped_specialist_topic_content_id == item.content_id
     end
 
     def subscribers_can_be_migrated_to_mapped_taxonomy_topic_list?
       content_item.taxonomy_topic_email_override.present?
+    end
+
+    def check_for_some_destination_errors(destination_path)
+      unless content_item.base_path == destination_path
+        raise SuccessorDestinationError,
+              I18n.t(
+                "subscriber_list_updater.errors.wrong_destination_path",
+                is: content_item.base_path,
+                should_be: destination_path,
+              )
+      end
+
+      unless content_item.document_type == "document_collection"
+        raise SuccessorDestinationError,
+              I18n.t(
+                "subscriber_list_updater.errors.wrong_destination_type",
+                is: content_item.document_type,
+                should_be: "document_collection",
+              )
+      end
     end
 
     def subscriber_list_slug_for_specialist_topic

@@ -232,3 +232,13 @@ en:
       sidebar_settings: Choose to hide the sidebar on certain pages.
       secondary_links: Choose additional pages to show the step by step sidebar.
       tags: Tag the step by step to the GOV.UK taxonomy and mainstream browse pages.
+  subscriber_list_updater:
+    errors:
+      wrong_destination_path: >-
+        Wrong destination path,
+        is: "%{is}",
+        should be: "%{should_be}"
+      wrong_destination_type: >-
+        Wrong destination type,
+        is: "%{is}",
+        should be: "%{should_be}"
