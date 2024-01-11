@@ -11,7 +11,7 @@ gem "mysql2"
 gem "sass-rails"
 gem "sentry-sidekiq"
 gem "sprockets-rails"
-gem "uglifier"
+gem "terser"
 
 # GDS managed dependencies
 gem "gds-api-adapters"
