@@ -39,3 +39,7 @@ auto_merge:
     allowed_semver_bumps:
       - patch
       - minor
+  - dependency: stylelint-config-gds
+    allowed_semver_bumps:
+      - patch
+      - minor
