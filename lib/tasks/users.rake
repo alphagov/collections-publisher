@@ -2,7 +2,7 @@ namespace :users do
   desc 'Delete "Edit Taxonomy" permissions from users'
   task remove_edit_taxonomy_permission: :environment do
     User.transaction do
-      User.all.each do |user|
+      User.all.find_each do |user|
         permission = "Edit Taxonomy"
         Rails.logger.info "Removing '#{permission}' permission from #{user.email}"
         result = PermissionRemover.run(permission:, user:)

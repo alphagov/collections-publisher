@@ -49,7 +49,7 @@ namespace :publishing_api do
 
   desc "Patch links for Mainstream Browse Pages"
   task patch_links_for_mainstream_browse_pages: :environment do
-    MainstreamBrowsePage.all.each do |page|
+    MainstreamBrowsePage.all.find_each do |page|
       Services.publishing_api.patch_links(
         page.content_id,
         MainstreamBrowsePagePresenter.new(page).render_links_for_publishing_api,
@@ -68,7 +68,7 @@ namespace :publishing_api do
 
   desc "Patch links for Topics"
   task patch_links_for_topics: :environment do
-    Topic.all.each do |page|
+    Topic.all.find_each do |page|
       Services.publishing_api.patch_links(
         page.content_id,
         TopicPresenter.new(page).render_links_for_publishing_api,
