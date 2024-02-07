@@ -53,7 +53,7 @@ RSpec.describe ApplicationHelper do
   describe "#render_markdown" do
     it "converts markdown to html" do
       text = "This is some **bold** text with a [link](/a-page)"
-      expected_html = "\n<div class=\"gem-c-govspeak govuk-govspeak \" data-module=\"govspeak\">\n    <p>This is some <strong>bold</strong> text with a <a href=\"/a-page\">link</a></p>\n\n</div>\n"
+      expected_html = "\n<div class=\"gem-c-govspeak govuk-govspeak \" data-module=\"govspeak ga4-link-tracker\" data-ga4-track-links-only=\"\" data-ga4-limit-to-element-class=\"call-to-action, info-notice, help-notice, advisory\" data-ga4-link=\"{&quot;event_name&quot;:&quot;navigation&quot;,&quot;type&quot;:&quot;callout&quot;}\">\n    <p>This is some <strong>bold</strong> text with a <a href=\"/a-page\">link</a></p>\n\n</div>"
 
       expect(render_markdown(text)).to eq(expected_html)
     end
