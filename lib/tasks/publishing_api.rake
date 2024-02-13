@@ -116,27 +116,4 @@ namespace :publishing_api do
       puts "Task complete"
     end
   end
-
-  desc "Redirect the root topic page"
-  task redirect_root_topic_page: :environment do
-    root_topic_page_content_id = "76e9abe7-dac8-49f0-bb5e-53e4b0d2cdba"
-    Services.publishing_api.put_content(
-      root_topic_page_content_id,
-      {
-        base_path: "/topic",
-        document_type: "redirect",
-        schema_name: "redirect",
-        publishing_app: "collections-publisher",
-        redirects: [
-          {
-            path: "/topic",
-            destination: "/browse",
-            type: "exact",
-          },
-        ],
-        update_type: "minor",
-      },
-    )
-    Services.publishing_api.publish(root_topic_page_content_id)
-  end
 end
