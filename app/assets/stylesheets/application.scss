@@ -1,6 +1,8 @@
 // This file is used as the root SCSS file for the govuk_publishing_components/design
 // system aspects of Collections Publisher
 
+$govuk-new-typography-scale: true;
+
 @import "govuk_publishing_components/all_components";
 @import "./components/all";
 @import "./objects/broken-link-status";
