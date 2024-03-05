@@ -52,7 +52,7 @@
       items: @topics_for_select.map { |topic| { label: topic[:title], value: topic[:id], checked: @browse_page.topics.map(&:id).include?(topic[:id])  } },
     } %>
   <% end %>
-
+  
   <%= render "govuk_publishing_components/components/button", {
     text: update ? "Save" : "Create",
     margin_bottom: true,

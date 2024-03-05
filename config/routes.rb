@@ -65,14 +65,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :topics, path: "specialist-sector-pages", except: :destroy do
-    member do
-      post :publish
-      get :propose_archive
-      post :archive
-    end
-  end
-
   resources :tags, only: [] do
     get :manage_list_ordering
     patch :update_list_ordering

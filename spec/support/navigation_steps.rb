@@ -11,18 +11,6 @@ module NavigationSteps
     visit new_mainstream_browse_page_path
   end
 
-  def when_i_visit_the_topics_index
-    visit topics_path
-  end
-
-  def and_i_visit_the_topics_index
-    when_i_visit_the_topics_index
-  end
-
-  def when_i_visit_the_new_topic_form
-    visit new_topic_path
-  end
-
   def when_i_visit_the_step_by_step_pages_index
     visit step_by_step_pages_path
   end

@@ -32,8 +32,4 @@ class Topic < Tag
   def can_have_email_subscriptions?
     level_two?
   end
-
-  def subscriber_list_search_attributes
-    { "links" => { topics: [content_id] } }
-  end
 end

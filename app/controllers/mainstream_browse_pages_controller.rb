@@ -13,7 +13,6 @@ class MainstreamBrowsePagesController < ApplicationController
 
   def edit
     @browse_page = find_browse_page
-    @topics_for_select = topics_for_select
   end
 
   def update
@@ -24,7 +23,6 @@ class MainstreamBrowsePagesController < ApplicationController
       redirect_to browse_page
     else
       @browse_page = browse_page
-      @topics_for_select = topics_for_select
       render :edit
     end
   end
@@ -95,25 +93,12 @@ class MainstreamBrowsePagesController < ApplicationController
 
 private
 
-  def topics_for_select
-    Topic.includes(:parent).sort_by(&:title_including_parent)
-  end
-
   def find_browse_page
     @find_browse_page ||= MainstreamBrowsePage.find_by!(content_id: params[:id])
   end
 
   def browse_page_params
-    # Convert the String ids to Topic objects so that
-    # `update_attributes` correctly updates and associates
-    # them with the given `MainstreamBrowsePage` object.
-    if params.require(:mainstream_browse_page).key? :topics
-      topic_ids = params.require(:mainstream_browse_page)[:topics]
-      topics = topic_ids.reject(&:blank?).map { |t| Topic.find(t) }
-      tag_params.merge("topics" => topics)
-    else
-      tag_params
-    end
+    tag_params
   end
 
   def mainstream_browse_page_archival_form_params

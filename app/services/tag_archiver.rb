@@ -1,12 +1,11 @@
 # TagArchiver removes a tag from the site. It sets up a redirect for the page
 # to its successor.
 class TagArchiver
-  attr_reader :tag, :successor, :email_alert_updater
+  attr_reader :tag, :successor
 
-  def initialize(tag, successor, email_alert_updater = EmailAlertApi::SubscriberListUpdater)
+  def initialize(tag, successor)
     @tag = tag
     @successor = successor
-    @email_alert_updater = email_alert_updater
   end
 
   def archive
@@ -16,7 +15,6 @@ class TagArchiver
       update_tag
       setup_redirects
       republish_tag
-      update_email_alerts
     end
   end
 
@@ -57,11 +55,5 @@ private
   def republish_tag
     presenter = TagPresenter.presenter_for(tag)
     ContentItemPublisher.new(presenter).send_to_publishing_api
-  end
-
-  def update_email_alerts
-    return unless tag.can_have_email_subscriptions?
-
-    email_alert_updater.call(item: tag, content_item: successor)
   end
 end

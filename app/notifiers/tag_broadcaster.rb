@@ -1,5 +1,5 @@
 class TagBroadcaster
-  def self.broadcast(topic_or_browse_page)
-    PublishingAPINotifier.notify(topic_or_browse_page)
+  def self.broadcast(browse_page)
+    PublishingAPINotifier.notify(browse_page)
   end
 end

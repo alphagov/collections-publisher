@@ -14,14 +14,6 @@ class ContentItem
     define_method(field.to_sym) { data[field] }
   end
 
-  def mapped_specialist_topic_content_id
-    data.dig("details", "mapped_specialist_topic_content_id")
-  end
-
-  def taxonomy_topic_email_override
-    data.dig("links", "taxonomy_topic_email_override", 0)
-  end
-
   def subroutes
     []
   end
