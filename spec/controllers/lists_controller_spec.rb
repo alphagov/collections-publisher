@@ -28,21 +28,6 @@ RSpec.describe ListsController do
         expect(response.status).to eq(403)
       end
     end
-
-    context "Tag is a topic and user does not have `GDS Editor permissions`" do
-      let(:tag) { create(:topic) }
-
-      it "assign the correct instance vaiables and renders the show template" do
-        stub_user.update!(permissions: %w[signin])
-
-        get :show, params: { tag_id: tag.content_id, id: list.id }
-
-        expect(assigns(:tag).id).to eq tag.id
-        expect(assigns(:list).id).to eq list.id
-        expect(response.status).to eq(200)
-        expect(response).to render_template :show
-      end
-    end
   end
 
   describe "GET edit_list_items" do
@@ -68,21 +53,6 @@ RSpec.describe ListsController do
         get :edit_list_items, params: { tag_id: tag.content_id, id: list.id }
 
         expect(response.status).to eq(403)
-      end
-    end
-
-    context "Tag is a topic and user does not have `GDS Editor permissions`" do
-      let(:tag) { create(:topic) }
-
-      it "assign the correct instance vaiables and renders the edit_list_items template" do
-        stub_user.update!(permissions: %w[signin])
-
-        get :edit_list_items, params: { tag_id: tag.content_id, id: list.id }
-
-        expect(assigns(:tag).id).to eq tag.id
-        expect(assigns(:list).id).to eq list.id
-        expect(response.status).to eq(200)
-        expect(response).to render_template :edit_list_items
       end
     end
   end
@@ -171,46 +141,6 @@ RSpec.describe ListsController do
         expect(response).to render_template :edit_list_items
       end
     end
-
-    context "Tag is a topic and user does not have `GDS Editor permissions`" do
-      let(:tag) { create(:topic, :published) }
-
-      it "creates a new list item and makes the correct calls to the Publishing API" do
-        stub_user.update!(permissions: %w[signin])
-
-        patch :update_list_items, params: { tag_id: tag.content_id, id: list.id, list: { list_items: ["/new-list"] } }
-
-        new_list_item = list.reload.list_items.last
-
-        expect(list.list_items.count).to eq 3
-        expect(new_list_item.title).to eq "New list"
-        expect(new_list_item.base_path).to eq "/new-list"
-        expect(new_list_item.index).to eq 3
-        expect(response.status).to eq(302)
-        expect(response).to redirect_to(tag_list_path(tag, list))
-        expect(flash.notice).to eq "1 link successfully added to the list"
-        assert_publishing_api_put_content(
-          tag.content_id,
-          request_json_includes(
-            "details" => {
-              "groups" => [
-                {
-                  "name" => list.name,
-                  "content_ids" => [
-                    list_item1.content_id,
-                    list_item2.content_id,
-                    "789",
-                  ],
-                },
-              ],
-              "internal_name" => tag.title,
-            },
-          ),
-        )
-        assert_publishing_api_publish(tag.content_id)
-        assert_publishing_api_patch_links(tag.content_id)
-      end
-    end
   end
 
   describe "GET manage_list_item_ordering" do
@@ -236,21 +166,6 @@ RSpec.describe ListsController do
         get :manage_list_item_ordering, params: { tag_id: tag.content_id, id: list.id }
 
         expect(response.status).to eq(403)
-      end
-    end
-
-    context "Tag is a topic and user does not have `GDS Editor permissions`" do
-      let(:tag) { create(:topic) }
-
-      it "assign the correct instance vaiables and renders the manage_list_item_ordering template" do
-        stub_user.update!(permissions: %w[signin])
-
-        get :manage_list_item_ordering, params: { tag_id: tag.content_id, id: list.id }
-
-        expect(assigns(:tag).id).to eq tag.id
-        expect(assigns(:list).id).to eq list.id
-        expect(response.status).to eq(200)
-        expect(response).to render_template :manage_list_item_ordering
       end
     end
   end
@@ -322,45 +237,6 @@ RSpec.describe ListsController do
         }
 
         expect(response.status).to eq(403)
-      end
-    end
-
-    context "Tag is a topic and user does not have `GDS Editor permissions`" do
-      let(:tag) { create(:topic, :published) }
-
-      it "updates the list link ordering and makes the correct calls to the Publishing API" do
-        stub_user.update!(permissions: %w[signin])
-
-        patch :update_list_item_ordering, params: {
-          tag_id: tag.content_id,
-          id: list.id,
-          ordering: { list_item2.id => "1", list_item1.id => "2" },
-        }
-
-        expect(list_item2.reload.index).to eq 1
-        expect(list_item1.reload.index).to eq 2
-        expect(response.status).to eq(302)
-        expect(response).to redirect_to(tag_list_path(tag, list))
-        expect(flash.notice).to eq "List links reordered successfully"
-        assert_publishing_api_put_content(
-          tag.content_id,
-          request_json_includes(
-            "details" => {
-              "groups" => [
-                {
-                  "name" => list.name,
-                  "content_ids" => [
-                    list_item2.content_id,
-                    list_item1.content_id,
-                  ],
-                },
-              ],
-              "internal_name" => tag.title,
-            },
-          ),
-        )
-        assert_publishing_api_publish(tag.content_id)
-        assert_publishing_api_patch_links(tag.content_id)
       end
     end
   end

@@ -87,22 +87,6 @@ RSpec.describe ListItemsController, type: :controller do
         expect(response.status).to eq(403)
       end
     end
-
-    context "Tag is a topic and user does not have `GDS Editor permissions`" do
-      let(:tag) { create(:topic) }
-
-      it "assigns the correct instance vaiables and renders the confirm_destroy template" do
-        stub_user.update!(permissions: %w[signin])
-
-        get :confirm_destroy, params: { tag_id: tag.content_id, list_id: list.id, id: list_item.id }
-
-        expect(assigns(:tag).id).to eq tag.id
-        expect(assigns(:list).id).to eq list.id
-        expect(assigns(:list_item).id).to eq list_item.id
-        expect(response.status).to eq(200)
-        expect(response).to render_template :confirm_destroy
-      end
-    end
   end
 
   describe "GET move" do
@@ -130,22 +114,6 @@ RSpec.describe ListItemsController, type: :controller do
         get :move, params: { tag_id: tag.content_id, list_id: list.id, id: list_item.id }
 
         expect(response.status).to eq(403)
-      end
-    end
-
-    context "Tag is a topic and user does not have `GDS Editor permissions`" do
-      let(:tag) { create(:topic) }
-
-      it "assign the correct instance vaiables and renders the move template" do
-        stub_user.update!(permissions: ["signin", "Redesigned lists"])
-
-        get :move, params: { tag_id: tag.content_id, list_id: list.id, id: list_item.id }
-
-        expect(assigns(:tag).id).to eq tag.id
-        expect(assigns(:list).id).to eq list.id
-        expect(assigns(:list_item).id).to eq list_item.id
-        expect(response.status).to eq(200)
-        expect(response).to render_template :move
       end
     end
   end
@@ -242,52 +210,6 @@ RSpec.describe ListItemsController, type: :controller do
         expect(assigns(:list_item).errors.first.message).to eq "Choose a list"
         expect(response.status).to eq(200)
         expect(response).to render_template :move
-      end
-    end
-
-    context "Tag is a topic and user does not have `GDS Editor permissions`" do
-      let(:tag) { create(:topic, :published) }
-
-      it "updates the list item to belong to list_id passed in and makes the correct calls to the Publishing API" do
-        stub_user.update!(permissions: %w[signin])
-
-        patch :update_move, params: {
-          tag_id: tag.content_id,
-          list_id: list1.id,
-          id: list_item1.id,
-          list_item: { new_list_id: list2.id },
-        }
-
-        expect(list1.reload.list_items.count).to eq 1
-        expect(list2.reload.list_items.count).to eq 1
-        expect(list2.list_items.first.index).to eq 1
-        expect(response.status).to eq(302)
-        expect(response).to redirect_to(tag_list_path(tag, list1))
-        expect(flash.notice).to eq "#{list_item1.title} moved to #{list2.name} successfully"
-        assert_publishing_api_put_content(
-          tag.content_id,
-          request_json_includes(
-            "details" => {
-              "groups" => [
-                {
-                  "name" => list1.name,
-                  "content_ids" => [
-                    list_item2.content_id,
-                  ],
-                },
-                {
-                  "name" => list2.name,
-                  "content_ids" => [
-                    list_item1.content_id,
-                  ],
-                },
-              ],
-              "internal_name" => tag.title,
-            },
-          ),
-        )
-        assert_publishing_api_publish(tag.content_id)
-        assert_publishing_api_patch_links(tag.content_id)
       end
     end
   end
