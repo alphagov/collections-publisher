@@ -19,3 +19,6 @@
 //= require @webcomponents/custom-elements/custom-elements.min.js
 
 //= require components/markdown-editor.js
+
+window.GOVUK.approveAllCookieTypes()
+window.GOVUK.cookie('cookies_preferences_set', 'true', { days: 365 })
