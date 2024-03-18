@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_20_143600) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_18_080818) do
   create_table "coronavirus_pages", charset: "utf8mb3", force: :cascade do |t|
     t.string "sections_title"
     t.string "base_path"
@@ -159,15 +159,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_20_143600) do
     t.index ["step_by_step_page_id"], name: "index_steps_on_step_by_step_page_id"
   end
 
-  create_table "tag_associations", id: :integer, charset: "utf8mb3", force: :cascade do |t|
-    t.integer "from_tag_id", null: false
-    t.integer "to_tag_id", null: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["from_tag_id", "to_tag_id"], name: "index_tag_associations_on_from_tag_id_and_to_tag_id", unique: true
-    t.index ["to_tag_id"], name: "index_tag_associations_on_to_tag_id"
-  end
-
   create_table "tags", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "type"
     t.string "slug", null: false
@@ -210,7 +201,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_20_143600) do
   add_foreign_key "step_by_step_pages", "users", column: "review_requester_id", primary_key: "uid"
   add_foreign_key "step_by_step_pages", "users", column: "reviewer_id", primary_key: "uid"
   add_foreign_key "steps", "step_by_step_pages"
-  add_foreign_key "tag_associations", "tags", column: "from_tag_id", name: "tag_associations_from_tag_id_fk", on_delete: :cascade
-  add_foreign_key "tag_associations", "tags", column: "to_tag_id", name: "tag_associations_to_tag_id_fk", on_delete: :cascade
   add_foreign_key "tags", "tags", column: "parent_id", name: "tags_parent_id_fk"
 end
