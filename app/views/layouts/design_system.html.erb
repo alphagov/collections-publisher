@@ -1,6 +1,13 @@
+<% content_for :head do %>
+  <meta name="govuk:components_gem_version" content="<%= GovukPublishingComponents::VERSION %>" />
+  <%= javascript_include_tag "domain-config" %>
+  <%= javascript_include_tag "govuk_publishing_components/load-analytics" %>
+<% end %>
+
 <%= render "govuk_publishing_components/components/layout_for_admin",
   product_name: "Collections Publisher",
   environment: GovukPublishingComponents::AppHelpers::Environment.current_acceptance_environment,
+  head: yield(:head),
   browser_title: yield(:page_title).presence || yield(:title) do %>
 
   <%= render "govuk_publishing_components/components/skip_link" %>
