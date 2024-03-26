@@ -10,13 +10,6 @@ class TagPresenter
       when "archived"
         ArchivedTagPresenter.new(tag)
       end
-    when Topic
-      case tag.state
-      when "published", "draft"
-        TopicPresenter.new(tag)
-      when "archived"
-        ArchivedTagPresenter.new(tag)
-      end
     else
       raise ArgumentError, "Unexpected tag type #{tag.class}"
     end

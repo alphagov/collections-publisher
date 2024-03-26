@@ -5,9 +5,8 @@ RSpec.describe TagRepublisher do
 
   describe "#republish_tags" do
     before do
-      # Create a topic and a mainstream_browse_page, otherwise the publisher
+      # Create a mainstream_browse_page, otherwise the publisher
       # cannot send the root pages.
-      create(:topic, :published, slug: "first-topic")
       create(:mainstream_browse_page, :published, slug: "first-page")
 
       stub_content_store!

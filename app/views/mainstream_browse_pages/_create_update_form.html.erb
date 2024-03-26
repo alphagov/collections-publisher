@@ -43,15 +43,6 @@
     value: @browse_page.description,
     error_items: errors_for(@browse_page, :description),
   } %>
-
-  <% if @browse_page.level_two? && update %>
-    <%= render "govuk_publishing_components/components/checkboxes", {
-      name: "mainstream_browse_page[topics][]",
-      heading: "Topics",
-      small: true,
-      items: @topics_for_select.map { |topic| { label: topic[:title], value: topic[:id], checked: @browse_page.topics.map(&:id).include?(topic[:id])  } },
-    } %>
-  <% end %>
   
   <%= render "govuk_publishing_components/components/button", {
     text: update ? "Save" : "Create",

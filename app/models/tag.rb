@@ -8,10 +8,6 @@ class Tag < ApplicationRecord
   belongs_to :parent, class_name: "Tag"
   has_many :children, class_name: "Tag", foreign_key: :parent_id # called Subtopics in the frontend
 
-  has_many :tag_associations, foreign_key: :from_tag_id
-  has_many :reverse_tag_associations, foreign_key: :to_tag_id,
-                                      class_name: "TagAssociation"
-
   has_many :lists
   has_many :list_items, through: :lists
   has_many :redirect_routes

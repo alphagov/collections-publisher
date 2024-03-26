@@ -59,44 +59,6 @@ RSpec.describe MainstreamBrowsePagePresenter do
       expect(presented_data).to be_valid_against_publisher_schema("mainstream_browse_page")
     end
 
-    describe "linking to related topics" do
-      let!(:parent_browse_page) { create(:mainstream_browse_page) }
-      let(:rendered_links)      { presenter.render_links_for_publishing_api }
-
-      before :each do
-        browse_page.update!(parent: parent_browse_page)
-      end
-
-      context "without linked topics" do
-        it "returns an empty array" do
-          expect(rendered_links[:links]["related_topics"]).to eq(
-            [],
-          )
-        end
-      end
-
-      context "with some linked topics" do
-        let(:alpha) { create(:topic, title: "Alpha") }
-        let(:bravo) { create(:topic, title: "Bravo") }
-
-        before :each do
-          browse_page.topics = [bravo, alpha]
-          browse_page.save!
-        end
-
-        it "includes the content_ids of linked topics sorted by title" do
-          expect(rendered_links[:links]["related_topics"]).to eq([
-            alpha.content_id,
-            bravo.content_id,
-          ])
-        end
-
-        it "is valid against the schema" do
-          expect(presented_data).to be_valid_against_publisher_schema("mainstream_browse_page")
-        end
-      end
-    end
-
     describe "linking to primary publishing organisation" do
       let!(:parent_browse_page) { create(:mainstream_browse_page) }
       let(:rendered_links)      { presenter.render_links_for_publishing_api }

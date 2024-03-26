@@ -79,48 +79,32 @@ RSpec.describe PublishingAPINotifier do
     end
 
     it "sends /browse for top level mainstream browse pages" do
-      tag = create(:topic, :published, slug: "foo")
+      tag = create(:mainstream_browse_page, :published, slug: "foo")
 
       PublishingAPINotifier.notify(tag)
 
-      expect(stubbed_content_store).to have_content_item_slug("/topic")
+      expect(stubbed_content_store).to have_content_item_slug("/browse")
     end
 
     context "for a draft tag" do
       it "sends the presented details to the publishing-api" do
-        tag = create(:topic, :draft, slug: "foo")
+        tag = create(:mainstream_browse_page, :draft, slug: "foo")
 
         PublishingAPINotifier.notify(tag)
 
-        expect(stubbed_content_store).to have_draft_content_item_slug("/topic/foo")
-        expect(stubbed_content_store.last_updated_item).to be_valid_against_publisher_schema("topic")
+        expect(stubbed_content_store).to have_draft_content_item_slug("/browse/foo")
+        expect(stubbed_content_store.last_updated_item).to be_valid_against_publisher_schema("mainstream_browse_page")
       end
     end
 
     context "for a published tag" do
       it "sends the presented details to the publishing-api" do
-        tag = create(:topic, :published, slug: "foo")
+        tag = create(:mainstream_browse_page, :published, slug: "foo")
 
         PublishingAPINotifier.notify(tag)
 
-        expect(stubbed_content_store).to have_content_item_slug("/topic/foo")
-        expect(stubbed_content_store.last_updated_item).to be_valid_against_publisher_schema("topic")
-      end
-
-      it "sends topic redirects to the publishing-api" do
-        tag = create(:topic, :published, slug: "foo")
-
-        create(
-          :redirect_route,
-          from_base_path: "/foo",
-          to_base_path: "/topic/foo",
-          tag:,
-        )
-
-        PublishingAPINotifier.notify(tag)
-        content_item = stubbed_content_store.item_by_content_id(tag.content_id)
-        expect(content_item).to be_valid_against_publisher_schema("topic")
-        expect(content_item[:redirects]).to eq([{ path: "/foo", destination: "/topic/foo", type: "exact" }])
+        expect(stubbed_content_store).to have_content_item_slug("/browse/foo")
+        expect(stubbed_content_store.last_updated_item).to be_valid_against_publisher_schema("mainstream_browse_page")
       end
     end
   end

@@ -15,10 +15,5 @@ class DependentTagPublishWorker
       presenter = RootBrowsePagePresenter.new("state" => tag.state)
       ContentItemPublisher.new(presenter).send_to_publishing_api
     end
-
-    if tag.is_a?(Topic)
-      presenter = RootTopicPresenter.new("state" => tag.state)
-      ContentItemPublisher.new(presenter).send_to_publishing_api
-    end
   end
 end

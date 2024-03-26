@@ -6,7 +6,7 @@ This app is used by GDS and some departmental editors. It can publish:
 - [step by step pages](https://www.gov.uk/learn-to-drive-a-car) and [step by step sidebar navigation](https://www.gov.uk/driving-eyesight-rules)
 - [coronavirus pages](https://www.gov.uk/coronavirus)
 
-These pages are then served by the [collections app](https://github.com/alphagov/collections). It is also used to curate pages tagged to a topic or browse page into "curated lists", instead of a single 'A-Z' list, as the following screenshots illustrate.
+These pages are then served by the [collections app](https://github.com/alphagov/collections). It is also used to curate pages tagged to a browse page into "curated lists", instead of a single 'A-Z' list, as the following screenshots illustrate.
 
 ![Screenshot of curated page](docs/screenshot-curated-childcare-topics.png)
 ![Screenshot of A-Z auto-generated list](docs/screenshot-a-z-prisons-topic.png)
