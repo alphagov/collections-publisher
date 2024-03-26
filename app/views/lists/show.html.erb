@@ -1,8 +1,8 @@
 <%= render "shared/breadcrumbs", {
   links: [
     {
-      text: @tag.is_a?(MainstreamBrowsePage) ? "Mainstream browse pages" : "Topics",
-      href: @tag.is_a?(MainstreamBrowsePage) ? mainstream_browse_pages_url : topics_url,
+      text: "Mainstream browse pages",
+      href: mainstream_browse_pages_url,
     },
     *([
       text: @tag.parent[:title],

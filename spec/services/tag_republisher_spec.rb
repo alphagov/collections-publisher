@@ -23,10 +23,5 @@ RSpec.describe TagRepublisher do
       TagRepublisher.new.republish_tags(Tag.all)
       expect(stubbed_content_store).to have_content_item_slug("/browse")
     end
-
-    it "republishes the topic index page" do
-      TagRepublisher.new.republish_tags(Tag.all)
-      expect(stubbed_content_store).to have_content_item_slug("/topic")
-    end
   end
 end

@@ -57,12 +57,6 @@
       </section>
     <% end %>
 
-    <% if @browse_page.topics.any? %>
-      <section class="govuk-!-margin-bottom-3">
-        <%= render "list-specialist-sector-pages" %>
-      </section>
-    <% end %>
-
     <% if @browse_page.level_two? %>
       <section class="govuk-!-margin-bottom-3">
         <%= render "shared/list-links-preview", tag: @browse_page %>

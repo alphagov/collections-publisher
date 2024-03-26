@@ -24,11 +24,7 @@ private
   end
 
   def filter_name
-    if tag.is_a?(Topic)
-      :topics
-    else
-      :mainstream_browse_pages
-    end
+    :mainstream_browse_pages
   end
 
   Document = Struct.new(:title, :base_path, :content_id)

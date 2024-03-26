@@ -23,20 +23,6 @@ RSpec.describe "ContentItem" do
     end
   end
 
-  describe "#mapped_specialist_topic_content_id" do
-    let(:mapped_specialist_topic_content_id) { "e33474e6-0448-11ee-be56-0242ac120002" }
-
-    it "returns the mapped specialist topic content id" do
-      content_item_data_with_mapped_specialist_topic = content_item_data.merge(
-        { "details" => { "mapped_specialist_topic_content_id" => mapped_specialist_topic_content_id } },
-      )
-
-      content_item = ContentItem.new(content_item_data_with_mapped_specialist_topic)
-
-      expect(content_item.mapped_specialist_topic_content_id).to eq mapped_specialist_topic_content_id
-    end
-  end
-
   describe "#subroutes" do
     it "returns an empty array" do
       content_item = ContentItem.new(content_item_data)
