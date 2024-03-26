@@ -5,6 +5,8 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
 (function (Modules) {
   function Autocomplete ($module) {
     this.$module = $module
+
+    this.init()
   }
 
   Autocomplete.prototype.init = function () {
