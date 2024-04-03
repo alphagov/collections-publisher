@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_18_080818) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_03_151146) do
   create_table "coronavirus_pages", charset: "utf8mb3", force: :cascade do |t|
     t.string "sections_title"
     t.string "base_path"
