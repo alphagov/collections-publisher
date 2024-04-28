@@ -40,8 +40,7 @@ private
   end
 
   def content_item
-    base_path = params[:base_path].gsub(/^\s+|\s+$/, "")
-    base_path = URI.parse(base_path).path
+    base_path = URI.parse(params[:base_path].strip).path
     content_id = Services.publishing_api.lookup_content_id(base_path:, with_drafts: true)
 
     if content_id.nil?
