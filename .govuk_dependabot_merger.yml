@@ -1,45 +1,8 @@
-api_version: 1
-auto_merge:
-  - dependency: gds-api-adapters
-    allowed_semver_bumps:
-      - patch
-      - minor
-  - dependency: gds-sso
-    allowed_semver_bumps:
-      - patch
-      - minor
-  - dependency: govuk_app_config
-    allowed_semver_bumps:
-      - patch
-      - minor
-  - dependency: govuk_personalisation
-    allowed_semver_bumps:
-      - patch
-      - minor
+api_version: 2
+defaults:
+  auto_merge: true
+  update_external_dependencies: false # TODO: enable after verifying that this repo meets the conditions
+overrides:
   - dependency: govuk_publishing_components
     allowed_semver_bumps:
       - patch
-  - dependency: govuk_schemas
-    allowed_semver_bumps:
-      - patch
-      - minor
-  - dependency: govuk_sidekiq
-    allowed_semver_bumps:
-      - patch
-      - minor
-  - dependency: plek
-    allowed_semver_bumps:
-      - patch
-      - minor
-  - dependency: govuk_test
-    allowed_semver_bumps:
-      - patch
-      - minor
-  - dependency: rubocop-govuk
-    allowed_semver_bumps:
-      - patch
-      - minor
-  - dependency: stylelint-config-gds
-    allowed_semver_bumps:
-      - patch
-      - minor
