@@ -6,3 +6,5 @@ overrides:
   - dependency: govuk_publishing_components
     allowed_semver_bumps:
       - patch
+  - dependency: rails # should be upgraded manually, see https://docs.publishing.service.gov.uk/manual/keeping-software-current.html#rails
+    auto_merge: false
