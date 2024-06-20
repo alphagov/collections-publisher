@@ -36,7 +36,7 @@ module StatusHelper
     text, colour = return_tag_text_and_colour(tag_object)
     classes = "govuk-tag govuk-tag--#{colour} govuk-tag--small"
 
-    tag.span text, class: classes
+    tag.span text.capitalize, class: classes
   end
 
 private
