@@ -1,8 +1,32 @@
 // This file is used as the root SCSS file for the govuk_publishing_components/design
 // system aspects of Collections Publisher
 
-@import "govuk_publishing_components/all_components";
-@import "./components/all";
+@import "govuk_publishing_components/govuk_frontend_support";
+@import "./components/back-link";
+@import "./components/breadcrumbs";
+@import "./components/checkboxes";
+@import "./components/contextual-guidance";
+@import "./components/date-input";
+@import "./components/details";
+@import "./components/document-list";
+@import "./components/error-alert";
+@import "./components/error-message";
+@import "./components/govspeak";
+@import "./components/heading";
+@import "./components/hint";
+@import "./components/input";
+@import "./components/inset-text";
+@import "./components/label";
+@import "./components/layout-footer";
+@import "./components/layout-for-admin";
+@import "./components/list";
+@import "./components/metadata";
+@import "./components/reorderable-list";
+@import "./components/select";
+@import "./components/success-alert";
+@import "./components/summary-list";
+@import "./components/table";
+@import "./components/textarea";
 @import "./objects/broken-link-status";
 @import "./objects/grid";
 @import "./objects/side";

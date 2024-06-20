@@ -1,3 +1,18 @@
+GIT
+  remote: https://github.com/alphagov/govuk_publishing_components.git
+  revision: 30d6d60b7aead7d8513a0efbbea97e6b93a94484
+  branch: upgrade-to-govuk-frontend-5.1
+  specs:
+    govuk_publishing_components (39.0.0)
+      govuk_app_config
+      govuk_personalisation (>= 0.7.0)
+      kramdown
+      plek
+      rails (>= 6)
+      rouge
+      sprockets (>= 3)
+      sprockets-rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -753,7 +768,7 @@ DEPENDENCIES
   gds-sso
   generic_form_builder
   govuk_app_config
-  govuk_publishing_components
+  govuk_publishing_components!
   govuk_schemas
   govuk_sidekiq
   govuk_test
