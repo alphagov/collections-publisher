@@ -2,8 +2,15 @@
 // system aspects of Collections Publisher
 
 //= require govuk_publishing_components/dependencies
-//= require govuk_publishing_components/all_components
-//= require govuk_publishing_components/analytics
+//= require govuk_publishing_components/lib
+//= require govuk_publishing_components/components/checkboxes
+//= require govuk_publishing_components/components/contextual-guidance
+//= require govuk_publishing_components/components/details
+//= require govuk_publishing_components/components/govspeak
+//= require govuk_publishing_components/components/metadata
+//= require govuk_publishing_components/components/reorderable-list
+//= require govuk_publishing_components/components/table
+//= require govuk_publishing_components/components/tabs
 //= require components/autocomplete
 //= require analytics
 
