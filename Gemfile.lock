@@ -1,3 +1,19 @@
+GIT
+  remote: https://github.com/alphagov/govuk_publishing_components.git
+  revision: 29e8b077cdc6f69493805b67cbbec856dde008ea
+  ref: 29e8b077cdc6f69493805b67cbbec856dde008ea
+  branch: upgrade-to-govuk-frontend-5.1
+  specs:
+    govuk_publishing_components (39.0.0)
+      govuk_app_config
+      govuk_personalisation (>= 0.7.0)
+      kramdown
+      plek
+      rails (>= 6)
+      rouge
+      sprockets (>= 3)
+      sprockets-rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -197,15 +213,6 @@ GEM
     govuk_personalisation (0.16.0)
       plek (>= 1.9.0)
       rails (>= 6, < 8)
-    govuk_publishing_components (39.0.0)
-      govuk_app_config
-      govuk_personalisation (>= 0.7.0)
-      kramdown
-      plek
-      rails (>= 6)
-      rouge
-      sprockets (>= 3)
-      sprockets-rails
     govuk_schemas (5.0.4)
       faker (~> 3.4.1)
       json-schema (>= 2.8, < 4.4)
@@ -277,7 +284,7 @@ GEM
     mysql2 (0.5.6)
     net-http (0.4.1)
       uri
-    net-imap (0.4.12)
+    net-imap (0.4.14)
       date
       net-protocol
     net-pop (0.1.2)
@@ -598,7 +605,7 @@ GEM
       netrc (~> 0.8)
     rexml (3.3.1)
       strscan
-    rouge (4.2.1)
+    rouge (4.3.0)
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.1)
@@ -747,7 +754,7 @@ DEPENDENCIES
   gds-sso
   generic_form_builder
   govuk_app_config
-  govuk_publishing_components
+  govuk_publishing_components!
   govuk_schemas
   govuk_sidekiq
   govuk_test
