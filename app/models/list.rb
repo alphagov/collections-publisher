@@ -13,7 +13,7 @@ class List < ApplicationRecord
 
   def list_items_with_tagging_status
     @list_items_with_tagging_status ||= list_items.order(:index).map do |list_item|
-      list_item.tagged = tagged_base_paths.include?(list_item.base_path)
+      list_item.tagged = tagged_content_ids.include?(list_item.content_id)
       list_item
     end
   end
@@ -24,14 +24,14 @@ class List < ApplicationRecord
     .documents
     .reject do |link|
       list_items
-      .map(&:base_path)
-      .include?(link["base_path"])
+      .map(&:content_id)
+      .include?(link["content_id"])
     end
   end
 
 private
 
-  def tagged_base_paths
-    @tagged_base_paths ||= tag.tagged_documents.map(&:base_path)
+  def tagged_content_ids
+    @tagged_content_ids ||= tag.tagged_documents.map(&:content_id)
   end
 end

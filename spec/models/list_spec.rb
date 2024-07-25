@@ -29,9 +29,9 @@ RSpec.describe List do
   describe "#list_items_with_tagging_status" do
     it "returns the list items with tagged set to true if they're tagged" do
       list = create(:list, tag: create(:tag, slug: "subtag"))
-      create(:list_item, list:, base_path: "/tagged-item")
-      create(:list_item, list:, base_path: "/untagged-item")
-      publishing_api_has_linked_items(list.tag.content_id, items: [{ base_path: "/tagged-item" }])
+      create(:list_item, list:, content_id: "123")
+      create(:list_item, list:, content_id: "456")
+      publishing_api_has_linked_items(list.tag.content_id, items: [{ content_id: "123" }])
 
       list_item = list.list_items_with_tagging_status.first
 
@@ -40,7 +40,7 @@ RSpec.describe List do
 
     it "returns the list items with tagged set to false if they're not tagged" do
       list = create(:list, tag: create(:tag, slug: "subtag"))
-      create(:list_item, list:, base_path: "/untagged-item")
+      create(:list_item, list:, content_id: "456")
       publishing_api_has_no_linked_items
 
       list_item = list.list_items_with_tagging_status.first
@@ -52,7 +52,7 @@ RSpec.describe List do
   describe "#available_list_items" do
     it "returns tagged list items from the publishing api that are in the list" do
       list = create(:list)
-      create(:list_item, list:, base_path: "/item-in-list")
+      create(:list_item, list:, content_id: "123")
       publishing_api_has_linked_items(
         list.tag.content_id,
         items: [

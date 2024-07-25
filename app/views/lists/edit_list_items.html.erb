@@ -21,7 +21,7 @@
         items: @list.available_list_items.map do |list_item|
           {
             label: list_item.title,
-            value: list_item.base_path,
+            value: list_item.content_id,
           }
         end,
       } %>
