@@ -1,6 +1,6 @@
 <ul class="govuk-list govuk-list--bullet">
   <% page.sorted_children.each do |child_tag| %>
-    <li class="govuk-!-font-size-14">
+    <li class="govuk-body-s">
       <%= link_to(child_tag.title, polymorphic_path(child_tag), class: "govuk-link") %>
       <%= govuk_status(child_tag) %>
     </li>

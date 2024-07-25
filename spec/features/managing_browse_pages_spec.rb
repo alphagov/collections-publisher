@@ -111,13 +111,13 @@ RSpec.feature "Managing browse pages" do
 
   def then_i_see_that_the_page_is_in_draft
     within ".govuk-summary-list--no-border" do
-      expect(page).to have_content("draft")
+      expect(page).to have_content("Draft")
     end
   end
 
   def then_i_see_that_the_page_is_published
     within ".govuk-summary-list--no-border" do
-      expect(page).to have_content("published")
+      expect(page).to have_content("Published")
     end
   end
 
