@@ -95,10 +95,11 @@ private
   def save_list_items
     @list.errors.add(:list_items, "Select a link to add to the list") and return false if edit_list_items_params.blank?
 
-    edit_list_items_params.each do |base_path|
-      linked_item = @available_list_items.select { |item| item.base_path == base_path }.first
+    edit_list_items_params.each do |content_id|
+      linked_item = @available_list_items.select { |item| item.content_id == content_id }.first
       @list.list_items.create!(
         base_path: linked_item.base_path,
+        content_id: linked_item.content_id,
         title: linked_item.title,
         index: @list.list_items.length + 1,
       )

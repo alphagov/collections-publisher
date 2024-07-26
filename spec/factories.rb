@@ -185,6 +185,7 @@ FactoryBot.define do
   factory :list_item do
     sequence(:title) { |n| "List item #{n}" }
     sequence(:base_path) { |n| "/base-path-#{n}" }
+    content_id { SecureRandom.uuid }
     sequence(:index)
   end
 

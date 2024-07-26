@@ -125,8 +125,8 @@ RSpec.describe ListItemsController, type: :controller do
     let!(:list_item2) { create(:list_item, list: list1, index: 2) }
     let(:tagged_documents) do
       [
-        TaggedDocuments::Document.new(list_item1.title, list_item1.base_path, "123"),
-        TaggedDocuments::Document.new(list_item2.title, list_item2.base_path, "456"),
+        TaggedDocuments::Document.new(list_item1.title, "/some-path-1", list_item1.content_id),
+        TaggedDocuments::Document.new(list_item2.title, "/some-path-2", list_item2.content_id),
         TaggedDocuments::Document.new("New list", "/new-list", "789"),
       ]
     end

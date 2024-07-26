@@ -63,8 +63,8 @@ RSpec.describe ListsController do
     let!(:list_item2) { create(:list_item, list:, index: 2) }
     let(:tagged_documents) do
       [
-        TaggedDocuments::Document.new(list_item1.title, list_item1.base_path, "123"),
-        TaggedDocuments::Document.new(list_item2.title, list_item2.base_path, "456"),
+        TaggedDocuments::Document.new(list_item1.title, "/some-path-1", list_item1.content_id),
+        TaggedDocuments::Document.new(list_item2.title, "/some-path-2", list_item2.content_id),
         TaggedDocuments::Document.new("New list", "/new-list", "789"),
         TaggedDocuments::Document.new("Newer list", "/newer-list", "012"),
       ]
@@ -84,7 +84,7 @@ RSpec.describe ListsController do
         patch :update_list_items, params: {
           tag_id: tag.content_id,
           id: list.id,
-          list: { list_items: ["/new-list", "/newer-list"] },
+          list: { list_items: %w[789 012] },
         }
 
         new_list_item1, new_list_item2 = list.list_items.last(2)
@@ -92,9 +92,11 @@ RSpec.describe ListsController do
         expect(list.list_items.count).to eq 4
         expect(new_list_item1.title).to eq "New list"
         expect(new_list_item1.base_path).to eq "/new-list"
+        expect(new_list_item1.content_id).to eq "789"
         expect(new_list_item1.index).to eq 3
         expect(new_list_item2.title).to eq "Newer list"
         expect(new_list_item2.base_path).to eq "/newer-list"
+        expect(new_list_item2.content_id).to eq "012"
         expect(new_list_item2.index).to eq 4
         expect(response.status).to eq(302)
         expect(response).to redirect_to(tag_list_path(tag, list))
@@ -176,8 +178,8 @@ RSpec.describe ListsController do
     let!(:list_item2) { create(:list_item, list:, index: 2) }
     let(:tagged_documents) do
       [
-        TaggedDocuments::Document.new(list_item1.title, list_item1.base_path, "123"),
-        TaggedDocuments::Document.new(list_item2.title, list_item2.base_path, "456"),
+        TaggedDocuments::Document.new(list_item1.title, "/some-path-1", list_item1.content_id),
+        TaggedDocuments::Document.new(list_item2.title, "/some-path-2", list_item2.content_id),
         TaggedDocuments::Document.new("New list", "/new-list", "789"),
       ]
     end
