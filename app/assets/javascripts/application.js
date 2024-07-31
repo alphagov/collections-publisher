@@ -11,7 +11,6 @@
 //= require govuk_publishing_components/components/table
 //= require govuk_publishing_components/components/tabs
 //= require components/autocomplete
-//= require analytics
 
 //= require rails-ujs
 
