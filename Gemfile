@@ -4,11 +4,11 @@ gem "rails", "7.1.3.4"
 
 gem "aasm"
 gem "bootsnap", require: false
+gem "dartsass-rails"
 gem "generic_form_builder"
 gem "inline_svg"
 gem "kramdown"
 gem "mysql2"
-gem "sass-rails"
 gem "sentry-sidekiq"
 gem "sprockets-rails"
 gem "terser"
