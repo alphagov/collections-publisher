@@ -11,6 +11,8 @@ coverage
 
 # Ignore compiled assets
 /public/assets
+/app/assets/builds/*
+!/app/assets/builds/.keep
 
 # vim swap files and tags
 *.sw[a-z]
