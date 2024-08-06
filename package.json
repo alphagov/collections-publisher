@@ -33,7 +33,7 @@
     "markdown-toolbar-element": "^0.2.0"
   },
   "devDependencies": {
-    "postcss": "^8.4.40",
+    "postcss": "^8.4.41",
     "standardx": "^7.0.0",
     "stylelint": "^15.11.0",
     "stylelint-config-gds": "^1.1.1"
