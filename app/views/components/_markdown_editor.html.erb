@@ -23,10 +23,10 @@
       <div class="app-c-markdown-editor__toolbar">
         <markdown-toolbar class="app-c-markdown-editor__toolbar-group" for="<%= textarea[:id] %>">
           <% if controls.include?(:headings) %>
-            <md-header-2 class="app-c-markdown-editor__toolbar-button" title="Heading level 2" aria-label="Heading level 2" data-gtm="markdown-toolbar-h2" data-gtm-click-tracking="true">
+            <md-header-2 class="app-c-markdown-editor__toolbar-button" title="Heading level 2" aria-label="Heading level 2">
               <%= inline_svg_tag "components/markdown-editor/heading-two.svg", class: "app-c-markdown-editor__toolbar-icon" , aria_hidden: true %>
             </md-header-2>
-            <md-header-3 class="app-c-markdown-editor__toolbar-button" title="Heading level 3" aria-label="Heading level 3" data-gtm="markdown-toolbar-h3" data-gtm-click-tracking="true">
+            <md-header-3 class="app-c-markdown-editor__toolbar-button" title="Heading level 3" aria-label="Heading level 3">
               <%= inline_svg_tag "components/markdown-editor/heading-three.svg", class: "app-c-markdown-editor__toolbar-icon" , aria_hidden: true %>
             </md-header-3>
           <% end %>
@@ -34,12 +34,12 @@
             <%= inline_svg_tag "components/markdown-editor/link.svg", class: "app-c-markdown-editor__toolbar-icon" , aria_hidden: true %>
           </md-link>
           <% if controls.include?(:blockquote) %>
-            <md-quote class="app-c-markdown-editor__toolbar-button" title="Blockquote" aria-label="Blockquote" data-gtm="markdown-toolbar-blockquote" data-gtm-click-tracking="true">
+            <md-quote class="app-c-markdown-editor__toolbar-button" title="Blockquote" aria-label="Blockquote">
               <%= inline_svg_tag "components/markdown-editor/blockquote.svg", class: "app-c-markdown-editor__toolbar-icon" , aria_hidden: true %>
             </md-quote>
           <% end %>
           <% if controls.include?(:numbered_list) %>
-            <md-ordered-list class="app-c-markdown-editor__toolbar-button" title="Numbered list" aria-label="Numbered list" data-gtm="markdown-toolbar-list" data-gtm-click-tracking="true">
+            <md-ordered-list class="app-c-markdown-editor__toolbar-button" title="Numbered list" aria-label="Numbered list">
               <%= inline_svg_tag "components/markdown-editor/numbered-list.svg", class: "app-c-markdown-editor__toolbar-icon" , aria_hidden: true %>
             </md-ordered-list>
           <% end %>
