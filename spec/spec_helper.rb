@@ -28,7 +28,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    Sidekiq::Worker.clear_all
+    Sidekiq::Job.clear_all
     Sidekiq::Testing.inline!
   end
 end

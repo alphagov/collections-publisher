@@ -1,5 +1,5 @@
-class DependentTagPublishWorker
-  include Sidekiq::Worker
+class DependentTagPublishJob
+  include Sidekiq::Job
 
   def perform(tag_id)
     tag = Tag.find(tag_id)

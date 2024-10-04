@@ -41,7 +41,7 @@ RSpec.feature "Managing step by step navigation" do
   def and_when_i_set_some_navigation_preferences
     select("Never show navigation", match: :first)
 
-    allow(StepByStepDraftUpdateWorker).to receive(:perform_async)
+    allow(StepByStepDraftUpdateJob).to receive(:perform_async)
     click_on "Save"
   end
 

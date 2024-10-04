@@ -25,7 +25,7 @@ class StepNavPublisher
   def self.schedule_for_publishing(step_by_step_page)
     presenter = StepNavPresenter.new(step_by_step_page)
     GdsApi.publishing_api.put_intent(presenter.base_path, presenter.scheduling_payload)
-    StepByStepScheduledPublishWorker.perform_at(step_by_step_page.scheduled_at, step_by_step_page.id)
+    StepByStepScheduledPublishJob.perform_at(step_by_step_page.scheduled_at, step_by_step_page.id)
   end
 
   def self.cancel_scheduling(step_by_step_page)

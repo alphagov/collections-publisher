@@ -70,7 +70,7 @@ RSpec.describe StepNavPublisher do
       Sidekiq::Testing.fake! do
         expect {
           StepNavPublisher.schedule_for_publishing(step_nav)
-        }.to change(StepByStepScheduledPublishWorker.jobs, :size).by(1)
+        }.to change(StepByStepScheduledPublishJob.jobs, :size).by(1)
       end
     end
 

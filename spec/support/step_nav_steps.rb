@@ -56,7 +56,7 @@ module StepNavSteps
   end
 
   def expect_update_worker
-    allow(StepByStepDraftUpdateWorker).to receive(:perform_async).with(@step_by_step_page.id, stub_user.name)
+    allow(StepByStepDraftUpdateJob).to receive(:perform_async).with(@step_by_step_page.id, stub_user.name)
   end
 
   def given_there_is_a_step_by_step_page

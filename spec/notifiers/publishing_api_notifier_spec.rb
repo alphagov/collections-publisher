@@ -64,7 +64,7 @@ RSpec.describe PublishingAPINotifier do
       Sidekiq::Testing.fake! do
         expect {
           PublishingAPINotifier.notify(@a)
-        }.to change(DependentTagPublishWorker.jobs, :size).by(1)
+        }.to change(DependentTagPublishJob.jobs, :size).by(1)
       end
     end
   end

@@ -1,5 +1,5 @@
-class StepByStepScheduledPublishWorker
-  include Sidekiq::Worker
+class StepByStepScheduledPublishJob
+  include Sidekiq::Job
   sidekiq_options retry: 5
 
   sidekiq_retries_exhausted do |msg, _e|

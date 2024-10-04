@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe StepByStepDraftUpdateWorker do
+RSpec.describe StepByStepDraftUpdateJob do
   before do
     allow(Services.publishing_api).to receive(:lookup_content_id)
     allow(StepLinksForRules).to receive(:call)
