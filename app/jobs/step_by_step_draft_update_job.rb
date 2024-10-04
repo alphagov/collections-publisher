@@ -1,4 +1,4 @@
-class StepByStepDraftUpdateWorker
+class StepByStepDraftUpdateJob
   include Sidekiq::Job
 
   def perform(step_by_step_page_id, name_of_current_user = "")

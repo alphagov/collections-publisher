@@ -16,7 +16,7 @@ RSpec.describe StepByStepUpdater do
   end
 
   after do
-    expect(StepByStepDraftUpdateWorker.jobs.size).to eq(1)
+    expect(StepByStepDraftUpdateJob.jobs.size).to eq(1)
   end
 
   subject(:step_by_step_status) { step_by_step.status }

@@ -1,4 +1,4 @@
-class DependentTagPublishWorker
+class DependentTagPublishJob
   include Sidekiq::Job
 
   def perform(tag_id)

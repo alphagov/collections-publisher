@@ -16,7 +16,7 @@ class NavigationRulesController < ApplicationController
       rule.update!(include_in_links: value) if rule
     end
 
-    StepByStepDraftUpdateWorker.perform_async(@step_by_step_page.id)
+    StepByStepDraftUpdateJob.perform_async(@step_by_step_page.id)
 
     redirect_to(@step_by_step_page, notice: "Your navigation choices have been saved.")
   end
