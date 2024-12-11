@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "7.1.3.4"
+gem "rails", "8.0.0.1"
 
 gem "aasm"
 gem "bootsnap", require: false
