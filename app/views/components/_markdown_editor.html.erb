@@ -9,7 +9,7 @@
 <%= tag.div class: component_classes do %>
 
   <%= render "govuk_publishing_components/components/label", {
-    html_for: textarea[:id],
+    html_for: textarea[:textarea_id],
   }.merge(label.symbolize_keys) %>
 
   <% if error_message.present? %>
@@ -21,7 +21,7 @@
    <div class="app-c-markdown-editor__container">
     <div class="app-c-markdown-editor__head">
       <div class="app-c-markdown-editor__toolbar">
-        <markdown-toolbar class="app-c-markdown-editor__toolbar-group" for="<%= textarea[:id] %>">
+        <markdown-toolbar class="app-c-markdown-editor__toolbar-group" for="<%= textarea[:textarea_id] %>">
           <% if controls.include?(:headings) %>
             <md-header-2 class="app-c-markdown-editor__toolbar-button" title="Heading level 2" aria-label="Heading level 2">
               <%= inline_svg_tag "components/markdown-editor/heading-two.svg", class: "app-c-markdown-editor__toolbar-icon" , aria_hidden: true %>
