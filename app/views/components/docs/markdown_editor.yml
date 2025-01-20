@@ -25,7 +25,7 @@ examples:
         text: Body
       textarea:
         name: markdown-editor
-        id: markdown-editor
+        textarea_id: markdown-editor
   with_bullet_list_button:
     data:
       controls:
@@ -34,7 +34,7 @@ examples:
         text: Body
       textarea:
         name: markdown-editor
-        id: markdown-editor
+        textarea_id: markdown-editor
   with_headings_buttons:
     data:
       controls:
@@ -43,7 +43,7 @@ examples:
         text: Body
       textarea:
         name: markdown-editor
-        id: markdown-editor
+        textarea_id: markdown-editor
   with_blockquote_button:
     data:
       controls:
@@ -52,7 +52,7 @@ examples:
         text: Body
       textarea:
         name: markdown-editor
-        id: markdown-editor
+        textarea_id: markdown-editor
   with_numbered_list_button:
     data:
       controls:
@@ -61,4 +61,4 @@ examples:
         text: Body
       textarea:
         name: markdown-editor
-        id: markdown-editor
+        textarea_id: markdown-editor

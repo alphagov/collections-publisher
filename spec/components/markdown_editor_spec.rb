@@ -14,7 +14,7 @@ RSpec.describe "Markdown editor", type: :view do
            },
            textarea: {
              name: "markdown-editor",
-             id: "markdown-editor",
+             textarea_id: "markdown-editor",
            }
 
     assert_select ".govuk-label[for='markdown-editor']", text: "Body"
@@ -30,7 +30,7 @@ RSpec.describe "Markdown editor", type: :view do
            },
            textarea: {
              name: "markdown-editor",
-             id: "markdown-editor",
+             textarea_id: "markdown-editor",
            }
 
     assert_select ".app-c-markdown-editor__toolbar-button[title='Bullets']", count: 1
@@ -44,7 +44,7 @@ RSpec.describe "Markdown editor", type: :view do
            },
            textarea: {
              name: "markdown-editor",
-             id: "markdown-editor",
+             textarea_id: "markdown-editor",
            }
 
     assert_select ".app-c-markdown-editor__toolbar-button[title='Heading level 2']", count: 1
@@ -59,7 +59,7 @@ RSpec.describe "Markdown editor", type: :view do
            },
            textarea: {
              name: "markdown-editor",
-             id: "markdown-editor",
+             textarea_id: "markdown-editor",
            }
 
     assert_select ".app-c-markdown-editor__toolbar-button[title='Blockquote']", count: 1
@@ -73,7 +73,7 @@ RSpec.describe "Markdown editor", type: :view do
            },
            textarea: {
              name: "markdown-editor",
-             id: "markdown-editor",
+             textarea_id: "markdown-editor",
            }
 
     assert_select ".app-c-markdown-editor__toolbar-button[title='Numbered list']", count: 1
@@ -87,7 +87,7 @@ RSpec.describe "Markdown editor", type: :view do
            },
            textarea: {
              name: "markdown-editor",
-             id: "markdown-editor",
+             textarea_id: "markdown-editor",
            }
 
     assert_select ".govuk-error-message", text: "Error: Something is wrong"
