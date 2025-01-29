@@ -30,10 +30,8 @@ private
   def can_be_in_review?(record)
     record.has_draft? &&
       record.reviewer_id.present? &&
-      (
-        record.status_was == "submitted_for_2i" ||
-        record.status_was == "in_review"
-      )
+
+      %w[submitted_for_2i in_review].include?(record.status_was)
   end
 
   def can_be_scheduled?(record)
