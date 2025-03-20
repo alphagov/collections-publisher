@@ -17,9 +17,7 @@ class SpecialRoutePublisher
     @publisher.publish(default_options.merge(route))
   end
 
-  def unpublish(content_id, options)
-    @publishing_api.unpublish(content_id, options)
-  end
+  delegate :unpublish, to: :@publishing_api
 
   def self.find_route(base_path)
     routes.find { |route| route[:base_path] == base_path }

@@ -3,13 +3,9 @@ class ArchivedTagPresenter
     @tag = tag
   end
 
-  def draft?
-    @tag.draft?
-  end
+  delegate :draft?, to: :@tag
 
-  def archived?
-    @tag.archived?
-  end
+  delegate :archived?, to: :@tag
 
   def render_for_publishing_api
     {
@@ -22,11 +18,7 @@ class ArchivedTagPresenter
     }
   end
 
-  def base_path
-    @tag.base_path
-  end
+  delegate :base_path, to: :@tag
 
-  def content_id
-    @tag.content_id
-  end
+  delegate :content_id, to: :@tag
 end
