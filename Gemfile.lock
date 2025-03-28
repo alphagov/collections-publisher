@@ -240,7 +240,7 @@ GEM
     json (2.10.2)
     json-schema (4.3.0)
       addressable (>= 2.8)
-    jwt (2.8.1)
+    jwt (2.10.1)
       base64
     kramdown (2.5.1)
       rexml (>= 3.3.9)
@@ -259,7 +259,7 @@ GEM
       net-imap
       net-pop
       net-smtp
-    mail-notify (2.0.0)
+    mail-notify (2.1.0)
       actionmailer (>= 5.2.8.1)
       actionpack (>= 5.2.8.1)
       actionview (>= 5.2.8.1)
@@ -303,7 +303,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.6-x86_64-linux-gnu)
       racc (~> 1.4)
-    notifications-ruby-client (6.0.0)
+    notifications-ruby-client (6.2.0)
       jwt (>= 1.5, < 3)
     null_logger (0.0.1)
     oauth2 (2.0.9)
