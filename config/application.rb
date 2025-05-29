@@ -1,6 +1,6 @@
 require_relative "boot"
 
-require "rails"
+# require "rails"
 # Pick the frameworks you want:
 require "active_model/railtie"
 require "active_job/railtie"
@@ -12,6 +12,7 @@ require "action_mailer/railtie"
 # require "action_text/engine"
 require "action_view/railtie"
 # require "action_cable/engine"
+require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -20,13 +21,13 @@ Bundler.require(*Rails.groups)
 
 module CollectionsPublisher
   class Application < Rails::Application
-    config.load_defaults "8.0"
+    config.load_defaults "7.0"
     config.govuk_time_zone = "London"
     config.i18n.raise_on_missing_translations = true
     config.active_record.belongs_to_required_by_default = false
 
     config.action_mailer.notify_settings = {
-      api_key: Rails.application.credentials.notify_api_key || "test-api-key",
+      api_key: Rails.application.secrets.notify_api_key || "test-api-key",
     }
 
     unless Rails.env.production?
@@ -57,7 +58,7 @@ module CollectionsPublisher
     # https://guides.rubyonrails.org/v7.0/upgrading_ruby_on_rails.html#key-generator-digest-class-changing-to-use-sha256
     Rails.application.config.action_dispatch.cookies_rotations.tap do |cookies|
       salt = Rails.application.config.action_dispatch.authenticated_encrypted_cookie_salt
-      secret_key_base = Rails.application.credentials.secret_key_base
+      secret_key_base = Rails.application.secrets.secret_key_base
       next if secret_key_base.blank?
 
       key_generator = ActiveSupport::KeyGenerator.new(
@@ -68,14 +69,5 @@ module CollectionsPublisher
 
       cookies.rotate :encrypted, secret
     end
-
-    # We have to load the old fashioned way as Zeitwerk does not work correctly
-    # with config.autoload_lib in 7.1+ with our current file structure.
-    config.autoload_paths << Rails.root.join("lib")
-    config.eager_load_paths << Rails.root.join("lib")
-    config.add_autoload_paths_to_load_path = true
-
-    # Don't generate system test files.
-    # config.generators.system_tests = nil
   end
 end

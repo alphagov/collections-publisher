@@ -27,7 +27,7 @@ class Tag < ApplicationRecord
   scope :only_level_two, -> { where("parent_id IS NOT NULL") }
 
   # The links last sent to the content-store.
-  serialize :published_groups, coder: JSON
+  serialize :published_groups, JSON
 
   # after_initialize is expensive, but MySQL doesn't support default values
   # on text columns. When we've moved to PG, move this to the database.
