@@ -333,10 +333,10 @@ contains-path@^0.1.0:
   resolved "https://registry.yarnpkg.com/contains-path/-/contains-path-0.1.0.tgz#fe8cf184ff6670b6baef01a9d4861a5cbec4120a"
   integrity sha1-/ozxhP9mcLa67wGp1IYaXL7EEgo=
 
-core-js-bundle@^3.44.0:
-  version "3.44.0"
-  resolved "https://registry.yarnpkg.com/core-js-bundle/-/core-js-bundle-3.44.0.tgz#8c870c11b18ee26c4b7b5da61ac7294e7ceeb4b3"
-  integrity sha512-aUhGkZs48t2w5sZmn63NoE6XEmLXtocoasQCOTrNdsjLN5LMDe9jPZ7vD+bJvKOTNz1ZcVj1X4ZMgeMq/5P2pA==
+core-js-bundle@^3.45.0:
+  version "3.45.0"
+  resolved "https://registry.yarnpkg.com/core-js-bundle/-/core-js-bundle-3.45.0.tgz#66d3096437a6aa38e2c1f0192d7401e8fb7e6048"
+  integrity sha512-ZzetB/c3gCIk3BqeyIe+zWyHR+YTHWFRP9hpog148nvMP/XzwB+aTzkpY/+OaB01Dtv4QMsDAL+vBivV6D1LeQ==
 
 cosmiconfig@^8.2.0:
   version "8.2.0"
