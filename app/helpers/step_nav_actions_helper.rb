@@ -9,10 +9,8 @@ module StepNavActionsHelper
       step_by_step_page.reviewer_id == user.uid
   end
 
-  def must_check_for_broken_links?(step_by_step_page)
-    step_by_step_page.steps.any? &&
-      contains_links?(step_by_step_page) &&
-      !step_by_step_page.links_checked_since_last_update?
+  def must_check_for_broken_links?(_step_by_step_page)
+    false
   end
 
   def can_revert_to_draft?(step_by_step_page, user)
