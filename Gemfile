@@ -4,6 +4,9 @@ gem "rails", "8.0.3"
 
 gem "aasm"
 gem "bootsnap", require: false
+# connection_pool is a transitive dependency for sidekiq, but we need to pin it to < 3
+# because sidekiq's support for connection_pool 3+ is only in sidekiq 8+
+gem "connection_pool", "< 3"
 gem "dartsass-rails"
 gem "generic_form_builder"
 gem "inline_svg"
