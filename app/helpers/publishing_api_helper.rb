@@ -4,7 +4,7 @@ module PublishingApiHelper
   def latest_edition_number(content_id)
     latest_content_item = content_item(content_id).with_indifferent_access
 
-    latest_content_item[:state_history].keys.max.to_i
+    latest_content_item[:state_history].keys.map(&:to_i).max
   end
 
   def content_item(content_id)
