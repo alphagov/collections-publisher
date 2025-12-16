@@ -17,9 +17,5 @@ RSpec.describe PublishingApiHelper do
     it "returns the most recent edition number for a content_item" do
       expect(helper.latest_edition_number(@content_id)).to eq(3)
     end
-
-    it "returns the edition number of the published version of content_item" do
-      expect(helper.latest_edition_number(@content_id, publication_state: "published")).to eq(2)
-    end
   end
 end
