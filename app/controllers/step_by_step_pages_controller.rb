@@ -227,8 +227,7 @@ private
   end
 
   def revert_page
-    published_version = latest_edition_number(@step_by_step_page.content_id, publication_state: "published")
-    payload = Services.publishing_api.get_content(@step_by_step_page.content_id, version: published_version).to_hash
+    payload = Services.publishing_api.get_live_content(@step_by_step_page.content_id).to_hash
 
     StepByStepPageReverter.new(@step_by_step_page, payload).repopulate_from_publishing_api
   end

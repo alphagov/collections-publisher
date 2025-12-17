@@ -46,7 +46,7 @@ module Coronavirus::Pages
         begin
           content = GdsApi.publishing_api.get_live_content(page.content_id).to_h
           content.with_indifferent_access
-        rescue GdsApi::PublishingApi::NoLiveVersion, GdsApi::HTTPErrorResponse
+        rescue GdsApi::HTTPErrorResponse
           {}
         end
     end
