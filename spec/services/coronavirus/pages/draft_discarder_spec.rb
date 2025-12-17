@@ -87,10 +87,7 @@ RSpec.describe Coronavirus::Pages::DraftDiscarder do
   end
 
   it "doesn't discard the draft if publishing_api doesn't have a live content item" do
-    payload = payload_from_publishing_api
-    payload["state_history"]["1"] = "draft"
-
-    stub_publishing_api_has_item(payload)
+    stub_publishing_api_does_not_have_item(page.content_id)
 
     described_class.new(page).call
     page.reload
