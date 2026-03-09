@@ -1,8 +1,8 @@
 // This file is used as the root SCSS file for the govuk_publishing_components/design
 // system aspects of Collections Publisher
 
-@import 'govuk_publishing_components/govuk_frontend_support';
-@import 'govuk_publishing_components/component_support';
+@import 'govuk_publishing_components/specific-components';
+
 @import 'govuk_publishing_components/components/accordion';
 @import 'govuk_publishing_components/components/back-link';
 @import 'govuk_publishing_components/components/breadcrumbs';
