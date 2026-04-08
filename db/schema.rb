@@ -10,84 +10,84 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_03_154626) do
+ActiveRecord::Schema[8.1].define(version: 2024_04_03_154626) do
   create_table "coronavirus_pages", charset: "utf8mb3", force: :cascade do |t|
-    t.string "sections_title"
     t.string "base_path"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "name"
-    t.string "slug"
     t.string "content_id"
+    t.datetime "created_at", null: false
+    t.text "header_body"
+    t.string "header_link_post_wrap_text"
+    t.string "header_link_pre_wrap_text"
+    t.text "header_link_url"
+    t.string "header_title"
+    t.string "name"
+    t.string "sections_title"
+    t.string "slug"
     t.string "state", default: "draft", null: false
     t.string "title"
-    t.string "header_title"
-    t.text "header_body"
-    t.text "header_link_url"
-    t.string "header_link_pre_wrap_text"
-    t.string "header_link_post_wrap_text"
+    t.datetime "updated_at", null: false
   end
 
   create_table "coronavirus_sub_sections", charset: "utf8mb3", force: :cascade do |t|
-    t.string "title"
+    t.string "action_link_content"
+    t.string "action_link_summary"
+    t.string "action_link_url"
     t.text "content"
     t.bigint "coronavirus_page_id"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "position"
-    t.string "action_link_url"
-    t.string "action_link_content"
-    t.string "action_link_summary"
     t.string "sub_heading"
+    t.string "title"
+    t.datetime "updated_at", null: false
     t.index ["coronavirus_page_id"], name: "index_coronavirus_sub_sections_on_coronavirus_page_id"
   end
 
   create_table "internal_change_notes", charset: "utf8mb3", force: :cascade do |t|
     t.string "author"
-    t.text "description"
-    t.bigint "step_by_step_page_id"
     t.datetime "created_at", precision: nil
+    t.text "description"
     t.integer "edition_number"
     t.string "headline"
+    t.bigint "step_by_step_page_id"
     t.index ["step_by_step_page_id"], name: "index_internal_change_notes_on_step_by_step_page_id"
   end
 
   create_table "link_reports", charset: "utf8mb3", force: :cascade do |t|
     t.integer "batch_id"
     t.datetime "completed", precision: nil
-    t.bigint "step_id"
     t.datetime "created_at", precision: nil, null: false
+    t.bigint "step_id"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["step_id"], name: "index_link_reports_on_step_id"
   end
 
   create_table "list_items", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "base_path"
+    t.datetime "created_at", precision: nil
     t.integer "index", default: 0, null: false
     t.integer "list_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
     t.string "title"
+    t.datetime "updated_at", precision: nil
     t.index ["list_id", "index"], name: "index_list_items_on_list_id_and_index"
   end
 
   create_table "lists", id: :integer, charset: "utf8mb3", force: :cascade do |t|
-    t.string "name"
     t.integer "index", default: 0, null: false
+    t.string "name"
     t.integer "tag_id", null: false
     t.index ["tag_id"], name: "index_lists_on_tag_id"
   end
 
   create_table "navigation_rules", charset: "utf8mb3", force: :cascade do |t|
-    t.string "title", null: false
     t.string "base_path", null: false
     t.string "content_id", null: false
-    t.bigint "step_by_step_page_id"
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.string "include_in_links", default: "always", null: false
     t.string "publishing_app"
     t.string "schema_name"
-    t.string "include_in_links", default: "always", null: false
+    t.bigint "step_by_step_page_id"
+    t.string "title", null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["step_by_step_page_id", "base_path"], name: "index_navigation_rules_on_step_by_step_page_id_and_base_path", unique: true
     t.index ["step_by_step_page_id", "content_id"], name: "index_navigation_rules_on_step_by_step_page_id_and_content_id", unique: true
     t.index ["step_by_step_page_id"], name: "index_navigation_rules_on_step_by_step_page_id"
@@ -95,21 +95,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_03_154626) do
 
   create_table "redirect_items", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "content_id", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.string "from_base_path", null: false
     t.string "to_base_path", null: false
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["content_id"], name: "index_redirect_items_on_content_id", unique: true
     t.index ["from_base_path"], name: "index_redirect_items_on_from_base_path", unique: true
   end
 
   create_table "redirect_routes", id: :integer, charset: "utf8mb3", force: :cascade do |t|
-    t.integer "redirect_id"
-    t.string "from_base_path"
-    t.string "to_base_path"
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.string "from_base_path"
+    t.integer "redirect_id"
     t.integer "tag_id"
+    t.string "to_base_path"
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["from_base_path"], name: "index_redirect_routes_on_from_base_path", unique: true
     t.index ["redirect_id"], name: "index_redirect_routes_on_redirect_id"
     t.index ["tag_id"], name: "index_redirect_routes_on_tag_id"
@@ -117,30 +117,30 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_03_154626) do
 
   create_table "secondary_content_links", charset: "utf8mb3", force: :cascade do |t|
     t.string "base_path"
-    t.string "title"
     t.string "content_id"
     t.string "publishing_app"
     t.string "schema_name"
     t.bigint "step_by_step_page_id"
+    t.string "title"
     t.index ["step_by_step_page_id"], name: "index_secondary_content_links_on_step_by_step_page_id"
   end
 
   create_table "step_by_step_pages", charset: "utf8mb3", force: :cascade do |t|
-    t.string "title"
-    t.string "slug"
-    t.text "introduction"
-    t.text "description"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "content_id", null: false
-    t.datetime "published_at", precision: nil
-    t.datetime "draft_updated_at", precision: nil
     t.string "assigned_to"
-    t.datetime "scheduled_at", precision: nil
-    t.string "status", null: false
+    t.string "auth_bypass_id", null: false
+    t.string "content_id", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.text "description"
+    t.datetime "draft_updated_at", precision: nil
+    t.text "introduction"
+    t.datetime "published_at", precision: nil
     t.string "review_requester_id"
     t.string "reviewer_id"
-    t.string "auth_bypass_id", null: false
+    t.datetime "scheduled_at", precision: nil
+    t.string "slug"
+    t.string "status", null: false
+    t.string "title"
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["content_id"], name: "index_step_by_step_pages_on_content_id", unique: true
     t.index ["review_requester_id"], name: "fk_rails_d4fb625ca0"
     t.index ["reviewer_id"], name: "fk_rails_7247412df6"
@@ -148,45 +148,45 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_03_154626) do
   end
 
   create_table "steps", charset: "utf8mb3", force: :cascade do |t|
-    t.string "title"
+    t.text "contents"
+    t.datetime "created_at", precision: nil, null: false
     t.string "logic"
     t.boolean "optional"
-    t.text "contents"
     t.integer "position"
     t.bigint "step_by_step_page_id"
-    t.datetime "created_at", precision: nil, null: false
+    t.string "title"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["step_by_step_page_id"], name: "index_steps_on_step_by_step_page_id"
   end
 
   create_table "tags", id: :integer, charset: "utf8mb3", force: :cascade do |t|
-    t.string "type"
-    t.string "slug", null: false
-    t.string "title", null: false
-    t.string "description"
-    t.integer "parent_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "content_id", null: false
-    t.string "state", null: false
-    t.boolean "dirty", default: false, null: false
-    t.text "published_groups", size: :medium
     t.string "child_ordering", default: "alphabetical", null: false
+    t.string "content_id", null: false
+    t.datetime "created_at", precision: nil
+    t.string "description"
+    t.boolean "dirty", default: false, null: false
     t.integer "index", default: 0, null: false
+    t.integer "parent_id"
+    t.text "published_groups", size: :medium
+    t.string "slug", null: false
+    t.string "state", null: false
+    t.string "title", null: false
+    t.string "type"
+    t.datetime "updated_at", precision: nil
     t.index ["content_id"], name: "index_tags_on_content_id", unique: true
     t.index ["parent_id"], name: "tags_parent_id_fk"
     t.index ["slug", "parent_id"], name: "index_tags_on_slug_and_parent_id", unique: true
   end
 
   create_table "users", id: :integer, charset: "utf8mb3", force: :cascade do |t|
-    t.string "name"
+    t.boolean "disabled", default: false
     t.string "email"
-    t.string "uid", null: false
+    t.string "name"
+    t.string "organisation_content_id"
     t.string "organisation_slug"
     t.string "permissions"
     t.boolean "remotely_signed_out", default: false
-    t.boolean "disabled", default: false
-    t.string "organisation_content_id"
+    t.string "uid", null: false
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
