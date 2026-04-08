@@ -20,7 +20,7 @@ Bundler.require(*Rails.groups)
 
 module CollectionsPublisher
   class Application < Rails::Application
-    config.load_defaults "8.0"
+    config.load_defaults "8.1"
     config.govuk_time_zone = "London"
     config.i18n.raise_on_missing_translations = true
     config.active_record.belongs_to_required_by_default = false
