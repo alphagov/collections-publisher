@@ -27,7 +27,7 @@ $dark-grey-2: #6f777b;
   padding: govuk-spacing(4);
   margin: 0 0 govuk-spacing(2);
   color: $black;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   background-color: govuk-colour("light-grey");
 }
 
@@ -53,7 +53,7 @@ $dark-grey-2: #6f777b;
 }
 
 .broken-links-accordion__title {
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .broken-links-accordion__collapsible-link {
