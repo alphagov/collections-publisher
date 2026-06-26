@@ -16,7 +16,7 @@ gem "terser"
 # GDS managed dependencies
 gem "gds-api-adapters"
 gem "gds-sso"
-gem "govuk_app_config", "~> 9.25.0"
+gem "govuk_app_config", "~> 9.25.1"
 gem "govuk_publishing_components"
 gem "govuk_sidekiq"
 gem "mail-notify"
