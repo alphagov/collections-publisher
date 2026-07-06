@@ -85,9 +85,12 @@
     <%= render "step_by_step_pages/show/actions" %>
 
     <div class="app-side">
-      <%= render "govuk_publishing_components/components/metadata", {
-        other: @step_by_step_page_presenter.summary_metadata,
-      } %>
+      <dl class="metadata">
+        <% @step_by_step_page_presenter.summary_metadata.each do |item| %>
+          <dt><%= item[0] %>:</dt>
+          <dd><%= item[1] %></dd>
+        <% end %>
+      </dl>
     </div>
   </div>
 </div>

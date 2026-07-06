@@ -90,7 +90,7 @@ RSpec.feature "Create new step by step page" do
   end
 
   def and_i_see_i_saved_it_last
-    within(".gem-c-metadata") do
+    within(".metadata") do
       expect(page).to have_content("Status: Draft")
       expect(page).to have_content("by Test author")
     end
