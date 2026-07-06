@@ -53,3 +53,20 @@
     float: right;
   }
 }
+
+.metadata {
+  margin: 0;
+  @include govuk-font(19);
+
+  dt {
+    font-weight: bold;
+  }
+
+  dd {
+    margin: 0 0 govuk-spacing(3);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

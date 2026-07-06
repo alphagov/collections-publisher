@@ -27,9 +27,12 @@
   <div class="govuk-grid-column-one-third">
     <%= render "coronavirus/pages/show/actions" %>
     <div class="app-side">
-      <%= render "govuk_publishing_components/components/metadata", {
-        other: metadata,
-      } %>
+      <dl class="metadata">
+        <% metadata.each do |item| %>
+          <dt><%= item[0] %>:</dt>
+          <dd><%= item[1] %></dd>
+        <% end %>
+      </dl>
     </div>
   </div>
 </div>

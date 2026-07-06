@@ -111,7 +111,7 @@ RSpec.feature "Reviewing step by step pages" do
   end
 
   def and_the_step_by_step_status_should_be(status)
-    expect(page).to have_css(".gem-c-metadata", text: "Status: #{status}")
+    expect(page).to have_css(".metadata", text: "Status: #{status}")
   end
 
   def and_i_submit_the_form

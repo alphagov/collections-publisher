@@ -551,7 +551,7 @@ RSpec.feature "Managing step by step pages" do
   end
 
   def and_i_can_see_a_metadata_section
-    within(".gem-c-metadata") do
+    within(".metadata") do
       expect(page).to have_content("Status: Draft")
       expect(page).to have_content("Last saved")
       expect(page).to have_content("Created")
