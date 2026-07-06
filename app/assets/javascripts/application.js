@@ -6,7 +6,6 @@
 //= require govuk_publishing_components/components/checkboxes
 //= require govuk_publishing_components/components/contextual-guidance
 //= require govuk_publishing_components/components/govspeak
-//= require govuk_publishing_components/components/metadata
 //= require govuk_publishing_components/components/reorderable-list
 //= require govuk_publishing_components/components/table
 //= require govuk_publishing_components/components/tabs
