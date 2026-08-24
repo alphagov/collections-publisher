@@ -83,5 +83,5 @@
 }
 
 .govuk-tag--small {
-  @include govuk-font(14, $weight: bold, $line-height: 1);
+  @include govuk-font(16, $weight: bold, $line-height: 1);
 }
