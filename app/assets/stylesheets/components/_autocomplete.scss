@@ -1,9 +1,6 @@
 // stylelint-disable-next-line scss/at-import-partial-extension
 @import "accessible-autocomplete/dist/accessible-autocomplete.min";
 
-// TODO: Replace with govuk-functional-colour(focus) when the new colour scheme is released
-$app-focus-colour: #ffdd00;
-
 .autocomplete__wrapper {
   background: govuk-colour("white");
 }
@@ -25,7 +22,7 @@ $app-focus-colour: #ffdd00;
 
   mark {
     border-bottom: 3px solid govuk-functional-colour(focus-text);
-    background: $app-focus-colour;
+    background: govuk-functional-colour(focus);
   }
 }
 
