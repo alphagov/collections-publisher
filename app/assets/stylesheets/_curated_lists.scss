@@ -5,12 +5,12 @@
 
 .curated-lists .gem-c-document-list__attribute:first-child,
 .list-items .gem-c-document-list__attribute:first-child:not(:last-child) {
-  border-right: 1px solid $govuk-border-colour;
+  border-right: 1px solid govuk-functional-colour(border);
   padding-right: 10px;
 }
 
 .curated-lists .gem-c-document-list__attribute:not(:first-child):not(:last-child) {
-  border-right: 1px solid $govuk-border-colour;
+  border-right: 1px solid govuk-functional-colour(border);
   padding-left: 10px;
   padding-right: 10px;
 }

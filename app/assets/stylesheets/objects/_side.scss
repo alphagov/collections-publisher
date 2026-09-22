@@ -3,7 +3,7 @@
   @include govuk-clearfix;
 
   padding: govuk-spacing(3);
-  background: govuk-colour("light-grey");
+  background: govuk-colour("black", $variant: "tint-95");
 }
 
 .app-side__actions {
@@ -32,11 +32,11 @@
 
   .app-link--destructive {
     display: block;
-    color: $govuk-error-colour;
+    color: govuk-functional-colour(error);
 
     &:link,
     &:visited {
-      color: $govuk-error-colour;
+      color: govuk-functional-colour(error);
     }
 
     &:hover,

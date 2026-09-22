@@ -12,22 +12,22 @@ $app-toolbar-button-size: 50px;
 }
 
 .app-c-markdown-editor__container--focused {
-  outline: $govuk-focus-width solid $govuk-focus-colour;
+  outline: $govuk-focus-width solid govuk-functional-colour(focus);
   outline-offset: 0;
 }
 
 .app-c-markdown-editor__head {
   @include govuk-font(19);
   display: block;
-  border: $govuk-border-width-form-element solid $govuk-input-border-colour;
+  border: $govuk-border-width-form-element solid govuk-functional-colour(input-border);
   border-bottom: 0;
   background-color: govuk-colour("white");
 }
 
 .app-c-markdown-editor__preview-toggle {
   width: 100%;
-  border-bottom: $govuk-border-width-form-element solid $govuk-border-colour;
-  background-color: govuk-colour("light-grey");
+  border-bottom: $govuk-border-width-form-element solid govuk-functional-colour(border);
+  background-color: govuk-colour("black", $variant: "tint-95");
 }
 
 .app-c-markdown-editor__button {
@@ -39,7 +39,7 @@ $app-toolbar-button-size: 50px;
   border: $govuk-border-width-form-element solid transparent;
   border-top: 0;
   border-bottom: 0;
-  color: $govuk-link-colour;
+  color: govuk-functional-colour(link);
   background-color: transparent;
   cursor: pointer;
 
@@ -51,14 +51,14 @@ $app-toolbar-button-size: 50px;
 }
 
 .app-c-markdown-editor__button--muted {
-  border-right: $govuk-border-width-form-element solid $govuk-border-colour;
-  border-left: $govuk-border-width-form-element solid $govuk-border-colour;
-  color: $govuk-text-colour;
-  background: govuk-colour("light-grey");
+  border-right: $govuk-border-width-form-element solid govuk-functional-colour(border);
+  border-left: $govuk-border-width-form-element solid govuk-functional-colour(border);
+  color: govuk-functional-colour(text);
+  background: govuk-colour("black", $variant: "tint-95");
   text-decoration: none;
 
   &:focus {
-    background-color: govuk-colour("light-grey");
+    background-color: govuk-colour("black", $variant: "tint-95");
   }
 
   &:first-child {
@@ -73,12 +73,12 @@ $app-toolbar-button-size: 50px;
 .app-c-markdown-editor__preview {
   display: none;
   margin-top: 0;
-  color: $govuk-text-colour;
+  color: govuk-functional-colour(text);
 
   .govuk-textarea {
     padding: govuk-spacing(6);
     overflow: scroll;
-    background-color: govuk-colour("light-grey");
+    background-color: govuk-colour("black", $variant: "tint-95");
   }
 
   .gem-c-govspeak {
@@ -89,7 +89,7 @@ $app-toolbar-button-size: 50px;
 }
 
 .app-c-markdown-editor__toolbar {
-  background-color: govuk-colour("light-grey");
+  background-color: govuk-colour("black", $variant: "tint-95");
   line-height: 0;
 }
 
@@ -111,7 +111,7 @@ $app-toolbar-button-size: 50px;
   }
 
   &:hover {
-    background-color: govuk-colour("light-grey");
+    background-color: govuk-colour("black", $variant: "tint-95");
     cursor: pointer;
   }
 }
