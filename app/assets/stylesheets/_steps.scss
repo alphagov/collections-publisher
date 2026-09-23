@@ -28,7 +28,7 @@ $dark-grey-2: #6f777b;
   margin: 0 0 govuk-spacing(2);
   color: $black;
   overflow-wrap: break-word;
-  background-color: govuk-colour("light-grey");
+  background-color: govuk-colour("black", $variant: "tint-95");
 }
 
 .nav.step-by-step-tabs {

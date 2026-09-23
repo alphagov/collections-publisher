@@ -1,6 +1,6 @@
 .app-broken-link-status {
   @include govuk-font(16);
-  color: $govuk-secondary-text-colour;
+  color: govuk-functional-colour(secondary-text);
 
   svg {
     margin-right: .2em;
@@ -9,10 +9,10 @@
 }
 
 .app-broken-link-status--fail {
-  color: $govuk-error-colour;
+  color: govuk-functional-colour(error);
 
   svg {
-    fill: $govuk-error-colour;
+    fill: govuk-functional-colour(error);
   }
 }
 

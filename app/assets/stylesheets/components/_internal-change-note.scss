@@ -12,7 +12,7 @@
   @include govuk-font(19);
   margin-top: 0;
   margin-bottom: govuk-spacing(4);
-  color: $govuk-secondary-text-colour;
+  color: govuk-functional-colour(secondary-text);
 }
 
 .app-c-internal-change-note__description {
