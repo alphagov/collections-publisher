@@ -134,10 +134,10 @@
   resolved "https://registry.yarnpkg.com/@webcomponents/custom-elements/-/custom-elements-1.6.0.tgz#5ecde1c332464ff00612f51874484b78395d504d"
   integrity sha512-CqTpxOlUCPWRNUPZDxT5v2NnHXA4oox612iUGnmTUGQFhZ1Gkj8kirtl/2wcF6MqX7+PqqicZzOCBKKfIn0dww==
 
-accessible-autocomplete@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/accessible-autocomplete/-/accessible-autocomplete-3.0.1.tgz#8ddf4934d0b4ba6acb28de486dd505e062cdc86e"
-  integrity sha512-xMshgc2LT5addvvfCTGzIkRrvhbOFeylFSnSMfS/PdjvvvElZkakCwxO3/yJYBWyi1hi3tZloqOJQ5kqqJtH4g==
+accessible-autocomplete@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/accessible-autocomplete/-/accessible-autocomplete-3.0.2.tgz#1d6cdd4917ca83083c6af840f9f71b13b516231a"
+  integrity sha512-po7fS9YyTFFZjzaenYKtV4JUcb6xh2eFttTsspg5NIX5epQCbderffjW8evYOTuDh+FgJyYPwL9B7qTkhND3gA==
 
 acorn-jsx@^5.3.1:
   version "5.3.2"
