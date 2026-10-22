@@ -101,7 +101,7 @@ Rails.application.routes.draw do
     GovukHealthcheck::SidekiqRedis,
   )
 
-  mount GovukPublishingComponents::Engine, at: "/component-guide"
+  mount GovukPublishingComponents::Engine, at: "/component-guide" if Rails.env.development?
 
   require "sidekiq/web"
   mount Sidekiq::Web,
