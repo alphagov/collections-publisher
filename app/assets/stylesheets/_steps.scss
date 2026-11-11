@@ -2,15 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$light-grey: #f5f5f5;
-$light-grey-2: #f8f8f8;
-$black: #0b0c0c;
-$red: #b10e1e;
 $grey: #eeeeee;
-$beige: #8a6d3b;
-$border-grey: #aaaaaa;
-$dark-grey: #999999;
-$dark-grey-2: #6f777b;
 
 .step-actions {
   padding: 15px 0;
@@ -26,7 +18,7 @@ $dark-grey-2: #6f777b;
   display: block;
   padding: govuk-spacing(4);
   margin: 0 0 govuk-spacing(2);
-  color: $black;
+  color: govuk-functional-colour(text);
   overflow-wrap: break-word;
   background-color: govuk-colour("black", $variant: "tint-95");
 }
@@ -58,12 +50,12 @@ $dark-grey-2: #6f777b;
 
 .broken-links-accordion__collapsible-link {
   text-decoration: none;
-  color: $beige;
+  color: govuk-colour("yellow", $variant: "tint-50");
 
   &:hover,
   &:focus {
     text-decoration: none;
-    color: $beige;
+    color: govuk-colour("yellow", $variant: "tint-50");
   }
 }
 
