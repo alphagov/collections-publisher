@@ -2,8 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$grey: #eeeeee;
-
 .step-actions {
   padding: 15px 0;
 }
@@ -79,12 +77,6 @@ $grey: #eeeeee;
   .broken-links-accordion__indicator--show {
     display: block;
   }
-}
-
-.broken-links-last-checked--summary {
-  border-left: 5px solid $grey;
-  padding: 10px 20px;
-  margin: 20px 0;
 }
 
 .add-secondary-link--details {
