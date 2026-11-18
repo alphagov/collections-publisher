@@ -9,7 +9,6 @@
 //= require govuk_publishing_components/components/reorderable-list
 //= require govuk_publishing_components/components/table
 //= require govuk_publishing_components/components/tabs
-//= require components/autocomplete
 
 //= require rails-ujs
 
