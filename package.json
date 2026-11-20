@@ -6,21 +6,11 @@
   "license": "MIT",
   "scripts": {
     "lint": "yarn run lint:js && yarn run lint:scss",
-    "lint:js": "standardx 'app/assets/javascripts/**/*.js'",
+    "lint:js": "standard 'app/assets/javascripts/**/*.js'",
     "lint:scss": "stylelint app/assets/stylesheets/"
   },
-  "standardx": {
-    "env": {
-      "browser": true
-    },
-    "globals": [
-      "GOVUK"
-    ]
-  },
-  "eslintConfig": {
-    "rules": {
-      "no-var": 0
-    }
+  "standard": {
+    "env": ["browser"], "globals": ["GOVUK"]
   },
   "stylelint": {
     "extends": "stylelint-config-gds/scss"
@@ -34,7 +24,7 @@
   },
   "devDependencies": {
     "postcss": "^8.5.32",
-    "standardx": "^7.0.0",
+    "standard": "^17.1.2",
     "stylelint": "^17.16.0",
     "stylelint-config-gds": "^3.0.0"
   }

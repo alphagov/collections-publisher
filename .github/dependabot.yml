@@ -37,7 +37,7 @@ updates:
     groups:
       lint:
         patterns:
-          - standardx
+          - standard
           - stylelint*
           - postcss
 

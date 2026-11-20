@@ -8,7 +8,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
   }
 
   Autocomplete.prototype.init = function () {
-    var $input = this.$module.querySelector('input')
+    const $input = this.$module.querySelector('input')
 
     if ($input) {
       this.initAutoCompleteInput($input)
@@ -16,10 +16,10 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
   }
 
   Autocomplete.prototype.initAutoCompleteInput = function ($input) {
-    var withoutNarrowingResults = this.$module.dataset.autocompleteWithoutNarrowingResults
+    const withoutNarrowingResults = this.$module.dataset.autocompleteWithoutNarrowingResults
 
-    var list = document.getElementById($input.getAttribute('list'))
-    var options = []
+    const list = document.getElementById($input.getAttribute('list'))
+    let options = []
 
     if (list) {
       options = [].map.call(list.querySelectorAll('option'), function (option) {
@@ -43,7 +43,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
         if (withoutNarrowingResults) {
           syncResults(options)
         } else {
-          var resultMatcher = function (option) {
+          const resultMatcher = function (option) {
             return option.toLowerCase().indexOf(query.toLowerCase()) !== -1
           }
 
