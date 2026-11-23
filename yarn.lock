@@ -174,10 +174,10 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.4.0.tgz#5e2e1374c0a30b5a42e8b083523a225c6945f88a"
   integrity sha512-1mEZtMKPM09vDmQt5y7YvmN2+DFTP7Tg0EWXdic8/C6VRnpb33e4ghisCIE3WZjsE2N8mf+QV1Zqh7ZFYLWInQ==
 
-"@webcomponents/custom-elements@^1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@webcomponents/custom-elements/-/custom-elements-1.6.0.tgz#5ecde1c332464ff00612f51874484b78395d504d"
-  integrity sha512-CqTpxOlUCPWRNUPZDxT5v2NnHXA4oox612iUGnmTUGQFhZ1Gkj8kirtl/2wcF6MqX7+PqqicZzOCBKKfIn0dww==
+"@webcomponents/custom-elements@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@webcomponents/custom-elements/-/custom-elements-1.6.1.tgz#27ac64c858d3308fde0f740cd382acdac7f62920"
+  integrity sha512-NuQUXlmBdE0hP200dqG0i5R7pQoQlmOYcCtQ9h3R4CHjfzdy1Ef2QZK1+iziyr1SNkS3x+sQ/srzhdWm60na1g==
 
 accessible-autocomplete@^3.0.2:
   version "3.0.2"
