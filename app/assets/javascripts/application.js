@@ -7,6 +7,7 @@
 //= require govuk_publishing_components/components/contextual-guidance
 //= require govuk_publishing_components/components/govspeak
 //= require govuk_publishing_components/components/reorderable-list
+//= require govuk_publishing_components/components/select-with-search
 //= require govuk_publishing_components/components/table
 //= require govuk_publishing_components/components/tabs
 //= require components/autocomplete

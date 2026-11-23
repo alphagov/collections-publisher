@@ -1,11 +1,36 @@
 class MainstreamBrowsePageArchivalForm
   include ActiveModel::Model
-  attr_accessor :tag, :successor, :successor_path
+  REDIRECT_TYPES = %w[browse_page path].freeze
 
-  validates :successor_path, presence: true, valid_govuk_path: true, if: :redirecting_to_path?
+  attr_accessor :tag, :successor, :successor_path, :redirect_type
+
+  with_options unless: :removing_draft? do
+    validates :redirect_type, inclusion: { in: REDIRECT_TYPES, message: "Select where the page should redirect to" }
+    validate :successor_is_a_published_browse_page, if: :redirecting_to_browse_page?
+    validates :successor_path, presence: { message: "Enter a page URL path" }, if: :redirecting_to_path?
+    validates :successor_path, valid_govuk_path: true, allow_blank: true, if: :redirecting_to_path?
+  end
 
   def browse_pages
     published_browse_pages - [tag]
+  end
+
+  def grouped_browse_pages
+    browse_pages.group_by { |page| page.parent || page }.map do |top_level_page, pages|
+      [top_level_page.title, pages.map { |page| { text: page.title, value: page.id, selected: page.id.to_s == successor.to_s } }]
+    end
+  end
+
+  def successor_browse_page
+    browse_pages.find { |page| page.id.to_s == successor.to_s }
+  end
+
+  def redirecting_to_path?
+    redirect_type == "path"
+  end
+
+  def redirecting_to_browse_page?
+    redirect_type == "browse_page"
   end
 
   def archive_or_remove
@@ -29,7 +54,7 @@ private
     if redirecting_to_path?
       ContentItem.find!(successor_path)
     else
-      MainstreamBrowsePage.find_by(id: successor)
+      successor_browse_page
     end
   end
 
@@ -37,7 +62,12 @@ private
     MainstreamBrowsePage.includes(:parent).published.sort_by(&:title_including_parent)
   end
 
-  def redirecting_to_path?
-    !successor_path.nil?
+  # Draft pages are deleted rather than redirected, so don't need a successor
+  def removing_draft?
+    tag.present? && !tag.published?
+  end
+
+  def successor_is_a_published_browse_page
+    errors.add :successor, "Select a mainstream browse page" if successor_browse_page.nil?
   end
 end

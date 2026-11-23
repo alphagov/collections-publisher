@@ -31,6 +31,48 @@ RSpec.feature "Archiving mainstream browse page tags" do
     then_i_see_that_i_cannot_edit_the_page
   end
 
+  scenario "User archives published tag by redirecting to a path" do
+    given_there_is_a_published_mainstream_browse_page
+    and_i_visit_the_mainstream_browse_page
+    and_i_go_to_the_archive_page
+
+    when_i_redirect_the_mainstream_browse_page_to_a_path
+    then_i_see_the_confirmation_page_for_a_path_redirect
+    when_i_confirm_the_archive
+    then_the_tag_is_archived
+  end
+
+  scenario "User goes back from the confirmation page" do
+    given_there_is_a_published_mainstream_browse_page
+    and_i_visit_the_mainstream_browse_page
+    and_i_go_to_the_archive_page
+
+    when_i_choose_a_successor_mainstream_browse_page
+    and_i_click_continue
+    and_i_click_back
+    then_my_choices_are_preserved
+    expect(@mainstream_browse_page.reload.archived?).to eql(false)
+  end
+
+  scenario "User continues without choosing a redirect" do
+    given_there_is_a_published_mainstream_browse_page
+    and_i_visit_the_mainstream_browse_page
+    and_i_go_to_the_archive_page
+
+    and_i_click_continue
+    then_i_see_an_error "Select where the page should redirect to"
+  end
+
+  scenario "User chooses to redirect to a browse page without selecting one" do
+    given_there_is_a_published_mainstream_browse_page
+    and_i_visit_the_mainstream_browse_page
+    and_i_go_to_the_archive_page
+
+    choose "Another mainstream browse page"
+    and_i_click_continue
+    then_i_see_an_error "Select a mainstream browse page"
+  end
+
   scenario "User archives draft tag" do
     given_there_is_a_draft_mainstream_browse_page
     and_i_visit_the_mainstream_browse_page
@@ -51,8 +93,52 @@ RSpec.feature "Archiving mainstream browse page tags" do
   end
 
   def when_i_redirect_the_mainstream_browse_page_to_a_successor_mainstream_browse_page
-    select "The Successor Mainstream Browse Page", from: "mainstream_browse_page_archival_form_successor"
-    click_button "Archive and redirect to a mainstream browse page"
+    when_i_choose_a_successor_mainstream_browse_page
+    and_i_click_continue
+    expect(page).to have_title "Confirm archive"
+    expect(page).to have_content "You’re about to archive ‘#{@mainstream_browse_page.title_including_parent}’."
+    expect(page).to have_content "Users will be redirected to the mainstream browse page ‘The Successor Mainstream Browse Page’."
+    when_i_confirm_the_archive
+  end
+
+  def when_i_choose_a_successor_mainstream_browse_page
+    expect(page).to have_title "Where should ‘#{@mainstream_browse_page.title_including_parent}’ redirect to?"
+    expect(page).to have_content "Archive mainstream browse page"
+    expect(page).not_to have_content "Published"
+    choose "Another mainstream browse page"
+    select "The Successor Mainstream Browse Page", from: "Mainstream browse page"
+  end
+
+  def when_i_redirect_the_mainstream_browse_page_to_a_path
+    stub_content_store_has_item("/existing-item")
+    choose "A different type of GOV.UK page"
+    fill_in "Page URL path", with: "/existing-item"
+    and_i_click_continue
+  end
+
+  def then_i_see_the_confirmation_page_for_a_path_redirect
+    expect(page).to have_content "Users will be redirected to: ‘/existing-item’"
+  end
+
+  def and_i_click_continue
+    click_button "Continue"
+  end
+
+  def and_i_click_back
+    click_link "Back"
+  end
+
+  def when_i_confirm_the_archive
+    click_button "Archive mainstream browse page"
+  end
+
+  def then_my_choices_are_preserved
+    expect(find_field("Another mainstream browse page")).to be_checked
+    expect(find_field("Mainstream browse page").value).to eq MainstreamBrowsePage.find_by(title: "The Successor Mainstream Browse Page").id.to_s
+  end
+
+  def then_i_see_an_error(message)
+    expect(page).to have_content message
   end
 
   def when_i_visit_the_mainstream_browse_page_edit_page
@@ -101,11 +187,12 @@ RSpec.feature "Archiving mainstream browse page tags" do
 
   def when_i_submit_an_invalid_base_path_as_redirect
     stub_content_store_does_not_have_item("/not-here")
-    fill_in "mainstream_browse_page_archival_form[successor_path]", with: "/not-here"
-    click_button "Archive and redirect to a page"
+    choose "A different type of GOV.UK page"
+    fill_in "Page URL path", with: "/not-here"
+    and_i_click_continue
   end
 
   def then_i_see_that_the_url_isnt_valid
-    expect(page).to have_content("This URL isn't a valid target for a redirect on GOV.UK.")
+    expect(page).to have_content("This URL isn’t a valid target for a redirect on GOV.UK")
   end
 end

@@ -17,23 +17,79 @@ RSpec.describe MainstreamBrowsePageArchivalForm do
     end
   end
 
+  describe "#grouped_browse_pages" do
+    it "groups published pages by their top level page, excluding the page being archived" do
+      parent = create(:mainstream_browse_page, :published, title: "Benefits")
+      child = create(:mainstream_browse_page, :published, title: "Disability", parent:)
+      archived_page = create(:mainstream_browse_page, :published, title: "Old page", parent:)
+      create(:mainstream_browse_page, :draft, title: "Draft page", parent:)
+
+      form = MainstreamBrowsePageArchivalForm.new(tag: archived_page, successor: child.id.to_s)
+
+      expect(form.grouped_browse_pages).to eql([
+        ["Benefits",
+         [
+           { text: "Benefits", value: parent.id, selected: false },
+           { text: "Disability", value: child.id, selected: true },
+         ]],
+      ])
+    end
+  end
+
+  describe "#redirect_type" do
+    it "is not valid if no redirect type is chosen" do
+      form = MainstreamBrowsePageArchivalForm.new
+
+      expect(form.valid?).to eql(false)
+      expect(form.errors[:redirect_type]).to be_present
+    end
+
+    it "is not valid if a browse page redirect is chosen without picking a page" do
+      form = MainstreamBrowsePageArchivalForm.new(tag: create(:mainstream_browse_page, :published), redirect_type: "browse_page", successor: "")
+
+      expect(form.valid?).to eql(false)
+      expect(form.errors[:successor]).to be_present
+    end
+
+    it "is not valid if the chosen browse page is the page being archived" do
+      tag = create(:mainstream_browse_page, :published)
+      form = MainstreamBrowsePageArchivalForm.new(tag:, redirect_type: "browse_page", successor: tag.id.to_s)
+
+      expect(form.valid?).to eql(false)
+    end
+
+    it "is valid if a published browse page is chosen" do
+      successor = create(:mainstream_browse_page, :published)
+      form = MainstreamBrowsePageArchivalForm.new(tag: create(:mainstream_browse_page, :published), redirect_type: "browse_page", successor: successor.id.to_s)
+
+      expect(form.valid?).to eql(true)
+    end
+  end
+
   describe "#successor_path" do
+    it "is not valid if blank" do
+      form = MainstreamBrowsePageArchivalForm.new(redirect_type: "path", successor_path: "")
+
+      expect(form.valid?).to eql(false)
+      expect(form.errors[:successor_path]).to eql(["Enter a page URL path"])
+    end
+
     it "is not valid if the URL returns a 404 status code" do
       stub_content_store_does_not_have_item("/not-here")
 
-      form = MainstreamBrowsePageArchivalForm.new(successor_path: "/not-here")
+      form = MainstreamBrowsePageArchivalForm.new(redirect_type: "path", successor_path: "/not-here")
 
       expect(form.valid?).to eql(false)
     end
 
     it "is not valid if its not really a URL" do
-      form = MainstreamBrowsePageArchivalForm.new(successor_path: "/i-Am Not A URL")
+      form = MainstreamBrowsePageArchivalForm.new(redirect_type: "path", successor_path: "/i-Am Not A URL")
 
       expect(form.valid?).to eql(false)
     end
 
     it "is not valid if it does not start with a slash" do
-      form = MainstreamBrowsePageArchivalForm.new(successor_path: "am-not-a-url")
+      form = MainstreamBrowsePageArchivalForm.new(redirect_type: "path", successor_path: "am-not-a-url")
 
       expect(form.valid?).to eql(false)
     end
@@ -41,7 +97,7 @@ RSpec.describe MainstreamBrowsePageArchivalForm do
     it "is valid if the URL returns 200" do
       stub_content_store_has_item("/existing-item")
 
-      form = MainstreamBrowsePageArchivalForm.new(successor_path: "/existing-item")
+      form = MainstreamBrowsePageArchivalForm.new(redirect_type: "path", successor_path: "/existing-item")
 
       expect(form.valid?).to eql(true)
     end

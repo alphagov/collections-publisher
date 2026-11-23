@@ -51,7 +51,15 @@ class MainstreamBrowsePagesController < ApplicationController
   end
 
   def propose_archive
-    @archival = MainstreamBrowsePageArchivalForm.new(tag: find_browse_page)
+    @archival = MainstreamBrowsePageArchivalForm.new(mainstream_browse_page_archival_form_params)
+    @archival.tag = find_browse_page
+  end
+
+  def confirm_archive
+    @archival = MainstreamBrowsePageArchivalForm.new(mainstream_browse_page_archival_form_params)
+    @archival.tag = find_browse_page
+
+    render :propose_archive unless @archival.valid?
   end
 
   def archive
@@ -104,7 +112,7 @@ private
   def mainstream_browse_page_archival_form_params
     params
       .fetch(:mainstream_browse_page_archival_form, {})
-      .permit(:tag, :successor, :successor_path)
+      .permit(:tag, :redirect_type, :successor, :successor_path)
   end
 
   def tag_params
