@@ -1,6 +1,6 @@
 class MainstreamBrowsePagesController < ApplicationController
   before_action :require_gds_editor_permissions!
-  before_action :protect_archived_browse_pages!, only: %i[edit update publish]
+  before_action :protect_archived_browse_pages!, only: %i[edit update publish propose_archive confirm_archive archive]
 
   def index
     @browse_pages = MainstreamBrowsePage.sorted_level_one
@@ -66,8 +66,10 @@ class MainstreamBrowsePagesController < ApplicationController
     @archival = MainstreamBrowsePageArchivalForm.new(mainstream_browse_page_archival_form_params)
     @archival.tag = find_browse_page
 
+    outcome = @archival.removing_draft? ? "removed" : "archived"
+
     if @archival.archive_or_remove
-      redirect_to mainstream_browse_pages_path, notice: "The mainstream browse page has been archived or removed."
+      redirect_to mainstream_browse_pages_path, notice: "The mainstream browse page has been #{outcome}."
     else
       render :propose_archive
     end

@@ -36,6 +36,10 @@ RSpec.describe MainstreamBrowsePageArchivalForm do
     end
   end
 
+  def level_two_page(state = :published)
+    create(:mainstream_browse_page, state, parent: create(:mainstream_browse_page, :published))
+  end
+
   describe "#redirect_type" do
     it "is not valid if no redirect type is chosen" do
       form = MainstreamBrowsePageArchivalForm.new
@@ -45,22 +49,54 @@ RSpec.describe MainstreamBrowsePageArchivalForm do
     end
 
     it "is not valid if a browse page redirect is chosen without picking a page" do
-      form = MainstreamBrowsePageArchivalForm.new(tag: create(:mainstream_browse_page, :published), redirect_type: "browse_page", successor: "")
+      form = MainstreamBrowsePageArchivalForm.new(tag: level_two_page, redirect_type: "browse_page", successor: "")
 
       expect(form.valid?).to eql(false)
       expect(form.errors[:successor]).to be_present
     end
 
     it "is not valid if the chosen browse page is the page being archived" do
-      tag = create(:mainstream_browse_page, :published)
+      tag = level_two_page
       form = MainstreamBrowsePageArchivalForm.new(tag:, redirect_type: "browse_page", successor: tag.id.to_s)
 
       expect(form.valid?).to eql(false)
+      expect(form.errors[:successor]).to be_present
     end
 
     it "is valid if a published browse page is chosen" do
       successor = create(:mainstream_browse_page, :published)
-      form = MainstreamBrowsePageArchivalForm.new(tag: create(:mainstream_browse_page, :published), redirect_type: "browse_page", successor: successor.id.to_s)
+      form = MainstreamBrowsePageArchivalForm.new(tag: level_two_page, redirect_type: "browse_page", successor: successor.id.to_s)
+
+      expect(form.valid?).to eql(true)
+    end
+  end
+
+  describe "#valid?" do
+    before { stub_content_store_has_item("/existing-item") }
+
+    it "is not valid for an archived page" do
+      form = MainstreamBrowsePageArchivalForm.new(tag: level_two_page(:archived), redirect_type: "path", successor_path: "/existing-item")
+
+      expect(form.valid?).to eql(false)
+      expect(form.errors[:base]).to eql(["This mainstream browse page cannot be archived or removed"])
+    end
+
+    it "is not valid for a published top level page" do
+      form = MainstreamBrowsePageArchivalForm.new(tag: create(:mainstream_browse_page, :published), redirect_type: "path", successor_path: "/existing-item")
+
+      expect(form.valid?).to eql(false)
+      expect(form.errors[:base]).to be_present
+    end
+
+    it "is not valid for a draft top level page" do
+      form = MainstreamBrowsePageArchivalForm.new(tag: create(:mainstream_browse_page, :draft))
+
+      expect(form.valid?).to eql(false)
+      expect(form.errors[:base]).to be_present
+    end
+
+    it "is valid for a draft second level page without a redirect" do
+      form = MainstreamBrowsePageArchivalForm.new(tag: level_two_page(:draft))
 
       expect(form.valid?).to eql(true)
     end

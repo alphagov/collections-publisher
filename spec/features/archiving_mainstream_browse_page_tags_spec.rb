@@ -78,6 +78,27 @@ RSpec.feature "Archiving mainstream browse page tags" do
     and_i_visit_the_mainstream_browse_page
     when_i_click_the_remove_button
     then_the_tag_is_deleted
+    expect(page).to have_content "The mainstream browse page has been removed."
+  end
+
+  scenario "User tries to archive a page that is already archived" do
+    given_there_is_a_published_mainstream_browse_page
+    and_i_visit_the_mainstream_browse_page
+    and_i_go_to_the_archive_page
+    when_i_redirect_the_mainstream_browse_page_to_a_successor_mainstream_browse_page
+    then_the_tag_is_archived
+
+    when_i_submit_the_archive_request_again
+    then_i_see_that_archived_mainstream_browse_pages_cannot_be_modified
+    expect(page).to have_current_path(mainstream_browse_page_path(@mainstream_browse_page))
+  end
+
+  scenario "User tries to archive a top level page" do
+    given_there_is_a_published_top_level_mainstream_browse_page
+
+    when_i_submit_the_archive_request_for_it
+    then_i_see_an_error "This mainstream browse page cannot be archived or removed"
+    expect(@mainstream_browse_page.reload.published?).to eql(true)
   end
 
   scenario "User redirects to invalid basepath" do
@@ -165,6 +186,21 @@ RSpec.feature "Archiving mainstream browse page tags" do
     @mainstream_browse_page = create(:mainstream_browse_page, :draft, slug: "bar", parent: create(:mainstream_browse_page, slug: "foo"))
   end
 
+  def given_there_is_a_published_top_level_mainstream_browse_page
+    @mainstream_browse_page = create(:mainstream_browse_page, :published, slug: "top-level")
+  end
+
+  def when_i_submit_the_archive_request_again
+    when_i_submit_the_archive_request_for_it
+  end
+
+  def when_i_submit_the_archive_request_for_it
+    successor = MainstreamBrowsePage.find_by!(title: "The Successor Mainstream Browse Page")
+    page.driver.submit :post,
+                       archive_mainstream_browse_page_path(@mainstream_browse_page),
+                       mainstream_browse_page_archival_form: { redirect_type: "browse_page", successor: successor.id }
+  end
+
   def and_there_is_a_mainstream_browse_page_that_can_be_used_as_a_replacement
     create(:mainstream_browse_page, :published, title: "The Successor Mainstream Browse Page")
   end
@@ -179,6 +215,7 @@ RSpec.feature "Archiving mainstream browse page tags" do
 
   def then_the_tag_is_archived
     expect(@mainstream_browse_page.reload.archived?).to eql(true)
+    expect(page).to have_content "The mainstream browse page has been archived."
   end
 
   def then_i_see_that_i_cannot_edit_the_page

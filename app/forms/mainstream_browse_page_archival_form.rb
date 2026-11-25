@@ -4,6 +4,8 @@ class MainstreamBrowsePageArchivalForm
 
   attr_accessor :tag, :successor, :successor_path, :redirect_type
 
+  validate :tag_can_be_archived_or_removed
+
   with_options unless: :removing_draft? do
     validates :redirect_type, inclusion: { in: REDIRECT_TYPES, message: "Select where the page should redirect to" }
     validate :successor_is_a_published_browse_page, if: :redirecting_to_browse_page?
@@ -31,6 +33,11 @@ class MainstreamBrowsePageArchivalForm
 
   def redirecting_to_browse_page?
     redirect_type == "browse_page"
+  end
+
+  # Draft pages are deleted rather than redirected, so don't need a successor
+  def removing_draft?
+    tag.present? && tag.draft?
   end
 
   def archive_or_remove
@@ -62,9 +69,10 @@ private
     MainstreamBrowsePage.includes(:parent).published.sort_by(&:title_including_parent)
   end
 
-  # Draft pages are deleted rather than redirected, so don't need a successor
-  def removing_draft?
-    tag.present? && !tag.published?
+  def tag_can_be_archived_or_removed
+    return if tag.blank? || tag.can_be_archived? || tag.can_be_removed?
+
+    errors.add :base, "This mainstream browse page cannot be archived or removed"
   end
 
   def successor_is_a_published_browse_page
