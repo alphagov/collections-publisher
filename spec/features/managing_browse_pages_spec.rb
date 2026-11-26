@@ -28,6 +28,13 @@ RSpec.feature "Managing browse pages" do
     and_the_page_has_been_published_in_the_pipeline
   end
 
+  scenario "User clears the title when editing a page" do
+    given_there_is_published_browse_page
+    when_i_visit_the_edit_browse_page_page
+    and_i_clear_the_title_and_save
+    then_i_see_an_error_for_the_missing_title
+  end
+
   scenario "User updates published page" do
     given_there_is_published_browse_page
     when_i_visit_the_edit_browse_page_page
@@ -61,6 +68,16 @@ RSpec.feature "Managing browse pages" do
     fill_in "Title", with: "Citizenship in the UK"
     fill_in "Description", with: "Voting"
     click_on "Save"
+  end
+
+  def and_i_clear_the_title_and_save
+    fill_in "Title", with: ""
+    click_on "Save"
+  end
+
+  def then_i_see_an_error_for_the_missing_title
+    expect(page).to have_title "Error"
+    expect(page).to have_content("Enter a title")
   end
 
   def then_i_see_that_the_page_is_updated

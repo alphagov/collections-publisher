@@ -60,6 +60,7 @@ module HeaderHelper
 
     locals = if tag.title_including_parent.blank?
                {
+                 context: nil,
                  title: nil,
                  page_title: "Error",
                }
