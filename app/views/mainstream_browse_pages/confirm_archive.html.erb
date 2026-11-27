@@ -1,0 +1,41 @@
+<% content_for :page_title, "Confirm archive" %>
+
+<%= content_for :back_link, render("govuk_publishing_components/components/back_link", {
+  href: propose_archive_mainstream_browse_page_path(
+    @archival.tag,
+    mainstream_browse_page_archival_form: {
+      redirect_type: @archival.redirect_type,
+      successor: @archival.successor,
+      successor_path: @archival.successor_path,
+    },
+  ),
+}) %>
+
+<% content_for :context, "Archive mainstream browse page" %>
+<% content_for :title, "Confirm archive" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">You’re about to archive ‘<%= @archival.tag.title_including_parent %>’.</p>
+
+    <% if @archival.redirecting_to_path? %>
+      <p class="govuk-body">Users will be redirected to: ‘<%= @archival.successor_path %>’</p>
+    <% else %>
+      <p class="govuk-body">Users will be redirected to the mainstream browse page ‘<%= @archival.successor_browse_page.title_including_parent %>’.</p>
+    <% end %>
+
+    <%= form_with url: archive_mainstream_browse_page_path(@archival.tag), method: :post, scope: nil do %>
+      <%= hidden_field_tag "mainstream_browse_page_archival_form[redirect_type]", @archival.redirect_type, id: nil %>
+      <% if @archival.redirecting_to_path? %>
+        <%= hidden_field_tag "mainstream_browse_page_archival_form[successor_path]", @archival.successor_path, id: nil %>
+      <% else %>
+        <%= hidden_field_tag "mainstream_browse_page_archival_form[successor]", @archival.successor, id: nil %>
+      <% end %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Archive mainstream browse page",
+        destructive: true,
+      } %>
+    <% end %>
+  </div>
+</div>

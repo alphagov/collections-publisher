@@ -1,3 +1,6 @@
+<% heading = "Where should ‘#{@archival.tag.title_including_parent}’ redirect to?" %>
+<% content_for :page_title, heading %>
+
 <%= render "shared/breadcrumbs", {
   links: [
     {
@@ -18,48 +21,62 @@
   ],
 } %>
 
-<%= govuk_tag_heading(tag: @archival.tag, append: "Archive mainstream browse page") %>
-
 <%= render "shared/error_summary", object: @archival %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_for @archival, url: archive_mainstream_browse_page_path do |f| %>
-      <div class="govuk-!-margin-bottom-4">
-        <%= render "govuk_publishing_components/components/select", {
+    <%= form_with url: confirm_archive_mainstream_browse_page_path(@archival.tag), method: :get, scope: nil do %>
+      <%
+        browse_page_select = render("govuk_publishing_components/components/select_with_search", {
           id: "mainstream_browse_page_archival_form_successor",
           name: "mainstream_browse_page_archival_form[successor]",
-          label: "Choose a mainstream browse page to redirect to:",
-          options: @archival.browse_pages.map do |browse_page|
-            {
-              text: browse_page.title_including_parent,
-              value: browse_page.id,
-            }
-          end,
-        } %>
-      </div>
+          label: "Mainstream browse page",
+          full_width: true,
+          grouped_options: [
+            ["", [{ text: "Select a mainstream browse page", value: "" }]],
+            *@archival.grouped_browse_pages,
+          ],
+          error_items: errors_for(@archival, :successor),
+        })
+
+        path_input = render("govuk_publishing_components/components/input", {
+          label: {
+            text: "Page URL path",
+          },
+          hint: "Enter the path from the page URL, for example ‘/government/publications/what-hmrc-does-to-prevent-tax-evasion’",
+          id: "mainstream_browse_page_archival_form_successor_path",
+          name: "mainstream_browse_page_archival_form[successor_path]",
+          value: @archival.successor_path,
+          error_items: errors_for(@archival, :successor_path),
+        })
+      %>
+
+      <%= render "govuk_publishing_components/components/radio", {
+        name: "mainstream_browse_page_archival_form[redirect_type]",
+        id: "mainstream_browse_page_archival_form_redirect_type",
+        heading: heading,
+        heading_size: "l",
+        heading_caption: "Archive mainstream browse page",
+        heading_level: 1,
+        error_items: errors_for(@archival, :redirect_type),
+        items: [
+          {
+            value: "browse_page",
+            text: "Another mainstream browse page",
+            checked: @archival.redirecting_to_browse_page?,
+            conditional: browse_page_select,
+          },
+          {
+            value: "path",
+            text: "A different type of GOV.UK page",
+            checked: @archival.redirecting_to_path?,
+            conditional: path_input,
+          },
+        ],
+      } %>
 
       <%= render "govuk_publishing_components/components/button", {
-        text: "Archive and redirect to a mainstream browse page",
-        margin_bottom: true,
-        destructive: true,
-      } %>
-    <% end %>
-    <%= form_for @archival, url: archive_mainstream_browse_page_path do |f| %>
-      <%= render "govuk_publishing_components/components/input", {
-        label: {
-          text: "Or type in a URL to redirect to a page:",
-        },
-        hint: 'Please specify it as a relative path (for example "/government/publications/what-hmrc-does-to-prevent-tax-evasion")',
-        id: "mainstream_browse_page_archival_form_successor_path",
-        name: "mainstream_browse_page_archival_form[successor_path]",
-        error_items: errors_for(@archival, :successor_path),
-      } %>
-
-      <%= render "govuk_publishing_components/components/button", {
-        text: "Archive and redirect to a page",
-        margin_bottom: true,
-        destructive: true,
+        text: "Continue",
       } %>
     <% end %>
   </div>

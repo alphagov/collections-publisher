@@ -59,6 +59,7 @@ Rails.application.routes.draw do
     member do
       post :publish
       get :propose_archive
+      get :confirm_archive
       post :archive
       get :"manage-child-ordering"
       patch :update_child_ordering
