@@ -53,10 +53,6 @@
     .govuk-table__cell {
       @include govuk-font(16);
     }
-
-    .govuk-table__cell:last-child {
-      white-space: nowrap;
-    }
   }
 }
 
